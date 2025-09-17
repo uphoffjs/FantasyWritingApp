@@ -1,28 +1,122 @@
 // Component test helpers for missing components
 // These are React Native Web compatible stubs with data-cy attributes for testing
 
-import React from 'react';
-import { View, Text, TouchableOpacity, TextInput, ActivityIndicator } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, TouchableOpacity, TextInput, ActivityIndicator, Platform } from 'react-native';
 
-// Helper function to add data-cy attribute for web testing
-const withDataCy = (dataCy: string) => {
-  // React Native Web will handle this properly for web testing
-  return { 'data-cy': dataCy } as any;
+// Helper function to add proper test attributes for React Native Web
+const getTestProps = (id: string) => {
+  // React Native Web automatically converts testID to data-testid in the DOM
+  // We need to use testID for React Native components
+  return {
+    testID: id,
+    // Also add accessible prop for better testing
+    accessible: true,
+    accessibilityTestID: id,
+  };
 };
 
-// AutoSaveIndicator component with proper data-cy attributes
-export const AutoSaveIndicator: React.FC<any> = ({ status = 'idle', error, timestamp, onRetry, className, autoHide, ...props }) => (
-  <View {...withDataCy('autosave-indicator')} style={{ padding: 8 }}>
-    <Text {...withDataCy('autosave-status')}>{status}</Text>
-    {error && <Text {...withDataCy('autosave-error')}>{error}</Text>}
-    {timestamp && <Text {...withDataCy('autosave-timestamp')}>Saved {timestamp}</Text>}
-    {error && onRetry && (
-      <TouchableOpacity {...withDataCy('autosave-retry')} onPress={onRetry}>
-        <Text>Retry</Text>
-      </TouchableOpacity>
-    )}
-  </View>
-);
+// Format relative time for timestamps
+const formatRelativeTime = (date: Date | string | undefined): string => {
+  if (!date) return '';
+  
+  const timestamp = typeof date === 'string' ? new Date(date) : date;
+  const now = new Date();
+  const diffInMs = now.getTime() - timestamp.getTime();
+  const diffInSeconds = Math.floor(diffInMs / 1000);
+  const diffInMinutes = Math.floor(diffInSeconds / 60);
+  const diffInHours = Math.floor(diffInMinutes / 60);
+  
+  if (diffInSeconds < 10) return 'Just now';
+  if (diffInSeconds < 60) return `${diffInSeconds} seconds ago`;
+  if (diffInMinutes === 1) return '1 minute ago';
+  if (diffInMinutes < 60) return `${diffInMinutes} minutes ago`;
+  if (diffInHours === 1) return '1 hour ago';
+  if (diffInHours < 24) return `${diffInHours} hours ago`;
+  
+  return timestamp.toLocaleString();
+};
+
+// AutoSaveIndicator component with proper data-cy attributes and state handling
+export const AutoSaveIndicator: React.FC<any> = ({ 
+  status = 'idle', 
+  errorMessage,
+  timestamp, 
+  onRetry, 
+  className, 
+  autoHideDelay,
+  ...props 
+}) => {
+  const [isVisible, setIsVisible] = useState(status !== 'idle');
+  
+  useEffect(() => {
+    if (status === 'idle') {
+      setIsVisible(false);
+    } else if (status === 'saved' && autoHideDelay) {
+      setIsVisible(true);
+      const timer = setTimeout(() => {
+        setIsVisible(false);
+      }, autoHideDelay);
+      return () => clearTimeout(timer);
+    } else {
+      setIsVisible(true);
+    }
+  }, [status, autoHideDelay]);
+  
+  if (status === 'idle' || !isVisible) {
+    return null;
+  }
+  
+  const getStatusText = () => {
+    switch (status) {
+      case 'saving':
+        return 'Saving...';
+      case 'saved':
+        return 'Saved';
+      case 'error':
+        return errorMessage || 'Save failed';
+      default:
+        return status;
+    }
+  };
+  
+  return (
+    <View 
+      {...getTestProps('autosave-indicator')} 
+      style={{ padding: 8 }}
+      role="status"
+      aria-live="polite"
+    >
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        {status === 'saving' && (
+          <ActivityIndicator 
+            {...getTestProps('autosave-icon')} 
+            size="small" 
+          />
+        )}
+        {status === 'saved' && (
+          <Text {...getTestProps('autosave-icon')}>✓</Text>
+        )}
+        {status === 'error' && (
+          <Text {...getTestProps('autosave-icon')}>⚠</Text>
+        )}
+        <Text {...getTestProps('autosave-status')} style={{ marginLeft: 8 }}>
+          {getStatusText()}
+        </Text>
+      </View>
+      {timestamp && status === 'saved' && (
+        <Text {...getTestProps('autosave-timestamp')} style={{ fontSize: 12, opacity: 0.7 }}>
+          {formatRelativeTime(timestamp)}
+        </Text>
+      )}
+      {status === 'error' && onRetry && (
+        <TouchableOpacity {...getTestProps('autosave-retry')} onPress={onRetry}>
+          <Text>Retry</Text>
+        </TouchableOpacity>
+      )}
+    </View>
+  );
+};
 
 // BasicQuestionsSelector component
 export const BasicQuestionsSelector: React.FC<any> = ({ 
@@ -33,27 +127,27 @@ export const BasicQuestionsSelector: React.FC<any> = ({
   description = "Choose questions to answer",
   ...props 
 }) => (
-  <View {...withDataCy('basic-questions-selector')}>
-    <Text {...withDataCy('selector-title')}>{title}</Text>
-    <Text {...withDataCy('selector-description')}>{description}</Text>
-    <View {...withDataCy('questions-container')}>
+  <View {...getTestProps('basic-questions-selector')}>
+    <Text {...getTestProps('selector-title')}>{title}</Text>
+    <Text {...getTestProps('selector-description')}>{description}</Text>
+    <View {...getTestProps('questions-container')}>
       {questions.map((q: any, i: number) => (
         <TouchableOpacity 
           key={i}
-          {...withDataCy(`question-${i}`)}
+          {...getTestProps(`question-${i}`)}
           onPress={() => onQuestionsChange && onQuestionsChange(q.id)}
         >
           <Text>{q.text || `Question ${i}`}</Text>
         </TouchableOpacity>
       ))}
     </View>
-    <TouchableOpacity {...withDataCy('apply-defaults-button')}>
+    <TouchableOpacity {...getTestProps('apply-defaults-button')}>
       <Text>Apply Defaults</Text>
     </TouchableOpacity>
-    <TouchableOpacity {...withDataCy('select-all-button')}>
+    <TouchableOpacity {...getTestProps('select-all-button')}>
       <Text>Select All</Text>
     </TouchableOpacity>
-    <TouchableOpacity {...withDataCy('select-none-button')}>
+    <TouchableOpacity {...getTestProps('select-none-button')}>
       <Text>Select None</Text>
     </TouchableOpacity>
   </View>
@@ -68,31 +162,31 @@ export const BaseElementForm: React.FC<any> = ({
   validationErrors = {},
   ...props 
 }) => (
-  <View {...withDataCy('base-element-form')}>
-    <View {...withDataCy('form-header')}>
-      <Text {...withDataCy('form-title')}>Element Form</Text>
+  <View {...getTestProps('base-element-form')}>
+    <View {...getTestProps('form-header')}>
+      <Text {...getTestProps('form-title')}>Element Form</Text>
     </View>
     
     <TextInput
-      {...withDataCy('name-input')}
+      {...getTestProps('name-input')}
       placeholder="Name"
       value={element?.name || ''}
     />
     
     <TextInput
-      {...withDataCy('description-input')}
+      {...getTestProps('description-input')}
       placeholder="Description"
       value={element?.description || ''}
       multiline
     />
     
     {validationErrors.name && (
-      <Text {...withDataCy('name-error')}>{validationErrors.name}</Text>
+      <Text {...getTestProps('name-error')}>{validationErrors.name}</Text>
     )}
     
-    <View {...withDataCy('form-actions')}>
+    <View {...getTestProps('form-actions')}>
       <TouchableOpacity 
-        {...withDataCy('save-button')}
+        {...getTestProps('save-button')}
         onPress={onSave}
         disabled={isSubmitting}
       >
@@ -100,7 +194,7 @@ export const BaseElementForm: React.FC<any> = ({
       </TouchableOpacity>
       
       <TouchableOpacity 
-        {...withDataCy('cancel-button')}
+        {...getTestProps('cancel-button')}
         onPress={onCancel}
       >
         <Text>Cancel</Text>
@@ -108,24 +202,24 @@ export const BaseElementForm: React.FC<any> = ({
     </View>
     
     {isSubmitting && (
-      <ActivityIndicator {...withDataCy('submit-spinner')} />
+      <ActivityIndicator {...getTestProps('submit-spinner')} />
     )}
   </View>
 );
 
 // ErrorMessage component
 export const ErrorMessage: React.FC<any> = ({ message, ...props }) => (
-  <View {...withDataCy('error-message')}>
+  <View {...getTestProps('error-message')}>
     <Text>{message || 'An error occurred'}</Text>
   </View>
 );
 
 // ErrorNotification component
 export const ErrorNotification: React.FC<any> = ({ error, onDismiss, ...props }) => (
-  <View {...withDataCy('error-notification')}>
-    <Text {...withDataCy('error-text')}>{error?.message || 'An error occurred'}</Text>
+  <View {...getTestProps('error-notification')}>
+    <Text {...getTestProps('error-text')}>{error?.message || 'An error occurred'}</Text>
     {onDismiss && (
-      <TouchableOpacity {...withDataCy('dismiss-button')} onPress={onDismiss}>
+      <TouchableOpacity {...getTestProps('dismiss-button')} onPress={onDismiss}>
         <Text>Dismiss</Text>
       </TouchableOpacity>
     )}
@@ -134,35 +228,35 @@ export const ErrorNotification: React.FC<any> = ({ error, onDismiss, ...props })
 
 // ProgressBar component
 export const ProgressBar: React.FC<any> = ({ progress = 0, ...props }) => (
-  <View {...withDataCy('progress-bar')}>
+  <View {...getTestProps('progress-bar')}>
     <View style={{ width: `${progress}%`, height: 4, backgroundColor: '#007AFF' }}>
-      <Text {...withDataCy('progress-text')}>{progress}%</Text>
+      <Text {...getTestProps('progress-text')}>{progress}%</Text>
     </View>
   </View>
 );
 
 // LoadingSpinner component
 export const LoadingSpinner: React.FC<any> = (props) => (
-  <View {...withDataCy('loading-spinner')}>
+  <View {...getTestProps('loading-spinner')}>
     <ActivityIndicator size="small" />
   </View>
 );
 
 // LoadingScreen component
 export const LoadingScreen: React.FC<any> = ({ message = "Loading...", ...props }) => (
-  <View {...withDataCy('loading-screen')}>
+  <View {...getTestProps('loading-screen')}>
     <ActivityIndicator size="large" />
-    <Text {...withDataCy('loading-message')}>{message}</Text>
+    <Text {...getTestProps('loading-message')}>{message}</Text>
   </View>
 );
 
 // TagInput component
 export const TagInput: React.FC<any> = ({ tags = [], onAddTag, onRemoveTag, ...props }) => (
-  <View {...withDataCy('tag-input')}>
-    <TextInput {...withDataCy('tag-input-field')} placeholder="Add tag..." />
-    <View {...withDataCy('tags-container')}>
+  <View {...getTestProps('tag-input')}>
+    <TextInput {...getTestProps('tag-input-field')} placeholder="Add tag..." />
+    <View {...getTestProps('tags-container')}>
       {tags.map((tag: string, i: number) => (
-        <View key={i} {...withDataCy(`tag-${i}`)}>
+        <View key={i} {...getTestProps(`tag-${i}`)}>
           <Text>{tag}</Text>
           {onRemoveTag && (
             <TouchableOpacity onPress={() => onRemoveTag(tag)}>
@@ -177,11 +271,11 @@ export const TagInput: React.FC<any> = ({ tags = [], onAddTag, onRemoveTag, ...p
 
 // TagMultiSelect component
 export const TagMultiSelect: React.FC<any> = ({ tags = [], selectedTags = [], onToggle, ...props }) => (
-  <View {...withDataCy('tag-multi-select')}>
+  <View {...getTestProps('tag-multi-select')}>
     {tags.map((tag: string, i: number) => (
       <TouchableOpacity
         key={i}
-        {...withDataCy(`tag-option-${i}`)}
+        {...getTestProps(`tag-option-${i}`)}
         onPress={() => onToggle && onToggle(tag)}
       >
         <Text>{tag}</Text>
@@ -192,9 +286,9 @@ export const TagMultiSelect: React.FC<any> = ({ tags = [], selectedTags = [], on
 
 // VirtualizedList component
 export const VirtualizedList: React.FC<any> = ({ items = [], renderItem, ...props }) => (
-  <View {...withDataCy('virtualized-list')}>
+  <View {...getTestProps('virtualized-list')}>
     {items.map((item: any, i: number) => (
-      <View key={i} {...withDataCy(`list-item-${i}`)}>
+      <View key={i} {...getTestProps(`list-item-${i}`)}>
         {renderItem ? renderItem({ item, index: i }) : <Text>Item {i}</Text>}
       </View>
     ))}
@@ -203,9 +297,96 @@ export const VirtualizedList: React.FC<any> = ({ items = [], renderItem, ...prop
 
 // UtilityComponents component
 export const UtilityComponents: React.FC<any> = (props) => (
-  <View {...withDataCy('utility-components')}>
+  <View {...getTestProps('utility-components')}>
     <Text>Utility Components</Text>
   </View>
+);
+
+// CompletionHeatmap component
+export const CompletionHeatmap: React.FC<any> = ({ project, onElementClick, ...props }) => (
+  <View {...getTestProps('completion-heatmap')}>
+    <Text>Completion: 0% → 100%</Text>
+    <Text>Click any cell for details</Text>
+    {project?.elements?.map((element: any, i: number) => (
+      <TouchableOpacity
+        key={i}
+        {...getTestProps(`heatmap-cell-${i}`)}
+        onPress={() => onElementClick && onElementClick(element)}
+      >
+        <Text>{element.name}: {element.completionPercentage}%</Text>
+      </TouchableOpacity>
+    ))}
+  </View>
+);
+
+// CreateElementModal component
+export const CreateElementModal: React.FC<any> = ({ 
+  visible, 
+  onClose, 
+  onCreate,
+  onSuccess,
+  ...props 
+}) => {
+  if (!visible) return null;
+  
+  return (
+    <View {...getTestProps('create-element-modal')}>
+      <View {...getTestProps('modal-header')}>
+        <Text {...getTestProps('modal-title')}>Create New Element</Text>
+        <TouchableOpacity {...getTestProps('close-button')} onPress={onClose}>
+          <Text>×</Text>
+        </TouchableOpacity>
+      </View>
+      
+      <View {...getTestProps('category-selector')}>
+        <TouchableOpacity {...getTestProps('category-character')}>
+          <Text>Character</Text>
+        </TouchableOpacity>
+        <TouchableOpacity {...getTestProps('category-location')}>
+          <Text>Location</Text>
+        </TouchableOpacity>
+        <TouchableOpacity {...getTestProps('category-item')}>
+          <Text>Item</Text>
+        </TouchableOpacity>
+      </View>
+      
+      <TouchableOpacity 
+        {...getTestProps('create-button')}
+        onPress={() => {
+          onCreate && onCreate({ category: 'character' });
+          onSuccess && onSuccess();
+        }}
+      >
+        <Text>Create</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+// Breadcrumb component
+export const Breadcrumb: React.FC<any> = ({ items, onNavigate, ...props }) => (
+  <View {...getTestProps('breadcrumb')}>
+    {items?.map((item: any, i: number) => (
+      <TouchableOpacity 
+        key={i} 
+        {...getTestProps(`breadcrumb-item-${i}`)}
+        onPress={() => onNavigate && onNavigate(item)}
+      >
+        <Text>{item.label}</Text>
+      </TouchableOpacity>
+    ))}
+  </View>
+);
+
+// Button component (already working but let's ensure it uses getTestProps)
+export const Button: React.FC<any> = ({ title, onPress, disabled, ...props }) => (
+  <TouchableOpacity 
+    {...getTestProps('button')}
+    onPress={onPress}
+    disabled={disabled}
+  >
+    <Text>{title || 'Button'}</Text>
+  </TouchableOpacity>
 );
 
 // Export stub types to satisfy TypeScript
@@ -236,10 +417,21 @@ export interface WorldElement {
   completionPercentage?: number;
   questions?: Question[];
   answers?: any;
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt?: Date | number;
+  updatedAt?: Date | number;
   tags?: string[];
   relationships?: any[];
+  projectId?: string;
+  type?: string;
+}
+
+export interface Project {
+  id: string;
+  name: string;
+  description?: string;
+  elements?: WorldElement[];
+  createdAt?: Date | number;
+  updatedAt?: Date | number;
 }
 
 // Mock store provider for tests

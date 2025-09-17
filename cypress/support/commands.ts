@@ -88,5 +88,25 @@ Cypress.Commands.add('checkAccessibility', () => {
   });
 });
 
+// React Native Web compatibility command
+// This command tries multiple selector strategies to work with React Native Web's attribute handling
+Cypress.Commands.add('getByDataCy', (selector: string) => {
+  // Try multiple selector patterns for React Native Web compatibility
+  return cy.get(
+    `[data-cy="${selector}"], [data-testid="${selector}"], [testID="${selector}"]`
+  );
+});
+
+// Helper to check if an element exists with any of the test attributes
+Cypress.Commands.add('shouldHaveTestAttr', (selector: string) => {
+  cy.get('body').then(($body) => {
+    const found = 
+      $body.find(`[data-cy="${selector}"]`).length > 0 ||
+      $body.find(`[data-testid="${selector}"]`).length > 0 ||
+      $body.find(`[testID="${selector}"]`).length > 0;
+    expect(found).to.be.true;
+  });
+});
+
 // Export to prevent TypeScript errors
 export {};

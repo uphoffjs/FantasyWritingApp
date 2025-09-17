@@ -7,6 +7,9 @@ import { mount } from '@cypress/react';
 // Import test providers for wrapping components
 import { TestProviders } from './test-providers';
 
+// Import React Native Web configuration
+import { configureReactNativeWeb } from './cypress-react-native-web';
+
 // Augment the Cypress namespace to include our mount function
 declare global {
   namespace Cypress {
@@ -34,6 +37,9 @@ Cypress.Commands.add('mountWithProviders', mountWithProviders);
 before(() => {
   // Set up any global test configuration
   cy.viewport(1280, 720);
+  
+  // Configure React Native Web support
+  configureReactNativeWeb();
 });
 
 // Clean up after each test
