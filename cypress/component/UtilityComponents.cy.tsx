@@ -244,7 +244,7 @@ describe('LazyImage', () => {
       cy.mount(<LazyImage {...defaultProps} />);
       
       // Check for loading indicator
-      cy.get('[data-cy="image-loading"]').should('exist');
+      cy.get('[data-testid="image-loading"]').should('exist');
     });
   });
   
@@ -273,7 +273,7 @@ describe('LazyImage', () => {
       cy.mount(<LazyImage src="invalid-url" alt="Error test" />);
       
       // Should show error state
-      cy.get('[data-cy="image-error"]').should('be.visible');
+      cy.get('[data-testid="image-error"]').should('be.visible');
     });
     
     it('shows fallback on error', () => {
@@ -285,7 +285,7 @@ describe('LazyImage', () => {
         />
       );
       
-      cy.get('[data-cy="fallback"]').should('be.visible');
+      cy.get('[data-testid="fallback"]').should('be.visible');
     });
   });
 });
@@ -329,14 +329,14 @@ describe('ProjectSearchBar', () => {
     it('shows clear [data-cy*="button"] when has value', () => {
       cy.mount(<ProjectSearchBar {...defaultProps} value="test" />);
       
-      cy.get('[data-cy="clear-search"]').should('be.visible');
+      cy.get('[data-testid="clear-search"]').should('be.visible');
     });
     
     it('clears search on clear [data-cy*="button"] click', () => {
       const onChange = cy.stub();
       cy.mount(<ProjectSearchBar {...defaultProps} value="test" onChange={onChange} />);
       
-      cy.get('[data-cy="clear-search"]').click();
+      cy.get('[data-testid="clear-search"]').click();
       cy.wrap(onChange).should('have.been.calledWith', '');
     });
     
@@ -439,7 +439,7 @@ describe('ProjectSortDropdown', () => {
       cy.contains('Name').click();
       cy.contains('Date Created').should('be.visible');
       
-      cy.get('[data-cy="outside"]').click();
+      cy.get('[data-testid="outside"]').click();
       cy.contains('Date Created').should('not.be.visible');
     });
   });
@@ -454,7 +454,7 @@ describe('ProjectSortDropdown', () => {
         />
       );
       
-      cy.get('[data-cy="sort-asc"]').should('be.visible');
+      cy.get('[data-testid="sort-asc"]').should('be.visible');
     });
     
     it('toggles sort direction on same option click', () => {
@@ -497,7 +497,7 @@ describe('TagManager', () => {
     it('shows add tag [data-cy*="button"]', () => {
       cy.mount(<TagManager {...defaultProps} />);
       
-      cy.get('[data-cy="add-tag-[data-cy*="button"]"]').should('be.visible');
+      cy.get('[data-testid="add-tag-[data-cy*="button"]"]').should('be.visible');
     });
     
     it('shows tag count', () => {
@@ -511,17 +511,17 @@ describe('TagManager', () => {
     it('opens add tag modal', () => {
       cy.mount(<TagManager {...defaultProps} />);
       
-      cy.get('[data-cy="add-tag-[data-cy*="button"]"]').click();
-      cy.get('[data-cy="tag-modal"]').should('be.visible');
+      cy.get('[data-testid="add-tag-[data-cy*="button"]"]').click();
+      cy.get('[data-testid="tag-modal"]').should('be.visible');
     });
     
     it('adds new tag from input', () => {
       const onAdd = cy.stub();
       cy.mount(<TagManager {...defaultProps} onAdd={onAdd} />);
       
-      cy.get('[data-cy="add-tag-[data-cy*="button"]"]').click();
-      cy.get('[data-cy="tag-input"]').type('newTag');
-      cy.get('[data-cy="save-tag"]').click();
+      cy.get('[data-testid="add-tag-[data-cy*="button"]"]').click();
+      cy.get('[data-testid="tag-input"]').type('newTag');
+      cy.get('[data-testid="save-tag"]').click();
       
       cy.wrap(onAdd).should('have.been.calledWith', 'newTag');
     });
@@ -530,8 +530,8 @@ describe('TagManager', () => {
       const onAdd = cy.stub();
       cy.mount(<TagManager {...defaultProps} onAdd={onAdd} />);
       
-      cy.get('[data-cy="add-tag-[data-cy*="button"]"]').click();
-      cy.get('[data-cy="suggested-tag-epic"]').click();
+      cy.get('[data-testid="add-tag-[data-cy*="button"]"]').click();
+      cy.get('[data-testid="suggested-tag-epic"]').click();
       
       cy.wrap(onAdd).should('have.been.calledWith', 'epic');
     });
@@ -542,16 +542,16 @@ describe('TagManager', () => {
       const onRemove = cy.stub();
       cy.mount(<TagManager {...defaultProps} onRemove={onRemove} />);
       
-      cy.get('[data-cy="remove-tag-fantasy"]').click();
+      cy.get('[data-testid="remove-tag-fantasy"]').click();
       cy.wrap(onRemove).should('have.been.calledWith', 'fantasy');
     });
     
     it('confirms before removing', () => {
       cy.mount(<TagManager {...defaultProps} confirmRemove={true} />);
       
-      cy.get('[data-cy="remove-tag-fantasy"]').click();
+      cy.get('[data-testid="remove-tag-fantasy"]').click();
       cy.contains('Remove tag?').should('be.visible');
-      cy.get('[data-cy="confirm-remove"]').click();
+      cy.get('[data-testid="confirm-remove"]').click();
     });
   });
   
@@ -559,17 +559,17 @@ describe('TagManager', () => {
     it('enables edit mode on tag click', () => {
       cy.mount(<TagManager {...defaultProps} />);
       
-      cy.get('[data-cy="tag-fantasy"]').click();
-      cy.get('[data-cy="edit-tag-input"]').should('be.visible');
+      cy.get('[data-testid="tag-fantasy"]').click();
+      cy.get('[data-testid="edit-tag-input"]').should('be.visible');
     });
     
     it('saves edited tag', () => {
       const onEdit = cy.stub();
       cy.mount(<TagManager {...defaultProps} onEdit={onEdit} />);
       
-      cy.get('[data-cy="tag-fantasy"]').click();
-      cy.get('[data-cy="edit-tag-input"]').clear().type('epic-fantasy');
-      cy.get('[data-cy="save-edit"]').click();
+      cy.get('[data-testid="tag-fantasy"]').click();
+      cy.get('[data-testid="edit-tag-input"]').clear().type('epic-fantasy');
+      cy.get('[data-testid="save-edit"]').click();
       
       cy.wrap(onEdit).should('have.been.calledWith', 'fantasy', 'epic-fantasy');
     });
@@ -579,7 +579,7 @@ describe('TagManager', () => {
     it('filters tags by search', () => {
       cy.mount(<TagManager {...defaultProps} />);
       
-      cy.get('[data-cy="tag-search"]').type('mag');
+      cy.get('[data-testid="tag-search"]').type('mag');
       cy.contains('magic').should('be.visible');
       cy.contains('fantasy').should('not.be.visible');
     });
@@ -587,7 +587,7 @@ describe('TagManager', () => {
     it('shows no results message', () => {
       cy.mount(<TagManager {...defaultProps} />);
       
-      cy.get('[data-cy="tag-search"]').type('xyz');
+      cy.get('[data-testid="tag-search"]').type('xyz');
       cy.contains('No tags found').should('be.visible');
     });
   });

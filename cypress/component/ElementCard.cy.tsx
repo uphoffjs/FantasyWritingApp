@@ -45,22 +45,22 @@ describe('ElementCard Component', () => {
     );
 
     // Check that the card is visible
-    cy.get('[data-cy="element-card"]').should('be.visible');
+    cy.get('[data-testid="element-card"]').should('be.visible');
     
     // Check element name
-    cy.get('[data-cy="element-name"]').should('contain.text', 'Test Character');
+    cy.get('[data-testid="element-name"]').should('contain.text', 'Test Character');
     
     // Check category
-    cy.get('[data-cy="element-category"]').should('contain.text', 'character');
+    cy.get('[data-testid="element-category"]').should('contain.text', 'character');
     
     // Check description
-    cy.get('[data-cy="element-description"]').should('contain.text', 'A brave warrior from the northern kingdoms');
+    cy.get('[data-testid="element-description"]').should('contain.text', 'A brave warrior from the northern kingdoms');
     
     // Check completion percentage
-    cy.get('[data-cy="completion-text"]').should('contain.text', '75%');
+    cy.get('[data-testid="completion-text"]').should('contain.text', '75%');
     
     // Check category icon is present
-    cy.get('[data-cy="category-icon"]').should('be.visible');
+    cy.get('[data-testid="category-icon"]').should('be.visible');
   });
 
   it('should handle click interaction', () => {
@@ -72,7 +72,7 @@ describe('ElementCard Component', () => {
       />
     );
 
-    cy.get('[data-cy="element-card"]').click();
+    cy.get('[data-testid="element-card"]').click();
     cy.get('@onPress').should('have.been.called');
   });
 
@@ -102,7 +102,7 @@ describe('ElementCard Component', () => {
       );
 
       // Check badge text is present (note: checking for visible text, not exact match due to styling)
-      cy.get('[data-cy="element-card"]').should('contain.text', expectedText);
+      cy.get('[data-testid="element-card"]').should('contain.text', expectedText);
     });
   });
 
@@ -131,8 +131,8 @@ describe('ElementCard Component', () => {
       );
 
       // Check that the card renders with category-specific styling
-      cy.get('[data-cy="element-card"]').should('be.visible');
-      cy.get('[data-cy="element-category"]').should('contain.text', category.replace('-', ' '));
+      cy.get('[data-testid="element-card"]').should('be.visible');
+      cy.get('[data-testid="element-category"]').should('contain.text', category.replace('-', ' '));
     });
   });
 
@@ -146,9 +146,9 @@ describe('ElementCard Component', () => {
     );
 
     // Check tags are displayed
-    cy.get('[data-cy="element-tag"]').should('have.length', 2);
-    cy.get('[data-cy="element-tag"]').first().should('contain.text', 'hero');
-    cy.get('[data-cy="element-tag"]').last().should('contain.text', 'warrior');
+    cy.get('[data-testid="element-tag"]').should('have.length', 2);
+    cy.get('[data-testid="element-tag"]').first().should('contain.text', 'hero');
+    cy.get('[data-testid="element-tag"]').last().should('contain.text', 'warrior');
   });
 
   it('should show more tags indicator when there are many tags', () => {
@@ -166,10 +166,10 @@ describe('ElementCard Component', () => {
     );
 
     // Should show only first 2 tags
-    cy.get('[data-cy="element-tag"]').should('have.length', 2);
+    cy.get('[data-testid="element-tag"]').should('have.length', 2);
     
     // Should show more tags indicator
-    cy.get('[data-cy="element-card"]').should('contain.text', '+3');
+    cy.get('[data-testid="element-card"]').should('contain.text', '+3');
   });
 
   it('should display relationships count', () => {
@@ -182,7 +182,7 @@ describe('ElementCard Component', () => {
     );
 
     // Check relationships count
-    cy.get('[data-cy="element-card"]').should('contain.text', '1 connection');
+    cy.get('[data-testid="element-card"]').should('contain.text', '1 connection');
   });
 
   it('should handle element without description', () => {
@@ -199,8 +199,8 @@ describe('ElementCard Component', () => {
       />
     );
 
-    cy.get('[data-cy="element-card"]').should('be.visible');
-    cy.get('[data-cy="element-description"]').should('not.exist');
+    cy.get('[data-testid="element-card"]').should('be.visible');
+    cy.get('[data-testid="element-description"]').should('not.exist');
   });
 
   it('should handle element without tags', () => {
@@ -217,8 +217,8 @@ describe('ElementCard Component', () => {
       />
     );
 
-    cy.get('[data-cy="element-card"]').should('be.visible');
-    cy.get('[data-cy="element-tag"]').should('not.exist');
+    cy.get('[data-testid="element-card"]').should('be.visible');
+    cy.get('[data-testid="element-tag"]').should('not.exist');
   });
 
   it('should have proper accessibility attributes', () => {
@@ -231,7 +231,7 @@ describe('ElementCard Component', () => {
     );
 
     // Check that the card is accessible
-    cy.get('[data-cy="element-card"]')
+    cy.get('[data-testid="element-card"]')
       .should('be.visible')
       .and('have.attr', 'role'); // React Native Web converts Pressable to [data-cy*="button"]-like element
   });
@@ -246,7 +246,7 @@ describe('ElementCard Component', () => {
     );
 
     // Check that updated date is formatted and displayed
-    cy.get('[data-cy="element-card"]').should('contain.text', 'Updated Jan 15, 2024');
+    cy.get('[data-testid="element-card"]').should('contain.text', 'Updated Jan 15, 2024');
   });
 
   it('should handle custom icon prop', () => {
@@ -261,6 +261,6 @@ describe('ElementCard Component', () => {
       />
     );
 
-    cy.get('[data-cy="category-icon"]').should('contain.text', customIcon);
+    cy.get('[data-testid="category-icon"]').should('contain.text', customIcon);
   });
 });

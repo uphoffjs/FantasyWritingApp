@@ -82,7 +82,7 @@ describe('CompletionHeatmap Component', () => {
       cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       // Should render all elements in grid
-      cy.get('[data-cy="grid"] > div').should('have.length.at.least', 3);
+      cy.get('[data-testid="grid"] > div').should('have.length.at.least', 3);
     });
 
     it('displays category icons', () => {
@@ -209,7 +209,7 @@ describe('CompletionHeatmap Component', () => {
       cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       // Character elements should appear before location
-      cy.get('[data-cy="grid"] > div').first().should('contain', '👤');
+      cy.get('[data-testid="grid"] > div').first().should('contain', '👤');
     });
 
     it('sorts elements by completion within same category', () => {
@@ -223,7 +223,7 @@ describe('CompletionHeatmap Component', () => {
       cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       // Should be sorted by completion percentage descending within category
-      cy.get('[data-cy="grid"] > div:not([class*="bg-parchment-aged"])').then($cells => {
+      cy.get('[data-testid="grid"] > div:not([class*="bg-parchment-aged"])').then($cells => {
         expect($cells.eq(0)).to.have.class('bg-emerald-500'); // 80%
         expect($cells.eq(1)).to.have.class('bg-orange-500');  // 50%
         expect($cells.eq(2)).to.have.class('bg-blood-500');   // 30%
@@ -243,7 +243,7 @@ describe('CompletionHeatmap Component', () => {
       // Grid should have appropriate columns for 10 elements
       // React Native Web uses flexbox instead of CSS Grid
 
-      cy.get('[data-cy="grid"]').should('have.css', 'grid-template-columns') // CSS properties work in React Native Web;
+      cy.get('[data-testid="grid"]').should('have.css', 'grid-template-columns') // CSS properties work in React Native Web;
     });
 
     it('fills empty cells to complete grid', () => {
@@ -266,7 +266,7 @@ describe('CompletionHeatmap Component', () => {
 
       cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
-      cy.get('[data-cy="square-element"]').should('exist');
+      cy.get('[data-testid="square-element"]').should('exist');
     });
   });
 
@@ -277,7 +277,7 @@ describe('CompletionHeatmap Component', () => {
 
       cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
-      cy.get('[data-cy="grid"] > div').first().click();
+      cy.get('[data-testid="grid"] > div').first().click();
       cy.get('@onElementClick').should('have.been.calledWith', element);
     });
 
@@ -288,7 +288,7 @@ describe('CompletionHeatmap Component', () => {
 
       cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
-      cy.get('[data-cy="grid"] > div').first()
+      cy.get('[data-testid="grid"] > div').first()
         .should('be.visible') // React Native Web uses inline styles instead of CSS classes
         .and('have.class', 'cursor-pointer');
     });
@@ -304,7 +304,7 @@ describe('CompletionHeatmap Component', () => {
 
       cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
-      cy.get('[data-cy="grid"] > div').first().trigger('mouseenter');
+      cy.get('[data-testid="grid"] > div').first().trigger('mouseenter');
       
       // Tooltip should be visible on hover
       cy.contains('Test Character').should('exist');
@@ -320,7 +320,7 @@ describe('CompletionHeatmap Component', () => {
 
       cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
-      cy.get('[data-cy="grid"] > div').first()
+      cy.get('[data-testid="grid"] > div').first()
         .should('have.attr', 'title', 'Test Element - 50% complete');
     });
   });
@@ -443,7 +443,7 @@ describe('CompletionHeatmap Component', () => {
       // React Native Web uses flexbox instead of CSS Grid
 
 
-      cy.get('[data-cy="grid"]').should('be.visible');
+      cy.get('[data-testid="grid"]').should('be.visible');
       cy.contains('Completion:').should('be.visible');
       
       // Mobile-specific sizing
@@ -489,7 +489,7 @@ describe('CompletionHeatmap Component', () => {
       // React Native Web uses flexbox instead of CSS Grid
 
 
-      cy.get('[data-cy="grid"]').should('be.visible');
+      cy.get('[data-testid="grid"]').should('be.visible');
       cy.get('.sm\\:min-w-\\[3rem\\]').should('exist');
     });
 
@@ -506,7 +506,7 @@ describe('CompletionHeatmap Component', () => {
       // React Native Web uses flexbox instead of CSS Grid
 
 
-      cy.get('[data-cy="grid"]').should('be.visible');
+      cy.get('[data-testid="grid"]').should('be.visible');
       cy.get('.sm\\:hover\\:scale-105').should('exist');
     });
   });
@@ -518,7 +518,7 @@ describe('CompletionHeatmap Component', () => {
 
       cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
-      cy.get('[data-cy="grid"] > div').should('have.length.at.least', 1);
+      cy.get('[data-testid="grid"] > div').should('have.length.at.least', 1);
     });
 
     it.skip('handles many elements', () => {
@@ -529,7 +529,7 @@ describe('CompletionHeatmap Component', () => {
 
       cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
-      cy.get('[data-cy="grid"] > div').should('have.length.at.least', 100);
+      cy.get('[data-testid="grid"] > div').should('have.length.at.least', 100);
     });
 
     it('handles elements with long names', () => {
@@ -540,7 +540,7 @@ describe('CompletionHeatmap Component', () => {
 
       cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
-      cy.get('[data-cy="grid"] > div').first().should('be.visible');
+      cy.get('[data-testid="grid"] > div').first().should('be.visible');
     });
 
     it('handles missing onElementClick callback', () => {
@@ -549,7 +549,7 @@ describe('CompletionHeatmap Component', () => {
 
       cy.mount(<CompletionHeatmap project={project} />);
 
-      cy.get('[data-cy="grid"] > div').first().click();
+      cy.get('[data-testid="grid"] > div').first().click();
       // Should not throw error
     });
 

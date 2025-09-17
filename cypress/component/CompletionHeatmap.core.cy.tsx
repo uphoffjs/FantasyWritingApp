@@ -82,7 +82,7 @@ describe('CompletionHeatmap Core Tests', () => {
       cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       // Should render all elements in grid
-      cy.get('[data-cy="heatmap-grid"] [data-cy^="element-cell"]').should('have.length.at.least', 3);
+      cy.get('[data-testid="heatmap-grid"] [data-cy^="element-cell"]').should('have.length.at.least', 3);
     });
 
     it('displays category icons', () => {

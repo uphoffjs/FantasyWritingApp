@@ -121,7 +121,7 @@ describe('BaseElementForm', () => {
       cy.contains('Timeline').click();
       
       // Check text input
-      cy.get('[data-cy="text-input"]').first().should('have.value', 'Test Character');
+      cy.get('[data-testid="text-input"]').first().should('have.value', 'Test Character');
       
       // Check textarea (should be RichTextEditor for large size)
       cy.contains('Description').should('be.visible');
@@ -173,7 +173,7 @@ describe('BaseElementForm', () => {
       );
       
       cy.contains('General').click();
-      cy.get('[data-cy="question-q2"] .text-ink-light').click();
+      cy.get('[data-testid="question-q2"] .text-ink-light').click();
       cy.contains('Provide a detailed description').should('be.visible');
     });
   });
@@ -296,7 +296,7 @@ describe('BaseElementForm', () => {
       );
       
       cy.contains('General').click();
-      cy.get('[data-cy="text-input"]').first().type('New Name');
+      cy.get('[data-testid="text-input"]').first().type('New Name');
       cy.wrap(onChange).should('have.been.calledWith', 'q1', 'New Name');
     });
     
@@ -496,7 +496,7 @@ describe('BaseElementForm', () => {
       );
       
       cy.contains('General').click();
-      cy.get('[data-cy="text-input"]').first().should('have.value', '');
+      cy.get('[data-testid="text-input"]').first().should('have.value', '');
     });
   });
   
@@ -515,7 +515,7 @@ describe('BaseElementForm', () => {
       );
       
       cy.contains('General').click();
-      cy.get('[data-cy="text-input"]').first().should('have.attr', 'placeholder');
+      cy.get('[data-testid="text-input"]').first().should('have.attr', 'placeholder');
     });
     
     it('supports keyboard navigation', () => {
@@ -651,7 +651,7 @@ describe('Other Element Forms', () => {
         cy.get('[data-cy*="button"]').first().click();
         
         // Type in first input
-        cy.get('[data-cy="text-input"]').first().type('Test Value');
+        cy.get('[data-testid="text-input"]').first().type('Test Value');
         
         // Should call onChange
         cy.wrap(onChange).should('have.been.called');

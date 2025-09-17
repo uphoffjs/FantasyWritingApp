@@ -47,6 +47,6 @@ describe('Single Test - ElementBrowser', () => {
     });
     
     // Check if create button exists
-    cy.get('[data-cy="create-element-button"]').should('exist');
+    cy.get('[data-testid="create-element-button"]').should('exist');
   });
 });

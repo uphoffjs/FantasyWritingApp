@@ -112,33 +112,33 @@ describe('TemplateManager Component', () => {
     cy.mount(<TemplateManager {...defaultProps} />);
     
     cy.contains('Template Manager').should('be.visible');
-    cy.get('[data-cy="create-template-[data-cy*="button"]"]').should('exist');
-    cy.get('[data-cy="import-template-[data-cy*="button"]"]').should('exist');
-    cy.get('[data-cy="marketplace-[data-cy*="button"]"]').should('exist');
+    cy.get('[data-testid="create-template-[data-cy*="button"]"]').should('exist');
+    cy.get('[data-testid="import-template-[data-cy*="button"]"]').should('exist');
+    cy.get('[data-testid="marketplace-[data-cy*="button"]"]').should('exist');
   });
 
   it('displays template categories', () => {
     cy.mount(<TemplateManager {...defaultProps} />);
     
-    cy.get('[data-cy="category-character"]').should('exist');
-    cy.get('[data-cy="category-location"]').should('exist');
-    cy.get('[data-cy="category-custom"]').should('exist');
+    cy.get('[data-testid="category-character"]').should('exist');
+    cy.get('[data-testid="category-location"]').should('exist');
+    cy.get('[data-testid="category-custom"]').should('exist');
   });
 
   it('expands and collapses categories', () => {
     cy.mount(<TemplateManager {...defaultProps} />);
     
-    cy.get('[data-cy="category-character"]').click();
-    cy.get('[data-cy="template-template-1"]').should('be.visible');
+    cy.get('[data-testid="category-character"]').click();
+    cy.get('[data-testid="template-template-1"]').should('be.visible');
     
-    cy.get('[data-cy="category-character"]').click();
-    cy.get('[data-cy="template-template-1"]').should('not.exist');
+    cy.get('[data-testid="category-character"]').click();
+    cy.get('[data-testid="template-template-1"]').should('not.exist');
   });
 
   it('displays template details when expanded', () => {
     cy.mount(<TemplateManager {...defaultProps} />);
     
-    cy.get('[data-cy="category-character"]').click();
+    cy.get('[data-testid="category-character"]').click();
     cy.contains('Character Template').should('be.visible');
     cy.contains('Basic character questionnaire').should('be.visible');
     cy.contains('3 questions').should('be.visible');
@@ -149,7 +149,7 @@ describe('TemplateManager Component', () => {
   it('shows template tags', () => {
     cy.mount(<TemplateManager {...defaultProps} />);
     
-    cy.get('[data-cy="category-character"]').click();
+    cy.get('[data-testid="category-character"]').click();
     cy.contains('fantasy').should('be.visible');
     cy.contains('rpg').should('be.visible');
   });
@@ -157,15 +157,15 @@ describe('TemplateManager Component', () => {
   it('opens create template form', () => {
     cy.mount(<TemplateManager {...defaultProps} />);
     
-    cy.get('[data-cy="create-template-[data-cy*="button"]"]').click();
-    cy.get('[data-cy="template-editor-mock"]').should('be.visible');
+    cy.get('[data-testid="create-template-[data-cy*="button"]"]').click();
+    cy.get('[data-testid="template-editor-mock"]').should('be.visible');
   });
 
   it('handles template [data-cy*="select"]ion', () => {
     cy.mount(<TemplateManager {...defaultProps} />);
     
-    cy.get('[data-cy="category-character"]').click();
-    cy.get('[data-cy="template-template-1"]').within(() => {
+    cy.get('[data-testid="category-character"]').click();
+    cy.get('[data-testid="template-template-1"]').within(() => {
       cy.get('[title="Use this template"]').click();
     });
     
@@ -177,8 +177,8 @@ describe('TemplateManager Component', () => {
     
     cy.mount(<TemplateManager {...defaultProps} />);
     
-    cy.get('[data-cy="category-character"]').click();
-    cy.get('[data-cy="template-template-1"]').within(() => {
+    cy.get('[data-testid="category-character"]').click();
+    cy.get('[data-testid="template-template-1"]').within(() => {
       cy.get('[title="Delete template"]').click();
     });
     
@@ -193,8 +193,8 @@ describe('TemplateManager Component', () => {
     
     cy.mount(<TemplateManager {...defaultProps} />);
     
-    cy.get('[data-cy="category-character"]').click();
-    cy.get('[data-cy="template-template-1"]').within(() => {
+    cy.get('[data-testid="category-character"]').click();
+    cy.get('[data-testid="template-template-1"]').within(() => {
       cy.get('[title="Delete template"]').click();
     });
     
@@ -206,7 +206,7 @@ describe('TemplateManager Component', () => {
   it('closes modal on close [data-cy*="button"] click', () => {
     cy.mount(<TemplateManager {...defaultProps} />);
     
-    cy.get('[data-cy="close-template-manager-desktop"]').click();
+    cy.get('[data-testid="close-template-manager-desktop"]').click();
     cy.get('@onClose').should('have.been.called');
   });
 
@@ -214,8 +214,8 @@ describe('TemplateManager Component', () => {
     cy.viewport(375, 667);
     cy.mount(<TemplateManager {...defaultProps} />);
     
-    cy.get('[data-cy="close-template-manager"]').should('be.visible');
-    cy.get('[data-cy="close-template-manager-desktop"]').should('not.be.visible');
+    cy.get('[data-testid="close-template-manager"]').should('be.visible');
+    cy.get('[data-testid="close-template-manager-desktop"]').should('not.be.visible');
   });
 
   it('handles empty templates gracefully', () => {
@@ -223,15 +223,15 @@ describe('TemplateManager Component', () => {
     
     cy.mount(<TemplateManager {...defaultProps} />);
     
-    cy.get('[data-cy="category-character"]').click();
+    cy.get('[data-testid="category-character"]').click();
     cy.contains('No custom templates yet').should('be.visible');
   });
 
   it('shows template count per category', () => {
     cy.mount(<TemplateManager {...defaultProps} />);
     
-    cy.get('[data-cy="category-character"]').contains('1');
-    cy.get('[data-cy="category-location"]').contains('1');
+    cy.get('[data-testid="category-character"]').contains('1');
+    cy.get('[data-testid="category-location"]').contains('1');
   });
 });
 
@@ -661,10 +661,10 @@ describe('TemplateImporter Component', () => {
     
     const file = new File(['{"templates": []}'], 'templates.json', { type: 'application/json' });
     
-    cy.get('[data-cy="drop-zone"]').trigger('dragenter');
-    cy.get('[data-cy="drop-zone"]').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
+    cy.get('[data-testid="drop-zone"]').trigger('dragenter');
+    cy.get('[data-testid="drop-zone"]').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
     
-    cy.get('[data-cy="drop-zone"]').trigger('drop', {
+    cy.get('[data-testid="drop-zone"]').trigger('drop', {
       dataTransfer: { files: [file] }
     });
     
@@ -693,7 +693,7 @@ describe('TemplateMarketplace Component', () => {
     cy.mount(<TemplateMarketplace {...defaultProps} />);
     
     cy.contains('Featured Templates').should('be.visible');
-    cy.get('[data-cy="featured-template"]').should('have.length.at.least', 1);
+    cy.get('[data-testid="featured-template"]').should('have.length.at.least', 1);
   });
 
   it('shows template categories', () => {
@@ -714,21 +714,21 @@ describe('TemplateMarketplace Component', () => {
   it('filters by category', () => {
     cy.mount(<TemplateMarketplace {...defaultProps} />);
     
-    cy.get('[data-cy="category-filter"]').select('character');
+    cy.get('[data-testid="category-filter"]').select('character');
     cy.contains('Character Templates').should('be.visible');
   });
 
   it('sorts templates', () => {
     cy.mount(<TemplateMarketplace {...defaultProps} />);
     
-    cy.get('[data-cy="sort-[data-cy*="select"]"]').select('downloads');
+    cy.get('[data-testid="sort-[data-cy*="select"]"]').select('downloads');
     cy.contains('Most Downloaded').should('be.visible');
   });
 
   it('shows template details on hover', () => {
     cy.mount(<TemplateMarketplace {...defaultProps} />);
     
-    cy.get('[data-cy="marketplace-template"]').first().trigger('mouseenter');
+    cy.get('[data-testid="marketplace-template"]').first().trigger('mouseenter');
     cy.contains('Preview').should('be.visible');
     cy.contains('Install').should('be.visible');
   });
@@ -736,7 +736,7 @@ describe('TemplateMarketplace Component', () => {
   it('installs template', () => {
     cy.mount(<TemplateMarketplace {...defaultProps} />);
     
-    cy.get('[data-cy="install-template"]').first().click();
+    cy.get('[data-testid="install-template"]').first().click();
     cy.contains('Installing...').should('be.visible');
     
     // Simulate successful install
@@ -746,7 +746,7 @@ describe('TemplateMarketplace Component', () => {
   it('shows template rating', () => {
     cy.mount(<TemplateMarketplace {...defaultProps} />);
     
-    cy.get('[data-cy="template-rating"]').should('be.visible');
+    cy.get('[data-testid="template-rating"]').should('be.visible');
     cy.get('.star-icon').should('have.length', 5);
   });
 
@@ -760,23 +760,23 @@ describe('TemplateMarketplace Component', () => {
     cy.mount(<TemplateMarketplace {...defaultProps} />);
     
     cy.contains('by').should('be.visible');
-    cy.get('[data-cy="author-name"]').should('be.visible');
+    cy.get('[data-testid="author-name"]').should('be.visible');
   });
 
   it('handles pagination', () => {
     cy.mount(<TemplateMarketplace {...defaultProps} />);
     
-    cy.get('[data-cy="next-page"]').click();
+    cy.get('[data-testid="next-page"]').click();
     cy.contains('Page 2').should('be.visible');
     
-    cy.get('[data-cy="prev-page"]').click();
+    cy.get('[data-testid="prev-page"]').click();
     cy.contains('Page 1').should('be.visible');
   });
 
   it('closes marketplace modal', () => {
     cy.mount(<TemplateMarketplace {...defaultProps} />);
     
-    cy.get('[data-cy="close-marketplace"]').click();
+    cy.get('[data-testid="close-marketplace"]').click();
     cy.get('@onClose').should('have.been.called');
   });
 

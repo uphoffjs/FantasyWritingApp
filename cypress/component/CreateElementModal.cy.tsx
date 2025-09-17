@@ -90,7 +90,7 @@ describe('CreateElementModal Component', () => {
     ];
 
     expectedCategories.forEach((category) => {
-      cy.get(`[data-cy="category-${category}"]`).should('be.visible');
+      cy.get(`[data-testid="category-${category}"]`).should('be.visible');
     });
   });
 
@@ -98,13 +98,13 @@ describe('CreateElementModal Component', () => {
     cy.mount(<CreateElementModal {...defaultProps} />);
 
     // Select a character category
-    cy.get('[data-cy="category-character"]').click();
+    cy.get('[data-testid="category-character"]').click();
 
     // Check that the [data-cy*="button"] text changes
     cy.contains('Create Element').should('be.visible');
     
     // Check that the [data-cy*="select"]ed category has visual feedback
-    cy.get('[data-cy="category-character"]').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
+    cy.get('[data-testid="category-character"]').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
   });
 
   it('should handle close functionality', () => {
@@ -131,7 +131,7 @@ describe('CreateElementModal Component', () => {
     cy.mount(<CreateElementModal {...defaultProps} />);
 
     // Select character category
-    cy.get('[data-cy="category-character"]').click();
+    cy.get('[data-testid="category-character"]').click();
     
     // Click create [data-cy*="button"]
     cy.contains('Create Element').click();
@@ -151,11 +151,11 @@ describe('CreateElementModal Component', () => {
     cy.mount(<CreateElementModal {...defaultProps} />);
 
     // Select category and click create
-    cy.get('[data-cy="category-character"]').click();
+    cy.get('[data-testid="category-character"]').click();
     cy.contains('Create Element').click();
 
     // Check for loading indicator (ActivityIndicator in React Native Web becomes a spinner)
-    cy.get('[data-cy="element-card"]').should('contain', 'Create Element');
+    cy.get('[data-testid="element-card"]').should('contain', 'Create Element');
     // The [data-cy*="button"] should be disabled during loading
     cy.contains('Create Element').should('be.disabled');
   });
@@ -169,7 +169,7 @@ describe('CreateElementModal Component', () => {
 
     cy.mount(<CreateElementModal {...defaultProps} />);
 
-    cy.get('[data-cy="category-character"]').click();
+    cy.get('[data-testid="category-character"]').click();
     cy.contains('Create Element').click();
 
     cy.get('@onSuccess').should('have.been.calledWith', 'new-element-1');
@@ -181,7 +181,7 @@ describe('CreateElementModal Component', () => {
 
     cy.mount(<CreateElementModal {...defaultProps} />);
 
-    cy.get('[data-cy="category-character"]').click();
+    cy.get('[data-testid="category-character"]').click();
     cy.contains('Create Element').click();
 
     // The component should handle the error and not crash
@@ -222,7 +222,7 @@ describe('CreateElementModal Component', () => {
     ];
 
     categoryTests.forEach(({ id, icon, label, description }) => {
-      cy.get(`[data-cy="category-${id}"]`).within(() => {
+      cy.get(`[data-testid="category-${id}"]`).within(() => {
         cy.contains(icon).should('be.visible');
         cy.contains(label).should('be.visible');
         cy.contains(description).should('be.visible');
@@ -234,15 +234,15 @@ describe('CreateElementModal Component', () => {
     cy.mount(<CreateElementModal {...defaultProps} />);
 
     // Select character first
-    cy.get('[data-cy="category-character"]').click();
-    cy.get('[data-cy="category-character"]').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
+    cy.get('[data-testid="category-character"]').click();
+    cy.get('[data-testid="category-character"]').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
 
     // Select location second
-    cy.get('[data-cy="category-location"]').click();
-    cy.get('[data-cy="category-location"]').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
+    cy.get('[data-testid="category-location"]').click();
+    cy.get('[data-testid="category-location"]').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
     
     // Character should no longer be [data-cy*="select"]ed
-    cy.get('[data-cy="category-character"]').should('not.have.class', 'categoryCardSelected');
+    cy.get('[data-testid="category-character"]').should('not.have.class', 'categoryCardSelected');
   });
 
   it('should be accessible', () => {
@@ -262,8 +262,8 @@ describe('CreateElementModal Component', () => {
     cy.mount(<CreateElementModal {...defaultProps} />);
 
     // Test that categories can be accessed with keyboard
-    cy.get('[data-cy="category-character"]').focus().type('{enter}');
-    cy.get('[data-cy="category-character"]').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
+    cy.get('[data-testid="category-character"]').focus().type('{enter}');
+    cy.get('[data-testid="category-character"]').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
 
     // Test that create [data-cy*="button"] can be activated with keyboard
     cy.contains('Create Element').focus().type('{enter}');
@@ -279,7 +279,7 @@ describe('CreateElementModal Component', () => {
 
     cy.mount(<CreateElementModal {...defaultProps} />);
 
-    cy.get('[data-cy="category-character"]').click();
+    cy.get('[data-testid="category-character"]').click();
     cy.contains('Create Element').click();
 
     // The createElement should be called with a unique name

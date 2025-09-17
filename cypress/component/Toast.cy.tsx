@@ -93,12 +93,12 @@ describe('Toast Component', () => {
     // Wait to let component initialize
     cy.wait(100);
     // Use should to ensure [data-cy*="button"] exists before clicking
-    cy.get('[data-cy="clear-all-toasts"]').should('exist').click();
+    cy.get('[data-testid="clear-all-toasts"]').should('exist').click();
   });
 
   describe('Rendering', () => {
     it('renders success toast correctly', () => {
-      cy.get('[data-cy="add-success-toast"]').click();
+      cy.get('[data-testid="add-success-toast"]').click();
       
       cy.contains('Success!').should('be.visible');
       cy.contains('Operation completed successfully').should('be.visible');
@@ -112,7 +112,7 @@ describe('Toast Component', () => {
     });
 
     it('renders error toast correctly', () => {
-      cy.get('[data-cy="add-error-toast"]').click();
+      cy.get('[data-testid="add-error-toast"]').click();
       
       cy.contains('Error!').should('be.visible');
       cy.contains('Something went wrong').should('be.visible');
@@ -127,7 +127,7 @@ describe('Toast Component', () => {
     });
 
     it('renders info toast correctly', () => {
-      cy.get('[data-cy="add-info-toast"]').click();
+      cy.get('[data-testid="add-info-toast"]').click();
       
       cy.contains('Information').should('be.visible');
       cy.contains('Here is some information').should('be.visible');
@@ -138,7 +138,7 @@ describe('Toast Component', () => {
     });
 
     it('renders warning toast correctly', () => {
-      cy.get('[data-cy="add-warning-toast"]').click();
+      cy.get('[data-testid="add-warning-toast"]').click();
       
       cy.contains('Warning!').should('be.visible');
       cy.contains('Please be careful').should('be.visible');
@@ -162,7 +162,7 @@ describe('Toast Component', () => {
 
   describe('Toast Actions', () => {
     it('renders action [data-cy*="button"] when provided', () => {
-      cy.get('[data-cy="add-toast-with-action"]').click();
+      cy.get('[data-testid="add-toast-with-action"]').click();
       
       cy.contains('Action Required').should('be.visible');
       cy.contains('Undo').should('be.visible');
@@ -187,7 +187,7 @@ describe('Toast Component', () => {
     });
 
     it('dismisses toast when dismiss [data-cy*="button"] is clicked', () => {
-      cy.get('[data-cy="add-error-toast"]').click();
+      cy.get('[data-testid="add-error-toast"]').click();
       
       cy.contains('Error!').should('be.visible');
       cy.contains('Dismiss').click();
@@ -195,7 +195,7 @@ describe('Toast Component', () => {
     });
 
     it('dismisses toast when X [data-cy*="button"] is clicked (non-error toasts)', () => {
-      cy.get('[data-cy="add-success-toast"]').click();
+      cy.get('[data-testid="add-success-toast"]').click();
       
       cy.contains('Success!').should('be.visible');
       
@@ -208,7 +208,7 @@ describe('Toast Component', () => {
 
   describe('Error Toast Details', () => {
     it('expands error details when Details [data-cy*="button"] is clicked', () => {
-      cy.get('[data-cy="add-error-toast"]').click();
+      cy.get('[data-testid="add-error-toast"]').click();
       
       // Initially, the detailed view should not be visible
       cy.get('pre').should('not.exist');
@@ -223,7 +223,7 @@ describe('Toast Component', () => {
     });
 
     it('collapses error details when Details [data-cy*="button"] is clicked again', () => {
-      cy.get('[data-cy="add-error-toast"]').click();
+      cy.get('[data-testid="add-error-toast"]').click();
       
       cy.contains('Details').click();
       cy.get('pre').should('be.visible');
@@ -235,9 +235,9 @@ describe('Toast Component', () => {
 
   describe('Multiple Toasts', () => {
     it('displays multiple toasts simultaneously', () => {
-      cy.get('[data-cy="add-success-toast"]').click();
-      cy.get('[data-cy="add-error-toast"]').click();
-      cy.get('[data-cy="add-info-toast"]').click();
+      cy.get('[data-testid="add-success-toast"]').click();
+      cy.get('[data-testid="add-error-toast"]').click();
+      cy.get('[data-testid="add-info-toast"]').click();
       
       cy.contains('Success!').should('be.visible');
       cy.contains('Error!').should('be.visible');
@@ -245,8 +245,8 @@ describe('Toast Component', () => {
     });
 
     it('removes specific toast without affecting others', () => {
-      cy.get('[data-cy="add-success-toast"]').click();
-      cy.get('[data-cy="add-error-toast"]').click();
+      cy.get('[data-testid="add-success-toast"]').click();
+      cy.get('[data-testid="add-error-toast"]').click();
       
       // Dismiss the success toast
       cy.contains('Success!').parent().parent().find('[data-cy*="button"]').last().click();
@@ -256,15 +256,15 @@ describe('Toast Component', () => {
     });
 
     it('clears all toasts when clearAllToasts is called', () => {
-      cy.get('[data-cy="add-success-toast"]').click();
-      cy.get('[data-cy="add-error-toast"]').click();
-      cy.get('[data-cy="add-info-toast"]').click();
+      cy.get('[data-testid="add-success-toast"]').click();
+      cy.get('[data-testid="add-error-toast"]').click();
+      cy.get('[data-testid="add-info-toast"]').click();
       
       cy.contains('Success!').should('be.visible');
       cy.contains('Error!').should('be.visible');
       cy.contains('Information').should('be.visible');
       
-      cy.get('[data-cy="clear-all-toasts"]').click();
+      cy.get('[data-testid="clear-all-toasts"]').click();
       
       cy.contains('Success!').should('not.exist');
       cy.contains('Error!').should('not.exist');
@@ -338,9 +338,9 @@ describe('Toast Component', () => {
       
       // Wait for component to be ready
       cy.wait(100);
-      cy.get('[data-cy="clear-all-toasts"]').should('exist').click();
+      cy.get('[data-testid="clear-all-toasts"]').should('exist').click();
       
-      cy.get('[data-cy="add-success-toast"]').click();
+      cy.get('[data-testid="add-success-toast"]').click();
       
       // On mobile, toasts should be positioned at the bottom
       cy.get('.fixed').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
@@ -352,9 +352,9 @@ describe('Toast Component', () => {
       
       // Wait for component to be ready
       cy.wait(100);
-      cy.get('[data-cy="clear-all-toasts"]').should('exist').click();
+      cy.get('[data-testid="clear-all-toasts"]').should('exist').click();
       
-      cy.get('[data-cy="add-success-toast"]').click();
+      cy.get('[data-testid="add-success-toast"]').click();
       
       // On desktop, toasts should be positioned at the top-right
       cy.get('.fixed').should('be.visible') // React Native Web uses inline styles instead of CSS classes.and('have.class', 'right-4');
@@ -366,9 +366,9 @@ describe('Toast Component', () => {
       
       // Wait for component to be ready
       cy.wait(100);
-      cy.get('[data-cy="clear-all-toasts"]').should('exist').click();
+      cy.get('[data-testid="clear-all-toasts"]').should('exist').click();
       
-      cy.get('[data-cy="add-success-toast"]').click();
+      cy.get('[data-testid="add-success-toast"]').click();
       
       cy.contains('Success!').should('be.visible');
     });
@@ -404,7 +404,7 @@ describe('Toast Component', () => {
 
     it('handles rapid toast additions', () => {
       for (let i = 0; i < 5; i++) {
-        cy.get('[data-cy="add-success-toast"]').click();
+        cy.get('[data-testid="add-success-toast"]').click();
       }
       
       // Should have 5 toasts visible
@@ -427,7 +427,7 @@ describe('Toast Component', () => {
 
   describe('Accessibility', () => {
     it('dismiss [data-cy*="button"] is keyboard accessible', () => {
-      cy.get('[data-cy="add-error-toast"]').click();
+      cy.get('[data-testid="add-error-toast"]').click();
       
       cy.contains('Dismiss').focus();
       cy.focused().should('contain', 'Dismiss');
@@ -457,7 +457,7 @@ describe('Toast Component', () => {
     });
 
     it('details [data-cy*="button"] is keyboard accessible', () => {
-      cy.get('[data-cy="add-error-toast"]').click();
+      cy.get('[data-testid="add-error-toast"]').click();
       
       cy.contains('Details').focus();
       cy.focused().type('{enter}');

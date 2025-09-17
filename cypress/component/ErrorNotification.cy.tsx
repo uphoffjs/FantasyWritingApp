@@ -8,7 +8,7 @@ describe('ErrorNotification Component', () => {
     it('renders when error is provided', () => {
       cy.mount(<ErrorNotification error={mockError} />);
       
-      cy.get('[data-cy="error-message"]').should('be.visible');
+      cy.get('[data-testid="error-message"]').should('be.visible');
       cy.contains('Error').should('be.visible');
       cy.contains(mockError.message).should('be.visible');
     });
@@ -16,7 +16,7 @@ describe('ErrorNotification Component', () => {
     it('does not render when error is null', () => {
       cy.mount(<ErrorNotification error={null} />);
       
-      cy.get('[data-cy="error-message"]').should('not.exist');
+      cy.get('[data-testid="error-message"]').should('not.exist');
     });
 
     it('displays error icon', () => {
@@ -33,13 +33,13 @@ describe('ErrorNotification Component', () => {
     it('has correct positioning and styling', () => {
       cy.mount(<ErrorNotification error={mockError} />);
       
-      cy.get('[data-cy="error-message"]')
+      cy.get('[data-testid="error-message"]')
         .should('be.visible') // React Native Web uses inline styles instead of CSS classes
         .and('have.class', 'top-4')
         .and('have.class', 'right-4')
         .and('have.class', 'z-50');
       
-      cy.get('[data-cy="error-message"] > div')
+      cy.get('[data-testid="error-message"] > div')
         .should('be.visible') // React Native Web uses inline styles instead of CSS classes
         .and('have.class', 'border-red-200')
         .and('have.class', 'rounded-lg')
@@ -71,12 +71,12 @@ describe('ErrorNotification Component', () => {
       const onCloseSpy = cy.spy().as('onClose');
       cy.mount(<ErrorNotification error={mockError} onClose={onCloseSpy} />);
       
-      cy.get('[data-cy="error-message"]').should('be.visible');
+      cy.get('[data-testid="error-message"]').should('be.visible');
       
       cy.get('[data-cy*="button"][aria-label="Close error notification"]').click();
       
       cy.get('@onClose').should('have.been.calledOnce');
-      cy.get('[data-cy="error-message"]').should('not.exist');
+      cy.get('[data-testid="error-message"]').should('not.exist');
     });
 
     it('has hover effect on close [data-cy*="button"]', () => {
@@ -101,14 +101,14 @@ describe('ErrorNotification Component', () => {
         />
       );
       
-      cy.get('[data-cy="error-message"]').should('be.visible');
+      cy.get('[data-testid="error-message"]').should('be.visible');
       
       cy.tick(4999);
-      cy.get('[data-cy="error-message"]').should('be.visible');
+      cy.get('[data-testid="error-message"]').should('be.visible');
       cy.get('@onClose').should('not.have.been.called');
       
       cy.tick(1);
-      cy.get('[data-cy="error-message"]').should('not.exist');
+      cy.get('[data-testid="error-message"]').should('not.exist');
       cy.get('@onClose').should('have.been.calledOnce');
     });
 
@@ -125,13 +125,13 @@ describe('ErrorNotification Component', () => {
         />
       );
       
-      cy.get('[data-cy="error-message"]').should('be.visible');
+      cy.get('[data-testid="error-message"]').should('be.visible');
       
       cy.tick(1999);
-      cy.get('[data-cy="error-message"]').should('be.visible');
+      cy.get('[data-testid="error-message"]').should('be.visible');
       
       cy.tick(1);
-      cy.get('[data-cy="error-message"]').should('not.exist');
+      cy.get('[data-testid="error-message"]').should('not.exist');
       cy.get('@onClose').should('have.been.calledOnce');
     });
 
@@ -147,10 +147,10 @@ describe('ErrorNotification Component', () => {
         />
       );
       
-      cy.get('[data-cy="error-message"]').should('be.visible');
+      cy.get('[data-testid="error-message"]').should('be.visible');
       
       cy.tick(10000);
-      cy.get('[data-cy="error-message"]').should('be.visible');
+      cy.get('[data-testid="error-message"]').should('be.visible');
       cy.get('@onClose').should('not.have.been.called');
     });
 
@@ -176,12 +176,12 @@ describe('ErrorNotification Component', () => {
       
       cy.mount(<TestComponent />);
       
-      cy.get('[data-cy="error-message"]').should('be.visible');
+      cy.get('[data-testid="error-message"]').should('be.visible');
       
       cy.tick(2000);
       cy.get('[data-cy*="button"]').contains('Hide').click();
       
-      cy.get('[data-cy="error-message"]').should('not.exist');
+      cy.get('[data-testid="error-message"]').should('not.exist');
       
       // Timer should be cleared, no errors should occur
       cy.tick(5000);
@@ -214,7 +214,7 @@ describe('ErrorNotification Component', () => {
       cy.contains('New error message').should('be.visible');
       
       cy.get('[data-cy*="button"]').contains('Clear Error').click();
-      cy.get('[data-cy="error-message"]').should('not.exist');
+      cy.get('[data-testid="error-message"]').should('not.exist');
     });
 
     it('resets timer when error changes', () => {
@@ -235,19 +235,19 @@ describe('ErrorNotification Component', () => {
       
       cy.mount(<TestComponent />);
       
-      cy.get('[data-cy="error-message"]').should('be.visible');
+      cy.get('[data-testid="error-message"]').should('be.visible');
       
       cy.tick(2000);
-      cy.get('[data-cy="error-message"]').should('be.visible');
+      cy.get('[data-testid="error-message"]').should('be.visible');
       
       cy.get('[data-cy*="button"]').click();
       cy.contains('Updated error').should('be.visible');
       
       cy.tick(2999);
-      cy.get('[data-cy="error-message"]').should('be.visible');
+      cy.get('[data-testid="error-message"]').should('be.visible');
       
       cy.tick(1);
-      cy.get('[data-cy="error-message"]').should('not.exist');
+      cy.get('[data-testid="error-message"]').should('not.exist');
     });
   });
 
@@ -255,7 +255,7 @@ describe('ErrorNotification Component', () => {
     it('has slide-in animation', () => {
       cy.mount(<ErrorNotification error={mockError} />);
       
-      cy.get('[data-cy="error-message"]')
+      cy.get('[data-testid="error-message"]')
         .should('be.visible') // React Native Web uses inline styles instead of CSS classes
         .and('have.class', 'slide-in-from-right')
         .and('have.class', 'duration-300');
@@ -285,18 +285,18 @@ describe('ErrorNotification Component', () => {
       
       cy.mount(<TestComponent />);
       
-      cy.get('[data-cy="error-message"]').should('not.exist');
+      cy.get('[data-testid="error-message"]').should('not.exist');
       
       cy.get('[data-cy*="button"]').contains('Show Error 1').click();
-      cy.get('[data-cy="error-message"]').should('have.length', 1);
+      cy.get('[data-testid="error-message"]').should('have.length', 1);
       cy.contains('Error 1').should('be.visible');
       
       cy.get('[data-cy*="button"]').contains('Show Error 2').click();
-      cy.get('[data-cy="error-message"]').should('have.length', 2);
+      cy.get('[data-testid="error-message"]').should('have.length', 2);
       cy.contains('Error 2').should('be.visible');
       
       cy.get('[data-cy*="button"]').contains('Show Error 3').click();
-      cy.get('[data-cy="error-message"]').should('have.length', 3);
+      cy.get('[data-testid="error-message"]').should('have.length', 3);
       cy.contains('Error 3').should('be.visible');
     });
 
@@ -319,20 +319,20 @@ describe('ErrorNotification Component', () => {
       cy.mount(<TestComponent />);
       
       // Wait for notifications to appear
-      cy.get('[data-cy="error-message"]').should('have.length', 2);
+      cy.get('[data-testid="error-message"]').should('have.length', 2);
       
       // Wait for [data-cy*="button"] to be available
-      cy.get('[data-cy="error-message"]').first().should('exist');
+      cy.get('[data-testid="error-message"]').first().should('exist');
       
       // First verify the [data-cy*="button"] exists before trying to click
-      cy.get('[data-cy="error-message"]').first().should('exist');
-      cy.get('[data-cy="error-message"]').first().find('[data-cy*="button"][aria-label="Close error notification"]').should('exist');
+      cy.get('[data-testid="error-message"]').first().should('exist');
+      cy.get('[data-testid="error-message"]').first().find('[data-cy*="button"][aria-label="Close error notification"]').should('exist');
       
       // Now click the close [data-cy*="button"] on first notification
-      cy.get('[data-cy="error-message"]').first().find('[data-cy*="button"][aria-label="Close error notification"]').click();
+      cy.get('[data-testid="error-message"]').first().find('[data-cy*="button"][aria-label="Close error notification"]').click();
       
       // Verify result
-      cy.get('[data-cy="error-message"]').should('have.length', 1);
+      cy.get('[data-testid="error-message"]').should('have.length', 1);
       cy.contains('Error 2').should('be.visible');
       cy.contains('Error 1').should('not.exist');
     });
@@ -352,10 +352,10 @@ describe('ErrorNotification Component', () => {
       
       cy.mount(<TestComponent />);
       
-      cy.get('[data-cy="error-message"]').should('have.length', 3);
+      cy.get('[data-testid="error-message"]').should('have.length', 3);
       
       // Wait for animations to complete
-      cy.get('[data-cy="error-message"]').should('have.length', 3);
+      cy.get('[data-testid="error-message"]').should('have.length', 3);
       
       // Check that notifications have different transform values for stacking
       // The wrapper divs around each ErrorNotification have the stacking styles
@@ -420,7 +420,7 @@ describe('ErrorNotification Component', () => {
       const longError = new Error('A'.repeat(500));
       cy.mount(<ErrorNotification error={longError} />);
       
-      cy.get('[data-cy="error-message"]').should('be.visible');
+      cy.get('[data-testid="error-message"]').should('be.visible');
       cy.get('.max-w-md').should('exist'); // Max width constraint
     });
 
@@ -428,7 +428,7 @@ describe('ErrorNotification Component', () => {
       const emptyError = new Error('');
       cy.mount(<ErrorNotification error={emptyError} />);
       
-      cy.get('[data-cy="error-message"]').should('be.visible');
+      cy.get('[data-testid="error-message"]').should('be.visible');
       cy.contains('Error').should('be.visible');
     });
 
@@ -461,7 +461,7 @@ describe('ErrorNotification Component', () => {
       cy.viewport(375, 667);
       cy.mount(<ErrorNotification error={mockError} onClose={cy.spy()} />);
       
-      cy.get('[data-cy="error-message"]').should('be.visible');
+      cy.get('[data-testid="error-message"]').should('be.visible');
       cy.get('.max-w-md').should('exist');
     });
 
@@ -469,14 +469,14 @@ describe('ErrorNotification Component', () => {
       cy.viewport(768, 1024);
       cy.mount(<ErrorNotification error={mockError} onClose={cy.spy()} />);
       
-      cy.get('[data-cy="error-message"]').should('be.visible');
+      cy.get('[data-testid="error-message"]').should('be.visible');
     });
 
     it('renders correctly on desktop viewport', () => {
       cy.viewport(1920, 1080);
       cy.mount(<ErrorNotification error={mockError} onClose={cy.spy()} />);
       
-      cy.get('[data-cy="error-message"]').should('be.visible');
+      cy.get('[data-testid="error-message"]').should('be.visible');
     });
   });
 });

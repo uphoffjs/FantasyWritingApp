@@ -33,22 +33,22 @@ describe('EditProjectModal Component', () => {
 
       // Check header
       cy.get('h2').should('contain', 'Edit Project');
-      cy.get('[data-cy="close-modal"]').should('be.visible');
+      cy.get('[data-testid="close-modal"]').should('be.visible');
 
       // Check form fields are populated
-      cy.get('[data-cy="project-name-input"]').should('have.value', 'Middle Earth Chronicles');
-      cy.get('[data-cy="project-description-input"]').should('have.value', 'A fantasy world with hobbits and wizards');
-      cy.get('[data-cy="project-genre-[data-cy*="select"]"]').should('have.value', 'Fantasy');
-      cy.get('[data-cy="project-status-[data-cy*="select"]"]').should('have.value', 'active');
+      cy.get('[data-testid="project-name-input"]').should('have.value', 'Middle Earth Chronicles');
+      cy.get('[data-testid="project-description-input"]').should('have.value', 'A fantasy world with hobbits and wizards');
+      cy.get('[data-testid="project-genre-[data-cy*="select"]"]').should('have.value', 'Fantasy');
+      cy.get('[data-testid="project-status-[data-cy*="select"]"]').should('have.value', 'active');
 
       // Check action [data-cy*="button"]s
-      cy.get('[data-cy="archive-project-[data-cy*="button"]"]').should('contain', 'Archive Project');
-      cy.get('[data-cy="duplicate-project-[data-cy*="button"]"]').should('contain', 'Duplicate Project');
-      cy.get('[data-cy="delete-project-[data-cy*="button"]"]').should('contain', 'Delete Project');
+      cy.get('[data-testid="archive-project-[data-cy*="button"]"]').should('contain', 'Archive Project');
+      cy.get('[data-testid="duplicate-project-[data-cy*="button"]"]').should('contain', 'Duplicate Project');
+      cy.get('[data-testid="delete-project-[data-cy*="button"]"]').should('contain', 'Delete Project');
 
       // Check footer [data-cy*="button"]s
-      cy.get('[data-cy="cancel-[data-cy*="button"]"]').should('be.visible');
-      cy.get('[data-cy="save-project-[data-cy*="button"]"]').should('be.visible');
+      cy.get('[data-testid="cancel-[data-cy*="button"]"]').should('be.visible');
+      cy.get('[data-testid="save-project-[data-cy*="button"]"]').should('be.visible');
     });
 
     it('shows all genre options in dropdown', () => {
@@ -56,7 +56,7 @@ describe('EditProjectModal Component', () => {
         <EditProjectModal project={defaultProject} onClose={onCloseSpy} />
       );
 
-      cy.get('[data-cy="project-genre-[data-cy*="select"]"]').click();
+      cy.get('[data-testid="project-genre-[data-cy*="select"]"]').click();
       
       const expectedGenres = [
         'Fantasy', 'Sci-Fi', 'Urban Fantasy', 'Dystopian', 
@@ -65,7 +65,7 @@ describe('EditProjectModal Component', () => {
       ];
 
       expectedGenres.forEach(genre => {
-        cy.get('[data-cy="project-genre-[data-cy*="select"]"] option').should('contain', genre);
+        cy.get('[data-testid="project-genre-[data-cy*="select"]"] option').should('contain', genre);
       });
     });
 
@@ -74,7 +74,7 @@ describe('EditProjectModal Component', () => {
         <EditProjectModal project={defaultProject} onClose={onCloseSpy} />
       );
 
-      cy.get('[data-cy="project-status-[data-cy*="select"]"]').click();
+      cy.get('[data-testid="project-status-[data-cy*="select"]"]').click();
       
       const expectedStatuses = [
         'Planning', 'Active Development', 'Under Revision',
@@ -82,7 +82,7 @@ describe('EditProjectModal Component', () => {
       ];
 
       expectedStatuses.forEach(status => {
-        cy.get('[data-cy="project-status-[data-cy*="select"]"] option').should('contain', status);
+        cy.get('[data-testid="project-status-[data-cy*="select"]"] option').should('contain', status);
       });
     });
 
@@ -110,7 +110,7 @@ describe('EditProjectModal Component', () => {
         <EditProjectModal project={archivedProject} onClose={onCloseSpy} />
       );
 
-      cy.get('[data-cy="archive-project-[data-cy*="button"]"]')
+      cy.get('[data-testid="archive-project-[data-cy*="button"]"]')
         .should('contain', 'Restore Project')
         .and('have.class', 'bg-flame-600');
     });
@@ -127,8 +127,8 @@ describe('EditProjectModal Component', () => {
         }
       );
 
-      cy.get('[data-cy="project-name-input"]').clear();
-      cy.get('[data-cy="save-project-[data-cy*="button"]"]').click();
+      cy.get('[data-testid="project-name-input"]').clear();
+      cy.get('[data-testid="save-project-[data-cy*="button"]"]').click();
 
       cy.get('.text-blood-500').should('contain', 'Project name is required');
       cy.wrap(updateProjectStub).should('not.have.been.called');
@@ -144,8 +144,8 @@ describe('EditProjectModal Component', () => {
         }
       );
 
-      cy.get('[data-cy="project-description-input"]').clear();
-      cy.get('[data-cy="save-project-[data-cy*="button"]"]').click();
+      cy.get('[data-testid="project-description-input"]').clear();
+      cy.get('[data-testid="save-project-[data-cy*="button"]"]').click();
 
       cy.get('.text-blood-500').should('contain', 'Project description is required');
       cy.wrap(updateProjectStub).should('not.have.been.called');
@@ -161,9 +161,9 @@ describe('EditProjectModal Component', () => {
         }
       );
 
-      cy.get('[data-cy="project-name-input"]').clear();
-      cy.get('[data-cy="project-description-input"]').clear();
-      cy.get('[data-cy="save-project-[data-cy*="button"]"]').click();
+      cy.get('[data-testid="project-name-input"]').clear();
+      cy.get('[data-testid="project-description-input"]').clear();
+      cy.get('[data-testid="save-project-[data-cy*="button"]"]').click();
 
       cy.get('.text-blood-500').should('have.length', 2);
       cy.wrap(updateProjectStub).should('not.have.been.called');
@@ -174,11 +174,11 @@ describe('EditProjectModal Component', () => {
         <EditProjectModal project={defaultProject} onClose={onCloseSpy} />
       );
 
-      cy.get('[data-cy="project-name-input"]').clear();
-      cy.get('[data-cy="save-project-[data-cy*="button"]"]').click();
+      cy.get('[data-testid="project-name-input"]').clear();
+      cy.get('[data-testid="save-project-[data-cy*="button"]"]').click();
       cy.get('.text-blood-500').should('contain', 'Project name is required');
 
-      cy.get('[data-cy="project-name-input"]').type('New Name');
+      cy.get('[data-testid="project-name-input"]').type('New Name');
       cy.get('.text-blood-500').should('not.exist');
     });
 
@@ -192,9 +192,9 @@ describe('EditProjectModal Component', () => {
         }
       );
 
-      cy.get('[data-cy="project-name-input"]').clear().type('  Trimmed Name  ');
-      cy.get('[data-cy="project-description-input"]').clear().type('  Trimmed Description  ');
-      cy.get('[data-cy="save-project-[data-cy*="button"]"]').click();
+      cy.get('[data-testid="project-name-input"]').clear().type('  Trimmed Name  ');
+      cy.get('[data-testid="project-description-input"]').clear().type('  Trimmed Description  ');
+      cy.get('[data-testid="save-project-[data-cy*="button"]"]').click();
 
       cy.wrap(updateProjectStub).should('have.been.calledWith', 
         defaultProject.id,
@@ -217,12 +217,12 @@ describe('EditProjectModal Component', () => {
         }
       );
 
-      cy.get('[data-cy="project-name-input"]').clear().type('Updated Name');
-      cy.get('[data-cy="project-description-input"]').clear().type('Updated Description');
-      cy.get('[data-cy="project-genre-[data-cy*="select"]"]').select('Sci-Fi');
-      cy.get('[data-cy="project-status-[data-cy*="select"]"]').select('completed');
+      cy.get('[data-testid="project-name-input"]').clear().type('Updated Name');
+      cy.get('[data-testid="project-description-input"]').clear().type('Updated Description');
+      cy.get('[data-testid="project-genre-[data-cy*="select"]"]').select('Sci-Fi');
+      cy.get('[data-testid="project-status-[data-cy*="select"]"]').select('completed');
       
-      cy.get('[data-cy="save-project-[data-cy*="button"]"]').click();
+      cy.get('[data-testid="save-project-[data-cy*="button"]"]').click();
 
       cy.wrap(updateProjectStub).should('have.been.calledWith',
         defaultProject.id,
@@ -249,8 +249,8 @@ describe('EditProjectModal Component', () => {
         }
       );
 
-      cy.get('[data-cy="project-name-input"]').clear().type('Only Name Changed');
-      cy.get('[data-cy="save-project-[data-cy*="button"]"]').click();
+      cy.get('[data-testid="project-name-input"]').clear().type('Only Name Changed');
+      cy.get('[data-testid="save-project-[data-cy*="button"]"]').click();
 
       cy.wrap(updateProjectStub).should('have.been.calledWith',
         defaultProject.id,
@@ -346,7 +346,7 @@ describe('EditProjectModal Component', () => {
         }
       );
 
-      cy.get('[data-cy="archive-project-[data-cy*="button"]"]').click();
+      cy.get('[data-testid="archive-project-[data-cy*="button"]"]').click();
 
       cy.wrap(updateProjectStub).should('have.been.calledWith',
         defaultProject.id,
@@ -354,7 +354,7 @@ describe('EditProjectModal Component', () => {
       );
 
       // Button should now show "Restore Project"
-      cy.get('[data-cy="archive-project-[data-cy*="button"]"]').should('contain', 'Restore Project');
+      cy.get('[data-testid="archive-project-[data-cy*="button"]"]').should('contain', 'Restore Project');
     });
 
     it('handles project duplication with confirmation', () => {
@@ -376,7 +376,7 @@ describe('EditProjectModal Component', () => {
         }
       );
 
-      cy.get('[data-cy="duplicate-project-[data-cy*="button"]"]').click();
+      cy.get('[data-testid="duplicate-project-[data-cy*="button"]"]').click();
       waitForAnimation();
 
       cy.wrap(duplicateProjectStub).should('have.been.calledWith', defaultProject.id);
@@ -402,7 +402,7 @@ describe('EditProjectModal Component', () => {
         }
       );
 
-      cy.get('[data-cy="duplicate-project-[data-cy*="button"]"]').click();
+      cy.get('[data-testid="duplicate-project-[data-cy*="button"]"]').click();
       waitForAnimation();
 
       cy.wrap(duplicateProjectStub).should('not.have.been.called');
@@ -420,12 +420,12 @@ describe('EditProjectModal Component', () => {
       );
 
       // First click shows confirmation
-      cy.get('[data-cy="delete-project-[data-cy*="button"]"]').click();
+      cy.get('[data-testid="delete-project-[data-cy*="button"]"]').click();
       
       cy.get('[data-cy*="blood-light"]\\/20').should('be.visible');
       cy.get('.text-blood-400').should('contain', 'Are you sure?');
-      cy.get('[data-cy="confirm-delete-[data-cy*="button"]"]').should('be.visible');
-      cy.get('[data-cy="cancel-delete-[data-cy*="button"]"]').should('be.visible');
+      cy.get('[data-testid="confirm-delete-[data-cy*="button"]"]').should('be.visible');
+      cy.get('[data-testid="cancel-delete-[data-cy*="button"]"]').should('be.visible');
 
       // Project should not be deleted yet
       cy.wrap(deleteProjectStub).should('not.have.been.called');
@@ -441,8 +441,8 @@ describe('EditProjectModal Component', () => {
         }
       );
 
-      cy.get('[data-cy="delete-project-[data-cy*="button"]"]').click();
-      cy.get('[data-cy="confirm-delete-[data-cy*="button"]"]').click();
+      cy.get('[data-testid="delete-project-[data-cy*="button"]"]').click();
+      cy.get('[data-testid="confirm-delete-[data-cy*="button"]"]').click();
 
       cy.wrap(deleteProjectStub).should('have.been.calledWith', defaultProject.id);
       cy.wrap(onCloseSpy).should('have.been.called');
@@ -458,12 +458,12 @@ describe('EditProjectModal Component', () => {
         }
       );
 
-      cy.get('[data-cy="delete-project-[data-cy*="button"]"]').click();
-      cy.get('[data-cy="cancel-delete-[data-cy*="button"]"]').click();
+      cy.get('[data-testid="delete-project-[data-cy*="button"]"]').click();
+      cy.get('[data-testid="cancel-delete-[data-cy*="button"]"]').click();
 
       // Confirmation should be hidden
       cy.get('[data-cy*="blood-light"]\\/20').should('not.exist');
-      cy.get('[data-cy="delete-project-[data-cy*="button"]"]').should('be.visible');
+      cy.get('[data-testid="delete-project-[data-cy*="button"]"]').should('be.visible');
 
       cy.wrap(deleteProjectStub).should('not.have.been.called');
     });
@@ -475,7 +475,7 @@ describe('EditProjectModal Component', () => {
         <EditProjectModal project={defaultProject} onClose={onCloseSpy} />
       );
 
-      cy.get('[data-cy="close-modal"]').click();
+      cy.get('[data-testid="close-modal"]').click();
       cy.wrap(onCloseSpy).should('have.been.called');
     });
 
@@ -484,7 +484,7 @@ describe('EditProjectModal Component', () => {
         <EditProjectModal project={defaultProject} onClose={onCloseSpy} />
       );
 
-      cy.get('[data-cy="cancel-[data-cy*="button"]"]').click();
+      cy.get('[data-testid="cancel-[data-cy*="button"]"]').click();
       cy.wrap(onCloseSpy).should('have.been.called');
     });
 
@@ -508,7 +508,7 @@ describe('EditProjectModal Component', () => {
         }
       );
 
-      cy.get('[data-cy="project-name-input"]').clear().type('Enter Key Test{enter}');
+      cy.get('[data-testid="project-name-input"]').clear().type('Enter Key Test{enter}');
 
       cy.wrap(updateProjectStub).should('have.been.called');
       cy.wrap(onCloseSpy).should('have.been.called');
@@ -533,7 +533,7 @@ describe('EditProjectModal Component', () => {
           <EditProjectModal project={projectWithStatus} onClose={onCloseSpy} />
         );
 
-        cy.get('[data-cy="project-status-[data-cy*="select"]"]').select(value);
+        cy.get('[data-testid="project-status-[data-cy*="select"]"]').select(value);
         cy.get(`.${color}`).should('be.visible');
       });
     });
@@ -551,8 +551,8 @@ describe('EditProjectModal Component', () => {
         }
       );
 
-      cy.get('[data-cy="project-name-input"]').clear().type(longName);
-      cy.get('[data-cy="save-project-[data-cy*="button"]"]').click();
+      cy.get('[data-testid="project-name-input"]').clear().type(longName);
+      cy.get('[data-testid="save-project-[data-cy*="button"]"]').click();
 
       cy.wrap(updateProjectStub).should('have.been.calledWith',
         defaultProject.id,
@@ -573,9 +573,9 @@ describe('EditProjectModal Component', () => {
       const specialName = '<script>alert("XSS")</script>';
       const specialDesc = '!@#$%^&*()_+-=[]{}|;:",.<>?/`~';
 
-      cy.get('[data-cy="project-name-input"]').clear().type(specialName);
-      cy.get('[data-cy="project-description-input"]').clear().type(specialDesc);
-      cy.get('[data-cy="save-project-[data-cy*="button"]"]').click();
+      cy.get('[data-testid="project-name-input"]').clear().type(specialName);
+      cy.get('[data-testid="project-description-input"]').clear().type(specialDesc);
+      cy.get('[data-testid="save-project-[data-cy*="button"]"]').click();
 
       cy.wrap(updateProjectStub).should('have.been.calledWith',
         defaultProject.id,
@@ -598,7 +598,7 @@ describe('EditProjectModal Component', () => {
 
       // Click save [data-cy*="button"] multiple times rapidly
       for (let i = 0; i < 5; i++) {
-        cy.get('[data-cy="save-project-[data-cy*="button"]"]').click();
+        cy.get('[data-testid="save-project-[data-cy*="button"]"]').click();
       }
 
       // Should only update once
@@ -632,7 +632,7 @@ describe('EditProjectModal Component', () => {
         <EditProjectModal project={defaultProject} onClose={onCloseSpy} />
       );
 
-      cy.get('[data-cy="project-name-input"]').focus();
+      cy.get('[data-testid="project-name-input"]').focus();
       cy.focused().should('have.attr', 'data-cy', 'project-name-input');
 
       // Tab through form fields

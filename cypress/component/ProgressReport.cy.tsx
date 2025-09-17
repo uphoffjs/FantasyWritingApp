@@ -62,7 +62,7 @@ describe('ProgressReport Component', () => {
       cy.mount(<ProgressReport project={project} onClose={onCloseSpy} />);
 
       cy.contains('Progress Report').should('be.visible');
-      cy.get('[data-cy="close-[data-cy*="button"]"]').should('be.visible');
+      cy.get('[data-testid="close-[data-cy*="button"]"]').should('be.visible');
     });
 
     it('displays project information', () => {

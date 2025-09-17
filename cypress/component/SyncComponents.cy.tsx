@@ -389,7 +389,7 @@ describe('OfflineBanner Component', () => {
     cy.mount(<TestWrapper />);
     
     // Go offline
-    cy.get('[data-cy="toggle-online"]').click();
+    cy.get('[data-testid="toggle-online"]').click();
     cy.contains('Working Offline').should('be.visible');
     
     // Dismiss
@@ -397,8 +397,8 @@ describe('OfflineBanner Component', () => {
     cy.contains('Working Offline').should('not.exist');
     
     // Go online then offline again
-    cy.get('[data-cy="toggle-online"]').click(); // online
-    cy.get('[data-cy="toggle-online"]').click(); // offline
+    cy.get('[data-testid="toggle-online"]').click(); // online
+    cy.get('[data-testid="toggle-online"]').click(); // offline
     
     // Banner should reappear
     cy.contains('Working Offline').should('be.visible');

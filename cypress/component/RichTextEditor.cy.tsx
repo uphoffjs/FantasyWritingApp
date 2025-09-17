@@ -246,7 +246,7 @@ describe('RichTextEditor Component', () => {
       cy.get('[aria-label="Add Link (Ctrl+K)"]').click();
       
       // LinkModal should be visible
-      cy.get('[data-cy="link-modal"]').should('be.visible');
+      cy.get('[data-testid="link-modal"]').should('be.visible');
     });
 
     it('adds a link to [data-cy*="select"]ed text', () => {
@@ -261,7 +261,7 @@ describe('RichTextEditor Component', () => {
       cy.get('[aria-label="Add Link (Ctrl+K)"]').click();
       
       cy.get('#link-url').type('https://example.com');
-      cy.get('[data-cy="confirm-link"]').click();
+      cy.get('[data-testid="confirm-link"]').click();
       
       cy.get('.ProseMirror a').should('exist')
         .and('have.attr', 'href', 'https://example.com');
@@ -279,7 +279,7 @@ describe('RichTextEditor Component', () => {
       cy.get('.ProseMirror a').click();
       cy.get('[aria-label="Add Link (Ctrl+K)"]').click();
       
-      cy.get('[data-cy="remove-link"]').click();
+      cy.get('[data-testid="remove-link"]').click();
       
       cy.get('.ProseMirror a').should('not.exist');
     });

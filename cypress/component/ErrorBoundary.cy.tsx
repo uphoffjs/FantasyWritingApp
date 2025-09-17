@@ -45,7 +45,7 @@ describe('ErrorBoundary', () => {
         </ErrorBoundary>
       );
       
-      cy.get('[data-cy="child-content"]').should('be.visible');
+      cy.get('[data-testid="child-content"]').should('be.visible');
     });
     
     it('catches errors and displays fallback UI', () => {
@@ -122,7 +122,7 @@ describe('ErrorBoundary', () => {
         </ErrorBoundary>
       );
       
-      cy.get('[data-cy="custom-fallback"]').should('be.visible');
+      cy.get('[data-testid="custom-fallback"]').should('be.visible');
       cy.contains('Custom Error UI').should('be.visible');
       cy.contains('Test error').should('be.visible');
     });
@@ -160,7 +160,7 @@ describe('ErrorBoundary', () => {
       
       cy.contains('Component Error').should('be.visible');
       cy.contains('Retry').click();
-      cy.get('[data-cy="success"]').should('be.visible');
+      cy.get('[data-testid="success"]').should('be.visible');
     });
     
     it('resets custom fallback error state', () => {
@@ -180,9 +180,9 @@ describe('ErrorBoundary', () => {
         </ErrorBoundary>
       );
       
-      cy.get('[data-cy="custom-fallback"]').should('be.visible');
-      cy.get('[data-cy="custom-reset"]').click();
-      cy.get('[data-cy="recovered"]').should('be.visible');
+      cy.get('[data-testid="custom-fallback"]').should('be.visible');
+      cy.get('[data-testid="custom-reset"]').click();
+      cy.get('[data-testid="recovered"]').should('be.visible');
     });
   });
   
@@ -239,7 +239,7 @@ describe('ErrorBoundary', () => {
         </ErrorBoundary>
       );
       
-      cy.get('[data-cy="hook-component"]').should('be.visible');
+      cy.get('[data-testid="hook-component"]').should('be.visible');
     });
   });
   
@@ -320,7 +320,7 @@ describe('ErrorBoundary', () => {
       // Component level error boundary should catch it
       cy.contains('Component Error').should('be.visible');
       // Sibling should still render
-      cy.get('[data-cy="sibling"]').should('be.visible');
+      cy.get('[data-testid="sibling"]').should('be.visible');
     });
   });
   
@@ -392,7 +392,7 @@ describe('ErrorBoundary', () => {
       cy.contains('Retry').click();
       cy.contains('Component Error').should('be.visible');
       cy.contains('Retry').click();
-      cy.get('[data-cy="final-success"]').should('be.visible');
+      cy.get('[data-testid="final-success"]').should('be.visible');
     });
   });
 });

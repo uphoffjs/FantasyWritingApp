@@ -74,7 +74,7 @@ describe('ProjectCard Component', () => {
     );
 
     // Check that the card is visible
-    cy.get('[data-cy="project-card"]').should('be.visible');
+    cy.get('[data-testid="project-card"]').should('be.visible');
     
     // Check project name
     cy.contains('The Chronicles of Eldoria').should('be.visible');
@@ -101,7 +101,7 @@ describe('ProjectCard Component', () => {
       />
     );
 
-    cy.get('[data-cy="project-card"]').click();
+    cy.get('[data-testid="project-card"]').click();
     
     // Should set current project and navigate
     cy.get('@setCurrentProject').should('have.been.calledWith', 'test-project-1');
@@ -123,7 +123,7 @@ describe('ProjectCard Component', () => {
     );
 
     // Check that image is rendered
-    cy.get('[data-cy="project-card"]').within(() => {
+    cy.get('[data-testid="project-card"]').within(() => {
       cy.get('img').should('have.attr', 'src', 'https://example.com/cover.jpg');
     });
   });
@@ -138,7 +138,7 @@ describe('ProjectCard Component', () => {
     );
 
     // Check that folder icon is displayed
-    cy.get('[data-cy="project-card"]').should('contain.text', '📁');
+    cy.get('[data-testid="project-card"]').should('contain.text', '📁');
   });
 
   it('should show action menu when action [data-cy*="button"] clicked', () => {
@@ -173,7 +173,7 @@ describe('ProjectCard Component', () => {
     cy.contains('Edit Project').should('be.visible');
     
     // Click overlay to close
-    cy.get('[data-cy="project-card"]').click('topLeft');
+    cy.get('[data-testid="project-card"]').click('topLeft');
     
     // Menu should be hidden
     cy.contains('Edit Project').should('not.exist');
@@ -254,7 +254,7 @@ describe('ProjectCard Component', () => {
     );
 
     // Genre tag should not be visible
-    cy.get('[data-cy="project-card"]').should('not.contain', 'fantasy');
+    cy.get('[data-testid="project-card"]').should('not.contain', 'fantasy');
   });
 
   it('should handle project without status', () => {
@@ -272,7 +272,7 @@ describe('ProjectCard Component', () => {
     );
 
     // Status tag should not be visible
-    cy.get('[data-cy="project-card"]').should('not.contain', 'Active');
+    cy.get('[data-testid="project-card"]').should('not.contain', 'Active');
   });
 
   it('should show delete confirmation and handle deletion', () => {
@@ -340,7 +340,7 @@ describe('ProjectCard Component', () => {
     cy.contains('⋮').click();
     
     // Should show loading indicator instead of delete text
-    cy.get('[data-cy="project-card"]').within(() => {
+    cy.get('[data-testid="project-card"]').within(() => {
       // Look for ActivityIndicator (in React Native Web becomes a spinner)
       cy.get('*').should('exist'); // Loading indicator should be present
     });
@@ -390,7 +390,7 @@ describe('ProjectCard Component', () => {
     );
 
     // Check that the card has proper accessibility
-    cy.get('[data-cy="project-card"]')
+    cy.get('[data-testid="project-card"]')
       .should('be.visible')
       .and('have.attr', 'role'); // Pressable in React Native Web becomes a [data-cy*="button"]-like element
   });
@@ -410,7 +410,7 @@ describe('ProjectCard Component', () => {
     );
 
     // Should still be visible and not break layout
-    cy.get('[data-cy="project-card"]').should('be.visible');
+    cy.get('[data-testid="project-card"]').should('be.visible');
     cy.contains('This is a very long project name').should('be.visible');
   });
 
@@ -441,7 +441,7 @@ describe('ProjectCard Component', () => {
     );
 
     // Simulate long press (trigger onLongPress)
-    cy.get('[data-cy="project-card"]').trigger('contextmenu');
+    cy.get('[data-testid="project-card"]').trigger('contextmenu');
     
     // Action menu should appear
     cy.contains('Edit Project').should('be.visible');
@@ -472,7 +472,7 @@ describe('ProjectCard Component', () => {
       );
 
       // Each variation should render properly
-      cy.get('[data-cy="project-card"]').should('be.visible');
+      cy.get('[data-testid="project-card"]').should('be.visible');
       cy.contains(project.name).should('be.visible');
       cy.contains(project.description).should('be.visible');
     });

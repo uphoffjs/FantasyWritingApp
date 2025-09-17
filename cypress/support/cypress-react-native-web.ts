@@ -7,26 +7,11 @@
 
 // Configure Cypress to work with React Native Web's attribute handling
 export const configureReactNativeWeb = () => {
-  // Override default Cypress get behavior for data-cy selectors
-  const originalGet = cy.get.bind(cy);
-  
-  // Patch cy.get to also check data-testid when looking for data-cy
-  Cypress.Commands.overwrite('get', (originalFn, selector, options) => {
-    // If the selector is looking for data-cy, also look for data-testid
-    if (typeof selector === 'string' && selector.includes('[data-cy=')) {
-      const cyValue = selector.match(/\[data-cy="?([^"\]]+)"?\]/)?.[1];
-      if (cyValue) {
-        // Try multiple selector patterns
-        const multiSelector = [
-          `[data-cy="${cyValue}"]`,
-          `[data-testid="${cyValue}"]`,
-          `[testID="${cyValue}"]`
-        ].join(', ');
-        return originalFn(multiSelector, options);
-      }
-    }
-    
-    return originalFn(selector, options);
+  // Add a custom command instead of overwriting get
+  // React Native Web converts testID to data-testid
+  Cypress.Commands.add('getByTestId', (selector: string) => {
+    // Try multiple selector patterns for React Native Web
+    return cy.get(`[data-testid="${selector}"], [data-cy="${selector}"], [testID="${selector}"]`);
   });
 };
 

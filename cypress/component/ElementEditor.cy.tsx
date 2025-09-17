@@ -59,10 +59,10 @@ describe('ElementEditor Component', () => {
     );
 
     // Check header information
-    cy.get('[data-cy="element-editor"]').should('exist');
-    cy.get('[data-cy="element-name"]').should('have.value', 'Gandalf');
-    cy.get('[data-cy="element-category"]').should('contain', 'character');
-    cy.get('[data-cy="completion-percentage"]').should('contain', '0%'); // Only 2 answers out of many questions
+    cy.get('[data-testid="element-editor"]').should('exist');
+    cy.get('[data-testid="element-name"]').should('have.value', 'Gandalf');
+    cy.get('[data-testid="element-category"]').should('contain', 'character');
+    cy.get('[data-testid="completion-percentage"]').should('contain', '0%'); // Only 2 answers out of many questions
   });
 
   it('should render all question types correctly', () => {
@@ -77,39 +77,39 @@ describe('ElementEditor Component', () => {
     );
 
     // Expand Core Identity category to see name question
-    cy.get('[data-cy="category-core-identity"]').within(() => {
+    cy.get('[data-testid="category-core-identity"]').within(() => {
       cy.get('[data-cy*="button"]').first().click();
     });
     
     // Text input - name
-    cy.get('[data-cy="question-name"]').should('exist');
-    cy.get('[data-cy="question-name-input"]').should('have.value', 'Gandalf the Grey');
+    cy.get('[data-testid="question-name"]').should('exist');
+    cy.get('[data-testid="question-name-input"]').should('have.value', 'Gandalf the Grey');
     
     // Expand Background & History category for occupation
-    cy.get('[data-cy="category-background-&-history"]').within(() => {
+    cy.get('[data-testid="category-background-&-history"]').within(() => {
       cy.get('[data-cy*="button"]').first().click();
     });
     
     // Text - occupation (in Background & History)
-    cy.get('[data-cy="question-occupation"]').should('exist');
-    cy.get('[data-cy="question-occupation-input"]').should('have.value', 'Wizard');
+    cy.get('[data-testid="question-occupation"]').should('exist');
+    cy.get('[data-testid="question-occupation-input"]').should('have.value', 'Wizard');
     
     // Age field (in Core Identity, but as text type in template)  
-    cy.get('[data-cy="question-age"]').should('exist');
-    cy.get('[data-cy="question-age-input"]').should('have.attr', 'type', 'number'); // Actually it's number in the template
+    cy.get('[data-testid="question-age"]').should('exist');
+    cy.get('[data-testid="question-age-input"]').should('have.attr', 'type', 'number'); // Actually it's number in the template
     
     // Text - species (handled by SpeciesSelector, not in BaseElementForm)
     // The SpeciesSelector should be visible
     cy.contains('Species/Race').should('be.visible');
     
     // Expand Physical Characteristics category
-    cy.get('[data-cy="category-physical-characteristics"]').within(() => {
+    cy.get('[data-testid="category-physical-characteristics"]').within(() => {
       cy.get('[data-cy*="button"]').first().click();
     });
     
     // Check that Physical Characteristics questions exist
-    cy.get('[data-cy="question-height"]').should('exist');
-    cy.get('[data-cy="question-build"]').should('exist');
+    cy.get('[data-testid="question-height"]').should('exist');
+    cy.get('[data-testid="question-build"]').should('exist');
   });
 
   it('should save answers when inputs change', () => {
@@ -126,12 +126,12 @@ describe('ElementEditor Component', () => {
     );
 
     // Expand Core Identity category to see name question
-    cy.get('[data-cy="category-core-identity"]').within(() => {
+    cy.get('[data-testid="category-core-identity"]').within(() => {
       cy.get('[data-cy*="button"]').first().click();
     });
     
     // Update text input
-    cy.get('[data-cy="question-name-input"]').clear().type('Gandalf the White');
+    cy.get('[data-testid="question-name-input"]').clear().type('Gandalf the White');
     
     // Trigger debounce
     clock.tick(1000);
@@ -160,13 +160,13 @@ describe('ElementEditor Component', () => {
     );
 
     // Expand Core Identity category to see name question
-    cy.get('[data-cy="category-core-identity"]').within(() => {
+    cy.get('[data-testid="category-core-identity"]').within(() => {
       cy.get('[data-cy*="button"]').first().click();
     });
     
     // Check if required fields have proper indicators
     // Note: Character template may not have required fields by default
-    cy.get('[data-cy="question-name"]').should('exist');
+    cy.get('[data-testid="question-name"]').should('exist');
   });
 
   it('should calculate completion percentage correctly', () => {
@@ -198,8 +198,8 @@ describe('ElementEditor Component', () => {
     );
 
     // 10 out of 67 questions ≈ 15%
-    cy.get('[data-cy="completion-percentage"]').should('contain', '15%');
-    cy.get('[data-cy="completion-bar"]').should('have.attr', 'style').and('include', 'width: 15%');
+    cy.get('[data-testid="completion-percentage"]').should('contain', '15%');
+    cy.get('[data-testid="completion-bar"]').should('have.attr', 'style').and('include', 'width: 15%');
   });
 
   it('should group questions by category', () => {
@@ -214,12 +214,12 @@ describe('ElementEditor Component', () => {
     );
 
     // Check category sections exist (from character template)
-    cy.get('[data-cy="category-core-identity"]').should('exist');
-    cy.get('[data-cy="category-physical-characteristics"]').should('exist');
-    cy.get('[data-cy="category-background-&-history"]').should('exist');
-    cy.get('[data-cy="category-personality-&-psychology"]').should('exist');
-    cy.get('[data-cy="category-family-&-relationships"]').should('exist');
-    cy.get('[data-cy="category-abilities-&-skills"]').should('exist');
+    cy.get('[data-testid="category-core-identity"]').should('exist');
+    cy.get('[data-testid="category-physical-characteristics"]').should('exist');
+    cy.get('[data-testid="category-background-&-history"]').should('exist');
+    cy.get('[data-testid="category-personality-&-psychology"]').should('exist');
+    cy.get('[data-testid="category-family-&-relationships"]').should('exist');
+    cy.get('[data-testid="category-abilities-&-skills"]').should('exist');
   });
 
   it('should handle textarea answers', () => {
@@ -234,12 +234,12 @@ describe('ElementEditor Component', () => {
     );
 
     // Expand Family & Relationships category for family_dynamics
-    cy.get('[data-cy="category-family-&-relationships"]').within(() => {
+    cy.get('[data-testid="category-family-&-relationships"]').within(() => {
       cy.get('[data-cy*="button"]').first().click();
     });
     
     // Type in a textarea field
-    cy.get('[data-cy="question-family_dynamics-input"]').type('Noble family from the north');
+    cy.get('[data-testid="question-family_dynamics-input"]').type('Noble family from the north');
     
     cy.wrap(onUpdate).should('have.been.called');
   });
@@ -256,19 +256,19 @@ describe('ElementEditor Component', () => {
     );
 
     // Expand Core Identity category
-    cy.get('[data-cy="category-core-identity"]').within(() => {
+    cy.get('[data-testid="category-core-identity"]').within(() => {
       cy.get('[data-cy*="button"]').first().click();
     });
     
     // Find a question with help text and click its help [data-cy*="button"]
     // The name field has helpText in the character template
-    cy.get('[data-cy="question-name"]').within(() => {
+    cy.get('[data-testid="question-name"]').within(() => {
       // Click the help [data-cy*="button"] (it's the [data-cy*="button"] with HelpCircle icon)
       cy.get('[data-cy*="button"]').click();
     });
     
     // Check that help text is displayed
-    cy.get('[data-cy="question-name-help"]').should('be.visible');
+    cy.get('[data-testid="question-name-help"]').should('be.visible');
   });
 
   it('should show autosave indicator', () => {
@@ -285,21 +285,21 @@ describe('ElementEditor Component', () => {
     );
 
     // Expand Core Identity category to see name question
-    cy.get('[data-cy="category-core-identity"]').within(() => {
+    cy.get('[data-testid="category-core-identity"]').within(() => {
       cy.get('[data-cy*="button"]').first().click();
     });
     
     // Make a change
-    cy.get('[data-cy="question-name-input"]').clear().type('Gandalf Updated');
+    cy.get('[data-testid="question-name-input"]').clear().type('Gandalf Updated');
     
     // Should show "Saving..."
-    cy.get('[data-cy="autosave-indicator"]').should('contain', 'Saving...');
+    cy.get('[data-testid="autosave-indicator"]').should('contain', 'Saving...');
     
     // After debounce
     clock.tick(1000);
     
     // Should show "Saved"
-    cy.get('[data-cy="autosave-indicator"]').should('contain', 'Saved');
+    cy.get('[data-testid="autosave-indicator"]').should('contain', 'Saved');
   });
 
   it('should handle cancel action', () => {
@@ -313,7 +313,7 @@ describe('ElementEditor Component', () => {
       />
     );
 
-    cy.get('[data-cy="cancel-[data-cy*="button"]"]').click();
+    cy.get('[data-testid="cancel-[data-cy*="button"]"]').click();
     cy.wrap(onCancel).should('have.been.called');
   });
 
@@ -329,7 +329,7 @@ describe('ElementEditor Component', () => {
     );
 
     // Expand Core Identity category to see name question
-    cy.get('[data-cy="category-core-identity"]').within(() => {
+    cy.get('[data-testid="category-core-identity"]').within(() => {
       cy.get('[data-cy*="button"]').first().click();
     });
     
@@ -339,10 +339,10 @@ describe('ElementEditor Component', () => {
     
     // Check for ARIA attributes on required fields
     // Note: The name field might not be required in the character template
-    cy.get('[data-cy="question-name-input"]').should('have.attr', 'id', 'question-name');
+    cy.get('[data-testid="question-name-input"]').should('have.attr', 'id', 'question-name');
     
     // Check for proper ARIA attributes on progress bar
-    cy.get('[data-cy="completion-bar"]').should('have.attr', 'role', 'progressbar');
-    cy.get('[data-cy="completion-bar"]').should('have.attr', 'aria-valuenow');
+    cy.get('[data-testid="completion-bar"]').should('have.attr', 'role', 'progressbar');
+    cy.get('[data-testid="completion-bar"]').should('have.attr', 'aria-valuenow');
   });
 });

@@ -618,7 +618,7 @@ describe('AccountMenu Component', () => {
       cy.contains('Test User').should('be.visible');
       
       // Simulate clicking outside
-      cy.get('[data-cy="outside"]').click();
+      cy.get('[data-testid="outside"]').click();
       cy.contains('Test User').should('not.exist');
     });
 

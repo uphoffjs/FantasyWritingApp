@@ -526,7 +526,7 @@ describe('PerformanceProfiler Component', () => {
           <TestComponent text="Hello World" />
         </PerformanceProfiler>
       );
-      cy.get('[data-cy="test-component"]').should('contain', 'Hello World');
+      cy.get('[data-testid="test-component"]').should('contain', 'Hello World');
     });
 
     it('records mount metrics', () => {
@@ -617,7 +617,7 @@ describe('PerformanceProfiler Component', () => {
       const WrappedComponent = withPerformanceProfiler(TestComponent, 'wrapped-test');
       
       cy.mount(<WrappedComponent text="Wrapped" />);
-      cy.get('[data-cy="test-component"]').should('contain', 'Wrapped');
+      cy.get('[data-testid="test-component"]').should('contain', 'Wrapped');
     });
 
     it('preserves display name', () => {
@@ -629,7 +629,7 @@ describe('PerformanceProfiler Component', () => {
       const WrappedComponent = withPerformanceProfiler(TestComponent, 'wrapped-test');
       
       cy.mount(<WrappedComponent text="Props Test" />);
-      cy.get('[data-cy="test-component"]').should('contain', 'Props Test');
+      cy.get('[data-testid="test-component"]').should('contain', 'Props Test');
     });
 
     it('profiles wrapped component', () => {
@@ -670,7 +670,7 @@ describe('PerformanceProfiler Component', () => {
         </PerformanceProfiler>
       );
       
-      cy.get('[data-cy="test-component"]').should('have.length', 3);
+      cy.get('[data-testid="test-component"]').should('have.length', 3);
     });
 
     it('handles nested profilers', () => {
@@ -684,7 +684,7 @@ describe('PerformanceProfiler Component', () => {
         </PerformanceProfiler>
       );
       
-      cy.get('[data-cy="test-component"]').should('contain', 'Nested');
+      cy.get('[data-testid="test-component"]').should('contain', 'Nested');
       
       cy.wait(10).then(() => {
         // Both profilers should record metrics

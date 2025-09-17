@@ -78,8 +78,8 @@ describe('VirtualizedProjectList Component', () => {
       />
     );
     
-    cy.get('[data-cy="project-card"]').should('exist');
-    cy.get('[data-cy="project-name"]').first().should('contain', 'Project 1');
+    cy.get('[data-testid="project-card"]').should('exist');
+    cy.get('[data-testid="project-name"]').first().should('contain', 'Project 1');
   });
 
   it('handles empty projects array', () => {
@@ -92,7 +92,7 @@ describe('VirtualizedProjectList Component', () => {
     );
     
     // Should return null for empty array
-    cy.get('[data-cy="project-card"]').should('not.exist');
+    cy.get('[data-testid="project-card"]').should('not.exist');
   });
 
   it('shows deleting state for specific project', () => {
@@ -106,8 +106,8 @@ describe('VirtualizedProjectList Component', () => {
       />
     );
     
-    cy.get('[data-project-id="1"]').find('[data-cy="deleting"]').should('exist');
-    cy.get('[data-project-id="2"]').find('[data-cy="deleting"]').should('not.exist');
+    cy.get('[data-project-id="1"]').find('[data-testid="deleting"]').should('exist');
+    cy.get('[data-project-id="2"]').find('[data-testid="deleting"]').should('not.exist');
   });
 
   it('calls onDeleteProject when project is deleted', () => {
@@ -121,7 +121,7 @@ describe('VirtualizedProjectList Component', () => {
       />
     );
     
-    cy.get('[data-cy="project-card"]').first().click();
+    cy.get('[data-testid="project-card"]').first().click();
     cy.get('@onDelete').should('have.been.calledWith', '1');
   });
 
@@ -137,7 +137,7 @@ describe('VirtualizedProjectList Component', () => {
         deletingProjectId={null}
       />
     );
-    cy.get('[data-cy="project-card"]').should('exist');
+    cy.get('[data-testid="project-card"]').should('exist');
     
     // Test tablet viewport (2 columns)
     cy.viewport(768, 1024);
@@ -148,7 +148,7 @@ describe('VirtualizedProjectList Component', () => {
         deletingProjectId={null}
       />
     );
-    cy.get('[data-cy="project-card"]').should('exist');
+    cy.get('[data-testid="project-card"]').should('exist');
     
     // Test desktop viewport (3 columns)
     cy.viewport(1920, 1080);
@@ -159,7 +159,7 @@ describe('VirtualizedProjectList Component', () => {
         deletingProjectId={null}
       />
     );
-    cy.get('[data-cy="project-card"]').should('exist');
+    cy.get('[data-testid="project-card"]').should('exist');
   });
 });
 
@@ -195,8 +195,8 @@ describe('InfiniteScrollList Component', () => {
       />
     );
     
-    cy.get('[data-cy="list-item"]').should('have.length', 10);
-    cy.get('[data-cy="list-item"]').first().should('contain', 'Item 1');
+    cy.get('[data-testid="list-item"]').should('have.length', 10);
+    cy.get('[data-testid="list-item"]').first().should('contain', 'Item 1');
   });
 
   it('shows loading indicator when loading', () => {
@@ -213,7 +213,7 @@ describe('InfiniteScrollList Component', () => {
       />
     );
     
-    cy.get('[data-cy="loading-spinner"]').should('exist');
+    cy.get('[data-testid="loading-spinner"]').should('exist');
   });
 
   it('shows no more items message when hasMore is false', () => {
@@ -284,7 +284,7 @@ describe('InfiniteScrollList Component', () => {
     );
     
     cy.contains('Failed to load items').should('be.visible');
-    cy.get('[data-cy="retry-[data-cy*="button"]"]').should('exist');
+    cy.get('[data-testid="retry-[data-cy*="button"]"]').should('exist');
   });
 
   it('calls loadMore on retry [data-cy*="button"] click', () => {
@@ -302,7 +302,7 @@ describe('InfiniteScrollList Component', () => {
       />
     );
     
-    cy.get('[data-cy="retry-[data-cy*="button"]"]').click();
+    cy.get('[data-testid="retry-[data-cy*="button"]"]').click();
     cy.get('@loadMore').should('have.been.called');
   });
 });
@@ -332,7 +332,7 @@ describe('VirtualizedQuestionList Component', () => {
       />
     );
     
-    cy.get('[data-cy="question"]').should('exist');
+    cy.get('[data-testid="question"]').should('exist');
   });
 
   it('handles empty questions array', () => {
@@ -360,7 +360,7 @@ describe('VirtualizedQuestionList Component', () => {
     );
     
     // Drag handles should be visible
-    cy.get('[data-cy="drag-handle"]').should('exist');
+    cy.get('[data-testid="drag-handle"]').should('exist');
   });
 
   it('disables reordering when enableReorder is false', () => {
@@ -376,6 +376,6 @@ describe('VirtualizedQuestionList Component', () => {
     );
     
     // Drag handles should not be visible
-    cy.get('[data-cy="drag-handle"]').should('not.exist');
+    cy.get('[data-testid="drag-handle"]').should('not.exist');
   });
 });

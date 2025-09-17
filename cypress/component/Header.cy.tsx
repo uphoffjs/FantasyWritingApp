@@ -90,14 +90,14 @@ describe('Header Component', () => {
     it('shows back to projects [data-cy*="button"] on project page', () => {
       mountWithRouter(<Header isMobile={false} />, '/project/123');
 
-      cy.get('[data-cy="back-to-projects"]').should('be.visible');
+      cy.get('[data-testid="back-to-projects"]').should('be.visible');
       cy.contains('Projects').should('be.visible');
     });
 
     it('hides back [data-cy*="button"] on non-project pages', () => {
       mountWithRouter(<Header isMobile={false} />, '/');
 
-      cy.get('[data-cy="back-to-projects"]').should('not.exist');
+      cy.get('[data-testid="back-to-projects"]').should('not.exist');
     });
 
     it('shows elements browser [data-cy*="button"] when project is [data-cy*="select"]ed', () => {
@@ -140,8 +140,8 @@ describe('Header Component', () => {
         />
       );
 
-      cy.get('[data-cy="mobile-header"]').should('be.visible');
-      cy.get('[data-cy="mobile-back-[data-cy*="button"]"]').should('be.visible');
+      cy.get('[data-testid="mobile-header"]').should('be.visible');
+      cy.get('[data-testid="mobile-back-[data-cy*="button"]"]').should('be.visible');
       cy.contains('Worldbuilding Tool').should('not.exist');
     });
 
@@ -156,7 +156,7 @@ describe('Header Component', () => {
         />
       );
 
-      cy.get('[data-cy="mobile-header"]').should('exist');
+      cy.get('[data-testid="mobile-header"]').should('exist');
     });
   });
 
@@ -171,7 +171,7 @@ describe('Header Component', () => {
     it('navigates back to projects from project page', () => {
       mountWithRouter(<Header isMobile={false} />, '/project/123');
 
-      cy.get('[data-cy="back-to-projects"]').click();
+      cy.get('[data-testid="back-to-projects"]').click();
       // In a real test, we'd verify navigation happened
     });
 
@@ -299,9 +299,9 @@ describe('Header Component', () => {
 
       mountWithRouter(<Header isMobile={false} />);
 
-      cy.get('[data-cy="auto-sync"]').should('be.visible');
-      cy.get('[data-cy="offline-sync"]').should('be.visible');
-      cy.get('[data-cy="account-menu"]').should('be.visible');
+      cy.get('[data-testid="auto-sync"]').should('be.visible');
+      cy.get('[data-testid="offline-sync"]').should('be.visible');
+      cy.get('[data-testid="account-menu"]').should('be.visible');
     });
 
     it('shows auth UI in offline mode', () => {
@@ -312,9 +312,9 @@ describe('Header Component', () => {
 
       mountWithRouter(<Header isMobile={false} />);
 
-      cy.get('[data-cy="auto-sync"]').should('be.visible');
-      cy.get('[data-cy="offline-sync"]').should('be.visible');
-      cy.get('[data-cy="account-menu"]').should('be.visible');
+      cy.get('[data-testid="auto-sync"]').should('be.visible');
+      cy.get('[data-testid="offline-sync"]').should('be.visible');
+      cy.get('[data-testid="account-menu"]').should('be.visible');
     });
 
     it('hides auth UI when not authenticated', () => {
@@ -325,9 +325,9 @@ describe('Header Component', () => {
 
       mountWithRouter(<Header isMobile={false} />);
 
-      cy.get('[data-cy="auto-sync"]').should('not.exist');
-      cy.get('[data-cy="offline-sync"]').should('not.exist');
-      cy.get('[data-cy="account-menu"]').should('not.exist');
+      cy.get('[data-testid="auto-sync"]').should('not.exist');
+      cy.get('[data-testid="offline-sync"]').should('not.exist');
+      cy.get('[data-testid="account-menu"]').should('not.exist');
     });
   });
 
@@ -385,7 +385,7 @@ describe('Header Component', () => {
       cy.viewport(375, 667);
       mountWithRouter(<Header isMobile={true} />);
 
-      cy.get('[data-cy="mobile-header"]').should('be.visible');
+      cy.get('[data-testid="mobile-header"]').should('be.visible');
       cy.contains('Worldbuilding Tool').should('not.exist');
     });
 

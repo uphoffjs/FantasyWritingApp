@@ -387,7 +387,7 @@ describe('ElementBrowser Component', () => {
     cy.contains('Loading elements...').should('be.visible');
     
     // Should show activity indicator (appears as spinner in web)
-    cy.get('[data-cy="element-browser"]').should('exist');
+    cy.get('[data-testid="element-browser"]').should('exist');
   });
 
   it('should handle refresh functionality', () => {
@@ -403,7 +403,7 @@ describe('ElementBrowser Component', () => {
 
     // Pull to refresh is difficult to test in component tests
     // But we can verify the refresh control is set up
-    cy.get('[data-cy="element-browser"]').should('be.visible');
+    cy.get('[data-testid="element-browser"]').should('be.visible');
   });
 
   it('should handle combined search and filter', () => {

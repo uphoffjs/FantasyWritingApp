@@ -44,7 +44,7 @@ describe('CompletionHeatmap Interaction Tests', () => {
 
       // Character elements should appear before location
       // Note: React Native Web converts layout to flexbox, test semantic content
-      cy.get('[data-cy="heatmap-grid"] > *').first().should('contain', '👤');
+      cy.get('[data-testid="heatmap-grid"] > *').first().should('contain', '👤');
     });
 
     it('sorts elements by completion within same category', () => {
@@ -59,12 +59,12 @@ describe('CompletionHeatmap Interaction Tests', () => {
 
       // Should be sorted by completion percentage descending within category
       // Note: React Native Web uses inline styles, not CSS classes for colors
-      cy.get('[data-cy="heatmap-grid"] [data-cy^="element-cell"]').should('have.length', 3);
+      cy.get('[data-testid="heatmap-grid"] [data-cy^="element-cell"]').should('have.length', 3);
       
       // Verify elements are in correct order by checking completion percentages
-      cy.get('[data-cy="element-cell-2"]').should('be.visible'); // 80%
-      cy.get('[data-cy="element-cell-3"]').should('be.visible'); // 50%
-      cy.get('[data-cy="element-cell-1"]').should('be.visible'); // 30%
+      cy.get('[data-testid="element-cell-2"]').should('be.visible'); // 80%
+      cy.get('[data-testid="element-cell-3"]').should('be.visible'); // 50%
+      cy.get('[data-testid="element-cell-1"]').should('be.visible'); // 30%
     });
   });
 
@@ -79,7 +79,7 @@ describe('CompletionHeatmap Interaction Tests', () => {
 
       // Grid should have appropriate layout for 10 elements
       // React Native Web uses flexbox instead of CSS Grid
-      cy.get('[data-cy="heatmap-grid"]').should('be.visible');
+      cy.get('[data-testid="heatmap-grid"]').should('be.visible');
       cy.get('[data-cy^="element-cell"]').should('have.length', 10);
     });
 
@@ -95,7 +95,7 @@ describe('CompletionHeatmap Interaction Tests', () => {
 
       // Should have empty cells to fill the grid
       // Test for empty cells using data-cy attributes
-      cy.get('[data-cy="empty-cell"]').should('exist');
+      cy.get('[data-testid="empty-cell"]').should('exist');
     });
 
     it('maintains aspect ratio for cells', () => {

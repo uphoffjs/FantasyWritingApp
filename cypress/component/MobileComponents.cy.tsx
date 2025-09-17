@@ -82,7 +82,7 @@ describe('MobileHeader Component', () => {
           <MobileHeader {...defaultProps} />
         </RouterWrapper>
       );
-      cy.get('[data-cy="mobile-back"]').should('be.visible');
+      cy.get('[data-testid="mobile-back"]').should('be.visible');
     });
 
     it('shows hamburger menu [data-cy*="button"]', () => {
@@ -91,7 +91,7 @@ describe('MobileHeader Component', () => {
           <MobileHeader {...defaultProps} />
         </RouterWrapper>
       );
-      cy.get('[data-cy="mobile-menu-toggle"]').should('be.visible');
+      cy.get('[data-testid="mobile-menu-toggle"]').should('be.visible');
     });
 
     it('shows menu icon when closed', () => {
@@ -100,7 +100,7 @@ describe('MobileHeader Component', () => {
           <MobileHeader {...defaultProps} />
         </RouterWrapper>
       );
-      cy.get('[data-cy="mobile-menu-toggle"]').within(() => {
+      cy.get('[data-testid="mobile-menu-toggle"]').within(() => {
         cy.get('svg').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
       });
     });
@@ -111,7 +111,7 @@ describe('MobileHeader Component', () => {
           <MobileHeader mobileMenuOpen={true} setMobileMenuOpen={defaultProps.setMobileMenuOpen} />
         </RouterWrapper>
       );
-      cy.get('[data-cy="mobile-menu-toggle"]').within(() => {
+      cy.get('[data-testid="mobile-menu-toggle"]').within(() => {
         cy.get('svg').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
       });
     });
@@ -167,7 +167,7 @@ describe('MobileHeader Component', () => {
           <MobileHeader {...defaultProps} />
         </RouterWrapper>
       );
-      cy.get('[data-cy="mobile-menu-toggle"]').click();
+      cy.get('[data-testid="mobile-menu-toggle"]').click();
       expect(defaultProps.setMobileMenuOpen).to.have.been.calledWith(true);
     });
 
@@ -211,7 +211,7 @@ describe('MobileHeader Component', () => {
           <MobileHeader {...defaultProps} />
         </RouterWrapper>
       );
-      cy.get('[data-cy="mobile-back"]').click();
+      cy.get('[data-testid="mobile-back"]').click();
       expect(mockNavigate).to.have.been.calledWith('/');
     });
 

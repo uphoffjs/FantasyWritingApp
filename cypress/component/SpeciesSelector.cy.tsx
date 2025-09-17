@@ -88,7 +88,7 @@ describe('SpeciesSelector', () => {
       cy.get('[data-cy*="button"][type="[data-cy*="button"]"]').click();
       cy.get('.absolute.z-50').should('be.visible');
       
-      cy.get('[data-cy="outside"]').click();
+      cy.get('[data-testid="outside"]').click();
       cy.get('.absolute.z-50').should('not.exist');
     });
     

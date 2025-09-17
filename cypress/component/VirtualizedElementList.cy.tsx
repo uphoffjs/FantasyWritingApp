@@ -74,8 +74,8 @@ describe('VirtualizedElementList Component', () => {
         />
       );
       
-      cy.get('[data-cy="element-card"]').should('exist');
-      cy.get('[data-cy="element-name"]').first().should('contain', 'Element 1');
+      cy.get('[data-testid="element-card"]').should('exist');
+      cy.get('[data-testid="element-name"]').first().should('contain', 'Element 1');
     });
 
     it('renders with custom height', () => {
@@ -172,7 +172,7 @@ describe('VirtualizedElementList Component', () => {
         />
       );
       
-      cy.get('[data-cy="element-card"]').first().click();
+      cy.get('[data-testid="element-card"]').first().click();
       cy.get('@onElementClick').should('have.been.calledWith', '1');
     });
 
@@ -188,10 +188,10 @@ describe('VirtualizedElementList Component', () => {
         />
       );
       
-      cy.get('[data-cy="element-card"]').eq(0).click();
+      cy.get('[data-testid="element-card"]').eq(0).click();
       cy.get('@onElementClick').should('have.been.calledWith', '1');
       
-      cy.get('[data-cy="element-card"]').eq(2).click();
+      cy.get('[data-testid="element-card"]').eq(2).click();
       cy.get('@onElementClick').should('have.been.calledWith', '3');
     });
   });
@@ -229,7 +229,7 @@ describe('VirtualizedElementList Component', () => {
         />
       );
       
-      cy.get('[data-cy="element-card"]').should('exist');
+      cy.get('[data-testid="element-card"]').should('exist');
     });
 
     it('fills empty slots in incomplete rows', () => {
@@ -264,7 +264,7 @@ describe('VirtualizedElementList Component', () => {
       );
       
       // Should render without crashing
-      cy.get('[data-cy="element-card"]').should('exist');
+      cy.get('[data-testid="element-card"]').should('exist');
     });
 
     it('renders only visible rows', () => {
@@ -281,7 +281,7 @@ describe('VirtualizedElementList Component', () => {
       );
       
       // Due to virtualization, not all 100 elements should be in DOM
-      cy.get('[data-cy="element-card"]').should('have.length.lessThan', 100);
+      cy.get('[data-testid="element-card"]').should('have.length.lessThan', 100);
     });
   });
 
@@ -300,14 +300,14 @@ describe('VirtualizedElementList Component', () => {
       );
       
       // Initial render
-      cy.get('[data-cy="element-card"]').should('exist');
+      cy.get('[data-testid="element-card"]').should('exist');
       
       // Resize viewport
       cy.viewport(600, 800);
       cy.wait(100);
       
       // Should still render correctly
-      cy.get('[data-cy="element-card"]').should('exist');
+      cy.get('[data-testid="element-card"]').should('exist');
     });
   });
 
@@ -326,7 +326,7 @@ describe('VirtualizedElementList Component', () => {
       );
       
       // Should still render elements (might use fallback)
-      cy.get('[data-cy="element-card"]').should('exist');
+      cy.get('[data-testid="element-card"]').should('exist');
     });
 
     it('handles elements with missing properties gracefully', () => {
@@ -343,7 +343,7 @@ describe('VirtualizedElementList Component', () => {
       );
       
       // Should render without crashing
-      cy.get('[data-cy="element-card"]').should('have.length.at.least', 1);
+      cy.get('[data-testid="element-card"]').should('have.length.at.least', 1);
     });
   });
 
@@ -364,9 +364,9 @@ describe('VirtualizedElementList Component', () => {
         />
       );
       
-      cy.get('[data-cy="element-name"]').should('contain', 'Test Character');
-      cy.get('[data-cy="element-category"]').should('contain', 'character');
-      cy.get('[data-cy="element-completion"]').should('contain', '75%');
+      cy.get('[data-testid="element-name"]').should('contain', 'Test Character');
+      cy.get('[data-testid="element-category"]').should('contain', 'character');
+      cy.get('[data-testid="element-completion"]').should('contain', '75%');
     });
 
     it('displays multiple element types', () => {
@@ -383,9 +383,9 @@ describe('VirtualizedElementList Component', () => {
         />
       );
       
-      cy.get('[data-cy="element-category"]').eq(0).should('contain', 'character');
-      cy.get('[data-cy="element-category"]').eq(1).should('contain', 'location');
-      cy.get('[data-cy="element-category"]').eq(2).should('contain', 'item-object');
+      cy.get('[data-testid="element-category"]').eq(0).should('contain', 'character');
+      cy.get('[data-testid="element-category"]').eq(1).should('contain', 'location');
+      cy.get('[data-testid="element-category"]').eq(2).should('contain', 'item-object');
     });
   });
 
@@ -402,7 +402,7 @@ describe('VirtualizedElementList Component', () => {
         />
       );
       
-      cy.get('[data-cy="element-card"]').first().click();
+      cy.get('[data-testid="element-card"]').first().click();
       // Focus should be manageable
       cy.focused().should('exist');
     });
@@ -420,9 +420,9 @@ describe('VirtualizedElementList Component', () => {
       );
       
       // Elements should be in correct order
-      cy.get('[data-cy="element-name"]').eq(0).should('contain', 'Element 1');
-      cy.get('[data-cy="element-name"]').eq(1).should('contain', 'Element 2');
-      cy.get('[data-cy="element-name"]').eq(2).should('contain', 'Element 3');
+      cy.get('[data-testid="element-name"]').eq(0).should('contain', 'Element 1');
+      cy.get('[data-testid="element-name"]').eq(1).should('contain', 'Element 2');
+      cy.get('[data-testid="element-name"]').eq(2).should('contain', 'Element 3');
     });
   });
 
@@ -440,8 +440,8 @@ describe('VirtualizedElementList Component', () => {
         />
       );
       
-      cy.get('[data-cy="element-card"]').should('exist');
-      cy.get('[data-cy="element-card"]').first().click();
+      cy.get('[data-testid="element-card"]').should('exist');
+      cy.get('[data-testid="element-card"]').first().click();
       cy.get('@onElementClick').should('have.been.called');
     });
 
@@ -458,7 +458,7 @@ describe('VirtualizedElementList Component', () => {
         />
       );
       
-      cy.get('[data-cy="element-card"]').should('exist');
+      cy.get('[data-testid="element-card"]').should('exist');
       cy.get('.flex.gap-4').should('exist');
     });
 
@@ -475,7 +475,7 @@ describe('VirtualizedElementList Component', () => {
         />
       );
       
-      cy.get('[data-cy="element-card"]').should('exist');
+      cy.get('[data-testid="element-card"]').should('exist');
       cy.get('.flex.gap-4').should('exist');
     });
   });

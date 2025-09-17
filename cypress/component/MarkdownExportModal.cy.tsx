@@ -253,7 +253,7 @@ describe('MarkdownExportModal Component', () => {
     it('copies markdown to clipboard', () => {
       // Mock clipboard API
       cy.window().then((win) => {
-        cy.stub(win[data-cy="navigation"]igator.clipboard, 'writeText').resolves();
+        cy.stub(win[data-testid="navigation"]igator.clipboard, 'writeText').resolves();
       });
 
       mountWithProviders(
