@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 import React from 'react';
-import { BaseElementForm } from '../../src/components/elements/BaseElementForm';
+import { BaseElementForm } from '../support/component-test-helpers';
 
 describe('BaseElementForm - Isolated Tests', () => {
   it('mounts the component', () => {

@@ -11,10 +11,10 @@ describe('Button Component', () => {
       />
     );
     
-    // React Native Web converts testID to data-cy automatically
-    cy.get('[data-cy="test-button"]').should('be.visible');
-    cy.get('[data-cy="test-button"]').should('contain', 'Click me');
-    cy.get('[data-cy="test-button"]').click();
+    // React Native Web converts testID to data-testid
+    cy.get('[data-testid="test-button"]').should('be.visible');
+    cy.get('[data-testid="test-button"]').should('contain', 'Click me');
+    cy.get('[data-testid="test-button"]').click();
     cy.get('@onPress').should('have.been.called');
   });
 
@@ -28,8 +28,8 @@ describe('Button Component', () => {
       />
     );
     
-    cy.get('[data-cy="secondary-button"]').should('be.visible');
-    cy.get('[data-cy="secondary-button"]').should('contain', 'Secondary Button');
+    cy.get('[data-testid="secondary-button"]').should('be.visible');
+    cy.get('[data-testid="secondary-button"]').should('contain', 'Secondary Button');
   });
 
   it('should show loading state', () => {
@@ -42,9 +42,9 @@ describe('Button Component', () => {
       />
     );
     
-    cy.get('[data-cy="loading-button"]').should('be.visible');
+    cy.get('[data-testid="loading-button"]').should('be.visible');
     // React Native ActivityIndicator doesn't have easily testable content
-    cy.get('[data-cy="loading-button"]').should('exist');
+    cy.get('[data-testid="loading-button"]').should('exist');
   });
 
   it('should be disabled when disabled prop is true', () => {
@@ -57,8 +57,8 @@ describe('Button Component', () => {
       />
     );
     
-    cy.get('[data-cy="disabled-button"]').should('be.visible');
-    cy.get('[data-cy="disabled-button"]').click({ force: true });
+    cy.get('[data-testid="disabled-button"]').should('be.visible');
+    cy.get('[data-testid="disabled-button"]').click({ force: true });
     cy.get('@onPress').should('not.have.been.called');
   });
 });

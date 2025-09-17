@@ -18,10 +18,10 @@ describe('TextInput Component', () => {
     );
 
     // Check that input is visible
-    cy.get('[data-cy="text-input"]').should('be.visible');
+    cy.get('[data-testid="text-input"]').should('be.visible');
     
     // Check placeholder text
-    cy.get('[data-cy="text-input"]').should('have.attr', 'placeholder', 'Enter text...');
+    cy.get('[data-testid="text-input"]').should('have.attr', 'placeholder', 'Enter text...');
   });
 
   it('should render with label', () => {
@@ -38,7 +38,7 @@ describe('TextInput Component', () => {
     cy.contains('Character Name').should('be.visible');
     
     // Check that input is visible
-    cy.get('[data-cy="text-input"]').should('be.visible');
+    cy.get('[data-testid="text-input"]').should('be.visible');
   });
 
   it('should handle text input and change events', () => {
@@ -52,10 +52,10 @@ describe('TextInput Component', () => {
 
     // Type in the input
     const testText = 'Aragorn the Ranger';
-    cy.get('[data-cy="text-input"]').type(testText);
+    cy.get('[data-testid="text-input"]').type(testText);
     
     // Check that the value appears in the input
-    cy.get('[data-cy="text-input"]').should('have.value', testText);
+    cy.get('[data-testid="text-input"]').should('have.value', testText);
     
     // onChangeText should have been called
     cy.get('@onChangeText').should('have.been.called');
@@ -72,7 +72,7 @@ describe('TextInput Component', () => {
       />
     );
 
-    cy.get('[data-cy="text-input"]').should('have.attr', 'placeholder', placeholderText);
+    cy.get('[data-testid="text-input"]').should('have.attr', 'placeholder', placeholderText);
   });
 
   it('should display error state and message', () => {
@@ -92,7 +92,7 @@ describe('TextInput Component', () => {
     cy.contains(errorMessage).should('be.visible');
     
     // Check that input has error styling (border color change)
-    cy.get('[data-cy="text-input"]').should('have.css', 'border-color', 'rgb(220, 38, 38)'); // #DC2626
+    cy.get('[data-testid="text-input"]').should('have.css', 'border-color', 'rgb(220, 38, 38)'); // #DC2626
   });
 
   it('should handle multiline text input', () => {
@@ -108,16 +108,16 @@ describe('TextInput Component', () => {
     );
 
     // Multiline input should be visible
-    cy.get('[data-cy="text-input"]').should('be.visible');
+    cy.get('[data-testid="text-input"]').should('be.visible');
     
     // Should have larger minimum height for multiline
-    cy.get('[data-cy="text-input"]').should('have.css', 'min-height', '100px');
+    cy.get('[data-testid="text-input"]').should('have.css', 'min-height', '100px');
     
     // Type multiline text
     const multilineText = 'A tall warrior\nwith piercing blue eyes\nand a noble bearing';
-    cy.get('[data-cy="text-input"]').type(multilineText);
+    cy.get('[data-testid="text-input"]').type(multilineText);
     
-    cy.get('[data-cy="text-input"]').should('contain.value', multilineText);
+    cy.get('[data-testid="text-input"]').should('contain.value', multilineText);
   });
 
   it('should have proper accessibility labels', () => {
@@ -131,7 +131,7 @@ describe('TextInput Component', () => {
     );
 
     // Check accessibility
-    cy.get('[data-cy="text-input"]')
+    cy.get('[data-testid="text-input"]')
       .should('be.visible')
       .and('have.attr', 'placeholder', 'Enter your email');
     
@@ -151,7 +151,7 @@ describe('TextInput Component', () => {
       />
     );
 
-    cy.get('[data-cy="text-input"]').should('have.value', defaultValue);
+    cy.get('[data-testid="text-input"]').should('have.value', defaultValue);
   });
 
   it('should handle controlled value', () => {
@@ -171,11 +171,11 @@ describe('TextInput Component', () => {
     cy.mount(<TestWrapper />);
 
     // Check initial value
-    cy.get('[data-cy="text-input"]').should('have.value', 'Initial value');
+    cy.get('[data-testid="text-input"]').should('have.value', 'Initial value');
     
     // Clear and type new value
-    cy.get('[data-cy="text-input"]').clear().type('New value');
-    cy.get('[data-cy="text-input"]').should('have.value', 'New value');
+    cy.get('[data-testid="text-input"]').clear().type('New value');
+    cy.get('[data-testid="text-input"]').should('have.value', 'New value');
   });
 
   it('should apply custom container styling', () => {
@@ -189,7 +189,7 @@ describe('TextInput Component', () => {
     );
 
     // Check that custom styling is applied to container
-    cy.get('[data-cy="text-input"]').parent().should('have.css', 'margin-bottom', '32px');
+    cy.get('[data-testid="text-input"]').parent().should('have.css', 'margin-bottom', '32px');
   });
 
   it('should apply custom input styling', () => {
@@ -203,7 +203,7 @@ describe('TextInput Component', () => {
     );
 
     // Check that custom input styling is applied
-    cy.get('[data-cy="text-input"]').should('have.css', 'background-color', 'rgb(55, 65, 81)');
+    cy.get('[data-testid="text-input"]').should('have.css', 'background-color', 'rgb(55, 65, 81)');
   });
 
   it('should handle focus and blur events', () => {
@@ -225,11 +225,11 @@ describe('TextInput Component', () => {
     );
 
     // Focus the input
-    cy.get('[data-cy="text-input"]').focus();
+    cy.get('[data-testid="text-input"]').focus();
     cy.get('@onFocus').should('have.been.called');
     
     // Blur the input
-    cy.get('[data-cy="text-input"]').blur();
+    cy.get('[data-testid="text-input"]').blur();
     cy.get('@onBlur').should('have.been.called');
   });
 
@@ -244,7 +244,7 @@ describe('TextInput Component', () => {
     );
 
     // In React Native Web, keyboardType may translate to input type
-    cy.get('[data-cy="text-input"]').should('be.visible');
+    cy.get('[data-testid="text-input"]').should('be.visible');
   });
 
   it('should handle secure text entry', () => {
@@ -258,7 +258,7 @@ describe('TextInput Component', () => {
     );
 
     // Should render as password type in web
-    cy.get('[data-cy="text-input"]').should('have.attr', 'type', 'password');
+    cy.get('[data-testid="text-input"]').should('have.attr', 'type', 'password');
   });
 
   it('should handle max length', () => {
@@ -272,10 +272,10 @@ describe('TextInput Component', () => {
     );
 
     // Type more than max length
-    cy.get('[data-cy="text-input"]').type('This is a very long name');
+    cy.get('[data-testid="text-input"]').type('This is a very long name');
     
     // Should be truncated to max length
-    cy.get('[data-cy="text-input"]').should(($input) => {
+    cy.get('[data-testid="text-input"]').should(($input) => {
       expect($input.val().length).to.be.at.most(10);
     });
   });
@@ -291,7 +291,7 @@ describe('TextInput Component', () => {
     );
 
     // Should be disabled
-    cy.get('[data-cy="text-input"]').should('be.disabled');
+    cy.get('[data-testid="text-input"]').should('be.disabled');
   });
 
   it('should have consistent styling across platforms', () => {
@@ -305,7 +305,7 @@ describe('TextInput Component', () => {
     );
 
     // Check core styling
-    cy.get('[data-cy="text-input"]')
+    cy.get('[data-testid="text-input"]')
       .should('have.css', 'background-color', 'rgb(31, 41, 55)') // #1F2937
       .and('have.css', 'border-width', '1px')
       .and('have.css', 'border-radius', '8px')
@@ -322,8 +322,8 @@ describe('TextInput Component', () => {
     );
 
     // Type rapidly
-    cy.get('[data-cy="text-input"]').type('QuickTypingTest', { delay: 0 });
-    cy.get('[data-cy="text-input"]').should('have.value', 'QuickTypingTest');
+    cy.get('[data-testid="text-input"]').type('QuickTypingTest', { delay: 0 });
+    cy.get('[data-testid="text-input"]').should('have.value', 'QuickTypingTest');
   });
 
   it('should handle special characters', () => {
@@ -336,8 +336,8 @@ describe('TextInput Component', () => {
     );
 
     const specialText = '🏰 Château d\'Élégance & "Royal" Palace! @#$%^&*()';
-    cy.get('[data-cy="text-input"]').type(specialText);
-    cy.get('[data-cy="text-input"]').should('have.value', specialText);
+    cy.get('[data-testid="text-input"]').type(specialText);
+    cy.get('[data-testid="text-input"]').should('have.value', specialText);
   });
 
   it('should handle copy and paste operations', () => {
@@ -352,7 +352,7 @@ describe('TextInput Component', () => {
     const textToPaste = 'Pasted content from clipboard';
     
     // Simulate paste operation
-    cy.get('[data-cy="text-input"]').invoke('val', textToPaste).trigger('input');
-    cy.get('[data-cy="text-input"]').should('have.value', textToPaste);
+    cy.get('[data-testid="text-input"]').invoke('val', textToPaste).trigger('input');
+    cy.get('[data-testid="text-input"]').should('have.value', textToPaste);
   });
 });

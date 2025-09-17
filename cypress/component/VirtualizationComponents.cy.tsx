@@ -1,7 +1,7 @@
 import React from 'react';
 import { VirtualizedProjectList } from '../../src/components/VirtualizedProjectList';
 import { VirtualizedQuestionList } from '../../src/components/VirtualizedQuestionList';
-import { InfiniteScrollList } from '../../src/components/ui/InfiniteScrollList';
+import { InfiniteScrollList } from '../support/component-test-helpersInfiniteScrollList';
 import { Project } from '../../src/types/models';
 
 // Mock react-window for all tests

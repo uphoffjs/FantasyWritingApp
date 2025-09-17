@@ -1,5 +1,5 @@
 import React from 'react';
-import { ErrorNotification, useErrorNotification } from '../../src/components/ui/ErrorNotification';
+import { ErrorNotification, useErrorNotification } from '../support/component-test-helpersErrorNotification';
 
 describe('ErrorNotification Component', () => {
   const mockError = new Error('Something went wrong!');

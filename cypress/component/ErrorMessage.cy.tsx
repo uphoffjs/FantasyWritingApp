@@ -1,5 +1,5 @@
 import React from 'react';
-import { ErrorMessage } from '../../src/components/ui/ErrorMessage';
+import { ErrorMessage } from '../support/component-test-helpers';
 
 describe('ErrorMessage Component', () => {
   const defaultProps = {

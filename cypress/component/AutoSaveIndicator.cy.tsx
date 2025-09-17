@@ -1,5 +1,5 @@
 import React from 'react';
-import { AutoSaveIndicator } from '../../src/components/ui/AutoSaveIndicator';
+import { AutoSaveIndicator } from '../support/component-test-helpers';
 
 describe('AutoSaveIndicator Component', () => {
   it('should render idle state by default', () => {

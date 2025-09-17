@@ -1,5 +1,5 @@
 import React from 'react';
-import { VirtualizedList, useVirtualizedList } from '../../src/components/ui/VirtualizedList';
+import { VirtualizedList, useVirtualizedList } from '../support/component-test-helpersVirtualizedList';
 
 // Test component using the hook
 function TestComponentWithHook({ items }: { items: string[] }) {

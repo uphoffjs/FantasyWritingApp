@@ -1,13 +1,14 @@
 /// <reference types="cypress" />
 import React from 'react';
-import { BaseElementForm } from '../../src/components/elements/BaseElementForm';
-import { CharacterForm } from '../../src/components/elements/CharacterForm';
-import { LocationForm } from '../../src/components/elements/LocationForm';
-import { CultureForm } from '../../src/components/elements/CultureForm';
-import { HistoricalEventForm } from '../../src/components/elements/HistoricalEventForm';
-import { ItemForm } from '../../src/components/elements/ItemForm';
-import { LanguageForm } from '../../src/components/elements/LanguageForm';
-import { MagicSystemForm } from '../../src/components/elements/MagicSystemForm';
+import { BaseElementForm } from '../support/component-test-helpers';
+// TODO: Import other form components when implemented
+// import { CharacterForm } from '../../src/components/elements/CharacterForm';
+// import { LocationForm } from '../../src/components/elements/LocationForm';
+// import { CultureForm } from '../../src/components/elements/CultureForm';
+// import { HistoricalEventForm } from '../../src/components/elements/HistoricalEventForm';
+// import { ItemForm } from '../../src/components/elements/ItemForm';
+// import { LanguageForm } from '../../src/components/elements/LanguageForm';
+// import { MagicSystemForm } from '../../src/components/elements/MagicSystemForm';
 import { OrganizationForm } from '../../src/components/elements/OrganizationForm';
 import { RaceForm } from '../../src/components/elements/RaceForm';
 import { ReligionForm } from '../../src/components/elements/ReligionForm';

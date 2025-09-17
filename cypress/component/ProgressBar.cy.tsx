@@ -1,5 +1,5 @@
 import React from 'react';
-import { ProgressBar } from '../../src/components/ui/ProgressBar';
+import { ProgressBar } from '../support/component-test-helpersProgressBar';
 
 describe('ProgressBar Component', () => {
   it('should render with default props', () => {

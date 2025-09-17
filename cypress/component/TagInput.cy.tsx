@@ -1,5 +1,5 @@
 import React from 'react';
-import { TagInput } from '../../src/components/ui/TagInput';
+import { TagInput } from '../support/component-test-helpersTagInput';
 
 describe('TagInput Component', () => {
   const defaultTags = ['fantasy', 'magic', 'adventure'];
