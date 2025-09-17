@@ -44,7 +44,14 @@ export default defineConfig({
     devServer: {
       framework: "react",
       bundler: "webpack",
-      webpackConfig: require("./webpack.config"),
+      webpackConfig: (() => {
+        // Load webpack config and override the port
+        const config = require("./webpack.config");
+        if (config.devServer) {
+          config.devServer.port = 3003;
+        }
+        return config;
+      })(),
     },
     supportFile: "cypress/support/component.tsx",
     specPattern: "cypress/component/**/*.cy.{js,jsx,ts,tsx}",

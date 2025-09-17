@@ -2,7 +2,7 @@
 
 import './commands';
 import React from 'react';
-import { mount } from 'cypress/react18';
+import { mount } from '@cypress/react';
 
 // Import test providers for wrapping components
 import { TestProviders } from './test-providers';
