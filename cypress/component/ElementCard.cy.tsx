@@ -233,7 +233,7 @@ describe('ElementCard Component', () => {
     // Check that the card is accessible
     cy.get('[data-cy="element-card"]')
       .should('be.visible')
-      .and('have.attr', 'role'); // React Native Web converts Pressable to button-like element
+      .and('have.attr', 'role'); // React Native Web converts Pressable to [data-cy*="button"]-like element
   });
 
   it('should format dates correctly', () => {

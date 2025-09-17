@@ -54,7 +54,7 @@ describe('BaseElementForm - Stateless Tests', () => {
       />
     );
     
-    // Category should be visible as a button
+    // Category should be visible as a [data-cy*="button"]
     cy.get('[data-cy="category-toggle-basic"]').should('be.visible');
     cy.contains('Basic').should('be.visible');
   });
@@ -160,8 +160,8 @@ describe('BaseElementForm - Stateless Tests', () => {
     // Help text should be hidden initially
     cy.get('[data-cy="question-description-help"]').should('not.exist');
     
-    // Click help button
-    cy.get('[data-cy="question-description-help-button"]').click();
+    // Click help [data-cy*="button"]
+    cy.get('[data-cy="question-description-help-[data-cy*="button"]"]').click();
     
     // Help text should appear
     cy.get('[data-cy="question-description-help"]')
@@ -208,7 +208,7 @@ describe('BaseElementForm - Stateless Tests', () => {
       {
         id: 'type',
         text: 'Type',
-        type: 'select',
+        type: '[data-cy*="select"]',
         category: 'Info',
         options: [
           { value: 'hero', label: 'Hero' },
@@ -238,8 +238,8 @@ describe('BaseElementForm - Stateless Tests', () => {
     // Check all input types are rendered
     cy.get('[data-cy="question-name-input"]').should('have.attr', 'type', 'text');
     cy.get('[data-cy="question-age-input"]').should('have.attr', 'type', 'number');
-    cy.get('[data-cy="question-type-input"]').should('be.visible'); // select
-    cy.get('[data-cy="question-active-toggle"]').should('be.visible'); // boolean radio buttons
+    cy.get('[data-cy="question-type-input"]').should('be.visible'); // [data-cy*="select"]
+    cy.get('[data-cy="question-active-toggle"]').should('be.visible'); // boolean radio [data-cy*="button"]s
   });
 
   it('shows error for required fields without values', () => {

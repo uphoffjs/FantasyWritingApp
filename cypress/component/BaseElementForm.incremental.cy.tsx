@@ -87,7 +87,7 @@ describe('BaseElementForm - Incremental Tests', () => {
     // Check category is visible
     cy.contains('General').should('be.visible');
     
-    // Click to expand using the data-cy selector for the category
+    // Click to expand using the data-cy [data-cy*="select"]or for the category
     cy.get('[data-cy="category-toggle-general"]').click();
     
     // Check if questions become visible
@@ -110,7 +110,7 @@ describe('BaseElementForm - Incremental Tests', () => {
     cy.get('[data-cy="category-toggle-general"]').click();
     
     // Check input values
-    cy.get('input[type="text"]').first().should('have.value', 'Test Name');
+    cy.get('[data-cy="text-input"]').first().should('have.value', 'Test Name');
     cy.get('input[type="number"]').first().should('have.value', '30');
   });
   
@@ -131,7 +131,7 @@ describe('BaseElementForm - Incremental Tests', () => {
     cy.get('[data-cy="category-toggle-general"]').click();
     
     // Type in text input
-    cy.get('input[type="text"]').first().type('New Value');
+    cy.get('[data-cy="text-input"]').first().type('New Value');
     
     // Check onChange was called
     cy.wrap(onChange).should('have.been.called');

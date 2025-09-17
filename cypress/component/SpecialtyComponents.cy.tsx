@@ -125,9 +125,9 @@ describe('KeyboardShortcutsHelp Component', () => {
   });
 
   describe('Interactions', () => {
-    it('closes when X button clicked', () => {
+    it('closes when X [data-cy*="button"] clicked', () => {
       cy.mount(<KeyboardShortcutsHelp isOpen={true} onClose={defaultProps.onClose} />);
-      cy.get('button[aria-label="Close"]').click();
+      cy.get('[data-cy*="button"][aria-label="Close"]').click();
       expect(defaultProps.onClose).to.have.been.called;
     });
 
@@ -138,9 +138,9 @@ describe('KeyboardShortcutsHelp Component', () => {
   });
 
   describe('Accessibility', () => {
-    it('has proper aria-label on close button', () => {
+    it('has proper aria-label on close [data-cy*="button"]', () => {
       cy.mount(<KeyboardShortcutsHelp isOpen={true} onClose={defaultProps.onClose} />);
-      cy.get('button[aria-label="Close"]').should('exist');
+      cy.get('[data-cy*="button"][aria-label="Close"]').should('exist');
     });
 
     it('uses semantic HTML for keyboard keys', () => {
@@ -162,13 +162,13 @@ describe('EmailVerificationBanner Component', () => {
     it('does not render when user is null', () => {
       cy.stub(window, 'useAuthStore').returns({ ...mockAuthStore, user: null });
       cy.mount(<EmailVerificationBanner />);
-      cy.get('.bg-flame-light').should('not.exist');
+      cy.get('[data-cy*="flame-light"]').should('not.exist');
     });
 
     it('does not render when email is verified', () => {
       cy.stub(window, 'useAuthStore').returns({ ...mockAuthStore, isEmailVerified: true });
       cy.mount(<EmailVerificationBanner />);
-      cy.get('.bg-flame-light').should('not.exist');
+      cy.get('[data-cy*="flame-light"]').should('not.exist');
     });
 
     it('renders banner when email is unverified', () => {
@@ -177,7 +177,7 @@ describe('EmailVerificationBanner Component', () => {
       cy.get('.lucide-alert-circle').should('be.visible');
     });
 
-    it('shows resend button', () => {
+    it('shows resend [data-cy*="button"]', () => {
       cy.mount(<EmailVerificationBanner />);
       cy.contains('Resend verification email').should('be.visible');
       cy.get('.lucide-send').should('be.visible');
@@ -196,7 +196,7 @@ describe('EmailVerificationBanner Component', () => {
   });
 
   describe('Interactions', () => {
-    it('sends verification email when button clicked', () => {
+    it('sends verification email when [data-cy*="button"] clicked', () => {
       mockAuthStore.resendVerificationEmail.resolves({ success: true });
       cy.mount(<EmailVerificationBanner />);
       cy.contains('Resend verification email').click();
@@ -236,11 +236,11 @@ describe('EmailVerificationBanner Component', () => {
 
     it('dismisses banner when X clicked', () => {
       cy.mount(<EmailVerificationBanner />);
-      cy.get('button[aria-label="Dismiss banner"]').click();
-      cy.get('.bg-flame-light').should('not.exist');
+      cy.get('[data-cy*="button"][aria-label="Dismiss banner"]').click();
+      cy.get('[data-cy*="flame-light"]').should('not.exist');
     });
 
-    it('disables button when already sent', () => {
+    it('disables [data-cy*="button"] when already sent', () => {
       mockAuthStore.resendVerificationEmail.resolves({ success: true });
       cy.mount(<EmailVerificationBanner />);
       cy.contains('Resend verification email').click();
@@ -313,7 +313,7 @@ describe('MigrationPrompt Component', () => {
       cy.contains('Keep local copy').should('be.visible');
     });
 
-    it('displays action buttons', () => {
+    it('displays action [data-cy*="button"]s', () => {
       cy.mount(<MigrationPrompt isOpen={true} onClose={defaultProps.onClose} onComplete={defaultProps.onComplete} />);
       cy.contains('Start Upload').should('be.visible');
       cy.contains('Maybe Later').should('be.visible');
@@ -321,7 +321,7 @@ describe('MigrationPrompt Component', () => {
   });
 
   describe('Migration Process', () => {
-    it('starts migration when button clicked', () => {
+    it('starts migration when [data-cy*="button"] clicked', () => {
       mockMigrationService.onProgress.returns(() => {});
       mockMigrationService.migrateAllProjects.resolves({
         success: true,
@@ -417,8 +417,8 @@ describe('MigrationPrompt Component', () => {
       cy.mount(<MigrationPrompt isOpen={true} onClose={defaultProps.onClose} onComplete={defaultProps.onComplete} />);
       cy.contains('Start Upload').click();
       
-      // X button should not be visible during migration
-      cy.get('button').contains('×').should('not.exist');
+      // X [data-cy*="button"] should not be visible during migration
+      cy.get('[data-cy*="button"]').contains('×').should('not.exist');
     });
 
     it('calls onComplete when migration succeeds', () => {
@@ -477,13 +477,13 @@ describe('AccountMenu Component', () => {
   });
 
   describe('Rendering', () => {
-    it('renders avatar button with user initial', () => {
+    it('renders avatar [data-cy*="button"] with user initial', () => {
       cy.mount(
         <RouterWrapper>
           <AccountMenu />
         </RouterWrapper>
       );
-      cy.get('.bg-gradient-to-br').contains('T').should('be.visible');
+      cy.get('[data-cy*="gradient-to-br"]').contains('T').should('be.visible');
     });
 
     it('shows sync status badge', () => {
@@ -501,7 +501,7 @@ describe('AccountMenu Component', () => {
           <AccountMenu />
         </RouterWrapper>
       );
-      cy.get('.bg-gradient-to-br').click();
+      cy.get('[data-cy*="gradient-to-br"]').click();
       cy.contains('Test User').should('be.visible');
       cy.contains('test@example.com').should('be.visible');
     });
@@ -512,7 +512,7 @@ describe('AccountMenu Component', () => {
           <AccountMenu />
         </RouterWrapper>
       );
-      cy.get('.bg-gradient-to-br').click();
+      cy.get('[data-cy*="gradient-to-br"]').click();
       cy.contains('Sync Status').should('be.visible');
       cy.contains('Synced').should('be.visible');
     });
@@ -523,7 +523,7 @@ describe('AccountMenu Component', () => {
           <AccountMenu />
         </RouterWrapper>
       );
-      cy.get('.bg-gradient-to-br').click();
+      cy.get('[data-cy*="gradient-to-br"]').click();
       cy.contains('Go Offline').should('be.visible');
       cy.contains('Profile Settings').should('be.visible');
       cy.contains('Sync Settings').should('be.visible');
@@ -540,7 +540,7 @@ describe('AccountMenu Component', () => {
         </RouterWrapper>
       );
       cy.get('.animate-spin').should('be.visible');
-      cy.get('.bg-gradient-to-br').click();
+      cy.get('[data-cy*="gradient-to-br"]').click();
       cy.contains('Syncing...').should('be.visible');
     });
 
@@ -552,7 +552,7 @@ describe('AccountMenu Component', () => {
         </RouterWrapper>
       );
       cy.get('.lucide-alert-circle').should('be.visible');
-      cy.get('.bg-gradient-to-br').click();
+      cy.get('[data-cy*="gradient-to-br"]').click();
       cy.contains('Sync Error').should('be.visible');
     });
 
@@ -564,7 +564,7 @@ describe('AccountMenu Component', () => {
         </RouterWrapper>
       );
       cy.get('.lucide-wifi-off').should('be.visible');
-      cy.get('.bg-gradient-to-br').click();
+      cy.get('[data-cy*="gradient-to-br"]').click();
       cy.contains('Offline Mode').should('be.visible');
       cy.contains('Go Online').should('be.visible');
     });
@@ -577,7 +577,7 @@ describe('AccountMenu Component', () => {
           <AccountMenu />
         </RouterWrapper>
       );
-      cy.get('.bg-gradient-to-br').click();
+      cy.get('[data-cy*="gradient-to-br"]').click();
       cy.contains('Profile Settings').click();
       expect(mockNavigate).to.have.been.calledWith('/profile');
     });
@@ -588,7 +588,7 @@ describe('AccountMenu Component', () => {
           <AccountMenu />
         </RouterWrapper>
       );
-      cy.get('.bg-gradient-to-br').click();
+      cy.get('[data-cy*="gradient-to-br"]').click();
       cy.contains('Sync Settings').click();
       expect(mockNavigate).to.have.been.calledWith('/settings');
     });
@@ -599,7 +599,7 @@ describe('AccountMenu Component', () => {
           <AccountMenu />
         </RouterWrapper>
       );
-      cy.get('.bg-gradient-to-br').click();
+      cy.get('[data-cy*="gradient-to-br"]').click();
       cy.contains('Sign Out').click();
       expect(mockAuthStore.signOut).to.have.been.called;
       expect(mockNavigate).to.have.been.calledWith('/login');
@@ -614,7 +614,7 @@ describe('AccountMenu Component', () => {
           </div>
         </RouterWrapper>
       );
-      cy.get('.bg-gradient-to-br').click();
+      cy.get('[data-cy*="gradient-to-br"]').click();
       cy.contains('Test User').should('be.visible');
       
       // Simulate clicking outside
@@ -629,7 +629,7 @@ describe('AccountMenu Component', () => {
           <AccountMenu />
         </RouterWrapper>
       );
-      cy.get('.bg-gradient-to-br').click();
+      cy.get('[data-cy*="gradient-to-br"]').click();
       cy.contains('Sign Out').should('not.exist');
     });
   });
@@ -641,7 +641,7 @@ describe('AccountMenu Component', () => {
           <AccountMenu />
         </RouterWrapper>
       );
-      cy.get('.bg-gradient-to-br').click();
+      cy.get('[data-cy*="gradient-to-br"]').click();
       cy.get('motion.div').should('exist');
     });
   });
@@ -657,7 +657,7 @@ describe('AccountMenu Component', () => {
           <AccountMenu />
         </RouterWrapper>
       );
-      cy.get('.bg-gradient-to-br').click();
+      cy.get('[data-cy*="gradient-to-br"]').click();
       cy.contains('User').should('be.visible');
     });
 
@@ -671,7 +671,7 @@ describe('AccountMenu Component', () => {
           <AccountMenu />
         </RouterWrapper>
       );
-      cy.get('.bg-gradient-to-br').contains('t').should('be.visible');
+      cy.get('[data-cy*="gradient-to-br"]').contains('t').should('be.visible');
     });
 
     it('shows default initial when no user data', () => {
@@ -685,7 +685,7 @@ describe('AccountMenu Component', () => {
           <AccountMenu />
         </RouterWrapper>
       );
-      cy.get('.bg-gradient-to-br').contains('U').should('be.visible');
+      cy.get('[data-cy*="gradient-to-br"]').contains('U').should('be.visible');
     });
   });
 });

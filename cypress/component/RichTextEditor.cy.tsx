@@ -20,7 +20,7 @@ describe('RichTextEditor Component', () => {
       // Check toolbar is visible
       cy.get('[role="toolbar"]').should('be.visible');
       
-      // Check all toolbar buttons are present
+      // Check all toolbar [data-cy*="button"]s are present
       cy.get('[aria-label="Bold (Ctrl+B)"]').should('be.visible');
       cy.get('[aria-label="Italic (Ctrl+I)"]').should('be.visible');
       cy.get('[aria-label="Add Link (Ctrl+K)"]').should('be.visible');
@@ -108,7 +108,7 @@ describe('RichTextEditor Component', () => {
       );
       
       // Select all text for formatting
-      cy.get('.ProseMirror').click().type('{selectall}');
+      cy.get('.ProseMirror').click().type('{[data-cy*="select"]all}');
     });
 
     it('applies bold formatting', () => {
@@ -155,7 +155,7 @@ describe('RichTextEditor Component', () => {
         />
       );
       
-      cy.get('.ProseMirror').click().type('{selectall}');
+      cy.get('.ProseMirror').click().type('{[data-cy*="select"]all}');
     });
 
     it('applies heading 1 formatting', () => {
@@ -198,7 +198,7 @@ describe('RichTextEditor Component', () => {
         />
       );
       
-      cy.get('.ProseMirror').click().type('{selectall}');
+      cy.get('.ProseMirror').click().type('{[data-cy*="select"]all}');
     });
 
     it('creates bullet list', () => {
@@ -234,7 +234,7 @@ describe('RichTextEditor Component', () => {
   });
 
   describe('Link Functionality', () => {
-    it('opens link modal when link button is clicked', () => {
+    it('opens link modal when link [data-cy*="button"] is clicked', () => {
       cy.mount(
         <RichTextEditor 
           content="<p>Click here</p>" 
@@ -242,14 +242,14 @@ describe('RichTextEditor Component', () => {
         />
       );
       
-      cy.get('.ProseMirror').click().type('{selectall}');
+      cy.get('.ProseMirror').click().type('{[data-cy*="select"]all}');
       cy.get('[aria-label="Add Link (Ctrl+K)"]').click();
       
       // LinkModal should be visible
       cy.get('[data-cy="link-modal"]').should('be.visible');
     });
 
-    it('adds a link to selected text', () => {
+    it('adds a link to [data-cy*="select"]ed text', () => {
       cy.mount(
         <RichTextEditor 
           content="<p>Click here</p>" 
@@ -257,7 +257,7 @@ describe('RichTextEditor Component', () => {
         />
       );
       
-      cy.get('.ProseMirror').click().type('{selectall}');
+      cy.get('.ProseMirror').click().type('{[data-cy*="select"]all}');
       cy.get('[aria-label="Add Link (Ctrl+K)"]').click();
       
       cy.get('#link-url').type('https://example.com');
@@ -380,9 +380,9 @@ describe('RichTextEditor Component', () => {
         return (
           <div>
             <RichTextEditor content={content} onChange={setContent} />
-            <button onClick={() => setContent('<p>Updated content</p>')}>
+            <[data-cy*="button"] onClick={() => setContent('<p>Updated content</p>')}>
               Update Content
-            </button>
+            </[data-cy*="button"]>
           </div>
         );
       };
@@ -391,7 +391,7 @@ describe('RichTextEditor Component', () => {
       
       cy.get('.ProseMirror').should('contain', 'Initial content');
       
-      cy.get('button').contains('Update Content').click();
+      cy.get('[data-cy*="button"]').contains('Update Content').click();
       cy.get('.ProseMirror').should('contain', 'Updated content');
     });
   });
@@ -417,7 +417,7 @@ describe('RichTextEditor Component', () => {
         .should('have.attr', 'aria-label', 'Text formatting toolbar');
     });
 
-    it('toolbar buttons have aria-pressed state', () => {
+    it('toolbar [data-cy*="button"]s have aria-pressed state', () => {
       cy.mount(
         <RichTextEditor 
           content="<p>Test</p>" 
@@ -425,7 +425,7 @@ describe('RichTextEditor Component', () => {
         />
       );
       
-      cy.get('.ProseMirror').click().type('{selectall}');
+      cy.get('.ProseMirror').click().type('{[data-cy*="select"]all}');
       cy.get('[aria-label="Bold (Ctrl+B)"]').click();
       
       cy.get('[aria-label="Bold (Ctrl+B)"]')
@@ -508,7 +508,7 @@ describe('RichTextEditor Component', () => {
       cy.get('.ProseMirror').should('contain', '<script>alert("XSS")</script>');
     });
 
-    it('maintains content when toolbar buttons are clicked without selection', () => {
+    it('maintains content when toolbar [data-cy*="button"]s are clicked without [data-cy*="select"]ion', () => {
       cy.mount(
         <RichTextEditor 
           content="<p>Test content</p>" 
@@ -516,7 +516,7 @@ describe('RichTextEditor Component', () => {
         />
       );
       
-      // Click bold without selecting text
+      // Click bold without [data-cy*="select"]ing text
       cy.get('[aria-label="Bold (Ctrl+B)"]').click();
       
       // Content should still be there
@@ -539,7 +539,7 @@ describe('RichTextEditor Component', () => {
       cy.get('[role="toolbar"]').should('be.visible');
       cy.get('[aria-label="Bold (Ctrl+B)"]').should('be.visible');
       
-      // Check that buttons have minimum touch target size
+      // Check that [data-cy*="button"]s have minimum touch target size
       cy.get('[aria-label="Bold (Ctrl+B)"]')
         .should('have.css', 'min-width', '32px')
         .and('have.css', 'min-height', '32px');

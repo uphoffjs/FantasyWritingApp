@@ -326,13 +326,13 @@ describe('ProjectSearchBar', () => {
       cy.wrap(onChange).should('have.been.called');
     });
     
-    it('shows clear button when has value', () => {
+    it('shows clear [data-cy*="button"] when has value', () => {
       cy.mount(<ProjectSearchBar {...defaultProps} value="test" />);
       
       cy.get('[data-cy="clear-search"]').should('be.visible');
     });
     
-    it('clears search on clear button click', () => {
+    it('clears search on clear [data-cy*="button"] click', () => {
       const onChange = cy.stub();
       cy.mount(<ProjectSearchBar {...defaultProps} value="test" onChange={onChange} />);
       
@@ -408,7 +408,7 @@ describe('ProjectSortDropdown', () => {
       cy.contains('Last Modified').should('be.visible');
     });
     
-    it('selects option', () => {
+    it('[data-cy*="select"]s option', () => {
       const onChange = cy.stub();
       cy.mount(<ProjectSortDropdown {...defaultProps} onChange={onChange} />);
       
@@ -418,7 +418,7 @@ describe('ProjectSortDropdown', () => {
       cy.wrap(onChange).should('have.been.calledWith', 'date');
     });
     
-    it('closes dropdown after selection', () => {
+    it('closes dropdown after [data-cy*="select"]ion', () => {
       cy.mount(<ProjectSortDropdown {...defaultProps} />);
       
       cy.contains('Name').click();
@@ -494,10 +494,10 @@ describe('TagManager', () => {
       cy.contains('adventure').should('be.visible');
     });
     
-    it('shows add tag button', () => {
+    it('shows add tag [data-cy*="button"]', () => {
       cy.mount(<TagManager {...defaultProps} />);
       
-      cy.get('[data-cy="add-tag-button"]').should('be.visible');
+      cy.get('[data-cy="add-tag-[data-cy*="button"]"]').should('be.visible');
     });
     
     it('shows tag count', () => {
@@ -511,7 +511,7 @@ describe('TagManager', () => {
     it('opens add tag modal', () => {
       cy.mount(<TagManager {...defaultProps} />);
       
-      cy.get('[data-cy="add-tag-button"]').click();
+      cy.get('[data-cy="add-tag-[data-cy*="button"]"]').click();
       cy.get('[data-cy="tag-modal"]').should('be.visible');
     });
     
@@ -519,7 +519,7 @@ describe('TagManager', () => {
       const onAdd = cy.stub();
       cy.mount(<TagManager {...defaultProps} onAdd={onAdd} />);
       
-      cy.get('[data-cy="add-tag-button"]').click();
+      cy.get('[data-cy="add-tag-[data-cy*="button"]"]').click();
       cy.get('[data-cy="tag-input"]').type('newTag');
       cy.get('[data-cy="save-tag"]').click();
       
@@ -530,7 +530,7 @@ describe('TagManager', () => {
       const onAdd = cy.stub();
       cy.mount(<TagManager {...defaultProps} onAdd={onAdd} />);
       
-      cy.get('[data-cy="add-tag-button"]').click();
+      cy.get('[data-cy="add-tag-[data-cy*="button"]"]').click();
       cy.get('[data-cy="suggested-tag-epic"]').click();
       
       cy.wrap(onAdd).should('have.been.calledWith', 'epic');

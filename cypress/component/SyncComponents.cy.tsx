@@ -148,8 +148,8 @@ describe('CloudSaveButton Component', () => {
     cy.mount(<CloudSaveButton />);
     
     cy.contains('Saved').should('be.visible');
-    cy.get('button').should('be.disabled');
-    cy.get('.bg-parchment-shadow').should('exist');
+    cy.get('[data-cy*="button"]').should('be.disabled');
+    cy.get('[data-cy*="parchment-shadow"]').should('exist');
   });
 
   it('shows modified state when there are unsaved changes', () => {
@@ -163,7 +163,7 @@ describe('CloudSaveButton Component', () => {
     cy.mount(<CloudSaveButton />);
     
     cy.contains('Save Changes').should('be.visible');
-    cy.get('button').should('not.be.disabled');
+    cy.get('[data-cy*="button"]').should('not.be.disabled');
     cy.get('.animate-pulse').should('exist');
   });
 
@@ -177,7 +177,7 @@ describe('CloudSaveButton Component', () => {
     
     cy.mount(<CloudSaveButton />);
     
-    cy.get('button').click();
+    cy.get('[data-cy*="button"]').click();
     
     // Shows saving state
     cy.contains('Saving...').should('be.visible');
@@ -201,7 +201,7 @@ describe('CloudSaveButton Component', () => {
     
     cy.mount(<CloudSaveButton />);
     
-    cy.get('button').click();
+    cy.get('[data-cy*="button"]').click();
     
     cy.wrap(null).then(() => {
       expect(mockShowSyncErrorToast).to.have.been.called;
@@ -219,19 +219,19 @@ describe('CloudSaveButton Component', () => {
     
     cy.mount(<CloudSaveButton />);
     
-    cy.get('button').click();
+    cy.get('[data-cy*="button"]').click();
     
     cy.wrap(null).then(() => {
       expect(mockShowOfflineToast).to.have.been.called;
     });
   });
 
-  it('hides button when not authenticated', () => {
+  it('hides [data-cy*="button"] when not authenticated', () => {
     mockAuthStore.isAuthenticated = false;
     
     cy.mount(<CloudSaveButton />);
     
-    cy.get('button').should('not.exist');
+    cy.get('[data-cy*="button"]').should('not.exist');
   });
 
   it('shows error dropdown on hover when in error state', () => {
@@ -242,12 +242,12 @@ describe('CloudSaveButton Component', () => {
     );
     
     // Simulate error state manually
-    cy.get('button').then($btn => {
+    cy.get('[data-cy*="button"]').then($btn => {
       // Force error state by manipulating DOM
       $btn.parent().append(
         '<div class="absolute top-full mt-2 right-0 bg-parchment-aged border border-red-900 rounded-lg p-3 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity">' +
         '<p class="text-sm text-blood-400">Test error message</p>' +
-        '<button class="mt-2 text-sm font-medium text-metals-gold hover:text-metals-brass transition-colors">Retry</button>' +
+        '<[data-cy*="button"] class="mt-2 text-sm font-medium text-metals-gold hover:text-metals-brass transition-colors">Retry</[data-cy*="button"]>' +
         '</div>'
       );
     });
@@ -257,7 +257,7 @@ describe('CloudSaveButton Component', () => {
     cy.contains('Retry').should('be.visible');
   });
 
-  it('animates button on hover and tap', () => {
+  it('animates [data-cy*="button"] on hover and tap', () => {
     mockWorldbuildingStore.projects = [
       { id: '1', name: 'Test Project', elements: [] } as any,
     ];
@@ -267,7 +267,7 @@ describe('CloudSaveButton Component', () => {
     
     cy.mount(<CloudSaveButton />);
     
-    cy.get('button')
+    cy.get('[data-cy*="button"]')
       .should('have.css', 'transform', 'none')
       .trigger('mouseenter')
       .trigger('mousedown')
@@ -295,7 +295,7 @@ describe('CloudSaveButton Component', () => {
     
     cy.mount(<CloudSaveButton />);
     
-    cy.get('button').click();
+    cy.get('[data-cy*="button"]').click();
     
     cy.wrap(null).then(() => {
       expect(mockSupabaseSyncService.createProject).to.have.been.called;
@@ -309,7 +309,7 @@ describe('CloudSaveButton Component', () => {
 describe('CloudSaveButtonMobile Component', () => {
   it('returns null (not implemented)', () => {
     cy.mount(<CloudSaveButtonMobile />);
-    cy.get('button').should('not.exist');
+    cy.get('[data-cy*="button"]').should('not.exist');
   });
 });
 
@@ -343,8 +343,8 @@ describe('OfflineBanner Component', () => {
     
     cy.contains('Working Offline').should('be.visible');
     
-    // Desktop dismiss button
-    cy.get('button').contains('Dismiss').click();
+    // Desktop dismiss [data-cy*="button"]
+    cy.get('[data-cy*="button"]').contains('Dismiss').click();
     cy.contains('Working Offline').should('not.exist');
   });
 
@@ -355,7 +355,7 @@ describe('OfflineBanner Component', () => {
     cy.mount(<OfflineBanner />);
     
     cy.get('[aria-label="Dismiss offline banner"]').should('be.visible');
-    cy.get('button').contains('Dismiss').should('not.be.visible');
+    cy.get('[data-cy*="button"]').contains('Dismiss').should('not.be.visible');
   });
 
   it('animates banner entrance and exit', () => {
@@ -364,10 +364,10 @@ describe('OfflineBanner Component', () => {
     cy.mount(<OfflineBanner />);
     
     // Check for animation classes
-    cy.get('.fixed').should('have.css', 'transform');
+    cy.get('.fixed').should('have.css', 'transform') // CSS properties work in React Native Web;
     
     // Dismiss and check exit animation
-    cy.get('button').contains('Dismiss').click();
+    cy.get('[data-cy*="button"]').contains('Dismiss').click();
     cy.get('.fixed').should('not.exist');
   });
 
@@ -378,9 +378,9 @@ describe('OfflineBanner Component', () => {
       
       return (
         <div>
-          <button data-cy="toggle-online" onClick={() => setOnline(!online)}>
+          <[data-cy*="button"] data-cy="toggle-online" onClick={() => setOnline(!online)}>
             Toggle Online
-          </button>
+          </[data-cy*="button"]>
           <OfflineBanner />
         </div>
       );
@@ -426,7 +426,7 @@ describe('OfflineBannerCompact Component', () => {
     cy.mount(<OfflineBannerCompact />);
     
     cy.contains('Offline Mode').should('be.visible');
-    cy.get('button').click();
+    cy.get('[data-cy*="button"]').click();
     cy.contains('Offline Mode').should('not.exist');
   });
 
@@ -435,7 +435,7 @@ describe('OfflineBannerCompact Component', () => {
     
     cy.mount(<OfflineBannerCompact />);
     
-    cy.get('.fixed.bottom-0').should('have.css', 'transform');
+    cy.get('.fixed.bottom-0').should('have.css', 'transform') // CSS properties work in React Native Web;
   });
 
   it('only shows on mobile viewports', () => {

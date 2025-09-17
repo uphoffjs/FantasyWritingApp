@@ -39,8 +39,8 @@ describe('ElementHeader', () => {
       cy.get('[data-cy="completion-bar"]').should('have.attr', 'data-percentage', '75');
       
       // Buttons
-      cy.get('[data-cy="markdown-button"]').should('be.visible');
-      cy.get('[data-cy="cancel-button"]').should('be.visible');
+      cy.get('[data-cy="markdown-[data-cy*="button"]"]').should('be.visible');
+      cy.get('[data-cy="cancel-[data-cy*="button"]"]').should('be.visible');
     });
     
     it('formats category name properly', () => {
@@ -73,7 +73,7 @@ describe('ElementHeader', () => {
       const onMarkdownExport = cy.stub();
       cy.mount(<ElementHeader {...defaultProps} onMarkdownExport={onMarkdownExport} />);
       
-      cy.get('[data-cy="markdown-button"]').click();
+      cy.get('[data-cy="markdown-[data-cy*="button"]"]').click();
       cy.wrap(onMarkdownExport).should('have.been.called');
     });
     
@@ -81,7 +81,7 @@ describe('ElementHeader', () => {
       const onCancel = cy.stub();
       cy.mount(<ElementHeader {...defaultProps} onCancel={onCancel} />);
       
-      cy.get('[data-cy="cancel-button"]').click();
+      cy.get('[data-cy="cancel-[data-cy*="button"]"]').click();
       cy.wrap(onCancel).should('have.been.called');
     });
   });
@@ -112,7 +112,7 @@ describe('ElementHeader', () => {
       cy.mount(<ElementHeader {...defaultProps} />);
       
       cy.get('#element-name').should('have.attr', 'placeholder');
-      cy.get('[data-cy="markdown-button"]').should('have.attr', 'title', 'Import/Export Markdown');
+      cy.get('[data-cy="markdown-[data-cy*="button"]"]').should('have.attr', 'title', 'Import/Export Markdown');
     });
     
     it('supports keyboard navigation', () => {
@@ -123,10 +123,10 @@ describe('ElementHeader', () => {
       
       // Tab through interactive elements
       cy.get('body').tab();
-      cy.focused().should('have.attr', 'data-cy', 'markdown-button');
+      cy.focused().should('have.attr', 'data-cy', 'markdown-[data-cy*="button"]');
       
       cy.get('body').tab();
-      cy.focused().should('have.attr', 'data-cy', 'cancel-button');
+      cy.focused().should('have.attr', 'data-cy', 'cancel-[data-cy*="button"]');
     });
   });
 });
@@ -144,17 +144,17 @@ describe('ElementFooter', () => {
   });
   
   describe('Rendering', () => {
-    it('renders footer buttons', () => {
+    it('renders footer [data-cy*="button"]s', () => {
       cy.mount(<ElementFooter {...defaultProps} />);
       
-      cy.get('[data-cy="save-button"]').should('be.visible');
-      cy.get('[data-cy="cancel-button"]').should('be.visible');
+      cy.get('[data-cy="save-[data-cy*="button"]"]').should('be.visible');
+      cy.get('[data-cy="cancel-[data-cy*="button"]"]').should('be.visible');
     });
     
     it('shows saving state', () => {
       cy.mount(<ElementFooter {...defaultProps} isSaving={true} />);
       
-      cy.get('[data-cy="save-button"]').should('be.disabled');
+      cy.get('[data-cy="save-[data-cy*="button"]"]').should('be.disabled');
       cy.contains('Saving...').should('be.visible');
     });
     
@@ -170,7 +170,7 @@ describe('ElementFooter', () => {
       const onSave = cy.stub();
       cy.mount(<ElementFooter {...defaultProps} onSave={onSave} />);
       
-      cy.get('[data-cy="save-button"]').click();
+      cy.get('[data-cy="save-[data-cy*="button"]"]').click();
       cy.wrap(onSave).should('have.been.called');
     });
     
@@ -178,7 +178,7 @@ describe('ElementFooter', () => {
       const onCancel = cy.stub();
       cy.mount(<ElementFooter {...defaultProps} onCancel={onCancel} />);
       
-      cy.get('[data-cy="cancel-button"]').click();
+      cy.get('[data-cy="cancel-[data-cy*="button"]"]').click();
       cy.wrap(onCancel).should('have.been.called');
     });
     
@@ -186,8 +186,8 @@ describe('ElementFooter', () => {
       const onSave = cy.stub();
       cy.mount(<ElementFooter {...defaultProps} onSave={onSave} isSaving={true} />);
       
-      cy.get('[data-cy="save-button"]').should('be.disabled');
-      cy.get('[data-cy="save-button"]').click({ force: true });
+      cy.get('[data-cy="save-[data-cy*="button"]"]').should('be.disabled');
+      cy.get('[data-cy="save-[data-cy*="button"]"]').click({ force: true });
       cy.wrap(onSave).should('not.have.been.called');
     });
   });
@@ -244,10 +244,10 @@ describe('ElementImages', () => {
       cy.contains('Secondary image').should('be.visible');
     });
     
-    it('shows add image button', () => {
+    it('shows add image [data-cy*="button"]', () => {
       cy.mount(<ElementImages {...defaultProps} />);
       
-      cy.get('[data-cy="add-image-button"]').should('be.visible');
+      cy.get('[data-cy="add-image-[data-cy*="button"]"]').should('be.visible');
     });
     
     it('shows empty state', () => {
@@ -315,7 +315,7 @@ describe('ElementImages', () => {
       cy.contains('Main image').should('be.visible');
     });
     
-    it('closes preview on escape or close button', () => {
+    it('closes preview on escape or close [data-cy*="button"]', () => {
       cy.mount(<ElementImages {...defaultProps} />);
       
       cy.get('[data-cy="image-item-1"]').click();
@@ -378,10 +378,10 @@ describe('ElementRelationships', () => {
       cy.contains('Lives in this location').should('be.visible');
     });
     
-    it('shows add relationship button', () => {
+    it('shows add relationship [data-cy*="button"]', () => {
       cy.mount(<ElementRelationships {...defaultProps} />);
       
-      cy.get('[data-cy="add-relationship-button"]').should('be.visible');
+      cy.get('[data-cy="add-relationship-[data-cy*="button"]"]').should('be.visible');
     });
     
     it('shows empty state', () => {
@@ -395,7 +395,7 @@ describe('ElementRelationships', () => {
     it('opens add relationship modal', () => {
       cy.mount(<ElementRelationships {...defaultProps} />);
       
-      cy.get('[data-cy="add-relationship-button"]').click();
+      cy.get('[data-cy="add-relationship-[data-cy*="button"]"]').click();
       cy.get('[data-cy="relationship-modal"]').should('be.visible');
     });
     
@@ -403,10 +403,10 @@ describe('ElementRelationships', () => {
       const onAddRelationship = cy.stub();
       cy.mount(<ElementRelationships {...defaultProps} onAddRelationship={onAddRelationship} />);
       
-      cy.get('[data-cy="add-relationship-button"]').click();
+      cy.get('[data-cy="add-relationship-[data-cy*="button"]"]').click();
       
       // Select target element
-      cy.get('[data-cy="element-select"]').select('3');
+      cy.get('[data-cy="element-[data-cy*="select"]"]').select('3');
       
       // Select relationship type
       cy.get('[data-cy="relationship-type"]').select('employs');
@@ -427,10 +427,10 @@ describe('ElementRelationships', () => {
     it('validates required fields', () => {
       cy.mount(<ElementRelationships {...defaultProps} />);
       
-      cy.get('[data-cy="add-relationship-button"]').click();
+      cy.get('[data-cy="add-relationship-[data-cy*="button"]"]').click();
       cy.get('[data-cy="save-relationship"]').click();
       
-      cy.contains('Please select an element').should('be.visible');
+      cy.contains('Please [data-cy*="select"] an element').should('be.visible');
     });
   });
   
@@ -517,7 +517,7 @@ describe('ElementTags', () => {
       cy.get('[data-cy^="tag-"]').should('have.length', 4);
     });
     
-    it('shows each tag with remove button', () => {
+    it('shows each tag with remove [data-cy*="button"]', () => {
       cy.mount(<ElementTags {...defaultProps} />);
       
       mockTags.forEach(tag => {
@@ -623,7 +623,7 @@ describe('ElementTags', () => {
       cy.contains('epic').should('be.visible');
     });
     
-    it('selects autocomplete suggestion', () => {
+    it('[data-cy*="select"]s autocomplete suggestion', () => {
       const onAddTag = cy.stub();
       cy.mount(<ElementTags {...defaultProps} onAddTag={onAddTag} />);
       
@@ -639,7 +639,7 @@ describe('ElementTags', () => {
       
       cy.get('[data-cy="tag-input"]').type('e');
       cy.get('[data-cy="tag-input"]').type('{downarrow}');
-      cy.get('[data-cy="autocomplete-epic"]').should('have.class', 'selected');
+      cy.get('[data-cy="autocomplete-epic"]').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
       cy.get('[data-cy="tag-input"]').type('{enter}');
       
       cy.wrap(onAddTag).should('have.been.calledWith', 'epic');

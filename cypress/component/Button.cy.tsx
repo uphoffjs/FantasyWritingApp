@@ -1,24 +1,64 @@
-// Example component test for a Button component
+import React from 'react';
+import { Button } from '../../src/components/Button';
 
 describe('Button Component', () => {
-  it('should render a button', () => {
-    // This is a placeholder test
-    // Once you have actual components, you can test them like this:
-    
-    // Example of how to test a React Native Web button component:
-    /*
-    cy.mountWithProviders(
-      <Button onPress={cy.stub().as('onPress')}>
-        Click me
-      </Button>
+  it('should render a button with React Native components', () => {
+    cy.mount(
+      <Button 
+        title="Click me"
+        onPress={cy.stub().as('onPress')}
+        testID="test-button"
+      />
     );
     
-    cy.get('[role=button]').should('be.visible');
-    cy.get('[role=button]').click();
+    // React Native Web converts testID to data-cy automatically
+    cy.get('[data-cy="test-button"]').should('be.visible');
+    cy.get('[data-cy="test-button"]').should('contain', 'Click me');
+    cy.get('[data-cy="test-button"]').click();
     cy.get('@onPress').should('have.been.called');
-    */
+  });
+
+  it('should handle different variants', () => {
+    cy.mount(
+      <Button 
+        title="Secondary Button"
+        onPress={() => {}}
+        variant="secondary"
+        testID="secondary-button"
+      />
+    );
     
-    // For now, just a basic assertion to verify the test runs
-    expect(true).to.be.true;
+    cy.get('[data-cy="secondary-button"]').should('be.visible');
+    cy.get('[data-cy="secondary-button"]').should('contain', 'Secondary Button');
+  });
+
+  it('should show loading state', () => {
+    cy.mount(
+      <Button 
+        title="Loading Button"
+        onPress={() => {}}
+        loading={true}
+        testID="loading-button"
+      />
+    );
+    
+    cy.get('[data-cy="loading-button"]').should('be.visible');
+    // React Native ActivityIndicator doesn't have easily testable content
+    cy.get('[data-cy="loading-button"]').should('exist');
+  });
+
+  it('should be disabled when disabled prop is true', () => {
+    cy.mount(
+      <Button 
+        title="Disabled Button"
+        onPress={cy.stub().as('onPress')}
+        disabled={true}
+        testID="disabled-button"
+      />
+    );
+    
+    cy.get('[data-cy="disabled-button"]').should('be.visible');
+    cy.get('[data-cy="disabled-button"]').click({ force: true });
+    cy.get('@onPress').should('not.have.been.called');
   });
 });

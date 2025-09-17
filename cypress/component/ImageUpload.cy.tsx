@@ -201,7 +201,7 @@ describe('ImageUpload Component', () => {
       cy.get('img').should('have.length', 2);
     });
 
-    it('removes image when delete button is clicked', () => {
+    it('removes image when delete [data-cy*="button"] is clicked', () => {
       const images = [
         'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=='
       ];
@@ -213,7 +213,7 @@ describe('ImageUpload Component', () => {
         />
       );
 
-      cy.get('button[aria-label*="Remove"]').click();
+      cy.get('[data-cy*="button"][aria-label*="Remove"]').click();
       
       cy.get('@onImagesChange').should('have.been.calledWith', []);
     });
@@ -350,7 +350,7 @@ describe('ImageUpload Component', () => {
         .should('have.attr', 'id', 'image-upload-input');
     });
 
-    it('has accessible remove buttons', () => {
+    it('has accessible remove [data-cy*="button"]s', () => {
       const images = [
         'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=='
       ];
@@ -362,7 +362,7 @@ describe('ImageUpload Component', () => {
         />
       );
 
-      cy.get('button[aria-label*="Remove"]').should('exist');
+      cy.get('[data-cy*="button"][aria-label*="Remove"]').should('exist');
     });
 
     it('is keyboard navigable', () => {
@@ -372,18 +372,18 @@ describe('ImageUpload Component', () => {
       
       cy.mount(
         <div>
-          <button>Before</button>
+          <[data-cy*="button"]>Before</[data-cy*="button"]>
           <ImageUpload 
             images={images} 
             onImagesChange={onImagesChangeSpy} 
           />
-          <button>After</button>
+          <[data-cy*="button"]>After</[data-cy*="button"]>
         </div>
       );
 
-      cy.get('button').first().focus();
+      cy.get('[data-cy*="button"]').first().focus();
       cy.focused().tab();
-      // Should focus on the remove button or upload area
+      // Should focus on the remove [data-cy*="button"] or upload area
       cy.focused().should('exist');
     });
 

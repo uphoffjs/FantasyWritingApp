@@ -48,7 +48,7 @@ const mockQuestions = [
       { value: 'neutral', label: 'Neutral' }
     ]
   }),
-  QuestionFactory.createMultiselect({
+  QuestionFactory.createMulti[data-cy*="select"]({
     id: 'q5',
     text: 'Abilities',
     category: 'Powers',
@@ -120,7 +120,7 @@ describe('BaseElementForm', () => {
       cy.contains('Timeline').click();
       
       // Check text input
-      cy.get('input[type="text"]').first().should('have.value', 'Test Character');
+      cy.get('[data-cy="text-input"]').first().should('have.value', 'Test Character');
       
       // Check textarea (should be RichTextEditor for large size)
       cy.contains('Description').should('be.visible');
@@ -128,13 +128,13 @@ describe('BaseElementForm', () => {
       // Check number input
       cy.get('input[type="number"]').should('have.value', '25');
       
-      // Check select dropdown
-      cy.get('select').should('have.value', 'hero');
+      // Check [data-cy*="select"] dropdown
+      cy.get('[data-cy*="select"]').should('have.value', 'hero');
       
-      // Check multiselect checkboxes
+      // Check multi[data-cy*="select"] checkboxes
       cy.get('input[type="checkbox"][checked]').should('have.length', 2);
       
-      // Check boolean radio buttons
+      // Check boolean radio [data-cy*="button"]s
       cy.get('input[type="radio"][checked]').should('exist');
       
       // Check date input
@@ -195,11 +195,11 @@ describe('BaseElementForm', () => {
       cy.contains('Quick Mode').should('be.visible');
       
       // Switch to detailed mode
-      cy.get('button').contains('Detailed').parent().click();
+      cy.get('[data-cy*="button"]').contains('Detailed').parent().click();
       cy.contains('Quick Mode').should('not.exist');
       
       // Switch back to basic
-      cy.get('button').contains('Basic').parent().click();
+      cy.get('[data-cy*="button"]').contains('Basic').parent().click();
       cy.contains('Quick Mode').should('be.visible');
     });
     
@@ -222,7 +222,7 @@ describe('BaseElementForm', () => {
       cy.contains('Quick Mode').should('be.visible');
       
       // Switch to detailed mode
-      cy.get('button').contains('Detailed').parent().click();
+      cy.get('[data-cy*="button"]').contains('Detailed').parent().click();
       
       // All categories should be available
       cy.contains('General').should('be.visible');
@@ -295,7 +295,7 @@ describe('BaseElementForm', () => {
       );
       
       cy.contains('General').click();
-      cy.get('input[type="text"]').first().type('New Name');
+      cy.get('[data-cy="text-input"]').first().type('New Name');
       cy.wrap(onChange).should('have.been.calledWith', 'q1', 'New Name');
     });
     
@@ -319,7 +319,7 @@ describe('BaseElementForm', () => {
       cy.wrap(onChange).should('have.been.calledWith', 'q3', 30);
     });
     
-    it('handles select changes', () => {
+    it('handles [data-cy*="select"] changes', () => {
       const onChange = cy.stub();
       
       cy.mount(
@@ -335,11 +335,11 @@ describe('BaseElementForm', () => {
       );
       
       cy.contains('Details').click();
-      cy.get('select').select('villain');
+      cy.get('[data-cy*="select"]').select('villain');
       cy.wrap(onChange).should('have.been.calledWith', 'q4', 'villain');
     });
     
-    it('handles multiselect changes', () => {
+    it('handles multi[data-cy*="select"] changes', () => {
       const onChange = cy.stub();
       
       cy.mount(
@@ -495,7 +495,7 @@ describe('BaseElementForm', () => {
       );
       
       cy.contains('General').click();
-      cy.get('input[type="text"]').first().should('have.value', '');
+      cy.get('[data-cy="text-input"]').first().should('have.value', '');
     });
   });
   
@@ -514,7 +514,7 @@ describe('BaseElementForm', () => {
       );
       
       cy.contains('General').click();
-      cy.get('input[type="text"]').first().should('have.attr', 'placeholder');
+      cy.get('[data-cy="text-input"]').first().should('have.attr', 'placeholder');
     });
     
     it('supports keyboard navigation', () => {
@@ -562,7 +562,7 @@ describe('CharacterForm', () => {
   };
   
   describe('Rendering', () => {
-    it('renders base form with species selector', () => {
+    it('renders base form with species [data-cy*="select"]or', () => {
       const onChange = cy.stub();
       
       cy.mount(
@@ -584,11 +584,11 @@ describe('CharacterForm', () => {
       // Base form should render
       cy.contains('Character Details').should('be.visible');
       
-      // Species selector should render (may be in different location)
+      // Species [data-cy*="select"]or should render (may be in different location)
       cy.get('body').should('contain', 'Species').or('contain', 'Race');
     });
     
-    it('shows selected species', () => {
+    it('shows [data-cy*="select"]ed species', () => {
       const answers = {
         species: { questionId: 'species', value: 'race1' }
       };
@@ -609,7 +609,7 @@ describe('CharacterForm', () => {
         </MockWorldbuildingStoreProvider>
       );
       
-      // Should show selected race somewhere in the UI
+      // Should show [data-cy*="select"]ed race somewhere in the UI
       cy.get('body').should('contain', 'Elf');
     });
   });
@@ -647,10 +647,10 @@ describe('Other Element Forms', () => {
         cy.get('.space-y-6').should('exist');
         
         // Expand first category
-        cy.get('button').first().click();
+        cy.get('[data-cy*="button"]').first().click();
         
         // Type in first input
-        cy.get('input[type="text"]').first().type('Test Value');
+        cy.get('[data-cy="text-input"]').first().type('Test Value');
         
         // Should call onChange
         cy.wrap(onChange).should('have.been.called');

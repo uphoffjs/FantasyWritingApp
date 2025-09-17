@@ -141,7 +141,7 @@ describe('ProjectCard Component', () => {
     cy.get('[data-cy="project-card"]').should('contain.text', '📁');
   });
 
-  it('should show action menu when action button clicked', () => {
+  it('should show action menu when action [data-cy*="button"] clicked', () => {
     cy.mount(
       <ProjectCard 
         project={mockProject} 
@@ -150,7 +150,7 @@ describe('ProjectCard Component', () => {
       />
     );
 
-    // Click the action button (⋮)
+    // Click the action [data-cy*="button"] (⋮)
     cy.contains('⋮').click();
     
     // Check that action menu is visible
@@ -392,7 +392,7 @@ describe('ProjectCard Component', () => {
     // Check that the card has proper accessibility
     cy.get('[data-cy="project-card"]')
       .should('be.visible')
-      .and('have.attr', 'role'); // Pressable in React Native Web becomes a button-like element
+      .and('have.attr', 'role'); // Pressable in React Native Web becomes a [data-cy*="button"]-like element
   });
 
   it('should handle long project names', () => {

@@ -284,10 +284,10 @@ describe('InfiniteScrollList Component', () => {
     );
     
     cy.contains('Failed to load items').should('be.visible');
-    cy.get('[data-cy="retry-button"]').should('exist');
+    cy.get('[data-cy="retry-[data-cy*="button"]"]').should('exist');
   });
 
-  it('calls loadMore on retry button click', () => {
+  it('calls loadMore on retry [data-cy*="button"] click', () => {
     const items = ['Item 1'];
     const loadMore = cy.stub().as('loadMore');
     
@@ -302,7 +302,7 @@ describe('InfiniteScrollList Component', () => {
       />
     );
     
-    cy.get('[data-cy="retry-button"]').click();
+    cy.get('[data-cy="retry-[data-cy*="button"]"]').click();
     cy.get('@loadMore').should('have.been.called');
   });
 });

@@ -32,7 +32,7 @@ const simpleQuestions = [
   {
     id: 'q4',
     text: 'Type',
-    type: 'select' as const,
+    type: '[data-cy*="select"]' as const,
     category: 'Details',
     options: [
       { value: 'hero', label: 'Hero' },
@@ -98,7 +98,7 @@ describe('BaseElementForm (Simple Tests)', () => {
     // Questions should be hidden initially
     cy.contains('Name').should('not.be.visible');
     
-    // Expand category using data-cy selector
+    // Expand category using data-cy [data-cy*="select"]or
     cy.get('[data-cy="category-toggle-general"]').click();
     cy.contains('Name').should('be.visible');
   });
@@ -129,7 +129,7 @@ describe('BaseElementForm (Simple Tests)', () => {
     // Check number input value
     cy.get('[data-cy="question-q3-input"]').should('have.value', '25');
     
-    // Check select value
+    // Check [data-cy*="select"] value
     cy.get('[data-cy="question-q4-input"]').should('have.value', 'hero');
   });
   
@@ -195,8 +195,8 @@ describe('BaseElementForm (Simple Tests)', () => {
     
     cy.get('[data-cy="category-toggle-general"]').click();
     
-    // Click the help button using data-cy
-    cy.get('[data-cy="question-q2-help-button"]').click();
+    // Click the help [data-cy*="button"] using data-cy
+    cy.get('[data-cy="question-q2-help-[data-cy*="button"]"]').click();
     
     // Help text should appear
     cy.get('[data-cy="question-q2-help"]').should('be.visible').and('contain', 'Provide a description');
@@ -218,7 +218,7 @@ describe('BaseElementForm (Simple Tests)', () => {
     // Should start in basic mode
     cy.contains('Quick Mode').should('be.visible');
     
-    // Click the mode toggle button
+    // Click the mode toggle [data-cy*="button"]
     cy.get('[data-cy="mode-toggle"]').click();
     
     // Should switch to detailed mode
@@ -271,7 +271,7 @@ describe('BaseElementForm (Simple Tests)', () => {
     cy.wrap(onChange).should('have.been.calledWith', 'q3', 30);
   });
 
-  it('handles select changes', () => {
+  it('handles [data-cy*="select"] changes', () => {
     const onChange = cy.stub();
     
     cy.mount(

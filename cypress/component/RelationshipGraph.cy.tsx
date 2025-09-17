@@ -69,7 +69,7 @@ describe('RelationshipGraph Component', () => {
         />
       );
       
-      // Check for control buttons
+      // Check for control [data-cy*="button"]s
       cy.get('[data-cy="zoom-in-btn"]').should('be.visible');
       cy.get('[data-cy="zoom-out-btn"]').should('be.visible');
       cy.get('[data-cy="zoom-reset-btn"]').should('be.visible');
@@ -149,8 +149,8 @@ describe('RelationshipGraph Component', () => {
         />
       );
       
-      // Check if layout selector exists
-      cy.get('[data-cy="layout-selector"]').should('exist');
+      // Check if layout [data-cy*="select"]or exists
+      cy.get('[data-cy="layout-[data-cy*="select"]or"]').should('exist');
     });
 
     it('changes to circular layout', () => {
@@ -163,7 +163,7 @@ describe('RelationshipGraph Component', () => {
         />
       );
       
-      cy.get('[data-cy="layout-selector"]').click();
+      cy.get('[data-cy="layout-[data-cy*="select"]or"]').click();
       cy.contains('Circular Layout').click();
       // Layout should change
       cy.get('svg').should('exist');
@@ -179,7 +179,7 @@ describe('RelationshipGraph Component', () => {
         />
       );
       
-      cy.get('[data-cy="layout-selector"]').click();
+      cy.get('[data-cy="layout-[data-cy*="select"]or"]').click();
       cy.contains('Hierarchical Layout').click();
       // Layout should change
       cy.get('svg').should('exist');
@@ -325,7 +325,7 @@ describe('RelationshipGraph Component', () => {
       cy.get('svg').should('exist');
     });
 
-    it('shows control toggle button on mobile', () => {
+    it('shows control toggle [data-cy*="button"] on mobile', () => {
       const elements = [createMockElement('1')];
       
       cy.mount(
@@ -335,7 +335,7 @@ describe('RelationshipGraph Component', () => {
         />
       );
       
-      // On mobile, there should be a toggle button for controls
+      // On mobile, there should be a toggle [data-cy*="button"] for controls
       cy.get('[aria-label="Toggle controls"]').should('exist');
       
       // Click the toggle to show controls

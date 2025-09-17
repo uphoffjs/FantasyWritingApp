@@ -29,9 +29,9 @@ const CustomFallback = ({ error, resetError }: any) => {
     <div data-cy="custom-fallback">
       <h2>Custom Error UI</h2>
       <p>{error.message}</p>
-      <button onClick={resetError} data-cy="custom-reset">
+      <[data-cy*="button"] onClick={resetError} data-cy="custom-reset">
         Reset Custom
-      </button>
+      </[data-cy*="button"]>
     </div>
   );
 };
@@ -325,7 +325,7 @@ describe('ErrorBoundary', () => {
   });
   
   describe('Accessibility', () => {
-    it('has accessible buttons in error UI', () => {
+    it('has accessible [data-cy*="button"]s in error UI', () => {
       cy.mount(
         <ErrorBoundary level="root">
           <ThrowError shouldThrow={true} />

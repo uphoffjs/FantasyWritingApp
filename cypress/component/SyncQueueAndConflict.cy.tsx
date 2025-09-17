@@ -79,10 +79,10 @@ describe('SyncQueueStatus Component', () => {
     
     cy.mount(<SyncQueueStatus />);
     
-    cy.get('button').should('not.exist');
+    cy.get('[data-cy*="button"]').should('not.exist');
   });
 
-  it('shows pending count button when items in queue', () => {
+  it('shows pending count [data-cy*="button"] when items in queue', () => {
     cy.mount(<SyncQueueStatus />);
     
     cy.wrap(null).then(() => {
@@ -90,7 +90,7 @@ describe('SyncQueueStatus Component', () => {
     });
     
     cy.contains('5 pending').should('be.visible');
-    cy.get('.bg-metals-gold').should('exist');
+    cy.get('[data-cy*="metals-gold"]').should('exist');
   });
 
   it('opens dropdown on click', () => {
@@ -160,7 +160,7 @@ describe('SyncQueueStatus Component', () => {
     cy.mount(<SyncQueueStatus />);
     
     cy.contains('5 pending').click();
-    cy.get('.absolute').should('have.css', 'opacity');
+    cy.get('.absolute').should('have.css', 'opacity') // CSS properties work in React Native Web;
   });
 
   it('updates status every 5 seconds', () => {
@@ -272,7 +272,7 @@ describe('ConflictResolver Component', () => {
     cy.contains('Attempt to merge both versions').should('be.visible');
   });
 
-  it('selects local version on click', () => {
+  it('[data-cy*="select"]s local version on click', () => {
     cy.mount(
       <ConflictResolver
         conflict={mockConflict}
@@ -286,7 +286,7 @@ describe('ConflictResolver Component', () => {
     cy.get('.border-metals-gold').should('have.length', 1);
   });
 
-  it('selects cloud version on click', () => {
+  it('[data-cy*="select"]s cloud version on click', () => {
     cy.mount(
       <ConflictResolver
         conflict={mockConflict}
@@ -300,7 +300,7 @@ describe('ConflictResolver Component', () => {
     cy.get('.border-metals-gold').should('have.length', 1);
   });
 
-  it('selects merge option on click', () => {
+  it('[data-cy*="select"]s merge option on click', () => {
     cy.mount(
       <ConflictResolver
         conflict={mockConflict}
@@ -314,7 +314,7 @@ describe('ConflictResolver Component', () => {
     cy.get('.border-metals-gold').should('have.length', 1);
   });
 
-  it('disables Apply button when no selection', () => {
+  it('disables Apply [data-cy*="button"] when no [data-cy*="select"]ion', () => {
     cy.mount(
       <ConflictResolver
         conflict={mockConflict}
@@ -326,7 +326,7 @@ describe('ConflictResolver Component', () => {
     cy.contains('Apply Resolution').should('be.disabled');
   });
 
-  it('enables Apply button after selection', () => {
+  it('enables Apply [data-cy*="button"] after [data-cy*="select"]ion', () => {
     cy.mount(
       <ConflictResolver
         conflict={mockConflict}
@@ -339,7 +339,7 @@ describe('ConflictResolver Component', () => {
     cy.contains('Apply Resolution').should('not.be.disabled');
   });
 
-  it('calls onResolve with selected resolution', () => {
+  it('calls onResolve with [data-cy*="select"]ed resolution', () => {
     cy.mount(
       <ConflictResolver
         conflict={mockConflict}
@@ -411,7 +411,7 @@ describe('ConflictResolver Component', () => {
       />
     );
     
-    cy.get('.fixed').should('have.css', 'opacity');
+    cy.get('.fixed').should('have.css', 'opacity') // CSS properties work in React Native Web;
   });
 });
 
@@ -499,7 +499,7 @@ describe('AutoSyncStatus Component', () => {
     cy.get('.text-flame-400').should('exist');
   });
 
-  it('shows error state with retry button', () => {
+  it('shows error state with retry [data-cy*="button"]', () => {
     mockAutoSyncService.getState.returns({
       status: 'error',
       pendingOperations: 0,
@@ -511,7 +511,7 @@ describe('AutoSyncStatus Component', () => {
     
     cy.contains('Sync error - click to retry').should('be.visible');
     cy.get('.text-blood-400').should('exist');
-    cy.get('button[title*="Network timeout"]').should('exist');
+    cy.get('[data-cy*="button"][title*="Network timeout"]').should('exist');
   });
 
   it('handles retry click in error state', () => {
@@ -546,7 +546,7 @@ describe('AutoSyncStatus Component', () => {
     
     cy.mount(<AutoSyncStatus />);
     
-    cy.get('.bg-flame-600').contains('15').should('be.visible');
+    cy.get('[data-cy*="flame-"]600').contains('15').should('be.visible');
   });
 
   it('shows 99+ for over 99 pending operations', () => {
@@ -559,7 +559,7 @@ describe('AutoSyncStatus Component', () => {
     
     cy.mount(<AutoSyncStatus />);
     
-    cy.get('.bg-flame-600').contains('99+').should('be.visible');
+    cy.get('[data-cy*="flame-"]600').contains('99+').should('be.visible');
   });
 
   it('subscribes to sync state changes', () => {

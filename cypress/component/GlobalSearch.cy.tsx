@@ -190,7 +190,7 @@ describe('GlobalSearch Component', () => {
     cy.get('@onClose').should('have.been.called');
   });
 
-  it('should clear search when clear button clicked', () => {
+  it('should clear search when clear [data-cy*="button"] clicked', () => {
     cy.mount(
       <GlobalSearch 
         visible={true} 
@@ -202,17 +202,17 @@ describe('GlobalSearch Component', () => {
     // Type search query
     cy.get('input[placeholder="Search projects and elements..."]').type('test');
     
-    // Clear button should appear
+    // Clear [data-cy*="button"] should appear
     cy.contains('✕').should('be.visible');
     
-    // Click clear button
+    // Click clear [data-cy*="button"]
     cy.contains('✕').click();
     
     // Input should be cleared
     cy.get('input[placeholder="Search projects and elements..."]').should('have.value', '');
   });
 
-  it('should handle cancel button', () => {
+  it('should handle cancel [data-cy*="button"]', () => {
     cy.mount(
       <GlobalSearch 
         visible={true} 

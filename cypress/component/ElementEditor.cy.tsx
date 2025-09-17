@@ -1,3 +1,4 @@
+import React from 'react';
 import { ElementEditor } from '../../src/components/ElementEditor';
 import { ElementFactory, QuestionFactory } from '../fixtures/factories';
 import { BrowserRouter } from 'react-router-dom';
@@ -77,7 +78,7 @@ describe('ElementEditor Component', () => {
 
     // Expand Core Identity category to see name question
     cy.get('[data-cy="category-core-identity"]').within(() => {
-      cy.get('button').first().click();
+      cy.get('[data-cy*="button"]').first().click();
     });
     
     // Text input - name
@@ -86,7 +87,7 @@ describe('ElementEditor Component', () => {
     
     // Expand Background & History category for occupation
     cy.get('[data-cy="category-background-&-history"]').within(() => {
-      cy.get('button').first().click();
+      cy.get('[data-cy*="button"]').first().click();
     });
     
     // Text - occupation (in Background & History)
@@ -103,7 +104,7 @@ describe('ElementEditor Component', () => {
     
     // Expand Physical Characteristics category
     cy.get('[data-cy="category-physical-characteristics"]').within(() => {
-      cy.get('button').first().click();
+      cy.get('[data-cy*="button"]').first().click();
     });
     
     // Check that Physical Characteristics questions exist
@@ -126,7 +127,7 @@ describe('ElementEditor Component', () => {
 
     // Expand Core Identity category to see name question
     cy.get('[data-cy="category-core-identity"]').within(() => {
-      cy.get('button').first().click();
+      cy.get('[data-cy*="button"]').first().click();
     });
     
     // Update text input
@@ -160,7 +161,7 @@ describe('ElementEditor Component', () => {
 
     // Expand Core Identity category to see name question
     cy.get('[data-cy="category-core-identity"]').within(() => {
-      cy.get('button').first().click();
+      cy.get('[data-cy*="button"]').first().click();
     });
     
     // Check if required fields have proper indicators
@@ -234,7 +235,7 @@ describe('ElementEditor Component', () => {
 
     // Expand Family & Relationships category for family_dynamics
     cy.get('[data-cy="category-family-&-relationships"]').within(() => {
-      cy.get('button').first().click();
+      cy.get('[data-cy*="button"]').first().click();
     });
     
     // Type in a textarea field
@@ -256,14 +257,14 @@ describe('ElementEditor Component', () => {
 
     // Expand Core Identity category
     cy.get('[data-cy="category-core-identity"]').within(() => {
-      cy.get('button').first().click();
+      cy.get('[data-cy*="button"]').first().click();
     });
     
-    // Find a question with help text and click its help button
+    // Find a question with help text and click its help [data-cy*="button"]
     // The name field has helpText in the character template
     cy.get('[data-cy="question-name"]').within(() => {
-      // Click the help button (it's the button with HelpCircle icon)
-      cy.get('button').click();
+      // Click the help [data-cy*="button"] (it's the [data-cy*="button"] with HelpCircle icon)
+      cy.get('[data-cy*="button"]').click();
     });
     
     // Check that help text is displayed
@@ -285,7 +286,7 @@ describe('ElementEditor Component', () => {
 
     // Expand Core Identity category to see name question
     cy.get('[data-cy="category-core-identity"]').within(() => {
-      cy.get('button').first().click();
+      cy.get('[data-cy*="button"]').first().click();
     });
     
     // Make a change
@@ -312,7 +313,7 @@ describe('ElementEditor Component', () => {
       />
     );
 
-    cy.get('[data-cy="cancel-button"]').click();
+    cy.get('[data-cy="cancel-[data-cy*="button"]"]').click();
     cy.wrap(onCancel).should('have.been.called');
   });
 
@@ -329,7 +330,7 @@ describe('ElementEditor Component', () => {
 
     // Expand Core Identity category to see name question
     cy.get('[data-cy="category-core-identity"]').within(() => {
-      cy.get('button').first().click();
+      cy.get('[data-cy*="button"]').first().click();
     });
     
     // Check for proper labels and IDs
