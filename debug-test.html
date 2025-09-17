@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug Create Project</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .instructions { background: #f0f0f0; padding: 15px; border-radius: 5px; margin-bottom: 20px; }
+        .step { margin: 10px 0; }
+        .link { color: blue; text-decoration: underline; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>Debug Create Project Functionality</h1>
+    
+    <div class="instructions">
+        <h2>Manual Testing Instructions</h2>
+        <div class="step">1. <span class="link" onclick="openApp()">Click here to open the app in a new tab</span></div>
+        <div class="step">2. Open Developer Tools (F12) and go to the Console tab</div>
+        <div class="step">3. Look for debug messages starting with [ProjectListScreen.web] and [worldbuildingStore]</div>
+        <div class="step">4. Click the "New Project" button</div>
+        <div class="step">5. Fill in a project name (e.g., "Test Project")</div>
+        <div class="step">6. Click the "Create" button</div>
+        <div class="step">7. Watch the console for debug messages and any errors</div>
+        <div class="step">8. Check if the project appears in the list</div>
+    </div>
+
+    <h2>Expected Debug Output</h2>
+    <p>You should see messages like:</p>
+    <ul>
+        <li>[ProjectListScreen.web] Component rendered, projects count: 0</li>
+        <li>[ProjectListScreen.web] New Project button clicked</li>
+        <li>[ProjectListScreen.web] handleCreateProject called</li>
+        <li>[worldbuildingStore] createProject called with: {name: "Test Project", description: ""}</li>
+        <li>[worldbuildingStore] Created project object: {...}</li>
+        <li>[worldbuildingStore] New projects count: 1</li>
+    </ul>
+
+    <h2>Common Issues to Look For</h2>
+    <ul>
+        <li><strong>Button not clickable:</strong> Check if there are any JavaScript errors preventing event handlers</li>
+        <li><strong>Function not called:</strong> Check if the onClick handler is properly bound</li>
+        <li><strong>Store not updating:</strong> Check if the createProject function is working</li>
+        <li><strong>State not persisting:</strong> Check if the Zustand store is configured correctly</li>
+        <li><strong>UI not updating:</strong> Check if React is re-rendering after state changes</li>
+    </ul>
+
+    <h2>Potential Fixes</h2>
+    <ul>
+        <li>Check for TypeScript compilation errors in the console</li>
+        <li>Verify React and Zustand are properly installed</li>
+        <li>Ensure the store middleware isn't blocking updates</li>
+        <li>Check if localStorage is working for persistence</li>
+    </ul>
+
+    <script>
+        function openApp() {
+            window.open('http://localhost:3002', '_blank');
+        }
+    </script>
+</body>
+</html>

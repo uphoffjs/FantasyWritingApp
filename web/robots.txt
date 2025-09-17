@@ -1,0 +1,29 @@
+# Fantasy Writing App - Robots.txt
+# https://fantasywritingapp.com
+
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /private/
+
+# Sitemap location
+Sitemap: https://fantasywritingapp.com/sitemap.xml
+
+# Crawl-delay (in seconds) for respectful crawling
+Crawl-delay: 1
+
+# Allow search engines to index images
+User-agent: Googlebot-Image
+Allow: /icons/
+Allow: /images/
+
+# Block bad bots
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Crawl-delay: 10

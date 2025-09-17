@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Create Button - Fantasy Writing App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 { color: #A31C1C; }
+        h2 { color: #333; }
+        .button {
+            background-color: #A31C1C;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+        }
+        .button:hover {
+            background-color: #7F1616;
+        }
+        .console-output {
+            background: #1e1e1e;
+            color: #00ff00;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+        .status {
+            padding: 5px 10px;
+            border-radius: 3px;
+            display: inline-block;
+            margin: 5px;
+        }
+        .status.success { background: #4CAF50; color: white; }
+        .status.error { background: #f44336; color: white; }
+        .status.warning { background: #ff9800; color: white; }
+        .test-step {
+            margin: 10px 0;
+            padding: 10px;
+            background: #f9f9f9;
+            border-left: 3px solid #A31C1C;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Fantasy Writing App - Create Button Test</h1>
+    
+    <div class="test-section">
+        <h2>📱 App Link</h2>
+        <p><strong>Open the app in a new tab:</strong> <a href="http://localhost:3002" target="_blank">http://localhost:3002</a></p>
+        <p>Make sure to have the Developer Console open (Press F12 → Console tab)</p>
+    </div>
+
+    <div class="test-section">
+        <h2>🔍 What We're Testing</h2>
+        <div class="test-step">
+            <strong>1. Component Render</strong>
+            <p>When the page loads, you should see in console:</p>
+            <code>[ProjectListScreen.web] Component rendered, projects count: [number]</code>
+        </div>
+        
+        <div class="test-step">
+            <strong>2. Button Click Detection</strong>
+            <p>When clicking "New Project" button, you should see:</p>
+            <code>[ProjectListScreen.web] New Project button clicked</code>
+        </div>
+        
+        <div class="test-step">
+            <strong>3. Create Function Call</strong>
+            <p>When clicking "Create" in the modal, you should see:</p>
+            <code>[ProjectListScreen.web] handleCreateProject called</code>
+            <code>[worldbuildingStore] createProject called with: {name: "...", description: "..."}</code>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>✅ Expected Console Output</h2>
+        <div class="console-output">
+[ProjectListScreen.web] Component rendered, projects count: 0
+[ProjectListScreen.web] Store functions: {createProject: true, deleteProject: true}
+[ProjectListScreen.web] New Project button clicked
+[ProjectListScreen.web] handleCreateProject called
+[ProjectListScreen.web] Project name: Test Project
+[ProjectListScreen.web] Project description: Test Description
+[ProjectListScreen.web] Calling createProject function...
+[worldbuildingStore] createProject called with: {name: "Test Project", description: "Test Description"}
+[worldbuildingStore] DEFAULT_TEMPLATES: {...}
+[worldbuildingStore] Created project object: {...}
+[worldbuildingStore] Setting state with new projects list...
+[worldbuildingStore] New projects count: 1
+[ProjectListScreen.web] createProject result: {...}
+[ProjectListScreen.web] Clearing form fields...
+[ProjectListScreen.web] Create project successful!</div>
+    </div>
+
+    <div class="test-section">
+        <h2>❌ Common Issues</h2>
+        <div class="test-step">
+            <strong>Issue 1: No console output at all</strong>
+            <p>→ The page hasn't reloaded with the latest changes. Press Ctrl+Shift+R to hard refresh.</p>
+        </div>
+        
+        <div class="test-step">
+            <strong>Issue 2: Button click not detected</strong>
+            <p>→ The onClick handler isn't bound properly. Check for JavaScript errors.</p>
+        </div>
+        
+        <div class="test-step">
+            <strong>Issue 3: Store function not called</strong>
+            <p>→ The store isn't properly imported or the hook isn't working.</p>
+        </div>
+        
+        <div class="test-step">
+            <strong>Issue 4: Project created but not showing</strong>
+            <p>→ The UI isn't re-rendering. Check React state updates.</p>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>🔧 Quick Actions</h2>
+        <button class="button" onclick="window.open('http://localhost:3002', '_blank')">
+            Open App
+        </button>
+        <button class="button" onclick="location.reload()">
+            Refresh This Page
+        </button>
+        <button class="button" onclick="copyTestCommands()">
+            Copy Console Commands
+        </button>
+    </div>
+
+    <div class="test-section">
+        <h2>📝 Manual Console Test</h2>
+        <p>You can also test directly in the browser console:</p>
+        <div class="console-output">// Test if the store is accessible
+console.log('Store available:', typeof useWorldbuildingStore !== 'undefined');
+
+// Try to get the store state
+if (typeof useWorldbuildingStore !== 'undefined') {
+    const state = useWorldbuildingStore.getState();
+    console.log('Current projects:', state.projects);
+    console.log('createProject function:', state.createProject);
+    
+    // Try to create a test project
+    state.createProject('Console Test Project', 'Created from console');
+    console.log('New projects count:', useWorldbuildingStore.getState().projects.length);
+}</div>
+    </div>
+
+    <script>
+        function copyTestCommands() {
+            const commands = `// Test if the store is accessible
+console.log('Store available:', typeof useWorldbuildingStore !== 'undefined');
+
+// Try to get the store state
+if (typeof useWorldbuildingStore !== 'undefined') {
+    const state = useWorldbuildingStore.getState();
+    console.log('Current projects:', state.projects);
+    console.log('createProject function:', state.createProject);
+    
+    // Try to create a test project
+    state.createProject('Console Test Project', 'Created from console');
+    console.log('New projects count:', useWorldbuildingStore.getState().projects.length);
+}`;
+            
+            navigator.clipboard.writeText(commands);
+            alert('Console commands copied to clipboard!');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=EB+Garamond:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Cinzel font */
+.font-cinzel {
+  font-family: 'Cinzel', serif;
+}
+
+/* Custom element effects */
+@layer utilities {
+  .element-glow {
+    box-shadow: 0 0 20px currentColor;
+  }
+  
+  .element-glow-intense {
+    box-shadow: 0 0 30px currentColor, 0 0 60px currentColor;
+  }
+  
+  .element-particles {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .element-particles::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 4px;
+    height: 4px;
+    background: currentColor;
+    border-radius: 50%;
+    animation: particle-float 3s infinite ease-in-out;
+  }
+  
+  @keyframes particle-float {
+    0% {
+      transform: translate(-50%, -50%) translateY(0) scale(0);
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+      transform: translate(-50%, -50%) translateY(-20px) scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: translate(-50%, -50%) translateY(-100px) scale(0);
+    }
+  }
+}
