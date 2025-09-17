@@ -726,3 +726,109 @@ Every piece of code must:
 - Include appropriate test coverage
 - Follow React Native best practices
 - Use consistent styling patterns
+
+## Git Operations
+
+### Smart Git Workflow
+
+This project uses intelligent git operations to maintain consistent version control practices.
+
+#### Available Commands
+
+##### Status Analysis
+```bash
+/sc:git status
+# Provides comprehensive repository state analysis
+# Shows staged/unstaged changes with recommendations
+# Identifies branch state and sync status
+```
+
+##### Smart Commits
+```bash
+/sc:git commit --smart-commit
+# Analyzes changes and generates conventional commit message
+# Follows format: type(scope): description
+# Types: feat, fix, docs, style, refactor, test, chore
+```
+
+##### Branch Management
+```bash
+/sc:git branch feature/new-feature
+# Creates branch following naming conventions
+# Patterns: feature/, bugfix/, hotfix/, release/
+
+/sc:git merge feature-branch --interactive
+# Guided merge with conflict resolution assistance
+# Provides step-by-step conflict resolution
+```
+
+#### Git Workflow Best Practices
+
+1. **Commit Message Format**:
+   ```
+   type(scope): subject
+   
+   body (optional)
+   
+   footer (optional)
+   ```
+   
+   Examples:
+   - `feat(stories): add chapter reordering functionality`
+   - `fix(auth): resolve token refresh issue`
+   - `docs(readme): update installation instructions`
+
+2. **Branch Naming Conventions**:
+   - **Feature branches**: `feature/description-of-feature`
+   - **Bug fixes**: `bugfix/issue-number-description`
+   - **Hot fixes**: `hotfix/critical-issue-description`
+   - **Release branches**: `release/version-number`
+
+3. **Workflow Process**:
+   ```bash
+   # 1. Create feature branch from dev
+   git checkout dev
+   git pull origin dev
+   git checkout -b feature/new-feature
+   
+   # 2. Make changes and commit
+   /sc:git commit --smart-commit
+   
+   # 3. Push to remote
+   git push -u origin feature/new-feature
+   
+   # 4. Create pull request to dev
+   # After review and approval, merge to dev
+   
+   # 5. Periodically merge dev to main for releases
+   ```
+
+4. **Pre-Commit Checklist**:
+   - Run tests: `npm test`
+   - Check types: `npm run typecheck`
+   - Lint code: `npm run lint`
+   - Test on web: `npm run web`
+   - Verify no console errors
+
+5. **Merge Conflict Resolution**:
+   ```bash
+   # Use interactive merge for assistance
+   /sc:git merge branch-name --interactive
+   
+   # Or manually:
+   git merge branch-name
+   # Resolve conflicts in files
+   git add resolved-files
+   git commit
+   ```
+
+#### Repository Configuration
+
+The repository follows this branch structure:
+- **main**: Production-ready code
+- **dev**: Active development branch
+- **feature/***: Individual feature branches
+- **bugfix/***: Bug fix branches
+- **hotfix/***: Emergency production fixes
+
+All pull requests should target the `dev` branch unless they are hotfixes for production issues.
