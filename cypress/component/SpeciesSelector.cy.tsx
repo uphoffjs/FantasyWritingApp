@@ -81,7 +81,7 @@ describe('SpeciesSelector', () => {
       cy.mount(
         <div>
           <SpeciesSelector {...defaultProps} />
-          <div data-cy="outside">Outside element</div>
+          <div data-testid="outside">Outside element</div>
         </div>
       );
       

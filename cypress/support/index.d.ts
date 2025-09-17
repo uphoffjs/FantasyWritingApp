@@ -28,5 +28,8 @@ declare namespace Cypress {
     // React Native Web compatibility commands
     getByDataCy(selector: string): Chainable<JQuery<HTMLElement>>;
     shouldHaveTestAttr(selector: string): Chainable<void>;
+    
+    // Factory reset command
+    resetFactories(): Chainable<void>;
   }
 }

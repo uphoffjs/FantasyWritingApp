@@ -378,7 +378,7 @@ describe('OfflineBanner Component', () => {
       
       return (
         <div>
-          <[data-cy*="button"] data-cy="toggle-online" onClick={() => setOnline(!online)}>
+          <[data-cy*="button"] data-testid="toggle-online" onClick={() => setOnline(!online)}>
             Toggle Online
           </[data-cy*="button"]>
           <OfflineBanner />

@@ -7,7 +7,7 @@ const ThrowError = ({ shouldThrow = false, errorMessage = 'Test error' }) => {
   if (shouldThrow) {
     throw new Error(errorMessage);
   }
-  return <div data-cy="child-content">Child component rendered</div>;
+  return <div data-testid="child-content">Child component rendered</div>;
 };
 
 // Test component using useErrorHandler hook
@@ -20,16 +20,16 @@ const ComponentWithErrorHandler = ({ triggerError = false }) => {
     }
   }, [triggerError, throwError]);
   
-  return <div data-cy="hook-component">Component with error handler</div>;
+  return <div data-testid="hook-component">Component with error handler</div>;
 };
 
 // Custom fallback component
 const CustomFallback = ({ error, resetError }: any) => {
   return (
-    <div data-cy="custom-fallback">
+    <div data-testid="custom-fallback">
       <h2>Custom Error UI</h2>
       <p>{error.message}</p>
-      <[data-cy*="button"] onClick={resetError} data-cy="custom-reset">
+      <[data-cy*="button"] onClick={resetError} data-testid="custom-reset">
         Reset Custom
       </[data-cy*="button"]>
     </div>
@@ -149,7 +149,7 @@ describe('ErrorBoundary', () => {
         if (errorCount === 1) {
           throw new Error('First render error');
         }
-        return <div data-cy="success">Successfully rendered</div>;
+        return <div data-testid="success">Successfully rendered</div>;
       };
       
       cy.mount(
@@ -171,7 +171,7 @@ describe('ErrorBoundary', () => {
           shouldError = false;
           throw new Error('Resettable error');
         }
-        return <div data-cy="recovered">Recovered from error</div>;
+        return <div data-testid="recovered">Recovered from error</div>;
       };
       
       cy.mount(
@@ -312,7 +312,7 @@ describe('ErrorBoundary', () => {
             <ErrorBoundary level="component">
               <ThrowError shouldThrow={true} />
             </ErrorBoundary>
-            <div data-cy="sibling">Sibling component</div>
+            <div data-testid="sibling">Sibling component</div>
           </div>
         </ErrorBoundary>
       );
@@ -379,7 +379,7 @@ describe('ErrorBoundary', () => {
         if (attemptCount <= 2) {
           throw new Error(`Error attempt ${attemptCount}`);
         }
-        return <div data-cy="final-success">Finally succeeded</div>;
+        return <div data-testid="final-success">Finally succeeded</div>;
       };
       
       cy.mount(

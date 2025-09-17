@@ -155,57 +155,177 @@ export const BasicQuestionsSelector: React.FC<any> = ({
 
 // BaseElementForm component with all required data-cy attributes
 export const BaseElementForm: React.FC<any> = ({ 
+  questions = [],
+  answers = {},
+  onChange,
+  elementType = 'Test',
+  category = 'element',
   element,
   onSave,
   onCancel,
   isSubmitting,
   validationErrors = {},
   ...props 
-}) => (
-  <View {...getTestProps('base-element-form')}>
-    <View {...getTestProps('form-header')}>
-      <Text {...getTestProps('form-title')}>Element Form</Text>
-    </View>
-    
-    <TextInput
-      {...getTestProps('name-input')}
-      placeholder="Name"
-      value={element?.name || ''}
-    />
-    
-    <TextInput
-      {...getTestProps('description-input')}
-      placeholder="Description"
-      value={element?.description || ''}
-      multiline
-    />
-    
-    {validationErrors.name && (
-      <Text {...getTestProps('name-error')}>{validationErrors.name}</Text>
-    )}
-    
-    <View {...getTestProps('form-actions')}>
-      <TouchableOpacity 
-        {...getTestProps('save-button')}
-        onPress={onSave}
-        disabled={isSubmitting}
-      >
-        <Text>Save</Text>
-      </TouchableOpacity>
+}) => {
+  const [mode, setMode] = React.useState('basic');
+  const [expandedCategories, setExpandedCategories] = React.useState<Set<string>>(new Set());
+  const [inputValues, setInputValues] = React.useState<{[key: string]: any}>({});
+  
+  // Initialize input values from answers
+  React.useEffect(() => {
+    const initialValues: {[key: string]: any} = {};
+    Object.keys(answers).forEach(key => {
+      initialValues[key] = answers[key]?.value || '';
+    });
+    setInputValues(initialValues);
+  }, [answers]);
+  
+  // Group questions by category
+  const questionsByCategory = questions.reduce((acc: any, q: any) => {
+    const cat = q.category || 'General';
+    if (!acc[cat]) acc[cat] = [];
+    acc[cat].push(q);
+    return acc;
+  }, {});
+  
+  const toggleCategory = (cat: string) => {
+    setExpandedCategories(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(cat)) {
+        newSet.delete(cat);
+      } else {
+        newSet.add(cat);
+      }
+      return newSet;
+    });
+  };
+  
+  const handleInputChange = (questionId: string, value: any) => {
+    setInputValues(prev => ({ ...prev, [questionId]: value }));
+  };
+  
+  const handleInputBlur = (questionId: string) => {
+    // Call onChange with the complete value on blur
+    if (onChange && inputValues[questionId] !== undefined) {
+      onChange(questionId, inputValues[questionId]);
+    }
+  };
+  
+  const title = elementType === 'character' ? 'Character Details' : 
+                elementType === 'Test' ? 'Test Details' : `${elementType} Details`;
+  
+  return (
+    <View {...getTestProps('base-element-form')}>
+      <View {...getTestProps('form-header')}>
+        <Text {...getTestProps('form-title')}>{title}</Text>
+      </View>
       
-      <TouchableOpacity 
-        {...getTestProps('cancel-button')}
-        onPress={onCancel}
-      >
-        <Text>Cancel</Text>
-      </TouchableOpacity>
+      {/* Mode toggle */}
+      <View {...getTestProps('mode-toggle')} style={{ flexDirection: 'row' }}>
+        <TouchableOpacity 
+          onPress={() => setMode('basic')}
+          style={{ padding: 8, backgroundColor: mode === 'basic' ? '#ddd' : '#fff' }}
+        >
+          <Text>Basic</Text>
+        </TouchableOpacity>
+        <TouchableOpacity 
+          onPress={() => setMode('detailed')}
+          style={{ padding: 8, backgroundColor: mode === 'detailed' ? '#ddd' : '#fff' }}
+        >
+          <Text>Detailed</Text>
+        </TouchableOpacity>
+      </View>
+      
+      {/* Categories and questions */}
+      {Object.entries(questionsByCategory).map(([cat, questions]: [string, any]) => (
+        <View key={cat} style={{ marginVertical: 8 }}>
+          <TouchableOpacity 
+            {...getTestProps(`category-toggle-${cat.toLowerCase()}`)}
+            onPress={() => toggleCategory(cat)}
+            style={{ padding: 8, backgroundColor: '#f0f0f0' }}
+          >
+            <Text>{cat}</Text>
+          </TouchableOpacity>
+          
+          {expandedCategories.has(cat) && (
+            <View style={{ paddingLeft: 16, marginTop: 8 }}>
+              {questions.map((q: any) => (
+                <View key={q.id} style={{ marginVertical: 4 }}>
+                  <View style={{ flexDirection: 'row' }}>
+                    <Text>{q.text}</Text>
+                    {q.required && <Text style={{ color: 'red' }}>*</Text>}
+                  </View>
+                  {q.helpText && (
+                    <TouchableOpacity {...getTestProps(`question-${q.id}-help-button`)}>
+                      <Text style={{ fontSize: 12, color: '#666' }}>{q.helpText}</Text>
+                    </TouchableOpacity>
+                  )}
+                  {q.type === 'text' || q.type === 'textarea' ? (
+                    <TextInput
+                      {...getTestProps(`question-${q.id}-input`)}
+                      {...(q.type === 'text' ? getTestProps('text-input') : {})}
+                      placeholder={q.placeholder || ''}
+                      value={inputValues[q.id] || ''}
+                      onChangeText={(text) => handleInputChange(q.id, text)}
+                      onBlur={() => handleInputBlur(q.id)}
+                      multiline={q.type === 'textarea'}
+                      required={q.required}
+                    />
+                  ) : q.type === 'number' ? (
+                    <TextInput
+                      {...getTestProps(`question-${q.id}-input`)}
+                      placeholder={q.placeholder || ''}
+                      value={String(inputValues[q.id] || '')}
+                      onChangeText={(text) => handleInputChange(q.id, Number(text))}
+                      onBlur={() => handleInputBlur(q.id)}
+                      keyboardType="numeric"
+                      required={q.required}
+                    />
+                  ) : q.type === 'select' || q.type === '[data-cy*="select"]' ? (
+                    <TextInput
+                      {...getTestProps(`question-${q.id}-input`)}
+                      value={inputValues[q.id] || ''}
+                      editable={false}
+                      placeholder="Select an option"
+                      required={q.required}
+                    />
+                  ) : null}
+                </View>
+              ))}
+            </View>
+          )}
+        </View>
+      ))}
+      
+      {validationErrors.name && (
+        <Text {...getTestProps('name-error')}>{validationErrors.name}</Text>
+      )}
+      
+      <View {...getTestProps('form-actions')} style={{ flexDirection: 'row', marginTop: 16 }}>
+        <TouchableOpacity 
+          {...getTestProps('save-button')}
+          onPress={onSave}
+          disabled={isSubmitting}
+          style={{ padding: 8, backgroundColor: '#007bff', marginRight: 8 }}
+        >
+          <Text style={{ color: '#fff' }}>Save</Text>
+        </TouchableOpacity>
+        
+        <TouchableOpacity 
+          {...getTestProps('cancel-button')}
+          onPress={onCancel}
+          style={{ padding: 8, backgroundColor: '#6c757d' }}
+        >
+          <Text style={{ color: '#fff' }}>Cancel</Text>
+        </TouchableOpacity>
+      </View>
+      
+      {isSubmitting && (
+        <ActivityIndicator {...getTestProps('submit-spinner')} />
+      )}
     </View>
-    
-    {isSubmitting && (
-      <ActivityIndicator {...getTestProps('submit-spinner')} />
-    )}
-  </View>
-);
+  );
+};
 
 // ErrorMessage component
 export const ErrorMessage: React.FC<any> = ({ message, ...props }) => (

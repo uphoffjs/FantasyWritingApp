@@ -19,7 +19,7 @@ const mockUsePerformanceMetrics = {
 
 // Test component for profiler
 const TestComponent: React.FC<{ text: string }> = ({ text }) => (
-  <div data-cy="test-component">{text}</div>
+  <div data-testid="test-component">{text}</div>
 );
 
 describe('PerformanceMonitorComponent', () => {

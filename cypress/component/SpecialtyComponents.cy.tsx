@@ -610,7 +610,7 @@ describe('AccountMenu Component', () => {
         <RouterWrapper>
           <div>
             <AccountMenu />
-            <div data-cy="outside">Outside element</div>
+            <div data-testid="outside">Outside element</div>
           </div>
         </RouterWrapper>
       );

@@ -87,7 +87,7 @@ jest.mock('../../src/store/worldbuildingStore', () => ({
 // Mock the child components for TemplateManager tests
 jest.mock('../../src/components/TemplateEditor', () => ({
   TemplateEditor: ({ onSave, onCancel }: any) => (
-    <div data-cy="template-editor-mock">
+    <div data-testid="template-editor-mock">
       <[data-cy*="button"] onClick={() => onSave({ name: 'New Template', questions: [] })}>Save</[data-cy*="button"]>
       <[data-cy*="button"] onClick={onCancel}>Cancel</[data-cy*="button"]>
     </div>

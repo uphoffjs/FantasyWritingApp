@@ -32,7 +32,7 @@ const simpleQuestions = [
   {
     id: 'q4',
     text: 'Type',
-    type: '[data-cy*="select"]' as const,
+    type: 'select' as const,
     category: 'Details',
     options: [
       { value: 'hero', label: 'Hero' },
@@ -151,10 +151,10 @@ describe('BaseElementForm (Simple Tests)', () => {
     // Expand General category
     cy.get('[data-testid="category-toggle-general"]').click();
     
-    // Type in the name field
-    cy.get('[data-testid="question-q1-input"]').type('New Name');
+    // Type in the name field and blur to trigger onChange
+    cy.get('[data-testid="question-q1-input"]').type('New Name').blur();
     
-    // Verify onChange was called
+    // Verify onChange was called with the complete value
     cy.wrap(onChange).should('have.been.calledWith', 'q1', 'New Name');
   });
   
@@ -195,8 +195,8 @@ describe('BaseElementForm (Simple Tests)', () => {
     
     cy.get('[data-testid="category-toggle-general"]').click();
     
-    // Click the help [data-cy*="button"] using data-cy
-    cy.get('[data-testid="question-q2-help-[data-cy*="button"]"]').click();
+    // Click the help button
+    cy.get('[data-testid="question-q2-help-button"]').click();
     
     // Help text should appear
     cy.get('[data-testid="question-q2-help"]').should('be.visible').and('contain', 'Provide a description');

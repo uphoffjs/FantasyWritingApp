@@ -28,7 +28,7 @@ describe('VirtualizedList Component', () => {
           items={items}
           itemHeight={50}
           containerHeight={200}
-          renderItem={(item) => <div data-cy="list-item">{item}</div>}
+          renderItem={(item) => <div data-testid="list-item">{item}</div>}
         />
       );
       
@@ -93,7 +93,7 @@ describe('VirtualizedList Component', () => {
           items={items}
           itemHeight={50}
           containerHeight={200}
-          renderItem={(item) => <div data-cy="list-item">{item}</div>}
+          renderItem={(item) => <div data-testid="list-item">{item}</div>}
         />
       );
       
@@ -116,7 +116,7 @@ describe('VirtualizedList Component', () => {
           itemHeight={50}
           containerHeight={200}
           overscan={2}
-          renderItem={(item) => <div data-cy="list-item">{item}</div>}
+          renderItem={(item) => <div data-testid="list-item">{item}</div>}
         />
       );
       
@@ -137,7 +137,7 @@ describe('VirtualizedList Component', () => {
           items={items}
           itemHeight={50}
           containerHeight={200}
-          renderItem={(item) => <div data-cy="list-item">{item}</div>}
+          renderItem={(item) => <div data-testid="list-item">{item}</div>}
         />
       );
       
@@ -155,7 +155,7 @@ describe('VirtualizedList Component', () => {
           items={items}
           itemHeight={50}
           containerHeight={200}
-          renderItem={(item) => <div data-cy="list-item">{item}</div>}
+          renderItem={(item) => <div data-testid="list-item">{item}</div>}
         />
       );
       
@@ -176,7 +176,7 @@ describe('VirtualizedList Component', () => {
           items={items}
           itemHeight={50}
           containerHeight={200}
-          renderItem={(item) => <div data-cy="list-item">{item}</div>}
+          renderItem={(item) => <div data-testid="list-item">{item}</div>}
         />
       );
       
@@ -193,7 +193,7 @@ describe('VirtualizedList Component', () => {
           itemHeight={50}
           containerHeight={100} // Shows 2 items
           overscan={5}
-          renderItem={(item) => <div data-cy="list-item">{item}</div>}
+          renderItem={(item) => <div data-testid="list-item">{item}</div>}
         />
       );
       
@@ -210,7 +210,7 @@ describe('VirtualizedList Component', () => {
           itemHeight={50}
           containerHeight={150} // Shows exactly 3 items
           overscan={0}
-          renderItem={(item) => <div data-cy="list-item">{item}</div>}
+          renderItem={(item) => <div data-testid="list-item">{item}</div>}
         />
       );
       
@@ -227,7 +227,7 @@ describe('VirtualizedList Component', () => {
           items={items}
           itemHeight={50}
           containerHeight={200}
-          renderItem={(item) => <div data-cy="list-item">{item}</div>}
+          renderItem={(item) => <div data-testid="list-item">{item}</div>}
         />
       );
       
@@ -252,7 +252,7 @@ describe('VirtualizedList Component', () => {
           itemHeight={50}
           containerHeight={200}
           getItemKey={(item) => item.id}
-          renderItem={(item) => <div data-cy="list-item">{item.name}</div>}
+          renderItem={(item) => <div data-testid="list-item">{item.name}</div>}
         />
       );
       
@@ -283,7 +283,7 @@ describe('VirtualizedList Component', () => {
           items={items}
           itemHeight={50}
           containerHeight={200}
-          renderItem={(item) => <div data-cy="list-item">{item}</div>}
+          renderItem={(item) => <div data-testid="list-item">{item}</div>}
         />
       );
       
@@ -298,7 +298,7 @@ describe('VirtualizedList Component', () => {
           items={items}
           itemHeight={50}
           containerHeight={500} // Much taller than 3 items
-          renderItem={(item) => <div data-cy="list-item">{item}</div>}
+          renderItem={(item) => <div data-testid="list-item">{item}</div>}
         />
       );
       
@@ -313,7 +313,7 @@ describe('VirtualizedList Component', () => {
           items={items}
           itemHeight={50}
           containerHeight={400}
-          renderItem={(item) => <div data-cy="list-item">{item}</div>}
+          renderItem={(item) => <div data-testid="list-item">{item}</div>}
         />
       );
       
@@ -332,7 +332,7 @@ describe('VirtualizedList Component', () => {
           items={items}
           itemHeight={50}
           containerHeight={200}
-          renderItem={(item) => <div data-cy="list-item">{item}</div>}
+          renderItem={(item) => <div data-testid="list-item">{item}</div>}
         />
       );
       
@@ -397,7 +397,7 @@ describe('VirtualizedList Component', () => {
           containerHeight={200}
           renderItem={(item) => {
             renderCount++;
-            return <div data-cy="list-item">{item}</div>;
+            return <div data-testid="list-item">{item}</div>;
           }}
         />
       );
@@ -423,7 +423,7 @@ describe('VirtualizedList Component', () => {
           items={items}
           itemHeight={50}
           containerHeight={400}
-          renderItem={(item) => <div data-cy="list-item">{item}</div>}
+          renderItem={(item) => <div data-testid="list-item">{item}</div>}
         />
       );
       
@@ -446,7 +446,7 @@ describe('VirtualizedList Component', () => {
           itemHeight={50}
           containerHeight={200}
           renderItem={(item, index) => (
-            <[data-cy*="button"] data-cy="list-item" tabIndex={0}>
+            <[data-cy*="button"] data-testid="list-item" tabIndex={0}>
               {item}
             </[data-cy*="button"]>
           )}
@@ -467,7 +467,7 @@ describe('VirtualizedList Component', () => {
           containerHeight={200}
           renderItem={(item, index) => (
             <div 
-              data-cy="list-item"
+              data-testid="list-item"
               role="listitem"
               aria-label={item}
               aria-posinset={index + 1}
@@ -496,7 +496,7 @@ describe('VirtualizedList Component', () => {
           items={items}
           itemHeight={50}
           containerHeight={400}
-          renderItem={(item) => <div data-cy="list-item">{item}</div>}
+          renderItem={(item) => <div data-testid="list-item">{item}</div>}
         />
       );
       
@@ -514,7 +514,7 @@ describe('VirtualizedList Component', () => {
           items={items}
           itemHeight={50}
           containerHeight={600}
-          renderItem={(item) => <div data-cy="list-item">{item}</div>}
+          renderItem={(item) => <div data-testid="list-item">{item}</div>}
         />
       );
       

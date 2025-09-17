@@ -11,7 +11,7 @@ const ToastTestWrapper = () => {
   return (
     <div>
       <[data-cy*="button"] 
-        data-cy="add-success-toast"
+        data-testid="add-success-toast"
         onClick={() => addToast({
           type: 'success',
           title: 'Success!',
@@ -23,7 +23,7 @@ const ToastTestWrapper = () => {
       </[data-cy*="button"]>
       
       <[data-cy*="button"] 
-        data-cy="add-error-toast"
+        data-testid="add-error-toast"
         onClick={() => addToast({
           type: 'error',
           title: 'Error!',
@@ -35,7 +35,7 @@ const ToastTestWrapper = () => {
       </[data-cy*="button"]>
       
       <[data-cy*="button"] 
-        data-cy="add-info-toast"
+        data-testid="add-info-toast"
         onClick={() => addToast({
           type: 'info',
           title: 'Information',
@@ -47,7 +47,7 @@ const ToastTestWrapper = () => {
       </[data-cy*="button"]>
       
       <[data-cy*="button"] 
-        data-cy="add-warning-toast"
+        data-testid="add-warning-toast"
         onClick={() => addToast({
           type: 'warning',
           title: 'Warning!',
@@ -59,7 +59,7 @@ const ToastTestWrapper = () => {
       </[data-cy*="button"]>
       
       <[data-cy*="button"] 
-        data-cy="add-toast-with-action"
+        data-testid="add-toast-with-action"
         onClick={() => addToast({
           type: 'success',
           title: 'Action Required',
@@ -75,7 +75,7 @@ const ToastTestWrapper = () => {
       </[data-cy*="button"]>
       
       <[data-cy*="button"] 
-        data-cy="clear-all-toasts"
+        data-testid="clear-all-toasts"
         onClick={() => clearAllToasts()}
       >
         Clear All Toasts

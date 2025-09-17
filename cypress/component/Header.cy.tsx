@@ -6,11 +6,11 @@ import { useAuthStore } from '../../src/store/authStore';
 
 // Mock the child components
 const mockComponents = {
-  MobileHeader: () => <div data-cy="mobile-header">Mobile Header</div>,
-  MobileBackButton: () => <div data-cy="mobile-back-[data-cy*="button"]">Mobile Back Button</div>,
-  AccountMenu: () => <div data-cy="account-menu">Account Menu</div>,
-  OfflineSyncIndicator: () => <div data-cy="offline-sync">Offline Sync</div>,
-  AutoSyncStatus: () => <div data-cy="auto-sync">Auto Sync</div>
+  MobileHeader: () => <div data-testid="mobile-header">Mobile Header</div>,
+  MobileBackButton: () => <div data-testid="mobile-back-[data-cy*="button"]">Mobile Back Button</div>,
+  AccountMenu: () => <div data-testid="account-menu">Account Menu</div>,
+  OfflineSyncIndicator: () => <div data-testid="offline-sync">Offline Sync</div>,
+  AutoSyncStatus: () => <div data-testid="auto-sync">Auto Sync</div>
 };
 
 // Mock the components

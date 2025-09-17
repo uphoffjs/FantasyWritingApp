@@ -38,12 +38,12 @@ jest.mock('react-window', () => ({
 jest.mock('../../src/components/ProjectCard', () => ({
   ProjectCard: ({ project, onDelete, isDeleting }: any) => (
     <div 
-      data-cy="project-card"
+      data-testid="project-card"
       data-project-id={project.id}
       onClick={() => onDelete(project.id)}
     >
-      <div data-cy="project-name">{project.name}</div>
-      {isDeleting && <div data-cy="deleting">Deleting...</div>}
+      <div data-testid="project-name">{project.name}</div>
+      {isDeleting && <div data-testid="deleting">Deleting...</div>}
     </div>
   )
 }));
@@ -178,7 +178,7 @@ describe('InfiniteScrollList Component', () => {
   });
 
   const renderItem = (item: any, index: number) => (
-    <div data-cy="list-item" key={index}>{item}</div>
+    <div data-testid="list-item" key={index}>{item}</div>
   );
 
   it('renders initial items', () => {
@@ -317,7 +317,7 @@ describe('VirtualizedQuestionList Component', () => {
     required: false
   });
 
-  const renderQuestion = cy.stub().returns(<div data-cy="question">Question</div>);
+  const renderQuestion = cy.stub().returns(<div data-testid="question">Question</div>);
   const onReorder = cy.stub();
 
   it('renders questions in virtualized list', () => {

@@ -32,7 +32,7 @@ describe('Basic App Functionality - Smoke Tests', () => {
     cy.visit('/stories')
     
     // Should show create story button
-    cy.get('[data-cy="create-story"], [data-cy="get-started"]').should('be.visible')
+    cy.get('[data-testid="create-story"], [data-testid="get-started"]').should('be.visible')
   })
 
   it('should handle basic navigation between main sections', () => {
@@ -43,7 +43,7 @@ describe('Basic App Functionality - Smoke Tests', () => {
     cy.get('body').should('be.visible')
     
     // Basic smoke test - app loads without throwing errors
-    cy.get('[data-cy="app-container"], main, #root').should('exist')
+    cy.get('[data-testid="app-container"], main, #root').should('exist')
   })
 
   it('should handle React Native Web rendering', () => {

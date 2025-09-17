@@ -281,7 +281,7 @@ describe('LazyImage', () => {
         <LazyImage 
           src="invalid-url" 
           alt="Error test"
-          fallback={<div data-cy="fallback">Image failed</div>}
+          fallback={<div data-testid="fallback">Image failed</div>}
         />
       );
       
@@ -432,7 +432,7 @@ describe('ProjectSortDropdown', () => {
       cy.mount(
         <div>
           <ProjectSortDropdown {...defaultProps} />
-          <div data-cy="outside">Outside element</div>
+          <div data-testid="outside">Outside element</div>
         </div>
       );
       

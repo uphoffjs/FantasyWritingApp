@@ -23,14 +23,14 @@ jest.mock('react-window', () => ({
 jest.mock('../../src/components/ElementCard', () => ({
   ElementCard: ({ element, onClick }: any) => (
     <div 
-      data-cy="element-card" 
+      data-testid="element-card" 
       data-element-id={element.id}
       onClick={() => onClick()}
       className="element-card"
     >
-      <div data-cy="element-name">{element.name}</div>
-      <div data-cy="element-category">{element.category}</div>
-      <div data-cy="element-completion">{element.completionPercentage}%</div>
+      <div data-testid="element-name">{element.name}</div>
+      <div data-testid="element-category">{element.category}</div>
+      <div data-testid="element-completion">{element.completionPercentage}%</div>
     </div>
   )
 }));
