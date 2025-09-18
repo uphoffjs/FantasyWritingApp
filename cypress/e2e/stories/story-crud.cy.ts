@@ -105,9 +105,9 @@ describe('Story CRUD Operations', () => {
       cy.get(selectors.story.storyItem(testStory.id)).click();
       
       // Check metadata display
-      cy.get('[data-cy=story-genre]').should('contain', testStory.genre);
-      cy.get('[data-cy=story-status]').should('contain', testStory.status);
-      cy.get('[data-cy=chapter-count]').should('contain', testStory.chapters.length.toString());
+      cy.get('[data-testid=story-genre]').should('contain', testStory.genre);
+      cy.get('[data-testid=story-status]').should('contain', testStory.status);
+      cy.get('[data-testid=chapter-count]').should('contain', testStory.chapters.length.toString());
     });
   });
 
@@ -162,13 +162,13 @@ describe('Story CRUD Operations', () => {
 
     it('should update story status', () => {
       // Change status from draft to published
-      cy.get('[data-cy=story-status-select]').select('published');
+      cy.get('[data-testid=story-status-select]').select('published');
       
       cy.get(selectors.story.saveButton).click();
       cy.wait('@updateStory');
       
       // Verify status change
-      cy.get('[data-cy=story-status]').should('contain', 'published');
+      cy.get('[data-testid=story-status]').should('contain', 'published');
     });
   });
 
@@ -254,11 +254,11 @@ describe('Story CRUD Operations', () => {
 
     it('should filter stories by genre', () => {
       cy.get(selectors.ui.filterButton).click();
-      cy.get('[data-cy=filter-genre-fantasy]').click();
+      cy.get('[data-testid=filter-genre-fantasy]').click();
       
       // Should only show fantasy stories
       cy.get(selectors.story.storiesList)
-        .find('[data-cy=story-genre]')
+        .find('[data-testid=story-genre]')
         .each(($el) => {
           cy.wrap($el).should('contain', 'fantasy');
         });
@@ -267,7 +267,7 @@ describe('Story CRUD Operations', () => {
     it('should sort stories', () => {
       // Sort by date (newest first)
       cy.get(selectors.ui.sortButton).click();
-      cy.get('[data-cy=sort-date-desc]').click();
+      cy.get('[data-testid=sort-date-desc]').click();
       
       // Verify sorting (would need to check actual dates)
       cy.get(selectors.story.storiesList)
@@ -319,26 +319,26 @@ describe('Story CRUD Operations', () => {
 
     it('should navigate between chapters', () => {
       // Should show first chapter by default
-      cy.get('[data-cy=chapter-title]').should('contain', testStory.chapters[0].title);
+      cy.get('[data-testid=chapter-title]').should('contain', testStory.chapters[0].title);
       
       // Navigate to next chapter
-      cy.get('[data-cy=next-chapter]').click();
-      cy.get('[data-cy=chapter-title]').should('contain', testStory.chapters[1].title);
+      cy.get('[data-testid=next-chapter]').click();
+      cy.get('[data-testid=chapter-title]').should('contain', testStory.chapters[1].title);
       
       // Navigate to previous chapter
-      cy.get('[data-cy=prev-chapter]').click();
-      cy.get('[data-cy=chapter-title]').should('contain', testStory.chapters[0].title);
+      cy.get('[data-testid=prev-chapter]').click();
+      cy.get('[data-testid=chapter-title]').should('contain', testStory.chapters[0].title);
     });
 
     it('should add a new chapter', () => {
-      cy.get('[data-cy=add-chapter-button]').click();
+      cy.get('[data-testid=add-chapter-button]').click();
       
       // Fill in chapter details
-      cy.get('[data-cy=new-chapter-title]').type('New Chapter Title');
-      cy.get('[data-cy=create-chapter-button]').click();
+      cy.get('[data-testid=new-chapter-title]').type('New Chapter Title');
+      cy.get('[data-testid=create-chapter-button]').click();
       
       // Should add chapter to the story
-      cy.get('[data-cy=chapter-list]').should('contain', 'New Chapter Title');
+      cy.get('[data-testid=chapter-list]').should('contain', 'New Chapter Title');
     });
 
     it('should track word count', () => {

@@ -1,0 +1,467 @@
+
+DevTools listening on ws://127.0.0.1:62255/devtools/browser/682c6b7c-3868-48ad-ad5c-3f4bb635b8dd
+Missing baseUrl in compilerOptions. tsconfig-paths will be skipped
+
+🚀 Fantasy Element Builder is running on port 3003
+📱 Open http://localhost:3003 in your browser
+
+
+Opening `/dev/tty` failed (6): Device not configured
+================================================================================
+
+  (Run Starting)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Cypress:        14.5.4                                                                         │
+  │ Browser:        Electron 130 (headless)                                                        │
+  │ Node Version:   v20.19.3 (/Users/jacobstoragepug/.nvm/versions/node/v20.19.3/bin/node)         │
+  │ Specs:          62 found (AutoSaveIndicator.cy.tsx, BaseElementForm.incremental.cy.tsx, BaseEl │
+  │                 ementForm.isolated.cy.tsx, BaseElementForm.minimal.cy.tsx, BaseElementForm.sim │
+  │                 ple.cy.tsx, BaseElementForm.stateless.cy.tsx, BasicQuestionsSelector.cy.tsx, B │
+  │                 asicQuestionsSelector.s...)                                                    │
+  │ Searched:       cypress/component/**/*.cy.{js,jsx,ts,tsx}                                      │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  AutoSaveIndicator.cy.tsx                                                       (1 of 62)
+11 assets
+265 modules
+webpack 5.101.3 compiled [1m[32msuccessfully[39m[22m in 913 ms
+14 assets
+275 modules
+webpack 5.101.3 compiled [1m[32msuccessfully[39m[22m in 126 ms
+
+
+  AutoSaveIndicator Component
+    ✓ should render idle state by default (20ms)
+    ✓ should show saving state (31ms)
+    ✓ should show saved state (32ms)
+    ✓ should show error state (29ms)
+    ✓ should show custom error message (26ms)
+    ✓ should show timestamp for saved state (26ms)
+    ✓ should update timestamp text over time (26ms)
+    ✓ should handle click on retry for error state (106ms)
+    ✓ should apply custom className (24ms)
+    ✓ should transition between states smoothly (17ms)
+    ✓ should auto-hide saved state after delay (46ms)
+    ✓ should be accessible (28ms)
+
+
+  12 passing (528ms)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        12                                                                               │
+  │ Passing:      12                                                                               │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        false                                                                            │
+  │ Duration:     0 seconds                                                                        │
+  │ Spec Ran:     AutoSaveIndicator.cy.tsx                                                         │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  BaseElementForm.incremental.cy.tsx                                             (2 of 62)
+14 assets
+275 modules
+webpack 5.101.3 compiled [1m[32msuccessfully[39m[22m in 124 ms
+
+
+  BaseElementForm - Incremental Tests
+    1) renders with questions - starting in detailed mode
+    - renders with questions - old test
+    2) renders with answers
+    3) expands category when clicked
+    4) shows input values
+    5) calls onChange when input changes
+
+
+  0 passing (21s)
+  1 pending
+  5 failing
+
+  1) BaseElementForm - Incremental Tests
+       renders with questions - starting in detailed mode:
+     AssertionError: Timed out retrying after 4000ms: Expected to find element: `[data-testid="mode-toggle"]`, but never found it.
+      at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/component/BaseElementForm.incremental.cy.tsx:41:7)
+
+  2) BaseElementForm - Incremental Tests
+       renders with answers:
+     AssertionError: Timed out retrying after 4000ms: Expected to find content: 'Test Details' but never did.
+      at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/component/BaseElementForm.incremental.cy.tsx:73:32)
+
+  3) BaseElementForm - Incremental Tests
+       expands category when clicked:
+     AssertionError: Timed out retrying after 4000ms: Expected to find content: 'General' but never did.
+      at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/component/BaseElementForm.incremental.cy.tsx:88:27)
+
+  4) BaseElementForm - Incremental Tests
+       shows input values:
+     AssertionError: Timed out retrying after 4000ms: Expected to find element: `[data-testid="category-toggle-general"]`, but never found it.
+      at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/component/BaseElementForm.incremental.cy.tsx:110:7)
+
+  5) BaseElementForm - Incremental Tests
+       calls onChange when input changes:
+     AssertionError: Timed out retrying after 4000ms: Expected to find element: `[data-testid="category-toggle-general"]`, but never found it.
+      at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/component/BaseElementForm.incremental.cy.tsx:131:7)
+
+
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        6                                                                                │
+  │ Passing:      0                                                                                │
+  │ Failing:      5                                                                                │
+  │ Pending:      1                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  5                                                                                │
+  │ Video:        false                                                                            │
+  │ Duration:     20 seconds                                                                       │
+  │ Spec Ran:     BaseElementForm.incremental.cy.tsx                                               │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Screenshots)
+
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BaseElement    (2560x1440)
+     Form.incremental.cy.tsx/BaseElementForm - Incremental Tests -- renders with ques               
+     tions - starting in detailed mode (failed).png                                                 
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BaseElement    (2560x1440)
+     Form.incremental.cy.tsx/BaseElementForm - Incremental Tests -- renders with answ               
+     ers (failed).png                                                                               
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BaseElement    (2560x1440)
+     Form.incremental.cy.tsx/BaseElementForm - Incremental Tests -- expands category                
+     when clicked (failed).png                                                                      
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BaseElement    (2560x1440)
+     Form.incremental.cy.tsx/BaseElementForm - Incremental Tests -- shows input value               
+     s (failed).png                                                                                 
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BaseElement    (2560x1440)
+     Form.incremental.cy.tsx/BaseElementForm - Incremental Tests -- calls onChange wh               
+     en input changes (failed).png                                                                  
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  BaseElementForm.isolated.cy.tsx                                                (3 of 62)
+14 assets
+275 modules
+webpack 5.101.3 compiled [1m[32msuccessfully[39m[22m in 57 ms
+
+
+  BaseElementForm - Isolated Tests
+    1) mounts the component
+    2) shows the mode toggle
+    3) renders with one simple question
+
+
+  0 passing (12s)
+  3 failing
+
+  1) BaseElementForm - Isolated Tests
+       mounts the component:
+     AssertionError: Timed out retrying after 4000ms: Expected to find content: 'Test Details' but never did.
+      at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/component/BaseElementForm.isolated.cy.tsx:18:32)
+
+  2) BaseElementForm - Isolated Tests
+       shows the mode toggle:
+     AssertionError: Timed out retrying after 4000ms: Expected to find content: 'Basic' but never did.
+      at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/component/BaseElementForm.isolated.cy.tsx:32:25)
+
+  3) BaseElementForm - Isolated Tests
+       renders with one simple question:
+     AssertionError: Timed out retrying after 4000ms: Expected to find content: 'Test Category' but never did.
+      at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/component/BaseElementForm.isolated.cy.tsx:55:33)
+
+
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        3                                                                                │
+  │ Passing:      0                                                                                │
+  │ Failing:      3                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  3                                                                                │
+  │ Video:        false                                                                            │
+  │ Duration:     12 seconds                                                                       │
+  │ Spec Ran:     BaseElementForm.isolated.cy.tsx                                                  │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Screenshots)
+
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BaseElement    (2560x1440)
+     Form.isolated.cy.tsx/BaseElementForm - Isolated Tests -- mounts the component (f               
+     ailed).png                                                                                     
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BaseElement    (2560x1440)
+     Form.isolated.cy.tsx/BaseElementForm - Isolated Tests -- shows the mode toggle (               
+     failed).png                                                                                    
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BaseElement    (2560x1440)
+     Form.isolated.cy.tsx/BaseElementForm - Isolated Tests -- renders with one simple               
+      question (failed).png                                                                         
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  BaseElementForm.minimal.cy.tsx                                                 (4 of 62)
+14 assets
+275 modules
+webpack 5.101.3 compiled [1m[32msuccessfully[39m[22m in 57 ms
+
+
+  BaseElementForm - Minimal Test
+    1) mounts without crashing
+    ✓ renders with mock div instead of component (28ms)
+
+
+  1 passing (4s)
+  1 failing
+
+  1) BaseElementForm - Minimal Test
+       mounts without crashing:
+     AssertionError: Timed out retrying after 4000ms: Expected to find content: 'Test Details' but never did.
+      at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/component/BaseElementForm.minimal.cy.tsx:28:32)
+
+
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        2                                                                                │
+  │ Passing:      1                                                                                │
+  │ Failing:      1                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  1                                                                                │
+  │ Video:        false                                                                            │
+  │ Duration:     4 seconds                                                                        │
+  │ Spec Ran:     BaseElementForm.minimal.cy.tsx                                                   │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Screenshots)
+
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BaseElement    (2560x1440)
+     Form.minimal.cy.tsx/BaseElementForm - Minimal Test -- mounts without crashing (f               
+     ailed).png                                                                                     
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  BaseElementForm.simple.cy.tsx                                                  (5 of 62)
+14 assets
+275 modules
+webpack 5.101.3 compiled [1m[32msuccessfully[39m[22m in 89 ms
+
+
+  BaseElementForm (Simple Tests)
+    1) "before each" hook for "renders form header and basic structure"
+
+
+  0 passing (143ms)
+  1 failing
+
+  1) BaseElementForm (Simple Tests)
+       "before each" hook for "renders form header and basic structure":
+     TypeError: cy.resetFactories is not a function
+
+Because this error occurred during a `before each` hook we are skipping the remaining tests in the current suite: `BaseElementForm (Simple Tests)`
+      at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/component/BaseElementForm.simple.cy.tsx:54:7)
+      at runnable.fn (http://localhost:3003/__cypress/runner/cypress_runner.js:141938:19)
+      at callFn (http://localhost:3003/__cypress/runner/cypress_runner.js:161016:21)
+      at Runnable.run (http://localhost:3003/__cypress/runner/cypress_runner.js:161003:7)
+      at <unknown> (http://localhost:3003/__cypress/runner/cypress_runner.js:167096:30)
+      at PassThroughHandlerContext.finallyHandler (http://localhost:3003/__cypress/runner/cypress_runner.js:4042:23)
+      at PassThroughHandlerContext.tryCatcher (http://localhost:3003/__cypress/runner/cypress_runner.js:1777:23)
+      at Promise._settlePromiseFromHandler (http://localhost:3003/__cypress/runner/cypress_runner.js:1489:31)
+      at Promise._settlePromise (http://localhost:3003/__cypress/runner/cypress_runner.js:1546:18)
+
+
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        11                                                                               │
+  │ Passing:      0                                                                                │
+  │ Failing:      1                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      10                                                                               │
+  │ Screenshots:  1                                                                                │
+  │ Video:        false                                                                            │
+  │ Duration:     0 seconds                                                                        │
+  │ Spec Ran:     BaseElementForm.simple.cy.tsx                                                    │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Screenshots)
+
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BaseElement    (2560x1440)
+     Form.simple.cy.tsx/BaseElementForm (Simple Tests) -- renders form header and bas               
+     ic structure -- before each hook (failed).png                                                  
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  BaseElementForm.stateless.cy.tsx                                               (6 of 62)
+14 assets
+275 modules
+webpack 5.101.3 compiled [1m[32msuccessfully[39m[22m in 79 ms
+
+
+  BaseElementForm - Stateless Tests
+    1) renders without any providers
+    2) shows categories
+    3) expands categories on click
+    4) displays existing answers
+    5) calls onChange when typing
+    6) shows required field indicators
+    7) shows help text when clicked
+    8) toggles between basic and detailed mode
+    9) handles different question types
+    10) shows error for required fields without values
+
+
+  0 passing (41s)
+  10 failing
+
+  1) BaseElementForm - Stateless Tests
+       renders without any providers:
+     AssertionError: Timed out retrying after 4000ms: Expected to find content: 'Test Details' but never did.
+      at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/component/BaseElementForm.stateless.cy.tsx:43:32)
+
+  2) BaseElementForm - Stateless Tests
+       shows categories:
+     AssertionError: Timed out retrying after 4000ms: Expected to find element: `[data-testid="category-toggle-basic"]`, but never found it.
+      at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/component/BaseElementForm.stateless.cy.tsx:58:52)
+
+  3) BaseElementForm - Stateless Tests
+       expands categories on click:
+     AssertionError: Timed out retrying after 4000ms: Expected to find content: 'Name' but never did.
+      at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/component/BaseElementForm.stateless.cy.tsx:74:24)
+
+  4) BaseElementForm - Stateless Tests
+       displays existing answers:
+     AssertionError: Timed out retrying after 4000ms: Expected to find element: `[data-testid="category-toggle-basic"]`, but never found it.
+      at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/component/BaseElementForm.stateless.cy.tsx:96:7)
+
+  5) BaseElementForm - Stateless Tests
+       calls onChange when typing:
+     AssertionError: Timed out retrying after 4000ms: Expected to find element: `[data-testid="category-toggle-basic"]`, but never found it.
+      at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/component/BaseElementForm.stateless.cy.tsx:117:7)
+
+  6) BaseElementForm - Stateless Tests
+       shows required field indicators:
+     AssertionError: Timed out retrying after 4000ms: Expected to find element: `[data-testid="category-toggle-basic"]`, but never found it.
+      at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/component/BaseElementForm.stateless.cy.tsx:138:7)
+
+  7) BaseElementForm - Stateless Tests
+       shows help text when clicked:
+     AssertionError: Timed out retrying after 4000ms: Expected to find element: `[data-testid="category-toggle-basic"]`, but never found it.
+      at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/component/BaseElementForm.stateless.cy.tsx:158:7)
+
+  8) BaseElementForm - Stateless Tests
+       toggles between basic and detailed mode:
+     AssertionError: Timed out retrying after 4000ms: Expected to find content: 'Quick Mode' but never did.
+      at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/component/BaseElementForm.stateless.cy.tsx:184:30)
+
+  9) BaseElementForm - Stateless Tests
+       handles different question types:
+     AssertionError: Timed out retrying after 4000ms: Expected to find element: `[data-testid="category-toggle-info"]`, but never found it.
+      at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/component/BaseElementForm.stateless.cy.tsx:236:7)
+
+  10) BaseElementForm - Stateless Tests
+       shows error for required fields without values:
+     AssertionError: Timed out retrying after 4000ms: Expected to find element: `[data-testid="category-toggle-basic"]`, but never found it.
+      at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/component/BaseElementForm.stateless.cy.tsx:256:7)
+
+
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        10                                                                               │
+  │ Passing:      0                                                                                │
+  │ Failing:      10                                                                               │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  10                                                                               │
+  │ Video:        false                                                                            │
+  │ Duration:     41 seconds                                                                       │
+  │ Spec Ran:     BaseElementForm.stateless.cy.tsx                                                 │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Screenshots)
+
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BaseElement    (2560x1440)
+     Form.stateless.cy.tsx/BaseElementForm - Stateless Tests -- renders without any p               
+     roviders (failed).png                                                                          
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BaseElement    (2560x1440)
+     Form.stateless.cy.tsx/BaseElementForm - Stateless Tests -- shows categories (fai               
+     led).png                                                                                       
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BaseElement    (2560x1440)
+     Form.stateless.cy.tsx/BaseElementForm - Stateless Tests -- expands categories on               
+      click (failed).png                                                                            
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BaseElement    (2560x1440)
+     Form.stateless.cy.tsx/BaseElementForm - Stateless Tests -- displays existing ans               
+     wers (failed).png                                                                              
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BaseElement    (2560x1440)
+     Form.stateless.cy.tsx/BaseElementForm - Stateless Tests -- calls onChange when t               
+     yping (failed).png                                                                             
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BaseElement    (2560x1440)
+     Form.stateless.cy.tsx/BaseElementForm - Stateless Tests -- shows required field                
+     indicators (failed).png                                                                        
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BaseElement    (2560x1440)
+     Form.stateless.cy.tsx/BaseElementForm - Stateless Tests -- shows help text when                
+     clicked (failed).png                                                                           
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BaseElement    (2560x1440)
+     Form.stateless.cy.tsx/BaseElementForm - Stateless Tests -- toggles between basic               
+      and detailed mode (failed).png                                                                
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BaseElement    (2560x1440)
+     Form.stateless.cy.tsx/BaseElementForm - Stateless Tests -- handles different que               
+     stion types (failed).png                                                                       
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BaseElement    (2560x1440)
+     Form.stateless.cy.tsx/BaseElementForm - Stateless Tests -- shows error for requi               
+     red fields without values (failed).png                                                         
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  BasicQuestionsSelector.cy.tsx                                                  (7 of 62)
+14 assets
+275 modules
+webpack 5.101.3 compiled [1m[32msuccessfully[39m[22m in 83 ms
+
+
+  BasicQuestionsSelector Component
+    Rendering
+      1) renders with title and description
+      2) displays question statistics
+      3) shows estimated completion times
+      4) displays tip info box
+      5) groups questions by category
+      6) shows required badge for required questions
+      7) shows help text when available
+      8) shows star icon for suggested questions
+    Quick Actions
+      9) applies default suggestions when clicked
+      10) selects all questions when Select All is clicked
+      11) deselects all questions when Select None is clicked
+      12) disables Apply Defaults when no suggestions exist
+    Question Selection
+      - toggles question selection when checkbox is clicked

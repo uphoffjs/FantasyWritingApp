@@ -1,0 +1,593 @@
+
+DevTools listening on ws://127.0.0.1:51640/devtools/browser/9f555a18-4203-4836-8abd-0adb8ab18937
+Missing baseUrl in compilerOptions. tsconfig-paths will be skipped
+
+🚀 Fantasy Element Builder is running on port 3003
+📱 Open http://localhost:3003 in your browser
+
+
+Opening `/dev/tty` failed (6): Device not configured
+================================================================================
+
+  (Run Starting)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Cypress:        14.5.4                                                                         │
+  │ Browser:        Electron 130 (headless)                                                        │
+  │ Node Version:   v20.19.3 (/Users/jacobstoragepug/.nvm/versions/node/v20.19.3/bin/node)         │
+  │ Specs:          62 found (AutoSaveIndicator.cy.tsx, BaseElementForm.incremental.cy.tsx, BaseEl │
+  │                 ementForm.isolated.cy.tsx, BaseElementForm.minimal.cy.tsx, BaseElementForm.sim │
+  │                 ple.cy.tsx, BaseElementForm.stateless.cy.tsx, BasicQuestionsSelector.cy.tsx, B │
+  │                 asicQuestionsSelector.s...)                                                    │
+  │ Searched:       cypress/component/**/*.cy.{js,jsx,ts,tsx}                                      │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  AutoSaveIndicator.cy.tsx                                                       (1 of 62)
+11 assets
+264 modules
+webpack 5.101.3 compiled [1m[32msuccessfully[39m[22m in 1071 ms
+13 assets
+265 modules
+
+[1m[31mERROR[39m[22m in [1m./cypress/component/AutoSaveIndicator.cy.tsx[39m[22m [1m[32m2:0-78[39m[22m
+[1mModule [1m[31mnot found[39m[22m[1m: [1m[31mError[39m[22m[1m: Can't resolve '../../src/components/ui/AutoSaveIndicator' in '/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component'[39m[22m
+
+webpack 5.101.3 compiled with [1m[31m1 error[39m[22m in 208 ms
+
+
+  1) An uncaught error was detected outside of a test
+
+  0 passing (166ms)
+  1 failing
+
+  1) An uncaught error was detected outside of a test:
+     Error: The following error originated from your test code, not from Cypress.
+
+  > Cannot find module '../../src/components/ui/AutoSaveIndicator'
+
+When Cypress detects uncaught errors originating from your test code it will automatically fail the current test.
+
+Cypress could not associate this error to any specific test.
+
+We dynamically generated a new test to display this failure.
+      at webpackMissingModule (http://localhost:3003/__cypress/src/spec-0.js:13:50)
+      at ./cypress/component/AutoSaveIndicator.cy.tsx (http://localhost:3003/__cypress/src/spec-0.js:13:166)
+      at Function.__webpack_require__ (http://localhost:3003/__cypress/src/runtime.js:23:41)
+
+
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        1                                                                                │
+  │ Passing:      0                                                                                │
+  │ Failing:      1                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  1                                                                                │
+  │ Video:        false                                                                            │
+  │ Duration:     0 seconds                                                                        │
+  │ Spec Ran:     AutoSaveIndicator.cy.tsx                                                         │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Screenshots)
+
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/AutoSaveInd    (2560x1440)
+     icator.cy.tsx/An uncaught error was detected outside of a test (failed).png                    
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  BaseElementForm.incremental.cy.tsx                                             (2 of 62)
+13 assets
+265 modules
+
+[1m[31mERROR[39m[22m in [1m./cypress/component/BaseElementForm.incremental.cy.tsx[39m[22m [1m[32m3:0-80[39m[22m
+[1mModule [1m[31mnot found[39m[22m[1m: [1m[31mError[39m[22m[1m: Can't resolve '../../src/components/elements/BaseElementForm' in '/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component'[39m[22m
+
+webpack 5.101.3 compiled with [1m[31m1 error[39m[22m in 64 ms
+
+
+  1) An uncaught error was detected outside of a test
+
+  0 passing (150ms)
+  1 failing
+
+  1) An uncaught error was detected outside of a test:
+     Error: The following error originated from your test code, not from Cypress.
+
+  > Cannot find module '../../src/components/elements/BaseElementForm'
+
+When Cypress detects uncaught errors originating from your test code it will automatically fail the current test.
+
+Cypress could not associate this error to any specific test.
+
+We dynamically generated a new test to display this failure.
+      at webpackMissingModule (http://localhost:3003/__cypress/src/spec-0.js:13:50)
+      at ./cypress/component/BaseElementForm.incremental.cy.tsx (http://localhost:3003/__cypress/src/spec-0.js:13:170)
+      at Function.__webpack_require__ (http://localhost:3003/__cypress/src/runtime.js:23:41)
+
+
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        1                                                                                │
+  │ Passing:      0                                                                                │
+  │ Failing:      1                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  1                                                                                │
+  │ Video:        false                                                                            │
+  │ Duration:     0 seconds                                                                        │
+  │ Spec Ran:     BaseElementForm.incremental.cy.tsx                                               │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Screenshots)
+
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BaseElement    (2560x1440)
+     Form.incremental.cy.tsx/An uncaught error was detected outside of a test (failed               
+     ).png                                                                                          
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  BaseElementForm.isolated.cy.tsx                                                (3 of 62)
+13 assets
+265 modules
+
+[1m[31mERROR[39m[22m in [1m./cypress/component/BaseElementForm.isolated.cy.tsx[39m[22m [1m[32m3:0-80[39m[22m
+[1mModule [1m[31mnot found[39m[22m[1m: [1m[31mError[39m[22m[1m: Can't resolve '../../src/components/elements/BaseElementForm' in '/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component'[39m[22m
+
+webpack 5.101.3 compiled with [1m[31m1 error[39m[22m in 51 ms
+
+
+  1) An uncaught error was detected outside of a test
+
+  0 passing (132ms)
+  1 failing
+
+  1) An uncaught error was detected outside of a test:
+     Error: The following error originated from your test code, not from Cypress.
+
+  > Cannot find module '../../src/components/elements/BaseElementForm'
+
+When Cypress detects uncaught errors originating from your test code it will automatically fail the current test.
+
+Cypress could not associate this error to any specific test.
+
+We dynamically generated a new test to display this failure.
+      at webpackMissingModule (http://localhost:3003/__cypress/src/spec-0.js:13:50)
+      at ./cypress/component/BaseElementForm.isolated.cy.tsx (http://localhost:3003/__cypress/src/spec-0.js:13:170)
+      at Function.__webpack_require__ (http://localhost:3003/__cypress/src/runtime.js:23:41)
+
+
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        1                                                                                │
+  │ Passing:      0                                                                                │
+  │ Failing:      1                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  1                                                                                │
+  │ Video:        false                                                                            │
+  │ Duration:     0 seconds                                                                        │
+  │ Spec Ran:     BaseElementForm.isolated.cy.tsx                                                  │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Screenshots)
+
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BaseElement    (2560x1440)
+     Form.isolated.cy.tsx/An uncaught error was detected outside of a test (failed).p               
+     ng                                                                                             
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  BaseElementForm.minimal.cy.tsx                                                 (4 of 62)
+13 assets
+265 modules
+
+[1m[31mERROR[39m[22m in [1m./cypress/component/BaseElementForm.minimal.cy.tsx[39m[22m [1m[32m3:0-80[39m[22m
+[1mModule [1m[31mnot found[39m[22m[1m: [1m[31mError[39m[22m[1m: Can't resolve '../../src/components/elements/BaseElementForm' in '/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component'[39m[22m
+
+webpack 5.101.3 compiled with [1m[31m1 error[39m[22m in 48 ms
+
+
+  1) An uncaught error was detected outside of a test
+
+  0 passing (130ms)
+  1 failing
+
+  1) An uncaught error was detected outside of a test:
+     Error: The following error originated from your test code, not from Cypress.
+
+  > Cannot find module '../../src/components/elements/BaseElementForm'
+
+When Cypress detects uncaught errors originating from your test code it will automatically fail the current test.
+
+Cypress could not associate this error to any specific test.
+
+We dynamically generated a new test to display this failure.
+      at webpackMissingModule (http://localhost:3003/__cypress/src/spec-0.js:13:50)
+      at ./cypress/component/BaseElementForm.minimal.cy.tsx (http://localhost:3003/__cypress/src/spec-0.js:13:170)
+      at Function.__webpack_require__ (http://localhost:3003/__cypress/src/runtime.js:23:41)
+
+
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        1                                                                                │
+  │ Passing:      0                                                                                │
+  │ Failing:      1                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  1                                                                                │
+  │ Video:        false                                                                            │
+  │ Duration:     0 seconds                                                                        │
+  │ Spec Ran:     BaseElementForm.minimal.cy.tsx                                                   │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Screenshots)
+
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BaseElement    (2560x1440)
+     Form.minimal.cy.tsx/An uncaught error was detected outside of a test (failed).pn               
+     g                                                                                              
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  BaseElementForm.simple.cy.tsx                                                  (5 of 62)
+13 assets
+265 modules
+
+[1m[31mERROR[39m[22m in [1m./cypress/component/BaseElementForm.simple.cy.tsx[39m[22m [1m[32m3:0-80[39m[22m
+[1mModule [1m[31mnot found[39m[22m[1m: [1m[31mError[39m[22m[1m: Can't resolve '../../src/components/elements/BaseElementForm' in '/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component'[39m[22m
+
+[1m[31mERROR[39m[22m in [1m./cypress/component/BaseElementForm.simple.cy.tsx[39m[22m [1m[32m4:0-83[39m[22m
+[1mModule [1m[31mnot found[39m[22m[1m: [1m[31mError[39m[22m[1m: Can't resolve '../support/component-test-helpers' in '/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component'[39m[22m
+
+webpack 5.101.3 compiled with [1m[31m2 errors[39m[22m in 57 ms
+
+
+  1) An uncaught error was detected outside of a test
+
+  0 passing (127ms)
+  1 failing
+
+  1) An uncaught error was detected outside of a test:
+     Error: The following error originated from your test code, not from Cypress.
+
+  > Cannot find module '../../src/components/elements/BaseElementForm'
+
+When Cypress detects uncaught errors originating from your test code it will automatically fail the current test.
+
+Cypress could not associate this error to any specific test.
+
+We dynamically generated a new test to display this failure.
+      at webpackMissingModule (http://localhost:3003/__cypress/src/spec-0.js:13:50)
+      at ./cypress/component/BaseElementForm.simple.cy.tsx (http://localhost:3003/__cypress/src/spec-0.js:13:170)
+      at Function.__webpack_require__ (http://localhost:3003/__cypress/src/runtime.js:23:41)
+
+
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        1                                                                                │
+  │ Passing:      0                                                                                │
+  │ Failing:      1                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  1                                                                                │
+  │ Video:        false                                                                            │
+  │ Duration:     0 seconds                                                                        │
+  │ Spec Ran:     BaseElementForm.simple.cy.tsx                                                    │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Screenshots)
+
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BaseElement    (2560x1440)
+     Form.simple.cy.tsx/An uncaught error was detected outside of a test (failed).png               
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  BaseElementForm.stateless.cy.tsx                                               (6 of 62)
+13 assets
+265 modules
+
+[1m[31mERROR[39m[22m in [1m./cypress/component/BaseElementForm.stateless.cy.tsx[39m[22m [1m[32m3:0-80[39m[22m
+[1mModule [1m[31mnot found[39m[22m[1m: [1m[31mError[39m[22m[1m: Can't resolve '../../src/components/elements/BaseElementForm' in '/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component'[39m[22m
+
+webpack 5.101.3 compiled with [1m[31m1 error[39m[22m in 54 ms
+
+
+  1) An uncaught error was detected outside of a test
+
+  0 passing (140ms)
+  1 failing
+
+  1) An uncaught error was detected outside of a test:
+     Error: The following error originated from your test code, not from Cypress.
+
+  > Cannot find module '../../src/components/elements/BaseElementForm'
+
+When Cypress detects uncaught errors originating from your test code it will automatically fail the current test.
+
+Cypress could not associate this error to any specific test.
+
+We dynamically generated a new test to display this failure.
+      at webpackMissingModule (http://localhost:3003/__cypress/src/spec-0.js:13:50)
+      at ./cypress/component/BaseElementForm.stateless.cy.tsx (http://localhost:3003/__cypress/src/spec-0.js:13:170)
+      at Function.__webpack_require__ (http://localhost:3003/__cypress/src/runtime.js:23:41)
+
+
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        1                                                                                │
+  │ Passing:      0                                                                                │
+  │ Failing:      1                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  1                                                                                │
+  │ Video:        false                                                                            │
+  │ Duration:     0 seconds                                                                        │
+  │ Spec Ran:     BaseElementForm.stateless.cy.tsx                                                 │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Screenshots)
+
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BaseElement    (2560x1440)
+     Form.stateless.cy.tsx/An uncaught error was detected outside of a test (failed).               
+     png                                                                                            
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  BasicQuestionsSelector.cy.tsx                                                  (7 of 62)
+12 assets
+266 modules
+
+[1m[31mERROR[39m[22m in [1m./cypress/component/BasicQuestionsSelector.cy.tsx[39m[22m
+[1mModule build [1m[31mfailed[39m[22m[1m (from ./node_modules/babel-loader/lib/index.js):
+SyntaxError: /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BasicQuestionsSelector.cy.tsx: [1m[31mUnexpected[39m[22m[1m token (575:11)
+
+  573 |             onChange={onChangeSpy}
+  574 |           />
+> 575 |           <[data-cy*="button"]>After</[data-cy*="button"]>
+      |            ^
+  576 |         </div>
+  577 |       );
+  578 |
+    at toParseError (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parse-[1m[31merror[39m[22m[1m.ts:95:45)
+    at TypeScriptParserMixin.raise (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/tokenizer/index.ts:1503:19)
+    at TypeScriptParserMixin.[1m[31munexpected[39m[22m[1m (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/tokenizer/index.ts:1543:16)
+    at TypeScriptParserMixin.jsxParseIdentifier (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/plugins/jsx/index.ts:278:14)
+    at TypeScriptParserMixin.jsxParseNamespacedName (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/plugins/jsx/index.ts:288:25)
+    at TypeScriptParserMixin.jsxParseElementName (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/plugins/jsx/index.ts:306:14)
+    at TypeScriptParserMixin.jsxParseOpeningElementAt (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/plugins/jsx/index.ts:429:24)
+    at TypeScriptParserMixin.jsxParseElementAt (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/plugins/jsx/index.ts:470:35)
+    at TypeScriptParserMixin.jsxParseElementAt (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/plugins/jsx/index.ts:483:34)
+    at TypeScriptParserMixin.jsxParseElement (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/plugins/jsx/index.ts:559:19)
+    at TypeScriptParserMixin.parseExprAtom (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/plugins/jsx/index.ts:573:21)
+    at TypeScriptParserMixin.parseExprSubscripts (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/expression.ts:734:23)
+    at TypeScriptParserMixin.parseUpdate (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/expression.ts:713:21)
+    at TypeScriptParserMixin.parseMaybeUnary (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/expression.ts:675:23)
+    at TypeScriptParserMixin.parseMaybeUnary (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/plugins/typescript/index.ts:3855:20)
+    at TypeScriptParserMixin.parseMaybeUnaryOrPrivate (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/expression.ts:409:14)
+    at TypeScriptParserMixin.parseExprOps (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/expression.ts:421:23)
+    at TypeScriptParserMixin.parseMaybeConditional (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/expression.ts:376:23)
+    at TypeScriptParserMixin.parseMaybeAssign (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/expression.ts:301:21)
+    at fn (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/plugins/typescript/index.ts:3708:23)
+    at TypeScriptParserMixin.tryParse (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/util.ts:174:20)
+    at TypeScriptParserMixin.parseMaybeAssign (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/plugins/typescript/index.ts:3707:20)
+    at callback (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/expression.ts:257:12)
+    at TypeScriptParserMixin.allowInAnd (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/expression.ts:3192:12)
+    at TypeScriptParserMixin.parseMaybeAssignAllowIn (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/expression.ts:256:17)
+    at TypeScriptParserMixin.parseMaybeAssignAllowInOrVoidPattern (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/expression.ts:3306:17)
+    at TypeScriptParserMixin.parseExprListItem (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/expression.ts:2788:18)
+    at TypeScriptParserMixin.parseCallExpressionArguments (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/expression.ts:1034:14)
+    at TypeScriptParserMixin.parseCoverCallAndAsyncArrowHead (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/expression.ts:914:29)
+    at TypeScriptParserMixin.parseSubscript (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/expression.ts:796:19)
+    at TypeScriptParserMixin.parseSubscript (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/plugins/typescript/index.ts:2850:20)
+    at TypeScriptParserMixin.parseSubscripts (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/expression.ts:755:19)
+    at TypeScriptParserMixin.parseExprSubscripts (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/expression.ts:740:17)
+    at TypeScriptParserMixin.parseUpdate (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/expression.ts:713:21)
+    at TypeScriptParserMixin.parseMaybeUnary (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/expression.ts:675:23)
+    at TypeScriptParserMixin.parseMaybeUnary (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/plugins/typescript/index.ts:3855:20)
+    at TypeScriptParserMixin.parseMaybeUnaryOrPrivate (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/expression.ts:409:14)
+    at TypeScriptParserMixin.parseExprOps (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/expression.ts:421:23)
+    at TypeScriptParserMixin.parseMaybeConditional (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/expression.ts:376:23)
+    at TypeScriptParserMixin.parseMaybeAssign (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/expression.ts:301:21)
+    at TypeScriptParserMixin.parseMaybeAssign (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/plugins/typescript/index.ts:3727:22)
+    at TypeScriptParserMixin.parseExpressionBase (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/expression.ts:226:23)
+    at callback (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/expression.ts:217:39)
+    at TypeScriptParserMixin.allowInAnd (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/expression.ts:3187:16)
+    at TypeScriptParserMixin.parseExpression (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/expression.ts:217:17)
+    at TypeScriptParserMixin.parseStatementContent (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/statement.ts:683:23)
+    at TypeScriptParserMixin.parseStatementContent (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/plugins/typescript/index.ts:3185:20)
+    at TypeScriptParserMixin.parseStatementLike (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/statement.ts:477:17)
+    at TypeScriptParserMixin.parseStatementListItem (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/statement.ts:426:17)
+    at TypeScriptParserMixin.parseBlockOrModuleBlockBody (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/statement.ts:1439:16)[39m[22m
+
+webpack 5.101.3 compiled with [1m[31m1 error[39m[22m in 88 ms
+
+
+  1) An uncaught error was detected outside of a test
+
+  0 passing (126ms)
+  1 failing
+
+  1) An uncaught error was detected outside of a test:
+     Error: The following error originated from your test code, not from Cypress.
+
+  > Module build failed (from ./node_modules/babel-loader/lib/index.js):
+SyntaxError: /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BasicQuestionsSelector.cy.tsx: Unexpected token (575:11)
+
+  573 |             onChange={onChangeSpy}
+  574 |           />
+> 575 |           <[data-cy*="button"]>After</[data-cy*="button"]>
+      |            ^
+  576 |         </div>
+  577 |       );
+  578 |
+    at toParseError (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parse-error.ts:95:45)
+    at TypeScriptParserMixin.raise (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/tokenizer/index.ts:1503:19)
+    at TypeScriptParserMixin.unexpected (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/tokenizer/index.ts:1543:16)
+    at TypeScriptParserMixin.jsxParseIdentifier (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/plugins/jsx/index.ts:278:14)
+    at TypeScriptParserMixin.jsxParseNamespacedName (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/plugins/jsx/index.ts:288:25)
+    at TypeScriptParserMixin.jsxParseElementName (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/plugins/jsx/index.ts:306:14)
+    at TypeScriptParserMixin.jsxParseOpeningElementAt (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/plugins/jsx/index.ts:429:24)
+    at TypeScriptParserMixin.jsxParseElementAt (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/plugins/jsx/index.ts:470:35)
+    at TypeScriptParserMixin.jsxParseElementAt (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/plugins/jsx/index.ts:483:34)
+    at TypeScriptParserMixin.jsxParseElement (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/plugins/jsx/index.ts:559:19)
+    at TypeScriptParserMixin.parseExprAtom (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/plugins/jsx/index.ts:573:21)
+    at TypeScriptParserMixin.parseExprSubscripts (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/expression.ts:734:23)
+    at TypeScriptParserMixin.parseUpdate (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/expression.ts:713:21)
+    at TypeScriptParserMixin.parseMaybeUnary (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/expression.ts:675:23)
+    at TypeScriptParserMixin.parseMaybeUnary (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/plugins/typescript/index.ts:3855:20)
+    at TypeScriptParserMixin.parseMaybeUnaryOrPrivate (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/expression.ts:409:14)
+    at TypeScriptParserMixin.parseExprOps (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/expression.ts:421:23)
+    at TypeScriptParserMixin.parseMaybeConditional (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/expression.ts:376:23)
+    at TypeScriptParserMixin.parseMaybeAssign (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/expression.ts:301:21)
+    at fn (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/plugins/typescript/index.ts:3708:23)
+    at TypeScriptParserMixin.tryParse (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/util.ts:174:20)
+    at TypeScriptParserMixin.parseMaybeAssign (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/plugins/typescript/index.ts:3707:20)
+    at callback (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/expression.ts:257:12)
+    at TypeScriptParserMixin.allowInAnd (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/expression.ts:3192:12)
+    at TypeScriptParserMixin.parseMaybeAssignAllowIn (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/expression.ts:256:17)
+    at TypeScriptParserMixin.parseMaybeAssignAllowInOrVoidPattern (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/expression.ts:3306:17)
+    at TypeScriptParserMixin.parseExprListItem (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/expression.ts:2788:18)
+    at TypeScriptParserMixin.parseCallExpressionArguments (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/expression.ts:1034:14)
+    at TypeScriptParserMixin.parseCoverCallAndAsyncArrowHead (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/expression.ts:914:29)
+    at TypeScriptParserMixin.parseSubscript (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/expression.ts:796:19)
+    at TypeScriptParserMixin.parseSubscript (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/plugins/typescript/index.ts:2850:20)
+    at TypeScriptParserMixin.parseSubscripts (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/expression.ts:755:19)
+    at TypeScriptParserMixin.parseExprSubscripts (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/expression.ts:740:17)
+    at TypeScriptParserMixin.parseUpdate (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/expression.ts:713:21)
+    at TypeScriptParserMixin.parseMaybeUnary (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/expression.ts:675:23)
+    at TypeScriptParserMixin.parseMaybeUnary (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/plugins/typescript/index.ts:3855:20)
+    at TypeScriptParserMixin.parseMaybeUnaryOrPrivate (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/expression.ts:409:14)
+    at TypeScriptParserMixin.parseExprOps (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/expression.ts:421:23)
+    at TypeScriptParserMixin.parseMaybeConditional (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/expression.ts:376:23)
+    at TypeScriptParserMixin.parseMaybeAssign (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/expression.ts:301:21)
+    at TypeScriptParserMixin.parseMaybeAssign (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/plugins/typescript/index.ts:3727:22)
+    at TypeScriptParserMixin.parseExpressionBase (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/expression.ts:226:23)
+    at callback (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/expression.ts:217:39)
+    at TypeScriptParserMixin.allowInAnd (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/expression.ts:3187:16)
+    at TypeScriptParserMixin.parseExpression (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/expression.ts:217:17)
+    at TypeScriptParserMixin.parseStatementContent (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/statement.ts:683:23)
+    at TypeScriptParserMixin.parseStatementContent (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/plugins/typescript/index.ts:3185:20)
+    at TypeScriptParserMixin.parseStatementLike (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/statement.ts:477:17)
+    at TypeScriptParserMixin.parseStatementListItem (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/statement.ts:426:17)
+    at TypeScriptParserMixin.parseBlockOrModuleBlockBody (/Users/jacobstoragepug/Desktop/FantasyWritingApp/node_modules/@babel/parser/src/parser/statement.ts:1439:16)
+
+When Cypress detects uncaught errors originating from your test code it will automatically fail the current test.
+
+Cypress could not associate this error to any specific test.
+
+We dynamically generated a new test to display this failure.
+      at ./cypress/component/BasicQuestionsSelector.cy.tsx (http://localhost:3003/__cypress/src/spec-0.js:9:7)
+      at __webpack_require__ (http://localhost:3003/__cypress/src/runtime.js:23:41)
+      at __webpack_require__.t (http://localhost:3003/__cypress/src/runtime.js:91:38)
+
+
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        1                                                                                │
+  │ Passing:      0                                                                                │
+  │ Failing:      1                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  1                                                                                │
+  │ Video:        false                                                                            │
+  │ Duration:     0 seconds                                                                        │
+  │ Spec Ran:     BasicQuestionsSelector.cy.tsx                                                    │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Screenshots)
+
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BasicQuesti    (2560x1440)
+     onsSelector.cy.tsx/An uncaught error was detected outside of a test (failed).png               
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  BasicQuestionsSelector.simple.cy.tsx                                           (8 of 62)
+13 assets
+265 modules
+
+[1m[31mERROR[39m[22m in [1m./cypress/component/BasicQuestionsSelector.simple.cy.tsx[39m[22m [1m[32m2:0-85[39m[22m
+[1mModule [1m[31mnot found[39m[22m[1m: [1m[31mError[39m[22m[1m: Can't resolve '../../src/components/BasicQuestionsSelector' in '/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component'[39m[22m
+
+webpack 5.101.3 compiled with [1m[31m1 error[39m[22m in 70 ms
+
+
+  1) An uncaught error was detected outside of a test
+
+  0 passing (135ms)
+  1 failing
+
+  1) An uncaught error was detected outside of a test:
+     Error: The following error originated from your test code, not from Cypress.
+
+  > Cannot find module '../../src/components/BasicQuestionsSelector'
+
+When Cypress detects uncaught errors originating from your test code it will automatically fail the current test.
+
+Cypress could not associate this error to any specific test.
+
+We dynamically generated a new test to display this failure.
+      at webpackMissingModule (http://localhost:3003/__cypress/src/spec-0.js:13:50)
+      at ./cypress/component/BasicQuestionsSelector.simple.cy.tsx (http://localhost:3003/__cypress/src/spec-0.js:13:168)
+      at Function.__webpack_require__ (http://localhost:3003/__cypress/src/runtime.js:23:41)
+
+
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        1                                                                                │
+  │ Passing:      0                                                                                │
+  │ Failing:      1                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  1                                                                                │
+  │ Video:        false                                                                            │
+  │ Duration:     0 seconds                                                                        │
+  │ Spec Ran:     BasicQuestionsSelector.simple.cy.tsx                                             │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Screenshots)
+
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BasicQuesti    (2560x1440)
+     onsSelector.simple.cy.tsx/An uncaught error was detected outside of a test (fail               
+     ed).png                                                                                        
+

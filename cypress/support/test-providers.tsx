@@ -2,26 +2,9 @@
 
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { Provider as StoreProvider } from 'react-redux';
-import { configureStore } from '@reduxjs/toolkit';
 
-// Import your app's reducers/store configuration
-// Note: You'll need to update these imports based on your actual store setup
-// import rootReducer from '../../src/store/rootReducer';
-
-// Create a mock store for testing
-const createMockStore = (initialState = {}) => {
-  return configureStore({
-    reducer: {
-      // Add your reducers here
-      // Example:
-      // auth: authReducer,
-      // stories: storiesReducer,
-      // characters: charactersReducer,
-    },
-    preloadedState: initialState,
-  });
-};
+// Since this app uses Zustand instead of Redux, we don't need Redux providers
+// Zustand stores work independently without a provider wrapper
 
 // Error boundary for catching and reporting errors in tests
 class TestErrorBoundary extends React.Component<
@@ -58,30 +41,25 @@ class TestErrorBoundary extends React.Component<
 // Test providers wrapper component
 interface TestProvidersProps {
   children: React.ReactNode;
-  initialState?: any;
   navigationOptions?: any;
 }
 
 export const TestProviders: React.FC<TestProvidersProps> = ({
   children,
-  initialState = {},
   navigationOptions = {},
 }) => {
-  const store = createMockStore(initialState);
-
   return (
     <TestErrorBoundary>
-      <StoreProvider store={store}>
-        <NavigationContainer {...navigationOptions}>
-          {children}
-        </NavigationContainer>
-      </StoreProvider>
+      <NavigationContainer {...navigationOptions}>
+        {children}
+      </NavigationContainer>
     </TestErrorBoundary>
   );
 };
 
-// Mock navigation for isolated component testing
-export const MockNavigation = {
+// Mock navigation factory for isolated component testing
+// Call this function inside tests to create mocked navigation
+export const createMockNavigation = () => ({
   navigate: cy.stub().as('navigate'),
   goBack: cy.stub().as('goBack'),
   push: cy.stub().as('push'),
@@ -91,7 +69,7 @@ export const MockNavigation = {
   addListener: cy.stub().returns(() => {}),
   removeListener: cy.stub(),
   isFocused: cy.stub().returns(true),
-};
+});
 
 // Mock route for isolated component testing
 export const MockRoute = {
@@ -104,10 +82,10 @@ export const MockRoute = {
 export const wrapWithProviders = (
   Component: React.ComponentType<any>,
   props = {},
-  options = {}
+  navigationOptions = {}
 ) => {
   return (
-    <TestProviders {...options}>
+    <TestProviders navigationOptions={navigationOptions}>
       <Component {...props} />
     </TestProviders>
   );

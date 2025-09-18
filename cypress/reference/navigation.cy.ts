@@ -12,35 +12,35 @@ describe('Navigation and Routing', () => {
     cy.url().should('include', '/projects')
     
     // Create a project through the UI
-    cy.get('[data-cy="get-started"], [data-cy="create-project"]').first().click()
-    cy.get('[data-cy="project-name"]').type('Navigation Test World')
-    cy.get('[data-cy="project-description"]').type('Testing navigation features')
-    cy.get('[data-cy="submit"]').click()
+    cy.get('[data-testid="get-started"], [data-testid="create-project"]').first().click()
+    cy.get('[data-testid="project-name"]').type('Navigation Test World')
+    cy.get('[data-testid="project-description"]').type('Testing navigation features')
+    cy.get('[data-testid="submit"]').click()
     
     // Wait for project to be created
-    cy.get('[data-cy="project-card"]').should('contain', 'Navigation Test World')
+    cy.get('[data-testid="project-card"]').should('contain', 'Navigation Test World')
   })
 
   it('should navigate between project list and project view', () => {
     // Navigate to project
-    cy.get('[data-cy="project-card"]').first().click()
+    cy.get('[data-testid="project-card"]').first().click()
     cy.url().should('include', '/project/')
     
     // Navigate back to projects list using browser back
     cy.go('back')
     cy.url().should('include', '/projects')
-    cy.get('[data-cy="project-card"]').should('exist')
+    cy.get('[data-testid="project-card"]').should('exist')
   })
 
   it('should navigate between project list and project view using URL', () => {
     // Get project ID from the card
-    cy.get('[data-cy="project-card"]').first().click()
+    cy.get('[data-testid="project-card"]').first().click()
     
     // Store the URL
     cy.url().then((projectUrl) => {
       // Go back to projects
       cy.visit('/projects')
-      cy.get('[data-cy="project-card"]').should('exist')
+      cy.get('[data-testid="project-card"]').should('exist')
       
       // Navigate directly to project using URL
       cy.visit(projectUrl)
@@ -50,7 +50,7 @@ describe('Navigation and Routing', () => {
 
   it('should maintain navigation state after page refresh', () => {
     // Navigate to project
-    cy.get('[data-cy="project-card"]').first().click()
+    cy.get('[data-testid="project-card"]').first().click()
     cy.url().should('include', '/project/')
     
     // Refresh the page
@@ -62,7 +62,7 @@ describe('Navigation and Routing', () => {
 
   it('should handle deep linking to projects', () => {
     // Get project card and extract ID
-    cy.get('[data-cy="project-card"]').first().then(($card) => {
+    cy.get('[data-testid="project-card"]').first().then(($card) => {
       // Navigate to project to get the URL
       cy.wrap($card).click()
       
@@ -87,7 +87,7 @@ describe('Navigation and Routing', () => {
     cy.url().should('include', '/projects')
     
     // Navigate to project
-    cy.get('[data-cy="project-card"]').first().click()
+    cy.get('[data-testid="project-card"]').first().click()
     cy.url().should('include', '/project/')
     
     // Use browser back button

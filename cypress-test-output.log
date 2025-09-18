@@ -1,0 +1,2545 @@
+
+DevTools listening on ws://127.0.0.1:50879/devtools/browser/010cec79-fa4c-4dc4-bdcd-982c7dae68bc
+Missing baseUrl in compilerOptions. tsconfig-paths will be skipped
+
+🚀 Fantasy Element Builder is running on port 3003
+📱 Open http://localhost:3003 in your browser
+
+
+Opening `/dev/tty` failed (6): Device not configured
+================================================================================
+
+  (Run Starting)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Cypress:        14.5.4                                                                         │
+  │ Browser:        Electron 130 (headless)                                                        │
+  │ Node Version:   v20.19.3 (/Users/jacobstoragepug/.nvm/versions/node/v20.19.3/bin/node)         │
+  │ Specs:          62 found (AutoSaveIndicator.cy.tsx, BaseElementForm.incremental.cy.tsx, BaseEl │
+  │                 ementForm.isolated.cy.tsx, BaseElementForm.minimal.cy.tsx, BaseElementForm.sim │
+  │                 ple.cy.tsx, BaseElementForm.stateless.cy.tsx, BasicQuestionsSelector.cy.tsx, B │
+  │                 asicQuestionsSelector.s...)                                                    │
+  │ Searched:       cypress/component/**/*.cy.{js,jsx,ts,tsx}                                      │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  AutoSaveIndicator.cy.tsx                                                       (1 of 62)
+11 assets
+265 modules
+webpack 5.101.3 compiled [1m[32msuccessfully[39m[22m in 1678 ms
+14 assets
+275 modules
+webpack 5.101.3 compiled [1m[32msuccessfully[39m[22m in 367 ms
+{
+  "stats": {
+    "suites": 1,
+    "tests": 12,
+    "passes": 12,
+    "pending": 0,
+    "failures": 0,
+    "start": "2025-09-17T18:04:25.853Z",
+    "end": "2025-09-17T18:04:26.386Z",
+    "duration": 533
+  },
+  "tests": [
+    {
+      "title": "should render idle state by default",
+      "fullTitle": "AutoSaveIndicator Component should render idle state by default",
+      "file": null,
+      "duration": 23,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "should show saving state",
+      "fullTitle": "AutoSaveIndicator Component should show saving state",
+      "file": null,
+      "duration": 33,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "should show saved state",
+      "fullTitle": "AutoSaveIndicator Component should show saved state",
+      "file": null,
+      "duration": 31,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "should show error state",
+      "fullTitle": "AutoSaveIndicator Component should show error state",
+      "file": null,
+      "duration": 28,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "should show custom error message",
+      "fullTitle": "AutoSaveIndicator Component should show custom error message",
+      "file": null,
+      "duration": 25,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "should show timestamp for saved state",
+      "fullTitle": "AutoSaveIndicator Component should show timestamp for saved state",
+      "file": null,
+      "duration": 26,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "should update timestamp text over time",
+      "fullTitle": "AutoSaveIndicator Component should update timestamp text over time",
+      "file": null,
+      "duration": 29,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "should handle click on retry for error state",
+      "fullTitle": "AutoSaveIndicator Component should handle click on retry for error state",
+      "file": null,
+      "duration": 106,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "should apply custom className",
+      "fullTitle": "AutoSaveIndicator Component should apply custom className",
+      "file": null,
+      "duration": 24,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "should transition between states smoothly",
+      "fullTitle": "AutoSaveIndicator Component should transition between states smoothly",
+      "file": null,
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "should auto-hide saved state after delay",
+      "fullTitle": "AutoSaveIndicator Component should auto-hide saved state after delay",
+      "file": null,
+      "duration": 46,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "should be accessible",
+      "fullTitle": "AutoSaveIndicator Component should be accessible",
+      "file": null,
+      "duration": 26,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "should render idle state by default",
+      "fullTitle": "AutoSaveIndicator Component should render idle state by default",
+      "file": null,
+      "duration": 23,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "should show saving state",
+      "fullTitle": "AutoSaveIndicator Component should show saving state",
+      "file": null,
+      "duration": 33,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "should show saved state",
+      "fullTitle": "AutoSaveIndicator Component should show saved state",
+      "file": null,
+      "duration": 31,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "should show error state",
+      "fullTitle": "AutoSaveIndicator Component should show error state",
+      "file": null,
+      "duration": 28,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "should show custom error message",
+      "fullTitle": "AutoSaveIndicator Component should show custom error message",
+      "file": null,
+      "duration": 25,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "should show timestamp for saved state",
+      "fullTitle": "AutoSaveIndicator Component should show timestamp for saved state",
+      "file": null,
+      "duration": 26,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "should update timestamp text over time",
+      "fullTitle": "AutoSaveIndicator Component should update timestamp text over time",
+      "file": null,
+      "duration": 29,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "should handle click on retry for error state",
+      "fullTitle": "AutoSaveIndicator Component should handle click on retry for error state",
+      "file": null,
+      "duration": 106,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "should apply custom className",
+      "fullTitle": "AutoSaveIndicator Component should apply custom className",
+      "file": null,
+      "duration": 24,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "should transition between states smoothly",
+      "fullTitle": "AutoSaveIndicator Component should transition between states smoothly",
+      "file": null,
+      "duration": 16,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "should auto-hide saved state after delay",
+      "fullTitle": "AutoSaveIndicator Component should auto-hide saved state after delay",
+      "file": null,
+      "duration": 46,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "should be accessible",
+      "fullTitle": "AutoSaveIndicator Component should be accessible",
+      "file": null,
+      "duration": 26,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        12                                                                               │
+  │ Passing:      12                                                                               │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        false                                                                            │
+  │ Duration:     0 seconds                                                                        │
+  │ Spec Ran:     AutoSaveIndicator.cy.tsx                                                         │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  BaseElementForm.incremental.cy.tsx                                             (2 of 62)
+14 assets
+275 modules
+webpack 5.101.3 compiled [1m[32msuccessfully[39m[22m in 50 ms
+{
+  "stats": {
+    "suites": 1,
+    "tests": 5,
+    "passes": 3,
+    "pending": 1,
+    "failures": 2,
+    "start": "2025-09-17T18:04:28.261Z",
+    "end": "2025-09-17T18:04:37.344Z",
+    "duration": 9083
+  },
+  "tests": [
+    {
+      "title": "renders with questions - starting in detailed mode",
+      "fullTitle": "BaseElementForm - Incremental Tests renders with questions - starting in detailed mode",
+      "file": null,
+      "duration": 117,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "renders with answers",
+      "fullTitle": "BaseElementForm - Incremental Tests renders with answers",
+      "file": null,
+      "duration": 27,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "expands category when clicked",
+      "fullTitle": "BaseElementForm - Incremental Tests expands category when clicked",
+      "file": null,
+      "duration": 108,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "shows input values",
+      "fullTitle": "BaseElementForm - Incremental Tests shows input values",
+      "file": null,
+      "duration": 4270,
+      "currentRetry": 0,
+      "err": {
+        "message": "Timed out retrying after 4000ms: Expected to find element: `input[type=\"number\"]`, but never found it.",
+        "type": "existence",
+        "name": "AssertionError",
+        "stack": "AssertionError: Timed out retrying after 4000ms: Expected to find element: `input[type=\"number\"]`, but never found it.\n    at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/component/BaseElementForm.incremental.cy.tsx:114:7)",
+        "parsedStack": [
+          {
+            "message": "AssertionError: Timed out retrying after 4000ms: Expected to find element: `input[type=\"number\"]`, but never found it.",
+            "whitespace": ""
+          },
+          {
+            "function": "Context.<anonymous>",
+            "fileUrl": "http://localhost:3003/__cypress/src/spec-0.js",
+            "originalFile": "webpack://FantasyWritingApp/./cypress/component/BaseElementForm.incremental.cy.tsx",
+            "relativeFile": "cypress/component/BaseElementForm.incremental.cy.tsx",
+            "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.incremental.cy.tsx",
+            "line": 114,
+            "column": 7,
+            "whitespace": "    "
+          }
+        ],
+        "codeFrame": {
+          "line": 114,
+          "column": 8,
+          "originalFile": "cypress/component/BaseElementForm.incremental.cy.tsx",
+          "relativeFile": "cypress/component/BaseElementForm.incremental.cy.tsx",
+          "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.incremental.cy.tsx",
+          "frame": "  112 |     // Check input values\n  113 |     cy.get('[data-testid=\"text-input\"]').first().should('have.value', 'Test Name');\n> 114 |     cy.get('input[type=\"number\"]').first().should('have.value', '30');\n      |        ^\n  115 |   });\n  116 |   \n  117 |   it('calls onChange when input changes', () => {",
+          "language": "tsx"
+        }
+      }
+    },
+    {
+      "title": "calls onChange when input changes",
+      "fullTitle": "BaseElementForm - Incremental Tests calls onChange when input changes",
+      "file": null,
+      "duration": 4491,
+      "currentRetry": 0,
+      "err": {
+        "message": "Timed out retrying after 4000ms: expected stub to have been called at least once, but it was never called",
+        "name": "AssertionError",
+        "stack": "AssertionError: Timed out retrying after 4000ms: expected stub to have been called at least once, but it was never called\n    at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/component/BaseElementForm.incremental.cy.tsx:137:22)",
+        "parsedStack": [
+          {
+            "message": "AssertionError: Timed out retrying after 4000ms: expected stub to have been called at least once, but it was never called",
+            "whitespace": ""
+          },
+          {
+            "function": "Context.<anonymous>",
+            "fileUrl": "http://localhost:3003/__cypress/src/spec-0.js",
+            "originalFile": "webpack://FantasyWritingApp/./cypress/component/BaseElementForm.incremental.cy.tsx",
+            "relativeFile": "cypress/component/BaseElementForm.incremental.cy.tsx",
+            "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.incremental.cy.tsx",
+            "line": 137,
+            "column": 22,
+            "whitespace": "    "
+          }
+        ],
+        "codeFrame": {
+          "line": 137,
+          "column": 23,
+          "originalFile": "cypress/component/BaseElementForm.incremental.cy.tsx",
+          "relativeFile": "cypress/component/BaseElementForm.incremental.cy.tsx",
+          "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.incremental.cy.tsx",
+          "frame": "  135 |     \n  136 |     // Check onChange was called\n> 137 |     cy.wrap(onChange).should('have.been.called');\n      |                       ^\n  138 |   });\n  139 | });",
+          "language": "tsx"
+        }
+      }
+    }
+  ],
+  "pending": [
+    {
+      "title": "renders with questions - old test",
+      "fullTitle": "BaseElementForm - Incremental Tests renders with questions - old test",
+      "file": null,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "failures": [
+    {
+      "title": "shows input values",
+      "fullTitle": "BaseElementForm - Incremental Tests shows input values",
+      "file": null,
+      "currentRetry": 0,
+      "err": {
+        "message": "Timed out retrying after 4000ms: Expected to find element: `input[type=\"number\"]`, but never found it.",
+        "type": "existence",
+        "name": "AssertionError",
+        "stack": "AssertionError: Timed out retrying after 4000ms: Expected to find element: `input[type=\"number\"]`, but never found it.\n    at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/component/BaseElementForm.incremental.cy.tsx:114:7)",
+        "parsedStack": [
+          {
+            "message": "AssertionError: Timed out retrying after 4000ms: Expected to find element: `input[type=\"number\"]`, but never found it.",
+            "whitespace": ""
+          },
+          {
+            "function": "Context.<anonymous>",
+            "fileUrl": "http://localhost:3003/__cypress/src/spec-0.js",
+            "originalFile": "webpack://FantasyWritingApp/./cypress/component/BaseElementForm.incremental.cy.tsx",
+            "relativeFile": "cypress/component/BaseElementForm.incremental.cy.tsx",
+            "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.incremental.cy.tsx",
+            "line": 114,
+            "column": 7,
+            "whitespace": "    "
+          }
+        ],
+        "codeFrame": {
+          "line": 114,
+          "column": 8,
+          "originalFile": "cypress/component/BaseElementForm.incremental.cy.tsx",
+          "relativeFile": "cypress/component/BaseElementForm.incremental.cy.tsx",
+          "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.incremental.cy.tsx",
+          "frame": "  112 |     // Check input values\n  113 |     cy.get('[data-testid=\"text-input\"]').first().should('have.value', 'Test Name');\n> 114 |     cy.get('input[type=\"number\"]').first().should('have.value', '30');\n      |        ^\n  115 |   });\n  116 |   \n  117 |   it('calls onChange when input changes', () => {",
+          "language": "tsx"
+        }
+      }
+    },
+    {
+      "title": "calls onChange when input changes",
+      "fullTitle": "BaseElementForm - Incremental Tests calls onChange when input changes",
+      "file": null,
+      "currentRetry": 0,
+      "err": {
+        "message": "Timed out retrying after 4000ms: expected stub to have been called at least once, but it was never called",
+        "name": "AssertionError",
+        "stack": "AssertionError: Timed out retrying after 4000ms: expected stub to have been called at least once, but it was never called\n    at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/component/BaseElementForm.incremental.cy.tsx:137:22)",
+        "parsedStack": [
+          {
+            "message": "AssertionError: Timed out retrying after 4000ms: expected stub to have been called at least once, but it was never called",
+            "whitespace": ""
+          },
+          {
+            "function": "Context.<anonymous>",
+            "fileUrl": "http://localhost:3003/__cypress/src/spec-0.js",
+            "originalFile": "webpack://FantasyWritingApp/./cypress/component/BaseElementForm.incremental.cy.tsx",
+            "relativeFile": "cypress/component/BaseElementForm.incremental.cy.tsx",
+            "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.incremental.cy.tsx",
+            "line": 137,
+            "column": 22,
+            "whitespace": "    "
+          }
+        ],
+        "codeFrame": {
+          "line": 137,
+          "column": 23,
+          "originalFile": "cypress/component/BaseElementForm.incremental.cy.tsx",
+          "relativeFile": "cypress/component/BaseElementForm.incremental.cy.tsx",
+          "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.incremental.cy.tsx",
+          "frame": "  135 |     \n  136 |     // Check onChange was called\n> 137 |     cy.wrap(onChange).should('have.been.called');\n      |                       ^\n  138 |   });\n  139 | });",
+          "language": "tsx"
+        }
+      }
+    }
+  ],
+  "passes": [
+    {
+      "title": "renders with questions - starting in detailed mode",
+      "fullTitle": "BaseElementForm - Incremental Tests renders with questions - starting in detailed mode",
+      "file": null,
+      "duration": 117,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "renders with answers",
+      "fullTitle": "BaseElementForm - Incremental Tests renders with answers",
+      "file": null,
+      "duration": 27,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "expands category when clicked",
+      "fullTitle": "BaseElementForm - Incremental Tests expands category when clicked",
+      "file": null,
+      "duration": 108,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        6                                                                                │
+  │ Passing:      3                                                                                │
+  │ Failing:      2                                                                                │
+  │ Pending:      1                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  2                                                                                │
+  │ Video:        false                                                                            │
+  │ Duration:     9 seconds                                                                        │
+  │ Spec Ran:     BaseElementForm.incremental.cy.tsx                                               │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Screenshots)
+
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BaseElement    (2560x1440)
+     Form.incremental.cy.tsx/BaseElementForm - Incremental Tests -- shows input value               
+     s (failed).png                                                                                 
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BaseElement    (2560x1440)
+     Form.incremental.cy.tsx/BaseElementForm - Incremental Tests -- calls onChange wh               
+     en input changes (failed).png                                                                  
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  BaseElementForm.isolated.cy.tsx                                                (3 of 62)
+14 assets
+275 modules
+webpack 5.101.3 compiled [1m[32msuccessfully[39m[22m in 55 ms
+{
+  "stats": {
+    "suites": 1,
+    "tests": 3,
+    "passes": 3,
+    "pending": 0,
+    "failures": 0,
+    "start": "2025-09-17T18:04:38.251Z",
+    "end": "2025-09-17T18:04:38.378Z",
+    "duration": 127
+  },
+  "tests": [
+    {
+      "title": "mounts the component",
+      "fullTitle": "BaseElementForm - Isolated Tests mounts the component",
+      "file": null,
+      "duration": 42,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "shows the mode toggle",
+      "fullTitle": "BaseElementForm - Isolated Tests shows the mode toggle",
+      "file": null,
+      "duration": 28,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "renders with one simple question",
+      "fullTitle": "BaseElementForm - Isolated Tests renders with one simple question",
+      "file": null,
+      "duration": 25,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "mounts the component",
+      "fullTitle": "BaseElementForm - Isolated Tests mounts the component",
+      "file": null,
+      "duration": 42,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "shows the mode toggle",
+      "fullTitle": "BaseElementForm - Isolated Tests shows the mode toggle",
+      "file": null,
+      "duration": 28,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "renders with one simple question",
+      "fullTitle": "BaseElementForm - Isolated Tests renders with one simple question",
+      "file": null,
+      "duration": 25,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        3                                                                                │
+  │ Passing:      3                                                                                │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        false                                                                            │
+  │ Duration:     0 seconds                                                                        │
+  │ Spec Ran:     BaseElementForm.isolated.cy.tsx                                                  │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  BaseElementForm.minimal.cy.tsx                                                 (4 of 62)
+14 assets
+275 modules
+webpack 5.101.3 compiled [1m[32msuccessfully[39m[22m in 58 ms
+{
+  "stats": {
+    "suites": 1,
+    "tests": 2,
+    "passes": 2,
+    "pending": 0,
+    "failures": 0,
+    "start": "2025-09-17T18:04:39.977Z",
+    "end": "2025-09-17T18:04:40.070Z",
+    "duration": 93
+  },
+  "tests": [
+    {
+      "title": "mounts without crashing",
+      "fullTitle": "BaseElementForm - Minimal Test mounts without crashing",
+      "file": null,
+      "duration": 41,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "renders with mock div instead of component",
+      "fullTitle": "BaseElementForm - Minimal Test renders with mock div instead of component",
+      "file": null,
+      "duration": 27,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ],
+  "pending": [],
+  "failures": [],
+  "passes": [
+    {
+      "title": "mounts without crashing",
+      "fullTitle": "BaseElementForm - Minimal Test mounts without crashing",
+      "file": null,
+      "duration": 41,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "renders with mock div instead of component",
+      "fullTitle": "BaseElementForm - Minimal Test renders with mock div instead of component",
+      "file": null,
+      "duration": 27,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        2                                                                                │
+  │ Passing:      2                                                                                │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        false                                                                            │
+  │ Duration:     0 seconds                                                                        │
+  │ Spec Ran:     BaseElementForm.minimal.cy.tsx                                                   │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  BaseElementForm.simple.cy.tsx                                                  (5 of 62)
+14 assets
+275 modules
+webpack 5.101.3 compiled [1m[32msuccessfully[39m[22m in 123 ms
+{
+  "stats": {
+    "suites": 1,
+    "tests": 11,
+    "passes": 2,
+    "pending": 0,
+    "failures": 9,
+    "start": "2025-09-17T18:04:41.717Z",
+    "end": "2025-09-17T18:05:16.031Z",
+    "duration": 34314
+  },
+  "tests": [
+    {
+      "title": "renders form header and basic structure",
+      "fullTitle": "BaseElementForm (Simple Tests) renders form header and basic structure",
+      "file": null,
+      "duration": 54,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "shows categories that can be expanded",
+      "fullTitle": "BaseElementForm (Simple Tests) shows categories that can be expanded",
+      "file": null,
+      "duration": 4145,
+      "currentRetry": 0,
+      "err": {
+        "message": "Timed out retrying after 4000ms: Expected to find content: 'Name' but never did.",
+        "type": "existence",
+        "name": "AssertionError",
+        "stack": "AssertionError: Timed out retrying after 4000ms: Expected to find content: 'Name' but never did.\n    at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/component/BaseElementForm.simple.cy.tsx:99:24)",
+        "parsedStack": [
+          {
+            "message": "AssertionError: Timed out retrying after 4000ms: Expected to find content: 'Name' but never did.",
+            "whitespace": ""
+          },
+          {
+            "function": "Context.<anonymous>",
+            "fileUrl": "http://localhost:3003/__cypress/src/spec-0.js",
+            "originalFile": "webpack://FantasyWritingApp/./cypress/component/BaseElementForm.simple.cy.tsx",
+            "relativeFile": "cypress/component/BaseElementForm.simple.cy.tsx",
+            "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.simple.cy.tsx",
+            "line": 99,
+            "column": 24,
+            "whitespace": "    "
+          }
+        ],
+        "codeFrame": {
+          "line": 99,
+          "column": 25,
+          "originalFile": "cypress/component/BaseElementForm.simple.cy.tsx",
+          "relativeFile": "cypress/component/BaseElementForm.simple.cy.tsx",
+          "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.simple.cy.tsx",
+          "frame": "   97 |     \n   98 |     // Questions should be hidden initially\n>  99 |     cy.contains('Name').should('not.be.visible');\n      |                         ^\n  100 |     \n  101 |     // Expand category using data-cy [data-cy*=\"select\"]or\n  102 |     cy.get('[data-testid=\"category-toggle-general\"]').click();",
+          "language": "tsx"
+        }
+      }
+    },
+    {
+      "title": "displays answers correctly",
+      "fullTitle": "BaseElementForm (Simple Tests) displays answers correctly",
+      "file": null,
+      "duration": 4301,
+      "currentRetry": 0,
+      "err": {
+        "message": "Timed out retrying after 4000ms: Expected to find element: `[data-testid=\"question-q1-input\"]`, but never found it.",
+        "type": "existence",
+        "name": "AssertionError",
+        "stack": "AssertionError: Timed out retrying after 4000ms: Expected to find element: `[data-testid=\"question-q1-input\"]`, but never found it.\n    at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/component/BaseElementForm.simple.cy.tsx:124:48)",
+        "parsedStack": [
+          {
+            "message": "AssertionError: Timed out retrying after 4000ms: Expected to find element: `[data-testid=\"question-q1-input\"]`, but never found it.",
+            "whitespace": ""
+          },
+          {
+            "function": "Context.<anonymous>",
+            "fileUrl": "http://localhost:3003/__cypress/src/spec-0.js",
+            "originalFile": "webpack://FantasyWritingApp/./cypress/component/BaseElementForm.simple.cy.tsx",
+            "relativeFile": "cypress/component/BaseElementForm.simple.cy.tsx",
+            "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.simple.cy.tsx",
+            "line": 124,
+            "column": 48,
+            "whitespace": "    "
+          }
+        ],
+        "codeFrame": {
+          "line": 124,
+          "column": 49,
+          "originalFile": "cypress/component/BaseElementForm.simple.cy.tsx",
+          "relativeFile": "cypress/component/BaseElementForm.simple.cy.tsx",
+          "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.simple.cy.tsx",
+          "frame": "  122 |     \n  123 |     // Check text input value\n> 124 |     cy.get('[data-testid=\"question-q1-input\"]').should('have.value', 'Test Character');\n      |                                                 ^\n  125 |     \n  126 |     // Check textarea value  \n  127 |     cy.get('[data-testid=\"question-q2-input\"]').should('have.value', 'A brave warrior');",
+          "language": "tsx"
+        }
+      }
+    },
+    {
+      "title": "handles basic interactions",
+      "fullTitle": "BaseElementForm (Simple Tests) handles basic interactions",
+      "file": null,
+      "duration": 4226,
+      "currentRetry": 0,
+      "err": {
+        "message": "Timed out retrying after 4000ms: Expected to find element: `[data-testid=\"question-q1-input\"]`, but never found it.",
+        "type": "existence",
+        "name": "AssertionError",
+        "stack": "AssertionError: Timed out retrying after 4000ms: Expected to find element: `[data-testid=\"question-q1-input\"]`, but never found it.\n    at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/component/BaseElementForm.simple.cy.tsx:155:7)",
+        "parsedStack": [
+          {
+            "message": "AssertionError: Timed out retrying after 4000ms: Expected to find element: `[data-testid=\"question-q1-input\"]`, but never found it.",
+            "whitespace": ""
+          },
+          {
+            "function": "Context.<anonymous>",
+            "fileUrl": "http://localhost:3003/__cypress/src/spec-0.js",
+            "originalFile": "webpack://FantasyWritingApp/./cypress/component/BaseElementForm.simple.cy.tsx",
+            "relativeFile": "cypress/component/BaseElementForm.simple.cy.tsx",
+            "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.simple.cy.tsx",
+            "line": 155,
+            "column": 7,
+            "whitespace": "    "
+          }
+        ],
+        "codeFrame": {
+          "line": 155,
+          "column": 8,
+          "originalFile": "cypress/component/BaseElementForm.simple.cy.tsx",
+          "relativeFile": "cypress/component/BaseElementForm.simple.cy.tsx",
+          "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.simple.cy.tsx",
+          "frame": "  153 |     \n  154 |     // Type in the name field and blur to trigger onChange\n> 155 |     cy.get('[data-testid=\"question-q1-input\"]').type('New Name').blur();\n      |        ^\n  156 |     \n  157 |     // Verify onChange was called with the complete value\n  158 |     cy.wrap(onChange).should('have.been.calledWith', 'q1', 'New Name');",
+          "language": "tsx"
+        }
+      }
+    },
+    {
+      "title": "shows required field indicators",
+      "fullTitle": "BaseElementForm (Simple Tests) shows required field indicators",
+      "file": null,
+      "duration": 4226,
+      "currentRetry": 0,
+      "err": {
+        "message": "Timed out retrying after 4000ms: Expected to find element: `[data-testid=\"question-q1-input\"]`, but never found it.",
+        "type": "existence",
+        "name": "AssertionError",
+        "stack": "AssertionError: Timed out retrying after 4000ms: Expected to find element: `[data-testid=\"question-q1-input\"]`, but never found it.\n    at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/component/BaseElementForm.simple.cy.tsx:180:48)",
+        "parsedStack": [
+          {
+            "message": "AssertionError: Timed out retrying after 4000ms: Expected to find element: `[data-testid=\"question-q1-input\"]`, but never found it.",
+            "whitespace": ""
+          },
+          {
+            "function": "Context.<anonymous>",
+            "fileUrl": "http://localhost:3003/__cypress/src/spec-0.js",
+            "originalFile": "webpack://FantasyWritingApp/./cypress/component/BaseElementForm.simple.cy.tsx",
+            "relativeFile": "cypress/component/BaseElementForm.simple.cy.tsx",
+            "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.simple.cy.tsx",
+            "line": 180,
+            "column": 48,
+            "whitespace": "    "
+          }
+        ],
+        "codeFrame": {
+          "line": 180,
+          "column": 49,
+          "originalFile": "cypress/component/BaseElementForm.simple.cy.tsx",
+          "relativeFile": "cypress/component/BaseElementForm.simple.cy.tsx",
+          "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.simple.cy.tsx",
+          "frame": "  178 |     \n  179 |     // Required input should have required attribute\n> 180 |     cy.get('[data-testid=\"question-q1-input\"]').should('have.attr', 'required');\n      |                                                 ^\n  181 |   });\n  182 |   \n  183 |   it('displays help text when clicked', () => {",
+          "language": "tsx"
+        }
+      }
+    },
+    {
+      "title": "displays help text when clicked",
+      "fullTitle": "BaseElementForm (Simple Tests) displays help text when clicked",
+      "file": null,
+      "duration": 4283,
+      "currentRetry": 0,
+      "err": {
+        "message": "Timed out retrying after 4000ms: Expected to find element: `[data-testid=\"question-q2-help\"]`, but never found it.",
+        "type": "existence",
+        "name": "AssertionError",
+        "stack": "AssertionError: Timed out retrying after 4000ms: Expected to find element: `[data-testid=\"question-q2-help\"]`, but never found it.\n    at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/component/BaseElementForm.simple.cy.tsx:202:47)",
+        "parsedStack": [
+          {
+            "message": "AssertionError: Timed out retrying after 4000ms: Expected to find element: `[data-testid=\"question-q2-help\"]`, but never found it.",
+            "whitespace": ""
+          },
+          {
+            "function": "Context.<anonymous>",
+            "fileUrl": "http://localhost:3003/__cypress/src/spec-0.js",
+            "originalFile": "webpack://FantasyWritingApp/./cypress/component/BaseElementForm.simple.cy.tsx",
+            "relativeFile": "cypress/component/BaseElementForm.simple.cy.tsx",
+            "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.simple.cy.tsx",
+            "line": 202,
+            "column": 47,
+            "whitespace": "    "
+          }
+        ],
+        "codeFrame": {
+          "line": 202,
+          "column": 48,
+          "originalFile": "cypress/component/BaseElementForm.simple.cy.tsx",
+          "relativeFile": "cypress/component/BaseElementForm.simple.cy.tsx",
+          "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.simple.cy.tsx",
+          "frame": "  200 |     \n  201 |     // Help text should appear\n> 202 |     cy.get('[data-testid=\"question-q2-help\"]').should('be.visible').and('contain', 'Provide a description');\n      |                                                ^\n  203 |   });\n  204 |   \n  205 |   it('handles mode switching', () => {",
+          "language": "tsx"
+        }
+      }
+    },
+    {
+      "title": "handles mode switching",
+      "fullTitle": "BaseElementForm (Simple Tests) handles mode switching",
+      "file": null,
+      "duration": 4124,
+      "currentRetry": 0,
+      "err": {
+        "message": "Timed out retrying after 4000ms: Expected to find content: 'Quick Mode' but never did.",
+        "type": "existence",
+        "name": "AssertionError",
+        "stack": "AssertionError: Timed out retrying after 4000ms: Expected to find content: 'Quick Mode' but never did.\n    at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/component/BaseElementForm.simple.cy.tsx:219:30)",
+        "parsedStack": [
+          {
+            "message": "AssertionError: Timed out retrying after 4000ms: Expected to find content: 'Quick Mode' but never did.",
+            "whitespace": ""
+          },
+          {
+            "function": "Context.<anonymous>",
+            "fileUrl": "http://localhost:3003/__cypress/src/spec-0.js",
+            "originalFile": "webpack://FantasyWritingApp/./cypress/component/BaseElementForm.simple.cy.tsx",
+            "relativeFile": "cypress/component/BaseElementForm.simple.cy.tsx",
+            "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.simple.cy.tsx",
+            "line": 219,
+            "column": 30,
+            "whitespace": "    "
+          }
+        ],
+        "codeFrame": {
+          "line": 219,
+          "column": 31,
+          "originalFile": "cypress/component/BaseElementForm.simple.cy.tsx",
+          "relativeFile": "cypress/component/BaseElementForm.simple.cy.tsx",
+          "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.simple.cy.tsx",
+          "frame": "  217 |     \n  218 |     // Should start in basic mode\n> 219 |     cy.contains('Quick Mode').should('be.visible');\n      |                               ^\n  220 |     \n  221 |     // Click the mode toggle [data-cy*=\"button\"]\n  222 |     cy.get('[data-testid=\"mode-toggle\"]').click();",
+          "language": "tsx"
+        }
+      }
+    },
+    {
+      "title": "handles empty questions gracefully",
+      "fullTitle": "BaseElementForm (Simple Tests) handles empty questions gracefully",
+      "file": null,
+      "duration": 32,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "handles number input changes",
+      "fullTitle": "BaseElementForm (Simple Tests) handles number input changes",
+      "file": null,
+      "duration": 4377,
+      "currentRetry": 0,
+      "err": {
+        "message": "Timed out retrying after 4000ms: expected stub to have been called with arguments \"q3\", 30, but it was never called",
+        "name": "AssertionError",
+        "stack": "AssertionError: Timed out retrying after 4000ms: expected stub to have been called with arguments \"q3\", 30, but it was never called\n    at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/component/BaseElementForm.simple.cy.tsx:271:22)",
+        "parsedStack": [
+          {
+            "message": "AssertionError: Timed out retrying after 4000ms: expected stub to have been called with arguments \"q3\", 30, but it was never called",
+            "whitespace": ""
+          },
+          {
+            "function": "Context.<anonymous>",
+            "fileUrl": "http://localhost:3003/__cypress/src/spec-0.js",
+            "originalFile": "webpack://FantasyWritingApp/./cypress/component/BaseElementForm.simple.cy.tsx",
+            "relativeFile": "cypress/component/BaseElementForm.simple.cy.tsx",
+            "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.simple.cy.tsx",
+            "line": 271,
+            "column": 22,
+            "whitespace": "    "
+          }
+        ],
+        "expected": "[ 'q3', 30 ]",
+        "showDiff": true,
+        "codeFrame": {
+          "line": 271,
+          "column": 23,
+          "originalFile": "cypress/component/BaseElementForm.simple.cy.tsx",
+          "relativeFile": "cypress/component/BaseElementForm.simple.cy.tsx",
+          "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.simple.cy.tsx",
+          "frame": "  269 |     \n  270 |     // Verify onChange was called with number\n> 271 |     cy.wrap(onChange).should('have.been.calledWith', 'q3', 30);\n      |                       ^\n  272 |   });\n  273 |\n  274 |   it('handles [data-cy*=\"select\"] changes', () => {",
+          "language": "tsx"
+        }
+      }
+    },
+    {
+      "title": "handles [data-cy*=\"select\"] changes",
+      "fullTitle": "BaseElementForm (Simple Tests) handles [data-cy*=\"select\"] changes",
+      "file": null,
+      "duration": 221,
+      "currentRetry": 0,
+      "err": {
+        "message": "`cy.select()` can only be called on a `<select>`. Your subject is a: `<input placeholder=\"Select an option\" autocapitalize=\"sentences\" autocomplete=\"on\" autocorrect=\"on\" dir=\"auto\" readonly=\"\" rows=\"1\" spellcheck=\"true\" virtualkeyboardpolicy=\"auto\" class=\"css-textinput-11aywtz r-placeholderTextColor-6taxm2\" data-testid=\"question-q4-input\" value=\"\">`\n\nhttps://on.cypress.io/select",
+        "name": "CypressError",
+        "stack": "CypressError: `cy.select()` can only be called on a `<select>`. Your subject is a: `<input placeholder=\"Select an option\" autocapitalize=\"sentences\" autocomplete=\"on\" autocorrect=\"on\" dir=\"auto\" readonly=\"\" rows=\"1\" spellcheck=\"true\" virtualkeyboardpolicy=\"auto\" class=\"css-textinput-11aywtz r-placeholderTextColor-6taxm2\" data-testid=\"question-q4-input\" value=\"\">`\n\nhttps://on.cypress.io/select\n    at Context.select (http://localhost:3003/__cypress/runner/cypress_runner.js:115666:70)\n    at wrapped (http://localhost:3003/__cypress/runner/cypress_runner.js:141671:19)\n    at <unknown> (http://localhost:3003/__cypress/runner/cypress_runner.js:147616:15)\n    at tryCatcher (http://localhost:3003/__cypress/runner/cypress_runner.js:1777:23)\n    at Promise._settlePromiseFromHandler (http://localhost:3003/__cypress/runner/cypress_runner.js:1489:31)\n    at Promise._settlePromise (http://localhost:3003/__cypress/runner/cypress_runner.js:1546:18)\n    at Promise._settlePromiseCtx (http://localhost:3003/__cypress/runner/cypress_runner.js:1583:10)\n    at _drainQueueStep (http://localhost:3003/__cypress/runner/cypress_runner.js:2381:12)\n    at _drainQueue (http://localhost:3003/__cypress/runner/cypress_runner.js:2370:9)\n    at Async._drainQueues (http://localhost:3003/__cypress/runner/cypress_runner.js:2386:5)\n    at Async.drainQueues (http://localhost:3003/__cypress/runner/cypress_runner.js:2256:14)",
+        "parsedStack": [
+          {
+            "message": "CypressError: `cy.select()` can only be called on a `<select>`. Your subject is a: `<input placeholder=\"Select an option\" autocapitalize=\"sentences\" autocomplete=\"on\" autocorrect=\"on\" dir=\"auto\" readonly=\"\" rows=\"1\" spellcheck=\"true\" virtualkeyboardpolicy=\"auto\" class=\"css-textinput-11aywtz r-placeholderTextColor-6taxm2\" data-testid=\"question-q4-input\" value=\"\">`",
+            "whitespace": ""
+          },
+          {
+            "function": "Context.select",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 115666,
+            "column": 70,
+            "whitespace": "    "
+          },
+          {
+            "function": "wrapped",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 141671,
+            "column": 19,
+            "whitespace": "    "
+          },
+          {
+            "function": "<unknown>",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 147616,
+            "column": 15,
+            "whitespace": "    "
+          },
+          {
+            "function": "tryCatcher",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 1777,
+            "column": 23,
+            "whitespace": "    "
+          },
+          {
+            "function": "Promise._settlePromiseFromHandler",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 1489,
+            "column": 31,
+            "whitespace": "    "
+          },
+          {
+            "function": "Promise._settlePromise",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 1546,
+            "column": 18,
+            "whitespace": "    "
+          },
+          {
+            "function": "Promise._settlePromiseCtx",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 1583,
+            "column": 10,
+            "whitespace": "    "
+          },
+          {
+            "function": "_drainQueueStep",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 2381,
+            "column": 12,
+            "whitespace": "    "
+          },
+          {
+            "function": "_drainQueue",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 2370,
+            "column": 9,
+            "whitespace": "    "
+          },
+          {
+            "function": "Async._drainQueues",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 2386,
+            "column": 5,
+            "whitespace": "    "
+          },
+          {
+            "function": "Async.drainQueues",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 2256,
+            "column": 14,
+            "whitespace": "    "
+          }
+        ]
+      }
+    },
+    {
+      "title": "respects number input validation attributes",
+      "fullTitle": "BaseElementForm (Simple Tests) respects number input validation attributes",
+      "file": null,
+      "duration": 4223,
+      "currentRetry": 0,
+      "err": {
+        "message": "Timed out retrying after 4000ms: expected '<input.css-textinput-11aywtz.r-placeholderTextColor-6taxm2>' to have attribute 'min'",
+        "name": "AssertionError",
+        "stack": "AssertionError: Timed out retrying after 4000ms: expected '<input.css-textinput-11aywtz.r-placeholderTextColor-6taxm2>' to have attribute 'min'\n    at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/component/BaseElementForm.simple.cy.tsx:316:7)",
+        "parsedStack": [
+          {
+            "message": "AssertionError: Timed out retrying after 4000ms: expected '<input.css-textinput-11aywtz.r-placeholderTextColor-6taxm2>' to have attribute 'min'",
+            "whitespace": ""
+          },
+          {
+            "function": "Context.<anonymous>",
+            "fileUrl": "http://localhost:3003/__cypress/src/spec-0.js",
+            "originalFile": "webpack://FantasyWritingApp/./cypress/component/BaseElementForm.simple.cy.tsx",
+            "relativeFile": "cypress/component/BaseElementForm.simple.cy.tsx",
+            "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.simple.cy.tsx",
+            "line": 316,
+            "column": 7,
+            "whitespace": "    "
+          }
+        ],
+        "expected": "'0'",
+        "showDiff": true,
+        "codeFrame": {
+          "line": 316,
+          "column": 8,
+          "originalFile": "cypress/component/BaseElementForm.simple.cy.tsx",
+          "relativeFile": "cypress/component/BaseElementForm.simple.cy.tsx",
+          "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.simple.cy.tsx",
+          "frame": "  314 |     // Check validation attributes\n  315 |     cy.get('[data-testid=\"question-q3-input\"]')\n> 316 |       .should('have.attr', 'min', '0')\n      |        ^\n  317 |       .should('have.attr', 'max', '1000');\n  318 |   });\n  319 | });",
+          "language": "tsx"
+        }
+      }
+    }
+  ],
+  "pending": [],
+  "failures": [
+    {
+      "title": "shows categories that can be expanded",
+      "fullTitle": "BaseElementForm (Simple Tests) shows categories that can be expanded",
+      "file": null,
+      "currentRetry": 0,
+      "err": {
+        "message": "Timed out retrying after 4000ms: Expected to find content: 'Name' but never did.",
+        "type": "existence",
+        "name": "AssertionError",
+        "stack": "AssertionError: Timed out retrying after 4000ms: Expected to find content: 'Name' but never did.\n    at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/component/BaseElementForm.simple.cy.tsx:99:24)",
+        "parsedStack": [
+          {
+            "message": "AssertionError: Timed out retrying after 4000ms: Expected to find content: 'Name' but never did.",
+            "whitespace": ""
+          },
+          {
+            "function": "Context.<anonymous>",
+            "fileUrl": "http://localhost:3003/__cypress/src/spec-0.js",
+            "originalFile": "webpack://FantasyWritingApp/./cypress/component/BaseElementForm.simple.cy.tsx",
+            "relativeFile": "cypress/component/BaseElementForm.simple.cy.tsx",
+            "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.simple.cy.tsx",
+            "line": 99,
+            "column": 24,
+            "whitespace": "    "
+          }
+        ],
+        "codeFrame": {
+          "line": 99,
+          "column": 25,
+          "originalFile": "cypress/component/BaseElementForm.simple.cy.tsx",
+          "relativeFile": "cypress/component/BaseElementForm.simple.cy.tsx",
+          "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.simple.cy.tsx",
+          "frame": "   97 |     \n   98 |     // Questions should be hidden initially\n>  99 |     cy.contains('Name').should('not.be.visible');\n      |                         ^\n  100 |     \n  101 |     // Expand category using data-cy [data-cy*=\"select\"]or\n  102 |     cy.get('[data-testid=\"category-toggle-general\"]').click();",
+          "language": "tsx"
+        }
+      }
+    },
+    {
+      "title": "displays answers correctly",
+      "fullTitle": "BaseElementForm (Simple Tests) displays answers correctly",
+      "file": null,
+      "currentRetry": 0,
+      "err": {
+        "message": "Timed out retrying after 4000ms: Expected to find element: `[data-testid=\"question-q1-input\"]`, but never found it.",
+        "type": "existence",
+        "name": "AssertionError",
+        "stack": "AssertionError: Timed out retrying after 4000ms: Expected to find element: `[data-testid=\"question-q1-input\"]`, but never found it.\n    at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/component/BaseElementForm.simple.cy.tsx:124:48)",
+        "parsedStack": [
+          {
+            "message": "AssertionError: Timed out retrying after 4000ms: Expected to find element: `[data-testid=\"question-q1-input\"]`, but never found it.",
+            "whitespace": ""
+          },
+          {
+            "function": "Context.<anonymous>",
+            "fileUrl": "http://localhost:3003/__cypress/src/spec-0.js",
+            "originalFile": "webpack://FantasyWritingApp/./cypress/component/BaseElementForm.simple.cy.tsx",
+            "relativeFile": "cypress/component/BaseElementForm.simple.cy.tsx",
+            "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.simple.cy.tsx",
+            "line": 124,
+            "column": 48,
+            "whitespace": "    "
+          }
+        ],
+        "codeFrame": {
+          "line": 124,
+          "column": 49,
+          "originalFile": "cypress/component/BaseElementForm.simple.cy.tsx",
+          "relativeFile": "cypress/component/BaseElementForm.simple.cy.tsx",
+          "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.simple.cy.tsx",
+          "frame": "  122 |     \n  123 |     // Check text input value\n> 124 |     cy.get('[data-testid=\"question-q1-input\"]').should('have.value', 'Test Character');\n      |                                                 ^\n  125 |     \n  126 |     // Check textarea value  \n  127 |     cy.get('[data-testid=\"question-q2-input\"]').should('have.value', 'A brave warrior');",
+          "language": "tsx"
+        }
+      }
+    },
+    {
+      "title": "handles basic interactions",
+      "fullTitle": "BaseElementForm (Simple Tests) handles basic interactions",
+      "file": null,
+      "currentRetry": 0,
+      "err": {
+        "message": "Timed out retrying after 4000ms: Expected to find element: `[data-testid=\"question-q1-input\"]`, but never found it.",
+        "type": "existence",
+        "name": "AssertionError",
+        "stack": "AssertionError: Timed out retrying after 4000ms: Expected to find element: `[data-testid=\"question-q1-input\"]`, but never found it.\n    at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/component/BaseElementForm.simple.cy.tsx:155:7)",
+        "parsedStack": [
+          {
+            "message": "AssertionError: Timed out retrying after 4000ms: Expected to find element: `[data-testid=\"question-q1-input\"]`, but never found it.",
+            "whitespace": ""
+          },
+          {
+            "function": "Context.<anonymous>",
+            "fileUrl": "http://localhost:3003/__cypress/src/spec-0.js",
+            "originalFile": "webpack://FantasyWritingApp/./cypress/component/BaseElementForm.simple.cy.tsx",
+            "relativeFile": "cypress/component/BaseElementForm.simple.cy.tsx",
+            "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.simple.cy.tsx",
+            "line": 155,
+            "column": 7,
+            "whitespace": "    "
+          }
+        ],
+        "codeFrame": {
+          "line": 155,
+          "column": 8,
+          "originalFile": "cypress/component/BaseElementForm.simple.cy.tsx",
+          "relativeFile": "cypress/component/BaseElementForm.simple.cy.tsx",
+          "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.simple.cy.tsx",
+          "frame": "  153 |     \n  154 |     // Type in the name field and blur to trigger onChange\n> 155 |     cy.get('[data-testid=\"question-q1-input\"]').type('New Name').blur();\n      |        ^\n  156 |     \n  157 |     // Verify onChange was called with the complete value\n  158 |     cy.wrap(onChange).should('have.been.calledWith', 'q1', 'New Name');",
+          "language": "tsx"
+        }
+      }
+    },
+    {
+      "title": "shows required field indicators",
+      "fullTitle": "BaseElementForm (Simple Tests) shows required field indicators",
+      "file": null,
+      "currentRetry": 0,
+      "err": {
+        "message": "Timed out retrying after 4000ms: Expected to find element: `[data-testid=\"question-q1-input\"]`, but never found it.",
+        "type": "existence",
+        "name": "AssertionError",
+        "stack": "AssertionError: Timed out retrying after 4000ms: Expected to find element: `[data-testid=\"question-q1-input\"]`, but never found it.\n    at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/component/BaseElementForm.simple.cy.tsx:180:48)",
+        "parsedStack": [
+          {
+            "message": "AssertionError: Timed out retrying after 4000ms: Expected to find element: `[data-testid=\"question-q1-input\"]`, but never found it.",
+            "whitespace": ""
+          },
+          {
+            "function": "Context.<anonymous>",
+            "fileUrl": "http://localhost:3003/__cypress/src/spec-0.js",
+            "originalFile": "webpack://FantasyWritingApp/./cypress/component/BaseElementForm.simple.cy.tsx",
+            "relativeFile": "cypress/component/BaseElementForm.simple.cy.tsx",
+            "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.simple.cy.tsx",
+            "line": 180,
+            "column": 48,
+            "whitespace": "    "
+          }
+        ],
+        "codeFrame": {
+          "line": 180,
+          "column": 49,
+          "originalFile": "cypress/component/BaseElementForm.simple.cy.tsx",
+          "relativeFile": "cypress/component/BaseElementForm.simple.cy.tsx",
+          "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.simple.cy.tsx",
+          "frame": "  178 |     \n  179 |     // Required input should have required attribute\n> 180 |     cy.get('[data-testid=\"question-q1-input\"]').should('have.attr', 'required');\n      |                                                 ^\n  181 |   });\n  182 |   \n  183 |   it('displays help text when clicked', () => {",
+          "language": "tsx"
+        }
+      }
+    },
+    {
+      "title": "displays help text when clicked",
+      "fullTitle": "BaseElementForm (Simple Tests) displays help text when clicked",
+      "file": null,
+      "currentRetry": 0,
+      "err": {
+        "message": "Timed out retrying after 4000ms: Expected to find element: `[data-testid=\"question-q2-help\"]`, but never found it.",
+        "type": "existence",
+        "name": "AssertionError",
+        "stack": "AssertionError: Timed out retrying after 4000ms: Expected to find element: `[data-testid=\"question-q2-help\"]`, but never found it.\n    at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/component/BaseElementForm.simple.cy.tsx:202:47)",
+        "parsedStack": [
+          {
+            "message": "AssertionError: Timed out retrying after 4000ms: Expected to find element: `[data-testid=\"question-q2-help\"]`, but never found it.",
+            "whitespace": ""
+          },
+          {
+            "function": "Context.<anonymous>",
+            "fileUrl": "http://localhost:3003/__cypress/src/spec-0.js",
+            "originalFile": "webpack://FantasyWritingApp/./cypress/component/BaseElementForm.simple.cy.tsx",
+            "relativeFile": "cypress/component/BaseElementForm.simple.cy.tsx",
+            "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.simple.cy.tsx",
+            "line": 202,
+            "column": 47,
+            "whitespace": "    "
+          }
+        ],
+        "codeFrame": {
+          "line": 202,
+          "column": 48,
+          "originalFile": "cypress/component/BaseElementForm.simple.cy.tsx",
+          "relativeFile": "cypress/component/BaseElementForm.simple.cy.tsx",
+          "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.simple.cy.tsx",
+          "frame": "  200 |     \n  201 |     // Help text should appear\n> 202 |     cy.get('[data-testid=\"question-q2-help\"]').should('be.visible').and('contain', 'Provide a description');\n      |                                                ^\n  203 |   });\n  204 |   \n  205 |   it('handles mode switching', () => {",
+          "language": "tsx"
+        }
+      }
+    },
+    {
+      "title": "handles mode switching",
+      "fullTitle": "BaseElementForm (Simple Tests) handles mode switching",
+      "file": null,
+      "currentRetry": 0,
+      "err": {
+        "message": "Timed out retrying after 4000ms: Expected to find content: 'Quick Mode' but never did.",
+        "type": "existence",
+        "name": "AssertionError",
+        "stack": "AssertionError: Timed out retrying after 4000ms: Expected to find content: 'Quick Mode' but never did.\n    at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/component/BaseElementForm.simple.cy.tsx:219:30)",
+        "parsedStack": [
+          {
+            "message": "AssertionError: Timed out retrying after 4000ms: Expected to find content: 'Quick Mode' but never did.",
+            "whitespace": ""
+          },
+          {
+            "function": "Context.<anonymous>",
+            "fileUrl": "http://localhost:3003/__cypress/src/spec-0.js",
+            "originalFile": "webpack://FantasyWritingApp/./cypress/component/BaseElementForm.simple.cy.tsx",
+            "relativeFile": "cypress/component/BaseElementForm.simple.cy.tsx",
+            "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.simple.cy.tsx",
+            "line": 219,
+            "column": 30,
+            "whitespace": "    "
+          }
+        ],
+        "codeFrame": {
+          "line": 219,
+          "column": 31,
+          "originalFile": "cypress/component/BaseElementForm.simple.cy.tsx",
+          "relativeFile": "cypress/component/BaseElementForm.simple.cy.tsx",
+          "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.simple.cy.tsx",
+          "frame": "  217 |     \n  218 |     // Should start in basic mode\n> 219 |     cy.contains('Quick Mode').should('be.visible');\n      |                               ^\n  220 |     \n  221 |     // Click the mode toggle [data-cy*=\"button\"]\n  222 |     cy.get('[data-testid=\"mode-toggle\"]').click();",
+          "language": "tsx"
+        }
+      }
+    },
+    {
+      "title": "handles number input changes",
+      "fullTitle": "BaseElementForm (Simple Tests) handles number input changes",
+      "file": null,
+      "currentRetry": 0,
+      "err": {
+        "message": "Timed out retrying after 4000ms: expected stub to have been called with arguments \"q3\", 30, but it was never called",
+        "name": "AssertionError",
+        "stack": "AssertionError: Timed out retrying after 4000ms: expected stub to have been called with arguments \"q3\", 30, but it was never called\n    at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/component/BaseElementForm.simple.cy.tsx:271:22)",
+        "parsedStack": [
+          {
+            "message": "AssertionError: Timed out retrying after 4000ms: expected stub to have been called with arguments \"q3\", 30, but it was never called",
+            "whitespace": ""
+          },
+          {
+            "function": "Context.<anonymous>",
+            "fileUrl": "http://localhost:3003/__cypress/src/spec-0.js",
+            "originalFile": "webpack://FantasyWritingApp/./cypress/component/BaseElementForm.simple.cy.tsx",
+            "relativeFile": "cypress/component/BaseElementForm.simple.cy.tsx",
+            "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.simple.cy.tsx",
+            "line": 271,
+            "column": 22,
+            "whitespace": "    "
+          }
+        ],
+        "expected": "[ 'q3', 30 ]",
+        "showDiff": true,
+        "codeFrame": {
+          "line": 271,
+          "column": 23,
+          "originalFile": "cypress/component/BaseElementForm.simple.cy.tsx",
+          "relativeFile": "cypress/component/BaseElementForm.simple.cy.tsx",
+          "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.simple.cy.tsx",
+          "frame": "  269 |     \n  270 |     // Verify onChange was called with number\n> 271 |     cy.wrap(onChange).should('have.been.calledWith', 'q3', 30);\n      |                       ^\n  272 |   });\n  273 |\n  274 |   it('handles [data-cy*=\"select\"] changes', () => {",
+          "language": "tsx"
+        }
+      }
+    },
+    {
+      "title": "handles [data-cy*=\"select\"] changes",
+      "fullTitle": "BaseElementForm (Simple Tests) handles [data-cy*=\"select\"] changes",
+      "file": null,
+      "currentRetry": 0,
+      "err": {
+        "message": "`cy.select()` can only be called on a `<select>`. Your subject is a: `<input placeholder=\"Select an option\" autocapitalize=\"sentences\" autocomplete=\"on\" autocorrect=\"on\" dir=\"auto\" readonly=\"\" rows=\"1\" spellcheck=\"true\" virtualkeyboardpolicy=\"auto\" class=\"css-textinput-11aywtz r-placeholderTextColor-6taxm2\" data-testid=\"question-q4-input\" value=\"\">`\n\nhttps://on.cypress.io/select",
+        "name": "CypressError",
+        "stack": "CypressError: `cy.select()` can only be called on a `<select>`. Your subject is a: `<input placeholder=\"Select an option\" autocapitalize=\"sentences\" autocomplete=\"on\" autocorrect=\"on\" dir=\"auto\" readonly=\"\" rows=\"1\" spellcheck=\"true\" virtualkeyboardpolicy=\"auto\" class=\"css-textinput-11aywtz r-placeholderTextColor-6taxm2\" data-testid=\"question-q4-input\" value=\"\">`\n\nhttps://on.cypress.io/select\n    at Context.select (http://localhost:3003/__cypress/runner/cypress_runner.js:115666:70)\n    at wrapped (http://localhost:3003/__cypress/runner/cypress_runner.js:141671:19)\n    at <unknown> (http://localhost:3003/__cypress/runner/cypress_runner.js:147616:15)\n    at tryCatcher (http://localhost:3003/__cypress/runner/cypress_runner.js:1777:23)\n    at Promise._settlePromiseFromHandler (http://localhost:3003/__cypress/runner/cypress_runner.js:1489:31)\n    at Promise._settlePromise (http://localhost:3003/__cypress/runner/cypress_runner.js:1546:18)\n    at Promise._settlePromiseCtx (http://localhost:3003/__cypress/runner/cypress_runner.js:1583:10)\n    at _drainQueueStep (http://localhost:3003/__cypress/runner/cypress_runner.js:2381:12)\n    at _drainQueue (http://localhost:3003/__cypress/runner/cypress_runner.js:2370:9)\n    at Async._drainQueues (http://localhost:3003/__cypress/runner/cypress_runner.js:2386:5)\n    at Async.drainQueues (http://localhost:3003/__cypress/runner/cypress_runner.js:2256:14)",
+        "parsedStack": [
+          {
+            "message": "CypressError: `cy.select()` can only be called on a `<select>`. Your subject is a: `<input placeholder=\"Select an option\" autocapitalize=\"sentences\" autocomplete=\"on\" autocorrect=\"on\" dir=\"auto\" readonly=\"\" rows=\"1\" spellcheck=\"true\" virtualkeyboardpolicy=\"auto\" class=\"css-textinput-11aywtz r-placeholderTextColor-6taxm2\" data-testid=\"question-q4-input\" value=\"\">`",
+            "whitespace": ""
+          },
+          {
+            "function": "Context.select",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 115666,
+            "column": 70,
+            "whitespace": "    "
+          },
+          {
+            "function": "wrapped",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 141671,
+            "column": 19,
+            "whitespace": "    "
+          },
+          {
+            "function": "<unknown>",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 147616,
+            "column": 15,
+            "whitespace": "    "
+          },
+          {
+            "function": "tryCatcher",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 1777,
+            "column": 23,
+            "whitespace": "    "
+          },
+          {
+            "function": "Promise._settlePromiseFromHandler",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 1489,
+            "column": 31,
+            "whitespace": "    "
+          },
+          {
+            "function": "Promise._settlePromise",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 1546,
+            "column": 18,
+            "whitespace": "    "
+          },
+          {
+            "function": "Promise._settlePromiseCtx",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 1583,
+            "column": 10,
+            "whitespace": "    "
+          },
+          {
+            "function": "_drainQueueStep",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 2381,
+            "column": 12,
+            "whitespace": "    "
+          },
+          {
+            "function": "_drainQueue",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 2370,
+            "column": 9,
+            "whitespace": "    "
+          },
+          {
+            "function": "Async._drainQueues",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 2386,
+            "column": 5,
+            "whitespace": "    "
+          },
+          {
+            "function": "Async.drainQueues",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 2256,
+            "column": 14,
+            "whitespace": "    "
+          }
+        ]
+      }
+    },
+    {
+      "title": "respects number input validation attributes",
+      "fullTitle": "BaseElementForm (Simple Tests) respects number input validation attributes",
+      "file": null,
+      "currentRetry": 0,
+      "err": {
+        "message": "Timed out retrying after 4000ms: expected '<input.css-textinput-11aywtz.r-placeholderTextColor-6taxm2>' to have attribute 'min'",
+        "name": "AssertionError",
+        "stack": "AssertionError: Timed out retrying after 4000ms: expected '<input.css-textinput-11aywtz.r-placeholderTextColor-6taxm2>' to have attribute 'min'\n    at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/component/BaseElementForm.simple.cy.tsx:316:7)",
+        "parsedStack": [
+          {
+            "message": "AssertionError: Timed out retrying after 4000ms: expected '<input.css-textinput-11aywtz.r-placeholderTextColor-6taxm2>' to have attribute 'min'",
+            "whitespace": ""
+          },
+          {
+            "function": "Context.<anonymous>",
+            "fileUrl": "http://localhost:3003/__cypress/src/spec-0.js",
+            "originalFile": "webpack://FantasyWritingApp/./cypress/component/BaseElementForm.simple.cy.tsx",
+            "relativeFile": "cypress/component/BaseElementForm.simple.cy.tsx",
+            "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.simple.cy.tsx",
+            "line": 316,
+            "column": 7,
+            "whitespace": "    "
+          }
+        ],
+        "expected": "'0'",
+        "showDiff": true,
+        "codeFrame": {
+          "line": 316,
+          "column": 8,
+          "originalFile": "cypress/component/BaseElementForm.simple.cy.tsx",
+          "relativeFile": "cypress/component/BaseElementForm.simple.cy.tsx",
+          "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.simple.cy.tsx",
+          "frame": "  314 |     // Check validation attributes\n  315 |     cy.get('[data-testid=\"question-q3-input\"]')\n> 316 |       .should('have.attr', 'min', '0')\n      |        ^\n  317 |       .should('have.attr', 'max', '1000');\n  318 |   });\n  319 | });",
+          "language": "tsx"
+        }
+      }
+    }
+  ],
+  "passes": [
+    {
+      "title": "renders form header and basic structure",
+      "fullTitle": "BaseElementForm (Simple Tests) renders form header and basic structure",
+      "file": null,
+      "duration": 54,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "handles empty questions gracefully",
+      "fullTitle": "BaseElementForm (Simple Tests) handles empty questions gracefully",
+      "file": null,
+      "duration": 32,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        11                                                                               │
+  │ Passing:      2                                                                                │
+  │ Failing:      9                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  9                                                                                │
+  │ Video:        false                                                                            │
+  │ Duration:     34 seconds                                                                       │
+  │ Spec Ran:     BaseElementForm.simple.cy.tsx                                                    │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Screenshots)
+
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BaseElement    (2560x1440)
+     Form.simple.cy.tsx/BaseElementForm (Simple Tests) -- shows categories that can b               
+     e expanded (failed).png                                                                        
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BaseElement    (2560x1440)
+     Form.simple.cy.tsx/BaseElementForm (Simple Tests) -- displays answers correctly                
+     (failed).png                                                                                   
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BaseElement    (2560x1440)
+     Form.simple.cy.tsx/BaseElementForm (Simple Tests) -- handles basic interactions                
+     (failed).png                                                                                   
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BaseElement    (2560x1440)
+     Form.simple.cy.tsx/BaseElementForm (Simple Tests) -- shows required field indica               
+     tors (failed).png                                                                              
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BaseElement    (2560x1440)
+     Form.simple.cy.tsx/BaseElementForm (Simple Tests) -- displays help text when cli               
+     cked (failed).png                                                                              
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BaseElement    (2560x1440)
+     Form.simple.cy.tsx/BaseElementForm (Simple Tests) -- handles mode switching (fai               
+     led).png                                                                                       
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BaseElement    (2560x1440)
+     Form.simple.cy.tsx/BaseElementForm (Simple Tests) -- handles number input change               
+     s (failed).png                                                                                 
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BaseElement    (2560x1440)
+     Form.simple.cy.tsx/BaseElementForm (Simple Tests) -- handles [data-cy=select] ch               
+     anges (failed).png                                                                             
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BaseElement    (2560x1440)
+     Form.simple.cy.tsx/BaseElementForm (Simple Tests) -- respects number input valid               
+     ation attributes (failed).png                                                                  
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  BaseElementForm.stateless.cy.tsx                                               (6 of 62)
+14 assets
+275 modules
+webpack 5.101.3 compiled [1m[32msuccessfully[39m[22m in 43 ms
+{
+  "stats": {
+    "suites": 1,
+    "tests": 10,
+    "passes": 3,
+    "pending": 0,
+    "failures": 7,
+    "start": "2025-09-17T18:05:16.980Z",
+    "end": "2025-09-17T18:05:42.633Z",
+    "duration": 25653
+  },
+  "tests": [
+    {
+      "title": "renders without any providers",
+      "fullTitle": "BaseElementForm - Stateless Tests renders without any providers",
+      "file": null,
+      "duration": 43,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "shows categories",
+      "fullTitle": "BaseElementForm - Stateless Tests shows categories",
+      "file": null,
+      "duration": 28,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "expands categories on click",
+      "fullTitle": "BaseElementForm - Stateless Tests expands categories on click",
+      "file": null,
+      "duration": 4133,
+      "currentRetry": 0,
+      "err": {
+        "message": "Timed out retrying after 4000ms: Expected to find content: 'Name' but never did.",
+        "type": "existence",
+        "name": "AssertionError",
+        "stack": "AssertionError: Timed out retrying after 4000ms: Expected to find content: 'Name' but never did.\n    at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/component/BaseElementForm.stateless.cy.tsx:74:24)",
+        "parsedStack": [
+          {
+            "message": "AssertionError: Timed out retrying after 4000ms: Expected to find content: 'Name' but never did.",
+            "whitespace": ""
+          },
+          {
+            "function": "Context.<anonymous>",
+            "fileUrl": "http://localhost:3003/__cypress/src/spec-0.js",
+            "originalFile": "webpack://FantasyWritingApp/./cypress/component/BaseElementForm.stateless.cy.tsx",
+            "relativeFile": "cypress/component/BaseElementForm.stateless.cy.tsx",
+            "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.stateless.cy.tsx",
+            "line": 74,
+            "column": 24,
+            "whitespace": "    "
+          }
+        ],
+        "codeFrame": {
+          "line": 74,
+          "column": 25,
+          "originalFile": "cypress/component/BaseElementForm.stateless.cy.tsx",
+          "relativeFile": "cypress/component/BaseElementForm.stateless.cy.tsx",
+          "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.stateless.cy.tsx",
+          "frame": "  72 |     \n  73 |     // Questions should be hidden initially\n> 74 |     cy.contains('Name').should('not.be.visible');\n     |                         ^\n  75 |     \n  76 |     // Click to expand\n  77 |     cy.get('[data-testid=\"category-toggle-basic\"]').click();",
+          "language": "tsx"
+        }
+      }
+    },
+    {
+      "title": "displays existing answers",
+      "fullTitle": "BaseElementForm - Stateless Tests displays existing answers",
+      "file": null,
+      "duration": 4222,
+      "currentRetry": 0,
+      "err": {
+        "message": "Timed out retrying after 4000ms: Expected to find element: `[data-testid=\"question-name-input\"]`, but never found it.",
+        "type": "existence",
+        "name": "AssertionError",
+        "stack": "AssertionError: Timed out retrying after 4000ms: Expected to find element: `[data-testid=\"question-name-input\"]`, but never found it.\n    at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/component/BaseElementForm.stateless.cy.tsx:99:50)",
+        "parsedStack": [
+          {
+            "message": "AssertionError: Timed out retrying after 4000ms: Expected to find element: `[data-testid=\"question-name-input\"]`, but never found it.",
+            "whitespace": ""
+          },
+          {
+            "function": "Context.<anonymous>",
+            "fileUrl": "http://localhost:3003/__cypress/src/spec-0.js",
+            "originalFile": "webpack://FantasyWritingApp/./cypress/component/BaseElementForm.stateless.cy.tsx",
+            "relativeFile": "cypress/component/BaseElementForm.stateless.cy.tsx",
+            "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.stateless.cy.tsx",
+            "line": 99,
+            "column": 50,
+            "whitespace": "    "
+          }
+        ],
+        "codeFrame": {
+          "line": 99,
+          "column": 51,
+          "originalFile": "cypress/component/BaseElementForm.stateless.cy.tsx",
+          "relativeFile": "cypress/component/BaseElementForm.stateless.cy.tsx",
+          "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.stateless.cy.tsx",
+          "frame": "   97 |     \n   98 |     // Check values are displayed\n>  99 |     cy.get('[data-testid=\"question-name-input\"]').should('have.value', 'Test Name');\n      |                                                   ^\n  100 |     cy.get('[data-testid=\"question-description-input\"]').should('have.value', 'Test Description');\n  101 |   });\n  102 |",
+          "language": "tsx"
+        }
+      }
+    },
+    {
+      "title": "calls onChange when typing",
+      "fullTitle": "BaseElementForm - Stateless Tests calls onChange when typing",
+      "file": null,
+      "duration": 4219,
+      "currentRetry": 0,
+      "err": {
+        "message": "Timed out retrying after 4000ms: Expected to find element: `[data-testid=\"question-name-input\"]`, but never found it.",
+        "type": "existence",
+        "name": "AssertionError",
+        "stack": "AssertionError: Timed out retrying after 4000ms: Expected to find element: `[data-testid=\"question-name-input\"]`, but never found it.\n    at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/component/BaseElementForm.stateless.cy.tsx:120:7)",
+        "parsedStack": [
+          {
+            "message": "AssertionError: Timed out retrying after 4000ms: Expected to find element: `[data-testid=\"question-name-input\"]`, but never found it.",
+            "whitespace": ""
+          },
+          {
+            "function": "Context.<anonymous>",
+            "fileUrl": "http://localhost:3003/__cypress/src/spec-0.js",
+            "originalFile": "webpack://FantasyWritingApp/./cypress/component/BaseElementForm.stateless.cy.tsx",
+            "relativeFile": "cypress/component/BaseElementForm.stateless.cy.tsx",
+            "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.stateless.cy.tsx",
+            "line": 120,
+            "column": 7,
+            "whitespace": "    "
+          }
+        ],
+        "codeFrame": {
+          "line": 120,
+          "column": 8,
+          "originalFile": "cypress/component/BaseElementForm.stateless.cy.tsx",
+          "relativeFile": "cypress/component/BaseElementForm.stateless.cy.tsx",
+          "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.stateless.cy.tsx",
+          "frame": "  118 |     \n  119 |     // Type in name field\n> 120 |     cy.get('[data-testid=\"question-name-input\"]').type('New Name');\n      |        ^\n  121 |     \n  122 |     // Verify onChange was called with correct arguments\n  123 |     cy.wrap(onChange).should('have.been.called');",
+          "language": "tsx"
+        }
+      }
+    },
+    {
+      "title": "shows required field indicators",
+      "fullTitle": "BaseElementForm - Stateless Tests shows required field indicators",
+      "file": null,
+      "duration": 107,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "shows help text when clicked",
+      "fullTitle": "BaseElementForm - Stateless Tests shows help text when clicked",
+      "file": null,
+      "duration": 227,
+      "currentRetry": 0,
+      "err": {
+        "message": "Syntax error, unrecognized expression: [data-testid=\"question-description-help-[data-cy*=\"button\"]\"]",
+        "name": "Error",
+        "stack": "Error: Syntax error, unrecognized expression: [data-testid=\"question-description-help-[data-cy*=\"button\"]\"]\n    at find.error (http://localhost:3003/__cypress/runner/cypress_runner.js:8298:8)\n    at tokenize (http://localhost:3003/__cypress/runner/cypress_runner.js:8964:8)\n    at select (http://localhost:3003/__cypress/runner/cypress_runner.js:9423:20)\n    at Function.find (http://localhost:3003/__cypress/runner/cypress_runner.js:7734:9)\n    at jQuery.fn.init.find (http://localhost:3003/__cypress/runner/cypress_runner.js:9633:11)\n    at jQuery.fn.init (http://localhost:3003/__cypress/runner/cypress_runner.js:9748:40)\n    at Object.query (http://localhost:3003/__cypress/runner/cypress_runner.js:17940:10)\n    at $Cy.$$ (http://localhost:3003/__cypress/runner/cypress_runner.js:143633:57)\n    at <unknown> (http://localhost:3003/__cypress/runner/cypress_runner.js:135571:18)\n    at Object.subjectFn (http://localhost:3003/__cypress/runner/cypress_runner.js:147466:16)\n    at $Cy.verifyUpcomingAssertions (http://localhost:3003/__cypress/runner/cypress_runner.js:146788:31)\n    at onRetry (http://localhost:3003/__cypress/runner/cypress_runner.js:147457:15)\n    at retryQuery (http://localhost:3003/__cypress/runner/cypress_runner.js:147470:10)\n    at <unknown> (http://localhost:3003/__cypress/runner/cypress_runner.js:147623:17)\n    at tryCatcher (http://localhost:3003/__cypress/runner/cypress_runner.js:1777:23)\n    at Promise._settlePromiseFromHandler (http://localhost:3003/__cypress/runner/cypress_runner.js:1489:31)\n    at Promise._settlePromise (http://localhost:3003/__cypress/runner/cypress_runner.js:1546:18)\n    at Promise._settlePromiseCtx (http://localhost:3003/__cypress/runner/cypress_runner.js:1583:10)\n    at _drainQueueStep (http://localhost:3003/__cypress/runner/cypress_runner.js:2381:12)\n    at _drainQueue (http://localhost:3003/__cypress/runner/cypress_runner.js:2370:9)\n    at Async._drainQueues (http://localhost:3003/__cypress/runner/cypress_runner.js:2386:5)\n    at Async.drainQueues (http://localhost:3003/__cypress/runner/cypress_runner.js:2256:14)",
+        "parsedStack": [
+          {
+            "message": "Error: Syntax error, unrecognized expression: [data-testid=\"question-description-help-[data-cy*=\"button\"]\"]",
+            "whitespace": ""
+          },
+          {
+            "function": "find.error",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 8298,
+            "column": 8,
+            "whitespace": "    "
+          },
+          {
+            "function": "tokenize",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 8964,
+            "column": 8,
+            "whitespace": "    "
+          },
+          {
+            "function": "select",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 9423,
+            "column": 20,
+            "whitespace": "    "
+          },
+          {
+            "function": "Function.find",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 7734,
+            "column": 9,
+            "whitespace": "    "
+          },
+          {
+            "function": "jQuery.fn.init.find",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 9633,
+            "column": 11,
+            "whitespace": "    "
+          },
+          {
+            "function": "jQuery.fn.init",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 9748,
+            "column": 40,
+            "whitespace": "    "
+          },
+          {
+            "function": "Object.query",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 17940,
+            "column": 10,
+            "whitespace": "    "
+          },
+          {
+            "function": "$Cy.$$",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 143633,
+            "column": 57,
+            "whitespace": "    "
+          },
+          {
+            "function": "<unknown>",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 135571,
+            "column": 18,
+            "whitespace": "    "
+          },
+          {
+            "function": "Object.subjectFn",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 147466,
+            "column": 16,
+            "whitespace": "    "
+          },
+          {
+            "function": "$Cy.verifyUpcomingAssertions",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 146788,
+            "column": 31,
+            "whitespace": "    "
+          },
+          {
+            "function": "onRetry",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 147457,
+            "column": 15,
+            "whitespace": "    "
+          },
+          {
+            "function": "retryQuery",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 147470,
+            "column": 10,
+            "whitespace": "    "
+          },
+          {
+            "function": "<unknown>",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 147623,
+            "column": 17,
+            "whitespace": "    "
+          },
+          {
+            "function": "tryCatcher",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 1777,
+            "column": 23,
+            "whitespace": "    "
+          },
+          {
+            "function": "Promise._settlePromiseFromHandler",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 1489,
+            "column": 31,
+            "whitespace": "    "
+          },
+          {
+            "function": "Promise._settlePromise",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 1546,
+            "column": 18,
+            "whitespace": "    "
+          },
+          {
+            "function": "Promise._settlePromiseCtx",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 1583,
+            "column": 10,
+            "whitespace": "    "
+          },
+          {
+            "function": "_drainQueueStep",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 2381,
+            "column": 12,
+            "whitespace": "    "
+          },
+          {
+            "function": "_drainQueue",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 2370,
+            "column": 9,
+            "whitespace": "    "
+          },
+          {
+            "function": "Async._drainQueues",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 2386,
+            "column": 5,
+            "whitespace": "    "
+          },
+          {
+            "function": "Async.drainQueues",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 2256,
+            "column": 14,
+            "whitespace": "    "
+          }
+        ]
+      }
+    },
+    {
+      "title": "toggles between basic and detailed mode",
+      "fullTitle": "BaseElementForm - Stateless Tests toggles between basic and detailed mode",
+      "file": null,
+      "duration": 4122,
+      "currentRetry": 0,
+      "err": {
+        "message": "Timed out retrying after 4000ms: Expected to find content: 'Quick Mode' but never did.",
+        "type": "existence",
+        "name": "AssertionError",
+        "stack": "AssertionError: Timed out retrying after 4000ms: Expected to find content: 'Quick Mode' but never did.\n    at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/component/BaseElementForm.stateless.cy.tsx:184:30)",
+        "parsedStack": [
+          {
+            "message": "AssertionError: Timed out retrying after 4000ms: Expected to find content: 'Quick Mode' but never did.",
+            "whitespace": ""
+          },
+          {
+            "function": "Context.<anonymous>",
+            "fileUrl": "http://localhost:3003/__cypress/src/spec-0.js",
+            "originalFile": "webpack://FantasyWritingApp/./cypress/component/BaseElementForm.stateless.cy.tsx",
+            "relativeFile": "cypress/component/BaseElementForm.stateless.cy.tsx",
+            "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.stateless.cy.tsx",
+            "line": 184,
+            "column": 30,
+            "whitespace": "    "
+          }
+        ],
+        "codeFrame": {
+          "line": 184,
+          "column": 31,
+          "originalFile": "cypress/component/BaseElementForm.stateless.cy.tsx",
+          "relativeFile": "cypress/component/BaseElementForm.stateless.cy.tsx",
+          "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.stateless.cy.tsx",
+          "frame": "  182 |     \n  183 |     // Should show basic mode message\n> 184 |     cy.contains('Quick Mode').should('be.visible');\n      |                               ^\n  185 |     \n  186 |     // Toggle to detailed mode\n  187 |     cy.get('[data-testid=\"mode-toggle\"]').click();",
+          "language": "tsx"
+        }
+      }
+    },
+    {
+      "title": "handles different question types",
+      "fullTitle": "BaseElementForm - Stateless Tests handles different question types",
+      "file": null,
+      "duration": 4219,
+      "currentRetry": 0,
+      "err": {
+        "message": "Timed out retrying after 4000ms: Expected to find element: `[data-testid=\"question-name-input\"]`, but never found it.",
+        "type": "existence",
+        "name": "AssertionError",
+        "stack": "AssertionError: Timed out retrying after 4000ms: Expected to find element: `[data-testid=\"question-name-input\"]`, but never found it.\n    at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/component/BaseElementForm.stateless.cy.tsx:239:50)",
+        "parsedStack": [
+          {
+            "message": "AssertionError: Timed out retrying after 4000ms: Expected to find element: `[data-testid=\"question-name-input\"]`, but never found it.",
+            "whitespace": ""
+          },
+          {
+            "function": "Context.<anonymous>",
+            "fileUrl": "http://localhost:3003/__cypress/src/spec-0.js",
+            "originalFile": "webpack://FantasyWritingApp/./cypress/component/BaseElementForm.stateless.cy.tsx",
+            "relativeFile": "cypress/component/BaseElementForm.stateless.cy.tsx",
+            "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.stateless.cy.tsx",
+            "line": 239,
+            "column": 50,
+            "whitespace": "    "
+          }
+        ],
+        "codeFrame": {
+          "line": 239,
+          "column": 51,
+          "originalFile": "cypress/component/BaseElementForm.stateless.cy.tsx",
+          "relativeFile": "cypress/component/BaseElementForm.stateless.cy.tsx",
+          "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.stateless.cy.tsx",
+          "frame": "  237 |     \n  238 |     // Check all input types are rendered\n> 239 |     cy.get('[data-testid=\"question-name-input\"]').should('have.attr', 'type', 'text');\n      |                                                   ^\n  240 |     cy.get('[data-testid=\"question-age-input\"]').should('have.attr', 'type', 'number');\n  241 |     cy.get('[data-testid=\"question-type-input\"]').should('be.visible'); // [data-cy*=\"select\"]\n  242 |     cy.get('[data-testid=\"question-active-toggle\"]').should('be.visible'); // boolean radio [data-cy*=\"button\"]s",
+          "language": "tsx"
+        }
+      }
+    },
+    {
+      "title": "shows error for required fields without values",
+      "fullTitle": "BaseElementForm - Stateless Tests shows error for required fields without values",
+      "file": null,
+      "duration": 4226,
+      "currentRetry": 0,
+      "err": {
+        "message": "Timed out retrying after 4000ms: Expected to find element: `[data-testid=\"question-name-error\"]`, but never found it.",
+        "type": "existence",
+        "name": "AssertionError",
+        "stack": "AssertionError: Timed out retrying after 4000ms: Expected to find element: `[data-testid=\"question-name-error\"]`, but never found it.\n    at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/component/BaseElementForm.stateless.cy.tsx:260:7)",
+        "parsedStack": [
+          {
+            "message": "AssertionError: Timed out retrying after 4000ms: Expected to find element: `[data-testid=\"question-name-error\"]`, but never found it.",
+            "whitespace": ""
+          },
+          {
+            "function": "Context.<anonymous>",
+            "fileUrl": "http://localhost:3003/__cypress/src/spec-0.js",
+            "originalFile": "webpack://FantasyWritingApp/./cypress/component/BaseElementForm.stateless.cy.tsx",
+            "relativeFile": "cypress/component/BaseElementForm.stateless.cy.tsx",
+            "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.stateless.cy.tsx",
+            "line": 260,
+            "column": 7,
+            "whitespace": "    "
+          }
+        ],
+        "codeFrame": {
+          "line": 260,
+          "column": 8,
+          "originalFile": "cypress/component/BaseElementForm.stateless.cy.tsx",
+          "relativeFile": "cypress/component/BaseElementForm.stateless.cy.tsx",
+          "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.stateless.cy.tsx",
+          "frame": "  258 |     // Required field without value should show error\n  259 |     cy.get('[data-testid=\"question-name-error\"]')\n> 260 |       .should('be.visible')\n      |        ^\n  261 |       .and('contain', 'This field is required');\n  262 |   });\n  263 | });",
+          "language": "tsx"
+        }
+      }
+    }
+  ],
+  "pending": [],
+  "failures": [
+    {
+      "title": "expands categories on click",
+      "fullTitle": "BaseElementForm - Stateless Tests expands categories on click",
+      "file": null,
+      "currentRetry": 0,
+      "err": {
+        "message": "Timed out retrying after 4000ms: Expected to find content: 'Name' but never did.",
+        "type": "existence",
+        "name": "AssertionError",
+        "stack": "AssertionError: Timed out retrying after 4000ms: Expected to find content: 'Name' but never did.\n    at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/component/BaseElementForm.stateless.cy.tsx:74:24)",
+        "parsedStack": [
+          {
+            "message": "AssertionError: Timed out retrying after 4000ms: Expected to find content: 'Name' but never did.",
+            "whitespace": ""
+          },
+          {
+            "function": "Context.<anonymous>",
+            "fileUrl": "http://localhost:3003/__cypress/src/spec-0.js",
+            "originalFile": "webpack://FantasyWritingApp/./cypress/component/BaseElementForm.stateless.cy.tsx",
+            "relativeFile": "cypress/component/BaseElementForm.stateless.cy.tsx",
+            "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.stateless.cy.tsx",
+            "line": 74,
+            "column": 24,
+            "whitespace": "    "
+          }
+        ],
+        "codeFrame": {
+          "line": 74,
+          "column": 25,
+          "originalFile": "cypress/component/BaseElementForm.stateless.cy.tsx",
+          "relativeFile": "cypress/component/BaseElementForm.stateless.cy.tsx",
+          "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.stateless.cy.tsx",
+          "frame": "  72 |     \n  73 |     // Questions should be hidden initially\n> 74 |     cy.contains('Name').should('not.be.visible');\n     |                         ^\n  75 |     \n  76 |     // Click to expand\n  77 |     cy.get('[data-testid=\"category-toggle-basic\"]').click();",
+          "language": "tsx"
+        }
+      }
+    },
+    {
+      "title": "displays existing answers",
+      "fullTitle": "BaseElementForm - Stateless Tests displays existing answers",
+      "file": null,
+      "currentRetry": 0,
+      "err": {
+        "message": "Timed out retrying after 4000ms: Expected to find element: `[data-testid=\"question-name-input\"]`, but never found it.",
+        "type": "existence",
+        "name": "AssertionError",
+        "stack": "AssertionError: Timed out retrying after 4000ms: Expected to find element: `[data-testid=\"question-name-input\"]`, but never found it.\n    at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/component/BaseElementForm.stateless.cy.tsx:99:50)",
+        "parsedStack": [
+          {
+            "message": "AssertionError: Timed out retrying after 4000ms: Expected to find element: `[data-testid=\"question-name-input\"]`, but never found it.",
+            "whitespace": ""
+          },
+          {
+            "function": "Context.<anonymous>",
+            "fileUrl": "http://localhost:3003/__cypress/src/spec-0.js",
+            "originalFile": "webpack://FantasyWritingApp/./cypress/component/BaseElementForm.stateless.cy.tsx",
+            "relativeFile": "cypress/component/BaseElementForm.stateless.cy.tsx",
+            "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.stateless.cy.tsx",
+            "line": 99,
+            "column": 50,
+            "whitespace": "    "
+          }
+        ],
+        "codeFrame": {
+          "line": 99,
+          "column": 51,
+          "originalFile": "cypress/component/BaseElementForm.stateless.cy.tsx",
+          "relativeFile": "cypress/component/BaseElementForm.stateless.cy.tsx",
+          "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.stateless.cy.tsx",
+          "frame": "   97 |     \n   98 |     // Check values are displayed\n>  99 |     cy.get('[data-testid=\"question-name-input\"]').should('have.value', 'Test Name');\n      |                                                   ^\n  100 |     cy.get('[data-testid=\"question-description-input\"]').should('have.value', 'Test Description');\n  101 |   });\n  102 |",
+          "language": "tsx"
+        }
+      }
+    },
+    {
+      "title": "calls onChange when typing",
+      "fullTitle": "BaseElementForm - Stateless Tests calls onChange when typing",
+      "file": null,
+      "currentRetry": 0,
+      "err": {
+        "message": "Timed out retrying after 4000ms: Expected to find element: `[data-testid=\"question-name-input\"]`, but never found it.",
+        "type": "existence",
+        "name": "AssertionError",
+        "stack": "AssertionError: Timed out retrying after 4000ms: Expected to find element: `[data-testid=\"question-name-input\"]`, but never found it.\n    at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/component/BaseElementForm.stateless.cy.tsx:120:7)",
+        "parsedStack": [
+          {
+            "message": "AssertionError: Timed out retrying after 4000ms: Expected to find element: `[data-testid=\"question-name-input\"]`, but never found it.",
+            "whitespace": ""
+          },
+          {
+            "function": "Context.<anonymous>",
+            "fileUrl": "http://localhost:3003/__cypress/src/spec-0.js",
+            "originalFile": "webpack://FantasyWritingApp/./cypress/component/BaseElementForm.stateless.cy.tsx",
+            "relativeFile": "cypress/component/BaseElementForm.stateless.cy.tsx",
+            "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.stateless.cy.tsx",
+            "line": 120,
+            "column": 7,
+            "whitespace": "    "
+          }
+        ],
+        "codeFrame": {
+          "line": 120,
+          "column": 8,
+          "originalFile": "cypress/component/BaseElementForm.stateless.cy.tsx",
+          "relativeFile": "cypress/component/BaseElementForm.stateless.cy.tsx",
+          "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.stateless.cy.tsx",
+          "frame": "  118 |     \n  119 |     // Type in name field\n> 120 |     cy.get('[data-testid=\"question-name-input\"]').type('New Name');\n      |        ^\n  121 |     \n  122 |     // Verify onChange was called with correct arguments\n  123 |     cy.wrap(onChange).should('have.been.called');",
+          "language": "tsx"
+        }
+      }
+    },
+    {
+      "title": "shows help text when clicked",
+      "fullTitle": "BaseElementForm - Stateless Tests shows help text when clicked",
+      "file": null,
+      "currentRetry": 0,
+      "err": {
+        "message": "Syntax error, unrecognized expression: [data-testid=\"question-description-help-[data-cy*=\"button\"]\"]",
+        "name": "Error",
+        "stack": "Error: Syntax error, unrecognized expression: [data-testid=\"question-description-help-[data-cy*=\"button\"]\"]\n    at find.error (http://localhost:3003/__cypress/runner/cypress_runner.js:8298:8)\n    at tokenize (http://localhost:3003/__cypress/runner/cypress_runner.js:8964:8)\n    at select (http://localhost:3003/__cypress/runner/cypress_runner.js:9423:20)\n    at Function.find (http://localhost:3003/__cypress/runner/cypress_runner.js:7734:9)\n    at jQuery.fn.init.find (http://localhost:3003/__cypress/runner/cypress_runner.js:9633:11)\n    at jQuery.fn.init (http://localhost:3003/__cypress/runner/cypress_runner.js:9748:40)\n    at Object.query (http://localhost:3003/__cypress/runner/cypress_runner.js:17940:10)\n    at $Cy.$$ (http://localhost:3003/__cypress/runner/cypress_runner.js:143633:57)\n    at <unknown> (http://localhost:3003/__cypress/runner/cypress_runner.js:135571:18)\n    at Object.subjectFn (http://localhost:3003/__cypress/runner/cypress_runner.js:147466:16)\n    at $Cy.verifyUpcomingAssertions (http://localhost:3003/__cypress/runner/cypress_runner.js:146788:31)\n    at onRetry (http://localhost:3003/__cypress/runner/cypress_runner.js:147457:15)\n    at retryQuery (http://localhost:3003/__cypress/runner/cypress_runner.js:147470:10)\n    at <unknown> (http://localhost:3003/__cypress/runner/cypress_runner.js:147623:17)\n    at tryCatcher (http://localhost:3003/__cypress/runner/cypress_runner.js:1777:23)\n    at Promise._settlePromiseFromHandler (http://localhost:3003/__cypress/runner/cypress_runner.js:1489:31)\n    at Promise._settlePromise (http://localhost:3003/__cypress/runner/cypress_runner.js:1546:18)\n    at Promise._settlePromiseCtx (http://localhost:3003/__cypress/runner/cypress_runner.js:1583:10)\n    at _drainQueueStep (http://localhost:3003/__cypress/runner/cypress_runner.js:2381:12)\n    at _drainQueue (http://localhost:3003/__cypress/runner/cypress_runner.js:2370:9)\n    at Async._drainQueues (http://localhost:3003/__cypress/runner/cypress_runner.js:2386:5)\n    at Async.drainQueues (http://localhost:3003/__cypress/runner/cypress_runner.js:2256:14)",
+        "parsedStack": [
+          {
+            "message": "Error: Syntax error, unrecognized expression: [data-testid=\"question-description-help-[data-cy*=\"button\"]\"]",
+            "whitespace": ""
+          },
+          {
+            "function": "find.error",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 8298,
+            "column": 8,
+            "whitespace": "    "
+          },
+          {
+            "function": "tokenize",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 8964,
+            "column": 8,
+            "whitespace": "    "
+          },
+          {
+            "function": "select",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 9423,
+            "column": 20,
+            "whitespace": "    "
+          },
+          {
+            "function": "Function.find",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 7734,
+            "column": 9,
+            "whitespace": "    "
+          },
+          {
+            "function": "jQuery.fn.init.find",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 9633,
+            "column": 11,
+            "whitespace": "    "
+          },
+          {
+            "function": "jQuery.fn.init",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 9748,
+            "column": 40,
+            "whitespace": "    "
+          },
+          {
+            "function": "Object.query",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 17940,
+            "column": 10,
+            "whitespace": "    "
+          },
+          {
+            "function": "$Cy.$$",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 143633,
+            "column": 57,
+            "whitespace": "    "
+          },
+          {
+            "function": "<unknown>",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 135571,
+            "column": 18,
+            "whitespace": "    "
+          },
+          {
+            "function": "Object.subjectFn",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 147466,
+            "column": 16,
+            "whitespace": "    "
+          },
+          {
+            "function": "$Cy.verifyUpcomingAssertions",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 146788,
+            "column": 31,
+            "whitespace": "    "
+          },
+          {
+            "function": "onRetry",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 147457,
+            "column": 15,
+            "whitespace": "    "
+          },
+          {
+            "function": "retryQuery",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 147470,
+            "column": 10,
+            "whitespace": "    "
+          },
+          {
+            "function": "<unknown>",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 147623,
+            "column": 17,
+            "whitespace": "    "
+          },
+          {
+            "function": "tryCatcher",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 1777,
+            "column": 23,
+            "whitespace": "    "
+          },
+          {
+            "function": "Promise._settlePromiseFromHandler",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 1489,
+            "column": 31,
+            "whitespace": "    "
+          },
+          {
+            "function": "Promise._settlePromise",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 1546,
+            "column": 18,
+            "whitespace": "    "
+          },
+          {
+            "function": "Promise._settlePromiseCtx",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 1583,
+            "column": 10,
+            "whitespace": "    "
+          },
+          {
+            "function": "_drainQueueStep",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 2381,
+            "column": 12,
+            "whitespace": "    "
+          },
+          {
+            "function": "_drainQueue",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 2370,
+            "column": 9,
+            "whitespace": "    "
+          },
+          {
+            "function": "Async._drainQueues",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 2386,
+            "column": 5,
+            "whitespace": "    "
+          },
+          {
+            "function": "Async.drainQueues",
+            "fileUrl": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "originalFile": "http://localhost:3003/__cypress/runner/cypress_runner.js",
+            "line": 2256,
+            "column": 14,
+            "whitespace": "    "
+          }
+        ]
+      }
+    },
+    {
+      "title": "toggles between basic and detailed mode",
+      "fullTitle": "BaseElementForm - Stateless Tests toggles between basic and detailed mode",
+      "file": null,
+      "currentRetry": 0,
+      "err": {
+        "message": "Timed out retrying after 4000ms: Expected to find content: 'Quick Mode' but never did.",
+        "type": "existence",
+        "name": "AssertionError",
+        "stack": "AssertionError: Timed out retrying after 4000ms: Expected to find content: 'Quick Mode' but never did.\n    at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/component/BaseElementForm.stateless.cy.tsx:184:30)",
+        "parsedStack": [
+          {
+            "message": "AssertionError: Timed out retrying after 4000ms: Expected to find content: 'Quick Mode' but never did.",
+            "whitespace": ""
+          },
+          {
+            "function": "Context.<anonymous>",
+            "fileUrl": "http://localhost:3003/__cypress/src/spec-0.js",
+            "originalFile": "webpack://FantasyWritingApp/./cypress/component/BaseElementForm.stateless.cy.tsx",
+            "relativeFile": "cypress/component/BaseElementForm.stateless.cy.tsx",
+            "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.stateless.cy.tsx",
+            "line": 184,
+            "column": 30,
+            "whitespace": "    "
+          }
+        ],
+        "codeFrame": {
+          "line": 184,
+          "column": 31,
+          "originalFile": "cypress/component/BaseElementForm.stateless.cy.tsx",
+          "relativeFile": "cypress/component/BaseElementForm.stateless.cy.tsx",
+          "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.stateless.cy.tsx",
+          "frame": "  182 |     \n  183 |     // Should show basic mode message\n> 184 |     cy.contains('Quick Mode').should('be.visible');\n      |                               ^\n  185 |     \n  186 |     // Toggle to detailed mode\n  187 |     cy.get('[data-testid=\"mode-toggle\"]').click();",
+          "language": "tsx"
+        }
+      }
+    },
+    {
+      "title": "handles different question types",
+      "fullTitle": "BaseElementForm - Stateless Tests handles different question types",
+      "file": null,
+      "currentRetry": 0,
+      "err": {
+        "message": "Timed out retrying after 4000ms: Expected to find element: `[data-testid=\"question-name-input\"]`, but never found it.",
+        "type": "existence",
+        "name": "AssertionError",
+        "stack": "AssertionError: Timed out retrying after 4000ms: Expected to find element: `[data-testid=\"question-name-input\"]`, but never found it.\n    at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/component/BaseElementForm.stateless.cy.tsx:239:50)",
+        "parsedStack": [
+          {
+            "message": "AssertionError: Timed out retrying after 4000ms: Expected to find element: `[data-testid=\"question-name-input\"]`, but never found it.",
+            "whitespace": ""
+          },
+          {
+            "function": "Context.<anonymous>",
+            "fileUrl": "http://localhost:3003/__cypress/src/spec-0.js",
+            "originalFile": "webpack://FantasyWritingApp/./cypress/component/BaseElementForm.stateless.cy.tsx",
+            "relativeFile": "cypress/component/BaseElementForm.stateless.cy.tsx",
+            "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.stateless.cy.tsx",
+            "line": 239,
+            "column": 50,
+            "whitespace": "    "
+          }
+        ],
+        "codeFrame": {
+          "line": 239,
+          "column": 51,
+          "originalFile": "cypress/component/BaseElementForm.stateless.cy.tsx",
+          "relativeFile": "cypress/component/BaseElementForm.stateless.cy.tsx",
+          "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.stateless.cy.tsx",
+          "frame": "  237 |     \n  238 |     // Check all input types are rendered\n> 239 |     cy.get('[data-testid=\"question-name-input\"]').should('have.attr', 'type', 'text');\n      |                                                   ^\n  240 |     cy.get('[data-testid=\"question-age-input\"]').should('have.attr', 'type', 'number');\n  241 |     cy.get('[data-testid=\"question-type-input\"]').should('be.visible'); // [data-cy*=\"select\"]\n  242 |     cy.get('[data-testid=\"question-active-toggle\"]').should('be.visible'); // boolean radio [data-cy*=\"button\"]s",
+          "language": "tsx"
+        }
+      }
+    },
+    {
+      "title": "shows error for required fields without values",
+      "fullTitle": "BaseElementForm - Stateless Tests shows error for required fields without values",
+      "file": null,
+      "currentRetry": 0,
+      "err": {
+        "message": "Timed out retrying after 4000ms: Expected to find element: `[data-testid=\"question-name-error\"]`, but never found it.",
+        "type": "existence",
+        "name": "AssertionError",
+        "stack": "AssertionError: Timed out retrying after 4000ms: Expected to find element: `[data-testid=\"question-name-error\"]`, but never found it.\n    at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/component/BaseElementForm.stateless.cy.tsx:260:7)",
+        "parsedStack": [
+          {
+            "message": "AssertionError: Timed out retrying after 4000ms: Expected to find element: `[data-testid=\"question-name-error\"]`, but never found it.",
+            "whitespace": ""
+          },
+          {
+            "function": "Context.<anonymous>",
+            "fileUrl": "http://localhost:3003/__cypress/src/spec-0.js",
+            "originalFile": "webpack://FantasyWritingApp/./cypress/component/BaseElementForm.stateless.cy.tsx",
+            "relativeFile": "cypress/component/BaseElementForm.stateless.cy.tsx",
+            "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.stateless.cy.tsx",
+            "line": 260,
+            "column": 7,
+            "whitespace": "    "
+          }
+        ],
+        "codeFrame": {
+          "line": 260,
+          "column": 8,
+          "originalFile": "cypress/component/BaseElementForm.stateless.cy.tsx",
+          "relativeFile": "cypress/component/BaseElementForm.stateless.cy.tsx",
+          "absoluteFile": "/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component/BaseElementForm.stateless.cy.tsx",
+          "frame": "  258 |     // Required field without value should show error\n  259 |     cy.get('[data-testid=\"question-name-error\"]')\n> 260 |       .should('be.visible')\n      |        ^\n  261 |       .and('contain', 'This field is required');\n  262 |   });\n  263 | });",
+          "language": "tsx"
+        }
+      }
+    }
+  ],
+  "passes": [
+    {
+      "title": "renders without any providers",
+      "fullTitle": "BaseElementForm - Stateless Tests renders without any providers",
+      "file": null,
+      "duration": 43,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "shows categories",
+      "fullTitle": "BaseElementForm - Stateless Tests shows categories",
+      "file": null,
+      "duration": 28,
+      "currentRetry": 0,
+      "err": {}
+    },
+    {
+      "title": "shows required field indicators",
+      "fullTitle": "BaseElementForm - Stateless Tests shows required field indicators",
+      "file": null,
+      "duration": 107,
+      "currentRetry": 0,
+      "err": {}
+    }
+  ]
+}
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        10                                                                               │
+  │ Passing:      3                                                                                │
+  │ Failing:      7                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  7                                                                                │
+  │ Video:        false                                                                            │
+  │ Duration:     25 seconds                                                                       │
+  │ Spec Ran:     BaseElementForm.stateless.cy.tsx                                                 │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Screenshots)
+
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BaseElement    (2560x1440)
+     Form.stateless.cy.tsx/BaseElementForm - Stateless Tests -- expands categories on               
+      click (failed).png                                                                            
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BaseElement    (2560x1440)
+     Form.stateless.cy.tsx/BaseElementForm - Stateless Tests -- displays existing ans               
+     wers (failed).png                                                                              
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BaseElement    (2560x1440)
+     Form.stateless.cy.tsx/BaseElementForm - Stateless Tests -- calls onChange when t               
+     yping (failed).png                                                                             
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BaseElement    (2560x1440)
+     Form.stateless.cy.tsx/BaseElementForm - Stateless Tests -- shows help text when                
+     clicked (failed).png                                                                           
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BaseElement    (2560x1440)
+     Form.stateless.cy.tsx/BaseElementForm - Stateless Tests -- toggles between basic               
+      and detailed mode (failed).png                                                                
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BaseElement    (2560x1440)
+     Form.stateless.cy.tsx/BaseElementForm - Stateless Tests -- handles different que               
+     stion types (failed).png                                                                       
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BaseElement    (2560x1440)
+     Form.stateless.cy.tsx/BaseElementForm - Stateless Tests -- shows error for requi               
+     red fields without values (failed).png                                                         
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  BasicQuestionsSelector.cy.tsx                                                  (7 of 62)
+14 assets
+275 modules
+webpack 5.101.3 compiled [1m[32msuccessfully[39m[22m in 83 ms
