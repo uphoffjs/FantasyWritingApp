@@ -20,7 +20,7 @@ This document outlines the implementation strategy for creating a design system 
   - "Remember me" checkbox
   - Forgot password link
   
-- [ ] **Stories List** (`stories.html`)
+- [x] **Stories List** (`stories.html`)
   - Story cards with title, word count, last edited
   - Search bar
   - Sort/filter dropdowns

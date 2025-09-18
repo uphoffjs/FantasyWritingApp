@@ -1,0 +1,277 @@
+:root {
+  /* * Fantasy Master Design Tokens */
+  /* * Generated from unified token system */
+  
+  /* * Attribute Colors */
+  --attribute-might: #A31C1C;
+  --attribute-might-lightest: #FBE9E9;
+  --attribute-might-lighter: #F5C1C1;
+  --attribute-might-light: #E89B9B;
+  --attribute-might-soft: #D87272;
+  --attribute-might-medium: #C84545;
+  --attribute-might-strong: #B33030;
+  --attribute-might-base: #A31C1C;
+  --attribute-might-dark: #741313;
+  --attribute-might-darkest: #4C0B0B;
+  --attribute-swiftness: #1C4FA3;
+  --attribute-swiftness-lightest: #E8EFFA;
+  --attribute-swiftness-lighter: #C3D6F5;
+  --attribute-swiftness-light: #9DBBEF;
+  --attribute-swiftness-soft: #789FE8;
+  --attribute-swiftness-medium: #4F7EDA;
+  --attribute-swiftness-strong: #3369C3;
+  --attribute-swiftness-base: #1C4FA3;
+  --attribute-swiftness-dark: #153A7A;
+  --attribute-swiftness-darkest: #0F2652;
+  --attribute-vitality: #2E7D4F;
+  --attribute-vitality-lightest: #E8F4EC;
+  --attribute-vitality-lighter: #C2E3D0;
+  --attribute-vitality-light: #9BD2B3;
+  --attribute-vitality-soft: #74C095;
+  --attribute-vitality-medium: #4DAD78;
+  --attribute-vitality-strong: #3E9A67;
+  --attribute-vitality-base: #2E7D4F;
+  --attribute-vitality-dark: #205C39;
+  --attribute-vitality-darkest: #143D26;
+  --attribute-finesse: #E3941C;
+  --attribute-finesse-lightest: #FFF4E0;
+  --attribute-finesse-lighter: #FCDDA6;
+  --attribute-finesse-light: #F8C56D;
+  --attribute-finesse-soft: #F3AD34;
+  --attribute-finesse-medium: #E3941C;
+  --attribute-finesse-strong: #C77E13;
+  --attribute-finesse-base: #A7660E;
+  --attribute-finesse-dark: #7D4C0A;
+  --attribute-finesse-darkest: #523204;
+  
+  /* * Class Colors */
+  --class-warrior: #A31C1C;
+  --class-warrior-50: #FBE9E9;
+  --class-warrior-100: #F5C1C1;
+  --class-warrior-200: #E89B9B;
+  --class-warrior-300: #D87272;
+  --class-warrior-400: #C84545;
+  --class-warrior-500: #B33030;
+  --class-warrior-600: #A31C1C;
+  --class-warrior-700: #741313;
+  --class-warrior-800: #4C0B0B;
+  --class-warrior-900: #3A0808;
+  --class-shadow: #1F1F1F;
+  --class-shadow-50: #EAEAEA;
+  --class-shadow-100: #C6C6C6;
+  --class-shadow-200: #A3A3A3;
+  --class-shadow-300: #7F7F7F;
+  --class-shadow-400: #5C5C5C;
+  --class-shadow-500: #3A3A3A;
+  --class-shadow-600: #2B2B2B;
+  --class-shadow-700: #1F1F1F;
+  --class-shadow-800: #141414;
+  --class-shadow-900: #0A0A0A;
+  --class-hunter: #3A7F3C;
+  --class-hunter-50: #EAF5EA;
+  --class-hunter-100: #C9E3CB;
+  --class-hunter-200: #A7D0AC;
+  --class-hunter-300: #86BE8E;
+  --class-hunter-400: #64AC6F;
+  --class-hunter-500: #4E975A;
+  --class-hunter-600: #3A7F3C;
+  --class-hunter-700: #2A5E2B;
+  --class-hunter-800: #1C3F1C;
+  --class-hunter-900: #0F2A0F;
+  --class-explorer: #2C5FA3;
+  --class-explorer-50: #EAF1FA;
+  --class-explorer-100: #C7DAF2;
+  --class-explorer-200: #A4C2E9;
+  --class-explorer-300: #81A9E0;
+  --class-explorer-400: #5F91D7;
+  --class-explorer-500: #4575BD;
+  --class-explorer-600: #2C5FA3;
+  --class-explorer-700: #204679;
+  --class-explorer-800: #142D4F;
+  --class-explorer-900: #0A1A30;
+  --class-guardian: #5C2E91;
+  --class-guardian-50: #F2ECF8;
+  --class-guardian-100: #D9C7F0;
+  --class-guardian-200: #BF9FE7;
+  --class-guardian-300: #A677DF;
+  --class-guardian-400: #8D4ED6;
+  --class-guardian-500: #743AB9;
+  --class-guardian-600: #5C2E91;
+  --class-guardian-700: #411E6A;
+  --class-guardian-800: #2C1349;
+  --class-guardian-900: #1A0A2E;
+  
+  /* * UI Colors - Parchment */
+  --parchment-50: #FFFFFF;
+  --parchment-100: #FDFBF8;
+  --parchment-200: #FAF6EF;
+  --parchment-300: #F5F0E6;
+  --parchment-400: #F0E9DC;
+  --parchment-500: #EAE2D3;
+  --parchment-600: #E5DCCC;
+  --parchment-700: #DFD6C5;
+  --parchment-800: #D9D0BE;
+  --parchment-900: #CCBFAA;
+  --parchment-DEFAULT: #F5F0E6;
+  
+  /* * UI Colors - Obsidian */
+  --obsidian-50: #3A3632;
+  --obsidian-100: #2F2C28;
+  --obsidian-200: #252320;
+  --obsidian-300: #1E1B18;
+  --obsidian-400: #1A1815;
+  --obsidian-500: #171513;
+  --obsidian-600: #141210;
+  --obsidian-700: #110F0D;
+  --obsidian-800: #0E0C0B;
+  --obsidian-900: #050404;
+  --obsidian-DEFAULT: #1A1815;
+  
+  /* * UI Colors - Metals */
+  --metals-gold: #C9A94F;
+  --metals-gold-pale: #FFFBE9;
+  --metals-gold-light: #F5EBB7;
+  --metals-gold-soft: #EAD985;
+  --metals-gold-bright: #E0C952;
+  --metals-gold-base: #C9A94F;
+  --metals-gold-antique: #AD8F3D;
+  --metals-gold-tarnished: #8F742E;
+  --metals-gold-dark: #70591F;
+  --metals-gold-shadow: #523F10;
+  --metals-silver: #B0B4B9;
+  --metals-silver-pale: #F7F8F9;
+  --metals-silver-light: #E1E3E5;
+  --metals-silver-soft: #CACDCF;
+  --metals-silver-bright: #B4B6B9;
+  --metals-silver-base: #B0B4B9;
+  --metals-silver-antique: #92969B;
+  --metals-silver-tarnished: #74787D;
+  --metals-silver-dark: #565A5E;
+  --metals-silver-shadow: #383B3F;
+  --metals-bronze: #B08D57;
+  --metals-bronze-light: #D4B896;
+  --metals-bronze-dark: #8B6F45;
+  --metals-copper: #B87333;
+  --metals-copper-light: #E09D5D;
+  --metals-copper-dark: #8B5A2B;
+  --metals-brass: #AD8F3D;
+  --metals-brass-light: #EAD985;
+  --metals-brass-dark: #8F742E;
+  
+  /* * UI Colors - Ink */
+  --ink-primary-DEFAULT: #2D1C15;
+  --ink-primary-light: #6F4D3F;
+  --ink-primary-lighter: #8D7367;
+  --ink-primary-dark: #1A0D08;
+  --ink-primary-darker: #0F0705;
+  --ink-secondary-DEFAULT: #5B463C;
+  --ink-secondary-light: #937C73;
+  --ink-secondary-lighter: #AA9890;
+  --ink-secondary-dark: #3D2E27;
+  --ink-secondary-darker: #201712;
+  
+  /* * Semantic Colors */
+  --semantic-dragonfire: #C03030;
+  --semantic-dragonfire-pale: #FCEDED;
+  --semantic-dragonfire-light: #F7BEBE;
+  --semantic-dragonfire-soft: #F19090;
+  --semantic-dragonfire-medium: #EC6161;
+  --semantic-dragonfire-strong: #E73333;
+  --semantic-dragonfire-base: #C03030;
+  --semantic-dragonfire-dark: #992525;
+  --semantic-dragonfire-darker: #731A1A;
+  --semantic-dragonfire-shadow: #4D0F0F;
+  --semantic-elixir: #4FA361;
+  --semantic-elixir-pale: #E8F5ED;
+  --semantic-elixir-light: #C3E3CF;
+  --semantic-elixir-soft: #9FD1B1;
+  --semantic-elixir-medium: #7ABF93;
+  --semantic-elixir-strong: #56AD75;
+  --semantic-elixir-base: #4FA361;
+  --semantic-elixir-dark: #3C7F4B;
+  --semantic-elixir-darker: #2D5F38;
+  --semantic-elixir-shadow: #1E3F26;
+  --semantic-sunburst: #F59E0B;
+  --semantic-sunburst-pale: #FEF3C7;
+  --semantic-sunburst-light: #FDE68A;
+  --semantic-sunburst-soft: #FCD34D;
+  --semantic-sunburst-medium: #FBBF24;
+  --semantic-sunburst-strong: #F59E0B;
+  --semantic-sunburst-base: #D97706;
+  --semantic-sunburst-dark: #B45309;
+  --semantic-sunburst-darker: #92400E;
+  --semantic-sunburst-shadow: #78350F;
+  --semantic-mystic: #3B82F6;
+  --semantic-mystic-pale: #EFF6FF;
+  --semantic-mystic-light: #DBEAFE;
+  --semantic-mystic-soft: #BFDBFE;
+  --semantic-mystic-medium: #93C5FD;
+  --semantic-mystic-strong: #60A5FA;
+  --semantic-mystic-base: #3B82F6;
+  --semantic-mystic-dark: #2563EB;
+  --semantic-mystic-darker: #1D4ED8;
+  --semantic-mystic-shadow: #1E40AF;
+  
+  /* * Element Type Colors */
+  --element-character: #A31C1C;
+  --element-location: #2E7D4F;
+  --element-item: #C9A94F;
+  --element-magic: #5C2E91;
+  --element-creature: #3A7F3C;
+  --element-culture: #E3941C;
+  --element-organization: #2C5FA3;
+  --element-religion: #B0B4B9;
+  --element-technology: #B87333;
+  --element-history: #8B6F45;
+  --element-language: #1C4FA3;
+  
+  /* * Effect Colors */
+  --glow-gold: rgba(201, 169, 79, 0.3);
+  --glow-silver: rgba(176, 180, 185, 0.3);
+  --glow-magic: rgba(92, 46, 145, 0.3);
+  --glow-fire: rgba(192, 48, 48, 0.3);
+  --glow-ice: rgba(28, 79, 163, 0.3);
+  --glow-nature: rgba(46, 125, 79, 0.3);
+  --shadow-soft: rgba(26, 22, 19, 0.1);
+  --shadow-medium: rgba(26, 22, 19, 0.2);
+  --shadow-strong: rgba(26, 22, 19, 0.3);
+  --shadow-deep: rgba(26, 22, 19, 0.5);
+  
+  /* * Spacing */
+  --spacing-0: 0;
+  --spacing-1: 0.25rem;
+  --spacing-2: 0.5rem;
+  --spacing-3: 0.75rem;
+  --spacing-4: 1rem;
+  --spacing-5: 1.25rem;
+  --spacing-6: 1.5rem;
+  --spacing-8: 2rem;
+  --spacing-10: 2.5rem;
+  --spacing-12: 3rem;
+  --spacing-16: 4rem;
+  --spacing-20: 5rem;
+  --spacing-24: 6rem;
+  
+  /* * Animation */
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+  --duration-slow: 500ms;
+  --duration-verySlow: 1000ms;
+  --easing-easeIn: cubic-bezier(0.4, 0, 1, 1);
+  --easing-easeOut: cubic-bezier(0, 0, 0.2, 1);
+  --easing-easeInOut: cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* * Shadows */
+  --shadow-sm: 0 1px 3px rgba(26, 22, 19, 0.1);
+  --shadow-md: 0 2px 8px rgba(26, 22, 19, 0.1);
+  --shadow-lg: 0 4px 12px rgba(26, 22, 19, 0.15);
+  --shadow-xl: 0 8px 24px rgba(26, 22, 19, 0.2);
+  
+  /* * Border Radius */
+  --radius-none: 0;
+  --radius-sm: 0.125rem;
+  --radius-md: 0.25rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-full: 9999px;
+}

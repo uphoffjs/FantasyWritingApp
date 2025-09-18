@@ -88,6 +88,7 @@
     --ink-secondary-darker: #201712;
     
     /* * Metallic Colors */
+    /* Gold colors - also mapped as metals-gold for Tailwind compatibility */
     --gold-pale: #FFFBE9;
     --gold-light: #F5EBB7;
     --gold-soft: #EAD985;
@@ -97,6 +98,26 @@
     --gold-tarnished: #8F742E;
     --gold-dark: #70591F;
     --gold-shadow: #523F10;
+    
+    /* Metals colors for Tailwind */
+    --metals-gold: #C9A94F;
+    --metals-gold-pale: #FFFBE9;
+    --metals-gold-light: #F5EBB7;
+    --metals-gold-soft: #EAD985;
+    --metals-gold-bright: #E0C952;
+    --metals-gold-base: #C9A94F;
+    --metals-gold-antique: #AD8F3D;
+    --metals-gold-tarnished: #8F742E;
+    --metals-gold-dark: #70591F;
+    --metals-gold-shadow: #523F10;
+    
+    /* Copper colors for metals */
+    --metals-copper: #B87333;
+    --metals-copper-light: #E09D5D;
+    --metals-copper-dark: #8B5A2B;
+    
+    /* Brass (using antique gold) */
+    --metals-brass: #AD8F3D;
     
     --silver-pale: #F7F8F9;
     --silver-light: #E1E3E5;

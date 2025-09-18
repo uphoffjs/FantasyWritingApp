@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Projects - Fantasy Element Builder</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=EB+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/tokens.css"> <!-- Generated tokens from Storybook -->
+    <link rel="stylesheet" href="css/components.css">
+    
+    <style>
+        /* Project List Specific Styles */
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .project-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--metals-gold);
+            font-family: 'Cinzel', serif;
+        }
+        
+        .new-project-btn {
+            background: var(--might-base);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            font-family: 'Cinzel', serif;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: background 0.3s ease;
+        }
+        
+        .new-project-btn:hover {
+            background: var(--dragonfire-base);
+        }
+        
+        /* Create Project Form */
+        .create-form {
+            background: var(--parchment-300);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--parchment-400);
+            display: none;
+        }
+        
+        .create-form.active {
+            display: block;
+        }
+        
+        .create-form h2 {
+            font-size: 1.125rem;
+            font-weight: bold;
+            color: var(--ink-primary);
+            margin-bottom: 0.75rem;
+            font-family: 'Cinzel', serif;
+        }
+        
+        .form-field {
+            margin-bottom: 0.75rem;
+        }
+        
+        .form-field label {
+            font-size: 0.875rem;
+            color: var(--ink-secondary);
+            margin-bottom: 0.25rem;
+            display: block;
+        }
+        
+        .form-input {
+            width: 100%;
+            background: var(--parchment-100);
+            border-radius: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            color: var(--ink-primary);
+            border: 1px solid var(--parchment-400);
+            font-family: 'EB Garamond', serif;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--might-base);
+        }
+        
+        .form-textarea {
+            min-height: 80px;
+            resize: none;
+        }
+        
+        .form-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+        
+        .cancel-btn {
+            background: var(--parchment-200);
+            color: var(--ink-secondary);
+            border: none;
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .cancel-btn:hover {
+            background: var(--parchment-400);
+        }
+        
+        .create-btn {
+            background: var(--might-base);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .create-btn:hover {
+            background: var(--dragonfire-base);
+        }
+        
+        /* Project Cards */
+        .project-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        
+        .project-card {
+            background: var(--parchment-200);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            border: 1px solid var(--parchment-400);
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .project-card:hover {
+            background: var(--parchment-300);
+        }
+        
+        .project-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .project-name {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: var(--ink-primary);
+            flex: 1;
+            font-family: 'Cinzel', serif;
+        }
+        
+        .delete-btn {
+            padding: 0.5rem;
+            background: transparent;
+            border: none;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .delete-btn:hover {
+            background: var(--parchment-400);
+        }
+        
+        .delete-btn svg {
+            width: 1.25rem;
+            height: 1.25rem;
+            color: var(--dragonfire-base);
+        }
+        
+        .project-description {
+            font-size: 0.875rem;
+            color: var(--ink-secondary);
+            margin-bottom: 0.75rem;
+            line-height: 1.25;
+        }
+        
+        .project-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--ink-secondary);
+        }
+        
+        /* Empty State */
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 5rem 0;
+        }
+        
+        .empty-icon {
+            width: 4rem;
+            height: 4rem;
+            color: var(--metals-gold);
+            margin-bottom: 1rem;
+        }
+        
+        .empty-title {
+            font-size: 1.25rem;
+            color: var(--ink-secondary);
+            margin-top: 1rem;
+            font-family: 'Cinzel', serif;
+        }
+        
+        .empty-text {
+            font-size: 0.875rem;
+            color: var(--ink-secondary);
+            margin-top: 0.5rem;
+        }
+        
+        /* Main Container */
+        .main-container {
+            min-height: 100vh;
+            background: var(--parchment-100);
+            padding: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="container mx-auto max-w-4xl">
+            <!-- Header -->
+            <div class="project-header">
+                <h1 class="project-title">My Projects</h1>
+                <button class="new-project-btn" onclick="toggleCreateForm()">
+                    <span>+ New Project</span>
+                </button>
+            </div>
+            
+            <!-- Create Project Form -->
+            <div id="createForm" class="create-form">
+                <h2>Create New Project</h2>
+                
+                <div class="form-field">
+                    <label>Project Name</label>
+                    <input 
+                        type="text" 
+                        class="form-input" 
+                        id="projectName"
+                        placeholder="Enter project name..."
+                        data-cy="project-name-input"
+                    >
+                </div>
+                
+                <div class="form-field">
+                    <label>Description (optional)</label>
+                    <textarea 
+                        class="form-input form-textarea"
+                        id="projectDescription" 
+                        placeholder="Enter project description..."
+                        data-cy="project-description-input"
+                    ></textarea>
+                </div>
+                
+                <div class="form-buttons">
+                    <button class="cancel-btn" onclick="cancelCreate()">
+                        Cancel
+                    </button>
+                    <button class="create-btn" onclick="createProject()">
+                        Create
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Project List -->
+            <div id="projectList" class="project-list">
+                <!-- Sample projects - these would be dynamically generated -->
+                <div class="project-card" onclick="navigateToProject('1')">
+                    <div class="project-header-row">
+                        <h3 class="project-name">The Last Kingdom</h3>
+                        <button class="delete-btn" onclick="event.stopPropagation(); deleteProject('1', 'The Last Kingdom')">
+                            <svg fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <p class="project-description">
+                        A high-fantasy world with ancient magic, warring kingdoms, and forgotten prophecies. The realm faces its greatest threat as darkness rises from the north.
+                    </p>
+                    <div class="project-meta">
+                        <span>24 elements</span>
+                        <span>Created: 12/15/2024</span>
+                    </div>
+                </div>
+                
+                <div class="project-card" onclick="navigateToProject('2')">
+                    <div class="project-header-row">
+                        <h3 class="project-name">Shadowmancer Chronicles</h3>
+                        <button class="delete-btn" onclick="event.stopPropagation(); deleteProject('2', 'Shadowmancer Chronicles')">
+                            <svg fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <p class="project-description">
+                        Urban fantasy setting where shadow magic exists alongside modern technology. Secret societies battle for control of ancient artifacts.
+                    </p>
+                    <div class="project-meta">
+                        <span>18 elements</span>
+                        <span>Created: 12/10/2024</span>
+                    </div>
+                </div>
+                
+                <div class="project-card" onclick="navigateToProject('3')">
+                    <div class="project-header-row">
+                        <h3 class="project-name">Dragon's Wake</h3>
+                        <button class="delete-btn" onclick="event.stopPropagation(); deleteProject('3', 'Dragon\'s Wake')">
+                            <svg fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <p class="project-description">
+                        Post-apocalyptic fantasy where dragons have returned to a modern world, bringing magic and chaos in their wake.
+                    </p>
+                    <div class="project-meta">
+                        <span>31 elements</span>
+                        <span>Created: 11/28/2024</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Empty State (hidden by default since we have sample projects) -->
+            <div id="emptyState" class="empty-state" style="display: none;">
+                <svg class="empty-icon" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M10 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2h-8l-2-2z"/>
+                </svg>
+                <h2 class="empty-title">No projects yet</h2>
+                <p class="empty-text">Create your first project to get started</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Theme Toggle Button -->
+    <button class="theme-toggle" onclick="window.mockupHelpers.toggleTheme()">
+        <span class="theme-icon">🌞</span>
+    </button>
+    
+    <!-- Scripts -->
+    <script src="js/mockup-helpers.js"></script>
+    <script>
+        // Toggle create form visibility
+        function toggleCreateForm() {
+            const form = document.getElementById('createForm');
+            form.classList.toggle('active');
+            
+            // Clear form if hiding
+            if (!form.classList.contains('active')) {
+                document.getElementById('projectName').value = '';
+                document.getElementById('projectDescription').value = '';
+            }
+        }
+        
+        // Cancel create
+        function cancelCreate() {
+            const form = document.getElementById('createForm');
+            form.classList.remove('active');
+            document.getElementById('projectName').value = '';
+            document.getElementById('projectDescription').value = '';
+        }
+        
+        // Create project
+        function createProject() {
+            const name = document.getElementById('projectName').value.trim();
+            const description = document.getElementById('projectDescription').value.trim();
+            
+            if (!name) {
+                alert('Please enter a project name');
+                return;
+            }
+            
+            // In the mockup, we'll just show a notification and close the form
+            window.mockupHelpers.showNotification(`Project "${name}" created successfully!`, 'success');
+            cancelCreate();
+            
+            // In the real app, this would create a new project and add it to the list
+        }
+        
+        // Delete project
+        function deleteProject(id, name) {
+            if (confirm(`Are you sure you want to delete "${name}"? This action cannot be undone.`)) {
+                window.mockupHelpers.showNotification(`Project "${name}" deleted`, 'info');
+                // In the real app, this would remove the project from the list
+            }
+        }
+        
+        // Navigate to project
+        function navigateToProject(id) {
+            window.mockupHelpers.showNotification(`Navigating to project ${id}...`, 'info');
+            // In the real app, this would navigate to the project details screen
+        }
+        
+        // Check if we should show empty state
+        function checkEmptyState() {
+            const projectList = document.getElementById('projectList');
+            const emptyState = document.getElementById('emptyState');
+            
+            if (projectList.children.length === 0) {
+                projectList.style.display = 'none';
+                emptyState.style.display = 'flex';
+            } else {
+                projectList.style.display = 'flex';
+                emptyState.style.display = 'none';
+            }
+        }
+        
+        // Initialize
+        checkEmptyState();
+    </script>
+</body>
+</html>

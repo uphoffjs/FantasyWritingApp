@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 const { fantasyTomeColors } = require('./src/constants/fantasyTomeColors.js');
-const { fantasyMasterColors } = require('./src/constants/fantasyMasterColors.js');
+const { tokens } = require('./src/design-tokens/tokens.js'); // Use unified tokens
+const { fantasyMasterColors } = require('./src/constants/fantasyMasterColors.js'); // Keep for backward compat
 
 module.exports = {
   content: [
@@ -23,45 +24,45 @@ module.exports = {
         'sans': ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
       },
       colors: {
-        // === NEW MASTER PALETTE COLORS ===
+        // === UNIFIED TOKEN COLORS ===
         
-        // Attribute-based colors
-        might: fantasyMasterColors.attributes.might,
-        swiftness: fantasyMasterColors.attributes.swiftness,
-        vitality: fantasyMasterColors.attributes.vitality,
-        finesse: fantasyMasterColors.attributes.finesse,
+        // Attribute-based colors (from unified tokens)
+        might: tokens.color.attribute.might,
+        swiftness: tokens.color.attribute.swiftness,
+        vitality: tokens.color.attribute.vitality,
+        finesse: tokens.color.attribute.finesse,
         
-        // Class-based colors
-        warrior: fantasyMasterColors.classes.warrior,
-        shadow: fantasyMasterColors.classes.shadow,
-        hunter: fantasyMasterColors.classes.hunter,
-        explorer: fantasyMasterColors.classes.explorer,
-        guardian: fantasyMasterColors.classes.guardian,
+        // Class-based colors (from unified tokens)
+        warrior: tokens.color.class.warrior,
+        shadow: tokens.color.class.shadow,
+        hunter: tokens.color.class.hunter,
+        explorer: tokens.color.class.explorer,
+        guardian: tokens.color.class.guardian,
         
-        // UI colors
-        parchment: fantasyMasterColors.ui.parchment,
-        obsidian: fantasyMasterColors.ui.obsidian,
-        ink: fantasyMasterColors.ui.ink,
-        metals: fantasyMasterColors.ui.metals,
+        // UI colors (from unified tokens)
+        parchment: tokens.color.ui.parchment,
+        obsidian: tokens.color.ui.obsidian,
+        ink: tokens.color.ui.ink,
+        metals: tokens.color.ui.metals,
         
-        // Semantic colors
-        dragonfire: fantasyMasterColors.semantic.dragonfire,
-        elixir: fantasyMasterColors.semantic.elixir,
-        sunburst: fantasyMasterColors.semantic.sunburst,
-        mystic: fantasyMasterColors.semantic.mystic,
+        // Semantic colors (from unified tokens)
+        dragonfire: tokens.color.semantic.dragonfire,
+        elixir: tokens.color.semantic.elixir,
+        sunburst: tokens.color.semantic.sunburst,
+        mystic: tokens.color.semantic.mystic,
         
-        // Element type colors
-        character: fantasyMasterColors.elements.character,
-        location: fantasyMasterColors.elements.location,
-        item: fantasyMasterColors.elements.item,
-        magic: fantasyMasterColors.elements.magic,
-        creature: fantasyMasterColors.elements.creature,
-        culture: fantasyMasterColors.elements.culture,
-        organization: fantasyMasterColors.elements.organization,
-        religion: fantasyMasterColors.elements.religion,
-        technology: fantasyMasterColors.elements.technology,
-        history: fantasyMasterColors.elements.history,
-        language: fantasyMasterColors.elements.language,
+        // Element type colors (from unified tokens)
+        character: tokens.color.element.character,
+        location: tokens.color.element.location,
+        item: tokens.color.element.item,
+        magic: tokens.color.element.magic,
+        creature: tokens.color.element.creature,
+        culture: tokens.color.element.culture,
+        organization: tokens.color.element.organization,
+        religion: tokens.color.element.religion,
+        technology: tokens.color.element.technology,
+        history: tokens.color.element.history,
+        language: tokens.color.element.language,
         
         // === LEGACY COLORS (kept for compatibility) ===
         

@@ -138,7 +138,18 @@ module.exports = {
     historyApiFallback: true,
     hot: true,  // Enable hot module replacement
     liveReload: true, // Enable live reloading
-    open: true,
+    open: {
+      // * Configure to open in Brave browser
+      app: {
+        name: 'Brave Browser',
+        // ! Platform-specific browser paths
+        arguments: process.platform === 'darwin' 
+          ? [] // macOS doesn't need arguments
+          : process.platform === 'win32'
+          ? [] // Windows doesn't need arguments
+          : ['--new-window'] // Linux may need this
+      }
+    },
     static: {
       directory: path.join(__dirname, 'web'),
       publicPath: '/'
