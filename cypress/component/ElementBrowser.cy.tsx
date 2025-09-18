@@ -1,7 +1,5 @@
 import React from 'react';
-import { ElementBrowser } from '../../src/components/ElementBrowser';
-import { WorldElement } from '../../src/types/models/WorldElement';
-import { ElementCategory } from '../../src/types/models/ElementCategory';
+import { ElementBrowser, WorldElement } from '../support/component-test-helpers';
 
 describe('ElementBrowser Component', () => {
   // Mock elements data for testing
@@ -9,7 +7,7 @@ describe('ElementBrowser Component', () => {
     {
       id: 'element-1',
       name: 'Aragorn',
-      category: 'character' as ElementCategory,
+      category: 'character',
       description: 'A brave ranger from the north',
       completionPercentage: 85,
       questions: [],
@@ -21,7 +19,7 @@ describe('ElementBrowser Component', () => {
     {
       id: 'element-2',
       name: 'Rivendell',
-      category: 'location' as ElementCategory,
+      category: 'location',
       description: 'The beautiful elven city',
       completionPercentage: 60,
       questions: [],
@@ -33,7 +31,7 @@ describe('ElementBrowser Component', () => {
     {
       id: 'element-3',
       name: 'Sting',
-      category: 'item-object' as ElementCategory,
+      category: 'item-object',
       description: 'A glowing elven sword',
       completionPercentage: 90,
       questions: [],
@@ -45,7 +43,7 @@ describe('ElementBrowser Component', () => {
     {
       id: 'element-4',
       name: 'Fireball',
-      category: 'magic-power' as ElementCategory,
+      category: 'magic-power',
       description: 'A powerful fire spell',
       completionPercentage: 45,
       questions: [],

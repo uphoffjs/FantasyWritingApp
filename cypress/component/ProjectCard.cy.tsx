@@ -1,10 +1,9 @@
 import React from 'react';
-import { ProjectCard } from '../../src/components/ProjectCard';
-import { Project } from '../../src/types/models/Project';
+import { ProjectCard } from '../support/component-test-helpers';
 
 describe('ProjectCard Component', () => {
   // Mock project data
-  const mockProject: Project = {
+  const mockProject = {
     id: 'test-project-1',
     name: 'The Chronicles of Eldoria',
     description: 'An epic fantasy tale of magic, dragons, and heroic adventures in the mystical realm of Eldoria.',
@@ -37,37 +36,26 @@ describe('ProjectCard Component', () => {
     updatedAt: new Date('2024-01-15'),
   };
 
-  let mockNavigate;
-  let mockNavigation;
-  let mockSetCurrentProject;
-  let mockStore;
+  let mockOnPress;
+  let mockOnEdit;
+  let mockOnDuplicate;
   let mockOnDelete;
 
   beforeEach(() => {
     // Create stubs inside beforeEach
-    mockNavigate = cy.stub().as('navigate');
-    mockNavigation = {
-      navigate: mockNavigate,
-      goBack: cy.stub(),
-      canGoBack: () => false,
-    };
-
-    mockSetCurrentProject = cy.stub().as('setCurrentProject');
-    mockStore = {
-      setCurrentProject: mockSetCurrentProject,
-    };
-
+    mockOnPress = cy.stub().as('onPress');
+    mockOnEdit = cy.stub().as('onEdit');
+    mockOnDuplicate = cy.stub().as('onDuplicate');
     mockOnDelete = cy.stub().as('onDelete');
-
-    // Mock React Navigation and store
-    cy.stub(require('@react-navigation/native'), 'useNavigation').returns(mockNavigation);
-    cy.stub(require('../../src/store/worldbuildingStore'), 'useWorldbuildingStore').returns(mockStore);
   });
 
   it('should render project information correctly', () => {
     cy.mount(
       <ProjectCard 
         project={mockProject} 
+        onPress={mockOnPress}
+        onEdit={mockOnEdit}
+        onDuplicate={mockOnDuplicate}
         onDelete={mockOnDelete}
         testID="project-card"
       />
@@ -96,6 +84,9 @@ describe('ProjectCard Component', () => {
     cy.mount(
       <ProjectCard 
         project={mockProject} 
+        onPress={mockOnPress}
+        onEdit={mockOnEdit}
+        onDuplicate={mockOnDuplicate}
         onDelete={mockOnDelete}
         testID="project-card"
       />
@@ -103,9 +94,8 @@ describe('ProjectCard Component', () => {
 
     cy.get('[data-testid="project-card"]').click();
     
-    // Should set current project and navigate
-    cy.get('@setCurrentProject').should('have.been.calledWith', 'test-project-1');
-    cy.get('@navigate').should('have.been.calledWith', 'Project', { projectId: 'test-project-1' });
+    // Should call onPress with project
+    cy.get('@onPress').should('have.been.calledWith', mockProject);
   });
 
   it('should display cover image when provided', () => {
@@ -117,6 +107,9 @@ describe('ProjectCard Component', () => {
     cy.mount(
       <ProjectCard 
         project={projectWithImage} 
+        onPress={mockOnPress}
+        onEdit={mockOnEdit}
+        onDuplicate={mockOnDuplicate}
         onDelete={mockOnDelete}
         testID="project-card"
       />
@@ -132,6 +125,9 @@ describe('ProjectCard Component', () => {
     cy.mount(
       <ProjectCard 
         project={mockProject} 
+        onPress={mockOnPress}
+        onEdit={mockOnEdit}
+        onDuplicate={mockOnDuplicate}
         onDelete={mockOnDelete}
         testID="project-card"
       />
@@ -145,38 +141,45 @@ describe('ProjectCard Component', () => {
     cy.mount(
       <ProjectCard 
         project={mockProject} 
+        onPress={mockOnPress}
+        onEdit={mockOnEdit}
+        onDuplicate={mockOnDuplicate}
         onDelete={mockOnDelete}
         testID="project-card"
       />
     );
 
-    // Click the action [data-cy*="button"] (⋮)
-    cy.contains('⋮').click();
+    // Click the action button (⋮)
+    cy.get('[data-testid="project-action-button"]').click();
     
     // Check that action menu is visible
-    cy.contains('✏️ Edit Project').should('be.visible');
-    cy.contains('📋 Duplicate').should('be.visible');
-    cy.contains('🗑️ Delete Project').should('be.visible');
+    cy.get('[data-testid="project-action-menu"]').should('be.visible');
+    cy.contains('Edit').should('be.visible');
+    cy.contains('Duplicate').should('be.visible');
+    cy.contains('Delete').should('be.visible');
   });
 
   it('should close action menu when overlay clicked', () => {
     cy.mount(
       <ProjectCard 
         project={mockProject} 
+        onPress={mockOnPress}
+        onEdit={mockOnEdit}
+        onDuplicate={mockOnDuplicate}
         onDelete={mockOnDelete}
         testID="project-card"
       />
     );
 
     // Open action menu
-    cy.contains('⋮').click();
-    cy.contains('Edit Project').should('be.visible');
+    cy.get('[data-testid="project-action-button"]').click();
+    cy.get('[data-testid="project-action-menu"]').should('be.visible');
     
-    // Click overlay to close
-    cy.get('[data-testid="project-card"]').click('topLeft');
+    // Click overlay to close (clicking outside the menu)
+    cy.get('body').click(0, 0);
     
     // Menu should be hidden
-    cy.contains('Edit Project').should('not.exist');
+    cy.get('[data-testid="project-action-menu"]').should('not.exist');
   });
 
   it('should handle different project statuses with proper colors', () => {
@@ -194,6 +197,9 @@ describe('ProjectCard Component', () => {
       cy.mount(
         <ProjectCard 
           project={testProject} 
+          onPress={mockOnPress}
+          onEdit={mockOnEdit}
+          onDuplicate={mockOnDuplicate}
           onDelete={mockOnDelete}
           testID="project-card"
         />
@@ -211,6 +217,9 @@ describe('ProjectCard Component', () => {
     cy.mount(
       <ProjectCard 
         project={mockProject} 
+        onPress={mockOnPress}
+        onEdit={mockOnEdit}
+        onDuplicate={mockOnDuplicate}
         onDelete={mockOnDelete}
         testID="project-card"
       />
@@ -285,6 +294,9 @@ describe('ProjectCard Component', () => {
     cy.mount(
       <ProjectCard 
         project={mockProject} 
+        onPress={mockOnPress}
+        onEdit={mockOnEdit}
+        onDuplicate={mockOnDuplicate}
         onDelete={mockOnDelete}
         testID="project-card"
       />
@@ -312,6 +324,9 @@ describe('ProjectCard Component', () => {
     cy.mount(
       <ProjectCard 
         project={mockProject} 
+        onPress={mockOnPress}
+        onEdit={mockOnEdit}
+        onDuplicate={mockOnDuplicate}
         onDelete={mockOnDelete}
         testID="project-card"
       />
@@ -350,6 +365,9 @@ describe('ProjectCard Component', () => {
     cy.mount(
       <ProjectCard 
         project={mockProject} 
+        onPress={mockOnPress}
+        onEdit={mockOnEdit}
+        onDuplicate={mockOnDuplicate}
         onDelete={mockOnDelete}
         testID="project-card"
       />
@@ -367,6 +385,9 @@ describe('ProjectCard Component', () => {
     cy.mount(
       <ProjectCard 
         project={mockProject} 
+        onPress={mockOnPress}
+        onEdit={mockOnEdit}
+        onDuplicate={mockOnDuplicate}
         onDelete={mockOnDelete}
         testID="project-card"
       />
@@ -384,6 +405,9 @@ describe('ProjectCard Component', () => {
     cy.mount(
       <ProjectCard 
         project={mockProject} 
+        onPress={mockOnPress}
+        onEdit={mockOnEdit}
+        onDuplicate={mockOnDuplicate}
         onDelete={mockOnDelete}
         testID="project-card"
       />
@@ -435,6 +459,9 @@ describe('ProjectCard Component', () => {
     cy.mount(
       <ProjectCard 
         project={mockProject} 
+        onPress={mockOnPress}
+        onEdit={mockOnEdit}
+        onDuplicate={mockOnDuplicate}
         onDelete={mockOnDelete}
         testID="project-card"
       />

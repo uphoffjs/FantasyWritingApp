@@ -2,7 +2,7 @@ import React from 'react';
 import { BasicQuestionsSelector, Question } from '../support/component-test-helpers';
 
 describe('BasicQuestionsSelector Component', () => {
-  const mockQuestions: any[] = [
+  const mockQuestions: Question[] = [
     { id: 'name', text: 'Name', type: 'text', required: true, category: 'Basic Info' },
     { id: 'age', text: 'Age', type: 'number', required: false, category: 'Basic Info', helpText: 'Character age' },
     { id: 'species', text: 'Species', type: 'text', required: false, category: 'Basic Info' },
@@ -22,9 +22,11 @@ describe('BasicQuestionsSelector Component', () => {
   describe('Rendering', () => {
     it('renders with title and description', () => {
       cy.mount(
-        <div data-cy="placeholder-basic-questions-selector">
-          BasicQuestionsSelector placeholder
-        </div>
+        <BasicQuestionsSelector
+          questions={mockQuestions}
+          category="character"
+          onChange={onChangeSpy}
+        />
       );
 
       cy.contains('Basic Mode Configuration').should('be.visible');
@@ -33,9 +35,11 @@ describe('BasicQuestionsSelector Component', () => {
 
     it('displays question statistics', () => {
       cy.mount(
-        <div data-cy="placeholder-basic-questions-selector">
-          BasicQuestionsSelector placeholder
-        </div>
+        <BasicQuestionsSelector
+          questions={mockQuestions}
+          category="character"
+          onChange={onChangeSpy}
+        />
       );
 
       cy.contains('Basic Questions').should('be.visible');
@@ -46,9 +50,12 @@ describe('BasicQuestionsSelector Component', () => {
 
     it('shows estimated completion times', () => {
       cy.mount(
-        <div data-cy="placeholder-basic-questions-selector">
-          BasicQuestionsSelector placeholder
-        </div>
+        <BasicQuestionsSelector
+          questions={mockQuestions}
+          basicQuestionIds={['name', 'age']}  
+          category="character"
+          onChange={onChangeSpy}
+        />
       );
 
       cy.contains('~1 min to complete').should('be.visible'); // Basic mode
@@ -57,9 +64,11 @@ describe('BasicQuestionsSelector Component', () => {
 
     it('displays tip info box', () => {
       cy.mount(
-        <div data-cy="placeholder-basic-questions-selector">
-          BasicQuestionsSelector placeholder
-        </div>
+        <BasicQuestionsSelector
+          questions={mockQuestions}
+          category="character"
+          onChange={onChangeSpy}
+        />
       );
 
       cy.contains('Tip:').should('be.visible');
@@ -68,9 +77,11 @@ describe('BasicQuestionsSelector Component', () => {
 
     it('groups questions by category', () => {
       cy.mount(
-        <div data-cy="placeholder-basic-questions-selector">
-          BasicQuestionsSelector placeholder
-        </div>
+        <BasicQuestionsSelector
+          questions={mockQuestions}
+          category="character"
+          onChange={onChangeSpy}
+        />
       );
 
       cy.contains('Basic Info').should('be.visible');
@@ -82,9 +93,11 @@ describe('BasicQuestionsSelector Component', () => {
 
     it('shows required badge for required questions', () => {
       cy.mount(
-        <div data-cy="placeholder-basic-questions-selector">
-          BasicQuestionsSelector placeholder
-        </div>
+        <BasicQuestionsSelector
+          questions={mockQuestions}
+          category="character"
+          onChange={onChangeSpy}
+        />
       );
 
       cy.contains('Name').parent().within(() => {
@@ -94,9 +107,11 @@ describe('BasicQuestionsSelector Component', () => {
 
     it('shows help text when available', () => {
       cy.mount(
-        <div data-cy="placeholder-basic-questions-selector">
-          BasicQuestionsSelector placeholder
-        </div>
+        <BasicQuestionsSelector
+          questions={mockQuestions}
+          category="character"
+          onChange={onChangeSpy}
+        />
       );
 
       cy.contains('Character age').should('be.visible');
@@ -104,9 +119,11 @@ describe('BasicQuestionsSelector Component', () => {
 
     it('shows star icon for suggested questions', () => {
       cy.mount(
-        <div data-cy="placeholder-basic-questions-selector">
-          BasicQuestionsSelector placeholder
-        </div>
+        <BasicQuestionsSelector
+          questions={mockQuestions}
+          category="character"
+          onChange={onChangeSpy}
+        />
       );
 
       // Name is a suggested question for character category
@@ -119,9 +136,11 @@ describe('BasicQuestionsSelector Component', () => {
   describe('Quick Actions', () => {
     it('applies default suggestions when clicked', () => {
       cy.mount(
-        <div data-cy="placeholder-basic-questions-selector">
-          BasicQuestionsSelector placeholder
-        </div>
+        <BasicQuestionsSelector
+          questions={mockQuestions}
+          category="character"
+          onChange={onChangeSpy}
+        />
       );
 
       cy.contains('Apply Defaults').click();
@@ -137,9 +156,11 @@ describe('BasicQuestionsSelector Component', () => {
 
     it('selects all questions when Select All is clicked', () => {
       cy.mount(
-        <div data-cy="placeholder-basic-questions-selector">
-          BasicQuestionsSelector placeholder
-        </div>
+        <BasicQuestionsSelector
+          questions={mockQuestions}
+          category="character"
+          onChange={onChangeSpy}
+        />
       );
 
       cy.contains('Select All').click();
@@ -151,9 +172,11 @@ describe('BasicQuestionsSelector Component', () => {
 
     it('deselects all questions when Select None is clicked', () => {
       cy.mount(
-        <div data-cy="placeholder-basic-questions-selector">
-          BasicQuestionsSelector placeholder
-        </div>
+        <BasicQuestionsSelector
+          questions={mockQuestions}
+          category="character"
+          onChange={onChangeSpy}
+        />
       );
 
       cy.contains('Select None').click();
@@ -177,9 +200,11 @@ describe('BasicQuestionsSelector Component', () => {
   describe('Question Selection', () => {
     it.skip('toggles question selection when checkbox is clicked', () => {
       cy.mount(
-        <div data-cy="placeholder-basic-questions-selector">
-          BasicQuestionsSelector placeholder
-        </div>
+        <BasicQuestionsSelector
+          questions={mockQuestions}
+          category="character"
+          onChange={onChangeSpy}
+        />
       );
 
       cy.contains('label', 'Name').within(() => {
@@ -200,9 +225,12 @@ describe('BasicQuestionsSelector Component', () => {
 
     it('deselects question when already selected', () => {
       cy.mount(
-        <div data-cy="placeholder-basic-questions-selector">
-          BasicQuestionsSelector placeholder
-        </div>
+        <BasicQuestionsSelector
+          questions={mockQuestions}
+          basicQuestionIds={['name']}
+          category="character"
+          onChange={onChangeSpy}
+        />
       );
 
       cy.contains('label', 'Name').within(() => {
@@ -214,9 +242,11 @@ describe('BasicQuestionsSelector Component', () => {
 
     it.skip('toggles question when label is clicked', () => {
       cy.mount(
-        <div data-cy="placeholder-basic-questions-selector">
-          BasicQuestionsSelector placeholder
-        </div>
+        <BasicQuestionsSelector
+          questions={mockQuestions}
+          category="character"
+          onChange={onChangeSpy}
+        />
       );
 
       cy.contains('label', 'Name').click();
@@ -270,9 +300,11 @@ describe('BasicQuestionsSelector Component', () => {
 
     it.skip('shows hover effect on unselected questions', () => {
       cy.mount(
-        <div data-cy="placeholder-basic-questions-selector">
-          BasicQuestionsSelector placeholder
-        </div>
+        <BasicQuestionsSelector
+          questions={mockQuestions}
+          category="character"
+          onChange={onChangeSpy}
+        />
       );
 
       cy.contains('label', 'Name')
@@ -281,9 +313,12 @@ describe('BasicQuestionsSelector Component', () => {
 
     it('shows summary when questions are selected', () => {
       cy.mount(
-        <div data-cy="placeholder-basic-questions-selector">
-          BasicQuestionsSelector placeholder
-        </div>
+        <BasicQuestionsSelector
+          questions={mockQuestions}
+          basicQuestionIds={['name', 'age']}
+          category="character"
+          onChange={onChangeSpy}
+        />
       );
 
       cy.contains('Basic Mode Ready').should('be.visible');
@@ -292,9 +327,12 @@ describe('BasicQuestionsSelector Component', () => {
 
     it.skip('hides summary when no questions are selected', () => {
       cy.mount(
-        <div data-cy="placeholder-basic-questions-selector">
-          BasicQuestionsSelector placeholder
-        </div>
+        <BasicQuestionsSelector
+          questions={mockQuestions}
+          basicQuestionIds={[]}
+          category="character"
+          onChange={onChangeSpy}
+        />
       );
 
       cy.contains('Basic Mode Ready').should('not.exist');
@@ -328,9 +366,11 @@ describe('BasicQuestionsSelector Component', () => {
     // Skip auto-select tests as they rely on useEffect timing which can be flaky
     it.skip('auto-selects suggestions when no basicQuestionIds provided', () => {
       cy.mount(
-        <div data-cy="placeholder-basic-questions-selector">
-          BasicQuestionsSelector placeholder
-        </div>
+        <BasicQuestionsSelector
+          questions={mockQuestions}
+          category="character"
+          onChange={onChangeSpy}
+        />
       );
 
       // Should auto-select suggested questions for character category
@@ -460,9 +500,11 @@ describe('BasicQuestionsSelector Component', () => {
 
     it.skip('handles rapid selection changes', () => {
       cy.mount(
-        <div data-cy="placeholder-basic-questions-selector">
-          BasicQuestionsSelector placeholder
-        </div>
+        <BasicQuestionsSelector
+          questions={mockQuestions}
+          category="character"
+          onChange={onChangeSpy}
+        />
       );
 
       // Rapidly toggle multiple questions
@@ -499,9 +541,11 @@ describe('BasicQuestionsSelector Component', () => {
   describe('Accessibility', () => {
     it('has accessible checkboxes', () => {
       cy.mount(
-        <div data-cy="placeholder-basic-questions-selector">
-          BasicQuestionsSelector placeholder
-        </div>
+        <BasicQuestionsSelector
+          questions={mockQuestions}
+          category="character"
+          onChange={onChangeSpy}
+        />
       );
 
       cy.get('input[type="checkbox"]').each(($checkbox) => {
@@ -531,9 +575,11 @@ describe('BasicQuestionsSelector Component', () => {
 
     it.skip('allows space/enter to toggle checkboxes', () => {
       cy.mount(
-        <div data-cy="placeholder-basic-questions-selector">
-          BasicQuestionsSelector placeholder
-        </div>
+        <BasicQuestionsSelector
+          questions={mockQuestions}
+          category="character"
+          onChange={onChangeSpy}
+        />
       );
 
       cy.contains('label', 'Name').within(() => {
@@ -546,9 +592,11 @@ describe('BasicQuestionsSelector Component', () => {
 
     it('buttons are keyboard accessible', () => {
       cy.mount(
-        <div data-cy="placeholder-basic-questions-selector">
-          BasicQuestionsSelector placeholder
-        </div>
+        <BasicQuestionsSelector
+          questions={mockQuestions}
+          category="character"
+          onChange={onChangeSpy}
+        />
       );
 
       cy.contains('Select All').focus();
@@ -563,9 +611,12 @@ describe('BasicQuestionsSelector Component', () => {
       cy.viewport(375, 667);
       
       cy.mount(
-        <div data-cy="placeholder-basic-questions-selector">
-          BasicQuestionsSelector placeholder
-        </div>
+        <BasicQuestionsSelector
+          questions={mockQuestions}
+          basicQuestionIds={['name', 'age']}
+          category="character"
+          onChange={onChangeSpy}
+        />
       );
 
       cy.contains('Basic Mode Configuration').should('be.visible');
@@ -577,9 +628,12 @@ describe('BasicQuestionsSelector Component', () => {
       cy.viewport(768, 1024);
       
       cy.mount(
-        <div data-cy="placeholder-basic-questions-selector">
-          BasicQuestionsSelector placeholder
-        </div>
+        <BasicQuestionsSelector
+          questions={mockQuestions}
+          basicQuestionIds={['name', 'age']}
+          category="character"
+          onChange={onChangeSpy}
+        />
       );
 
       cy.contains('Basic Mode Configuration').should('be.visible');
@@ -590,9 +644,12 @@ describe('BasicQuestionsSelector Component', () => {
       cy.viewport(1920, 1080);
       
       cy.mount(
-        <div data-cy="placeholder-basic-questions-selector">
-          BasicQuestionsSelector placeholder
-        </div>
+        <BasicQuestionsSelector
+          questions={mockQuestions}
+          basicQuestionIds={['name', 'age']}
+          category="character"
+          onChange={onChangeSpy}
+        />
       );
 
       cy.contains('Basic Mode Configuration').should('be.visible');
@@ -632,9 +689,12 @@ describe('BasicQuestionsSelector Component', () => {
 
     it.skip('updates time estimates when selection changes', () => {
       cy.mount(
-        <div data-cy="placeholder-basic-questions-selector">
-          BasicQuestionsSelector placeholder
-        </div>
+        <BasicQuestionsSelector
+          questions={mockQuestions}
+          basicQuestionIds={[]}
+          category="character"
+          onChange={onChangeSpy}
+        />
       );
 
       // Initially should show 0 basic questions

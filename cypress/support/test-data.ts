@@ -277,6 +277,27 @@ export const genreOptions = [
   'Urban Fantasy'
 ];
 
+// Mock Project for worldbuilding tests
+export interface Project {
+  id: string;
+  name: string;
+  description: string;
+  genre?: string;
+  isArchived?: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export const mockProject: Project = {
+  id: 'project-1',
+  name: 'Fantasy World',
+  description: 'A magical realm filled with dragons and wizards',
+  genre: 'Fantasy',
+  isArchived: false,
+  createdAt: new Date('2024-01-01').toISOString(),
+  updatedAt: new Date('2024-01-01').toISOString()
+};
+
 export const characterTypes = [
   'protagonist',
   'antagonist',

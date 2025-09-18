@@ -1,6 +1,5 @@
 import React from 'react';
-import { CreateElementModal } from '../../src/components/CreateElementModal';
-import { ElementCategory } from '../../src/types/models/ElementCategory';
+import { CreateElementModal, useWorldbuildingStore } from '../support/component-test-helpers';
 
 describe('CreateElementModal Component', () => {
   let mockCreateElement;
@@ -32,15 +31,14 @@ describe('CreateElementModal Component', () => {
             {
               id: 'existing-element-1',
               name: 'Existing Character',
-              category: 'character' as ElementCategory,
+              category: 'character',
             },
           ],
         },
       ],
     };
 
-    // Mock the store hook
-    cy.stub(require('../../src/store/worldbuildingStore'), 'useWorldbuildingStore').returns(mockStore);
+    // Note: The store is already mocked in the component-test-helpers
     
     // Update default props with new stubs
     defaultProps.onClose = mockOnClose;

@@ -1,0 +1,35 @@
+import React from 'react';
+import { ElementBrowser, WorldElement } from '../support/component-test-helpers';
+
+describe('ElementBrowser Component - Simplified', () => {
+  // Mock a single simple element
+  const mockElement: WorldElement = {
+    id: 'element-1',
+    name: 'Test Element',
+    category: 'character',
+    description: 'A test element',
+    completionPercentage: 50,
+    questions: [],
+    answers: {},
+    createdAt: new Date('2024-01-01'),
+    updatedAt: new Date('2024-01-15'),
+    tags: ['test'],
+  };
+
+  it('should mount component without errors', () => {
+    cy.mount(<ElementBrowser elements={[]} />);
+    // Just check that component mounts
+    cy.wait(100); // Brief wait to ensure render
+  });
+
+  it('should show empty state with no elements', () => {
+    cy.mount(<ElementBrowser elements={[]} />);
+    cy.contains('No elements yet').should('be.visible');
+  });
+
+  it('should display single element', () => {
+    cy.mount(<ElementBrowser elements={[mockElement]} />);
+    cy.contains('Test Element').should('be.visible');
+    cy.contains('1 element').should('be.visible');
+  });
+});

@@ -1,0 +1,131 @@
+
+DevTools listening on ws://127.0.0.1:59136/devtools/browser/037d2190-ba6b-40d8-8c5e-d990878aa237
+Missing baseUrl in compilerOptions. tsconfig-paths will be skipped
+
+🚀 Fantasy Element Builder is running on port 3003
+📱 Open http://localhost:3003 in your browser
+
+
+Opening `/dev/tty` failed (6): Device not configured
+================================================================================
+
+  (Run Starting)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Cypress:        14.5.4                                                                         │
+  │ Browser:        Electron 130 (headless)                                                        │
+  │ Node Version:   v20.19.3 (/Users/jacobstoragepug/.nvm/versions/node/v20.19.3/bin/node)         │
+  │ Specs:          1 found (ProjectList.cy.tsx)                                                   │
+  │ Searched:       cypress/component/ProjectList.cy.tsx                                           │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  ProjectList.cy.tsx                                                              (1 of 1)
+11 assets
+271 modules
+webpack 5.101.3 compiled [1m[32msuccessfully[39m[22m in 1923 ms
+14 assets
+443 modules
+
+[1m[33mWARNING[39m[22m in [1m./cypress/component/ProjectList.cy.tsx[39m[22m [1m[32m17:45-56[39m[22m
+[1mexport 'mockProject' (imported as 'mockProject') was [1m[31mnot found[39m[22m[1m in '../support/test-data' (possible exports: [1m[32mcharacterQuestions, characterTypes, createMockCharacter, createMockRelationship, createMockScene, createMockStory, genreOptions, mockCharacter, mockCharacters, mockRelationship, mockScene, mockScenes, mockStories, mockStory, relationshipTypes, storyStructure[39m[22m[1m)[39m[22m
+
+[1m[33mWARNING[39m[22m in [1m./cypress/component/ProjectList.cy.tsx[39m[22m [1m[32m178:54-65[39m[22m
+[1mexport 'mockProject' (imported as 'mockProject') was [1m[31mnot found[39m[22m[1m in '../support/test-data' (possible exports: [1m[32mcharacterQuestions, characterTypes, createMockCharacter, createMockRelationship, createMockScene, createMockStory, genreOptions, mockCharacter, mockCharacters, mockRelationship, mockScene, mockScenes, mockStories, mockStory, relationshipTypes, storyStructure[39m[22m[1m)[39m[22m
+
+[1m[33mWARNING[39m[22m in [1m./cypress/component/ProjectList.cy.tsx[39m[22m [1m[32m181:42-53[39m[22m
+[1mexport 'mockProject' (imported as 'mockProject') was [1m[31mnot found[39m[22m[1m in '../support/test-data' (possible exports: [1m[32mcharacterQuestions, characterTypes, createMockCharacter, createMockRelationship, createMockScene, createMockStory, genreOptions, mockCharacter, mockCharacters, mockRelationship, mockScene, mockScenes, mockStories, mockStory, relationshipTypes, storyStructure[39m[22m[1m)[39m[22m
+
+[1m[33mWARNING[39m[22m in [1m./cypress/component/ProjectList.cy.tsx[39m[22m [1m[32m184:42-53[39m[22m
+[1mexport 'mockProject' (imported as 'mockProject') was [1m[31mnot found[39m[22m[1m in '../support/test-data' (possible exports: [1m[32mcharacterQuestions, characterTypes, createMockCharacter, createMockRelationship, createMockScene, createMockStory, genreOptions, mockCharacter, mockCharacters, mockRelationship, mockScene, mockScenes, mockStories, mockStory, relationshipTypes, storyStructure[39m[22m[1m)[39m[22m
+
+[1m[33mWARNING[39m[22m in [1m./cypress/component/ProjectList.cy.tsx[39m[22m [1m[32m379:54-65[39m[22m
+[1mexport 'mockProject' (imported as 'mockProject') was [1m[31mnot found[39m[22m[1m in '../support/test-data' (possible exports: [1m[32mcharacterQuestions, characterTypes, createMockCharacter, createMockRelationship, createMockScene, createMockStory, genreOptions, mockCharacter, mockCharacters, mockRelationship, mockScene, mockScenes, mockStories, mockStory, relationshipTypes, storyStructure[39m[22m[1m)[39m[22m
+
+[1m[33mWARNING[39m[22m in [1m./cypress/component/ProjectList.cy.tsx[39m[22m [1m[32m383:42-53[39m[22m
+[1mexport 'mockProject' (imported as 'mockProject') was [1m[31mnot found[39m[22m[1m in '../support/test-data' (possible exports: [1m[32mcharacterQuestions, characterTypes, createMockCharacter, createMockRelationship, createMockScene, createMockStory, genreOptions, mockCharacter, mockCharacters, mockRelationship, mockScene, mockScenes, mockStories, mockStory, relationshipTypes, storyStructure[39m[22m[1m)[39m[22m
+
+[1m[33mWARNING[39m[22m in [1m./cypress/component/ProjectList.cy.tsx[39m[22m [1m[32m387:42-53[39m[22m
+[1mexport 'mockProject' (imported as 'mockProject') was [1m[31mnot found[39m[22m[1m in '../support/test-data' (possible exports: [1m[32mcharacterQuestions, characterTypes, createMockCharacter, createMockRelationship, createMockScene, createMockStory, genreOptions, mockCharacter, mockCharacters, mockRelationship, mockScene, mockScenes, mockStories, mockStory, relationshipTypes, storyStructure[39m[22m[1m)[39m[22m
+
+[1m[33mWARNING[39m[22m in [1m./cypress/component/ProjectList.cy.tsx[39m[22m [1m[32m536:54-65[39m[22m
+[1mexport 'mockProject' (imported as 'mockProject') was [1m[31mnot found[39m[22m[1m in '../support/test-data' (possible exports: [1m[32mcharacterQuestions, characterTypes, createMockCharacter, createMockRelationship, createMockScene, createMockStory, genreOptions, mockCharacter, mockCharacters, mockRelationship, mockScene, mockScenes, mockStories, mockStory, relationshipTypes, storyStructure[39m[22m[1m)[39m[22m
+
+[1m[33mWARNING[39m[22m in [1m./cypress/component/ProjectList.cy.tsx[39m[22m [1m[32m538:42-53[39m[22m
+[1mexport 'mockProject' (imported as 'mockProject') was [1m[31mnot found[39m[22m[1m in '../support/test-data' (possible exports: [1m[32mcharacterQuestions, characterTypes, createMockCharacter, createMockRelationship, createMockScene, createMockStory, genreOptions, mockCharacter, mockCharacters, mockRelationship, mockScene, mockScenes, mockStories, mockStory, relationshipTypes, storyStructure[39m[22m[1m)[39m[22m
+
+[1m[31mERROR[39m[22m in [1m./cypress/component/ProjectList.cy.tsx[39m[22m [1m[32m7:0-62[39m[22m
+[1mModule [1m[31mnot found[39m[22m[1m: [1m[31mError[39m[22m[1m: Can't resolve '../support/mount-helpers' in '/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/component'[39m[22m
+
+webpack 5.101.3 compiled with [1m[31m1 error[39m[22m and [1m[33m9 warnings[39m[22m in 557 ms
+
+
+  1) "before all" hook for "An uncaught error was detected outside of a test"
+
+  0 passing (169ms)
+  1 failing
+
+  1) "before all" hook for "An uncaught error was detected outside of a test":
+     CypressError: Cypress detected you registered a(n) `beforeEach` hook while a test was running (possibly a hook nested inside another hook). All hooks must be registered before a test begins executing.
+
+Move the `beforeEach` into a suite callback or the global scope.
+
+Because this error occurred during a `before all` hook we are skipping all of the remaining tests.
+
+Although you have test retries enabled, we do not retry tests when `before all` or `after all` hooks fail
+      at cypressErr (http://localhost:3003/__cypress/runner/cypress_runner.js:77648:18)
+      at Object.errByPath (http://localhost:3003/__cypress/runner/cypress_runner.js:77702:10)
+      at Suite._createHook (http://localhost:3003/__cypress/runner/cypress_runner.js:149197:76)
+      at Suite.beforeEach (http://localhost:3003/__cypress/runner/cypress_runner.js:161446:19)
+      at Suite.<computed> [as beforeEach] (http://localhost:3003/__cypress/runner/cypress_runner.js:149205:23)
+      at beforeEach (http://localhost:3003/__cypress/runner/cypress_runner.js:165016:17)
+      at registerFactoryHooks (webpack://FantasyWritingApp/./cypress/support/factory-helpers.ts:13:2)
+      at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/support/component.tsx:58:23)
+  From Your Spec Code:
+      at Object.getInvocationDetails (http://localhost:3003/__cypress/runner/cypress_runner.js:99904:17)
+      at Suite._createHook (http://localhost:3003/__cypress/runner/cypress_runner.js:149192:90)
+      at Suite.beforeEach (http://localhost:3003/__cypress/runner/cypress_runner.js:161446:19)
+      at Suite.<computed> [as beforeEach] (http://localhost:3003/__cypress/runner/cypress_runner.js:149205:23)
+      at beforeEach (http://localhost:3003/__cypress/runner/cypress_runner.js:165016:17)
+      at registerFactoryHooks (webpack://FantasyWritingApp/./cypress/support/factory-helpers.ts:13:2)
+      at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/support/component.tsx:58:23)
+
+
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        1                                                                                │
+  │ Passing:      0                                                                                │
+  │ Failing:      1                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  1                                                                                │
+  │ Video:        false                                                                            │
+  │ Duration:     0 seconds                                                                        │
+  │ Spec Ran:     ProjectList.cy.tsx                                                               │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Screenshots)
+
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/ProjectList    (2560x1440)
+     .cy.tsx/An uncaught error was detected outside of a test -- before all hook (fai               
+     led).png                                                                                       
+
+
+Opening `/dev/tty` failed (6): Device not configured
+================================================================================
+
+  (Run Finished)
+
+
+       Spec                                              Tests  Passing  Failing  Pending  Skipped  
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ ✖  ProjectList.cy.tsx                       170ms        1        -        1        -        - │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+    ✖  1 of 1 failed (100%)                     170ms        1        -        1        -        -  
+

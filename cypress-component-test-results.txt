@@ -1,0 +1,210 @@
+
+DevTools listening on ws://127.0.0.1:49505/devtools/browser/4e3cc37a-ac17-4af6-9dd4-da4f9c3a70ad
+Missing baseUrl in compilerOptions. tsconfig-paths will be skipped
+
+🚀 Fantasy Element Builder is running on port 3003
+📱 Open http://localhost:3003 in your browser
+
+
+Opening `/dev/tty` failed (6): Device not configured
+================================================================================
+
+  (Run Starting)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Cypress:        14.5.4                                                                         │
+  │ Browser:        Electron 130 (headless)                                                        │
+  │ Node Version:   v20.19.3 (/Users/jacobstoragepug/.nvm/versions/node/v20.19.3/bin/node)         │
+  │ Specs:          70 found (AutoSaveIndicator.cy.tsx, BaseElementForm.debug.cy.tsx, BaseElementF │
+  │                 orm.incremental.cy.tsx, BaseElementForm.isolated.cy.tsx, BaseElementForm.minim │
+  │                 al.cy.tsx, BaseElementForm.simple.cy.tsx, BaseElementForm.stateless.cy.tsx, Ba │
+  │                 sicQuestionsSelector.cy...)                                                    │
+  │ Searched:       cypress/component/**/*.cy.{js,jsx,ts,tsx}                                      │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  AutoSaveIndicator.cy.tsx                                                       (1 of 70)
+11 assets
+296 modules
+
+[1m[33mWARNING[39m[22m in [1m./node_modules/cypress-axe/dist/index.js[39m[22m [1m[32m17:37-44[39m[22m
+[1mCritical dependency: require function is used in a way in which dependencies cannot be statically extracted[39m[22m
+
+[1m[33mWARNING[39m[22m in [1m./node_modules/cypress-axe/dist/index.js[39m[22m [1m[32m17:67-74[39m[22m
+[1mCritical dependency: require function is used in a way in which dependencies cannot be statically extracted[39m[22m
+
+webpack 5.101.3 compiled with [1m[33m2 warnings[39m[22m in 1405 ms
+14 assets
+314 modules
+
+[1m[33mWARNING[39m[22m in [1m./node_modules/cypress-axe/dist/index.js[39m[22m [1m[32m17:37-44[39m[22m
+[1mCritical dependency: require function is used in a way in which dependencies cannot be statically extracted[39m[22m
+
+[1m[33mWARNING[39m[22m in [1m./node_modules/cypress-axe/dist/index.js[39m[22m [1m[32m17:67-74[39m[22m
+[1mCritical dependency: require function is used in a way in which dependencies cannot be statically extracted[39m[22m
+
+webpack 5.101.3 compiled with [1m[33m2 warnings[39m[22m in 309 ms
+
+
+  AutoSaveIndicator Component
+    ✓ should render idle state by default (27ms)
+    ✓ should show saving state (34ms)
+    ✓ should show saved state (32ms)
+    ✓ should show error state (29ms)
+    ✓ should show custom error message (27ms)
+    ✓ should show timestamp for saved state (27ms)
+    ✓ should update timestamp text over time (26ms)
+    ✓ should handle click on retry for error state (106ms)
+    ✓ should apply custom className (27ms)
+    ✓ should transition between states smoothly (22ms)
+    ✓ should auto-hide saved state after delay (47ms)
+    ✓ should be accessible (27ms)
+
+
+  12 passing (593ms)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        12                                                                               │
+  │ Passing:      12                                                                               │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        false                                                                            │
+  │ Duration:     0 seconds                                                                        │
+  │ Spec Ran:     AutoSaveIndicator.cy.tsx                                                         │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  BaseElementForm.debug.cy.tsx                                                   (2 of 70)
+14 assets
+314 modules
+
+[1m[33mWARNING[39m[22m in [1m./node_modules/cypress-axe/dist/index.js[39m[22m [1m[32m17:37-44[39m[22m
+[1mCritical dependency: require function is used in a way in which dependencies cannot be statically extracted[39m[22m
+
+[1m[33mWARNING[39m[22m in [1m./node_modules/cypress-axe/dist/index.js[39m[22m [1m[32m17:67-74[39m[22m
+[1mCritical dependency: require function is used in a way in which dependencies cannot be statically extracted[39m[22m
+
+webpack 5.101.3 compiled with [1m[33m2 warnings[39m[22m in 51 ms
+
+
+  BaseElementForm - Debug Tests
+    ✓ debug: shows category initially (60ms)
+    (Attempt 1 of 4) debug: category expands on click
+    (Attempt 2 of 4) debug: category expands on click
+    (Attempt 3 of 4) debug: category expands on click
+    1) debug: category expands on click
+    (Attempt 1 of 4) debug: question labels appear when expanded
+    (Attempt 2 of 4) debug: question labels appear when expanded
+    (Attempt 3 of 4) debug: question labels appear when expanded
+    2) debug: question labels appear when expanded
+    (Attempt 1 of 4) debug: inputs appear when expanded
+    (Attempt 2 of 4) debug: inputs appear when expanded
+    (Attempt 3 of 4) debug: inputs appear when expanded
+    3) debug: inputs appear when expanded
+
+
+  1 passing (3m)
+  3 failing
+
+  1) BaseElementForm - Debug Tests
+       debug: category expands on click:
+     AssertionError: Timed out retrying after 12000ms: Expected to find element: `[data-testid="category-general-questions"]`, but never found it.
+      at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/component/BaseElementForm.debug.cy.tsx:68:57)
+
+  2) BaseElementForm - Debug Tests
+       debug: question labels appear when expanded:
+     AssertionError: Timed out retrying after 12000ms: Expected to find element: `[data-testid="question-label-name"]`, but never found it.
+      at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/component/BaseElementForm.debug.cy.tsx:92:50)
+
+  3) BaseElementForm - Debug Tests
+       debug: inputs appear when expanded:
+     AssertionError: Timed out retrying after 12000ms: Expected to find element: `[data-testid="question-name-input"]`, but never found it.
+      at Context.<anonymous> (webpack://FantasyWritingApp/./cypress/component/BaseElementForm.debug.cy.tsx:116:50)
+
+
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        4                                                                                │
+  │ Passing:      1                                                                                │
+  │ Failing:      3                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  12                                                                               │
+  │ Video:        false                                                                            │
+  │ Duration:     2 minutes, 33 seconds                                                            │
+  │ Spec Ran:     BaseElementForm.debug.cy.tsx                                                     │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Screenshots)
+
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BaseElement    (2560x1440)
+     Form.debug.cy.tsx/BaseElementForm - Debug Tests -- debug category expands on cli               
+     ck (failed).png                                                                                
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BaseElement    (2560x1440)
+     Form.debug.cy.tsx/BaseElementForm - Debug Tests -- debug category expands on cli               
+     ck (failed) (attempt 2).png                                                                    
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BaseElement    (2560x1440)
+     Form.debug.cy.tsx/BaseElementForm - Debug Tests -- debug category expands on cli               
+     ck (failed) (attempt 3).png                                                                    
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BaseElement    (2560x1440)
+     Form.debug.cy.tsx/BaseElementForm - Debug Tests -- debug category expands on cli               
+     ck (failed) (attempt 4).png                                                                    
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BaseElement    (2560x1440)
+     Form.debug.cy.tsx/BaseElementForm - Debug Tests -- debug question labels appear                
+     when expanded (failed).png                                                                     
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BaseElement    (2560x1440)
+     Form.debug.cy.tsx/BaseElementForm - Debug Tests -- debug question labels appear                
+     when expanded (failed) (attempt 2).png                                                         
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BaseElement    (2560x1440)
+     Form.debug.cy.tsx/BaseElementForm - Debug Tests -- debug question labels appear                
+     when expanded (failed) (attempt 3).png                                                         
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BaseElement    (2560x1440)
+     Form.debug.cy.tsx/BaseElementForm - Debug Tests -- debug question labels appear                
+     when expanded (failed) (attempt 4).png                                                         
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BaseElement    (2560x1440)
+     Form.debug.cy.tsx/BaseElementForm - Debug Tests -- debug inputs appear when expa               
+     nded (failed).png                                                                              
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BaseElement    (2560x1440)
+     Form.debug.cy.tsx/BaseElementForm - Debug Tests -- debug inputs appear when expa               
+     nded (failed) (attempt 2).png                                                                  
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BaseElement    (2560x1440)
+     Form.debug.cy.tsx/BaseElementForm - Debug Tests -- debug inputs appear when expa               
+     nded (failed) (attempt 3).png                                                                  
+  -  /Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/screenshots/BaseElement    (2560x1440)
+     Form.debug.cy.tsx/BaseElementForm - Debug Tests -- debug inputs appear when expa               
+     nded (failed) (attempt 4).png                                                                  
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  BaseElementForm.incremental.cy.tsx                                             (3 of 70)
+14 assets
+314 modules
+
+[1m[33mWARNING[39m[22m in [1m./node_modules/cypress-axe/dist/index.js[39m[22m [1m[32m17:37-44[39m[22m
+[1mCritical dependency: require function is used in a way in which dependencies cannot be statically extracted[39m[22m
+
+[1m[33mWARNING[39m[22m in [1m./node_modules/cypress-axe/dist/index.js[39m[22m [1m[32m17:67-74[39m[22m
+[1mCritical dependency: require function is used in a way in which dependencies cannot be statically extracted[39m[22m
+
+webpack 5.101.3 compiled with [1m[33m2 warnings[39m[22m in 63 ms
+
+
+  BaseElementForm - Incremental Tests
+    ✓ renders with questions - starting in detailed mode (123ms)
+    - renders with questions - old test
+    ✓ renders with answers (28ms)
+    (Attempt 1 of 4) expands category when clicked

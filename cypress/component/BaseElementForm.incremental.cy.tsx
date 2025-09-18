@@ -87,8 +87,11 @@ describe('BaseElementForm - Incremental Tests', () => {
     // Check category is visible
     cy.contains('General').should('be.visible');
     
-    // Click to expand using the data-cy [data-cy*="select"]or for the category
-    cy.get('[data-testid="category-toggle-general"]').click();
+    // Use new React Native command to click the category toggle
+    cy.getRN('category-toggle-general').rnClick();
+    
+    // Wait for React Native to update
+    cy.waitForRN();
     
     // Check if questions become visible
     cy.contains('Name').should('be.visible');
@@ -106,12 +109,13 @@ describe('BaseElementForm - Incremental Tests', () => {
       />
     );
     
-    // Expand category
-    cy.get('[data-testid="category-toggle-general"]').click();
+    // Expand category using RN commands
+    cy.getRN('category-toggle-general').rnClick();
+    cy.waitForRN();
     
-    // Check input values
-    cy.get('[data-testid="text-input"]').first().should('have.value', 'Test Name');
-    cy.get('input[type="number"]').first().should('have.value', '30');
+    // Check input values using RN-aware selectors
+    cy.getRN('text-input').first().should('have.value', 'Test Name');
+    cy.getRN('number-input').first().should('have.value', '30');
   });
   
   it('calls onChange when input changes', () => {
@@ -127,11 +131,12 @@ describe('BaseElementForm - Incremental Tests', () => {
       />
     );
     
-    // Expand category
-    cy.get('[data-testid="category-toggle-general"]').click();
+    // Expand category using RN commands
+    cy.getRN('category-toggle-general').rnClick();
+    cy.waitForRN();
     
-    // Type in text input
-    cy.get('[data-testid="text-input"]').first().type('New Value');
+    // Type in text input using RN-aware typing
+    cy.getRN('text-input').first().rnType('New Value');
     
     // Check onChange was called
     cy.wrap(onChange).should('have.been.called');
