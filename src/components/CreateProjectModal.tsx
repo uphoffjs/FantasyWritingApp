@@ -84,12 +84,11 @@ export function CreateProjectModal({
 
     setIsCreating(true);
     try {
-      const projectId = createProject({
-        name: formData.name.trim(),
-        description: formData.description.trim(),
-        genre: formData.genre,
-        status: formData.status,
-      });
+      // * Fix: createProject expects two arguments (name, description), not an object
+      const projectId = createProject(
+        formData.name.trim(),
+        formData.description.trim()
+      );
       
       onProjectCreated?.(projectId);
       handleClose();

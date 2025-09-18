@@ -50,6 +50,19 @@ export class OptimisticSyncEventEmitter extends EventTarget {
     // ! CRITICAL: Get user for authentication
     const { user } = useAuthStore.getState()
     
+    // ! SECURITY: * Validate user authentication before any sync operations
+    if (!user || !user.id) {
+      console.error('❌ SYNC BLOCKED: No authenticated user found', {
+        hasUser: !!user,
+        userId: user?.id,
+        operation: event.operation,
+        entity: event.type
+      })
+      
+      // * Return null to indicate sync was blocked - optimistic update remains local
+      return null
+    }
+    
     switch (event.type) {
       case 'project-modified':
         entity = 'project'
@@ -57,13 +70,36 @@ export class OptimisticSyncEventEmitter extends EventTarget {
         if (event.operation === 'create' || event.operation === 'update') {
           // * Use the actual project data from the event
           if (event.entityData) {
+            // ! SECURITY: * Validate required fields before sync
+            if (!event.entityData.name) {
+              console.error('❌ SYNC BLOCKED: Project name is required', {
+                projectId: event.projectId,
+                operation: event.operation,
+                entityData: event.entityData
+              })
+              return null
+            }
+            
             data = {
               // * Basic project fields from the actual project
-              name: event.entityData.name || '',
+              name: event.entityData.name,
               description: event.entityData.description || '',
-              // ! CRITICAL: Include user_id for RLS policy compliance
-              user_id: user?.id || ''
+              // ! CRITICAL: Include user_id for RLS policy compliance (guaranteed to exist here)
+              user_id: user.id
             }
+            
+            console.log('✅ SYNC PREPARED: Project data ready for sync', {
+              projectId: event.projectId,
+              operation: event.operation,
+              userId: user.id,
+              name: data.name
+            })
+          } else {
+            console.error('❌ SYNC BLOCKED: No entity data provided for project', {
+              projectId: event.projectId,
+              operation: event.operation
+            })
+            return null
           }
         }
         break
@@ -106,7 +142,13 @@ type OptimisticSyncMiddleware = <
 // * Enhanced sync middleware with optimistic update tracking
 export const optimisticSyncMiddleware: OptimisticSyncMiddleware = (config) => (set, get, api) =>
   config(
-    ((partial: any, replace?: boolean | undefined) => {
+    ((partial: any, replace?: boolean | undefined, options?: any) => {
+      // ! CRITICAL: Skip sync detection when fetching from Supabase
+      if (options?.skipSync) {
+        set(partial, replace)
+        return
+      }
+      
       // * Before state update - capture current state for rollback
       const prevState = get() as WorldbuildingStore
       const capturedStates = new Map<string, any>()

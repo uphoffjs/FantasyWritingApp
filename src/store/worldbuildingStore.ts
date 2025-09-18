@@ -138,11 +138,16 @@ export const useWorldbuildingStore = create<WorldbuildingStore>()(
       lastSyncAttempt: null,
 
       createProject: (name, description) => {
+        // ! CRITICAL: Validate inputs to prevent sync errors
+        if (typeof name !== 'string' || !name.trim()) {
+          console.error('❌ createProject called with invalid name:', { name, type: typeof name });
+          throw new Error('Project name must be a non-empty string');
+        }
         
         const project: Project = {
           id: uuidv4(),
-          name,
-          description,
+          name: name.trim(),
+          description: description || '',
           elements: [],
           templates: Object.entries(DEFAULT_TEMPLATES).map(([category, template]) => ({
             id: uuidv4(),
@@ -845,7 +850,8 @@ export const useWorldbuildingStore = create<WorldbuildingStore>()(
             };
           });
           
-          set({ syncMetadata: newSyncMetadata });
+          // ! CRITICAL: Use skipSync to prevent re-syncing during metadata update
+          (set as any)({ syncMetadata: newSyncMetadata }, false, { skipSync: true });
         } catch (error) {
           console.error('Error syncing with Supabase:', error);
           throw error;
@@ -883,11 +889,12 @@ export const useWorldbuildingStore = create<WorldbuildingStore>()(
             };
           });
           
-          set({ 
+          // ! CRITICAL: Set a flag to prevent middleware from re-syncing fetched data
+          (set as any)({ 
             projects: mergedProjects,
             syncMetadata: newSyncMetadata,
             lastSyncAttempt: new Date()
-          });
+          }, false, { skipSync: true });
         } catch (error) {
           console.error('Error fetching from Supabase:', error);
           throw error;

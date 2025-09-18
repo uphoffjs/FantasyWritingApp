@@ -92,7 +92,7 @@ class OptimisticSyncQueue {
         // * Build the insert data
         const insertData: any = { 
           ...data, 
-          client_id: entityId,
+          local_id: entityId,  // * Use local_id instead of client_id (database column name)
         };
         
         // * For projects, don't add project_id (it's the same as client_id)
@@ -101,24 +101,54 @@ class OptimisticSyncQueue {
           insertData.project_id = projectId;
         }
         
+        // ! CRITICAL: Validate required fields before sending to Supabase
+        if (entity === 'project') {
+          if (!insertData.user_id) {
+            console.error('❌ SYNC FAILED: user_id is required for project creation', {
+              entityId,
+              data,
+              insertData
+            });
+            throw new Error('user_id is required for project creation');
+          }
+          if (!insertData.name && insertData.name !== '') {
+            console.error('❌ SYNC FAILED: name is required for project creation', {
+              entityId,
+              data,
+              insertData
+            });
+            throw new Error('name is required for project creation');
+          }
+        }
+        
         const { data: created, error: createError } = await supabase
           .from(table)
           .insert(insertData)
           .select()
           .single();
         
-        if (createError) throw createError;
+        if (createError) {
+          console.error(`❌ SYNC FAILED: Supabase insert error for ${entity}`, {
+            error: createError,
+            entityId,
+            insertData,
+            table
+          });
+          throw createError;
+        }
         operation.remoteId = created?.id;
         break;
 
       case 'update':
         const updateQuery = supabase.from(table).update(data);
         
-        // * Use client_id for matching
+        // * Use 'local_id' for matching (client-side ID stored in database)
         if (entity === 'project') {
-          updateQuery.eq('client_id', entityId);
+          // * For projects, entityId is the client-side ID, match against local_id
+          updateQuery.eq('local_id', entityId);
         } else {
-          updateQuery.eq('client_id', entityId).eq('project_id', projectId);
+          // * For other entities, use local_id + project_id constraint
+          updateQuery.eq('local_id', entityId).eq('project_id', projectId);
         }
         
         const { error: updateError } = await updateQuery;
@@ -126,13 +156,20 @@ class OptimisticSyncQueue {
         break;
 
       case 'delete':
+        // ! Validate entityId before attempting delete
+        if (!entityId) {
+          throw new Error(`Cannot delete ${entity}: ID is undefined`);
+        }
+        
         const deleteQuery = supabase.from(table).delete();
         
-        // * Use client_id for matching
+        // * Use 'local_id' for matching (client-side ID stored in database)
         if (entity === 'project') {
-          deleteQuery.eq('client_id', entityId);
+          // * For projects, entityId is the client-side ID, match against local_id
+          deleteQuery.eq('local_id', entityId);
         } else {
-          deleteQuery.eq('client_id', entityId).eq('project_id', projectId);
+          // * For other entities (elements, relationships), use local_id + project_id
+          deleteQuery.eq('local_id', entityId).eq('project_id', projectId);
         }
         
         const { error: deleteError } = await deleteQuery;

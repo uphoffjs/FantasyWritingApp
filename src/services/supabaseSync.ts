@@ -198,29 +198,52 @@ export class SupabaseSyncService {
       if (error) throw error;
       
       // * Transform remote data to local format
-      return (remoteProjects || []).map(p => ({
-        id: p.client_id,
-        name: p.name,
-        description: p.description || '',
-        elements: (p.world_elements || []).map((e: any) => ({
-          id: e.client_id,
-          name: e.name,
-          category: e.category,
-          templateId: e.template_id,
-          answers: e.answers || {},
-          relationships: []
-        })),
-        relationships: (p.relationships || []).map((r: any) => ({
-          id: r.client_id,
-          sourceId: r.source_id,
-          targetId: r.target_id,
-          type: r.relationship_type,
-          description: r.description,
-          metadata: r.metadata || {}
-        })),
-        createdAt: new Date(p.created_at),
-        updatedAt: new Date(p.updated_at)
-      }));
+      // ! Handle projects with missing client_id by using server id as fallback
+      return (remoteProjects || [])
+        .filter(p => {
+          // ! CRITICAL: Filter out projects with invalid names to prevent sync errors
+          if (!p.name || typeof p.name !== 'string' || !p.name.trim()) {
+            console.error('[supabaseSync] Skipping project with invalid name:', {
+              id: p.id,
+              client_id: p.client_id,
+              name: p.name,
+              description: p.description
+            });
+            return false;
+          }
+          return true;
+        })
+        .map(p => {
+          // * Use client_id if available, otherwise fallback to server id
+          const projectId = p.client_id || p.id;
+          if (!p.client_id && p.id) {
+            console.warn('[supabaseSync] Project missing client_id, using server id as fallback:', p);
+          }
+          
+          return {
+            id: projectId,
+            name: p.name.trim(), // * Ensure name is trimmed
+            description: p.description || '',
+            elements: (p.world_elements || []).map((e: any) => ({
+              id: e.client_id || e.id,  // * Fallback to server id if client_id missing
+              name: e.name,
+              category: e.category,
+              templateId: e.template_id,
+              answers: e.answers || {},
+              relationships: []
+            })),
+            relationships: (p.relationships || []).map((r: any) => ({
+              id: r.client_id || r.id,  // * Fallback to server id if client_id missing
+              sourceId: r.source_id,
+              targetId: r.target_id,
+              type: r.relationship_type,
+              description: r.description,
+              metadata: r.metadata || {}
+            })),
+            createdAt: new Date(p.created_at),
+            updatedAt: new Date(p.updated_at)
+          };
+        });
     } catch (error) {
       console.error('Error fetching projects:', error);
       throw error;
