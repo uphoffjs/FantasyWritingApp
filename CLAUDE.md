@@ -19,6 +19,29 @@ Before writing ANY code, you MUST:
 
 **FantasyWritingApp** is a cross-platform creative writing application built with React Native that helps fiction writers craft, organize, and manage their stories. It provides tools for story creation, character development, scene management, and chapter organization across iOS, Android, and web platforms.
 
+## Key Concepts
+
+### What are "Elements"?
+Elements are the building blocks of fictional worlds:
+- **Characters**: Protagonists, antagonists, supporting characters
+- **Locations**: Cities, kingdoms, buildings, geographical features  
+- **Magic/Power Systems**: How supernatural abilities work
+- **Cultures/Societies**: Different groups and their ways of life
+- **Creatures/Species**: Non-human beings (dragons, elves, etc.)
+- **Organizations**: Guilds, armies, governments
+- **Religions/Belief Systems**: Faiths, philosophies, mythologies
+- **Technologies**: Tools, weapons, inventions
+- **Historical Events**: Important past occurrences
+- **Languages**: Communication systems, dialects
+
+### Core Features
+1. **Dynamic Questionnaires**: Each element type has customizable questions to guide writers
+2. **Relationship Management**: Link elements together (e.g., "character rules location")
+3. **Project Organization**: Multiple projects for different stories/worlds
+4. **Templates**: Pre-built and custom templates for each element category
+5. **Progress Tracking**: Completion percentage for each element
+6. **Import/Export**: JSON export/import for backup and sharing
+
 ### Quick Commands
 ```bash
 # Development
