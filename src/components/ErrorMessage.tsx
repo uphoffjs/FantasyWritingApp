@@ -72,19 +72,14 @@ export const ErrorMessage: React.FC<ErrorMessageProps> = ({
       data-cy={`${type}-message`}
       className={`error-message ${type} ${className}`}
       style={{
-        padding: '// ! HARDCODED: Should use design tokens
-      12px // ! HARDCODED: Should use design tokens
+        padding: '12px // ! HARDCODED: Should use design tokens
       16px',
-        margin: '// ! HARDCODED: Should use design tokens
-      12px 0',
-        border: '// ! HARDCODED: Should use design tokens
-      1px solid',
-        borderRadius: '// ! HARDCODED: Should use design tokens
-      4px',
+        margin: '12px 0',
+        border: '1px solid',
+        borderRadius: '4px',
         display: 'flex',
         flexDirection: 'column',
-        gap: '// ! HARDCODED: Should use design tokens
-      8px',
+        gap: '8px',
         ...currentStyle,
         ...style
       }}
@@ -104,8 +99,7 @@ export const ErrorMessage: React.FC<ErrorMessageProps> = ({
               background: 'transparent',
               border: 'none',
               color: currentStyle.color,
-              fontSize: '// ! HARDCODED: Should use design tokens
-      20px',
+              fontSize: '20px',
               cursor: 'pointer',
               padding: '0',
               marginLeft: '// ! HARDCODED: Should use design tokens
@@ -128,15 +122,11 @@ export const ErrorMessage: React.FC<ErrorMessageProps> = ({
             Show Details
           </summary>
           <pre style={{
-            marginTop: '// ! HARDCODED: Should use design tokens
-      8px',
-            padding: '// ! HARDCODED: Should use design tokens
-      8px',
+            marginTop: '8px',
+            padding: '8px',
             backgroundColor: 'rgba(0,0,0,0.05)',
-            borderRadius: '// ! HARDCODED: Should use design tokens
-      4px',
-            fontSize: '// ! HARDCODED: Should use design tokens
-      12px',
+            borderRadius: '4px',
+            fontSize: '12px',
             overflow: 'auto',
             maxHeight: '// ! HARDCODED: Should use design tokens
       200px'
@@ -154,20 +144,16 @@ export const ErrorMessage: React.FC<ErrorMessageProps> = ({
           onClick={onRetry}
           style={{
             alignSelf: 'flex-start',
-            padding: '// ! HARDCODED: Should use design tokens
-      6px // ! HARDCODED: Should use design tokens
+            padding: '6px // ! HARDCODED: Should use design tokens
       12px',
             backgroundColor: type === 'error' ? '// ! HARDCODED: Should use design tokens
       #dc3545' : type === 'warning' ? '// ! HARDCODED: Should use design tokens
-      #ffc107' : '// ! HARDCODED: Should use design tokens
-      #17a2b8',
+      #ffc107' : '#17a2b8',
             color: 'white',
             border: 'none',
-            borderRadius: '// ! HARDCODED: Should use design tokens
-      4px',
+            borderRadius: '4px',
             cursor: 'pointer',
-            fontSize: '// ! HARDCODED: Should use design tokens
-      14px',
+            fontSize: '14px',
             marginTop: '// ! HARDCODED: Should use design tokens
       8px'
           }}

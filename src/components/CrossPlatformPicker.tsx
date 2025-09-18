@@ -32,8 +32,8 @@ export function CrossPlatformPicker({
   style,
   enabled = true,
   placeholder = "Select an option...",
-  dropdownIconColor = "// ! HARDCODED: Should use design tokens
-      #9CA3AF",
+  // ! HARDCODED: Should use design tokens
+  dropdownIconColor = "#9CA3AF",
   mode = "dropdown", // eslint-disable-line @typescript-eslint/no-unused-vars
 }: CrossPlatformPickerProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -133,15 +133,14 @@ const styles = StyleSheet.create({
     paddingRight: 30,
     paddingLeft: 12,
     backgroundImage: `url("data:image/svg+xml;charset=US-ASCII,${encodeURIComponent(
-      '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><path fill="// ! HARDCODED: Should use design tokens
-      #9CA3AF" d="M6 9L1 4h10z"/></svg>'
+      // ! HARDCODED: Should use design tokens
+      '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><path fill="#9CA3AF" d="M6 9L1 4h10z"/></svg>'
     )}")`,
     backgroundRepeat: 'no-repeat',
-    backgroundPosition: 'right // ! HARDCODED: Should use design tokens
-      12px center',
-    backgroundSize: '// ! HARDCODED: Should use design tokens
-      12px // ! HARDCODED: Should use design tokens
-      12px',
+    // ! HARDCODED: Should use design tokens
+    backgroundPosition: 'right 12px center',
+    // ! HARDCODED: Should use design tokens
+    backgroundSize: '12px 12px',
     // ! HARDCODED: Should use design tokens
     color: '#F9FAFB',
     backgroundColor: 'transparent',
@@ -212,8 +211,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '// ! HARDCODED: Should use design tokens
-      #374151',
+    borderBottomColor: '#374151',
   },
   modalTitle: {
     fontSize: 18,
@@ -239,8 +237,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '// ! HARDCODED: Should use design tokens
-      #374151',
+    borderBottomColor: '#374151',
   },
   optionSelected: {
     // ! HARDCODED: Should use design tokens

@@ -95,8 +95,7 @@ function QuestionEditor({ question, onChange, onDelete }: QuestionEditorProps) {
           <Switch
             value={question.required || false}
             onValueChange={(required) => onChange({ ...question, required })}
-            trackColor={{ false: '// ! HARDCODED: Should use design tokens
-      #374151', true: '// ! HARDCODED: Should use design tokens
+            trackColor={{ false: '#374151', true: '// ! HARDCODED: Should use design tokens
       #6366F1' }}
             thumbColor="// ! HARDCODED: Should use design tokens
       #F9FAFB"
@@ -318,8 +317,7 @@ export function TemplateEditor({
                 <Switch
                   value={isPublic}
                   onValueChange={setIsPublic}
-                  trackColor={{ false: '// ! HARDCODED: Should use design tokens
-      #374151', true: '// ! HARDCODED: Should use design tokens
+                  trackColor={{ false: '#374151', true: '// ! HARDCODED: Should use design tokens
       #6366F1' }}
                   thumbColor="// ! HARDCODED: Should use design tokens
       #F9FAFB"
@@ -331,8 +329,7 @@ export function TemplateEditor({
                 <Switch
                   value={supportsBasicMode}
                   onValueChange={setSupportsBasicMode}
-                  trackColor={{ false: '// ! HARDCODED: Should use design tokens
-      #374151', true: '// ! HARDCODED: Should use design tokens
+                  trackColor={{ false: '#374151', true: '// ! HARDCODED: Should use design tokens
       #6366F1' }}
                   thumbColor="// ! HARDCODED: Should use design tokens
       #F9FAFB"
@@ -363,8 +360,7 @@ export function TemplateEditor({
                         <Switch
                           value={basicQuestionIds.includes(question.id)}
                           onValueChange={() => handleToggleBasicQuestion(question.id)}
-                          trackColor={{ false: '// ! HARDCODED: Should use design tokens
-      #374151', true: '// ! HARDCODED: Should use design tokens
+                          trackColor={{ false: '#374151', true: '// ! HARDCODED: Should use design tokens
       #6366F1' }}
                           thumbColor="// ! HARDCODED: Should use design tokens
       #F9FAFB"
@@ -427,8 +423,7 @@ const styles = StyleSheet.create({
     paddingTop: 24,
     paddingBottom: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '// ! HARDCODED: Should use design tokens
-      #374151',
+    borderBottomColor: '#374151',
   },
   title: {
     fontSize: 24,
@@ -618,8 +613,7 @@ const styles = StyleSheet.create({
     borderColor: 'transparent',
   },
   typeOptionSelected: {
-    backgroundColor: '// ! HARDCODED: Should use design tokens
-      #6366F120',
+    backgroundColor: '#6366F120',
     // ! HARDCODED: Should use design tokens
     borderColor: '#6366F1',
   },
@@ -639,8 +633,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingVertical: 20,
     borderTopWidth: 1,
-    borderTopColor: '// ! HARDCODED: Should use design tokens
-      #374151',
+    borderTopColor: '#374151',
   },
   cancelButton: {
     paddingHorizontal: 20,

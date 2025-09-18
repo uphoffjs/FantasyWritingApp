@@ -344,8 +344,8 @@ const styles = StyleSheet.create({
     borderColor: 'transparent',
   },
   filterChipSelected: {
-    backgroundColor: '// ! HARDCODED: Should use design tokens
-      #4338CA20',
+    // ! HARDCODED: Should use design tokens
+    backgroundColor: '#4338CA20',
     // ! HARDCODED: Should use design tokens
     borderColor: '#6366F1',
   },

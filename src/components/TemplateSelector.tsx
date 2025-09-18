@@ -306,8 +306,8 @@ const styles = StyleSheet.create({
   templateCardSelected: {
     // ! HARDCODED: Should use design tokens
     borderColor: '#6366F1',
-    backgroundColor: '// ! HARDCODED: Should use design tokens
-      #1F293780',
+    // ! HARDCODED: Should use design tokens
+    backgroundColor: '#1F293780',
   },
   templateHeader: {
     flexDirection: 'row',
@@ -439,8 +439,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingVertical: 20,
     borderTopWidth: 1,
-    borderTopColor: '// ! HARDCODED: Should use design tokens
-      #374151',
+    borderTopColor: '#374151',
   },
   cancelButton: {
     paddingHorizontal: 20,

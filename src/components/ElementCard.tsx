@@ -24,27 +24,27 @@ export const ElementCard = memo(function ElementCard({
   const categoryIcon = icon || getCategoryIcon(element.category);
   
   const getCompletionColor = (percentage: number) => {
-    if (percentage >= 80) return '// ! HARDCODED: Should use design tokens
-      #10B981'; // Green
-    if (percentage >= 50) return '// ! HARDCODED: Should use design tokens
-      #F59E0B'; // Amber
-    if (percentage > 0) return '// ! HARDCODED: Should use design tokens
-      #F97316'; // Orange
-    return '// ! HARDCODED: Should use design tokens
-      #6B7280'; // Gray
+    if (percentage >= 80) // ! HARDCODED: Should use design tokens
+    return '#10B981'; // Green
+    if (percentage >= 50) // ! HARDCODED: Should use design tokens
+    return '#F59E0B'; // Amber
+    if (percentage > 0) // ! HARDCODED: Should use design tokens
+    return '#F97316'; // Orange
+    // ! HARDCODED: Should use design tokens
+    return '#6B7280'; // Gray
   };
 
   const getCompletionBadge = (percentage: number) => {
-    if (percentage === 100) return { text: 'Complete', // ! HARDCODED: Should use design tokens
-    color: '#FBBF24', icon: '🏅' };
-    if (percentage >= 80) return { text: 'Nearly Done', // ! HARDCODED: Should use design tokens
-    color: '#E5E7EB', icon: '⭐' };
-    if (percentage >= 50) return { text: 'In Progress', // ! HARDCODED: Should use design tokens
-    color: '#D97706', icon: '⚡' };
-    if (percentage > 0) return { text: 'Started', // ! HARDCODED: Should use design tokens
-    color: '#B91C1C', icon: '✨' };
-    return { text: 'Not Started', // ! HARDCODED: Should use design tokens
-    color: '#374151', icon: '📋' };
+    // ! HARDCODED: Should use design tokens
+    if (percentage === 100) return { text: 'Complete', color: '#FBBF24', icon: '🏅' };
+    // ! HARDCODED: Should use design tokens
+    if (percentage >= 80) return { text: 'Nearly Done', color: '#E5E7EB', icon: '⭐' };
+    // ! HARDCODED: Should use design tokens
+    if (percentage >= 50) return { text: 'In Progress', color: '#D97706', icon: '⚡' };
+    // ! HARDCODED: Should use design tokens
+    if (percentage > 0) return { text: 'Started', color: '#B91C1C', icon: '✨' };
+    // ! HARDCODED: Should use design tokens
+    return { text: 'Not Started', color: '#374151', icon: '📋' };
   };
 
   const formatDate = (date: Date) => {
@@ -304,8 +304,7 @@ const styles = StyleSheet.create({
     marginTop: 12,
     paddingTop: 12,
     borderTopWidth: 1,
-    borderTopColor: '// ! HARDCODED: Should use design tokens
-      #374151',
+    borderTopColor: '#374151',
   },
   relationshipsText: {
     fontSize: 11,

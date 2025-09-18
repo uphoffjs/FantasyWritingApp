@@ -198,14 +198,12 @@ function QuestionField({ question, value, onChange, disabled }: QuestionFieldPro
           value={value === true}
           onValueChange={onChange}
           disabled={disabled}
-          trackColor={{ false: '// ! HARDCODED: Should use design tokens
-      #374151', true: '// ! HARDCODED: Should use design tokens
-      #6366F1' }}
-          thumbColor={value ? '// ! HARDCODED: Should use design tokens
-      #FFFFFF' : '// ! HARDCODED: Should use design tokens
-      #9CA3AF'}
-          ios_backgroundColor="// ! HARDCODED: Should use design tokens
-      #374151"
+          // ! HARDCODED: Should use design tokens
+          trackColor={{ false: '#374151', true: '#6366F1' }}
+          // ! HARDCODED: Should use design tokens
+          thumbColor={value ? '#FFFFFF' : '#9CA3AF'}
+          // ! HARDCODED: Should use design tokens
+          ios_backgroundColor="#374151"
         />
       </View>
     );
@@ -510,8 +508,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     paddingBottom: 8,
     borderBottomWidth: 1,
-    borderBottomColor: '// ! HARDCODED: Should use design tokens
-      #374151',
+    borderBottomColor: '#374151',
   },
   fieldContainer: {
     marginBottom: 20,

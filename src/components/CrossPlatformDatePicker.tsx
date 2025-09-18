@@ -316,8 +316,7 @@ const styles = StyleSheet.create({
   modalHeader: {
     padding: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '// ! HARDCODED: Should use design tokens
-      #374151',
+    borderBottomColor: '#374151',
     alignItems: 'center',
   },
   modalTitle: {
@@ -370,8 +369,7 @@ const styles = StyleSheet.create({
     gap: 12,
     padding: 16,
     borderTopWidth: 1,
-    borderTopColor: '// ! HARDCODED: Should use design tokens
-      #374151',
+    borderTopColor: '#374151',
   },
   modalButton: {
     flex: 1,

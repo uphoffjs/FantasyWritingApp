@@ -357,8 +357,8 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 16,
     borderBottomRightRadius: 16,
     borderTopWidth: 1,
-    borderTopColor: '// ! HARDCODED: Should use design tokens
-      #4B5563',
+    // ! HARDCODED: Should use design tokens
+    borderTopColor: '#4B5563',
   },
   iosInstructionsText: {
     fontSize: 12,

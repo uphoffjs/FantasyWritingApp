@@ -265,8 +265,8 @@ const styles = StyleSheet.create({
     lineHeight: 18,
   },
   warningContainer: {
-    backgroundColor: '// ! HARDCODED: Should use design tokens
-      #7C2D1220',
+    // ! HARDCODED: Should use design tokens
+    backgroundColor: '#7C2D1220',
     borderRadius: 8,
     padding: 16,
     borderWidth: 1,

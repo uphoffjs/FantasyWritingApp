@@ -259,8 +259,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '// ! HARDCODED: Should use design tokens
-      #374151',
+    borderBottomColor: '#374151',
   },
   searchContainer: {
     flex: 1,
@@ -378,8 +377,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderTopWidth: 1,
-    borderTopColor: '// ! HARDCODED: Should use design tokens
-      #374151',
+    borderTopColor: '#374151',
   },
   resultCount: {
     fontSize: 12,

@@ -82,23 +82,23 @@ export const ProjectCard = memo(function ProjectCard({
   const getStatusColor = (status?: string) => {
     switch (status) {
       case 'active':
-        return '// ! HARDCODED: Should use design tokens
-      #10B981'; // Green
+        // ! HARDCODED: Should use design tokens
+    return '#10B981'; // Green
       case 'completed':
-        return '// ! HARDCODED: Should use design tokens
-      #F59E0B'; // Amber
+        // ! HARDCODED: Should use design tokens
+    return '#F59E0B'; // Amber
       case 'on-hold':
-        return '// ! HARDCODED: Should use design tokens
-      #F97316'; // Orange
+        // ! HARDCODED: Should use design tokens
+    return '#F97316'; // Orange
       case 'planning':
-        return '// ! HARDCODED: Should use design tokens
-      #6366F1'; // Indigo
+        // ! HARDCODED: Should use design tokens
+    return '#6366F1'; // Indigo
       case 'revision':
-        return '// ! HARDCODED: Should use design tokens
-      #EF4444'; // Red
+        // ! HARDCODED: Should use design tokens
+    return '#EF4444'; // Red
       default:
-        return '// ! HARDCODED: Should use design tokens
-      #6B7280'; // Gray
+        // ! HARDCODED: Should use design tokens
+    return '#6B7280'; // Gray
     }
   };
 
@@ -349,8 +349,7 @@ const styles = StyleSheet.create({
   },
   footer: {
     borderTopWidth: 1,
-    borderTopColor: '// ! HARDCODED: Should use design tokens
-      #374151',
+    borderTopColor: '#374151',
     paddingTop: 12,
     marginTop: 12,
   },

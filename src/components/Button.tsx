@@ -73,10 +73,8 @@ export function Button({
       {loading ? (
         <ActivityIndicator
           size="small"
-          // TODO: ! SECURITY: ! HARDCODED: Should use design tokens
-          color={variant === 'primary' ? '// ! HARDCODED: Should use design tokens
-      #FFFFFF' : '// ! HARDCODED: Should use design tokens
-      #6366F1'}
+          // ! HARDCODED: Should use design tokens
+          color={variant === 'primary' ? '#FFFFFF' : '#6366F1'}
         />
       ) : (
         <Text style={textStyles}>{title}</Text>

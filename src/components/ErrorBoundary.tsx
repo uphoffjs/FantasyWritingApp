@@ -156,79 +156,70 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
           data-testid="error-boundary-fallback"
           data-cy="error-boundary"
           style={{
-            padding: '// ! HARDCODED: Should use design tokens
-      20px',
-            margin: '// ! HARDCODED: Should use design tokens
-      20px',
-            border: '// ! HARDCODED: Should use design tokens
-      1px solid // ! HARDCODED: Should use design tokens
-      #ff6b6b',
-            borderRadius: '// ! HARDCODED: Should use design tokens
-      8px',
+            padding: '20px',
+            margin: '20px',
+            // ! HARDCODED: Should use design tokens
+            border: '1px solid #ff6b6b',
+            borderRadius: '8px',
             // ! HARDCODED: Should use design tokens
     backgroundColor: '#ffe0e0',
             textAlign: 'center'
           }}
         >
-          <h2 data-testid="error-title" style={{ // ! HARDCODED: Should use design tokens
-    color: '#c92a2a' }}>
+          {/* ! HARDCODED: Should use design tokens */}
+          <h2 data-testid="error-title" style={{ color: '#c92a2a' }}>
             {level === 'page' ? 'Page Error' : 
              level === 'section' ? 'Section Error' : 
              'Component Error'}
           </h2>
-          <p data-testid="error-message" style={{ // ! HARDCODED: Should use design tokens
-    color: '#862e2e' }}>
+          {/* ! HARDCODED: Should use design tokens */}
+          <p data-testid="error-message" style={{ color: '#862e2e' }}>
             {error.message || 'An unexpected error occurred'}
           </p>
           
+          {/* ! HARDCODED: Should use design tokens */}
           {showDetails && errorInfo && (
-            <details style={{ textAlign: 'left', marginTop: '// ! HARDCODED: Should use design tokens
-      20px' }}>
-              <summary style={{ cursor: 'pointer', // ! HARDCODED: Should use design tokens
-    color: '#862e2e' }}>
+            <details style={{ textAlign: 'left', marginTop: '20px' }}>
+              {/* ! HARDCODED: Should use design tokens */}
+              <summary style={{ cursor: 'pointer', color: '#862e2e' }}>
                 Error Details
               </summary>
               <pre style={{ 
                 backgroundColor: '#fff', 
-                padding: '// ! HARDCODED: Should use design tokens
-      10px', 
-                borderRadius: '// ! HARDCODED: Should use design tokens
-      4px',
+                padding: '10px', 
+                borderRadius: '4px',
                 overflow: 'auto',
-                fontSize: '// ! HARDCODED: Should use design tokens
-      12px'
+                // ! HARDCODED: Should use design tokens
+    fontSize: '12px'
               }}>
                 {errorInfo.componentStack}
               </pre>
             </details>
           )}
           
+          {/* ! HARDCODED: Should use design tokens */}
           {this.state.errorCount >= 3 && (
-            <p style={{ // ! HARDCODED: Should use design tokens
-    color: '#862e2e', fontStyle: 'italic' }}>
+            <p style={{ color: '#862e2e', fontStyle: 'italic' }}>
               Multiple errors detected. Please refresh the page.
             </p>
           )}
           
           <button 
-            data-testid="reset-[data-cy*="button"]"
+            data-testid="reset-error-button"
             data-cy="reset-error"
             onClick={this.resetError}
             style={{
-              marginTop: '// ! HARDCODED: Should use design tokens
-      20px',
-              padding: '// ! HARDCODED: Should use design tokens
-      10px // ! HARDCODED: Should use design tokens
-      20px',
+              marginTop: '20px',
+              // ! HARDCODED: Should use design tokens
+              padding: '10px 20px',
               // ! HARDCODED: Should use design tokens
     backgroundColor: '#087f5b',
               color: 'white',
               border: 'none',
-              borderRadius: '// ! HARDCODED: Should use design tokens
-      4px',
+              borderRadius: '4px',
               cursor: 'pointer',
-              fontSize: '// ! HARDCODED: Should use design tokens
-      16px'
+              // ! HARDCODED: Should use design tokens
+    fontSize: '16px'
             }}
           >
             Try Again

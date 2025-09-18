@@ -405,8 +405,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingBottom: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '// ! HARDCODED: Should use design tokens
-      #374151',
+    // ! HARDCODED: Should use design tokens
+    borderBottomColor: '#374151',
   },
   content: {
     flex: 1,
