@@ -60,6 +60,11 @@ npm run build:web     # Build for web production
 npm run build:ios     # Build iOS app
 npm run build:android # Build Android APK
 
+# Supabase Database Management
+npm run supabase      # Run Supabase CLI tool
+npm run supabase:fix-rls  # Apply RLS policy fixes
+npm run supabase:interactive  # Interactive database query mode
+
 # Git operations (when requested)
 git commit           # Create well-formatted commit with conventional format
 ```
@@ -549,6 +554,14 @@ npm run lint          # ESLint
 npm run lint:fix      # Fix linting issues
 npm run format        # Prettier formatting
 npm run typecheck     # TypeScript checking
+
+# Supabase Database Management
+npm run supabase      # Run interactive Supabase CLI
+npm run supabase:fix-rls  # Apply Row Level Security fixes
+npm run supabase:interactive  # Interactive query mode
+# Direct usage:
+node scripts/supabase-cli.js "SELECT * FROM projects"
+node scripts/supabase-cli.js --file scripts/simple-fix-rls.sql
 ```
 
 ## Platform-Specific Considerations

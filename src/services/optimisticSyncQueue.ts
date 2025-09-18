@@ -89,13 +89,21 @@ class OptimisticSyncQueue {
 
     switch (type) {
       case 'create':
+        // * Build the insert data
+        const insertData: any = { 
+          ...data, 
+          client_id: entityId,
+        };
+        
+        // * For projects, don't add project_id (it's the same as client_id)
+        // * For other entities, add project_id
+        if (entity !== 'project') {
+          insertData.project_id = projectId;
+        }
+        
         const { data: created, error: createError } = await supabase
           .from(table)
-          .insert({ 
-            ...data, 
-            client_id: entityId,
-            project_id: projectId
-          })
+          .insert(insertData)
           .select()
           .single();
         

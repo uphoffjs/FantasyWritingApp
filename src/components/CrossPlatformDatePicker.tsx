@@ -248,7 +248,8 @@ const styles = StyleSheet.create({
     color: '#F9FAFB',
     backgroundColor: 'transparent',
     border: 'none',
-    outline: 'none',
+    // * React Native doesn't support outline property - removed
+    // * For accessibility, rely on focus styles instead
     appearance: 'none',
     WebkitAppearance: 'none',
     MozAppearance: 'none',

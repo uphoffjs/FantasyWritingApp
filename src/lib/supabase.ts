@@ -1,13 +1,12 @@
 import { createClient } from '@supabase/supabase-js';
 import { Database } from '../types/supabase';
 
-// TODO: * Get environment variables - support both VITE_ and REACT_APP_ prefixes
-const supabaseUrl = process.env.VITE_SUPABASE_URL || 
-                    process.env.REACT_APP_SUPABASE_URL ||
+// * Get environment variables - Vite uses import.meta.env, not process.env
+// * Support both VITE_ prefixes (for Vite) and fallback values
+const supabaseUrl = import.meta.env?.VITE_SUPABASE_URL || 
                     'https://cbyvpuqisqmepubzrwuo.supabase.co';
                     
-const supabaseAnonKey = process.env.VITE_SUPABASE_ANON_KEY || 
-                        process.env.REACT_APP_SUPABASE_ANON_KEY ||
+const supabaseAnonKey = import.meta.env?.VITE_SUPABASE_ANON_KEY || 
                         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNieXZwdXFpc3FtZXB1Ynpyd3VvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYzMjEyNDgsImV4cCI6MjA3MTg5NzI0OH0.aRvZRU-iU52M9N85NJc7BrmpiBF776-GcKlYblIWzF4';
 
 if (!supabaseUrl) throw new Error('Missing Supabase URL');

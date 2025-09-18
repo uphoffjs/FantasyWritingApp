@@ -36,7 +36,10 @@
     "tokens:watch": "nodemon scripts/build-tokens.js --watch src/design-tokens/",
     "sync-tokens": "node scripts/sync-tokens.js",
     "sync-tokens:watch": "node scripts/sync-tokens.js --watch",
-    "optimize-assets": "node scripts/optimize-assets.js"
+    "optimize-assets": "node scripts/optimize-assets.js",
+    "supabase": "node scripts/supabase-cli.js",
+    "supabase:fix-rls": "node scripts/supabase-cli.js --file scripts/simple-fix-rls.sql",
+    "supabase:interactive": "node scripts/supabase-cli.js --interactive"
   },
   "dependencies": {
     "@babel/plugin-proposal-class-properties": "^7.18.6",

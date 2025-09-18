@@ -23,6 +23,7 @@ export type OptimisticSyncEvent = {
   timestamp: Date
   optimisticUpdateId?: string
   isAutoSync?: boolean // Flag to differentiate auto-sync from user-initiated
+  entityData?: any // ! CRITICAL: Include entity data for sync operations
 }
 
 // * Enhanced sync event emitter
@@ -44,11 +45,27 @@ export class OptimisticSyncEventEmitter extends EventTarget {
   
   private async addToSyncQueue(event: OptimisticSyncEvent): Promise<string | null> {
     let entity: 'project' | 'element' | 'answer' | 'relationship'
-    const data: Record<string, unknown> = {}
+    let data: Record<string, unknown> = {}
+    
+    // ! CRITICAL: Get user for authentication
+    const { user } = useAuthStore.getState()
     
     switch (event.type) {
       case 'project-modified':
         entity = 'project'
+        // ! CRITICAL: Include user_id and project data for RLS policy compliance
+        if (event.operation === 'create' || event.operation === 'update') {
+          // * Use the actual project data from the event
+          if (event.entityData) {
+            data = {
+              // * Basic project fields from the actual project
+              name: event.entityData.name || '',
+              description: event.entityData.description || '',
+              // ! CRITICAL: Include user_id for RLS policy compliance
+              user_id: user?.id || ''
+            }
+          }
+        }
         break
       case 'element-modified':
         entity = 'element'
@@ -137,7 +154,8 @@ function detectOptimisticChanges(
           operation: 'create',
           timestamp: new Date(),
           optimisticUpdateId: updateId,
-          isAutoSync: true
+          isAutoSync: true,
+          entityData: project // ! CRITICAL: Include project data for sync
         })
         
         // * Mark project as modified in sync metadata
@@ -171,7 +189,8 @@ function detectOptimisticChanges(
           operation: 'update',
           timestamp: new Date(),
           optimisticUpdateId: updateId,
-          isAutoSync: true
+          isAutoSync: true,
+          entityData: project // ! CRITICAL: Include project data for sync
         })
         
         // * Mark project as modified

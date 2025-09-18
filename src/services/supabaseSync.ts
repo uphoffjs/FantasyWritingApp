@@ -33,6 +33,8 @@ export class SupabaseSyncService {
             data: {
               name: localProject.name,
               description: localProject.description,
+              // ! CRITICAL: Include user_id for RLS policy compliance
+              user_id: userId,
             }
           });
         } else if (this.hasProjectChanged(localProject, remoteProject)) {

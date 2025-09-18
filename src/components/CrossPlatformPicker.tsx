@@ -137,15 +137,18 @@ const styles = StyleSheet.create({
       '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><path fill="#9CA3AF" d="M6 9L1 4h10z"/></svg>'
     )}")`,
     backgroundRepeat: 'no-repeat',
-    // ! HARDCODED: Should use design tokens
-    backgroundPosition: 'right 12px center',
+    // ! React Native Web doesn't support complex backgroundPosition values
+    // * Using Platform.select to apply web-specific styles would be better
+    backgroundPositionX: 'right',
+    backgroundPositionY: 'center',
     // ! HARDCODED: Should use design tokens
     backgroundSize: '12px 12px',
     // ! HARDCODED: Should use design tokens
     color: '#F9FAFB',
     backgroundColor: 'transparent',
     border: 'none',
-    outline: 'none',
+    // * React Native doesn't support outline property - removed
+    // * For accessibility, rely on focus styles instead
     width: '100%',
     height: 50,
     fontSize: 14,
