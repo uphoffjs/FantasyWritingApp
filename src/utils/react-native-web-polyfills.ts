@@ -1,17 +1,17 @@
 // React Native Web Polyfills and Compatibility Layer
-// This file provides comprehensive polyfills and fixes for React Native Web compatibility issues
+// TODO: * This file provides comprehensive polyfills and fixes for React Native Web compatibility issues
 
 import { Platform } from 'react-native';
 
-// Initialize global polyfills
+// * Initialize global polyfills
 export function initializePolyfills() {
   if (typeof window !== 'undefined') {
-    // Global object polyfill
+    // * Global object polyfill
     if (typeof global === 'undefined') {
       (window as any).global = window;
     }
     
-    // Process polyfill for some packages
+    // * Process polyfill for some packages
     if (typeof process === 'undefined') {
       (window as any).process = { env: { NODE_ENV: 'development' } };
     }
@@ -30,7 +30,7 @@ export function initializePolyfills() {
       };
     }
     
-    // Performance.now polyfill
+    // ! PERFORMANCE: Performance.now polyfill
     if (!window.performance || !window.performance.now) {
       const startTime = Date.now();
       if (!window.performance) {
@@ -41,7 +41,7 @@ export function initializePolyfills() {
   }
 }
 
-// Helper to ensure testID attributes are properly converted to data-testid for web
+// * Helper to ensure testID attributes are properly converted to data-testid for web
 export function getTestProps(testId: string, isWeb = Platform.OS === 'web') {
   if (isWeb) {
     return {
@@ -59,7 +59,7 @@ export function getTestProps(testId: string, isWeb = Platform.OS === 'web') {
   };
 }
 
-// Helper to ensure proper event handling in React Native Web
+// * Helper to ensure proper event handling in React Native Web
 export function createWebCompatibleEvent(type: string, detail?: any) {
   if (Platform.OS === 'web' && typeof window !== 'undefined') {
     return new CustomEvent(type, { detail, bubbles: true, cancelable: true });
@@ -67,7 +67,7 @@ export function createWebCompatibleEvent(type: string, detail?: any) {
   return null;
 }
 
-// Helper to handle synthetic events properly
+// * Helper to handle synthetic events properly
 export function handleSyntheticEvent(callback: Function) {
   return (event: any) => {
     // For React Native Web, ensure the event has the expected properties
@@ -93,20 +93,20 @@ export function handleSyntheticEvent(callback: Function) {
   };
 }
 
-// Helper for handling text input events consistently
+// * Helper for handling text input events consistently
 export function handleTextInputChange(onChange?: (text: string) => void, onChangeText?: (text: string) => void) {
   return (event: any) => {
     const text = Platform.OS === 'web' 
       ? (event.target?.value ?? event.nativeEvent?.text ?? '')
       : (event.nativeEvent?.text ?? '');
     
-    // Call both handlers if they exist
+    // * Call both handlers if they exist
     onChange?.(text);
     onChangeText?.(text);
   };
 }
 
-// Helper for handling select/picker events
+// * Helper for handling select/picker events
 export function handleSelectChange(onChange?: (value: string) => void) {
   return (event: any) => {
     const value = Platform.OS === 'web'
@@ -117,16 +117,16 @@ export function handleSelectChange(onChange?: (value: string) => void) {
   };
 }
 
-// Helper to ensure proper style object format for React Native Web
+// * Helper to ensure proper style object format for React Native Web
 export function normalizeStyles(styles: any) {
   if (!styles) return {};
   
-  // If it's already an object, return as-is
+  // * If it's already an object, return as-is
   if (typeof styles === 'object' && !Array.isArray(styles)) {
     return styles;
   }
   
-  // If it's an array, merge all objects
+  // * If it's an array, merge all objects
   if (Array.isArray(styles)) {
     return styles.reduce((acc, style) => {
       if (style) {
@@ -139,12 +139,12 @@ export function normalizeStyles(styles: any) {
   return {};
 }
 
-// Helper to handle platform-specific component props
+// * Helper to handle platform-specific component props
 export function getPlatformProps(webProps: any = {}, nativeProps: any = {}) {
   return Platform.OS === 'web' ? webProps : nativeProps;
 }
 
-// Helper to ensure proper accessibility props
+// * Helper to ensure proper accessibility props
 export function getAccessibilityProps(label: string, hint?: string, role?: string) {
   const props: any = {
     accessible: true,
@@ -165,7 +165,7 @@ export function getAccessibilityProps(label: string, hint?: string, role?: strin
   return props;
 }
 
-// Helper for handling keyboard events
+// * Helper for handling keyboard events
 export function handleKeyPress(onEnter?: () => void, onEscape?: () => void) {
   return (event: any) => {
     const key = event.nativeEvent?.key || event.key;
@@ -180,14 +180,14 @@ export function handleKeyPress(onEnter?: () => void, onEscape?: () => void) {
   };
 }
 
-// Polyfill for React Native's InteractionManager on web
+// * Polyfill for React Native's InteractionManager on web
 export const InteractionManagerWeb = {
   runAfterInteractions: (callback: () => void) => {
     if (Platform.OS === 'web') {
-      // On web, use requestAnimationFrame for similar behavior
+      // * On web, use requestAnimationFrame for similar behavior
       requestAnimationFrame(callback);
     } else {
-      // On native, use the actual InteractionManager
+      // * On native, use the actual InteractionManager
       const { InteractionManager } = require('react-native');
       InteractionManager.runAfterInteractions(callback);
     }
@@ -200,11 +200,11 @@ export const InteractionManagerWeb = {
   },
 };
 
-// Polyfill for React Native's LayoutAnimation on web
+// * Polyfill for React Native's LayoutAnimation on web
 export const LayoutAnimationWeb = {
   configureNext: (config: any, onAnimationDidEnd?: () => void) => {
     if (Platform.OS === 'web') {
-      // On web, just call the callback immediately
+      // * On web, just call the callback immediately
       onAnimationDidEnd?.();
     } else {
       const { LayoutAnimation } = require('react-native');
@@ -236,12 +236,12 @@ export const LayoutAnimationWeb = {
   },
 };
 
-// Initialize polyfills on import
+// * Initialize polyfills on import
 if (Platform.OS === 'web') {
   initializePolyfills();
 }
 
-// Export utility to check if running in test environment
+// * Export utility to check if running in test environment
 export const isTestEnvironment = () => {
   if (typeof window !== 'undefined') {
     return !!(window as any).Cypress || process.env.NODE_ENV === 'test';
@@ -249,7 +249,7 @@ export const isTestEnvironment = () => {
   return process.env.NODE_ENV === 'test';
 };
 
-// Export helper to wait for React Native Web to be ready
+// * Export helper to wait for React Native Web to be ready
 export const waitForReactNativeWeb = () => {
   return new Promise((resolve) => {
     if (Platform.OS === 'web') {

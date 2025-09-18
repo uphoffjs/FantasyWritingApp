@@ -70,21 +70,21 @@ describe('AutoSaveIndicator Component', () => {
   });
 
   it('should transition between states smoothly', () => {
-    // Start with idle state
+    // * Start with idle state
     cy.mount(<AutoSaveIndicator status="idle" />);
     
-    // Should not be visible when idle
+    // TODO: * Should not be visible when idle
     cy.get('[data-testid="autosave-indicator"]').should('not.exist');
     
-    // Change to saving
+    // * Change to saving
     cy.mount(<AutoSaveIndicator status="saving" />);
     cy.get('[data-testid="autosave-status"]').should('contain', 'Saving...');
     
-    // Change to saved
+    // * Change to saved
     cy.mount(<AutoSaveIndicator status="saved" />);
     cy.get('[data-testid="autosave-status"]').should('contain', 'Saved');
     
-    // Change to error
+    // * Change to error
     cy.mount(<AutoSaveIndicator status="error" />);
     cy.get('[data-testid="autosave-status"]').should('contain', 'Save failed');
   });
@@ -93,14 +93,14 @@ describe('AutoSaveIndicator Component', () => {
     cy.clock();
     cy.mount(<AutoSaveIndicator status="saved" autoHideDelay={2000} />);
     
-    // Should be visible initially
+    // TODO: * Should be visible initially
     cy.get('[data-testid="autosave-indicator"]').should('exist');
     
-    // Should still be visible after 1 second
+    // TODO: * Should still be visible after 1 second
     cy.tick(1000);
     cy.get('[data-testid="autosave-indicator"]').should('exist');
     
-    // Should be hidden after 2 seconds
+    // TODO: * Should be hidden after 2 seconds
     cy.tick(1000);
     cy.get('[data-testid="autosave-indicator"]').should('not.exist');
   });

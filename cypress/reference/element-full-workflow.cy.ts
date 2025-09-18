@@ -11,110 +11,110 @@
 
 describe('Element Creation and Editing - Full Workflow', () => {
   beforeEach(() => {
-    // Setup test environment
+    // * Setup test environment
     cy.task('factory:reset')
     cy.visit('/')
     
-    // Create a test project first
+    // * Create a test project first
     cy.get('[data-testid="get-started"], [data-testid="create-project-button"]').first().click()
     cy.get('[data-testid="project-name-input"]').type('Test Fantasy World')
     cy.get('[data-testid="project-description-input"]').type('E2E test world for element workflows')
     cy.get('[data-testid="project-submit"]').click()
     
-    // Wait for project creation and navigate to it
+    // * Wait for project creation and navigate to it
     cy.contains('Test Fantasy World').should('be.visible')
     cy.get('[data-testid="project-card"]').contains('Test Fantasy World').click()
     
-    // Should be in the project view
+    // TODO: * Should be in the project view
     cy.url().should('include', '/project')
   })
 
   describe('Element Creation Workflow', () => {
     it('creates a character element with complete form filling', () => {
-      // Click create element button
+      // * Click create element button
       cy.get('[data-testid="create-element-button"]').click()
       
       // Select Character category
       cy.get('[data-testid="category-character"]').click()
       
-      // Fill in basic information
+      // * Fill in basic information
       cy.get('[data-testid="element-name-input"]').type('Gandalf the Grey')
       cy.get('[data-testid="element-description-input"]').type('A wise wizard and member of the Fellowship')
       
-      // Submit the creation form
+      // * Submit the creation form
       cy.get('[data-testid="create-element-submit"]').click()
       
-      // Should redirect to element editor
+      // TODO: * Should redirect to element editor
       cy.url().should('include', '/element')
       
-      // Verify element was created
+      // * Verify element was created
       cy.contains('Gandalf the Grey').should('be.visible')
       
-      // Check that BaseElementForm is rendered (this is what times out in component tests)
+      // * Check that BaseElementForm is rendered (this is what times out in component tests)
       cy.get('[data-testid="base-element-form"]').should('be.visible')
       
-      // Expand a category to fill in questions
+      // * Expand a category to fill in questions
       cy.get('[data-testid="category-toggle-general"]').click()
       
-      // Fill in some answers (testing answer persistence)
+      // * Fill in some answers (testing answer persistence)
       cy.get('[data-testid="question-name-input"]').clear().type('Gandalf Stormcrow')
       cy.get('[data-testid="question-age-input"]').type('2000')
       
-      // Check that changes are auto-saved (no explicit save button needed)
+      // * Check that changes are auto-saved (no explicit save button needed)
       cy.wait(1000) // Wait for debounced save
       
-      // Navigate away and back to verify persistence
+      // * Navigate away and back to verify persistence
       cy.go('back')
       cy.contains('Gandalf the Grey').click()
       
-      // Verify answers were persisted
+      // * Verify answers were persisted
       cy.get('[data-testid="category-toggle-general"]').click()
       cy.get('[data-testid="question-name-input"]').should('have.value', 'Gandalf Stormcrow')
       cy.get('[data-testid="question-age-input"]').should('have.value', '2000')
     })
 
     it('creates a location element with relationships', () => {
-      // First create a character to relate to
+      // * First create a character to relate to
       cy.get('[data-testid="create-element-button"]').click()
       cy.get('[data-testid="category-character"]').click()
       cy.get('[data-testid="element-name-input"]').type('King Aragorn')
       cy.get('[data-testid="create-element-submit"]').click()
       cy.go('back')
       
-      // Now create a location
+      // * Now create a location
       cy.get('[data-testid="create-element-button"]').click()
       cy.get('[data-testid="category-location"]').click()
       cy.get('[data-testid="element-name-input"]').type('Minas Tirith')
       cy.get('[data-testid="element-description-input"]').type('The capital city of Gondor')
       cy.get('[data-testid="create-element-submit"]').click()
       
-      // Add a relationship
+      // * Add a relationship
       cy.get('[data-testid="add-relationship-button"]').click()
       cy.get('[data-testid="relationship-type-select"]').select('ruled by')
       cy.get('[data-testid="relationship-target-select"]').select('King Aragorn')
       cy.get('[data-testid="relationship-submit"]').click()
       
-      // Verify relationship was created
+      // * Verify relationship was created
       cy.contains('ruled by King Aragorn').should('be.visible')
     })
 
     it('handles different question types in forms', () => {
-      // Create an element with various question types
+      // * Create an element with various question types
       cy.get('[data-testid="create-element-button"]').click()
       cy.get('[data-testid="category-magic"]').click()
       cy.get('[data-testid="element-name-input"]').type('Fire Magic System')
       cy.get('[data-testid="create-element-submit"]').click()
       
-      // Test different question types
+      // * Test different question types
       cy.get('[data-testid="category-toggle-details"]').click()
       
-      // Text input
+      // * Text input
       cy.get('[data-testid="question-source-input"]').type('Ancient dragon teachings')
       
-      // Number input
+      // * Number input
       cy.get('[data-testid="question-power-level-input"]').type('9')
       
-      // Select dropdown
+      // * Select dropdown
       cy.get('[data-testid="question-rarity-select"]').select('Rare')
       
       // Boolean/checkbox
@@ -123,7 +123,7 @@ describe('Element Creation and Editing - Full Workflow', () => {
       // Textarea
       cy.get('[data-testid="question-description-input"]').type('A powerful and dangerous form of magic that requires years of study')
       
-      // Verify all inputs retained their values
+      // * Verify all inputs retained their values
       cy.get('[data-testid="question-source-input"]').should('have.value', 'Ancient dragon teachings')
       cy.get('[data-testid="question-power-level-input"]').should('have.value', '9')
       cy.get('[data-testid="question-rarity-select"]').should('have.value', 'Rare')
@@ -133,7 +133,7 @@ describe('Element Creation and Editing - Full Workflow', () => {
 
   describe('Element Editing Workflow', () => {
     beforeEach(() => {
-      // Create an element to edit
+      // * Create an element to edit
       cy.get('[data-testid="create-element-button"]').click()
       cy.get('[data-testid="category-character"]').click()
       cy.get('[data-testid="element-name-input"]').type('Frodo Baggins')
@@ -142,28 +142,28 @@ describe('Element Creation and Editing - Full Workflow', () => {
     })
 
     it('edits element basic information', () => {
-      // Edit the element name and description
+      // * Edit the element name and description
       cy.get('[data-testid="element-header-edit"]').click()
       cy.get('[data-testid="element-name-edit-input"]').clear().type('Frodo Baggins of the Shire')
       cy.get('[data-testid="element-description-edit-input"]').clear().type('Ring bearer and hero of Middle-earth')
       cy.get('[data-testid="element-header-save"]').click()
       
-      // Verify changes were saved
+      // * Verify changes were saved
       cy.contains('Frodo Baggins of the Shire').should('be.visible')
       cy.contains('Ring bearer and hero of Middle-earth').should('be.visible')
     })
 
     it('tracks completion percentage', () => {
-      // Check initial completion
+      // * Check initial completion
       cy.get('[data-testid="completion-percentage"]').then($el => {
         const initialCompletion = parseInt($el.text())
         
-        // Fill in some questions
+        // * Fill in some questions
         cy.get('[data-testid="category-toggle-general"]').click()
         cy.get('[data-testid="question-name-input"]').type('Frodo')
         cy.get('[data-testid="question-age-input"]').type('50')
         
-        // Completion should increase
+        // TODO: * Completion should increase
         cy.get('[data-testid="completion-percentage"]').then($newEl => {
           const newCompletion = parseInt($newEl.text())
           expect(newCompletion).to.be.greaterThan(initialCompletion)
@@ -172,19 +172,19 @@ describe('Element Creation and Editing - Full Workflow', () => {
     })
 
     it('switches between basic and detailed modes', () => {
-      // Start in basic mode
+      // * Start in basic mode
       cy.contains('Quick Mode').should('be.visible')
       
-      // Switch to detailed mode
+      // * Switch to detailed mode
       cy.get('[data-testid="mode-toggle"]').click()
       
-      // Should show more questions
+      // ? TODO: * Should show more questions
       cy.contains('Quick Mode').should('not.exist')
       
-      // More categories should be available
+      // TODO: * More categories should be available
       cy.get('[data-cy^="category-toggle-"]').should('have.length.greaterThan', 2)
       
-      // Switch back to basic
+      // * Switch back to basic
       cy.get('[data-testid="mode-toggle"]').click()
       cy.contains('Quick Mode').should('be.visible')
     })
@@ -192,7 +192,7 @@ describe('Element Creation and Editing - Full Workflow', () => {
 
   describe('Element Management', () => {
     beforeEach(() => {
-      // Create multiple elements
+      // * Create multiple elements
       const elements = ['Aragorn', 'Legolas', 'Gimli', 'Boromir']
       
       elements.forEach(name => {
@@ -205,49 +205,49 @@ describe('Element Creation and Editing - Full Workflow', () => {
     })
 
     it('filters elements by category', () => {
-      // Should show all elements initially
+      // ? TODO: * Should show all elements initially
       cy.get('[data-cy^="element-card-"]').should('have.length', 4)
       
-      // Create a location element
+      // * Create a location element
       cy.get('[data-testid="create-element-button"]').click()
       cy.get('[data-testid="category-location"]').click()
       cy.get('[data-testid="element-name-input"]').type('Rivendell')
       cy.get('[data-testid="create-element-submit"]').click()
       cy.go('back')
       
-      // Filter by character
+      // * Filter by character
       cy.get('[data-testid="filter-category-select"]').select('character')
       cy.get('[data-cy^="element-card-"]').should('have.length', 4)
       
-      // Filter by location
+      // * Filter by location
       cy.get('[data-testid="filter-category-select"]').select('location')
       cy.get('[data-cy^="element-card-"]').should('have.length', 1)
       cy.contains('Rivendell').should('be.visible')
     })
 
     it('searches elements by name', () => {
-      // Search for specific element
+      // * Search for specific element
       cy.get('[data-testid="search-elements-input"]').type('Aragorn')
       cy.get('[data-cy^="element-card-"]').should('have.length', 1)
       cy.contains('Aragorn').should('be.visible')
       
-      // Clear search
+      // * Clear search
       cy.get('[data-testid="search-elements-input"]').clear()
       cy.get('[data-cy^="element-card-"]').should('have.length', 4)
     })
 
     it('deletes an element', () => {
-      // Click on an element
+      // * Click on an element
       cy.contains('Gimli').click()
       
-      // Delete the element
+      // * Delete the element
       cy.get('[data-testid="element-delete-button"]').click()
       cy.get('[data-testid="confirm-delete"]').click()
       
-      // Should redirect back to project view
+      // TODO: * Should redirect back to project view
       cy.url().should('include', '/project')
       
-      // Element should be gone
+      // TODO: * Element should be gone
       cy.contains('Gimli').should('not.exist')
       cy.get('[data-cy^="element-card-"]').should('have.length', 3)
     })
@@ -255,73 +255,73 @@ describe('Element Creation and Editing - Full Workflow', () => {
 
   describe('Data Persistence', () => {
     it('persists element data across page refreshes', () => {
-      // Create an element with data
+      // * Create an element with data
       cy.get('[data-testid="create-element-button"]').click()
       cy.get('[data-testid="category-character"]').click()
       cy.get('[data-testid="element-name-input"]').type('Persistent Character')
       cy.get('[data-testid="create-element-submit"]').click()
       
-      // Fill in some data
+      // * Fill in some data
       cy.get('[data-testid="category-toggle-general"]').click()
       cy.get('[data-testid="question-name-input"]').type('Test Name')
       cy.get('[data-testid="question-age-input"]').type('100')
       
-      // Wait for auto-save
+      // * Wait for auto-save
       cy.wait(1000)
       
-      // Refresh the page
+      // * Refresh the page
       cy.reload()
       
-      // Data should still be there
+      // TODO: * Data should still be there
       cy.get('[data-testid="category-toggle-general"]').click()
       cy.get('[data-testid="question-name-input"]').should('have.value', 'Test Name')
       cy.get('[data-testid="question-age-input"]').should('have.value', '100')
     })
 
     it('exports and imports project data', () => {
-      // Create some elements first
+      // * Create some elements first
       cy.get('[data-testid="create-element-button"]').click()
       cy.get('[data-testid="category-character"]').click()
       cy.get('[data-testid="element-name-input"]').type('Export Test Character')
       cy.get('[data-testid="create-element-submit"]').click()
       cy.go('back')
       
-      // Export the project
+      // * Export the project
       cy.get('[data-testid="export-project-button"]').click()
       
-      // File should be downloaded (Cypress will handle this)
-      // In a real test, we'd verify the download
+      // TODO: * File should be downloaded (Cypress will handle this)
+      // * In a real test, we'd verify the download
       
-      // For now, just verify the export button works
+      // * For now, just verify the export button works
       cy.contains('Export').should('be.visible')
     })
   })
 
   describe('Error Handling', () => {
     it('handles network errors gracefully', () => {
-      // Simulate network failure
+      // * Simulate network failure
       cy.intercept('POST', '**/api/**', { statusCode: 500 })
       
-      // Try to create an element
+      // * Try to create an element
       cy.get('[data-testid="create-element-button"]').click()
       cy.get('[data-testid="category-character"]').click()
       cy.get('[data-testid="element-name-input"]').type('Network Test')
       cy.get('[data-testid="create-element-submit"]').click()
       
-      // Should show error message
+      // ? TODO: * Should show error message
       cy.contains('error', { matchCase: false }).should('be.visible')
     })
 
     it('validates required fields', () => {
-      // Try to create element without name
+      // * Try to create element without name
       cy.get('[data-testid="create-element-button"]').click()
       cy.get('[data-testid="category-character"]').click()
       cy.get('[data-testid="create-element-submit"]').click()
       
-      // Should show validation error
+      // ? TODO: * Should show validation error
       cy.contains('required', { matchCase: false }).should('be.visible')
       
-      // Should not close modal
+      // TODO: * Should not close modal
       cy.get('[data-testid="category-character"]').should('be.visible')
     })
   })
@@ -334,7 +334,7 @@ describe('Element Creation and Editing - Full Workflow', () => {
 describe('Complex Component Workflows', () => {
   beforeEach(() => {
     cy.visit('/')
-    // Setup a project with elements
+    // * Setup a project with elements
     cy.get('[data-testid="get-started"], [data-testid="create-project-button"]').first().click()
     cy.get('[data-testid="project-name-input"]').type('Complex Test World')
     cy.get('[data-testid="project-submit"]').click()
@@ -348,47 +348,47 @@ describe('Complex Component Workflows', () => {
       cy.get('[data-testid="element-name-input"]').type('Toast Test')
       cy.get('[data-testid="create-element-submit"]').click()
       
-      // Toast should appear and auto-dismiss
+      // TODO: * Toast should appear and auto-dismiss
       cy.get('[data-testid="toast-success"]').should('be.visible')
       cy.contains('Element created successfully').should('be.visible')
       
-      // Should auto-dismiss after a few seconds
+      // TODO: * Should auto-dismiss after a few seconds
       cy.get('[data-testid="toast-success"]', { timeout: 6000 }).should('not.exist')
     })
 
     it('shows error toast on validation failure', () => {
       cy.get('[data-testid="create-element-button"]').click()
       cy.get('[data-testid="category-character"]').click()
-      // Submit without required field
+      // * Submit without required field
       cy.get('[data-testid="create-element-submit"]').click()
       
-      // Error toast should appear
+      // TODO: * Error toast should appear
       cy.get('[data-testid="toast-error"]').should('be.visible')
     })
   })
 
   describe('RichTextEditor (addresses timeout issues)', () => {
     it('handles rich text editing in element descriptions', () => {
-      // Create an element
+      // * Create an element
       cy.get('[data-testid="create-element-button"]').click()
       cy.get('[data-testid="category-character"]').click()
       cy.get('[data-testid="element-name-input"]').type('Rich Text Test')
       cy.get('[data-testid="create-element-submit"]').click()
       
-      // Open a category with rich text fields
+      // * Open a category with rich text fields
       cy.get('[data-testid="category-toggle-backstory"]').click()
       
-      // Find rich text editor
+      // * Find rich text editor
       cy.get('[data-testid="rich-text-editor"]').should('be.visible')
       
-      // Type in the editor
+      // * Type in the editor
       cy.get('[data-testid="rich-text-editor"] [contenteditable]').type('This is **bold** text')
       
-      // Verify formatting toolbar works
+      // * Verify formatting toolbar works
       cy.get('[data-testid="format-bold"]').click()
       cy.get('[data-testid="rich-text-editor"] [contenteditable]').type(' and more bold')
       
-      // Content should be saved
+      // TODO: * Content should be saved
       cy.wait(1000)
       cy.reload()
       cy.get('[data-testid="category-toggle-backstory"]').click()
@@ -398,31 +398,31 @@ describe('Complex Component Workflows', () => {
 
   describe('TagMultiSelect (addresses timeout issues)', () => {
     it('manages tags for element categorization', () => {
-      // Create an element
+      // * Create an element
       cy.get('[data-testid="create-element-button"]').click()
       cy.get('[data-testid="category-character"]').click()
       cy.get('[data-testid="element-name-input"]').type('Tag Test Character')
       cy.get('[data-testid="create-element-submit"]').click()
       
-      // Find tag selector
+      // * Find tag selector
       cy.get('[data-testid="element-tags-section"]').should('be.visible')
       cy.get('[data-testid="add-tag-button"]').click()
       
-      // Select multiple tags
+      // * Select multiple tags
       cy.get('[data-testid="tag-select-dropdown"]').click()
       cy.get('[data-testid="tag-option-hero"]').click()
       cy.get('[data-testid="tag-option-wizard"]').click()
       cy.get('[data-testid="tag-option-mentor"]').click()
       
-      // Close dropdown
+      // * Close dropdown
       cy.get('body').click(0, 0)
       
-      // Verify tags are displayed
+      // * Verify tags are displayed
       cy.contains('hero').should('be.visible')
       cy.contains('wizard').should('be.visible')
       cy.contains('mentor').should('be.visible')
       
-      // Remove a tag
+      // * Remove a tag
       cy.get('[data-testid="remove-tag-wizard"]').click()
       cy.contains('wizard').should('not.exist')
     })
@@ -436,13 +436,13 @@ describe('Performance with Large Data Sets', () => {
   it('handles projects with many elements efficiently', () => {
     cy.visit('/')
     
-    // Create project
+    // * Create project
     cy.get('[data-testid="get-started"], [data-testid="create-project-button"]').first().click()
     cy.get('[data-testid="project-name-input"]').type('Performance Test')
     cy.get('[data-testid="project-submit"]').click()
     cy.get('[data-testid="project-card"]').contains('Performance Test').click()
     
-    // Create multiple elements programmatically
+    // * Create multiple elements programmatically
     for (let i = 1; i <= 20; i++) {
       cy.get('[data-testid="create-element-button"]').click()
       cy.get('[data-testid="category-character"]').click()
@@ -451,10 +451,10 @@ describe('Performance with Large Data Sets', () => {
       cy.go('back')
     }
     
-    // Should handle pagination or virtualization
+    // TODO: * Should handle pagination or virtualization
     cy.get('[data-cy^="element-card-"]').should('have.length.at.least', 10)
     
-    // Search should still be fast
+    // TODO: * Search should still be fast
     cy.get('[data-testid="search-elements-input"]').type('Character 15')
     cy.get('[data-cy^="element-card-"]').should('have.length', 1)
     cy.contains('Character 15').should('be.visible')

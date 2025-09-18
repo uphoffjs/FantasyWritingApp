@@ -3,10 +3,10 @@ import { optimisticSyncQueueManager } from './optimisticSyncQueue';
 import { Project, WorldElement, Relationship, QuestionnaireTemplate } from '../types';
 
 export class SupabaseSyncService {
-  // Sync all projects for the current user
+  // * Sync all projects for the current user
   async syncProjects(localProjects: Project[], userId: string): Promise<void> {
     try {
-      // Fetch remote projects
+      // * Fetch remote projects
       const { data: remoteProjects, error } = await supabase
         .from('projects')
         .select('*')
@@ -14,17 +14,17 @@ export class SupabaseSyncService {
       
       if (error) throw error;
       
-      // Create a map of remote projects by client_id
+      // * Create a map of remote projects by client_id
       const remoteMap = new Map(
         (remoteProjects || []).map(p => [p.client_id, p])
       );
       
-      // Sync each local project
+      // * Sync each local project
       for (const localProject of localProjects) {
         const remoteProject = remoteMap.get(localProject.id);
         
         if (!remoteProject) {
-          // Project doesn't exist remotely, create it
+          // * Project doesn't exist remotely, create it
           await optimisticSyncQueueManager.addOperation({
             type: 'create',
             entity: 'project',
@@ -36,7 +36,7 @@ export class SupabaseSyncService {
             }
           });
         } else if (this.hasProjectChanged(localProject, remoteProject)) {
-          // Project exists but has changed, update it
+          // * Project exists but has changed, update it
           await optimisticSyncQueueManager.addOperation({
             type: 'update',
             entity: 'project',
@@ -50,14 +50,14 @@ export class SupabaseSyncService {
           });
         }
         
-        // Sync elements for this project
+        // * Sync elements for this project
         await this.syncElements(localProject.elements, localProject.id);
         
-        // Sync relationships
+        // * Sync relationships
         await this.syncRelationships(localProject.relationships || [], localProject.id);
       }
       
-      // Process the queue
+      // * Process the queue
       await optimisticSyncQueueManager.processQueue();
     } catch (error) {
       console.error('Error syncing projects:', error);
@@ -65,10 +65,10 @@ export class SupabaseSyncService {
     }
   }
   
-  // Sync elements for a project
+  // * Sync elements for a project
   private async syncElements(localElements: WorldElement[], projectId: string): Promise<void> {
     try {
-      // Fetch remote elements
+      // * Fetch remote elements
       const { data: remoteElements, error } = await supabase
         .from('world_elements')
         .select('*')
@@ -76,17 +76,17 @@ export class SupabaseSyncService {
       
       if (error) throw error;
       
-      // Create a map of remote elements by client_id
+      // * Create a map of remote elements by client_id
       const remoteMap = new Map(
         (remoteElements || []).map(e => [e.client_id, e])
       );
       
-      // Sync each local element
+      // * Sync each local element
       for (const localElement of localElements) {
         const remoteElement = remoteMap.get(localElement.id);
         
         if (!remoteElement) {
-          // Element doesn't exist remotely, create it
+          // * Element doesn't exist remotely, create it
           await optimisticSyncQueueManager.addOperation({
             type: 'create',
             entity: 'element',
@@ -100,7 +100,7 @@ export class SupabaseSyncService {
             }
           });
         } else if (this.hasElementChanged(localElement, remoteElement)) {
-          // Element exists but has changed, update it
+          // * Element exists but has changed, update it
           await optimisticSyncQueueManager.addOperation({
             type: 'update',
             entity: 'element',
@@ -122,10 +122,10 @@ export class SupabaseSyncService {
     }
   }
   
-  // Sync relationships for a project
+  // * Sync relationships for a project
   private async syncRelationships(localRelationships: Relationship[], projectId: string): Promise<void> {
     try {
-      // Fetch remote relationships
+      // * Fetch remote relationships
       const { data: remoteRelationships, error } = await supabase
         .from('relationships')
         .select('*')
@@ -133,17 +133,17 @@ export class SupabaseSyncService {
       
       if (error) throw error;
       
-      // Create a map of remote relationships by client_id
+      // * Create a map of remote relationships by client_id
       const remoteMap = new Map(
         (remoteRelationships || []).map(r => [r.client_id, r])
       );
       
-      // Sync each local relationship
+      // * Sync each local relationship
       for (const localRelationship of localRelationships) {
         const remoteRelationship = remoteMap.get(localRelationship.id);
         
         if (!remoteRelationship) {
-          // Relationship doesn't exist remotely, create it
+          // * Relationship doesn't exist remotely, create it
           await optimisticSyncQueueManager.addOperation({
             type: 'create',
             entity: 'relationship',
@@ -158,7 +158,7 @@ export class SupabaseSyncService {
             }
           });
         } else if (this.hasRelationshipChanged(localRelationship, remoteRelationship)) {
-          // Relationship exists but has changed, update it
+          // * Relationship exists but has changed, update it
           await optimisticSyncQueueManager.addOperation({
             type: 'update',
             entity: 'relationship',
@@ -181,7 +181,7 @@ export class SupabaseSyncService {
     }
   }
   
-  // Fetch projects from Supabase
+  // * Fetch projects from Supabase
   async fetchProjects(userId: string): Promise<Project[]> {
     try {
       const { data: remoteProjects, error } = await supabase
@@ -195,7 +195,7 @@ export class SupabaseSyncService {
       
       if (error) throw error;
       
-      // Transform remote data to local format
+      // * Transform remote data to local format
       return (remoteProjects || []).map(p => ({
         id: p.client_id,
         name: p.name,
@@ -225,13 +225,13 @@ export class SupabaseSyncService {
     }
   }
   
-  // Check if a project has changed
+  // * Check if a project has changed
   private hasProjectChanged(local: Project, remote: any): boolean {
     return local.name !== remote.name || 
            local.description !== (remote.description || '');
   }
   
-  // Check if an element has changed
+  // * Check if an element has changed
   private hasElementChanged(local: WorldElement, remote: any): boolean {
     return local.name !== remote.name || 
            local.category !== remote.category ||
@@ -239,7 +239,7 @@ export class SupabaseSyncService {
            JSON.stringify(local.answers) !== JSON.stringify(remote.answers);
   }
   
-  // Check if a relationship has changed
+  // * Check if a relationship has changed
   private hasRelationshipChanged(local: Relationship, remote: any): boolean {
     return local.sourceId !== remote.source_id ||
            local.targetId !== remote.target_id ||
@@ -248,7 +248,7 @@ export class SupabaseSyncService {
            JSON.stringify(local.metadata) !== JSON.stringify(remote.metadata);
   }
   
-  // Delete a project from Supabase
+  // * Delete a project from Supabase
   async deleteProject(projectId: string): Promise<void> {
     await optimisticSyncQueueManager.addOperation({
       type: 'delete',
@@ -262,7 +262,7 @@ export class SupabaseSyncService {
     await optimisticSyncQueueManager.processQueue();
   }
   
-  // Delete an element from Supabase
+  // * Delete an element from Supabase
   async deleteElement(elementId: string, projectId: string): Promise<void> {
     await optimisticSyncQueueManager.addOperation({
       type: 'delete',
@@ -276,7 +276,7 @@ export class SupabaseSyncService {
     await optimisticSyncQueueManager.processQueue();
   }
   
-  // Delete a relationship from Supabase
+  // * Delete a relationship from Supabase
   async deleteRelationship(relationshipId: string, projectId: string): Promise<void> {
     await optimisticSyncQueueManager.addOperation({
       type: 'delete',

@@ -2,7 +2,7 @@ import React from 'react';
 import { ElementBrowser, WorldElement } from '../support/component-test-helpers';
 
 describe('ElementBrowser Component - Simplified', () => {
-  // Mock a single simple element
+  // * Mock a single simple element
   const mockElement: WorldElement = {
     id: 'element-1',
     name: 'Test Element',
@@ -18,7 +18,7 @@ describe('ElementBrowser Component - Simplified', () => {
 
   it('should mount component without errors', () => {
     cy.mount(<ElementBrowser elements={[]} />);
-    // Just check that component mounts
+    // * Just check that component mounts
     cy.wait(100); // Brief wait to ensure render
   });
 

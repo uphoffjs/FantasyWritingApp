@@ -87,7 +87,7 @@ interface WaitUntilOptions {
 Cypress.Commands.add('waitForAnimation', (timeout = 1000) => {
   cy.log(`⏳ Waiting ${timeout}ms for animations`);
   
-  // Wait for CSS animations
+  // * Wait for CSS animations
   cy.get('body').should($body => {
     const animations = $body.find('*').filter((i, el) => {
       const style = window.getComputedStyle(el);
@@ -97,7 +97,7 @@ Cypress.Commands.add('waitForAnimation', (timeout = 1000) => {
     expect(animations.length).to.equal(0);
   });
   
-  // Additional wait for React Native animations
+  // * Additional wait for React Native animations
   cy.wait(timeout);
 });
 
@@ -111,12 +111,12 @@ Cypress.Commands.add('waitForLayout', (timeout = 500) => {
   let previousPositions: Map<Element, DOMRect> = new Map();
   
   cy.document().then(doc => {
-    // Capture initial positions
+    // * Capture initial positions
     doc.querySelectorAll('*').forEach(el => {
       previousPositions.set(el, el.getBoundingClientRect());
     });
     
-    // Wait and check again
+    // * Wait and check again
     cy.wait(timeout).then(() => {
       let isStable = true;
       
@@ -150,16 +150,16 @@ Cypress.Commands.add('waitForStateUpdate', (timeout = 300) => {
   cy.log(`⏳ Waiting for state updates`);
   
   cy.window().then(win => {
-    // Check if React DevTools are available
+    // * Check if React DevTools are available
     if ((win as any).__REACT_DEVTOOLS_GLOBAL_HOOK__) {
       // Force React to flush updates
       const hook = (win as any).__REACT_DEVTOOLS_GLOBAL_HOOK__;
       if (hook.renderers && hook.renderers.size > 0) {
-        // Trigger re-render detection
+        // * Trigger re-render detection
         cy.wait(timeout);
       }
     } else {
-      // Fallback wait
+      // * Fallback wait
       cy.wait(timeout);
     }
   });
@@ -175,12 +175,12 @@ Cypress.Commands.add('waitForStateUpdate', (timeout = 300) => {
 Cypress.Commands.add('waitForBridge', (timeout = 200) => {
   cy.log(`⏳ Waiting for RN bridge`);
   
-  // Check for pending bridge messages
+  // * Check for pending bridge messages
   cy.window().then(win => {
     if ((win as any).__REACT_NATIVE_BRIDGE__) {
       const bridge = (win as any).__REACT_NATIVE_BRIDGE__;
       
-      // Wait for message queue to clear
+      // * Wait for message queue to clear
       const checkQueue = () => {
         if (bridge.pendingMessages && bridge.pendingMessages.length > 0) {
           cy.wait(50).then(checkQueue);
@@ -189,7 +189,7 @@ Cypress.Commands.add('waitForBridge', (timeout = 200) => {
       
       checkQueue();
     } else {
-      // No bridge, just wait
+      // * No bridge, just wait
       cy.wait(timeout);
     }
   });
@@ -202,7 +202,7 @@ Cypress.Commands.add('waitForBridge', (timeout = 200) => {
 Cypress.Commands.add('waitForRNComplete', (timeout = 500) => {
   cy.log(`⏳ Waiting for all RN operations`);
   
-  // Chain all wait operations
+  // * Chain all wait operations
   cy.waitForBridge(200);
   cy.waitForStateUpdate(300);
   cy.waitForAnimation(timeout);
@@ -228,7 +228,7 @@ Cypress.Commands.add('waitForElementStable', (selector: string, timeout = 1000) 
       if (previousPosition && 
           Math.abs(previousPosition.x - currentPosition.x) < 1 &&
           Math.abs(previousPosition.y - currentPosition.y) < 1) {
-        // Element is stable
+        // * Element is stable
         return;
       }
       
@@ -262,7 +262,7 @@ Cypress.Commands.add('waitForNetworkIdle', (timeout = 3000) => {
     });
   });
   
-  // Wait until no pending requests
+  // * Wait until no pending requests
   cy.waitUntil(
     () => pendingRequests === 0,
     { timeout, errorMsg: 'Network requests did not complete' }
@@ -327,7 +327,7 @@ Cypress.Commands.add('waitUntil', (
   const checkCondition = (): Cypress.Chainable<void> => {
     const result = condition();
     
-    // Handle both boolean and Chainable returns
+    // * Handle both boolean and Chainable returns
     const promise = typeof result === 'boolean' 
       ? Promise.resolve(result)
       : Cypress.Promise.resolve(result);
@@ -354,7 +354,7 @@ Cypress.Commands.add('waitUntil', (
 export function isReactNativeWebRendering(): boolean {
   const doc = Cypress.$('body');
   
-  // Check for React Native Web specific attributes
+  // * Check for React Native Web specific attributes
   return doc.find('[data-rnw]').length > 0 ||
          doc.find('[data-focusable]').length > 0 ||
          doc.find('[dir="auto"]').length > 0;
@@ -373,7 +373,7 @@ export function waitForRNEvent(eventName: string, timeout = 1000): Cypress.Chain
       
       win.addEventListener(eventName, handler);
       
-      // Timeout fallback
+      // * Timeout fallback
       setTimeout(() => {
         win.removeEventListener(eventName, handler);
         resolve();
@@ -382,7 +382,7 @@ export function waitForRNEvent(eventName: string, timeout = 1000): Cypress.Chain
   });
 }
 
-// Export for use in test files
+// * Export for use in test files
 export default {
   isReactNativeWebRendering,
   waitForRNEvent

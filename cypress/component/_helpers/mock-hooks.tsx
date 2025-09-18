@@ -1,13 +1,13 @@
 import React, { ReactNode } from 'react';
 import * as useAsyncStoreModule from '../../../src/hooks/useAsyncStore';
 
-// Create a context for mocking hooks
+// * Create a context for mocking hooks
 export interface MockHooksConfig {
   useProjectOperations?: Partial<ReturnType<typeof useAsyncStoreModule.useProjectOperations>>;
   useElementOperations?: Partial<ReturnType<typeof useAsyncStoreModule.useElementOperations>>;
 }
 
-// Default mock values
+// * Default mock values
 const defaultProjectOperations: ReturnType<typeof useAsyncStoreModule.useProjectOperations> = {
   isCreatingProject: false,
   isUpdatingProject: false,
@@ -48,14 +48,14 @@ const defaultElementOperations: ReturnType<typeof useAsyncStoreModule.useElement
   clearElementErrors: cy.stub(),
 };
 
-// Mock provider component
+// * Mock provider component
 export interface MockHooksProviderProps {
   children: ReactNode;
   mocks?: MockHooksConfig;
 }
 
 export const MockHooksProvider: React.FC<MockHooksProviderProps> = ({ children, mocks = {} }) => {
-  // Apply mocks
+  // * Apply mocks
   if (mocks.useProjectOperations) {
     cy.stub(useAsyncStoreModule, 'useProjectOperations').returns({
       ...defaultProjectOperations,
@@ -73,18 +73,18 @@ export const MockHooksProvider: React.FC<MockHooksProviderProps> = ({ children, 
   return <>{children}</>;
 };
 
-// Helper function to mount with mocked hooks
+// * Helper function to mount with mocked hooks
 export const mountWithMockedHooks = (
   component: ReactNode,
   mocks?: MockHooksConfig
 ) => {
-  // Import the module fresh for each test
+  // * Import the module fresh for each test
   return cy.window().then((win) => {
-    // Store original functions
+    // * Store original functions
     const originalUseProjectOperations = useAsyncStoreModule.useProjectOperations;
     const originalUseElementOperations = useAsyncStoreModule.useElementOperations;
 
-    // Apply mocks
+    // * Apply mocks
     if (mocks?.useProjectOperations) {
       (useAsyncStoreModule as any).useProjectOperations = () => ({
         ...defaultProjectOperations,
@@ -99,10 +99,10 @@ export const mountWithMockedHooks = (
       });
     }
 
-    // Mount component
+    // * Mount component
     cy.mount(component);
 
-    // Cleanup after test
+    // * Cleanup after test
     after(() => {
       (useAsyncStoreModule as any).useProjectOperations = originalUseProjectOperations;
       (useAsyncStoreModule as any).useElementOperations = originalUseElementOperations;
@@ -110,7 +110,7 @@ export const mountWithMockedHooks = (
   });
 };
 
-// Utility to create custom project operations mock
+// * Utility to create custom project operations mock
 export const createProjectOperationsMock = (overrides: Partial<ReturnType<typeof useAsyncStoreModule.useProjectOperations>>) => {
   return {
     ...defaultProjectOperations,
@@ -118,7 +118,7 @@ export const createProjectOperationsMock = (overrides: Partial<ReturnType<typeof
   };
 };
 
-// Utility to create custom element operations mock
+// * Utility to create custom element operations mock
 export const createElementOperationsMock = (overrides: Partial<ReturnType<typeof useAsyncStoreModule.useElementOperations>>) => {
   return {
     ...defaultElementOperations,

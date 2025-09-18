@@ -1,4 +1,4 @@
-// Helper function for element-specific colors with WCAG compliance
+// * Helper function for element-specific colors with WCAG compliance
 export function getElementColor(category: string): { bg: string; border: string; text: string } {
   const colors: Record<string, { bg: string; border: string; text: string }> = {
     'character': { bg: 'bg-character-light', border: 'border-character-primary', text: 'text-character-primary' },

@@ -1,7 +1,7 @@
-// Export all model types from a central location
-// Using explicit exports for better tree shaking
+// * Export all model types from a central location
+// * Using explicit exports for better tree shaking
 
-// Project types
+// * Project types
 export type { 
   Project, 
   ProjectSettings,
@@ -45,7 +45,7 @@ export {
   ELEMENT_CATEGORY_ICONS
 } from './ElementCategory';
 
-// Question types
+// * Question types
 export type { 
   Question,
   QuestionType, 
@@ -55,7 +55,7 @@ export type {
 } from './Question';
 export { DEFAULT_QUESTION_CATEGORIES } from './Question';
 
-// Answer types
+// * Answer types
 export type { 
   Answer,
   AnswerHistory,
@@ -70,7 +70,7 @@ export {
   isMultiSelectAnswer
 } from './Answer';
 
-// Relationship types
+// * Relationship types
 export type { 
   Relationship,
   RelationshipType,
@@ -83,7 +83,7 @@ export {
   getInverseRelationship
 } from './Relationship';
 
-// Template types
+// TODO: * Template types
 export type { 
   QuestionnaireTemplate,
   TemplateMetadata,
@@ -93,5 +93,5 @@ export type {
 } from './Template';
 export { DEFAULT_TEMPLATE_IDS } from './Template';
 
-// Re-export DEFAULT_TEMPLATES from worldbuilding.ts for compatibility
+// TODO: Re-export DEFAULT_TEMPLATES from worldbuilding.ts for compatibility
 export { DEFAULT_TEMPLATES } from '../worldbuilding';

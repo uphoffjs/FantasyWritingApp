@@ -16,11 +16,11 @@ export function getOptimizedImageUrl(
   src: string,
   _options: ImageLoadOptions = {}
 ): string {
-  // Destructuring for future use when image CDN is integrated
+  // * Destructuring for future use when image CDN is integrated
   // const { width, height, quality = 85, format } = options;
   
-  // For now, return the original source
-  // In production, this would integrate with an image CDN or optimization service
+  // * For now, return the original source
+  // ! PERFORMANCE: * In production, this would integrate with an image CDN or optimization service
   return src;
 }
 
@@ -59,13 +59,13 @@ export function calculateOptimalDimensions(
   const containerAspectRatio = containerWidth / containerHeight;
   
   if (containerAspectRatio > imageAspectRatio) {
-    // Container is wider than image
+    // * Container is wider than image
     return {
       width: Math.round(containerHeight * imageAspectRatio),
       height: containerHeight
     };
   } else {
-    // Container is taller than image
+    // * Container is taller than image
     return {
       width: containerWidth,
       height: Math.round(containerWidth / imageAspectRatio)

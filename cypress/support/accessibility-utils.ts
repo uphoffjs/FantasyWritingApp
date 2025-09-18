@@ -1,4 +1,4 @@
-// Comprehensive accessibility testing utilities for Cypress
+// * Comprehensive accessibility testing utilities for Cypress
 // Ensures WCAG 2.1 AA compliance and screen reader compatibility
 
 import 'cypress-axe';
@@ -7,7 +7,7 @@ import 'cypress-axe';
  * ARIA attributes and roles reference
  */
 export const ARIAReference = {
-  // Widget roles
+  // * Widget roles
   widgetRoles: [
     'button', 'checkbox', 'gridcell', 'link', 'menuitem', 'menuitemcheckbox',
     'menuitemradio', 'option', 'progressbar', 'radio', 'scrollbar', 'searchbox',
@@ -16,7 +16,7 @@ export const ARIAReference = {
     'tablist', 'tree', 'treegrid'
   ],
   
-  // Document structure roles
+  // * Document structure roles
   documentRoles: [
     'application', 'article', 'cell', 'columnheader', 'definition', 'directory',
     'document', 'feed', 'figure', 'group', 'heading', 'img', 'list', 'listitem',
@@ -24,13 +24,13 @@ export const ARIAReference = {
     'separator', 'table', 'term', 'toolbar', 'tooltip'
   ],
   
-  // Landmark roles
+  // * Landmark roles
   landmarkRoles: [
     'banner', 'complementary', 'contentinfo', 'form', 'main', 'navigation',
     'region', 'search'
   ],
   
-  // Live region roles
+  // * Live region roles
   liveRegionRoles: [
     'alert', 'log', 'marquee', 'status', 'timer'
   ],
@@ -76,14 +76,14 @@ export const ARIAReference = {
  * Keyboard navigation patterns
  */
 export const KeyboardPatterns = {
-  // Tab navigation
+  // * Tab navigation
   tab: {
     forward: '{tab}',
     backward: '{shift}{tab}',
     description: 'Navigate through focusable elements'
   },
   
-  // Arrow key navigation
+  // * Arrow key navigation
   arrows: {
     up: '{upArrow}',
     down: '{downArrow}',
@@ -92,7 +92,7 @@ export const KeyboardPatterns = {
     description: 'Navigate within components like menus, lists'
   },
   
-  // Action keys
+  // * Action keys
   actions: {
     enter: '{enter}',
     space: ' ',
@@ -102,7 +102,7 @@ export const KeyboardPatterns = {
     description: 'Trigger actions or cancel operations'
   },
   
-  // Modifier combinations
+  // * Modifier combinations
   modifiers: {
     selectAll: '{ctrl}a',
     copy: '{ctrl}c',
@@ -114,7 +114,7 @@ export const KeyboardPatterns = {
     save: '{ctrl}s'
   },
   
-  // Component-specific patterns
+  // * Component-specific patterns
   componentPatterns: {
     menu: {
       open: ['{enter}', ' ', '{downArrow}'],
@@ -192,11 +192,11 @@ export const AccessibilityHelpers = {
    * Verify focus management
    */
   verifyFocusManagement: (selector: string) => {
-    // Check if element can receive focus
+    // * Check if element can receive focus
     cy.get(selector).focus();
     cy.focused().should('match', selector);
     
-    // Check focus visibility
+    // * Check focus visibility
     cy.focused().should('have.css', 'outline-style').and('not.eq', 'none');
   },
   
@@ -204,16 +204,16 @@ export const AccessibilityHelpers = {
    * Test keyboard navigation flow
    */
   testKeyboardNavigation: (elements: string[]) => {
-    // Start from first element
+    // * Start from first element
     cy.get(elements[0]).focus();
     
-    // Tab through all elements
+    // * Tab through all elements
     elements.slice(1).forEach(element => {
       cy.realPress('Tab');
       cy.focused().should('match', element);
     });
     
-    // Tab backwards
+    // * Tab backwards
     elements.slice(0, -1).reverse().forEach(element => {
       cy.realPress(['Shift', 'Tab']);
       cy.focused().should('match', element);
@@ -242,10 +242,10 @@ export const AccessibilityHelpers = {
       const color = styles.color;
       const backgroundColor = styles.backgroundColor;
       
-      // Calculate contrast ratio (simplified - use axe for accurate testing)
+      // * Calculate contrast ratio (simplified - use axe for accurate testing)
       cy.log(`Color: ${color}, Background: ${backgroundColor}`);
       
-      // Use axe to check color contrast
+      // * Use axe to check color contrast
       cy.checkA11y(selector, {
         runOnly: {
           type: 'rule',
@@ -266,16 +266,16 @@ export const AccessibilityHelpers = {
    * Test skip links functionality
    */
   testSkipLinks: () => {
-    // Focus on skip link
+    // * Focus on skip link
     cy.get('body').type('{tab}');
     
-    // Check if skip link is visible
+    // * Check if skip link is visible
     cy.focused().should('contain', 'Skip to');
     
-    // Activate skip link
+    // * Activate skip link
     cy.focused().type('{enter}');
     
-    // Verify focus moved to main content
+    // * Verify focus moved to main content
     cy.focused().should('match', '[role="main"], main, #main-content');
   }
 };
@@ -291,11 +291,11 @@ export const ComponentAccessibilityTests = {
     cy.get(selector).should('have.attr', 'role', 'button')
       .or('match', 'button');
     
-    // Keyboard activation
+    // * Keyboard activation
     cy.get(selector).focus().type('{enter}');
     cy.get(selector).focus().type(' ');
     
-    // Check disabled state
+    // * Check disabled state
     cy.get(selector).then($btn => {
       if ($btn.prop('disabled')) {
         cy.get(selector).should('have.attr', 'aria-disabled', 'true');
@@ -307,7 +307,7 @@ export const ComponentAccessibilityTests = {
    * Test form input accessibility
    */
   testFormInput: (inputSelector: string, labelText?: string) => {
-    // Check label association
+    // * Check label association
     if (labelText) {
       cy.contains('label', labelText)
         .invoke('attr', 'for')
@@ -315,20 +315,20 @@ export const ComponentAccessibilityTests = {
           cy.get(inputSelector).should('have.id', id);
         });
     } else {
-      // Check aria-label or aria-labelledby
+      // * Check aria-label or aria-labelledby
       cy.get(inputSelector)
         .should('have.attr', 'aria-label')
         .or('have.attr', 'aria-labelledby');
     }
     
-    // Check required field
+    // * Check required field
     cy.get(inputSelector).then($input => {
       if ($input.prop('required')) {
         cy.get(inputSelector).should('have.attr', 'aria-required', 'true');
       }
     });
     
-    // Check error state
+    // * Check error state
     cy.get(inputSelector).then($input => {
       if ($input.attr('aria-invalid') === 'true') {
         cy.get(inputSelector).should('have.attr', 'aria-errormessage')
@@ -341,29 +341,29 @@ export const ComponentAccessibilityTests = {
    * Test modal dialog accessibility
    */
   testModal: (modalSelector: string) => {
-    // Check role and aria-modal
+    // * Check role and aria-modal
     cy.get(modalSelector)
       .should('have.attr', 'role', 'dialog')
       .and('have.attr', 'aria-modal', 'true');
     
-    // Check aria-label or aria-labelledby
+    // * Check aria-label or aria-labelledby
     cy.get(modalSelector)
       .should('have.attr', 'aria-label')
       .or('have.attr', 'aria-labelledby');
     
-    // Test focus trap
+    // * Test focus trap
     cy.get(modalSelector).within(() => {
-      // Tab through all focusable elements
+      // * Tab through all focusable elements
       cy.get('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')
         .first()
         .focus();
       
-      // Tab should cycle within modal
+      // TODO: * Tab should cycle within modal
       cy.realPress('Tab');
       cy.focused().should('exist');
     });
     
-    // Test escape key closes modal
+    // * Test escape key closes modal
     cy.realPress('Escape');
     cy.get(modalSelector).should('not.be.visible');
   },
@@ -372,23 +372,23 @@ export const ComponentAccessibilityTests = {
    * Test dropdown/select accessibility
    */
   testDropdown: (triggerSelector: string, menuSelector: string) => {
-    // Check trigger attributes
+    // * Check trigger attributes
     cy.get(triggerSelector)
       .should('have.attr', 'aria-haspopup', 'true')
       .and('have.attr', 'aria-expanded', 'false');
     
-    // Open dropdown
+    // * Open dropdown
     cy.get(triggerSelector).click();
     cy.get(triggerSelector).should('have.attr', 'aria-expanded', 'true');
     
-    // Check menu role
+    // * Check menu role
     cy.get(menuSelector).should('have.attr', 'role').and('match', /menu|listbox/);
     
-    // Test keyboard navigation
+    // * Test keyboard navigation
     cy.realPress('ArrowDown');
     cy.focused().should('have.attr', 'role').and('match', /menuitem|option/);
     
-    // Select with Enter
+    // * Select with Enter
     cy.realPress('Enter');
     cy.get(menuSelector).should('not.be.visible');
     cy.get(triggerSelector).should('have.attr', 'aria-expanded', 'false');
@@ -398,14 +398,14 @@ export const ComponentAccessibilityTests = {
    * Test navigation menu accessibility
    */
   testNavigation: (navSelector: string) => {
-    // Check navigation landmark
+    // * Check navigation landmark
     cy.get(navSelector).should('have.attr', 'role', 'navigation')
       .or('match', 'nav');
     
-    // Check aria-label
+    // * Check aria-label
     cy.get(navSelector).should('have.attr', 'aria-label');
     
-    // Test keyboard navigation through links
+    // * Test keyboard navigation through links
     cy.get(navSelector).within(() => {
       cy.get('a, [role="link"]').first().focus();
       cy.realPress('Tab');
@@ -445,7 +445,7 @@ export const WCAGCriteria = {
     'table-fake-caption', 'td-has-header'
   ],
   
-  // Best practices
+  // * Best practices
   bestPractices: [
     'accesskeys', 'aria-allowed-role', 'aria-dialog-name', 'aria-meter-name',
     'aria-progressbar-name', 'aria-text', 'aria-toggle-field-name', 'aria-tooltip-name',
@@ -465,18 +465,18 @@ export const ScreenReaderUtils = {
    * Simulate screen reader navigation
    */
   simulateScreenReaderNav: () => {
-    // Navigate by headings
+    // * Navigate by headings
     cy.get('h1, h2, h3, h4, h5, h6').each(($heading) => {
       cy.wrap($heading).should('be.visible').and('not.be.empty');
     });
     
-    // Navigate by landmarks
+    // * Navigate by landmarks
     cy.get('[role="main"], [role="navigation"], [role="banner"], [role="contentinfo"]')
       .each(($landmark) => {
         cy.wrap($landmark).should('exist');
       });
     
-    // Check for screen reader only content
+    // * Check for screen reader only content
     cy.get('.sr-only, .visually-hidden, [aria-label]').should('exist');
   },
   
@@ -512,7 +512,7 @@ export const ScreenReaderUtils = {
       );
       
       while (walker.nextNode() && currentIndex < expectedOrder.length) {
-        // Walking through nodes
+        // * Walking through nodes
       }
       
       expect(currentIndex).to.equal(expectedOrder.length);
@@ -520,13 +520,13 @@ export const ScreenReaderUtils = {
   }
 };
 
-// Register custom Cypress commands
+// * Register custom Cypress commands
 Cypress.Commands.add('checkAccessibility', AccessibilityHelpers.checkAccessibility);
 Cypress.Commands.add('testKeyboardNavigation', AccessibilityHelpers.testKeyboardNavigation);
 Cypress.Commands.add('verifyARIAAttributes', AccessibilityHelpers.verifyARIAAttributes);
 Cypress.Commands.add('testSkipLinks', AccessibilityHelpers.testSkipLinks);
 
-// Type declarations
+// * Type declarations
 declare global {
   namespace Cypress {
     interface Chainable {

@@ -17,10 +17,10 @@ describe('TextInput Component', () => {
       />
     );
 
-    // Check that input is visible
+    // * Check that input is visible
     cy.get('[data-testid="text-input"]').should('be.visible');
     
-    // Check placeholder text
+    // // DEPRECATED: * Check placeholder text
     cy.get('[data-testid="text-input"]').should('have.attr', 'placeholder', 'Enter text...');
   });
 
@@ -34,10 +34,10 @@ describe('TextInput Component', () => {
       />
     );
 
-    // Check that label is displayed
+    // * Check that label is displayed
     cy.contains('Character Name').should('be.visible');
     
-    // Check that input is visible
+    // * Check that input is visible
     cy.get('[data-testid="text-input"]').should('be.visible');
   });
 
@@ -50,14 +50,14 @@ describe('TextInput Component', () => {
       />
     );
 
-    // Type in the input
+    // * Type in the input
     const testText = 'Aragorn the Ranger';
     cy.get('[data-testid="text-input"]').type(testText);
     
-    // Check that the value appears in the input
+    // * Check that the value appears in the input
     cy.get('[data-testid="text-input"]').should('have.value', testText);
     
-    // onChangeText should have been called
+    // TODO: onChangeText should have been called
     cy.get('@onChangeText').should('have.been.called');
   });
 
@@ -88,10 +88,10 @@ describe('TextInput Component', () => {
       />
     );
 
-    // Check that error message is displayed
+    // * Check that error message is displayed
     cy.contains(errorMessage).should('be.visible');
     
-    // Check that input has error styling (border color change)
+    // * Check that input has error styling (border color change)
     cy.get('[data-testid="text-input"]').should('have.css', 'border-color', 'rgb(220, 38, 38)'); // #DC2626
   });
 
@@ -107,13 +107,13 @@ describe('TextInput Component', () => {
       />
     );
 
-    // Multiline input should be visible
+    // TODO: * Multiline input should be visible
     cy.get('[data-testid="text-input"]').should('be.visible');
     
-    // Should have larger minimum height for multiline
+    // TODO: * Should have larger minimum height for multiline
     cy.get('[data-testid="text-input"]').should('have.css', 'min-height', '100px');
     
-    // Type multiline text
+    // * Type multiline text
     const multilineText = 'A tall warrior\nwith piercing blue eyes\nand a noble bearing';
     cy.get('[data-testid="text-input"]').type(multilineText);
     
@@ -130,12 +130,12 @@ describe('TextInput Component', () => {
       />
     );
 
-    // Check accessibility
+    // * Check accessibility
     cy.get('[data-testid="text-input"]')
       .should('be.visible')
       .and('have.attr', 'placeholder', 'Enter your email');
     
-    // Label should be associated with input
+    // TODO: * Label should be associated with input
     cy.contains('Email Address').should('be.visible');
   });
 
@@ -170,10 +170,10 @@ describe('TextInput Component', () => {
 
     cy.mount(<TestWrapper />);
 
-    // Check initial value
+    // * Check initial value
     cy.get('[data-testid="text-input"]').should('have.value', 'Initial value');
     
-    // Clear and type new value
+    // * Clear and type new value
     cy.get('[data-testid="text-input"]').clear().type('New value');
     cy.get('[data-testid="text-input"]').should('have.value', 'New value');
   });
@@ -188,7 +188,7 @@ describe('TextInput Component', () => {
       />
     );
 
-    // Check that custom styling is applied to container
+    // * Check that custom styling is applied to container
     cy.get('[data-testid="text-input"]').parent().should('have.css', 'margin-bottom', '32px');
   });
 
@@ -202,7 +202,7 @@ describe('TextInput Component', () => {
       />
     );
 
-    // Check that custom input styling is applied
+    // * Check that custom input styling is applied
     cy.get('[data-testid="text-input"]').should('have.css', 'background-color', 'rgb(55, 65, 81)');
   });
 
@@ -210,7 +210,7 @@ describe('TextInput Component', () => {
     let mockOnFocus;
     let mockOnBlur;
     
-    // Create additional stubs within the test
+    // * Create additional stubs within the test
     mockOnFocus = cy.stub().as('onFocus');
     mockOnBlur = cy.stub().as('onBlur');
     
@@ -224,11 +224,11 @@ describe('TextInput Component', () => {
       />
     );
 
-    // Focus the input
+    // * Focus the input
     cy.get('[data-testid="text-input"]').focus();
     cy.get('@onFocus').should('have.been.called');
     
-    // Blur the input
+    // * Blur the input
     cy.get('[data-testid="text-input"]').blur();
     cy.get('@onBlur').should('have.been.called');
   });
@@ -257,7 +257,7 @@ describe('TextInput Component', () => {
       />
     );
 
-    // Should render as password type in web
+    // TODO: ! SECURITY: * Should render as password type in web
     cy.get('[data-testid="text-input"]').should('have.attr', 'type', 'password');
   });
 
@@ -271,10 +271,10 @@ describe('TextInput Component', () => {
       />
     );
 
-    // Type more than max length
+    // * Type more than max length
     cy.get('[data-testid="text-input"]').type('This is a very long name');
     
-    // Should be truncated to max length
+    // TODO: * Should be truncated to max length
     cy.get('[data-testid="text-input"]').should(($input) => {
       expect($input.val().length).to.be.at.most(10);
     });
@@ -290,7 +290,7 @@ describe('TextInput Component', () => {
       />
     );
 
-    // Should be disabled
+    // TODO: * Should be disabled
     cy.get('[data-testid="text-input"]').should('be.disabled');
   });
 
@@ -304,7 +304,7 @@ describe('TextInput Component', () => {
       />
     );
 
-    // Check core styling
+    // * Check core styling
     cy.get('[data-testid="text-input"]')
       .should('have.css', 'background-color', 'rgb(31, 41, 55)') // #1F2937
       .and('have.css', 'border-width', '1px')
@@ -321,7 +321,7 @@ describe('TextInput Component', () => {
       />
     );
 
-    // Type rapidly
+    // * Type rapidly
     cy.get('[data-testid="text-input"]').type('QuickTypingTest', { delay: 0 });
     cy.get('[data-testid="text-input"]').should('have.value', 'QuickTypingTest');
   });
@@ -351,7 +351,7 @@ describe('TextInput Component', () => {
 
     const textToPaste = 'Pasted content from clipboard';
     
-    // Simulate paste operation
+    // * Simulate paste operation
     cy.get('[data-testid="text-input"]').invoke('val', textToPaste).trigger('input');
     cy.get('[data-testid="text-input"]').should('have.value', textToPaste);
   });

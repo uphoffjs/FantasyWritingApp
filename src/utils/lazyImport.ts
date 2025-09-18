@@ -35,14 +35,14 @@ export function lazyImportWithRetry<T extends ComponentType<any>>(
       return component;
     } catch (error) {
       if (!pageHasAlreadyBeenForceRefreshed) {
-        // Assuming that the user's internet connection is back online,
+        // * Assuming that the user's internet connection is back online,
         // refresh the page so they have the latest assets
         window.sessionStorage.setItem('page-has-been-force-refreshed', 'true');
         window.location.reload();
         return { default: () => null } as any;
       }
 
-      // The page has already been force refreshed,
+      // * The page has already been force refreshed,
       // so throw the original error
       throw error;
     }

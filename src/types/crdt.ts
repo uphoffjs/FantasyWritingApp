@@ -169,15 +169,15 @@ export enum CRDTOperationType {
   INSERT_AT = 'INSERT_AT',
   DELETE_AT = 'DELETE_AT',
   
-  // Counter operations
+  // * Counter operations
   INCREMENT = 'INCREMENT',
   DECREMENT = 'DECREMENT',
   
-  // Map operations
+  // * Map operations
   SET_ENTRY = 'SET_ENTRY',
   DELETE_ENTRY = 'DELETE_ENTRY',
   
-  // Rich text operations
+  // * Rich text operations
   INSERT_TEXT = 'INSERT_TEXT',
   DELETE_TEXT = 'DELETE_TEXT',
   FORMAT_TEXT = 'FORMAT_TEXT'

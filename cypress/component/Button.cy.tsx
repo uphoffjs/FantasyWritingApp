@@ -11,7 +11,7 @@ describe('Button Component', () => {
       />
     );
     
-    // React Native Web converts testID to data-testid
+    // * React Native Web converts testID to data-testid for web testing
     cy.get('[data-testid="test-button"]').should('be.visible');
     cy.get('[data-testid="test-button"]').should('contain', 'Click me');
     cy.get('[data-testid="test-button"]').click();
@@ -43,7 +43,7 @@ describe('Button Component', () => {
     );
     
     cy.get('[data-testid="loading-button"]').should('be.visible');
-    // React Native ActivityIndicator doesn't have easily testable content
+    // ? TODO: ? TODO: Find better way to test ActivityIndicator content in React Native Web
     cy.get('[data-testid="loading-button"]').should('exist');
   });
 

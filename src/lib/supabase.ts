@@ -1,7 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
 import { Database } from '../types/supabase';
 
-// Get environment variables - support both VITE_ and REACT_APP_ prefixes
+// TODO: * Get environment variables - support both VITE_ and REACT_APP_ prefixes
 const supabaseUrl = process.env.VITE_SUPABASE_URL || 
                     process.env.REACT_APP_SUPABASE_URL ||
                     'https://cbyvpuqisqmepubzrwuo.supabase.co';

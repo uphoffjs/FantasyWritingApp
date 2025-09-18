@@ -40,7 +40,7 @@ describe('ProgressReport Component', () => {
     onCloseSpy = cy.spy().as('onClose');
     mockToPng = cy.stub().resolves('data:image/png;base64,test');
     
-    // Mock window methods and html-to-image
+    // * Mock window methods and html-to-image
     cy.window().then((win) => {
       cy.stub(win, 'open').returns({
         document: {
@@ -50,7 +50,7 @@ describe('ProgressReport Component', () => {
         print: cy.stub()
       });
       
-      // Mock html-to-image module if it's used
+      // * Mock html-to-image module if it's used
       (win as any).htmlToImage = { toPng: mockToPng };
     });
   });
@@ -304,7 +304,7 @@ describe('ProgressReport Component', () => {
       cy.contains('[data-cy*="button"]', 'PDF').click();
       cy.contains('[data-cy*="button"]', 'Export').click();
 
-      // Should open a new window and call print
+      // TODO: * Should open a new window and call print
       cy.window().its('open').should('have.been.called');
     });
 
@@ -323,7 +323,7 @@ describe('ProgressReport Component', () => {
 
       cy.contains('[data-cy*="button"]', 'Export').click();
 
-      // Should set location.href with mailto link
+      // TODO: * Should set location.href with mailto link
       // Note: Can't fully test mailto in Cypress
     });
 
@@ -334,7 +334,7 @@ describe('ProgressReport Component', () => {
 
       cy.contains('[data-cy*="button"]', 'Image').click();
       
-      // Create a stub for createElement and click
+      // * Create a stub for createElement and click
       const linkElement = {
         download: '',
         href: '',
@@ -346,7 +346,7 @@ describe('ProgressReport Component', () => {
 
       cy.contains('[data-cy*="button"]', 'Export').click();
 
-      // Should create and click a download link
+      // TODO: * Should create and click a download link
       cy.wrap(linkElement.click).should('have.been.called');
     });
 
@@ -560,7 +560,7 @@ describe('ProgressReport Component', () => {
 
       cy.mount(<ProgressReport project={project} onClose={onCloseSpy} />);
 
-      // Should show abbreviated text on mobile
+      // ? TODO: * Should show abbreviated text on mobile
       cy.contains('[data-cy*="button"]', 'Export').should('be.visible');
     });
 

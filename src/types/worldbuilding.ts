@@ -1,4 +1,4 @@
-// Core worldbuilding types
+// * Core worldbuilding types
 import { Relationship } from './models/Relationship';
 
 // Re-export for backward compatibility
@@ -76,7 +76,7 @@ export interface WorldElement {
   };
 }
 
-// Relationship interface is now imported from ./models/Relationship
+// * Relationship interface is now imported from ./models/Relationship
 
 export interface ProjectSettings {
   useRichText: boolean;
@@ -104,7 +104,7 @@ export interface QuestionnaireTemplate {
   description: string;
   questions: Question[];
   isDefault?: boolean; // Pre-built templates
-  // Marketplace fields
+  // * Marketplace fields
   author?: string;
   rating?: number;
   downloads?: number;
@@ -117,7 +117,7 @@ export interface QuestionnaireTemplate {
   defaultMode?: 'basic' | 'detailed';
 }
 
-// Default question templates for each category
+// TODO: * Default question templates for each category
 export const DEFAULT_TEMPLATES: Record<ElementCategory, Partial<QuestionnaireTemplate>> = {
   'character': {
     name: 'Character Template',
@@ -250,7 +250,7 @@ export const DEFAULT_TEMPLATES: Record<ElementCategory, Partial<QuestionnaireTem
   }
 };
 
-// Input types for creating/updating elements
+// * Input types for creating/updating elements
 export interface CreateElementInput {
   name: string;
   category: ElementCategory;
@@ -260,7 +260,7 @@ export interface CreateElementInput {
   metadata?: Record<string, any>;
 }
 
-// Validation helpers
+// * Validation helpers
 export function validateElementInput(input: CreateElementInput): void {
   if (!input.name || input.name.trim() === '') {
     throw new Error('Element name is required');
@@ -279,7 +279,7 @@ export function validateElementInput(input: CreateElementInput): void {
   }
 }
 
-// Type guards
+// * Type guards
 export function hasStandardCategory(element: WorldElement): boolean {
   return element.category !== 'custom' && !element.customTypeId;
 }

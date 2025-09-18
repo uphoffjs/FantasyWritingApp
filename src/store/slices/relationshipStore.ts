@@ -8,22 +8,22 @@ import {
 } from '../../services/core/RelationshipOptimizationService';
 
 export interface RelationshipSlice {
-  // Relationship optimization
+  // ! PERFORMANCE: * Relationship optimization
   relationshipMaps: RelationshipMaps | null;
   
-  // Relationship actions
+  // * Relationship actions
   addRelationship: (projectId: string, relationship: Omit<Relationship, 'id'>) => void;
   removeRelationship: (projectId: string, relationshipId: string) => void;
   getElementRelationships: (projectId: string, elementId: string) => Relationship[];
   getRelatedElements: (projectId: string, elementId: string) => string[];
   
-  // Optimization actions
+  // ! PERFORMANCE: * Optimization actions
   rebuildRelationshipIndexes: (projectId: string) => void;
   getRelationshipsByType: (projectId: string, type: string) => Relationship[];
   areElementsRelated: (projectId: string, elementId1: string, elementId2: string) => boolean;
 }
 
-// Create a combined interface for slices that depend on each other
+// * Create a combined interface for slices that depend on each other
 interface RelationshipStoreWithProject extends RelationshipSlice, ProjectSlice {}
 
 export const createRelationshipSlice: StateCreator<
@@ -32,10 +32,10 @@ export const createRelationshipSlice: StateCreator<
   [],
   RelationshipSlice
 > = (set, get) => ({
-  // Initialize optimization state
+  // ! PERFORMANCE: * Initialize optimization state
   relationshipMaps: null,
   
-  // Relationship actions
+  // * Relationship actions
   addRelationship: (projectId, relationship) => {
     const newRelationship: Relationship = {
       ...relationship,
@@ -63,7 +63,7 @@ export const createRelationshipSlice: StateCreator<
       )
     }));
     
-    // Rebuild indexes after adding relationship
+    // * Rebuild indexes after adding relationship
     get().rebuildRelationshipIndexes(projectId);
   },
 
@@ -83,7 +83,7 @@ export const createRelationshipSlice: StateCreator<
       )
     }));
     
-    // Rebuild indexes after removing relationship
+    // * Rebuild indexes after removing relationship
     get().rebuildRelationshipIndexes(projectId);
   },
 
@@ -92,17 +92,17 @@ export const createRelationshipSlice: StateCreator<
     const project = state.projects.find((p) => p.id === projectId);
     if (!project) return [];
     
-    // Try to use optimized lookup if indexes are built
+    // * Try to use optimized lookup if indexes are built
     if (state.currentProjectId === projectId && state.relationshipMaps) {
       try {
         const { all } = relationshipOptimizer.getElementRelationships(elementId);
         return all;
       } catch (e) {
-        // Fall back to direct lookup if indexes not ready
+        // * Fall back to direct lookup if indexes not ready
       }
     }
     
-    // Fallback to direct lookup
+    // * Fallback to direct lookup
     const element = project.elements.find((e) => e.id === elementId);
     if (!element) return [];
     
@@ -114,19 +114,19 @@ export const createRelationshipSlice: StateCreator<
     const project = state.projects.find((p) => p.id === projectId);
     if (!project) return [];
     
-    // Try to use optimized lookup if indexes are built
+    // * Try to use optimized lookup if indexes are built
     if (state.currentProjectId === projectId && state.relationshipMaps) {
       try {
         return relationshipOptimizer.getRelatedElementIds(elementId);
       } catch (e) {
-        // Fall back to O(n²) lookup if indexes not ready
+        // * Fall back to O(n²) lookup if indexes not ready
       }
     }
     
-    // Fallback to O(n²) lookup
+    // * Fallback to O(n²) lookup
     const relatedIds: string[] = [];
     
-    // Get all relationships where this element is involved
+    // * Get all relationships where this element is involved
     project.elements.forEach(element => {
       (element.relationships || []).forEach(rel => {
         if (rel.fromId === elementId) {
@@ -138,19 +138,19 @@ export const createRelationshipSlice: StateCreator<
       });
     });
     
-    // Return unique element IDs
+    // * Return unique element IDs
     return [...new Set(relatedIds)];
   },
   
-  // New optimization actions
+  // ! PERFORMANCE: * New optimization actions
   rebuildRelationshipIndexes: (projectId) => {
     const project = get().projects.find((p) => p.id === projectId);
     if (!project) return;
     
-    // Build indexes using optimization service
+    // ! PERFORMANCE: * Build indexes using optimization service
     const maps = relationshipOptimizer.buildIndexes(project.elements);
     
-    // Update store state with new indexes
+    // * Update store state with new indexes
     set({ 
       relationshipMaps: maps 
     });
@@ -159,16 +159,16 @@ export const createRelationshipSlice: StateCreator<
   getRelationshipsByType: (projectId, type) => {
     const state = get();
     
-    // Ensure we're working with the current project
+    // * Ensure we're working with the current project
     if (state.currentProjectId === projectId && state.relationshipMaps) {
       try {
         return relationshipOptimizer.getRelationshipsByType(type as any);
       } catch (e) {
-        // Fall back if indexes not ready
+        // * Fall back if indexes not ready
       }
     }
     
-    // Fallback to direct search
+    // * Fallback to direct search
     const project = state.projects.find((p) => p.id === projectId);
     if (!project) return [];
     
@@ -187,16 +187,16 @@ export const createRelationshipSlice: StateCreator<
   areElementsRelated: (projectId, elementId1, elementId2) => {
     const state = get();
     
-    // Use optimized lookup if available
+    // * Use optimized lookup if available
     if (state.currentProjectId === projectId && state.relationshipMaps) {
       try {
         return relationshipOptimizer.areElementsRelated(elementId1, elementId2);
       } catch (e) {
-        // Fall back if indexes not ready
+        // * Fall back if indexes not ready
       }
     }
     
-    // Fallback to direct search
+    // * Fallback to direct search
     const relatedIds = get().getRelatedElements(projectId, elementId1);
     return relatedIds.includes(elementId2);
   }

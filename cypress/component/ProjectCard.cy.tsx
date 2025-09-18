@@ -2,7 +2,7 @@ import React from 'react';
 import { ProjectCard } from '../support/component-test-helpers';
 
 describe('ProjectCard Component', () => {
-  // Mock project data
+  // * Mock project data
   const mockProject = {
     id: 'test-project-1',
     name: 'The Chronicles of Eldoria',
@@ -42,7 +42,7 @@ describe('ProjectCard Component', () => {
   let mockOnDelete;
 
   beforeEach(() => {
-    // Create stubs inside beforeEach
+    // * Create stubs inside beforeEach
     mockOnPress = cy.stub().as('onPress');
     mockOnEdit = cy.stub().as('onEdit');
     mockOnDuplicate = cy.stub().as('onDuplicate');
@@ -61,22 +61,22 @@ describe('ProjectCard Component', () => {
       />
     );
 
-    // Check that the card is visible
+    // * Check that the card is visible
     cy.get('[data-testid="project-card"]').should('be.visible');
     
-    // Check project name
+    // * Check project name
     cy.contains('The Chronicles of Eldoria').should('be.visible');
     
-    // Check description
+    // * Check description
     cy.contains('An epic fantasy tale of magic, dragons').should('be.visible');
     
-    // Check genre tag
+    // * Check genre tag
     cy.contains('fantasy').should('be.visible');
     
-    // Check status tag
+    // * Check status tag
     cy.contains('Active').should('be.visible');
     
-    // Check element count
+    // * Check element count
     cy.contains('2 elements').should('be.visible');
   });
 
@@ -94,7 +94,7 @@ describe('ProjectCard Component', () => {
 
     cy.get('[data-testid="project-card"]').click();
     
-    // Should call onPress with project
+    // TODO: * Should call onPress with project
     cy.get('@onPress').should('have.been.calledWith', mockProject);
   });
 
@@ -115,7 +115,7 @@ describe('ProjectCard Component', () => {
       />
     );
 
-    // Check that image is rendered
+    // * Check that image is rendered
     cy.get('[data-testid="project-card"]').within(() => {
       cy.get('img').should('have.attr', 'src', 'https://example.com/cover.jpg');
     });
@@ -133,7 +133,7 @@ describe('ProjectCard Component', () => {
       />
     );
 
-    // Check that folder icon is displayed
+    // // DEPRECATED: * Check that folder icon is displayed
     cy.get('[data-testid="project-card"]').should('contain.text', '📁');
   });
 
@@ -149,10 +149,10 @@ describe('ProjectCard Component', () => {
       />
     );
 
-    // Click the action button (⋮)
+    // * Click the action button (⋮)
     cy.get('[data-testid="project-action-button"]').click();
     
-    // Check that action menu is visible
+    // * Check that action menu is visible
     cy.get('[data-testid="project-action-menu"]').should('be.visible');
     cy.contains('Edit').should('be.visible');
     cy.contains('Duplicate').should('be.visible');
@@ -171,14 +171,14 @@ describe('ProjectCard Component', () => {
       />
     );
 
-    // Open action menu
+    // * Open action menu
     cy.get('[data-testid="project-action-button"]').click();
     cy.get('[data-testid="project-action-menu"]').should('be.visible');
     
-    // Click overlay to close (clicking outside the menu)
+    // * Click overlay to close (clicking outside the menu)
     cy.get('body').click(0, 0);
     
-    // Menu should be hidden
+    // TODO: * Menu should be hidden
     cy.get('[data-testid="project-action-menu"]').should('not.exist');
   });
 
@@ -205,10 +205,10 @@ describe('ProjectCard Component', () => {
         />
       );
 
-      // Check status text
+      // * Check status text
       cy.contains(expectedText).should('be.visible');
       
-      // Check status color (may be approximate due to alpha channel)
+      // * Check status color (may be approximate due to alpha channel)
       cy.contains(expectedText).should('have.css', 'color', expectedColor);
     });
   });
@@ -225,7 +225,7 @@ describe('ProjectCard Component', () => {
       />
     );
 
-    // Check that dates are formatted correctly
+    // * Check that dates are formatted correctly
     cy.contains('📅 Jan 1, 2024').should('be.visible'); // Created date
     cy.contains('🕐 Jan 15, 2024').should('be.visible'); // Updated date
   });
@@ -244,7 +244,7 @@ describe('ProjectCard Component', () => {
       />
     );
 
-    // Should show default message
+    // ? TODO: * Should show default message
     cy.contains('No description provided').should('be.visible');
   });
 
@@ -262,7 +262,7 @@ describe('ProjectCard Component', () => {
       />
     );
 
-    // Genre tag should not be visible
+    // TODO: * Genre tag should not be visible
     cy.get('[data-testid="project-card"]').should('not.contain', 'fantasy');
   });
 
@@ -280,12 +280,12 @@ describe('ProjectCard Component', () => {
       />
     );
 
-    // Status tag should not be visible
+    // TODO: * Status tag should not be visible
     cy.get('[data-testid="project-card"]').should('not.contain', 'Active');
   });
 
   it('should show delete confirmation and handle deletion', () => {
-    // Mock window.confirm for web
+    // * Mock window.confirm for web
     cy.window().its('confirm').should('exist');
     cy.window().then((win) => {
       cy.stub(win, 'confirm').returns(true).as('confirm');
@@ -302,21 +302,21 @@ describe('ProjectCard Component', () => {
       />
     );
 
-    // Open action menu and click delete
+    // * Open action menu and click delete
     cy.contains('⋮').click();
     cy.contains('🗑️ Delete Project').click();
     
-    // Should show confirmation
+    // ? TODO: * Should show confirmation
     cy.get('@confirm').should('have.been.calledWith', 
       'Are you sure you want to delete "The Chronicles of Eldoria"? This action cannot be undone.'
     );
     
-    // Should call onDelete
+    // TODO: * Should call onDelete
     cy.get('@onDelete').should('have.been.calledWith', 'test-project-1');
   });
 
   it('should handle delete confirmation cancellation', () => {
-    // Mock window.confirm to return false
+    // * Mock window.confirm to return false
     cy.window().then((win) => {
       cy.stub(win, 'confirm').returns(false).as('confirm');
     });
@@ -332,11 +332,11 @@ describe('ProjectCard Component', () => {
       />
     );
 
-    // Open action menu and click delete
+    // * Open action menu and click delete
     cy.contains('⋮').click();
     cy.contains('🗑️ Delete Project').click();
     
-    // Should show confirmation but not call onDelete
+    // ? TODO: * Should show confirmation but not call onDelete
     cy.get('@confirm').should('have.been.called');
     cy.get('@onDelete').should('not.have.been.called');
   });
@@ -351,12 +351,12 @@ describe('ProjectCard Component', () => {
       />
     );
 
-    // Open action menu
+    // * Open action menu
     cy.contains('⋮').click();
     
-    // Should show loading indicator instead of delete text
+    // ? TODO: * Should show loading indicator instead of delete text
     cy.get('[data-testid="project-card"]').within(() => {
-      // Look for ActivityIndicator (in React Native Web becomes a spinner)
+      // * Look for ActivityIndicator (in React Native Web becomes a spinner)
       cy.get('*').should('exist'); // Loading indicator should be present
     });
   });
@@ -373,12 +373,12 @@ describe('ProjectCard Component', () => {
       />
     );
 
-    // Open action menu and click duplicate
+    // * Open action menu and click duplicate
     cy.contains('⋮').click();
     cy.contains('📋 Duplicate').click();
     
-    // Should show coming soon alert (mocked)
-    // In real implementation, this would trigger an alert
+    // ? TODO: * Should show coming soon alert (mocked)
+    // * In real implementation, this would trigger an alert
   });
 
   it('should handle edit action', () => {
@@ -393,12 +393,12 @@ describe('ProjectCard Component', () => {
       />
     );
 
-    // Open action menu and click edit
+    // * Open action menu and click edit
     cy.contains('⋮').click();
     cy.contains('✏️ Edit Project').click();
     
-    // Should show coming soon alert (mocked)
-    // In real implementation, this would trigger an alert
+    // ? TODO: * Should show coming soon alert (mocked)
+    // * In real implementation, this would trigger an alert
   });
 
   it('should be accessible', () => {
@@ -413,7 +413,7 @@ describe('ProjectCard Component', () => {
       />
     );
 
-    // Check that the card has proper accessibility
+    // * Check that the card has proper accessibility
     cy.get('[data-testid="project-card"]')
       .should('be.visible')
       .and('have.attr', 'role'); // Pressable in React Native Web becomes a [data-cy*="button"]-like element
@@ -433,7 +433,7 @@ describe('ProjectCard Component', () => {
       />
     );
 
-    // Should still be visible and not break layout
+    // TODO: * Should still be visible and not break layout
     cy.get('[data-testid="project-card"]').should('be.visible');
     cy.contains('This is a very long project name').should('be.visible');
   });
@@ -467,10 +467,10 @@ describe('ProjectCard Component', () => {
       />
     );
 
-    // Simulate long press (trigger onLongPress)
+    // * Simulate long press (trigger onLongPress)
     cy.get('[data-testid="project-card"]').trigger('contextmenu');
     
-    // Action menu should appear
+    // TODO: * Action menu should appear
     cy.contains('Edit Project').should('be.visible');
   });
 
@@ -498,7 +498,7 @@ describe('ProjectCard Component', () => {
         />
       );
 
-      // Each variation should render properly
+      // TODO: * Each variation should render properly
       cy.get('[data-testid="project-card"]').should('be.visible');
       cy.contains(project.name).should('be.visible');
       cy.contains(project.description).should('be.visible');

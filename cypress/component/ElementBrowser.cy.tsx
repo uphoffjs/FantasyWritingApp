@@ -2,7 +2,7 @@ import React from 'react';
 import { ElementBrowser, WorldElement } from '../support/component-test-helpers';
 
 describe('ElementBrowser Component', () => {
-  // Mock elements data for testing
+  // * Mock elements data for testing
   const mockElements: WorldElement[] = [
     {
       id: 'element-1',
@@ -74,13 +74,13 @@ describe('ElementBrowser Component', () => {
       />
     );
 
-    // Check that elements are rendered
+    // * Check that elements are rendered
     cy.contains('Aragorn').should('be.visible');
     cy.contains('Rivendell').should('be.visible');
     cy.contains('Sting').should('be.visible');
     cy.contains('Fireball').should('be.visible');
     
-    // Check result count
+    // * Check result count
     cy.contains('4 elements').should('be.visible');
   });
 
@@ -94,16 +94,16 @@ describe('ElementBrowser Component', () => {
       />
     );
 
-    // Type in search box
+    // * Type in search box
     cy.get('input[placeholder="Search elements..."]').type('Aragorn');
     
-    // Should show only matching element
+    // ? TODO: * Should show only matching element
     cy.contains('Aragorn').should('be.visible');
     cy.contains('Rivendell').should('not.exist');
     cy.contains('Sting').should('not.exist');
     cy.contains('Fireball').should('not.exist');
     
-    // Check updated result count
+    // * Check updated result count
     cy.contains('1 element').should('be.visible');
   });
 
@@ -116,10 +116,10 @@ describe('ElementBrowser Component', () => {
       />
     );
 
-    // Search by description content
+    // * Search by description content
     cy.get('input[placeholder="Search elements..."]').type('elven');
     
-    // Should show both Rivendell (elven city) and Sting (elven sword)
+    // ? TODO: * Should show both Rivendell (elven city) and Sting (elven sword)
     cy.contains('Rivendell').should('be.visible');
     cy.contains('Sting').should('be.visible');
     cy.contains('Aragorn').should('not.exist');
@@ -137,10 +137,10 @@ describe('ElementBrowser Component', () => {
       />
     );
 
-    // Search by tag
+    // * Search by tag
     cy.get('input[placeholder="Search elements..."]').type('magical');
     
-    // Should show Sting (has 'magical' tag)
+    // ? TODO: * Should show Sting (has 'magical' tag)
     cy.contains('Sting').should('be.visible');
     cy.contains('Aragorn').should('not.exist');
     cy.contains('Rivendell').should('not.exist');
@@ -156,14 +156,14 @@ describe('ElementBrowser Component', () => {
       />
     );
 
-    // Type in search
+    // * Type in search
     cy.get('input[placeholder="Search elements..."]').type('Aragorn');
     cy.contains('1 element').should('be.visible');
     
-    // Clear search
+    // * Clear search
     cy.contains('✕').click();
     
-    // Should show all elements again
+    // ? TODO: * Should show all elements again
     cy.contains('4 elements').should('be.visible');
     cy.contains('Aragorn').should('be.visible');
     cy.contains('Rivendell').should('be.visible');
@@ -178,10 +178,10 @@ describe('ElementBrowser Component', () => {
       />
     );
 
-    // Click on Characters filter
+    // * Click on Characters filter
     cy.contains('Characters').click();
     
-    // Should show only character elements
+    // ? TODO: * Should show only character elements
     cy.contains('Aragorn').should('be.visible');
     cy.contains('Rivendell').should('not.exist');
     cy.contains('Sting').should('not.exist');
@@ -199,10 +199,10 @@ describe('ElementBrowser Component', () => {
       />
     );
 
-    // Click on Locations filter
+    // * Click on Locations filter
     cy.contains('Locations').click();
     
-    // Should show only location elements
+    // ? TODO: * Should show only location elements
     cy.contains('Rivendell').should('be.visible');
     cy.contains('Aragorn').should('not.exist');
     cy.contains('Sting').should('not.exist');
@@ -218,14 +218,14 @@ describe('ElementBrowser Component', () => {
       />
     );
 
-    // Filter by category first
+    // * Filter by category first
     cy.contains('Characters').click();
     cy.contains('1 element').should('be.visible');
     
-    // Switch back to All
+    // * Switch back to All
     cy.contains('All').click();
     
-    // Should show all elements
+    // ? TODO: * Should show all elements
     cy.contains('4 elements').should('be.visible');
   });
 
@@ -238,17 +238,17 @@ describe('ElementBrowser Component', () => {
       />
     );
 
-    // Open sort dropdown
+    // * Open sort dropdown
     cy.contains('Sort by Recently Updated').click();
     
-    // Select name sorting
+    // * Select name sorting
     cy.contains('Name').click();
     
-    // Should update sort indicator
+    // TODO: * Should update sort indicator
     cy.contains('Sort by Name').should('be.visible');
     
-    // Elements should be sorted alphabetically (need to check order)
-    // Alphabetical order should be: Aragorn, Fireball, Rivendell, Sting
+    // TODO: * Elements should be sorted alphabetically (need to check order)
+    // TODO: * Alphabetical order should be: Aragorn, Fireball, Rivendell, Sting
   });
 
   it('should handle sorting by completion percentage', () => {
@@ -260,13 +260,13 @@ describe('ElementBrowser Component', () => {
       />
     );
 
-    // Open sort dropdown
+    // * Open sort dropdown
     cy.contains('Sort by Recently Updated').click();
     
-    // Select completion sorting
+    // * Select completion sorting
     cy.contains('Completion %').click();
     
-    // Should update sort indicator
+    // TODO: * Should update sort indicator
     cy.contains('Sort by Completion %').should('be.visible');
   });
 
@@ -279,10 +279,10 @@ describe('ElementBrowser Component', () => {
       />
     );
 
-    // Click on an element card
+    // * Click on an element card
     cy.contains('Aragorn').click();
     
-    // Should call onElementPress with the correct element
+    // TODO: * Should call onElementPress with the correct element
     cy.get('@onElementPress').should('have.been.calledWith', mockElements[0]);
   });
 
@@ -296,12 +296,12 @@ describe('ElementBrowser Component', () => {
       />
     );
 
-    // Check empty state
+    // * Check empty state
     cy.contains('No elements yet').should('be.visible');
     cy.contains('Create your first element to get started').should('be.visible');
     cy.contains('Create Element').should('be.visible');
     
-    // Check empty icon
+    // * Check empty icon
     cy.contains('📝').should('be.visible');
   });
 
@@ -314,14 +314,14 @@ describe('ElementBrowser Component', () => {
       />
     );
 
-    // Search for something that doesn't exist
+    // * Search for something that doesn't exist
     cy.get('input[placeholder="Search elements..."]').type('NonexistentElement');
     
-    // Check filtered empty state
+    // * Check filtered empty state
     cy.contains('No elements found').should('be.visible');
     cy.contains('Try adjusting your filters').should('be.visible');
     
-    // Create [data-cy*="button"] should not be visible in filtered empty state
+    // TODO: Create [data-cy*="button"] should not be visible in filtered empty state
     cy.contains('Create Element').should('not.exist');
   });
 
@@ -335,7 +335,7 @@ describe('ElementBrowser Component', () => {
       />
     );
 
-    // Click create [data-cy*="button"] in empty state
+    // * Click create [data-cy*="button"] in empty state
     cy.contains('Create Element').click();
     
     cy.get('@onCreateElement').should('have.been.called');
@@ -351,7 +351,7 @@ describe('ElementBrowser Component', () => {
       />
     );
 
-    // Check for floating action [data-cy*="button"]
+    // * Check for floating action [data-cy*="button"]
     cy.contains('+').should('be.visible');
   });
 
@@ -365,7 +365,7 @@ describe('ElementBrowser Component', () => {
       />
     );
 
-    // Click floating action [data-cy*="button"]
+    // * Click floating action [data-cy*="button"]
     cy.contains('+').click();
     
     cy.get('@onCreateElement').should('have.been.called');
@@ -381,10 +381,10 @@ describe('ElementBrowser Component', () => {
       />
     );
 
-    // Check loading state
+    // * Check loading state
     cy.contains('Loading elements...').should('be.visible');
     
-    // Should show activity indicator (appears as spinner in web)
+    // ? TODO: * Should show activity indicator (appears as spinner in web)
     cy.get('[data-testid="element-browser"]').should('exist');
   });
 
@@ -399,8 +399,8 @@ describe('ElementBrowser Component', () => {
       />
     );
 
-    // Pull to refresh is difficult to test in component tests
-    // But we can verify the refresh control is set up
+    // * Pull to refresh is difficult to test in component tests
+    // * But we can verify the refresh control is set up
     cy.get('[data-testid="element-browser"]').should('be.visible');
   });
 
@@ -413,15 +413,15 @@ describe('ElementBrowser Component', () => {
       />
     );
 
-    // Apply category filter first
+    // * Apply category filter first
     cy.contains('Items').click(); // Should show Sting
     cy.contains('1 element').should('be.visible');
     cy.contains('Sting').should('be.visible');
     
-    // Then apply search
+    // * Then apply search
     cy.get('input[placeholder="Search elements..."]').type('sword');
     
-    // Should still show Sting (item that matches search)
+    // ? TODO: * Should still show Sting (item that matches search)
     cy.contains('Sting').should('be.visible');
   });
 
@@ -434,11 +434,11 @@ describe('ElementBrowser Component', () => {
       />
     );
 
-    // Search with different cases
+    // * Search with different cases
     cy.get('input[placeholder="Search elements..."]').type('ARAGORN');
     cy.contains('Aragorn').should('be.visible');
     
-    // Clear and try lowercase
+    // * Clear and try lowercase
     cy.contains('✕').click();
     cy.get('input[placeholder="Search elements..."]').type('rivendell');
     cy.contains('Rivendell').should('be.visible');
@@ -453,13 +453,13 @@ describe('ElementBrowser Component', () => {
       />
     );
 
-    // Apply category filter
+    // * Apply category filter
     cy.contains('Characters').click();
     
-    // Search within that category
+    // * Search within that category
     cy.get('input[placeholder="Search elements..."]').type('Aragorn');
     
-    // Should maintain both filter and search
+    // TODO: * Should maintain both filter and search
     cy.contains('Characters').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
     cy.contains('Aragorn').should('be.visible');
     cy.contains('1 element').should('be.visible');
@@ -474,14 +474,14 @@ describe('ElementBrowser Component', () => {
       />
     );
 
-    // Open sort dropdown
+    // * Open sort dropdown
     cy.contains('Sort by Recently Updated').click();
     cy.contains('Name').should('be.visible');
     
-    // Select an option
+    // * Select an option
     cy.contains('Name').click();
     
-    // Dropdown should close
+    // TODO: * Dropdown should close
     cy.contains('Completion %').should('not.exist');
   });
 
@@ -494,7 +494,7 @@ describe('ElementBrowser Component', () => {
       />
     );
 
-    // Check that category filter chips have correct icons
+    // * Check that category filter chips have correct icons
     cy.contains('👤').should('be.visible'); // Characters
     cy.contains('📍').should('be.visible'); // Locations  
     cy.contains('🗝️').should('be.visible'); // Items

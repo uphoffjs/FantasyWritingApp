@@ -54,7 +54,7 @@ export const useToastStore = create<ToastStore>((set) => ({
     return id
   },
   
-  // Alias for addToast for backward compatibility
+  // * Alias for addToast for backward compatibility
   showToast: (toastData): string => {
     return useToastStore.getState().addToast(toastData)
   },
@@ -70,7 +70,7 @@ export const useToastStore = create<ToastStore>((set) => ({
   }
 }))
 
-// Helper functions for common toast types
+// * Helper functions for common toast types
 export const showSuccessToast = (title: string, message?: string) => {
   return useToastStore.getState().addToast({
     type: 'success',
@@ -105,7 +105,7 @@ export const showWarningToast = (title: string, message?: string) => {
   })
 }
 
-// Specific toast helpers for sync operations
+// * Specific toast helpers for sync operations
 export const showSyncSuccessToast = () => {
   return showSuccessToast('Changes saved to cloud', 'All your projects are backed up')
 }

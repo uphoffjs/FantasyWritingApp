@@ -58,15 +58,15 @@ describe('ProgressBar Component', () => {
   });
 
   it('should apply color based on value', () => {
-    // Low progress - blood (red) theme color
+    // * Low progress - blood (red) theme color
     cy.mount(<ProgressBar value={20} />);
     cy.get('[data-testid="progress-fill"]').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
     
-    // Medium progress - flame (orange) theme color
+    // * Medium progress - flame (orange) theme color
     cy.mount(<ProgressBar value={50} />);
     cy.get('[data-testid="progress-fill"]').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
     
-    // High progress - forest (green) theme color
+    // * High progress - forest (green) theme color
     cy.mount(<ProgressBar value={80} />);
     cy.get('[data-testid="progress-fill"]').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
     

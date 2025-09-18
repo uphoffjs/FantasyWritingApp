@@ -1,5 +1,5 @@
-// Test optimization configuration and setup
-// Applies performance improvements, memory management, and anti-flakiness measures
+// ! PERFORMANCE: * Test optimization configuration and setup
+// TODO: ! PERFORMANCE: * Applies performance improvements, memory management, and anti-flakiness measures
 
 import { 
   MemoryManagement,
@@ -13,7 +13,7 @@ import {
  * Global test configuration for optimization
  */
 export const TestConfig = {
-  // Performance budgets (in ms)
+  // ! PERFORMANCE: * Performance budgets (in ms)
   performanceBudgets: {
     componentMount: 100,
     componentRender: 50,
@@ -23,21 +23,21 @@ export const TestConfig = {
     animation: 300
   },
   
-  // Memory thresholds (in bytes)
+  // // DEPRECATED: * Memory thresholds (in bytes)
   memoryThresholds: {
     leak: 1000000, // 1MB
     warning: 5000000, // 5MB
     critical: 10000000 // 10MB
   },
   
-  // Retry configuration
+  // * Retry configuration
   retryConfig: {
     maxRetries: 3,
     baseDelay: 100,
     maxDelay: 2000
   },
   
-  // Timeout configuration
+  // * Timeout configuration
   timeouts: {
     short: 5000,
     medium: 10000,
@@ -45,7 +45,7 @@ export const TestConfig = {
     network: 15000
   },
   
-  // Parallelization config
+  // * Parallelization config
   parallelConfig: {
     maxConcurrency: 3,
     batchSize: 5
@@ -56,63 +56,63 @@ export const TestConfig = {
  * Performance hooks for all tests
  */
 export const setupPerformanceHooks = () => {
-  // Before all tests
+  // * Before all tests
   before(() => {
-    // Clear any previous state
+    // * Clear any previous state
     MemoryManagement.performCleanup();
     PerformanceMonitoring.clearMetrics();
     
-    // Start resource monitoring
+    // * Start resource monitoring
     if (Cypress.config('watchForFileChanges')) {
       ResourceMonitoring.monitorCPU();
       ResourceMonitoring.monitorFrameRate();
     }
   });
   
-  // Before each test
+  // * Before each test
   beforeEach(() => {
-    // Take initial memory snapshot
+    // * Take initial memory snapshot
     MemoryManagement.takeSnapshot('test-start');
     
-    // Clear timers from previous tests
+    // * Clear timers from previous tests
     MemoryManagement.clearAllTimers();
     
-    // Set up network idle detection
+    // * Set up network idle detection
     cy.intercept('**/*', { middleware: true }, (req) => {
       req.alias = 'networkRequest';
     });
   });
   
-  // After each test
+  // * After each test
   afterEach(() => {
-    // Clean up DOM
+    // * Clean up DOM
     MemoryManagement.cleanupDOM();
     
-    // Clear React Fiber cache
+    // ! PERFORMANCE: Clear React Fiber cache
     MemoryManagement.clearReactFiber();
     
-    // Clear event listeners
+    // * Clear event listeners
     MemoryManagement.clearEventListeners();
     
-    // Take final memory snapshot
+    // * Take final memory snapshot
     MemoryManagement.takeSnapshot('test-end');
     
-    // Check for memory leaks
+    // * Check for memory leaks
     const leak = MemoryManagement.compareSnapshots('test-start', 'test-end');
     if (leak > TestConfig.memoryThresholds.warning) {
       cy.log(`⚠️ Potential memory leak: ${(leak / 1000000).toFixed(2)}MB`);
     }
     
-    // Force garbage collection
+    // * Force garbage collection
     MemoryManagement.forceGarbageCollection();
   });
   
-  // After all tests
+  // * After all tests
   after(() => {
-    // Generate performance report
+    // ! PERFORMANCE: * Generate performance report
     generatePerformanceReport();
     
-    // Final cleanup
+    // * Final cleanup
     MemoryManagement.performCleanup();
   });
 };
@@ -131,7 +131,7 @@ export const OptimizedHelpers = {
     
     const duration = PerformanceMonitoring.endTiming('mount', start);
     
-    // Check performance budget
+    // ! PERFORMANCE: * Check performance budget
     if (duration > TestConfig.performanceBudgets.componentMount) {
       cy.log(`⚠️ Slow mount: ${duration.toFixed(2)}ms`);
     }
@@ -288,14 +288,14 @@ export const BenchmarkHelpers = {
       results[impl.name] = stats.avg;
     }
     
-    // Find the fastest
+    // * Find the fastest
     const fastest = Object.entries(results).reduce((prev, curr) => 
       curr[1] < prev[1] ? curr : prev
     );
     
     cy.log(`🏆 Fastest: ${fastest[0]} (${fastest[1].toFixed(2)}ms)`);
     
-    // Show comparisons
+    // ? * Show comparisons
     Object.entries(results).forEach(([name, time]) => {
       if (name !== fastest[0]) {
         const diff = ((time - fastest[1]) / fastest[1] * 100).toFixed(1);
@@ -313,7 +313,7 @@ export const BenchmarkHelpers = {
 const generatePerformanceReport = () => {
   cy.log('📊 === Performance Report ===');
   
-  // Memory usage
+  // * Memory usage
   const memorySnapshots = Array.from(MemoryManagement.memorySnapshots.entries());
   if (memorySnapshots.length > 0) {
     cy.log('💾 Memory Usage:');
@@ -322,7 +322,7 @@ const generatePerformanceReport = () => {
     });
   }
   
-  // Timing statistics
+  // * Timing statistics
   const timingLabels = Array.from(PerformanceMonitoring.metrics.keys());
   if (timingLabels.length > 0) {
     cy.log('⏱️ Timing Statistics:');
@@ -336,7 +336,7 @@ const generatePerformanceReport = () => {
     });
   }
   
-  // Benchmark results
+  // * Benchmark results
   const benchmarks = Array.from(Benchmarking.benchmarks.entries());
   if (benchmarks.length > 0) {
     cy.log('🏃 Benchmark Results:');
@@ -356,7 +356,7 @@ Cypress.Commands.add('stableAssert', StableWrappers.stableAssert);
 Cypress.Commands.add('waitForStableState', OptimizedHelpers.waitForStableState);
 Cypress.Commands.add('benchmarkRender', BenchmarkHelpers.benchmarkRender);
 
-// Type declarations
+// * Type declarations
 declare global {
   namespace Cypress {
     interface Chainable {

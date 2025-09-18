@@ -14,46 +14,46 @@
  */
 
 import React from 'react';
-// Import your component
+// * Import your component
 // import { ComponentName } from '../../src/components/ComponentName';
 
-// Import factories if needed
-// import { ElementFactory } from '../fixtures/factories/ElementFactory';
+// * Import factories if needed
+// TODO: import { ElementFactory } from '../fixtures/factories/ElementFactory';
 
-// Import test utilities if needed
+// * Import test utilities if needed
 // import { mountWithProviders } from '../support/component-test-helpers';
 
 describe('ComponentName Component', () => {
-  // Setup that runs before each test
+  // * Setup that runs before each test
   beforeEach(() => {
-    // Reset factories if using them
+    // * Reset factories if using them
     cy.task('factory:reset');
     
-    // Set up any required test data
+    // * Set up any required test data
     // const testData = ElementFactory.create();
   });
 
-  // Cleanup that runs after each test
+  // * Cleanup that runs after each test
   afterEach(() => {
-    // Clean up any test artifacts
-    // This helps prevent test pollution
+    // * Clean up any test artifacts
+    // * This helps prevent test pollution
   });
 
   describe('Rendering', () => {
     it('renders with required props', () => {
-      // Test the most basic rendering scenario
+      // * Test the most basic rendering scenario
       cy.mount(
         <ComponentName
           requiredProp="value"
         />
       );
       
-      // Check that essential elements are present
+      // * Check that essential elements are present
       cy.get('[data-testid="component-name"]').should('be.visible');
     });
 
     it('renders with all props', () => {
-      // Test with all possible props
+      // * Test with all possible props
       cy.mount(
         <ComponentName
           requiredProp="value"
@@ -62,20 +62,20 @@ describe('ComponentName Component', () => {
         />
       );
       
-      // Verify all elements render correctly
+      // * Verify all elements render correctly
       cy.get('[data-testid="component-name"]').should('have.class', 'custom-class');
     });
 
     it('displays correct initial state', () => {
-      // Test that initial state is correct
+      // * Test that initial state is correct
       cy.mount(<ComponentName />);
       
-      // Check initial values
+      // * Check initial values
       cy.get('[data-testid="status"]').should('contain', 'idle');
     });
 
     it('applies custom className', () => {
-      // Test that custom classes are applied
+      // * Test that custom classes are applied
       cy.mount(
         <ComponentName className="test-class" />
       );
@@ -136,40 +136,40 @@ describe('ComponentName Component', () => {
     it('updates state on user action', () => {
       cy.mount(<ComponentName />);
       
-      // Initial state
+      // * Initial state
       cy.get('[data-testid="counter"]').should('contain', '0');
       
-      // User action
+      // * User action
       cy.get('[data-testid="increment-button"]').click();
       
-      // Updated state
+      // * Updated state
       cy.get('[data-testid="counter"]').should('contain', '1');
     });
 
     it('maintains state across interactions', () => {
       cy.mount(<ComponentName />);
       
-      // Multiple interactions
+      // * Multiple interactions
       cy.get('[data-testid="input"]').type('first');
       cy.get('[data-testid="add-button"]').click();
       cy.get('[data-testid="input"]').clear().type('second');
       cy.get('[data-testid="add-button"]').click();
       
-      // Check accumulated state
+      // * Check accumulated state
       cy.get('[data-testid="list-item"]').should('have.length', 2);
     });
 
     it('resets state when requested', () => {
       cy.mount(<ComponentName />);
       
-      // Build up some state
+      // * Build up some state
       cy.get('[data-testid="input"]').type('test');
       cy.get('[data-testid="submit"]').click();
       
       // Reset
       cy.get('[data-testid="reset-button"]').click();
       
-      // Verify reset
+      // * Verify reset
       cy.get('[data-testid="input"]').should('have.value', '');
     });
   });
@@ -189,7 +189,7 @@ describe('ComponentName Component', () => {
         <ComponentName optionalProp={null} />
       );
       
-      // Should not crash
+      // TODO: * Should not crash
       cy.get('[data-testid="component-name"]').should('be.visible');
     });
 
@@ -200,19 +200,19 @@ describe('ComponentName Component', () => {
         <ComponentName text={longText} />
       );
       
-      // Should truncate or wrap appropriately
+      // TODO: * Should truncate or wrap appropriately
       cy.get('[data-testid="text-display"]').should('be.visible');
     });
 
     it('handles rapid interactions', () => {
       cy.mount(<ComponentName />);
       
-      // Rapid clicks shouldn't break the component
+      // TODO: * Rapid clicks shouldn't break the component
       for (let i = 0; i < 10; i++) {
         cy.get('[data-testid="button"]').click();
       }
       
-      // Component should still be functional
+      // TODO: * Component should still be functional
       cy.get('[data-testid="component-name"]').should('be.visible');
     });
   });
@@ -221,7 +221,7 @@ describe('ComponentName Component', () => {
     it('has proper ARIA attributes', () => {
       cy.mount(<ComponentName />);
       
-      // Check for accessibility attributes
+      // * Check for accessibility attributes
       cy.get('[data-testid="button"]').should('have.attr', 'aria-label');
       cy.get('[data-testid="input"]').should('have.attr', 'aria-describedby');
       cy.get('[role="navigation"]').should('exist');
@@ -230,34 +230,34 @@ describe('ComponentName Component', () => {
     it('supports keyboard navigation', () => {
       cy.mount(<ComponentName />);
       
-      // Tab through interactive elements
+      // * Tab through interactive elements
       cy.get('body').tab();
       cy.focused().should('have.attr', 'data-cy', 'first-input');
       
       cy.focused().tab();
       cy.focused().should('have.attr', 'data-cy', 'submit-button');
       
-      // Activate with keyboard
+      // * Activate with keyboard
       cy.focused().type('{enter}');
     });
 
     it('announces changes to screen readers', () => {
       cy.mount(<ComponentName />);
       
-      // Check for live regions
+      // * Check for live regions
       cy.get('[aria-live="polite"]').should('exist');
       
-      // Trigger a change
+      // * Trigger a change
       cy.get('[data-testid="action-button"]').click();
       
-      // Verify announcement
+      // * Verify announcement
       cy.get('[aria-live="polite"]').should('contain', 'Action completed');
     });
 
     it('has sufficient color contrast', () => {
       cy.mount(<ComponentName />);
       
-      // This is a basic check - use automated tools for comprehensive testing
+      // * This is a basic check - use automated tools for comprehensive testing
       cy.get('[data-testid="text"]')
         .should('have.css', 'color')
         .and('not.equal', 'rgb(255, 255, 255)'); // Not white on white
@@ -289,7 +289,7 @@ describe('ComponentName Component', () => {
       
       cy.mount(<ComponentName />);
       
-      // Desktop layout
+      // * Desktop layout
       cy.get('[data-testid="full-navigation"]').should('be.visible');
     });
 
@@ -307,15 +307,15 @@ describe('ComponentName Component', () => {
 
   describe('Integration', () => {
     it('works with Zustand store', () => {
-      // Only if component uses store
+      // * Only if component uses store
       cy.mount(
         <ComponentName />
       );
       
-      // Trigger store update
+      // * Trigger store update
       cy.window().its('store').invoke('setState', { user: 'test' });
       
-      // Verify component reflects store change
+      // * Verify component reflects store change
       cy.get('[data-testid="user-display"]').should('contain', 'test');
     });
 
@@ -327,7 +327,7 @@ describe('ComponentName Component', () => {
         </form>
       );
       
-      // Component should integrate with form
+      // TODO: * Component should integrate with form
       cy.get('[data-testid="component-input"]').type('value');
       cy.get('button[type="submit"]').click();
     });
@@ -340,7 +340,7 @@ describe('ComponentName Component', () => {
         </div>
       );
       
-      // Action on first affects second
+      // * Action on first affects second
       cy.get('[data-testid="first-button"]').click();
       cy.get('[data-testid="second-display"]').should('contain', 'updated');
     });
@@ -361,14 +361,14 @@ describe('ComponentName Component', () => {
     });
 
     it('handles large datasets efficiently', () => {
-      // Only test if component handles lists
+      // * Only test if component handles lists
       const largeData = Array(1000).fill({}).map((_, i) => ({ id: i }));
       
       cy.mount(
         <ComponentName data={largeData} />
       );
       
-      // Should use virtualization or pagination
+      // TODO: * Should use virtualization or pagination
       cy.get('[data-testid="list-item"]').should('have.length.lessThan', 50);
     });
 
@@ -379,10 +379,10 @@ describe('ComponentName Component', () => {
         <ComponentName onChange={onChange} />
       );
       
-      // Type rapidly
+      // * Type rapidly
       cy.get('[data-testid="search-input"]').type('testing');
       
-      // Should not call onChange for every character
+      // TODO: * Should not call onChange for every character
       cy.wait(500);
       cy.wrap(onChange).should('have.callCount', 1);
     });
@@ -415,11 +415,11 @@ describe('ComponentName Component', () => {
     it('validates input and shows validation errors', () => {
       cy.mount(<ComponentName />);
       
-      // Submit invalid data
+      // * Submit invalid data
       cy.get('[data-testid="email-input"]').type('invalid-email');
       cy.get('[data-testid="submit"]').click();
       
-      // Should show validation error
+      // ? TODO: * Should show validation error
       cy.get('[data-testid="email-error"]').should('contain', 'Invalid email');
     });
   });

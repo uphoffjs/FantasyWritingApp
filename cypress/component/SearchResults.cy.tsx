@@ -118,12 +118,12 @@ describe('SearchResults Component', () => {
       
       cy.get('[data-testid="search-input"]').type('test');
       
-      // Should show searching indicator briefly
+      // ? TODO: * Should show searching indicator briefly
       cy.contains('Searching...').should('be.visible');
       
       waitForAnimation();
       
-      // Loading should disappear after debounce
+      // TODO: ! PERFORMANCE: * Loading should disappear after debounce
       cy.contains('Searching...').should('not.exist');
     });
 
@@ -152,15 +152,15 @@ describe('SearchResults Component', () => {
         }
       });
       
-      // Type quickly
+      // * Type quickly
       cy.get('[data-testid="search-input"]').type('test');
       
-      // Should still show searching
+      // ? TODO: * Should still show searching
       cy.contains('Searching...').should('be.visible');
       
       waitForAnimation();
       
-      // Search should be called after debounce
+      // TODO: ! PERFORMANCE: * Search should be called after debounce
       cy.wrap(searchSpy).should('have.been.called');
     });
 
@@ -178,7 +178,7 @@ describe('SearchResults Component', () => {
       cy.get('[data-testid="search-input"]').type('Special');
       waitForAnimation();
       
-      // Check for highlighted text
+      // * Check for highlighted text
       cy.get('[data-cy*="flame-"]500').should('exist');
     });
   });
@@ -247,13 +247,13 @@ describe('SearchResults Component', () => {
     it('toggles filter panel', () => {
       mountWithProviders(<SearchResults {...defaultProps} />);
       
-      // Filters should be hidden initially
+      // TODO: * Filters should be hidden initially
       cy.get('[data-testid="filter-category-character"]').should('not.exist');
       
-      // Toggle filters
+      // * Toggle filters
       cy.get('[data-testid="toggle-filters"]').click();
       
-      // Filters should be visible
+      // TODO: * Filters should be visible
       cy.contains('Categories').should('be.visible');
     });
 
@@ -272,10 +272,10 @@ describe('SearchResults Component', () => {
       
       cy.get('[data-testid="toggle-filters"]').click();
       
-      // Filter by character category
+      // * Filter by character category
       cy.get('[data-testid="filter-category-character"]').click();
       
-      // Should only show characters (every 3rd element)
+      // ? TODO: * Should only show characters (every 3rd element)
       cy.contains('Found 2 result').should('be.visible');
     });
 
@@ -294,10 +294,10 @@ describe('SearchResults Component', () => {
       
       cy.get('[data-testid="toggle-filters"]').click();
       
-      // Set minimum completion to 50%
+      // * Set minimum completion to 50%
       cy.get('[data-testid="filter-min-completion"]').invoke('val', 50).trigger('change');
       
-      // Should filter results
+      // TODO: * Should filter results
       cy.contains('Found').should('be.visible');
     });
 
@@ -316,7 +316,7 @@ describe('SearchResults Component', () => {
       
       cy.get('[data-testid="toggle-filters"]').click();
       
-      // Tag filter should be visible
+      // TODO: * Tag filter should be visible
       cy.contains('Tags').should('be.visible');
     });
 
@@ -335,14 +335,14 @@ describe('SearchResults Component', () => {
       
       cy.get('[data-testid="toggle-filters"]').click();
       
-      // Apply filters
+      // * Apply filters
       cy.get('[data-testid="filter-category-character"]').click();
       cy.get('[data-testid="filter-min-completion"]').invoke('val', 50).trigger('change');
       
-      // Clear filters
+      // * Clear filters
       cy.get('[data-testid="clear-filters"]').click();
       
-      // Filters should be reset
+      // TODO: * Filters should be reset
       cy.get('[data-testid="filter-category-character"]').should('not.have.class', 'bg-metals-gold');
       cy.get('[data-testid="filter-min-completion"]').should('have.value', '0');
     });
@@ -383,7 +383,7 @@ describe('SearchResults Component', () => {
       cy.get('[data-testid="search-input"]').type('Element');
       waitForAnimation();
       
-      // Click first element
+      // * Click first element
       cy.contains('Element 1').click();
       
       cy.wrap(onElementClick).should('have.been.calledWith', 'element-0');
@@ -414,7 +414,7 @@ describe('SearchResults Component', () => {
       cy.get('[data-testid="search-input"]').type('Element');
       waitForAnimation();
       
-      // Should show project name and category
+      // ? TODO: * Should show project name and category
       cy.contains(mockProject.name).should('be.visible');
       cy.contains('Character').should('be.visible');
     });
@@ -435,7 +435,7 @@ describe('SearchResults Component', () => {
       cy.get('[data-testid="search-input"]').type('special');
       waitForAnimation();
       
-      // Should show matching content preview
+      // ? TODO: * Should show matching content preview
       cy.contains('Matching content:').should('be.visible');
       cy.contains('special').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
     });
@@ -456,7 +456,7 @@ describe('SearchResults Component', () => {
       cy.get('[data-testid="search-input"]').type('Element');
       waitForAnimation();
       
-      // Should show message about limited results
+      // ? TODO: * Should show message about limited results
       cy.contains('Showing first 20 results').should('be.visible');
     });
 
@@ -474,7 +474,7 @@ describe('SearchResults Component', () => {
       cy.get('[data-testid="search-input"]').type('Element');
       waitForAnimation();
       
-      // Should use react-window for virtualization
+      // TODO: * Should use react-window for virtualization
       cy.get('[data-size]').should('exist'); // react-window adds data-size attribute
     });
 
@@ -485,7 +485,7 @@ describe('SearchResults Component', () => {
       
       cy.get('[data-testid="toggle-filters"]').click();
       
-      // Date range picker should not be visible on mobile
+      // TODO: * Date range picker should not be visible on mobile
       cy.contains('Last Updated').should('not.be.visible');
     });
 
@@ -496,7 +496,7 @@ describe('SearchResults Component', () => {
       
       cy.get('[data-testid="toggle-filters"]').click();
       
-      // Date range picker should be visible on desktop
+      // TODO: * Date range picker should be visible on desktop
       cy.contains('Last Updated').should('be.visible');
     });
   });
@@ -525,15 +525,15 @@ describe('SearchResults Component', () => {
         }
       });
       
-      // Type search
+      // * Type search
       cy.get('[data-testid="search-input"]').type('Element');
       waitForAnimation();
       
-      // Focus filter [data-cy*="button"]
+      // * Focus filter [data-cy*="button"]
       cy.get('[data-testid="toggle-filters"]').focus();
       cy.focused().should('have.attr', 'data-cy', 'toggle-filters');
       
-      // Focus close [data-cy*="button"]
+      // * Focus close [data-cy*="button"]
       cy.get('[data-testid="close-search"]').focus();
       cy.focused().should('have.attr', 'data-cy', 'close-search');
     });
@@ -572,7 +572,7 @@ describe('SearchResults Component', () => {
       cy.get('[data-testid="search-input"]').type('Test');
       waitForAnimation();
       
-      // Should render without crashing
+      // TODO: * Should render without crashing
       cy.contains('Found').should('be.visible');
     });
 
@@ -600,10 +600,10 @@ describe('SearchResults Component', () => {
         }
       });
       
-      // Type and clear
+      // * Type and clear
       cy.get('[data-testid="search-input"]').type('test').clear();
       
-      // Should show empty state
+      // ? TODO: * Should show empty state
       cy.contains('Enter a search term to find elements').should('be.visible');
     });
 
@@ -620,19 +620,19 @@ describe('SearchResults Component', () => {
       cy.get('[data-testid="search-input"]').type(longQuery);
       waitForAnimation();
       
-      // Should handle long query without breaking
+      // TODO: * Should handle long query without breaking
       cy.contains(`No results found`).should('be.visible');
     });
 
     it('handles rapid filter toggling', () => {
       mountWithProviders(<SearchResults {...defaultProps} />);
       
-      // Rapidly toggle filters
+      // * Rapidly toggle filters
       cy.get('[data-testid="toggle-filters"]').click();
       cy.get('[data-testid="toggle-filters"]').click();
       cy.get('[data-testid="toggle-filters"]').click();
       
-      // Should end up open
+      // TODO: * Should end up open
       cy.contains('Categories').should('be.visible');
     });
   });

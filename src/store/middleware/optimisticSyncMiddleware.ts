@@ -1,12 +1,12 @@
 import { StateCreator, StoreMutatorIdentifier } from 'zustand'
-// Avoiding circular dependency - WorldbuildingStore type is defined inline
+// * Avoiding circular dependency - WorldbuildingStore type is defined inline
 type WorldbuildingStore = any // This will be properly typed at runtime
 import { optimisticSyncQueueManager } from '../../services/optimisticSyncQueue'
 import { useAuthStore } from '../authStore'
 import { optimisticUpdateManager, /* captureEntityState, applyRollback */ } from '../optimisticUpdates'
 
-// Simple debounce helper
-// function _debounce<T extends (...args: unknown[]) => unknown>(func: T, wait: number): T {
+// ! PERFORMANCE: * Simple debounce helper
+// ! PERFORMANCE: function _debounce<T extends (...args: unknown[]) => unknown>(func: T, wait: number): T {
 //   let timeout: NodeJS.Timeout | null = null
 //   return ((...args: Parameters<T>) => {
 //     if (timeout) clearTimeout(timeout)
@@ -14,7 +14,7 @@ import { optimisticUpdateManager, /* captureEntityState, applyRollback */ } from
 //   }) as T
 // }
 
-// Enhanced sync event with optimistic update tracking
+// * Enhanced sync event with optimistic update tracking
 export type OptimisticSyncEvent = {
   type: 'project-modified' | 'element-modified' | 'answer-modified' | 'relationship-modified'
   projectId: string
@@ -25,17 +25,17 @@ export type OptimisticSyncEvent = {
   isAutoSync?: boolean // Flag to differentiate auto-sync from user-initiated
 }
 
-// Enhanced sync event emitter
+// * Enhanced sync event emitter
 export class OptimisticSyncEventEmitter extends EventTarget {
   async emit(event: OptimisticSyncEvent, _previousState?: unknown) {
     this.dispatchEvent(new CustomEvent('sync-change', { detail: event }))
     
-    // Add to sync queue if authenticated and online mode
+    // ! SECURITY: * Add to sync queue if authenticated and online mode
     const { isAuthenticated, isOfflineMode } = useAuthStore.getState()
     if (isAuthenticated && !isOfflineMode) {
       const syncOperationId = await this.addToSyncQueue(event)
       
-      // Link optimistic update to sync operation
+      // * Link optimistic update to sync operation
       if (event.optimisticUpdateId && syncOperationId) {
         optimisticUpdateManager.linkToSyncOperation(event.optimisticUpdateId, syncOperationId)
       }
@@ -77,7 +77,7 @@ export class OptimisticSyncEventEmitter extends EventTarget {
 
 export const optimisticSyncEventEmitter = new OptimisticSyncEventEmitter()
 
-// Type for the optimistic sync middleware
+// * Type for the optimistic sync middleware
 type OptimisticSyncMiddleware = <
   T,
   Mps extends [StoreMutatorIdentifier, unknown][] = [],
@@ -86,43 +86,43 @@ type OptimisticSyncMiddleware = <
   f: StateCreator<T, Mps, Mcs, T>
 ) => StateCreator<T, Mps, Mcs, T>
 
-// Enhanced sync middleware with optimistic update tracking
+// * Enhanced sync middleware with optimistic update tracking
 export const optimisticSyncMiddleware: OptimisticSyncMiddleware = (config) => (set, get, api) =>
   config(
     ((partial: any, replace?: boolean | undefined) => {
-      // Before state update - capture current state for rollback
+      // * Before state update - capture current state for rollback
       const prevState = get() as WorldbuildingStore
       const capturedStates = new Map<string, any>()
       
-      // Perform the state update
+      // * Perform the state update
       set(partial, replace)
       
-      // After state update - detect changes and track optimistic updates
+      // * After state update - detect changes and track optimistic updates
       const newState = get() as WorldbuildingStore
       
-      // Detect what changed and emit sync events with optimistic tracking
+      // * Detect what changed and emit sync events with optimistic tracking
       detectOptimisticChanges(prevState, newState, capturedStates)
     }) as any,
     get,
     api
   )
 
-// Enhanced change detection with optimistic update tracking
+// * Enhanced change detection with optimistic update tracking
 function detectOptimisticChanges(
   prevState: WorldbuildingStore,
   newState: WorldbuildingStore,
   _capturedStates: Map<string, unknown>
 ) {
-  // Check for project changes
+  // * Check for project changes
   if (prevState.projects !== newState.projects) {
-    // Find added projects
+    // * Find added projects
     const prevProjectIds = new Set(prevState.projects.map(p => p.id))
     const newProjectIds = new Set(newState.projects.map(p => p.id))
     
-    // New projects
+    // * New projects
     for (const project of newState.projects) {
       if (!prevProjectIds.has(project.id)) {
-        // Track optimistic update for rollback
+        // * Track optimistic update for rollback
         const updateId = optimisticUpdateManager.trackUpdate({
           type: 'create',
           entity: 'project',
@@ -140,7 +140,7 @@ function detectOptimisticChanges(
           isAutoSync: true
         })
         
-        // Mark project as modified in sync metadata
+        // * Mark project as modified in sync metadata
         const syncMetadata = newState.syncMetadata[project.id]
         if (syncMetadata) {
           newState.updateSyncMetadata(project.id, {
@@ -151,11 +151,11 @@ function detectOptimisticChanges(
       }
     }
     
-    // Modified projects
+    // * Modified projects
     for (const project of newState.projects) {
       const prevProject = prevState.projects.find(p => p.id === project.id)
       if (prevProject && (prevProject.name !== project.name || prevProject.description !== project.description)) {
-        // Track optimistic update with previous state
+        // * Track optimistic update with previous state
         const updateId = optimisticUpdateManager.trackUpdate({
           type: 'update',
           entity: 'project',
@@ -174,7 +174,7 @@ function detectOptimisticChanges(
           isAutoSync: true
         })
         
-        // Mark project as modified
+        // * Mark project as modified
         newState.updateSyncMetadata(project.id, {
           syncStatus: 'offline',
           lastModified: new Date()
@@ -182,12 +182,12 @@ function detectOptimisticChanges(
       }
     }
     
-    // Deleted projects
+    // * Deleted projects
     for (const projectId of prevProjectIds) {
       if (!newProjectIds.has(projectId)) {
         const prevProject = prevState.projects.find(p => p.id === projectId)
         
-        // Track optimistic update with previous state for rollback
+        // * Track optimistic update with previous state for rollback
         const updateId = optimisticUpdateManager.trackUpdate({
           type: 'delete',
           entity: 'project',
@@ -208,20 +208,20 @@ function detectOptimisticChanges(
     }
   }
   
-  // Check for element changes within each project
+  // * Check for element changes within each project
   for (const project of newState.projects) {
     const prevProject = prevState.projects.find(p => p.id === project.id)
     if (!prevProject) continue
     
-    // Check elements
+    // * Check elements
     if (prevProject.elements !== project.elements) {
       const prevElementIds = new Set(prevProject.elements.map(e => e.id))
       const newElementIds = new Set(project.elements.map(e => e.id))
       
-      // New or modified elements
+      // * New or modified elements
       for (const element of project.elements) {
         if (!prevElementIds.has(element.id)) {
-          // New element - track optimistic update
+          // * New element - track optimistic update
           const updateId = optimisticUpdateManager.trackUpdate({
             type: 'create',
             entity: 'element',
@@ -242,7 +242,7 @@ function detectOptimisticChanges(
         } else {
           const prevElement = prevProject.elements.find(e => e.id === element.id)
           if (prevElement && (prevElement.name !== element.name || prevElement.category !== element.category)) {
-            // Modified element - track optimistic update
+            // * Modified element - track optimistic update
             const updateId = optimisticUpdateManager.trackUpdate({
               type: 'update',
               entity: 'element',
@@ -265,12 +265,12 @@ function detectOptimisticChanges(
         }
       }
       
-      // Deleted elements
+      // * Deleted elements
       for (const elementId of prevElementIds) {
         if (!newElementIds.has(elementId)) {
           const prevElement = prevProject.elements.find(e => e.id === elementId)
           
-          // Track optimistic update with previous state
+          // * Track optimistic update with previous state
           const updateId = optimisticUpdateManager.trackUpdate({
             type: 'delete',
             entity: 'element',
@@ -291,23 +291,23 @@ function detectOptimisticChanges(
         }
       }
       
-      // Mark project as modified if elements changed
+      // * Mark project as modified if elements changed
       newState.updateSyncMetadata(project.id, {
         syncStatus: 'offline',
         lastModified: new Date()
       })
     }
     
-    // Check for answer changes in elements
+    // * Check for answer changes in elements
     let answersChanged = false
     for (const element of project.elements) {
       const prevElement = prevProject.elements.find(e => e.id === element.id)
       if (prevElement) {
-        // Check if answers object has changed
+        // * Check if answers object has changed
         if (JSON.stringify(prevElement.answers) !== JSON.stringify(element.answers)) {
           answersChanged = true
           
-          // Track optimistic update for answers
+          // * Track optimistic update for answers
           const updateId = optimisticUpdateManager.trackUpdate({
             type: 'update',
             entity: 'answer',
@@ -333,27 +333,27 @@ function detectOptimisticChanges(
     }
     
     if (answersChanged) {
-      // Mark project as modified
+      // * Mark project as modified
       newState.updateSyncMetadata(project.id, {
         syncStatus: 'offline',
         lastModified: new Date()
       })
     }
     
-    // Check for relationship changes in elements
+    // * Check for relationship changes in elements
     let relationshipsChanged = false
     for (const element of project.elements) {
       const prevElement = prevProject.elements.find(e => e.id === element.id)
       if (prevElement) {
-        // Check if relationships array has changed
+        // * Check if relationships array has changed
         if (JSON.stringify(prevElement.relationships) !== JSON.stringify(element.relationships)) {
           relationshipsChanged = true
           
-          // For relationships, we need to track individual changes
+          // TODO: * For relationships, we need to track individual changes
           const prevRelIds = new Set((prevElement.relationships || []).map(r => r.id))
           const newRelIds = new Set((element.relationships || []).map(r => r.id))
           
-          // New relationships
+          // * New relationships
           for (const rel of element.relationships || []) {
             if (!prevRelIds.has(rel.id)) {
               const updateId = optimisticUpdateManager.trackUpdate({
@@ -376,7 +376,7 @@ function detectOptimisticChanges(
             }
           }
           
-          // Deleted relationships
+          // * Deleted relationships
           for (const relId of prevRelIds) {
             if (!newRelIds.has(relId)) {
               const prevRel = prevElement.relationships?.find(r => r.id === relId)
@@ -406,7 +406,7 @@ function detectOptimisticChanges(
     }
     
     if (relationshipsChanged) {
-      // Mark project as modified
+      // * Mark project as modified
       newState.updateSyncMetadata(project.id, {
         syncStatus: 'offline',
         lastModified: new Date()

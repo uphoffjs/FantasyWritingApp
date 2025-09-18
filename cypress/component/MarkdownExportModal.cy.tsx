@@ -226,7 +226,7 @@ describe('MarkdownExportModal Component', () => {
         />
       );
 
-      // Should still render without errors
+      // TODO: * Should still render without errors
       cy.get('pre').should('contain', '# Test Character');
       cy.get('pre').should('not.contain', '**Tags:**');
     });
@@ -251,7 +251,7 @@ describe('MarkdownExportModal Component', () => {
 
   describe('Export Actions', () => {
     it('copies markdown to clipboard', () => {
-      // Mock clipboard API
+      // * Mock clipboard API
       cy.window().then((win) => {
         cy.stub(win[data-testid="navigation"]igator.clipboard, 'writeText').resolves();
       });
@@ -265,18 +265,18 @@ describe('MarkdownExportModal Component', () => {
 
       cy.contains('[data-cy*="button"]', 'Copy to Clipboard').click();
       
-      // Button should change to show success
+      // ? TODO: * Button should change to show success
       cy.contains('[data-cy*="button"]', 'Copied!').should('be.visible');
       cy.get('svg.lucide-check').should('be.visible');
 
-      // Should revert after 2 seconds
+      // TODO: * Should revert after 2 seconds
       cy.wait(2100);
       cy.contains('[data-cy*="button"]', 'Copy to Clipboard').should('be.visible');
       cy.get('svg.lucide-copy').should('be.visible');
     });
 
     it('downloads markdown as file', () => {
-      // Mock document methods
+      // * Mock document methods
       const createElementStub = cy.stub();
       const clickStub = cy.stub();
       const appendChildStub = cy.stub();
@@ -332,7 +332,7 @@ describe('MarkdownExportModal Component', () => {
 
       cy.contains('[data-cy*="button"]', 'Download as .md').click();
       
-      // Filename should be element name in lowercase with hyphens
+      // TODO: * Filename should be element name in lowercase with hyphens
       expect(mockAnchor.download).to.equal('test-character.md');
     });
   });
@@ -399,15 +399,15 @@ describe('MarkdownExportModal Component', () => {
 
       cy.contains('[data-cy*="button"]', 'Import').click();
       
-      // Initially disabled
+      // * Initially disabled
       cy.contains('[data-cy*="button"]', 'Import Content')
         .should('be.visible') // React Native Web uses inline styles instead of CSS classes
         .and('be.disabled');
       
-      // Enter text
+      // * Enter text
       cy.get('textarea').type('# Test Import');
       
-      // Should be enabled
+      // TODO: * Should be enabled
       cy.contains('[data-cy*="button"]', 'Import Content')
         .should('not.have.class', 'cursor-not-allowed')
         .and('not.be.disabled');
@@ -466,7 +466,7 @@ Updated abilities`;
       cy.get('textarea').type(markdownContent);
       cy.contains('[data-cy*="button"]', 'Import Content').click();
 
-      // Wait for async processing
+      // * Wait for async processing
       waitForAnimation();
 
       cy.wrap(onImportSpy).should('have.been.calledWith', 
@@ -507,7 +507,7 @@ Has a personality`;
 
       cy.wrap(onImportSpy).should('have.been.calledWith', 
         Cypress.sinon.match((value: any) => {
-          // q1 should not be included since it says "No answer provided"
+          // TODO: q1 should not be included since it says "No answer provided"
           return !('q1' in value) && value['q2'] === 'Has a personality';
         })
       );
@@ -563,7 +563,7 @@ Line 3 of appearance`;
         />
       );
 
-      // Click on the backdrop
+      // * Click on the backdrop
       cy.get('.fixed.inset-0[data-cy*="black"]').click({ force: true });
       cy.wrap(onCloseSpy).should('not.have.been.called');
     });
@@ -633,7 +633,7 @@ Line 3 of appearance`;
             text: 'Question without category',
             type: 'text',
             required: true
-            // No category property
+            // * No category property
           }
         ]
       };
@@ -645,7 +645,7 @@ Line 3 of appearance`;
         />
       );
 
-      // Should group under "General" category
+      // TODO: * Should group under "General" category
       cy.get('pre').should('contain', '## General');
       cy.get('pre').should('contain', '### Question without category');
     });
@@ -668,7 +668,7 @@ Line 3 of appearance`;
         />
       );
 
-      // Should convert HTML to markdown
+      // TODO: * Should convert HTML to markdown
       cy.get('pre').should('not.contain', '<p>');
       cy.get('pre').should('not.contain', '<strong>');
     });

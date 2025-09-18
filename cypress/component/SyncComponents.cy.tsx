@@ -3,7 +3,7 @@ import { SyncIndicator } from '../../src/components/SyncIndicator';
 import { CloudSaveButton, CloudSaveButtonMobile } from '../../src/components/CloudSaveButton';
 import { OfflineBanner, OfflineBannerCompact } from '../../src/components/OfflineBanner';
 
-// Mock the stores
+// * Mock the stores
 const mockAuthStore = {
   syncStatus: 'synced' as 'synced' | 'syncing' | 'error' | 'offline',
   syncError: null as string | null,
@@ -32,7 +32,7 @@ jest.mock('../../src/services/networkStatus', () => ({
   useNetworkStatus: () => mockNetworkStatus,
 }));
 
-// Mock the sync service
+// * Mock the sync service
 const mockSupabaseSyncService = {
   createProject: cy.stub().resolves({ id: 'cloud-123' }),
   updateProject: cy.stub().resolves(true),
@@ -45,7 +45,7 @@ jest.mock('../../src/services/supabaseSync', () => ({
   supabaseSyncService: mockSupabaseSyncService,
 }));
 
-// Mock toast functions
+// * Mock toast functions
 let mockShowSyncSuccessToast: any;
 let mockShowSyncErrorToast: any;
 let mockShowOfflineToast: any;
@@ -56,12 +56,12 @@ beforeEach(() => {
   mockShowOfflineToast = cy.stub();
   
   // Note: jest.mock doesn't work in Cypress
-  // You'll need to mock these functions differently, possibly through props or dependency injection
+  // TODO: You'll need to mock these functions differently, possibly through props or dependency injection
 });
 
 describe('SyncIndicator Component', () => {
   beforeEach(() => {
-    // Reset mocks
+    // * Reset mocks
     mockAuthStore.syncStatus = 'synced';
     mockAuthStore.syncError = null;
     mockAuthStore.isOfflineMode = false;
@@ -131,7 +131,7 @@ describe('SyncIndicator Component', () => {
 
 describe('CloudSaveButton Component', () => {
   beforeEach(() => {
-    // Reset mocks
+    // * Reset mocks
     mockAuthStore.isAuthenticated = true;
     mockAuthStore.isOfflineMode = false;
     mockNetworkStatus.isOnline = true;
@@ -179,11 +179,11 @@ describe('CloudSaveButton Component', () => {
     
     cy.get('[data-cy*="button"]').click();
     
-    // Shows saving state
+    // ? * Shows saving state
     cy.contains('Saving...').should('be.visible');
     cy.get('.animate-spin').should('exist');
     
-    // Eventually shows saved state
+    // ? * Eventually shows saved state
     cy.wrap(null).then(() => {
       expect(mockSupabaseSyncService.updateProject).to.have.been.called;
       expect(mockShowSyncSuccessToast).to.have.been.called;
@@ -241,9 +241,9 @@ describe('CloudSaveButton Component', () => {
       </div>
     );
     
-    // Simulate error state manually
+    // * Simulate error state manually
     cy.get('[data-cy*="button"]').then($btn => {
-      // Force error state by manipulating DOM
+      // * Force error state by manipulating DOM
       $btn.parent().append(
         '<div class="absolute top-full mt-2 right-0 bg-parchment-aged border border-red-900 rounded-lg p-3 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity">' +
         '<p class="text-sm text-blood-400">Test error message</p>' +
@@ -343,7 +343,7 @@ describe('OfflineBanner Component', () => {
     
     cy.contains('Working Offline').should('be.visible');
     
-    // Desktop dismiss [data-cy*="button"]
+    // * Desktop dismiss [data-cy*="button"]
     cy.get('[data-cy*="button"]').contains('Dismiss').click();
     cy.contains('Working Offline').should('not.exist');
   });
@@ -363,10 +363,10 @@ describe('OfflineBanner Component', () => {
     
     cy.mount(<OfflineBanner />);
     
-    // Check for animation classes
+    // * Check for animation classes
     cy.get('.fixed').should('have.css', 'transform') // CSS properties work in React Native Web;
     
-    // Dismiss and check exit animation
+    // * Dismiss and check exit animation
     cy.get('[data-cy*="button"]').contains('Dismiss').click();
     cy.get('.fixed').should('not.exist');
   });
@@ -388,7 +388,7 @@ describe('OfflineBanner Component', () => {
     
     cy.mount(<TestWrapper />);
     
-    // Go offline
+    // * Go offline
     cy.get('[data-testid="toggle-online"]').click();
     cy.contains('Working Offline').should('be.visible');
     
@@ -396,11 +396,11 @@ describe('OfflineBanner Component', () => {
     cy.contains('Dismiss').click();
     cy.contains('Working Offline').should('not.exist');
     
-    // Go online then offline again
+    // * Go online then offline again
     cy.get('[data-testid="toggle-online"]').click(); // online
     cy.get('[data-testid="toggle-online"]').click(); // offline
     
-    // Banner should reappear
+    // TODO: * Banner should reappear
     cy.contains('Working Offline').should('be.visible');
   });
 });

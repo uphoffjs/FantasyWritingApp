@@ -4,7 +4,7 @@ import { BaseElementForm } from '../support/component-test-helpers';
 import { Answer } from '../../src/types/worldbuilding';
 import { MockWorldbuildingStoreProvider } from '../support/component-test-helpers';
 
-// Simple mock questions without complex validation
+// * Simple mock questions without complex validation
 const simpleQuestions = [
   {
     id: 'q1',
@@ -67,14 +67,14 @@ describe('BaseElementForm (Simple Tests)', () => {
       </MockWorldbuildingStoreProvider>
     );
     
-    // Check form header
+    // * Check form header
     cy.contains('Character Details').should('be.visible');
     
-    // Check mode toggle exists
+    // * Check mode toggle exists
     cy.contains('Basic').should('be.visible');
     cy.contains('Detailed').should('be.visible');
     
-    // Check the main form element exists
+    // * Check the main form element exists
     cy.get('[data-testid="base-element-form"]').should('exist');
   });
   
@@ -91,14 +91,14 @@ describe('BaseElementForm (Simple Tests)', () => {
       </MockWorldbuildingStoreProvider>
     );
     
-    // Categories should be visible
+    // TODO: * Categories should be visible
     cy.contains('General').should('be.visible');
     cy.contains('Details').should('be.visible');
     
-    // Questions should be hidden initially
+    // TODO: * Questions should be hidden initially
     cy.contains('Name').should('not.be.visible');
     
-    // Expand category using data-cy [data-cy*="select"]or
+    // * Expand category using data-cy [data-cy*="select"]or
     cy.get('[data-testid="category-toggle-general"]').click();
     cy.contains('Name').should('be.visible');
   });
@@ -116,17 +116,17 @@ describe('BaseElementForm (Simple Tests)', () => {
       </MockWorldbuildingStoreProvider>
     );
     
-    // Expand categories
+    // * Expand categories
     cy.get('[data-testid="category-toggle-general"]').click();
     cy.get('[data-testid="category-toggle-details"]').click();
     
-    // Check text input value
+    // * Check text input value
     cy.get('[data-testid="question-q1-input"]').should('have.value', 'Test Character');
     
-    // Check textarea value  
+    // * Check textarea value  
     cy.get('[data-testid="question-q2-input"]').should('have.value', 'A brave warrior');
     
-    // Check number input value
+    // * Check number input value
     cy.get('[data-testid="question-q3-input"]').should('have.value', '25');
     
     // Check [data-cy*="select"] value
@@ -151,10 +151,10 @@ describe('BaseElementForm (Simple Tests)', () => {
     // Expand General category
     cy.get('[data-testid="category-toggle-general"]').click();
     
-    // Type in the name field and blur to trigger onChange
+    // * Type in the name field and blur to trigger onChange
     cy.get('[data-testid="question-q1-input"]').type('New Name').blur();
     
-    // Verify onChange was called with the complete value
+    // * Verify onChange was called with the complete value
     cy.wrap(onChange).should('have.been.calledWith', 'q1', 'New Name');
   });
   
@@ -173,10 +173,10 @@ describe('BaseElementForm (Simple Tests)', () => {
     
     cy.get('[data-testid="category-toggle-general"]').click();
     
-    // Required fields should have asterisk
+    // TODO: * Required fields should have asterisk
     cy.contains('Name').parent().should('contain', '*');
     
-    // Required input should have required attribute
+    // TODO: * Required input should have required attribute
     cy.get('[data-testid="question-q1-input"]').should('have.attr', 'required');
   });
   
@@ -195,10 +195,10 @@ describe('BaseElementForm (Simple Tests)', () => {
     
     cy.get('[data-testid="category-toggle-general"]').click();
     
-    // Click the help button
+    // * Click the help button
     cy.get('[data-testid="question-q2-help-button"]').click();
     
-    // Help text should appear
+    // TODO: * Help text should appear
     cy.get('[data-testid="question-q2-help"]').should('be.visible').and('contain', 'Provide a description');
   });
   
@@ -215,13 +215,13 @@ describe('BaseElementForm (Simple Tests)', () => {
       </MockWorldbuildingStoreProvider>
     );
     
-    // Should start in basic mode
+    // TODO: * Should start in basic mode
     cy.contains('Quick Mode').should('be.visible');
     
-    // Click the mode toggle [data-cy*="button"]
+    // * Click the mode toggle [data-cy*="button"]
     cy.get('[data-testid="mode-toggle"]').click();
     
-    // Should switch to detailed mode
+    // TODO: * Should switch to detailed mode
     cy.contains('Quick Mode').should('not.exist');
   });
   
@@ -238,10 +238,10 @@ describe('BaseElementForm (Simple Tests)', () => {
       </MockWorldbuildingStoreProvider>
     );
     
-    // Should still render the form header
+    // TODO: * Should still render the form header
     cy.contains('Empty Details').should('be.visible');
     
-    // Should show mode toggle
+    // ? TODO: * Should show mode toggle
     cy.contains('Basic').should('be.visible');
     cy.contains('Detailed').should('be.visible');
   });
@@ -264,10 +264,10 @@ describe('BaseElementForm (Simple Tests)', () => {
     // Expand Details category
     cy.get('[data-testid="category-toggle-details"]').click();
     
-    // Type in the age field
+    // * Type in the age field
     cy.get('[data-testid="question-q3-input"]').type('30');
     
-    // Verify onChange was called with number
+    // * Verify onChange was called with number
     cy.wrap(onChange).should('have.been.calledWith', 'q3', 30);
   });
 
@@ -289,10 +289,10 @@ describe('BaseElementForm (Simple Tests)', () => {
     // Expand Details category
     cy.get('[data-testid="category-toggle-details"]').click();
     
-    // Select an option
+    // * Select an option
     cy.get('[data-testid="question-q4-input"]').select('villain');
     
-    // Verify onChange was called
+    // * Verify onChange was called
     cy.wrap(onChange).should('have.been.calledWith', 'q4', 'villain');
   });
 
@@ -311,7 +311,7 @@ describe('BaseElementForm (Simple Tests)', () => {
     
     cy.get('[data-testid="category-toggle-details"]').click();
     
-    // Check validation attributes
+    // * Check validation attributes
     cy.get('[data-testid="question-q3-input"]')
       .should('have.attr', 'min', '0')
       .should('have.attr', 'max', '1000');

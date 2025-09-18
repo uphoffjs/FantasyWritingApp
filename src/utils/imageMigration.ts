@@ -2,7 +2,7 @@
 // import { ImageWithCaption } from '../types/models';
 import { v4 as uuidv4 } from 'uuid';
 
-// Temporary placeholder types until images are re-added to MVP
+// // DEPRECATED: TODO: * Temporary placeholder types until images are re-added to MVP
 interface ImageWithCaption {
   id: string;
   data: string;
@@ -56,7 +56,7 @@ export function normalizeImages(images?: string[] | ImageWithCaption[]): ImageWi
     return images;
   }
   
-  // If neither format matches, return empty array
+  // * If neither format matches, return empty array
   return [];
 }
 

@@ -25,7 +25,7 @@ export function ImportExportWeb({
   const [isImporting, setIsImporting] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Handle import
+  // * Handle import
   const handleImport = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
@@ -41,7 +41,7 @@ export function ImportExportWeb({
       const text = await file.text();
       const data = JSON.parse(text);
       
-      // Validate the data structure
+      // * Validate the data structure
       if (!data.version || !data.projects) {
         throw new Error('Invalid data format');
       }
@@ -68,7 +68,7 @@ export function ImportExportWeb({
     }
   };
 
-  // Handle export
+  // * Handle export
   const handleExport = async () => {
     setIsExporting(true);
     try {
@@ -125,7 +125,8 @@ export function ImportExportWeb({
           disabled={isImporting}
         >
           {isImporting ? (
-            <ActivityIndicator size="small" color="#FFFFFF" />
+            <ActivityIndicator size="small" // ! HARDCODED: Should use design tokens
+          color="#FFFFFF" />
           ) : (
             <>
               <Text style={styles.buttonIcon}>📥</Text>
@@ -141,7 +142,8 @@ export function ImportExportWeb({
           disabled={isExporting}
         >
           {isExporting ? (
-            <ActivityIndicator size="small" color="#FFFFFF" />
+            <ActivityIndicator size="small" // ! HARDCODED: Should use design tokens
+          color="#FFFFFF" />
           ) : (
             <>
               <Text style={styles.buttonIcon}>📤</Text>
@@ -194,11 +196,13 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: '600',
+    // ! HARDCODED: Should use design tokens
     color: '#F9FAFB',
     marginBottom: 8,
   },
   sectionDescription: {
     fontSize: 14,
+    // ! HARDCODED: Should use design tokens
     color: '#9CA3AF',
     lineHeight: 20,
   },
@@ -218,9 +222,11 @@ const styles = StyleSheet.create({
     minHeight: 48,
   },
   importButton: {
+    // ! HARDCODED: Should use design tokens
     backgroundColor: '#059669',
   },
   exportButton: {
+    // ! HARDCODED: Should use design tokens
     backgroundColor: '#6366F1',
   },
   buttonDisabled: {
@@ -232,42 +238,51 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 16,
     fontWeight: '600',
+    // ! HARDCODED: Should use design tokens
     color: '#FFFFFF',
   },
   infoContainer: {
+    // ! HARDCODED: Should use design tokens
     backgroundColor: '#1F2937',
     borderRadius: 8,
     padding: 16,
     marginBottom: 16,
     borderWidth: 1,
+    // ! HARDCODED: Should use design tokens
     borderColor: '#374151',
   },
   infoTitle: {
     fontSize: 14,
     fontWeight: '600',
+    // ! HARDCODED: Should use design tokens
     color: '#F9FAFB',
     marginBottom: 8,
   },
   infoText: {
     fontSize: 13,
+    // ! HARDCODED: Should use design tokens
     color: '#9CA3AF',
     lineHeight: 18,
   },
   warningContainer: {
-    backgroundColor: '#7C2D1220',
+    backgroundColor: '// ! HARDCODED: Should use design tokens
+      #7C2D1220',
     borderRadius: 8,
     padding: 16,
     borderWidth: 1,
+    // ! HARDCODED: Should use design tokens
     borderColor: '#991B1B',
   },
   warningTitle: {
     fontSize: 14,
     fontWeight: '600',
+    // ! HARDCODED: Should use design tokens
     color: '#FCA5A5',
     marginBottom: 8,
   },
   warningText: {
     fontSize: 13,
+    // ! HARDCODED: Should use design tokens
     color: '#FCA5A5',
     lineHeight: 18,
   },

@@ -7,7 +7,7 @@ import {
   QuestionValidation
 } from '../types/worldbuilding';
 
-// Old type definitions (for migration purposes only)
+// // DEPRECATED: * Old type definitions (for migration purposes only)
 interface OldAnswer {
   questionId: string;
   value: string | string[] | number | boolean | Date;
@@ -100,7 +100,7 @@ export function convertSelectOptionsToStrings(options: SelectOption[]): string[]
 export function convertOldAnswersToNew(
   oldAnswers: OldAnswer[] | Record<string, OldAnswer>
 ): Record<string, NewAnswer> {
-  // Handle both array and object formats
+  // * Handle both array and object formats
   if (Array.isArray(oldAnswers)) {
     const newAnswers: Record<string, NewAnswer> = {};
     oldAnswers.forEach(answer => {
@@ -112,7 +112,7 @@ export function convertOldAnswersToNew(
     });
     return newAnswers;
   } else {
-    // Already in object format, just update field names
+    // * Already in object format, just update field names
     const newAnswers: Record<string, NewAnswer> = {};
     Object.entries(oldAnswers).forEach(([questionId, answer]) => {
       newAnswers[questionId] = {
@@ -129,7 +129,7 @@ export function convertOldAnswersToNew(
  * Convert old question format to new format
  */
 export function convertOldQuestionToNew(oldQuestion: OldQuestion): NewQuestion {
-  // Convert validation structure
+  // * Convert validation structure
   let validation: QuestionValidation | undefined;
   if (oldQuestion.validation) {
     validation = {
@@ -142,7 +142,7 @@ export function convertOldQuestionToNew(oldQuestion: OldQuestion): NewQuestion {
     };
   }
 
-  // Convert dependsOn field name
+  // * Convert dependsOn field name
   let dependsOn = oldQuestion.dependsOn;
   if (dependsOn && 'value' in dependsOn) {
     dependsOn = {
@@ -174,7 +174,7 @@ export function convertOldQuestionToNew(oldQuestion: OldQuestion): NewQuestion {
  * Convert old world element to new format
  */
 export function convertOldElementToNew(oldElement: OldWorldElement): NewWorldElement {
-  // Handle custom category
+  // * Handle custom category
   const isCustom = oldElement.category === 'custom';
   
   return {
@@ -234,7 +234,7 @@ export function validateMigration(oldData: any, newData: any): {
 } {
   const errors: string[] = [];
 
-  // Basic validation - ensure critical data is preserved
+  // * Basic validation - ensure critical data is preserved
   if (oldData.id !== newData.id) {
     errors.push(`ID mismatch: ${oldData.id} !== ${newData.id}`);
   }
@@ -243,7 +243,7 @@ export function validateMigration(oldData: any, newData: any): {
     errors.push(`Name mismatch: ${oldData.name} !== ${newData.name}`);
   }
 
-  // For projects, check element count
+  // * For projects, check element count
   if (oldData.elements && newData.elements) {
     if (oldData.elements.length !== newData.elements.length) {
       errors.push(`Element count mismatch: ${oldData.elements.length} !== ${newData.elements.length}`);

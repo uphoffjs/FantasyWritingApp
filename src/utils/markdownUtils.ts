@@ -1,7 +1,7 @@
 import { marked } from 'marked';
 import DOMPurify from 'dompurify';
 
-// Configure marked for safety
+// * Configure marked for safety
 marked.setOptions({
   breaks: true,
   gfm: true,
@@ -11,7 +11,7 @@ marked.setOptions({
  * Convert markdown to HTML
  */
 export async function markdownToHtml(markdown: string): Promise<string> {
-  // Parse markdown to HTML
+  // * Parse markdown to HTML
   const rawHtml = await marked(markdown);
   
   // Sanitize HTML to prevent XSS
@@ -32,13 +32,13 @@ export async function markdownToHtml(markdown: string): Promise<string> {
  * Convert HTML to markdown (simplified)
  */
 export function htmlToMarkdown(html: string): string {
-  // Create a temporary div to parse HTML
+  // TODO: * Create a temporary div to parse HTML
   const div = document.createElement('div');
   div.innerHTML = DOMPurify.sanitize(html);
   
   let markdown = '';
   
-  // Simple conversion - this is a basic implementation
+  // * Simple conversion - this is a basic implementation
   const convertNode = (node: Node): string => {
     if (node.nodeType === Node.TEXT_NODE) {
       return node.textContent || '';
@@ -95,7 +95,7 @@ export function htmlToMarkdown(html: string): string {
   
   markdown = Array.from(div.childNodes).map(convertNode).join('');
   
-  // Clean up extra newlines
+  // * Clean up extra newlines
   markdown = markdown.replace(/\n{3,}/g, '\n\n').trim();
   
   return markdown;

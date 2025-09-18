@@ -1,4 +1,4 @@
-// Service Worker registration and management
+// * Service Worker registration and management
 
 export async function registerServiceWorker() {
   if ('serviceWorker' in navigator && import.meta.env.PROD) {
@@ -7,18 +7,18 @@ export async function registerServiceWorker() {
       
       console.log('Service Worker registered successfully:', registration);
       
-      // Check for updates periodically
+      // * Check for updates periodically
       setInterval(() => {
         registration.update();
       }, 60 * 60 * 1000); // Check every hour
       
-      // Handle updates
+      // * Handle updates
       registration.addEventListener('updatefound', () => {
         const newWorker = registration.installing;
         if (newWorker) {
           newWorker.addEventListener('statechange', () => {
             if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-              // New service worker available
+              // * New service worker available
               if (confirm('A new version is available! Reload to update?')) {
                 window.location.reload();
               }
@@ -45,7 +45,7 @@ export async function unregisterServiceWorker() {
   }
 }
 
-// Request background sync for offline data
+// * Request background sync for offline data
 export async function requestBackgroundSync(tag: string = 'sync-worldbuilding-data') {
   if ('serviceWorker' in navigator && 'sync' in ServiceWorkerRegistration.prototype) {
     const registration = await navigator.serviceWorker.ready;

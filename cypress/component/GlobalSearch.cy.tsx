@@ -17,7 +17,7 @@ describe('GlobalSearch Component', () => {
       />
     );
 
-    // Check modal is visible
+    // * Check modal is visible
     cy.contains('Search projects and elements...').should('be.visible');
     cy.contains('Cancel').should('be.visible');
     cy.contains('Search Everything').should('be.visible');
@@ -44,7 +44,7 @@ describe('GlobalSearch Component', () => {
       />
     );
 
-    // Check initial empty state
+    // * Check initial empty state
     cy.contains('🔍').should('be.visible');
     cy.contains('Search Everything').should('be.visible');
     cy.contains('Search across all your projects and elements').should('be.visible');
@@ -59,10 +59,10 @@ describe('GlobalSearch Component', () => {
       />
     );
 
-    // Type in search input
+    // * Type in search input
     cy.get('input[placeholder="Search projects and elements..."]').type('Aragorn');
     
-    // Should show results after debounce
+    // ? TODO: ! PERFORMANCE: * Should show results after debounce
     cy.wait(400); // Wait for debounce
     cy.contains('Aragorn').should('be.visible');
   });
@@ -76,17 +76,17 @@ describe('GlobalSearch Component', () => {
       />
     );
 
-    // Type search query
+    // * Type search query
     cy.get('input[placeholder="Search projects and elements..."]').type('test');
     cy.wait(400);
 
-    // Should show both project and element results
+    // ? TODO: * Should show both project and element results
     cy.contains('The Chronicles of Eldoria').should('be.visible');
     cy.contains('Project • 0 elements').should('be.visible');
     cy.contains('Aragorn').should('be.visible');
     cy.contains('character • 85% complete').should('be.visible');
     
-    // Should show result count
+    // ? TODO: * Should show result count
     cy.contains('2 results').should('be.visible');
   });
 
@@ -99,13 +99,13 @@ describe('GlobalSearch Component', () => {
       />
     );
 
-    // Search and click project result
+    // * Search and click project result
     cy.get('input[placeholder="Search projects and elements..."]').type('Chronicles');
     cy.wait(400);
     
     cy.contains('The Chronicles of Eldoria').click();
     
-    // Should close modal (navigation is mocked in the component)
+    // TODO: * Should close modal (navigation is mocked in the component)
     cy.get('@onClose').should('have.been.called');
   });
 
@@ -118,13 +118,13 @@ describe('GlobalSearch Component', () => {
       />
     );
 
-    // Search and click element result
+    // * Search and click element result
     cy.get('input[placeholder="Search projects and elements..."]').type('Aragorn');
     cy.wait(400);
     
     cy.contains('Aragorn').click();
     
-    // Should close modal (navigation is mocked in the component)
+    // TODO: * Should close modal (navigation is mocked in the component)
     cy.get('@onClose').should('have.been.called');
   });
 
@@ -137,16 +137,16 @@ describe('GlobalSearch Component', () => {
       />
     );
 
-    // Type search query
+    // * Type search query
     cy.get('input[placeholder="Search projects and elements..."]').type('test');
     
-    // Clear [data-cy*="button"] should appear
+    // TODO: Clear [data-cy*="button"] should appear
     cy.contains('✕').should('be.visible');
     
-    // Click clear [data-cy*="button"]
+    // * Click clear [data-cy*="button"]
     cy.contains('✕').click();
     
-    // Input should be cleared
+    // TODO: * Input should be cleared
     cy.get('input[placeholder="Search projects and elements..."]').should('have.value', '');
   });
 
@@ -172,7 +172,7 @@ describe('GlobalSearch Component', () => {
       />
     );
 
-    // Click outside the modal content (backdrop)
+    // * Click outside the modal content (backdrop)
     cy.get('body').click('topLeft', { force: true });
     cy.get('@onClose').should('have.been.called');
   });
@@ -186,11 +186,11 @@ describe('GlobalSearch Component', () => {
       />
     );
 
-    // Search for something that won't match
+    // * Search for something that won't match
     cy.get('input[placeholder="Search projects and elements..."]').type('NonexistentItem');
     cy.wait(400);
 
-    // Since mock always returns the same results for any non-empty query,
+    // * Since mock always returns the same results for any non-empty query,
     // we still expect to see results (this is a limitation of the mock)
     cy.contains('The Chronicles of Eldoria').should('be.visible');
   });
@@ -204,11 +204,11 @@ describe('GlobalSearch Component', () => {
       />
     );
 
-    // Type search query
+    // * Type search query
     cy.get('input[placeholder="Search projects and elements..."]').type('test');
     
-    // Might briefly show searching state
-    // This is hard to test due to the short duration
+    // ? * Might briefly show searching state
+    // * This is hard to test due to the short duration
     cy.get('input[placeholder="Search projects and elements..."]').should('have.value', 'test');
   });
 
@@ -224,10 +224,10 @@ describe('GlobalSearch Component', () => {
     cy.get('input[placeholder="Search projects and elements..."]').type('test');
     cy.wait(400);
 
-    // Project should show book icon
+    // ? TODO: * Project should show book icon
     cy.contains('📚').should('be.visible');
     
-    // Element should show category-specific icon (character = 👤)
+    // ? TODO: * Element should show category-specific icon (character = 👤)
     cy.contains('👤').should('be.visible');
   });
 
@@ -240,7 +240,7 @@ describe('GlobalSearch Component', () => {
       />
     );
 
-    // Input should be focused automatically
+    // TODO: * Input should be focused automatically
     cy.get('input[placeholder="Search projects and elements..."]').should('be.focused');
   });
 
@@ -256,10 +256,10 @@ describe('GlobalSearch Component', () => {
     cy.get('input[placeholder="Search projects and elements..."]').type('test');
     cy.wait(400);
 
-    // Should show project description
+    // ? TODO: * Should show project description
     cy.contains('An epic fantasy adventure').should('be.visible');
     
-    // Should show element description
+    // ? TODO: * Should show element description
     cy.contains('A brave ranger from the north').should('be.visible');
   });
 
@@ -275,7 +275,7 @@ describe('GlobalSearch Component', () => {
     cy.get('input[placeholder="Search projects and elements..."]').type('test');
     cy.wait(400);
 
-    // Should show results (mock always includes descriptions)
+    // ? TODO: * Should show results (mock always includes descriptions)
     cy.contains('The Chronicles of Eldoria').should('be.visible');
     cy.contains('Aragorn').should('be.visible');
     cy.contains('An epic fantasy adventure').should('be.visible');
@@ -293,7 +293,7 @@ describe('GlobalSearch Component', () => {
     cy.get('input[placeholder="Search projects and elements..."]').type('test');
     cy.wait(400);
 
-    // Mock returns 2 results (1 project + 1 element)
+    // * Mock returns 2 results (1 project + 1 element)
     cy.contains('2 results').should('be.visible');
   });
 
@@ -306,11 +306,11 @@ describe('GlobalSearch Component', () => {
       />
     );
 
-    // Type multiple characters quickly
+    // * Type multiple characters quickly
     cy.get('input[placeholder="Search projects and elements..."]')
       .type('aragorn');
     
-    // Should only show results after debounce period
+    // ? TODO: ! PERFORMANCE: * Should only show results after debounce period
     cy.wait(400);
     cy.contains('Aragorn').should('be.visible');
   });
@@ -326,10 +326,10 @@ describe('GlobalSearch Component', () => {
 
     const searchTerm = 'persistent search';
     
-    // Type search
+    // * Type search
     cy.get('input[placeholder="Search projects and elements..."]').type(searchTerm);
     
-    // Value should persist
+    // TODO: * Value should persist
     cy.get('input[placeholder="Search projects and elements..."]').should('have.value', searchTerm);
   });
 
@@ -342,7 +342,7 @@ describe('GlobalSearch Component', () => {
       />
     );
 
-    // Test escape key to close
+    // * Test escape key to close
     cy.get('input[placeholder="Search projects and elements..."]').type('{esc}');
     // Note: This might not work in component tests as it depends on modal implementation
   });
@@ -359,7 +359,7 @@ describe('GlobalSearch Component', () => {
     cy.get('input[placeholder="Search projects and elements..."]').type('Aragorn');
     cy.wait(400);
 
-    // Should show completion percentage
+    // ? TODO: * Should show completion percentage
     cy.contains('85% complete').should('be.visible');
   });
 
@@ -375,7 +375,7 @@ describe('GlobalSearch Component', () => {
     cy.get('input[placeholder="Search projects and elements..."]').type('Chronicles');
     cy.wait(400);
 
-    // Mock always returns projects with 0 elements
+    // * Mock always returns projects with 0 elements
     cy.contains('Project • 0 elements').should('be.visible');
   });
 
@@ -391,11 +391,11 @@ describe('GlobalSearch Component', () => {
     cy.get('input[placeholder="Search projects and elements..."]').type('test');
     cy.wait(400);
 
-    // Mock returns 1 project and 1 element
+    // * Mock returns 1 project and 1 element
     cy.contains('The Chronicles of Eldoria').should('be.visible');
     cy.contains('Aragorn').should('be.visible');
     
-    // Should show total count
+    // ? TODO: * Should show total count
     cy.contains('2 results').should('be.visible');
   });
 });

@@ -22,7 +22,7 @@ interface CreateElementModalProps {
   onSuccess?: (elementId: string) => void;
 }
 
-// Element categories with icons
+// * Element categories with icons
 const ELEMENT_CATEGORIES = [
   { value: 'character', label: 'Character', icon: '👤', description: 'Protagonists, antagonists, supporting characters' },
   { value: 'location', label: 'Location', icon: '📍', description: 'Cities, buildings, landmarks' },
@@ -38,7 +38,7 @@ const ELEMENT_CATEGORIES = [
   { value: 'custom', label: 'Custom', icon: '📝', description: 'Create your own category' },
 ];
 
-// Generate a unique default name for an element
+// * Generate a unique default name for an element
 function generateDefaultElementName(
   projectId: string,
   category: ElementCategory | 'custom'
@@ -51,7 +51,7 @@ function generateDefaultElementName(
   const categoryInfo = ELEMENT_CATEGORIES.find((c) => c.value === category);
   const categoryLabel = categoryInfo?.label || 'Element';
 
-  // Get all existing numbers for this category type
+  // * Get all existing numbers for this category type
   const existingNumbers = elements
     .map((e) => {
       const match = e.name.match(new RegExp(`^Untitled ${categoryLabel} (\\d+)$`));
@@ -59,7 +59,7 @@ function generateDefaultElementName(
     })
     .filter((n) => n > 0);
 
-  // Find the next available number
+  // * Find the next available number
   let nextNumber = 1;
   if (existingNumbers.length > 0) {
     const maxNumber = Math.max(...existingNumbers);
@@ -90,13 +90,13 @@ export function CreateElementModal({
     setIsCreating(true);
     try {
       const defaultName = generateDefaultElementName(projectId, selectedCategory);
-      // For now, treat 'custom' as 'item-object' until we have proper custom type support
+      // * For now, treat 'custom' as 'item-object' until we have proper custom type support
       const elementCategory: ElementCategory =
         selectedCategory === 'custom' ? 'item-object' : selectedCategory;
       
       const newElement = await createElement(projectId, defaultName, elementCategory);
       
-      // Small delay for visual feedback
+      // * Small delay for visual feedback
       await new Promise((resolve) => setTimeout(resolve, 300));
       
       onSuccess?.(newElement.id);
@@ -209,7 +209,8 @@ export function CreateElementModal({
                 disabled={!selectedCategory || isCreating}
               >
                 {isCreating ? (
-                  <ActivityIndicator size="small" color="#FFFFFF" />
+                  <ActivityIndicator size="small" // ! HARDCODED: Should use design tokens
+          color="#FFFFFF" />
                 ) : (
                   <Text style={styles.createButtonText}>
                     {selectedCategory ? 'Create Element' : 'Select a Category'}
@@ -241,6 +242,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   modalContent: {
+    // ! HARDCODED: Should use design tokens
     backgroundColor: '#1F2937',
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
@@ -264,6 +266,7 @@ const styles = StyleSheet.create({
   dragIndicator: {
     width: 36,
     height: 4,
+    // ! HARDCODED: Should use design tokens
     backgroundColor: '#4B5563',
     borderRadius: 2,
     marginBottom: 16,
@@ -271,6 +274,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: '600',
+    // ! HARDCODED: Should use design tokens
     color: '#F9FAFB',
   },
   closeButton: {
@@ -281,10 +285,12 @@ const styles = StyleSheet.create({
   },
   closeIcon: {
     fontSize: 24,
+    // ! HARDCODED: Should use design tokens
     color: '#9CA3AF',
   },
   instructions: {
     fontSize: 14,
+    // ! HARDCODED: Should use design tokens
     color: '#9CA3AF',
     textAlign: 'center',
     marginBottom: 20,
@@ -302,6 +308,7 @@ const styles = StyleSheet.create({
   },
   categoryCard: {
     width: '48%',
+    // ! HARDCODED: Should use design tokens
     backgroundColor: '#374151',
     borderRadius: 12,
     padding: 16,
@@ -310,8 +317,10 @@ const styles = StyleSheet.create({
     borderColor: 'transparent',
   },
   categoryCardSelected: {
+    // ! HARDCODED: Should use design tokens
     borderColor: '#6366F1',
-    backgroundColor: '#4338CA20',
+    backgroundColor: '// ! HARDCODED: Should use design tokens
+      #4338CA20',
   },
   categoryIcon: {
     fontSize: 32,
@@ -320,20 +329,24 @@ const styles = StyleSheet.create({
   categoryLabel: {
     fontSize: 14,
     fontWeight: '600',
+    // ! HARDCODED: Should use design tokens
     color: '#F9FAFB',
     marginBottom: 4,
     textAlign: 'center',
   },
   categoryLabelSelected: {
+    // ! HARDCODED: Should use design tokens
     color: '#6366F1',
   },
   categoryDescription: {
     fontSize: 11,
+    // ! HARDCODED: Should use design tokens
     color: '#6B7280',
     textAlign: 'center',
     lineHeight: 14,
   },
   categoryDescriptionSelected: {
+    // ! HARDCODED: Should use design tokens
     color: '#9CA3AF',
   },
   actions: {
@@ -351,19 +364,23 @@ const styles = StyleSheet.create({
     minHeight: 48,
   },
   cancelButton: {
+    // ! HARDCODED: Should use design tokens
     backgroundColor: '#374151',
   },
   cancelButtonText: {
     fontSize: 16,
     fontWeight: '600',
+    // ! HARDCODED: Should use design tokens
     color: '#F9FAFB',
   },
   createButton: {
+    // ! HARDCODED: Should use design tokens
     backgroundColor: '#6366F1',
   },
   createButtonText: {
     fontSize: 16,
     fontWeight: '600',
+    // ! HARDCODED: Should use design tokens
     color: '#FFFFFF',
   },
   buttonDisabled: {

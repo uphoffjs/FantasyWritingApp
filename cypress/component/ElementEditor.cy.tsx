@@ -4,15 +4,15 @@ import { ElementFactory, QuestionFactory } from '../fixtures/factories';
 import { BrowserRouter } from 'react-router-dom';
 
 describe('ElementEditor Component', () => {
-  // Helper function to mount component with Router
+  // * Helper function to mount component with Router
   const mountWithRouter = (component: React.ReactElement) => {
     return cy.mount(<BrowserRouter>{component}</BrowserRouter>);
   };
   
-  // Mock project ID
+  // * Mock project ID
   const mockProjectId = 'test-project-id';
   
-  // Create mock element - CharacterForm loads questions from template, not element
+  // TODO: * Create mock element - CharacterForm loads questions from template, not element
   const mockElement = ElementFactory.createCharacter({
     name: 'Gandalf',
     description: 'A wise wizard',
@@ -24,7 +24,7 @@ describe('ElementEditor Component', () => {
     }
   });
 
-  // Use factory for simpler mock data
+  // * Use factory for simpler mock data
   const simpleElement = ElementFactory.createCharacter({
     name: 'Simple Character',
     description: 'A basic character for testing',
@@ -43,7 +43,7 @@ describe('ElementEditor Component', () => {
     onNavigateToElement = cy.stub();
     
     // Note: CharacterForm requires a project in the store to render the SpeciesSelector.
-    // Without mocking the store (which is difficult with ES modules in Cypress),
+    // * Without mocking the store (which is difficult with ES modules in Cypress),
     // the form will render but the SpeciesSelector won't have race options.
   });
 
@@ -58,7 +58,7 @@ describe('ElementEditor Component', () => {
       />
     );
 
-    // Check header information
+    // * Check header information
     cy.get('[data-testid="element-editor"]').should('exist');
     cy.get('[data-testid="element-name"]').should('have.value', 'Gandalf');
     cy.get('[data-testid="element-category"]').should('contain', 'character');
@@ -81,7 +81,7 @@ describe('ElementEditor Component', () => {
       cy.get('[data-cy*="button"]').first().click();
     });
     
-    // Text input - name
+    // * Text input - name
     cy.get('[data-testid="question-name"]').should('exist');
     cy.get('[data-testid="question-name-input"]').should('have.value', 'Gandalf the Grey');
     
@@ -94,12 +94,12 @@ describe('ElementEditor Component', () => {
     cy.get('[data-testid="question-occupation"]').should('exist');
     cy.get('[data-testid="question-occupation-input"]').should('have.value', 'Wizard');
     
-    // Age field (in Core Identity, but as text type in template)  
+    // TODO: * Age field (in Core Identity, but as text type in template)  
     cy.get('[data-testid="question-age"]').should('exist');
     cy.get('[data-testid="question-age-input"]').should('have.attr', 'type', 'number'); // Actually it's number in the template
     
     // Text - species (handled by SpeciesSelector, not in BaseElementForm)
-    // The SpeciesSelector should be visible
+    // TODO: The SpeciesSelector should be visible
     cy.contains('Species/Race').should('be.visible');
     
     // Expand Physical Characteristics category
@@ -107,7 +107,7 @@ describe('ElementEditor Component', () => {
       cy.get('[data-cy*="button"]').first().click();
     });
     
-    // Check that Physical Characteristics questions exist
+    // * Check that Physical Characteristics questions exist
     cy.get('[data-testid="question-height"]').should('exist');
     cy.get('[data-testid="question-build"]').should('exist');
   });
@@ -130,10 +130,10 @@ describe('ElementEditor Component', () => {
       cy.get('[data-cy*="button"]').first().click();
     });
     
-    // Update text input
+    // * Update text input
     cy.get('[data-testid="question-name-input"]').clear().type('Gandalf the White');
     
-    // Trigger debounce
+    // ! PERFORMANCE: * Trigger debounce
     clock.tick(1000);
     
     cy.wrap(onUpdate).should('have.been.calledWith', Cypress.sinon.match({
@@ -164,13 +164,13 @@ describe('ElementEditor Component', () => {
       cy.get('[data-cy*="button"]').first().click();
     });
     
-    // Check if required fields have proper indicators
-    // Note: Character template may not have required fields by default
+    // * Check if required fields have proper indicators
+    // TODO: Note: Character template may not have required fields by default
     cy.get('[data-testid="question-name"]').should('exist');
   });
 
   it('should calculate completion percentage correctly', () => {
-    // Create element with 10 answered questions for a more visible percentage
+    // * Create element with 10 answered questions for a more visible percentage
     const partiallyCompleteElement = {
       ...mockElement,
       answers: {
@@ -213,7 +213,7 @@ describe('ElementEditor Component', () => {
       />
     );
 
-    // Check category sections exist (from character template)
+    // TODO: * Check category sections exist (from character template)
     cy.get('[data-testid="category-core-identity"]').should('exist');
     cy.get('[data-testid="category-physical-characteristics"]').should('exist');
     cy.get('[data-testid="category-background-&-history"]').should('exist');
@@ -238,7 +238,7 @@ describe('ElementEditor Component', () => {
       cy.get('[data-cy*="button"]').first().click();
     });
     
-    // Type in a textarea field
+    // * Type in a textarea field
     cy.get('[data-testid="question-family_dynamics-input"]').type('Noble family from the north');
     
     cy.wrap(onUpdate).should('have.been.called');
@@ -260,14 +260,14 @@ describe('ElementEditor Component', () => {
       cy.get('[data-cy*="button"]').first().click();
     });
     
-    // Find a question with help text and click its help [data-cy*="button"]
-    // The name field has helpText in the character template
+    // * Find a question with help text and click its help [data-cy*="button"]
+    // TODO: * The name field has helpText in the character template
     cy.get('[data-testid="question-name"]').within(() => {
-      // Click the help [data-cy*="button"] (it's the [data-cy*="button"] with HelpCircle icon)
+      // * Click the help [data-cy*="button"] (it's the [data-cy*="button"] with HelpCircle icon)
       cy.get('[data-cy*="button"]').click();
     });
     
-    // Check that help text is displayed
+    // * Check that help text is displayed
     cy.get('[data-testid="question-name-help"]').should('be.visible');
   });
 
@@ -289,16 +289,16 @@ describe('ElementEditor Component', () => {
       cy.get('[data-cy*="button"]').first().click();
     });
     
-    // Make a change
+    // * Make a change
     cy.get('[data-testid="question-name-input"]').clear().type('Gandalf Updated');
     
-    // Should show "Saving..."
+    // ? TODO: * Should show "Saving..."
     cy.get('[data-testid="autosave-indicator"]').should('contain', 'Saving...');
     
-    // After debounce
+    // ! PERFORMANCE: * After debounce
     clock.tick(1000);
     
-    // Should show "Saved"
+    // ? TODO: * Should show "Saved"
     cy.get('[data-testid="autosave-indicator"]').should('contain', 'Saved');
   });
 
@@ -333,15 +333,15 @@ describe('ElementEditor Component', () => {
       cy.get('[data-cy*="button"]').first().click();
     });
     
-    // Check for proper labels and IDs
+    // * Check for proper labels and IDs
     cy.get('label[for="question-name"]').should('exist');
     cy.get('#question-name').should('exist');
     
-    // Check for ARIA attributes on required fields
-    // Note: The name field might not be required in the character template
+    // * Check for ARIA attributes on required fields
+    // TODO: Note: The name field might not be required in the character template
     cy.get('[data-testid="question-name-input"]').should('have.attr', 'id', 'question-name');
     
-    // Check for proper ARIA attributes on progress bar
+    // * Check for proper ARIA attributes on progress bar
     cy.get('[data-testid="completion-bar"]').should('have.attr', 'role', 'progressbar');
     cy.get('[data-testid="completion-bar"]').should('have.attr', 'aria-valuenow');
   });

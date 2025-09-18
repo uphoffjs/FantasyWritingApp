@@ -9,7 +9,7 @@ import {
 } from '../../types/worldbuilding';
 import { AsyncSlice, AsyncActionTypes } from './asyncStore';
 // import { createOptimisticUpdate, retryAsync } from '../../utils/async';
-// Note: DEFAULT_TEMPLATES needs to be recreated or imported from a new location
+// TODO: Note: DEFAULT_TEMPLATES needs to be recreated or imported from a new location
 
 export interface ProjectSlice {
   // State
@@ -24,7 +24,7 @@ export interface ProjectSlice {
   setCurrentProject: (projectId: string | null) => void;
   getCurrentProject: () => Project | null;
   
-  // Template actions
+  // TODO: * Template actions
   createTemplate: (projectId: string, template: Omit<QuestionnaireTemplate, 'id'>) => void;
   deleteTemplate: (projectId: string, templateId: string) => void;
   getTemplatesForCategory: (category: ElementCategory) => QuestionnaireTemplate[];
@@ -36,7 +36,7 @@ export interface ProjectSlice {
   importProject: (data: string) => Promise<boolean>;
 }
 
-// Create a combined interface for slices that depend on each other
+// * Create a combined interface for slices that depend on each other
 interface ProjectStoreWithAsync extends ProjectSlice, AsyncSlice {}
 
 export const createProjectSlice: StateCreator<
@@ -114,14 +114,14 @@ export const createProjectSlice: StateCreator<
         const project = get().projects.find((p) => p.id === projectId);
         if (!project) return null;
 
-    // Create a deep copy of the project
+    // * Create a deep copy of the project
     const newProject: Project = {
       ...project,
       id: uuidv4(),
       name: `${project.name} (Copy)`,
       createdAt: new Date(),
       updatedAt: new Date(),
-      // Deep copy elements with new IDs
+      // * Deep copy elements with new IDs
       elements: project.elements.map(element => ({
         ...element,
         id: uuidv4(),
@@ -130,31 +130,31 @@ export const createProjectSlice: StateCreator<
         questions: [...element.questions],
         tags: [...(element.tags || [])]
       })),
-      // Deep copy templates
+      // TODO: * Deep copy templates
       templates: project.templates.map(template => ({
         ...template,
         id: uuidv4(),
         questions: [...template.questions]
       })),
-      // Deep copy custom types
+      // * Deep copy custom types
       customTypes: project.customTypes ? project.customTypes.map(type => ({
         ...type,
         id: uuidv4()
       })) : [],
-      // Deep copy metadata
+      // * Deep copy metadata
       metadata: project.metadata ? {
         ...project.metadata,
         settings: project.metadata.settings ? { ...project.metadata.settings } : undefined
       } : undefined
     };
 
-    // Create a mapping of old element IDs to new ones
+    // // DEPRECATED: * Create a mapping of old element IDs to new ones
     const elementIdMap = new Map<string, string>();
     project.elements.forEach((oldEl, index) => {
       elementIdMap.set(oldEl.id, newProject.elements[index].id);
     });
 
-    // Rebuild relationships with new IDs
+    // * Rebuild relationships with new IDs
     project.elements.forEach((oldElement, elementIndex) => {
       const newElement = newProject.elements[elementIndex];
       newElement.relationships = (oldElement.relationships || []).map(rel => ({
@@ -178,7 +178,7 @@ export const createProjectSlice: StateCreator<
   setCurrentProject: (projectId) => {
     set({ currentProjectId: projectId });
     
-    // Rebuild relationship indexes when project changes
+    // * Rebuild relationship indexes when project changes
     if (projectId) {
       const rebuildRelationshipIndexes = (get() as any).rebuildRelationshipIndexes;
       if (rebuildRelationshipIndexes) {
@@ -192,7 +192,7 @@ export const createProjectSlice: StateCreator<
     return projects.find((p) => p.id === currentProjectId) || null;
   },
 
-  // Template actions
+  // TODO: * Template actions
   createTemplate: (projectId, template) => {
     const newTemplate: QuestionnaireTemplate = {
       ...template,
@@ -241,7 +241,7 @@ export const createProjectSlice: StateCreator<
     const template = project.templates.find((t) => t.id === templateId);
     if (!template) return '';
     
-    // Create a clean export object without IDs
+    // * Create a clean export object without IDs
     const exportData = {
       name: template.name,
       description: template.description,
@@ -258,13 +258,13 @@ export const createProjectSlice: StateCreator<
     try {
       const data = JSON.parse(templateData);
       
-      // Validate the imported data
+      // * Validate the imported data
       if (!data.name || !data.category || !data.questions || !Array.isArray(data.questions)) {
         console.error('Invalid template data: missing required fields');
         return false;
       }
       
-      // Validate questions structure
+      // * Validate questions structure
       for (const question of data.questions) {
         if (!question.id || !question.text || !question.type) {
           console.error('Invalid question structure');
@@ -272,7 +272,7 @@ export const createProjectSlice: StateCreator<
         }
       }
       
-      // Create the template
+      // TODO: * Create the template
       const template: Omit<QuestionnaireTemplate, 'id'> = {
         name: data.name,
         description: data.description || '',

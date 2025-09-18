@@ -99,7 +99,7 @@ describe('GraphControls Component', () => {
   it('adapts for mobile view', () => {
     cy.mount(<GraphControls {...defaultProps} isMobile={true} />);
     
-    // Mobile view might have different styling or condensed controls
+    // * Mobile view might have different styling or condensed controls
     cy.get('[data-testid="zoom-in-btn"]').should('exist');
     cy.get('[data-testid="controls-container"]').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
   });
@@ -148,7 +148,7 @@ describe('GraphFilters Component', () => {
     
     cy.contains('Element Types').should('be.visible');
     defaultProps.allElementTypes.forEach(type => {
-      // Convert type to display format (replace - with space)
+      // * Convert type to display format (replace - with space)
       const displayType = type.replace('-', ' ');
       cy.contains(displayType).should('be.visible');
     });
@@ -174,37 +174,37 @@ describe('GraphFilters Component', () => {
   it('[data-cy*="select"]s element types', () => {
     cy.mount(<GraphFilters {...defaultProps} />);
     
-    // Click character and location checkboxes
+    // * Click character and location checkboxes
     cy.get('[data-testid="element-type-character"]').click();
     cy.get('[data-testid="element-type-location"]').click();
     
-    // Verify the onChange was called multiple times (once per click)
+    // * Verify the onChange was called multiple times (once per click)
     cy.get('@onFiltersChange').should('have.been.calledTwice');
   });
 
   it('[data-cy*="select"]s relationship types', () => {
     cy.mount(<GraphFilters {...defaultProps} />);
     
-    // Click knows and owns checkboxes
+    // * Click knows and owns checkboxes
     cy.get('[data-testid="relationship-type-knows"]').click();
     cy.get('[data-testid="relationship-type-owns"]').click();
     
-    // Verify the onChange was called multiple times (once per click)
+    // * Verify the onChange was called multiple times (once per click)
     cy.get('@onFiltersChange').should('have.been.calledTwice');
   });
 
   it('adjusts completion range', () => {
     cy.mount(<GraphFilters {...defaultProps} />);
     
-    // Type new values in the range inputs
+    // * Type new values in the range inputs
     cy.get('[data-testid="completion-range-min"]').clear().type('25');
     cy.get('[data-testid="completion-range-max"]').clear().type('75');
     
-    // The filter change happens on input change
+    // * The filter change happens on input change
     cy.get('@onFiltersChange').should('have.been.called');
     
-    // Note: The actual input values depend on how the component manages its internal state
-    // We just verify that the onChange handler was called
+    // ? Note: The actual input values depend on how the component manages its internal state
+    // * We just verify that the onChange handler was called
   });
 
   it('shows active filters', () => {
@@ -273,13 +273,13 @@ describe('GraphFilters Component', () => {
 });
 
 describe.skip('GraphExport Functions', () => {
-  // Skipping these tests as they involve complex DOM manipulation that's difficult to test in isolation
-  // The export functions are better tested through E2E tests or manual testing
+  // * Skipping these tests as they involve complex DOM manipulation that's difficult to test in isolation
+  // * The export functions are better tested through E2E tests or manual testing
   
   let mockSvg: SVGSVGElement;
 
   beforeEach(() => {
-    // Create mock SVG element
+    // * Create mock SVG element
     mockSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     mockSvg.setAttribute('width', '800');
     mockSvg.setAttribute('height', '600');
@@ -289,11 +289,11 @@ describe.skip('GraphExport Functions', () => {
   it('exports graph as PNG', () => {
     exportGraphAsPNG(mockSvg);
     
-    // Verify canvas operations
+    // * Verify canvas operations
     expect(mockCanvas.getContext).to.have.been.calledWith('2d');
     expect(mockCanvas.toBlob).to.have.been.called;
     
-    // Verify download triggered
+    // * Verify download triggered
     cy.wrap(null).then(() => {
       const link = document.createElement('a') as any;
       expect(link.click).to.have.been.called;

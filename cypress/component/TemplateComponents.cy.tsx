@@ -6,7 +6,7 @@ import { TemplateImporter } from '../../src/components/TemplateImporter';
 import { TemplateMarketplace } from '../../src/components/TemplateMarketplace';
 import { QuestionnaireTemplate, ElementCategory } from '../../src/types/models';
 
-// Mock the store
+// * Mock the store
 const mockStore = {
   projects: [
     {
@@ -84,7 +84,7 @@ jest.mock('../../src/store/worldbuildingStore', () => ({
   useWorldbuildingStore: () => mockStore
 }));
 
-// Mock the child components for TemplateManager tests
+// TODO: * Mock the child components for TemplateManager tests
 jest.mock('../../src/components/TemplateEditor', () => ({
   TemplateEditor: ({ onSave, onCancel }: any) => (
     <div data-testid="template-editor-mock">
@@ -386,13 +386,13 @@ describe('TemplatePreview Component', () => {
   it('handles conditional questions', () => {
     cy.mount(<TemplatePreview {...defaultProps} />);
     
-    // Backstory should not be visible initially
+    // TODO: * Backstory should not be visible initially
     cy.contains('Backstory').should('not.exist');
     
-    // Toggle boolean to true
+    // * Toggle boolean to true
     cy.contains('Is Main Character').parent().find('[data-cy*="button"]').click();
     
-    // Backstory should now be visible
+    // TODO: * Backstory should now be visible
     cy.contains('Backstory').should('be.visible');
   });
 
@@ -401,11 +401,11 @@ describe('TemplatePreview Component', () => {
     
     cy.contains('0% complete').should('be.visible');
     
-    // Answer some questions
+    // * Answer some questions
     cy.get('input[placeholder="Enter name"]').type('Test');
     cy.get('[data-cy*="select"]').select('hero');
     
-    // Check updated percentage
+    // * Check updated percentage
     cy.contains('29% complete').should('be.visible'); // 2 out of 7 questions
   });
 
@@ -414,7 +414,7 @@ describe('TemplatePreview Component', () => {
     
     cy.contains('0/2 required').should('be.visible');
     
-    // Answer required questions
+    // * Answer required questions
     cy.get('input[placeholder="Enter name"]').type('Test');
     cy.contains('1/2 required').should('be.visible');
     
@@ -739,7 +739,7 @@ describe('TemplateMarketplace Component', () => {
     cy.get('[data-testid="install-template"]').first().click();
     cy.contains('Installing...').should('be.visible');
     
-    // Simulate successful install
+    // * Simulate successful install
     cy.contains('Installed').should('be.visible');
   });
 
@@ -783,13 +783,13 @@ describe('TemplateMarketplace Component', () => {
   it('shows loading state', () => {
     cy.mount(<TemplateMarketplace {...defaultProps} />);
     
-    // Trigger a search to show loading
+    // ? * Trigger a search to show loading
     cy.get('input[placeholder*="Search marketplace"]').type('test');
     cy.get('.animate-spin').should('be.visible');
   });
 
   it('handles network errors gracefully', () => {
-    // Simulate network error
+    // * Simulate network error
     cy.intercept('GET', '/api/marketplace/templates', { statusCode: 500 });
     
     cy.mount(<TemplateMarketplace {...defaultProps} />);

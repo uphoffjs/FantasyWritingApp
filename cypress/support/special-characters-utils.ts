@@ -1,14 +1,14 @@
-// Utility functions for handling special characters in input testing
-// Ensures proper sanitization and validation of special characters
+// * Utility functions for handling special characters in input testing
+// * Ensures proper sanitization and validation of special characters
 
 /**
  * Collection of special character test cases
  */
 export const SpecialCharacters = {
-  // Common special characters
+  // * Common special characters
   punctuation: '!@#$%^&*()_+-=[]{}|;\':",./<>?',
   
-  // Unicode characters
+  // * Unicode characters
   unicode: {
     emoji: '😀😃😄😁😆😅🤣😂🙂🙃😉😊😇🥰😍🤩😘',
     chinese: '你好世界中文测试汉字输入',
@@ -25,7 +25,7 @@ export const SpecialCharacters = {
     fractions: '¼½¾⅐⅑⅒⅓⅔⅕⅖⅗⅘⅙⅚',
   },
   
-  // Control characters
+  // * Control characters
   control: {
     tab: '\t',
     newline: '\n',
@@ -50,7 +50,7 @@ export const SpecialCharacters = {
     trademark: '&trade;',
   },
   
-  // Potential security threats
+  // ! SECURITY: * Potential security threats
   securityThreats: {
     xss: [
       '<script>alert("XSS")</script>',
@@ -87,7 +87,7 @@ export const SpecialCharacters = {
     ],
   },
   
-  // Whitespace variations
+  // * Whitespace variations
   whitespace: {
     spaces: '   ',
     tabs: '\t\t\t',
@@ -97,7 +97,7 @@ export const SpecialCharacters = {
     ideographic: '\u3000',
   },
   
-  // Confusing characters (homoglyphs)
+  // * Confusing characters (homoglyphs)
   homoglyphs: {
     latinVsCyrillic: 'АВСЕНКМОРТХасеорух', // Cyrillic letters that look like Latin
     zeroVsO: '0OoО0о', // Zero vs letter O
@@ -105,7 +105,7 @@ export const SpecialCharacters = {
     similar: 'rn vs m, vv vs w, cl vs d',
   },
   
-  // Long strings with special characters
+  // * Long strings with special characters
   longSpecial: {
     repeatedEmoji: '😀'.repeat(1000),
     mixedUnicode: '你😀א'.repeat(500),
@@ -188,13 +188,13 @@ export const SpecialCharacterCommands = {
    * Type special characters with proper handling
    */
   typeSpecialChars: (selector: string, chars: string) => {
-    // Clear existing value
+    // * Clear existing value
     cy.get(selector).clear();
     
-    // Type each character with proper escaping
+    // * Type each character with proper escaping
     chars.split('').forEach(char => {
       if (char === '{' || char === '}') {
-        // Escape curly braces for Cypress
+        // * Escape curly braces for Cypress
         cy.get(selector).type(`{${char}}`);
       } else if (char === '\n') {
         cy.get(selector).type('{enter}');
@@ -255,13 +255,13 @@ export const SpecialCharacterCommands = {
     allThreats.forEach(threat => {
       cy.get(selector).clear().invoke('val', threat).trigger('input');
       
-      // Verify no script execution
+      // * Verify no script execution
       cy.window().then(win => {
         cy.stub(win, 'alert').as('alertStub');
       });
       cy.get('@alertStub').should('not.have.been.called');
       
-      // Verify value is either sanitized or preserved safely
+      // * Verify value is either sanitized or preserved safely
       cy.get(selector).invoke('val').should('exist');
     });
   },
@@ -296,7 +296,7 @@ export const SpecialCharacterAssertions = {
       cy.get(selector).clear().invoke('val', xss).trigger('input');
       
       cy.get(selector).invoke('val').then(value => {
-        // Value should not contain script tags
+        // TODO: * Value should not contain script tags
         expect(value).to.not.include('<script');
         expect(value).to.not.include('javascript:');
       });
@@ -330,19 +330,19 @@ export const SpecialCharacterAssertions = {
    * Assert input prevents XSS attacks
    */
   assertXSSPrevention: (selector: string) => {
-    // Set up alert spy
+    // * Set up alert spy
     cy.window().then(win => {
       cy.stub(win, 'alert').as('xssAlert');
       cy.stub(win, 'confirm').as('xssConfirm');
       cy.stub(win, 'prompt').as('xssPrompt');
     });
     
-    // Try various XSS payloads
+    // * Try various XSS payloads
     SpecialCharacters.securityThreats.xss.forEach(payload => {
       cy.get(selector).clear().invoke('val', payload).trigger('input').trigger('change');
     });
     
-    // Verify no alerts were triggered
+    // * Verify no alerts were triggered
     cy.get('@xssAlert').should('not.have.been.called');
     cy.get('@xssConfirm').should('not.have.been.called');
     cy.get('@xssPrompt').should('not.have.been.called');
@@ -414,13 +414,13 @@ export const SpecialCharacterGenerators = {
   },
 };
 
-// Register custom Cypress commands
+// * Register custom Cypress commands
 Cypress.Commands.add('typeSpecialChars', SpecialCharacterCommands.typeSpecialChars);
 Cypress.Commands.add('pasteSpecialChars', SpecialCharacterCommands.pasteSpecialChars);
 Cypress.Commands.add('testWithSpecialCharSets', SpecialCharacterCommands.testWithSpecialCharSets);
 Cypress.Commands.add('testSecurityThreats', SpecialCharacterCommands.testSecurityThreats);
 
-// Type declarations
+// * Type declarations
 declare global {
   namespace Cypress {
     interface Chainable {

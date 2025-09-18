@@ -10,7 +10,7 @@ import {
 } from '../support/accessibility-utils';
 
 describe('TextInput - Accessibility (A11Y)', () => {
-  // Test wrapper with proper ARIA attributes
+  // * Test wrapper with proper ARIA attributes
   const A11yTestWrapper = ({ 
     label,
     error,
@@ -64,7 +64,7 @@ describe('TextInput - Accessibility (A11Y)', () => {
   };
 
   beforeEach(() => {
-    // Initialize axe-core for accessibility testing
+    // * Initialize axe-core for accessibility testing
     cy.visit('/');
     AccessibilityHelpers.initializeAxe();
   });
@@ -73,7 +73,7 @@ describe('TextInput - Accessibility (A11Y)', () => {
     it('passes WCAG 2.1 Level A criteria', () => {
       cy.mount(<A11yTestWrapper label="Username" />);
       
-      // Run axe accessibility check for Level A
+      // * Run axe accessibility check for Level A
       cy.checkAccessibility(null, {
         runOnly: {
           type: 'tag',
@@ -85,7 +85,7 @@ describe('TextInput - Accessibility (A11Y)', () => {
     it('passes WCAG 2.1 Level AA criteria', () => {
       cy.mount(<A11yTestWrapper label="Email Address" type="email" />);
       
-      // Run axe accessibility check for Level AA
+      // * Run axe accessibility check for Level AA
       cy.checkAccessibility(null, {
         runOnly: {
           type: 'tag',
@@ -108,7 +108,7 @@ describe('TextInput - Accessibility (A11Y)', () => {
     it('has sufficient color contrast', () => {
       cy.mount(<A11yTestWrapper label="High Contrast Input" />);
       
-      // Check color contrast specifically
+      // * Check color contrast specifically
       cy.checkAccessibility('[data-testid="text-input"]', {
         runOnly: {
           type: 'rule',
@@ -151,7 +151,7 @@ describe('TextInput - Accessibility (A11Y)', () => {
         'aria-describedby': 'test-error'
       });
       
-      // Verify error message is announced
+      // * Verify error message is announced
       cy.get('#test-error')
         .should('have.attr', 'role', 'alert')
         .and('have.attr', 'aria-live', 'assertive');
@@ -194,12 +194,12 @@ describe('TextInput - Accessibility (A11Y)', () => {
         </div>
       );
       
-      // Tab to input
+      // * Tab to input
       cy.get('button').first().focus();
       cy.realPress('Tab');
       cy.focused().should('have.attr', 'data-testid', 'text-input');
       
-      // Tab to next element
+      // * Tab to next element
       cy.realPress('Tab');
       cy.focused().should('contain', 'Next Element');
       
@@ -213,13 +213,13 @@ describe('TextInput - Accessibility (A11Y)', () => {
       
       cy.get('[data-testid="text-input"]').focus().type('Hello World');
       
-      // Select all
+      // * Select all
       cy.realPress(['Control', 'a']);
       
       // Copy
       cy.realPress(['Control', 'c']);
       
-      // Delete and paste
+      // * Delete and paste
       cy.realPress('Delete');
       cy.realPress(['Control', 'v']);
       
@@ -231,7 +231,7 @@ describe('TextInput - Accessibility (A11Y)', () => {
       
       cy.get('[data-testid="text-input"]').focus().type('Test');
       
-      // Move cursor with arrow keys
+      // * Move cursor with arrow keys
       cy.realPress('ArrowLeft');
       cy.realPress('ArrowLeft');
       cy.type('X');
@@ -245,7 +245,7 @@ describe('TextInput - Accessibility (A11Y)', () => {
       cy.get('[data-testid="text-input"]').focus();
       cy.type('Trying to type');
       
-      // Value should not change
+      // TODO: * Value should not change
       cy.get('[data-testid="text-input"]').should('have.value', 'Cannot edit');
     });
 
@@ -258,7 +258,7 @@ describe('TextInput - Accessibility (A11Y)', () => {
         </div>
       );
       
-      // Should skip disabled input when tabbing
+      // TODO: * Should skip disabled input when tabbing
       cy.get('button').first().focus();
       cy.realPress('Tab');
       cy.focused().should('contain', 'After');
@@ -269,21 +269,21 @@ describe('TextInput - Accessibility (A11Y)', () => {
     it('announces label correctly', () => {
       cy.mount(<A11yTestWrapper label="Your Name" required={true} />);
       
-      // Label should be associated
+      // TODO: * Label should be associated
       cy.get('label').should('have.attr', 'for', 'test-input');
       cy.get('[data-testid="text-input"]').should('have.attr', 'id', 'test-input');
       
-      // Required indicator should have accessible text
+      // TODO: * Required indicator should have accessible text
       cy.get('label span').should('have.attr', 'aria-label', 'required');
     });
 
     it('announces error messages immediately', () => {
       cy.mount(<A11yTestWrapper label="Email" />);
       
-      // Type invalid email
+      // * Type invalid email
       cy.get('[data-testid="text-input"]').type('invalid');
       
-      // Trigger error
+      // * Trigger error
       cy.mount(
         <A11yTestWrapper 
           label="Email"
@@ -292,7 +292,7 @@ describe('TextInput - Accessibility (A11Y)', () => {
         />
       );
       
-      // Error should be announced via live region
+      // TODO: * Error should be announced via live region
       cy.get('[role="alert"]')
         .should('have.attr', 'aria-live', 'assertive')
         .and('contain', 'Invalid email format');
@@ -336,10 +336,10 @@ describe('TextInput - Accessibility (A11Y)', () => {
     it('provides clear focus indication', () => {
       cy.mount(<A11yTestWrapper label="Focus Test" />);
       
-      // Focus the input
+      // * Focus the input
       cy.get('[data-testid="text-input"]').focus();
       
-      // Check for visible focus indicator (outline)
+      // * Check for visible focus indicator (outline)
       cy.get('[data-testid="text-input"]').should(($input) => {
         const styles = window.getComputedStyle($input[0]);
         const hasOutline = styles.outlineStyle !== 'none' && styles.outlineWidth !== '0px';
@@ -370,10 +370,10 @@ describe('TextInput - Accessibility (A11Y)', () => {
         </form>
       );
       
-      // Check form structure
+      // * Check form structure
       ComponentAccessibilityTests.testFormInput('[id="test-input"]', 'Username');
       
-      // Navigate with Tab
+      // * Navigate with Tab
       cy.get('[id="test-input"]').first().focus();
       cy.realPress('Tab');
       cy.focused().should('have.attr', 'type', 'password');
@@ -414,12 +414,12 @@ describe('TextInput - Accessibility (A11Y)', () => {
         />
       );
       
-      // Pattern should be indicated
+      // TODO: * Pattern should be indicated
       cy.get('[data-testid="text-input"]')
         .should('have.attr', 'pattern')
         .and('have.attr', 'placeholder', '123-456-7890');
       
-      // Helper text provides format
+      // * Helper text provides format
       cy.get('#test-helper').should('contain', 'Format: 123-456-7890');
     });
 
@@ -452,11 +452,11 @@ describe('TextInput - Accessibility (A11Y)', () => {
       
       cy.mount(<FormWithValidation />);
       
-      // Try to submit with invalid email
+      // * Try to submit with invalid email
       cy.get('[data-testid="text-input"]').type('notanemail');
       cy.get('button[type="submit"]').click();
       
-      // Error should be shown and announced
+      // ? TODO: * Error should be shown and announced
       cy.get('[role="alert"]').should('contain', 'valid email');
     });
   });
@@ -467,7 +467,7 @@ describe('TextInput - Accessibility (A11Y)', () => {
       
       cy.get('[data-testid="text-input"]').should(($input) => {
         const rect = $input[0].getBoundingClientRect();
-        // WCAG 2.5.5 - Target size should be at least 44x44 pixels
+        // TODO: WCAG 2.5.5 - Target size should be at least 44x44 pixels
         expect(rect.height).to.be.at.least(44);
       });
     });
@@ -475,7 +475,7 @@ describe('TextInput - Accessibility (A11Y)', () => {
     it('works with touch gestures', () => {
       cy.mount(<A11yTestWrapper label="Touch Input" />);
       
-      // Simulate touch interaction
+      // * Simulate touch interaction
       cy.get('[data-testid="text-input"]')
         .trigger('touchstart')
         .trigger('touchend')
@@ -521,10 +521,10 @@ describe('TextInput - Accessibility (A11Y)', () => {
         </main>
       );
       
-      // Run comprehensive accessibility check
+      // * Run comprehensive accessibility check
       cy.checkAccessibility();
       
-      // Test keyboard navigation through entire form
+      // * Test keyboard navigation through entire form
       const elements = [
         '[id="test-input"]',
         '[type="email"]',
@@ -535,7 +535,7 @@ describe('TextInput - Accessibility (A11Y)', () => {
       
       cy.testKeyboardNavigation(elements);
       
-      // Verify all inputs have proper labels
+      // * Verify all inputs have proper labels
       cy.get('input, textarea').each(($input) => {
         cy.wrap($input).should('have.attr', 'aria-labelledby')
           .or('have.attr', 'aria-label');

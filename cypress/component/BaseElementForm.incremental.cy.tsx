@@ -26,7 +26,7 @@ describe('BaseElementForm - Incremental Tests', () => {
   };
 
   it('renders with questions - starting in detailed mode', () => {
-    // Start with detailed mode to see all questions
+    // * Start with detailed mode to see all questions
     cy.mount(
       <BaseElementForm
         questions={simpleQuestions}
@@ -37,10 +37,10 @@ describe('BaseElementForm - Incremental Tests', () => {
       />
     );
     
-    // First switch to detailed mode to bypass basic filtering
+    // * First switch to detailed mode to bypass basic filtering
     cy.get('[data-testid="mode-toggle"]').click();
     
-    // Now categories should be visible
+    // TODO: * Now categories should be visible
     cy.contains('General').should('be.visible');
   });
   
@@ -84,16 +84,16 @@ describe('BaseElementForm - Incremental Tests', () => {
       />
     );
     
-    // Check category is visible
+    // * Check category is visible
     cy.contains('General').should('be.visible');
     
-    // Use new React Native command to click the category toggle
+    // * Use new React Native command to click the category toggle
     cy.getRN('category-toggle-general').rnClick();
     
-    // Wait for React Native to update
+    // * Wait for React Native to update
     cy.waitForRN();
     
-    // Check if questions become visible
+    // * Check if questions become visible
     cy.contains('Name').should('be.visible');
     cy.contains('Age').should('be.visible');
   });
@@ -109,11 +109,11 @@ describe('BaseElementForm - Incremental Tests', () => {
       />
     );
     
-    // Expand category using RN commands
+    // * Expand category using RN commands
     cy.getRN('category-toggle-general').rnClick();
     cy.waitForRN();
     
-    // Check input values using RN-aware selectors
+    // * Check input values using RN-aware selectors
     cy.getRN('text-input').first().should('have.value', 'Test Name');
     cy.getRN('number-input').first().should('have.value', '30');
   });
@@ -131,14 +131,14 @@ describe('BaseElementForm - Incremental Tests', () => {
       />
     );
     
-    // Expand category using RN commands
+    // * Expand category using RN commands
     cy.getRN('category-toggle-general').rnClick();
     cy.waitForRN();
     
-    // Type in text input using RN-aware typing
+    // * Type in text input using RN-aware typing
     cy.getRN('text-input').first().rnType('New Value');
     
-    // Check onChange was called
+    // * Check onChange was called
     cy.wrap(onChange).should('have.been.called');
   });
 });

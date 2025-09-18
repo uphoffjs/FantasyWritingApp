@@ -30,7 +30,7 @@ export function setupAuth(options: MockAuthOptions = {}) {
     ...((options && options.user) || {})
   }
 
-  // Set auth state in localStorage (matching Supabase auth structure)
+  // ! SECURITY: * Set auth state in localStorage (matching Supabase auth structure)
   const authToken = {
     access_token: 'mock-jwt-token',
     token_type: 'bearer',
@@ -41,29 +41,29 @@ export function setupAuth(options: MockAuthOptions = {}) {
   }
 
   cy.window().then((win) => {
-    // Clear any existing auth state
+    // ! SECURITY: * Clear any existing auth state
     win.localStorage.removeItem('supabase.auth.token')
     win.localStorage.removeItem('worldbuilding-user')
     win.localStorage.removeItem('worldbuilding-authenticated')
     
-    // Set offline mode by default to bypass auth checks
+    // ! SECURITY: * Set offline mode by default to bypass auth checks
     if (options.setOfflineMode !== false) {
       win.localStorage.setItem('fantasy-writing-app-offline-mode', 'true')
     }
     
-    // Set Supabase auth token format
+    // ! SECURITY: Set Supabase auth token format
     win.localStorage.setItem('supabase.auth.token', JSON.stringify(authToken))
     
-    // Set user data
+    // * Set user data
     win.localStorage.setItem('worldbuilding-user', JSON.stringify(defaultUser))
     
-    // Mark as authenticated
+    // ! SECURITY: * Mark as authenticated
     win.localStorage.setItem('worldbuilding-authenticated', 'true')
   })
 
   // Mock Supabase API responses if not skipped
   if (!options.skipSupabase) {
-    // Mock auth endpoints
+    // ! SECURITY: * Mock auth endpoints
     cy.intercept('POST', '**/auth/v1/token*', {
       statusCode: 200,
       body: {
@@ -80,13 +80,13 @@ export function setupAuth(options: MockAuthOptions = {}) {
       body: defaultUser
     }).as('mockAuthUser')
 
-    // Mock profile/user data endpoints
+    // * Mock profile/user data endpoints
     cy.intercept('GET', '**/rest/v1/profiles*', {
       statusCode: 200,
       body: [defaultUser]
     }).as('mockProfiles')
 
-    // Mock project endpoints (for authenticated requests)
+    // ! SECURITY: * Mock project endpoints (for authenticated requests)
     cy.intercept('GET', '**/rest/v1/projects*', {
       statusCode: 200,
       body: []
@@ -123,12 +123,12 @@ export function clearAuth() {
 export function setupTestEnvironment() {
   cy.window().then((win) => {
     win.localStorage.clear()
-    // Set offline mode to bypass auth checks
+    // ! SECURITY: * Set offline mode to bypass auth checks
     win.localStorage.setItem('fantasy-element-builder-offline-mode', 'true')
   })
 }
 
-// Register as Cypress commands
+// * Register as Cypress commands
 declare global {
   namespace Cypress {
     interface Chainable {
@@ -139,7 +139,7 @@ declare global {
   }
 }
 
-// Add commands if Cypress is available
+// * Add commands if Cypress is available
 if (typeof Cypress !== 'undefined') {
   Cypress.Commands.add('setupAuth', setupAuth)
   Cypress.Commands.add('clearAuth', clearAuth)

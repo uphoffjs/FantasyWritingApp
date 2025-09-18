@@ -2,7 +2,7 @@ import React from 'react';
 import { VirtualizedElementList } from '../../src/components/VirtualizedElementList';
 import { WorldElement } from '../../src/types/models';
 
-// Mock react-window
+// * Mock react-window
 const mockFixedSizeList = ({ children, itemData, itemCount, itemSize, height }: any) => {
   const items = [];
   for (let i = 0; i < Math.min(itemCount, 10); i++) { // Limit to 10 for testing
@@ -35,7 +35,7 @@ jest.mock('../../src/components/ElementCard', () => ({
   )
 }));
 
-// Helper function to create mock elements
+// * Helper function to create mock elements
 const createMockElement = (id: string, overrides?: Partial<WorldElement>): WorldElement => ({
   id,
   name: `Element ${id}`,
@@ -202,7 +202,7 @@ describe('VirtualizedElementList Component', () => {
         createMockElement(`${i + 1}`)
       );
       
-      // Wide viewport should show multiple columns
+      // ? TODO: * Wide viewport should show multiple columns
       cy.viewport(1400, 800);
       cy.mount(
         <VirtualizedElementList
@@ -211,7 +211,7 @@ describe('VirtualizedElementList Component', () => {
         />
       );
       
-      // Check that elements are arranged in rows
+      // * Check that elements are arranged in rows
       cy.get('.flex.gap-4').should('exist');
     });
 
@@ -220,7 +220,7 @@ describe('VirtualizedElementList Component', () => {
         createMockElement(`${i + 1}`)
       );
       
-      // Narrow viewport should show fewer columns
+      // ? TODO: * Narrow viewport should show fewer columns
       cy.viewport(400, 800);
       cy.mount(
         <VirtualizedElementList
@@ -245,7 +245,7 @@ describe('VirtualizedElementList Component', () => {
         />
       );
       
-      // Should have empty divs to maintain grid alignment
+      // TODO: * Should have empty divs to maintain grid alignment
       cy.get('.flex.gap-4').should('exist');
     });
   });
@@ -263,7 +263,7 @@ describe('VirtualizedElementList Component', () => {
         />
       );
       
-      // Should render without crashing
+      // TODO: * Should render without crashing
       cy.get('[data-testid="element-card"]').should('exist');
     });
 
@@ -280,7 +280,7 @@ describe('VirtualizedElementList Component', () => {
         />
       );
       
-      // Due to virtualization, not all 100 elements should be in DOM
+      // TODO: * Due to virtualization, not all 100 elements should be in DOM
       cy.get('[data-testid="element-card"]').should('have.length.lessThan', 100);
     });
   });
@@ -299,24 +299,24 @@ describe('VirtualizedElementList Component', () => {
         />
       );
       
-      // Initial render
+      // * Initial render
       cy.get('[data-testid="element-card"]').should('exist');
       
-      // Resize viewport
+      // * Resize viewport
       cy.viewport(600, 800);
       cy.wait(100);
       
-      // Should still render correctly
+      // TODO: * Should still render correctly
       cy.get('[data-testid="element-card"]').should('exist');
     });
   });
 
   describe('Error Handling', () => {
     it('falls back to non-virtualized rendering on error', () => {
-      // Force an error by providing invalid data structure
+      // * Force an error by providing invalid data structure
       const elements = [createMockElement('1')];
       
-      // This should trigger the try-catch fallback
+      // TODO: * This should trigger the try-catch fallback
       cy.mount(
         <VirtualizedElementList
           elements={elements}
@@ -325,7 +325,7 @@ describe('VirtualizedElementList Component', () => {
         />
       );
       
-      // Should still render elements (might use fallback)
+      // TODO: * Should still render elements (might use fallback)
       cy.get('[data-testid="element-card"]').should('exist');
     });
 
@@ -342,7 +342,7 @@ describe('VirtualizedElementList Component', () => {
         />
       );
       
-      // Should render without crashing
+      // TODO: * Should render without crashing
       cy.get('[data-testid="element-card"]').should('have.length.at.least', 1);
     });
   });
@@ -403,7 +403,7 @@ describe('VirtualizedElementList Component', () => {
       );
       
       cy.get('[data-testid="element-card"]').first().click();
-      // Focus should be manageable
+      // TODO: * Focus should be manageable
       cy.focused().should('exist');
     });
 
@@ -419,7 +419,7 @@ describe('VirtualizedElementList Component', () => {
         />
       );
       
-      // Elements should be in correct order
+      // TODO: * Elements should be in correct order
       cy.get('[data-testid="element-name"]').eq(0).should('contain', 'Element 1');
       cy.get('[data-testid="element-name"]').eq(1).should('contain', 'Element 2');
       cy.get('[data-testid="element-name"]').eq(2).should('contain', 'Element 3');

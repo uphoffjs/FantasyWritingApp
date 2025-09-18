@@ -51,7 +51,7 @@ export interface ElementFilter {
   completionMax?: number;
 }
 
-// Validation helpers
+// * Validation helpers
 export function validateElementInput(input: CreateElementInput): void {
   if (!input.name || input.name.trim() === '') {
     throw new Error('Element name is required');
@@ -70,7 +70,7 @@ export function validateElementInput(input: CreateElementInput): void {
   }
 }
 
-// Type guards
+// * Type guards
 export function hasStandardCategory(element: WorldElement): boolean {
   return element.category !== 'custom' && !element.customTypeId;
 }

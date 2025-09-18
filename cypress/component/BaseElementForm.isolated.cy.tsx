@@ -14,7 +14,7 @@ describe('BaseElementForm - Isolated Tests', () => {
       />
     );
     
-    // Just check it renders
+    // * Just check it renders
     cy.contains('Test Details').should('exist');
   });
 
@@ -51,7 +51,7 @@ describe('BaseElementForm - Isolated Tests', () => {
       />
     );
     
-    // Category should exist
+    // TODO: * Category should exist
     cy.contains('Test Category').should('exist');
   });
 });

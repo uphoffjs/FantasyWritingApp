@@ -1,12 +1,12 @@
-// Test providers for wrapping components during testing
+// * Test providers for wrapping components during testing
 
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 
-// Since this app uses Zustand instead of Redux, we don't need Redux providers
-// Zustand stores work independently without a provider wrapper
+// * Since this app uses Zustand instead of Redux, we don't need Redux providers
+// * Zustand stores work independently without a provider wrapper
 
-// Error boundary for catching and reporting errors in tests
+// * Error boundary for catching and reporting errors in tests
 class TestErrorBoundary extends React.Component<
   { children: React.ReactNode },
   { hasError: boolean }
@@ -38,7 +38,7 @@ class TestErrorBoundary extends React.Component<
   }
 }
 
-// Test providers wrapper component
+// * Test providers wrapper component
 interface TestProvidersProps {
   children: React.ReactNode;
   navigationOptions?: any;
@@ -57,8 +57,8 @@ export const TestProviders: React.FC<TestProvidersProps> = ({
   );
 };
 
-// Mock navigation factory for isolated component testing
-// Call this function inside tests to create mocked navigation
+// * Mock navigation factory for isolated component testing
+// * Call this function inside tests to create mocked navigation
 export const createMockNavigation = () => ({
   navigate: cy.stub().as('navigate'),
   goBack: cy.stub().as('goBack'),
@@ -71,14 +71,14 @@ export const createMockNavigation = () => ({
   isFocused: cy.stub().returns(true),
 });
 
-// Mock route for isolated component testing
+// * Mock route for isolated component testing
 export const MockRoute = {
   key: 'test-route',
   name: 'TestScreen',
   params: {},
 };
 
-// Utility to wrap a component with minimal providers
+// * Utility to wrap a component with minimal providers
 export const wrapWithProviders = (
   Component: React.ComponentType<any>,
   props = {},

@@ -1,7 +1,7 @@
 import { StateCreator } from 'zustand';
 import type { SyncStatus } from '../../store/authStore';
 
-// Sync metadata for tracking cloud sync status
+// * Sync metadata for tracking cloud sync status
 export interface SyncMetadata {
   projectId: string;
   lastSyncedAt: Date | null;
@@ -15,7 +15,7 @@ export interface SyncSlice {
   syncMetadata: Record<string, SyncMetadata>; // projectId -> metadata
   lastSyncAttempt: Date | null;
   
-  // Sync actions
+  // * Sync actions
   updateProjectSyncStatus: (projectId: string, status: SyncStatus, cloudId?: string) => void;
   markProjectAsSynced: (projectId: string, cloudId: string) => void;
   markProjectAsModified: (projectId: string) => void;
@@ -35,7 +35,7 @@ export const createSyncSlice: StateCreator<
   syncMetadata: {},
   lastSyncAttempt: null,
 
-  // Sync actions
+  // * Sync actions
   updateProjectSyncStatus: (projectId, status, cloudId) => {
     set((state) => ({
       syncMetadata: {

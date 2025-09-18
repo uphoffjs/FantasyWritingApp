@@ -41,7 +41,7 @@ export const ProjectCard = memo(function ProjectCard({
   const handleDuplicate = async () => {
     setIsDuplicating(true);
     try {
-      // TODO: Implement project duplication
+      // TODO: TODO: Implement project duplication
       Alert.alert('Coming Soon', 'Project duplication will be available soon.');
     } catch (error) {
       console.error('Failed to duplicate project:', error);
@@ -75,24 +75,30 @@ export const ProjectCard = memo(function ProjectCard({
   };
 
   const handleEdit = () => {
-    // TODO: Implement edit functionality
+    // TODO: TODO: Implement edit functionality
     Alert.alert('Coming Soon', 'Project editing will be available soon.');
   };
 
   const getStatusColor = (status?: string) => {
     switch (status) {
       case 'active':
-        return '#10B981'; // Green
+        return '// ! HARDCODED: Should use design tokens
+      #10B981'; // Green
       case 'completed':
-        return '#F59E0B'; // Amber
+        return '// ! HARDCODED: Should use design tokens
+      #F59E0B'; // Amber
       case 'on-hold':
-        return '#F97316'; // Orange
+        return '// ! HARDCODED: Should use design tokens
+      #F97316'; // Orange
       case 'planning':
-        return '#6366F1'; // Indigo
+        return '// ! HARDCODED: Should use design tokens
+      #6366F1'; // Indigo
       case 'revision':
-        return '#EF4444'; // Red
+        return '// ! HARDCODED: Should use design tokens
+      #EF4444'; // Red
       default:
-        return '#6B7280'; // Gray
+        return '// ! HARDCODED: Should use design tokens
+      #6B7280'; // Gray
     }
   };
 
@@ -217,7 +223,8 @@ export const ProjectCard = memo(function ProjectCard({
               disabled={isDuplicating}
             >
               {isDuplicating ? (
-                <ActivityIndicator size="small" color="#6366F1" />
+                <ActivityIndicator size="small" // ! HARDCODED: Should use design tokens
+          color="#6366F1" />
               ) : (
                 <Text style={styles.menuItemText}>📋 Duplicate</Text>
               )}
@@ -229,7 +236,8 @@ export const ProjectCard = memo(function ProjectCard({
               disabled={isDeleting}
             >
               {isDeleting ? (
-                <ActivityIndicator size="small" color="#DC2626" />
+                <ActivityIndicator size="small" // ! HARDCODED: Should use design tokens
+          color="#DC2626" />
               ) : (
                 <Text style={[styles.menuItemText, styles.deleteText]}>
                   🗑️ Delete Project
@@ -245,9 +253,11 @@ export const ProjectCard = memo(function ProjectCard({
 
 const styles = StyleSheet.create({
   card: {
+    // ! HARDCODED: Should use design tokens
     backgroundColor: '#1F2937',
     borderRadius: 12,
     borderWidth: 1,
+    // ! HARDCODED: Should use design tokens
     borderColor: '#374151',
     overflow: 'hidden',
     marginBottom: 16,
@@ -261,6 +271,7 @@ const styles = StyleSheet.create({
   },
   header: {
     height: 160,
+    // ! HARDCODED: Should use design tokens
     backgroundColor: '#374151',
   },
   coverImage: {
@@ -287,6 +298,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: '600',
+    // ! HARDCODED: Should use design tokens
     color: '#F9FAFB',
     flex: 1,
     marginRight: 8,
@@ -296,6 +308,7 @@ const styles = StyleSheet.create({
   },
   actionIcon: {
     fontSize: 20,
+    // ! HARDCODED: Should use design tokens
     color: '#9CA3AF',
   },
   tags: {
@@ -305,6 +318,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   tag: {
+    // ! HARDCODED: Should use design tokens
     backgroundColor: '#374151',
     paddingHorizontal: 10,
     paddingVertical: 4,
@@ -312,6 +326,7 @@ const styles = StyleSheet.create({
   },
   tagText: {
     fontSize: 12,
+    // ! HARDCODED: Should use design tokens
     color: '#F9FAFB',
     fontWeight: '500',
   },
@@ -326,6 +341,7 @@ const styles = StyleSheet.create({
   },
   description: {
     fontSize: 14,
+    // ! HARDCODED: Should use design tokens
     color: '#9CA3AF',
     lineHeight: 20,
     marginBottom: 16,
@@ -333,7 +349,8 @@ const styles = StyleSheet.create({
   },
   footer: {
     borderTopWidth: 1,
-    borderTopColor: '#374151',
+    borderTopColor: '// ! HARDCODED: Should use design tokens
+      #374151',
     paddingTop: 12,
     marginTop: 12,
   },
@@ -344,10 +361,12 @@ const styles = StyleSheet.create({
   },
   footerText: {
     fontSize: 12,
+    // ! HARDCODED: Should use design tokens
     color: '#6B7280',
   },
   openButton: {
     fontSize: 12,
+    // ! HARDCODED: Should use design tokens
     color: '#F59E0B',
     fontWeight: '600',
   },
@@ -363,9 +382,11 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 60,
     right: 20,
+    // ! HARDCODED: Should use design tokens
     backgroundColor: '#1F2937',
     borderRadius: 8,
     borderWidth: 1,
+    // ! HARDCODED: Should use design tokens
     borderColor: '#374151',
     paddingVertical: 4,
     minWidth: 180,
@@ -384,13 +405,16 @@ const styles = StyleSheet.create({
   },
   menuItemText: {
     fontSize: 14,
+    // ! HARDCODED: Should use design tokens
     color: '#F9FAFB',
   },
   deleteText: {
+    // ! HARDCODED: Should use design tokens
     color: '#EF4444',
   },
   menuDivider: {
     height: 1,
+    // ! HARDCODED: Should use design tokens
     backgroundColor: '#374151',
     marginVertical: 4,
   },

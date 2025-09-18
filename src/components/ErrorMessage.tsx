@@ -31,10 +31,10 @@ export const ErrorMessage: React.FC<ErrorMessageProps> = ({
   details,
   testId = 'error-message'
 }) => {
-  // Determine the message to display
+  // * Determine the message to display
   const displayMessage = message || (error instanceof Error ? error.message : error) || 'An error occurred';
   
-  // Determine the background and text colors based on type
+  // * Determine the background and text colors based on type
   const typeStyles = {
     error: {
       backgroundColor: '#fee',
@@ -42,14 +42,20 @@ export const ErrorMessage: React.FC<ErrorMessageProps> = ({
       color: '#c00'
     },
     warning: {
-      backgroundColor: '#fff3cd',
-      borderColor: '#ffeeba',
-      color: '#856404'
+      // ! HARDCODED: Should use design tokens
+    backgroundColor: '#fff3cd',
+      // ! HARDCODED: Should use design tokens
+    borderColor: '#ffeeba',
+      // ! HARDCODED: Should use design tokens
+    color: '#856404'
     },
     info: {
-      backgroundColor: '#d1ecf1',
-      borderColor: '#bee5eb',
-      color: '#0c5460'
+      // ! HARDCODED: Should use design tokens
+    backgroundColor: '#d1ecf1',
+      // ! HARDCODED: Should use design tokens
+    borderColor: '#bee5eb',
+      // ! HARDCODED: Should use design tokens
+    color: '#0c5460'
     }
   };
 
@@ -66,13 +72,19 @@ export const ErrorMessage: React.FC<ErrorMessageProps> = ({
       data-cy={`${type}-message`}
       className={`error-message ${type} ${className}`}
       style={{
-        padding: '12px 16px',
-        margin: '12px 0',
-        border: '1px solid',
-        borderRadius: '4px',
+        padding: '// ! HARDCODED: Should use design tokens
+      12px // ! HARDCODED: Should use design tokens
+      16px',
+        margin: '// ! HARDCODED: Should use design tokens
+      12px 0',
+        border: '// ! HARDCODED: Should use design tokens
+      1px solid',
+        borderRadius: '// ! HARDCODED: Should use design tokens
+      4px',
         display: 'flex',
         flexDirection: 'column',
-        gap: '8px',
+        gap: '// ! HARDCODED: Should use design tokens
+      8px',
         ...currentStyle,
         ...style
       }}
@@ -92,10 +104,12 @@ export const ErrorMessage: React.FC<ErrorMessageProps> = ({
               background: 'transparent',
               border: 'none',
               color: currentStyle.color,
-              fontSize: '20px',
+              fontSize: '// ! HARDCODED: Should use design tokens
+      20px',
               cursor: 'pointer',
               padding: '0',
-              marginLeft: '12px'
+              marginLeft: '// ! HARDCODED: Should use design tokens
+      12px'
             }}
           >
             ×
@@ -109,17 +123,23 @@ export const ErrorMessage: React.FC<ErrorMessageProps> = ({
       {/* Error details (if available) */}
       {showDetails && (details || (error instanceof Error && error.stack)) && (
         <details data-testid={`${testId}-details`}>
-          <summary style={{ cursor: 'pointer', marginTop: '8px' }}>
+          <summary style={{ cursor: 'pointer', marginTop: '// ! HARDCODED: Should use design tokens
+      8px' }}>
             Show Details
           </summary>
           <pre style={{
-            marginTop: '8px',
-            padding: '8px',
+            marginTop: '// ! HARDCODED: Should use design tokens
+      8px',
+            padding: '// ! HARDCODED: Should use design tokens
+      8px',
             backgroundColor: 'rgba(0,0,0,0.05)',
-            borderRadius: '4px',
-            fontSize: '12px',
+            borderRadius: '// ! HARDCODED: Should use design tokens
+      4px',
+            fontSize: '// ! HARDCODED: Should use design tokens
+      12px',
             overflow: 'auto',
-            maxHeight: '200px'
+            maxHeight: '// ! HARDCODED: Should use design tokens
+      200px'
           }}>
             {details || (error instanceof Error ? error.stack : '')}
           </pre>
@@ -134,14 +154,22 @@ export const ErrorMessage: React.FC<ErrorMessageProps> = ({
           onClick={onRetry}
           style={{
             alignSelf: 'flex-start',
-            padding: '6px 12px',
-            backgroundColor: type === 'error' ? '#dc3545' : type === 'warning' ? '#ffc107' : '#17a2b8',
+            padding: '// ! HARDCODED: Should use design tokens
+      6px // ! HARDCODED: Should use design tokens
+      12px',
+            backgroundColor: type === 'error' ? '// ! HARDCODED: Should use design tokens
+      #dc3545' : type === 'warning' ? '// ! HARDCODED: Should use design tokens
+      #ffc107' : '// ! HARDCODED: Should use design tokens
+      #17a2b8',
             color: 'white',
             border: 'none',
-            borderRadius: '4px',
+            borderRadius: '// ! HARDCODED: Should use design tokens
+      4px',
             cursor: 'pointer',
-            fontSize: '14px',
-            marginTop: '8px'
+            fontSize: '// ! HARDCODED: Should use design tokens
+      14px',
+            marginTop: '// ! HARDCODED: Should use design tokens
+      8px'
           }}
         >
           {retryText}
@@ -151,7 +179,7 @@ export const ErrorMessage: React.FC<ErrorMessageProps> = ({
   );
 };
 
-// Hook for managing error messages
+// * Hook for managing error messages
 export function useErrorMessage(initialError?: Error | string | null) {
   const [error, setError] = React.useState<Error | string | null>(initialError || null);
   

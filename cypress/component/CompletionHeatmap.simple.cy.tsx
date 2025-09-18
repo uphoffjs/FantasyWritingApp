@@ -27,7 +27,7 @@ describe('CompletionHeatmap Simple Test', () => {
 
     cy.mount(<CompletionHeatmap project={project} />);
     
-    // Test using semantic content rather than CSS classes
+    // * Test using semantic content rather than CSS classes
     cy.contains('Completion:').should('be.visible');
   });
 });

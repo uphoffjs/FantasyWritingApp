@@ -7,7 +7,7 @@ import { WorldElement } from '../../src/types/models';
 import { ElementFactory } from '../../fixtures/factories';
 
 describe('SpeciesSelector', () => {
-  // Use factory to create complete WorldElement objects
+  // * Use factory to create complete WorldElement objects
   const mockRaces: WorldElement[] = [
     ElementFactory.create({ id: 'race1', name: 'Elf', category: 'race-species', completion: 100 }),
     ElementFactory.create({ id: 'race2', name: 'Dwarf', category: 'race-species', completion: 80 }),
@@ -26,7 +26,7 @@ describe('SpeciesSelector', () => {
       characterId: 'char1'
     };
     
-    // Mock the useRaceElements hook
+    // * Mock the useRaceElements hook
     cy.stub(window, 'useRaceElements').returns({
       races: mockRaces,
       isLoading: false,

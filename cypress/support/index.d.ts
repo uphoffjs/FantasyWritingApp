@@ -2,7 +2,7 @@
 
 declare namespace Cypress {
   interface Chainable {
-    // Authentication commands
+    // ! SECURITY: * Authentication commands
     login(email?: string, password?: string): Chainable<void>;
     logout(): Chainable<void>;
     
@@ -11,17 +11,17 @@ declare namespace Cypress {
     openStory(title: string): Chainable<void>;
     saveStory(): Chainable<void>;
     
-    // Character commands
+    // * Character commands
     createCharacter(name: string, role?: string): Chainable<void>;
     editCharacter(name: string): Chainable<void>;
     
-    // Navigation commands
+    // * Navigation commands
     navigateToHome(): Chainable<void>;
     navigateToStories(): Chainable<void>;
     navigateToCharacters(): Chainable<void>;
     navigateToSettings(): Chainable<void>;
     
-    // Utility commands
+    // * Utility commands
     waitForLoad(): Chainable<void>;
     checkAccessibility(): Chainable<void>;
     
@@ -29,7 +29,7 @@ declare namespace Cypress {
     getByDataCy(selector: string): Chainable<JQuery<HTMLElement>>;
     shouldHaveTestAttr(selector: string): Chainable<void>;
     
-    // Factory reset command
+    // * Factory reset command
     resetFactories(): Chainable<void>;
   }
 }

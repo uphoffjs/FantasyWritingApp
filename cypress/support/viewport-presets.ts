@@ -6,7 +6,7 @@
  */
 
 export const viewportPresets = {
-  // Mobile devices
+  // * Mobile devices
   mobile: {
     iPhoneSE: { width: 375, height: 667, name: 'iPhone SE' },
     iPhone12: { width: 390, height: 844, name: 'iPhone 12' },
@@ -15,7 +15,7 @@ export const viewportPresets = {
     pixel5: { width: 393, height: 851, name: 'Pixel 5' },
   },
   
-  // Tablet devices
+  // * Tablet devices
   tablet: {
     iPadMini: { width: 768, height: 1024, name: 'iPad Mini' },
     iPadAir: { width: 820, height: 1180, name: 'iPad Air' },
@@ -24,7 +24,7 @@ export const viewportPresets = {
     surfacePro: { width: 912, height: 1368, name: 'Surface Pro' },
   },
   
-  // Desktop sizes
+  // * Desktop sizes
   desktop: {
     small: { width: 1280, height: 720, name: 'Small Desktop' },
     medium: { width: 1440, height: 900, name: 'Medium Desktop' },
@@ -32,7 +32,7 @@ export const viewportPresets = {
     xlarge: { width: 2560, height: 1440, name: '2K' },
   },
   
-  // Orientation variants
+  // * Orientation variants
   landscape: {
     iPhoneSE: { width: 667, height: 375, name: 'iPhone SE Landscape' },
     iPhone12: { width: 844, height: 390, name: 'iPhone 12 Landscape' },
@@ -95,7 +95,7 @@ declare global {
  * Set viewport to a specific device preset
  */
 Cypress.Commands.add('setDevice', (deviceKey: string) => {
-  // Find the device in all categories
+  // * Find the device in all categories
   let device = null;
   
   for (const category of Object.values(viewportPresets)) {
@@ -212,5 +212,5 @@ export function conditionalTest(
   }
 }
 
-// Export for use in test files
+// * Export for use in test files
 export default viewportPresets;

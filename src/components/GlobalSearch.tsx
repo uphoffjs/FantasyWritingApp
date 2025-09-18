@@ -32,7 +32,7 @@ export function GlobalSearch({ visible, onClose }: GlobalSearchProps) {
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [isSearching, setIsSearching] = useState(false);
 
-  // Debounce search
+  // ! PERFORMANCE: * Debounce search
   useEffect(() => {
     const timer = setTimeout(() => {
       if (localQuery.trim()) {
@@ -66,8 +66,8 @@ export function GlobalSearch({ visible, onClose }: GlobalSearchProps) {
     if (result.type === 'project') {
       navigation.navigate('Project', { projectId: result.item.id });
     } else {
-      // Navigate to element editor
-      // You might need to navigate to the project first, then the element
+      // * Navigate to element editor
+      // TODO: * You might need to navigate to the project first, then the element
       navigation.navigate('Element', { elementId: result.item.id });
     }
   };
@@ -177,7 +177,8 @@ export function GlobalSearch({ visible, onClose }: GlobalSearchProps) {
               <TextInput
                 style={styles.searchInput}
                 placeholder="Search projects and elements..."
-                placeholderTextColor="#6B7280"
+                // ! HARDCODED: Should use design tokens
+          placeholderTextColor="#6B7280"
                 value={localQuery}
                 onChangeText={setLocalQuery}
                 autoFocus
@@ -242,6 +243,7 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     flex: 1,
+    // ! HARDCODED: Should use design tokens
     backgroundColor: '#111827',
     marginTop: Platform.OS === 'ios' ? 50 : 20,
     borderTopLeftRadius: 20,
@@ -257,12 +259,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '#374151',
+    borderBottomColor: '// ! HARDCODED: Should use design tokens
+      #374151',
   },
   searchContainer: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
+    // ! HARDCODED: Should use design tokens
     backgroundColor: '#1F2937',
     borderRadius: 8,
     paddingHorizontal: 12,
@@ -275,6 +279,7 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     flex: 1,
+    // ! HARDCODED: Should use design tokens
     color: '#F9FAFB',
     fontSize: 14,
   },
@@ -283,6 +288,7 @@ const styles = StyleSheet.create({
   },
   clearIcon: {
     fontSize: 16,
+    // ! HARDCODED: Should use design tokens
     color: '#6B7280',
   },
   cancelButton: {
@@ -291,6 +297,7 @@ const styles = StyleSheet.create({
   },
   cancelText: {
     fontSize: 14,
+    // ! HARDCODED: Should use design tokens
     color: '#6366F1',
     fontWeight: '600',
   },
@@ -303,6 +310,7 @@ const styles = StyleSheet.create({
   },
   resultItem: {
     flexDirection: 'row',
+    // ! HARDCODED: Should use design tokens
     backgroundColor: '#1F2937',
     borderRadius: 8,
     padding: 12,
@@ -311,6 +319,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 8,
+    // ! HARDCODED: Should use design tokens
     backgroundColor: '#374151',
     alignItems: 'center',
     justifyContent: 'center',
@@ -325,16 +334,19 @@ const styles = StyleSheet.create({
   resultTitle: {
     fontSize: 16,
     fontWeight: '600',
+    // ! HARDCODED: Should use design tokens
     color: '#F9FAFB',
     marginBottom: 2,
   },
   resultSubtitle: {
     fontSize: 12,
+    // ! HARDCODED: Should use design tokens
     color: '#9CA3AF',
     marginBottom: 4,
   },
   resultDescription: {
     fontSize: 13,
+    // ! HARDCODED: Should use design tokens
     color: '#6B7280',
     lineHeight: 18,
   },
@@ -352,11 +364,13 @@ const styles = StyleSheet.create({
   emptyTitle: {
     fontSize: 18,
     fontWeight: '600',
+    // ! HARDCODED: Should use design tokens
     color: '#F9FAFB',
     marginBottom: 8,
   },
   emptyText: {
     fontSize: 14,
+    // ! HARDCODED: Should use design tokens
     color: '#6B7280',
     textAlign: 'center',
   },
@@ -364,10 +378,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderTopWidth: 1,
-    borderTopColor: '#374151',
+    borderTopColor: '// ! HARDCODED: Should use design tokens
+      #374151',
   },
   resultCount: {
     fontSize: 12,
+    // ! HARDCODED: Should use design tokens
     color: '#6B7280',
     textAlign: 'center',
   },

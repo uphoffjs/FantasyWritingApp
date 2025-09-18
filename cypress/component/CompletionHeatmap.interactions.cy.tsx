@@ -42,7 +42,7 @@ describe('CompletionHeatmap Interaction Tests', () => {
 
       cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
-      // Character elements should appear before location
+      // TODO: * Character elements should appear before location
       // Note: React Native Web converts layout to flexbox, test semantic content
       cy.get('[data-testid="heatmap-grid"] > *').first().should('contain', '👤');
     });
@@ -57,11 +57,11 @@ describe('CompletionHeatmap Interaction Tests', () => {
 
       cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
-      // Should be sorted by completion percentage descending within category
+      // TODO: * Should be sorted by completion percentage descending within category
       // Note: React Native Web uses inline styles, not CSS classes for colors
       cy.get('[data-testid="heatmap-grid"] [data-cy^="element-cell"]').should('have.length', 3);
       
-      // Verify elements are in correct order by checking completion percentages
+      // * Verify elements are in correct order by checking completion percentages
       cy.get('[data-testid="element-cell-2"]').should('be.visible'); // 80%
       cy.get('[data-testid="element-cell-3"]').should('be.visible'); // 50%
       cy.get('[data-testid="element-cell-1"]').should('be.visible'); // 30%
@@ -77,7 +77,7 @@ describe('CompletionHeatmap Interaction Tests', () => {
 
       cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
-      // Grid should have appropriate layout for 10 elements
+      // TODO: * Grid should have appropriate layout for 10 elements
       // React Native Web uses flexbox instead of CSS Grid
       cy.get('[data-testid="heatmap-grid"]').should('be.visible');
       cy.get('[data-cy^="element-cell"]').should('have.length', 10);
@@ -93,8 +93,8 @@ describe('CompletionHeatmap Interaction Tests', () => {
 
       cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
-      // Should have empty cells to fill the grid
-      // Test for empty cells using data-cy attributes
+      // TODO: * Should have empty cells to fill the grid
+      // * Test for empty cells using data-cy attributes
       cy.get('[data-testid="empty-cell"]').should('exist');
     });
 
@@ -146,7 +146,7 @@ describe('CompletionHeatmap Interaction Tests', () => {
 
       cy.get('[data-cy^="element-cell"]').first().trigger('mouseenter');
       
-      // Tooltip should be visible on hover
+      // TODO: * Tooltip should be visible on hover
       cy.contains('Test Character').should('exist');
       cy.contains('75% complete').should('exist');
     });
@@ -237,16 +237,16 @@ describe('CompletionHeatmap Interaction Tests', () => {
         { category: 'race-species', icon: '🐉' }
       ];
 
-      // Create all elements with different categories
+      // * Create all elements with different categories
       const elements = categories.map(({ category }, index) => 
         createMockElement({ id: `${index}`, category })
       );
       const project = createMockProject(elements);
 
-      // Mount once with all elements
+      // * Mount once with all elements
       cy.mount(<CompletionHeatmap project={project} />);
 
-      // Verify all icons are visible
+      // * Verify all icons are visible
       categories.forEach(({ icon }) => {
         cy.contains(icon).should('be.visible');
       });

@@ -77,7 +77,7 @@ class OptimisticSyncQueue {
   private async executeOperation(operation: SyncOperation): Promise<void> {
     const { type, entity, data, entityId, projectId } = operation;
     
-    // Map entity to table name
+    // * Map entity to table name
     const tableMap = {
       project: 'projects',
       element: 'world_elements',
@@ -106,7 +106,7 @@ class OptimisticSyncQueue {
       case 'update':
         const updateQuery = supabase.from(table).update(data);
         
-        // Use client_id for matching
+        // * Use client_id for matching
         if (entity === 'project') {
           updateQuery.eq('client_id', entityId);
         } else {
@@ -120,7 +120,7 @@ class OptimisticSyncQueue {
       case 'delete':
         const deleteQuery = supabase.from(table).delete();
         
-        // Use client_id for matching
+        // * Use client_id for matching
         if (entity === 'project') {
           deleteQuery.eq('client_id', entityId);
         } else {
@@ -171,20 +171,20 @@ class OptimisticSyncQueue {
   }
 }
 
-// Create the queue manager with additional methods for the middleware
+// * Create the queue manager with additional methods for the middleware
 class OptimisticSyncQueueManager extends OptimisticSyncQueue {
   linkToSyncOperation(optimisticUpdateId: string, syncOperationId: string): void {
-    // Link optimistic update to sync operation for rollback purposes
-    // This could be implemented with a Map if needed
+    // * Link optimistic update to sync operation for rollback purposes
+    // * This could be implemented with a Map if needed
     console.log(`Linking optimistic update ${optimisticUpdateId} to sync operation ${syncOperationId}`);
   }
   
-  // Get operation by ID
+  // * Get operation by ID
   getOperation(operationId: string): SyncOperation | undefined {
     return this.getQueue().find(op => op.id === operationId);
   }
   
-  // Cancel an operation
+  // * Cancel an operation
   cancelOperation(operationId: string): void {
     const queue = this.getQueue();
     const index = queue.findIndex(op => op.id === operationId);
@@ -195,12 +195,12 @@ class OptimisticSyncQueueManager extends OptimisticSyncQueue {
     }
   }
   
-  // Get operations by status
+  // * Get operations by status
   getOperationsByStatus(status: SyncOperation['status']): SyncOperation[] {
     return this.getQueue().filter(op => op.status === status);
   }
   
-  // Get operations by entity and project
+  // * Get operations by entity and project
   getOperationsByEntity(entity: SyncOperation['entity'], projectId?: string): SyncOperation[] {
     return this.getQueue().filter(op => {
       if (projectId) {

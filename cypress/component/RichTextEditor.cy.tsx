@@ -17,10 +17,10 @@ describe('RichTextEditor Component', () => {
         />
       );
 
-      // Check toolbar is visible
+      // * Check toolbar is visible
       cy.get('[role="toolbar"]').should('be.visible');
       
-      // Check all toolbar [data-cy*="button"]s are present
+      // * Check all toolbar [data-cy*="button"]s are present
       cy.get('[aria-label="Bold (Ctrl+B)"]').should('be.visible');
       cy.get('[aria-label="Italic (Ctrl+I)"]').should('be.visible');
       cy.get('[aria-label="Add Link (Ctrl+K)"]').should('be.visible');
@@ -107,7 +107,7 @@ describe('RichTextEditor Component', () => {
         />
       );
       
-      // Select all text for formatting
+      // * Select all text for formatting
       cy.get('.ProseMirror').click().type('{[data-cy*="select"]all}');
     });
 
@@ -245,7 +245,7 @@ describe('RichTextEditor Component', () => {
       cy.get('.ProseMirror').click().type('{[data-cy*="select"]all}');
       cy.get('[aria-label="Add Link (Ctrl+K)"]').click();
       
-      // LinkModal should be visible
+      // TODO: LinkModal should be visible
       cy.get('[data-testid="link-modal"]').should('be.visible');
     });
 
@@ -275,7 +275,7 @@ describe('RichTextEditor Component', () => {
         />
       );
       
-      // Click on the link text to position cursor
+      // * Click on the link text to position cursor
       cy.get('.ProseMirror a').click();
       cy.get('[aria-label="Add Link (Ctrl+K)"]').click();
       
@@ -294,7 +294,7 @@ describe('RichTextEditor Component', () => {
         />
       );
       
-      // Type some text
+      // * Type some text
       cy.get('.ProseMirror').type('First text');
       cy.get('.ProseMirror').should('contain', 'First text');
       
@@ -516,10 +516,10 @@ describe('RichTextEditor Component', () => {
         />
       );
       
-      // Click bold without [data-cy*="select"]ing text
+      // // DEPRECATED: * Click bold without [data-cy*="select"]ing text
       cy.get('[aria-label="Bold (Ctrl+B)"]').click();
       
-      // Content should still be there
+      // TODO: * Content should still be there
       cy.get('.ProseMirror').should('contain', 'Test content');
     });
   });
@@ -535,11 +535,11 @@ describe('RichTextEditor Component', () => {
         />
       );
       
-      // Toolbar should still be functional
+      // TODO: * Toolbar should still be functional
       cy.get('[role="toolbar"]').should('be.visible');
       cy.get('[aria-label="Bold (Ctrl+B)"]').should('be.visible');
       
-      // Check that [data-cy*="button"]s have minimum touch target size
+      // * Check that [data-cy*="button"]s have minimum touch target size
       cy.get('[aria-label="Bold (Ctrl+B)"]')
         .should('have.css', 'min-width', '32px')
         .and('have.css', 'min-height', '32px');

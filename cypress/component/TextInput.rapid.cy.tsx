@@ -11,7 +11,7 @@ import {
 } from '../support/rapid-interaction-utils';
 
 describe('TextInput - Rapid Interactions', () => {
-  // Test wrapper component with state management
+  // * Test wrapper component with state management
   const TestWrapper = ({ onChange, onBlur, debounceDelay = 0, ...props }: any) => {
     const [value, setValue] = React.useState('');
     const [changeCount, setChangeCount] = React.useState(0);
@@ -66,10 +66,10 @@ describe('TextInput - Rapid Interactions', () => {
       
       const testText = 'The quick brown fox jumps over the lazy dog';
       
-      // Type rapidly with no delay
+      // * Type rapidly with no delay
       cy.rapidType('[data-testid="text-input"]', testText, 0);
       
-      // Verify no character loss
+      // * Verify no character loss
       cy.get('[data-testid="text-input"]').should('have.value', testText);
       cy.get('[data-testid="value-display"]').should('contain', testText);
     });
@@ -86,7 +86,7 @@ describe('TextInput - Rapid Interactions', () => {
         100
       );
       
-      // Verify all text is captured
+      // * Verify all text is captured
       cy.get('[data-testid="text-input"]').should('have.value', testText);
     });
 
@@ -95,7 +95,7 @@ describe('TextInput - Rapid Interactions', () => {
       
       const longText = 'Lorem ipsum '.repeat(100);
       
-      // Rapid paste multiple times
+      // * Rapid paste multiple times
       for (let i = 0; i < 5; i++) {
         cy.get('[data-testid="text-input"]')
           .clear()
@@ -104,17 +104,17 @@ describe('TextInput - Rapid Interactions', () => {
         cy.wait(10);
       }
       
-      // Final value should be the last paste
+      // TODO: * Final value should be the last paste
       cy.get('[data-testid="text-input"]').should('have.value', longText);
     });
 
     it('maintains correct cursor position during rapid typing', () => {
       cy.mount(<TestWrapper />);
       
-      // Type initial text
+      // * Type initial text
       cy.get('[data-testid="text-input"]').type('Hello World');
       
-      // Move cursor to middle and type rapidly
+      // * Move cursor to middle and type rapidly
       cy.get('[data-testid="text-input"]')
         .type('{leftArrow}'.repeat(6))
         .type('Beautiful ', { delay: 0 });
@@ -129,7 +129,7 @@ describe('TextInput - Rapid Interactions', () => {
       const onBlur = cy.stub();
       cy.mount(<TestWrapper onBlur={onBlur} />);
       
-      // Rapidly focus and blur
+      // * Rapidly focus and blur
       for (let i = 0; i < 10; i++) {
         cy.get('[data-testid="text-input"]').focus();
         cy.wait(5);
@@ -137,7 +137,7 @@ describe('TextInput - Rapid Interactions', () => {
         cy.wait(5);
       }
       
-      // Should track all blur events
+      // TODO: * Should track all blur events
       cy.get('[data-testid="blur-count"]').should('contain', '10');
     });
 
@@ -147,14 +147,14 @@ describe('TextInput - Rapid Interactions', () => {
       const testValue = 'Test value';
       cy.get('[data-testid="text-input"]').type(testValue);
       
-      // Rapidly switch focus
+      // * Rapidly switch focus
       for (let i = 0; i < 5; i++) {
         cy.get('[data-testid="text-input"]').blur();
         cy.get('body').click();
         cy.get('[data-testid="text-input"]').focus();
       }
       
-      // Value should be preserved
+      // TODO: * Value should be preserved
       cy.get('[data-testid="text-input"]').should('have.value', testValue);
     });
   });
@@ -164,20 +164,20 @@ describe('TextInput - Rapid Interactions', () => {
       const onChange = cy.stub();
       cy.mount(<TestWrapper onChange={onChange} debounceDelay={300} />);
       
-      // Type rapidly
+      // * Type rapidly
       cy.get('[data-testid="text-input"]').type('Hello', { delay: 50 });
       
-      // Should show processing
+      // ? TODO: * Should show processing
       cy.get('[data-testid="processing"]').should('exist');
       
-      // Wait for debounce
+      // ! PERFORMANCE: * Wait for debounce
       cy.waitForDebounce(300);
       
-      // Processing should be done and value updated
+      // TODO: * Processing should be done and value updated
       cy.get('[data-testid="processing"]').should('not.exist');
       cy.get('[data-testid="value-display"]').should('contain', 'Hello');
       
-      // onChange should be called once after debounce
+      // TODO: ! PERFORMANCE: onChange should be called once after debounce
       cy.wrap(onChange).should('have.been.calledOnce');
     });
 
@@ -185,17 +185,17 @@ describe('TextInput - Rapid Interactions', () => {
       const onChange = cy.stub();
       cy.mount(<TestWrapper onChange={onChange} debounceDelay={200} />);
       
-      // Type first value
+      // * Type first value
       cy.get('[data-testid="text-input"]').type('First');
       cy.wait(100); // Wait less than debounce
       
-      // Type second value (should cancel first)
+      // TODO: * Type second value (should cancel first)
       cy.get('[data-testid="text-input"]').clear().type('Second');
       
-      // Wait for debounce
+      // ! PERFORMANCE: * Wait for debounce
       cy.waitForDebounce(250);
       
-      // Only second value should be set
+      // TODO: * Only second value should be set
       cy.get('[data-testid="value-display"]').should('contain', 'Second');
       cy.get('[data-testid="value-display"]').should('not.contain', 'First');
     });
@@ -205,14 +205,14 @@ describe('TextInput - Rapid Interactions', () => {
     it('handles concurrent state updates correctly', () => {
       cy.mount(<TestWrapper />);
       
-      // Simulate concurrent updates
+      // * Simulate concurrent updates
       RaceConditionHelpers.synchronizeStateUpdates([
         () => cy.get('[data-testid="text-input"]').type('A'),
         () => cy.get('[data-testid="text-input"]').type('B'),
         () => cy.get('[data-testid="text-input"]').type('C'),
       ], 10);
       
-      // All characters should be present
+      // TODO: * All characters should be present
       cy.get('[data-testid="text-input"]').should('have.value', 'ABC');
     });
 
@@ -249,14 +249,14 @@ describe('TextInput - Rapid Interactions', () => {
       
       cy.mount(<SubmitForm />);
       
-      // Rapidly click submit
+      // * Rapidly click submit
       StressTestHelpers.simulateRapidFormSubmit(
         'form',
         '[data-testid="submit-button"]',
         10
       );
       
-      // Should only have one submission
+      // TODO: * Should only have one submission
       cy.get('[data-testid="submission-count"]').should('contain', '1');
     });
   });
@@ -268,7 +268,7 @@ describe('TextInput - Rapid Interactions', () => {
       // Test UI responsiveness
       PerformanceHelpers.testResponsiveness(
         () => {
-          // Rapid typing
+          // * Rapid typing
           for (let i = 0; i < 50; i++) {
             cy.get('[data-testid="text-input"]').type('a', { delay: 0 });
           }
@@ -283,7 +283,7 @@ describe('TextInput - Rapid Interactions', () => {
       
       const startTime = Date.now();
       
-      // Rapid clear and type cycles
+      // * Rapid clear and type cycles
       for (let i = 0; i < 10; i++) {
         cy.get('[data-testid="text-input"]')
           .clear()
@@ -292,11 +292,11 @@ describe('TextInput - Rapid Interactions', () => {
       
       cy.wrap(null).then(() => {
         const duration = Date.now() - startTime;
-        // Should complete quickly
+        // TODO: * Should complete quickly
         expect(duration).to.be.lessThan(2000);
       });
       
-      // Final value should be correct
+      // TODO: * Final value should be correct
       cy.get('[data-testid="text-input"]').should('have.value', 'Cycle 9');
     });
   });
@@ -307,10 +307,10 @@ describe('TextInput - Rapid Interactions', () => {
       
       cy.get('[data-testid="text-input"]').type('Initial value');
       
-      // Simulate rage clicking
+      // * Simulate rage clicking
       StressTestHelpers.simulateRageClick('[data-testid="text-input"]', 1000);
       
-      // Component should still be functional
+      // TODO: * Component should still be functional
       cy.get('[data-testid="text-input"]')
         .clear()
         .type('Still works');
@@ -321,7 +321,7 @@ describe('TextInput - Rapid Interactions', () => {
     it('handles rapid select all and replace', () => {
       cy.mount(<TestWrapper />);
       
-      // Rapid select all and replace
+      // * Rapid select all and replace
       for (let i = 0; i < 10; i++) {
         cy.get('[data-testid="text-input"]')
           .type('{selectall}')
@@ -329,17 +329,17 @@ describe('TextInput - Rapid Interactions', () => {
         cy.wait(10);
       }
       
-      // Should have final replacement
+      // TODO: * Should have final replacement
       cy.get('[data-testid="text-input"]').should('have.value', 'Replace 9');
     });
 
     it('handles rapid undo/redo operations', () => {
       cy.mount(<TestWrapper />);
       
-      // Type some text
+      // * Type some text
       cy.get('[data-testid="text-input"]').type('Hello World');
       
-      // Rapid undo/redo (if supported)
+      // * Rapid undo/redo (if supported)
       for (let i = 0; i < 5; i++) {
         cy.get('[data-testid="text-input"]').type('{cmd+z}'); // Undo
         cy.wait(10);
@@ -347,7 +347,7 @@ describe('TextInput - Rapid Interactions', () => {
         cy.wait(10);
       }
       
-      // Value should be maintained or properly handled
+      // TODO: * Value should be maintained or properly handled
       cy.get('[data-testid="text-input"]').invoke('val').should('exist');
     });
   });
@@ -369,7 +369,7 @@ describe('TextInput - Rapid Interactions', () => {
       
       RapidInteractionAssertions.assertUIResponsiveness(
         () => {
-          // Rapid typing action
+          // * Rapid typing action
           cy.get('[data-testid="text-input"]').type('Rapid text', { delay: 0 });
         },
         '[data-testid="text-input"]',
@@ -385,7 +385,7 @@ describe('TextInput - Rapid Interactions', () => {
         cy.get('[data-testid="text-input"]').type(char, { delay: 0 });
       });
       
-      // Change count should match
+      // TODO: * Change count should match
       cy.get('[data-testid="change-count"]')
         .invoke('text')
         .then(text => {

@@ -1,6 +1,6 @@
 // Custom Cypress commands for FantasyWritingApp
 
-// Authentication commands
+// ! SECURITY: * Authentication commands
 Cypress.Commands.add('login', (email = 'test@example.com', password = 'testpassword123') => {
   cy.visit('/login');
   cy.get('[data-testid=email-input]').type(email);
@@ -35,7 +35,7 @@ Cypress.Commands.add('saveStory', () => {
   cy.get('[data-testid=save-success-message]').should('be.visible');
 });
 
-// Character commands
+// * Character commands
 Cypress.Commands.add('createCharacter', (name: string, role = 'protagonist') => {
   cy.get('[data-testid=characters-tab]').click();
   cy.get('[data-testid=add-character-button]').click();
@@ -51,7 +51,7 @@ Cypress.Commands.add('editCharacter', (name: string) => {
   cy.get('[data-testid=character-editor]').should('be.visible');
 });
 
-// Navigation commands
+// * Navigation commands
 Cypress.Commands.add('navigateToHome', () => {
   cy.get('[data-testid=home-nav]').click();
   cy.get('[data-testid=home-screen]').should('be.visible');
@@ -72,7 +72,7 @@ Cypress.Commands.add('navigateToSettings', () => {
   cy.get('[data-testid=settings-screen]').should('be.visible');
 });
 
-// Utility commands
+// * Utility commands
 Cypress.Commands.add('waitForLoad', () => {
   cy.get('[data-testid=loading-indicator]').should('not.exist');
   cy.wait(500); // Small buffer for animations
@@ -89,15 +89,15 @@ Cypress.Commands.add('checkAccessibility', () => {
 });
 
 // React Native Web compatibility command
-// This command tries multiple selector strategies to work with React Native Web's attribute handling
+// * This command tries multiple selector strategies to work with React Native Web's attribute handling
 Cypress.Commands.add('getByTestId', (selector: string) => {
-  // Try multiple selector patterns for React Native Web compatibility
+  // * Try multiple selector patterns for React Native Web compatibility
   return cy.get(
     `[data-testid="${selector}"], [data-testid="${selector}"], [testID="${selector}"]`
   );
 });
 
-// Helper to check if an element exists with any of the test attributes
+// * Helper to check if an element exists with any of the test attributes
 Cypress.Commands.add('shouldHaveTestAttr', (selector: string) => {
   cy.get('body').then(($body) => {
     const found = 
@@ -108,26 +108,26 @@ Cypress.Commands.add('shouldHaveTestAttr', (selector: string) => {
   });
 });
 
-// Factory reset command for test data
+// * Factory reset command for test data
 Cypress.Commands.add('resetFactories', () => {
-  // Reset any test data factories to their initial state
-  // This is called in beforeEach hooks to ensure clean test state
+  // * Reset any test data factories to their initial state
+  // * This is called in beforeEach hooks to ensure clean test state
   cy.window().then((win) => {
-    // Reset any global test data or factories stored on window
+    // * Reset any global test data or factories stored on window
     if ((win as any).testFactories) {
       (win as any).testFactories = {};
     }
-    // Clear any localStorage/sessionStorage that might affect tests
+    // * Clear any localStorage/sessionStorage that might affect tests
     win.localStorage.clear();
     win.sessionStorage.clear();
   });
   
-  // Reset any fixture data
+  // TODO: * Reset any fixture data
   cy.fixture('testData').then((data) => {
-    // Reset to default test data if needed
+    // * Reset to default test data if needed
     cy.wrap(data).as('defaultTestData');
   });
 });
 
-// Export to prevent TypeScript errors
+// * Export to prevent TypeScript errors
 export {};

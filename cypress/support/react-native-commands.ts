@@ -7,7 +7,7 @@
  * that have been compiled to web using React Native Web.
  */
 
-// Type definitions for custom commands
+// * Type definitions for custom commands
 declare global {
   namespace Cypress {
     interface Chainable {
@@ -116,14 +116,14 @@ Cypress.Commands.add('getRN', (testId: string, options = {}) => {
     `[title="${testId}"]`                 // Title attribute
   ];
 
-  // Try each selector group in priority order
+  // * Try each selector group in priority order
   const allSelectors = [
     ...testSelectors,
     ...accessibilitySelectors,
     ...semanticSelectors
   ];
 
-  // Check each selector for matches
+  // * Check each selector for matches
   for (const selector of allSelectors) {
     try {
       const el = Cypress.$(selector);
@@ -131,16 +131,16 @@ Cypress.Commands.add('getRN', (testId: string, options = {}) => {
         return cy.get(selector, options);
       }
     } catch (e) {
-      // Continue to next selector if this one fails
+      // * Continue to next selector if this one fails
       continue;
     }
   }
   
-  // If no selector works, try content-based search as last resort
-  // This helps during development when testIDs might be missing
+  // * If no selector works, try content-based search as last resort
+  // * This helps during development when testIDs might be missing
   const contentElement = Cypress.$(`*:contains("${testId}")`).filter((i, el) => {
     const $el = Cypress.$(el);
-    // Only match leaf nodes to avoid parent containers
+    // * Only match leaf nodes to avoid parent containers
     return $el.children().length === 0 || $el.is('button, a, input, textarea');
   });
 
@@ -149,7 +149,7 @@ Cypress.Commands.add('getRN', (testId: string, options = {}) => {
     return cy.wrap(contentElement.first());
   }
   
-  // If nothing works, use the primary selector and let Cypress provide helpful error
+  // * If nothing works, use the primary selector and let Cypress provide helpful error
   return cy.get(testSelectors[0], options);
 });
 
@@ -161,12 +161,12 @@ Cypress.Commands.add('rnClick', { prevSubject: true }, (subject, options = {}) =
   return cy.wrap(subject).then($el => {
     const element = $el[0];
     
-    // Check if element has touch handlers
+    // * Check if element has touch handlers
     const hasTouchHandlers = element.hasAttribute('role') && 
                             element.getAttribute('role') === 'button';
     
     if (hasTouchHandlers) {
-      // Simulate touch events for React Native components
+      // * Simulate touch events for React Native components
       const touchStart = new TouchEvent('touchstart', {
         bubbles: true,
         cancelable: true,
@@ -183,7 +183,7 @@ Cypress.Commands.add('rnClick', { prevSubject: true }, (subject, options = {}) =
       setTimeout(() => element.dispatchEvent(touchEnd), 50);
     }
     
-    // Also trigger standard click as fallback
+    // * Also trigger standard click as fallback
     return cy.wrap(subject).click(options);
   });
 });
@@ -195,15 +195,15 @@ Cypress.Commands.add('rnType', { prevSubject: true }, (subject, text: string, op
   return cy.wrap(subject).then($el => {
     const element = $el[0] as HTMLInputElement;
     
-    // Focus the element first
+    // * Focus the element first
     element.focus();
     
-    // Clear existing value if needed
+    // * Clear existing value if needed
     if (options.delay === undefined) {
       options.delay = 0;
     }
     
-    // Type each character with proper events
+    // * Type each character with proper events
     return cy.wrap(subject).type(text, options).then(() => {
       // Trigger React Native specific events
       const changeEvent = new Event('change', { bubbles: true });
@@ -212,7 +212,7 @@ Cypress.Commands.add('rnType', { prevSubject: true }, (subject, text: string, op
       element.dispatchEvent(inputEvent);
       element.dispatchEvent(changeEvent);
       
-      // Trigger onChangeText if it exists
+      // * Trigger onChangeText if it exists
       if ((element as any).onChangeText) {
         (element as any).onChangeText(element.value);
       }
@@ -230,12 +230,12 @@ Cypress.Commands.add('rnSelect', { prevSubject: true }, (subject, value: string)
     const element = $el[0];
     
     if (element.tagName === 'SELECT') {
-      // Standard select element
+      // * Standard select element
       return cy.wrap(subject).select(value);
     } else {
       // React Native Picker rendered as custom component
       cy.wrap(subject).click();
-      // Look for option in dropdown
+      // * Look for option in dropdown
       cy.contains(value).click();
       return cy.wrap(subject);
     }
@@ -267,7 +267,7 @@ Cypress.Commands.add('rnBlur', { prevSubject: true }, (subject) => {
     element.dispatchEvent(blurEvent);
     element.blur();
     
-    // Trigger change event on blur
+    // * Trigger change event on blur
     if (element.value !== undefined) {
       const changeEvent = new Event('change', { bubbles: true });
       element.dispatchEvent(changeEvent);
@@ -358,7 +358,7 @@ Cypress.Commands.add('rnLongPress', { prevSubject: true }, (subject, duration = 
     
     element.dispatchEvent(touchEnd);
     
-    // Trigger onLongPress if it exists
+    // * Trigger onLongPress if it exists
     if ((element as any).onLongPress) {
       (element as any).onLongPress();
     }
@@ -415,10 +415,10 @@ Cypress.Commands.add('rnToggleSwitch', { prevSubject: true }, (subject) => {
     const element = $el[0] as HTMLInputElement;
     
     if (element.type === 'checkbox' || element.getAttribute('role') === 'switch') {
-      // Click to toggle
+      // * Click to toggle
       cy.wrap(subject).click();
       
-      // Trigger onChange if exists
+      // * Trigger onChange if exists
       if ((element as any).onChange) {
         (element as any).onChange({ target: { checked: !element.checked } });
       }
@@ -460,5 +460,5 @@ Cypress.Commands.add('rnScrollTo', { prevSubject: true }, (subject, position = '
   });
 });
 
-// Export empty object to make this a module
+// * Export empty object to make this a module
 export {};

@@ -4,7 +4,7 @@ import { WorldElement } from '../../src/types/models/WorldElement';
 import { ElementCategory } from '../../src/types/models/ElementCategory';
 
 describe('ElementCard Component', () => {
-  // Mock element data for testing
+  // * Mock element data for testing
   const mockElement: WorldElement = {
     id: 'test-element-1',
     name: 'Test Character',
@@ -44,22 +44,22 @@ describe('ElementCard Component', () => {
       />
     );
 
-    // Check that the card is visible
+    // * Check that the card is visible
     cy.get('[data-testid="element-card"]').should('be.visible');
     
-    // Check element name
+    // * Check element name
     cy.get('[data-testid="element-name"]').should('contain.text', 'Test Character');
     
-    // Check category
+    // * Check category
     cy.get('[data-testid="element-category"]').should('contain.text', 'character');
     
-    // Check description
+    // * Check description
     cy.get('[data-testid="element-description"]').should('contain.text', 'A brave warrior from the northern kingdoms');
     
-    // Check completion percentage
+    // * Check completion percentage
     cy.get('[data-testid="completion-text"]').should('contain.text', '75%');
     
-    // Check category icon is present
+    // * Check category icon is present
     cy.get('[data-testid="category-icon"]').should('be.visible');
   });
 
@@ -77,7 +77,7 @@ describe('ElementCard Component', () => {
   });
 
   it('should display completion badge based on percentage', () => {
-    // Test different completion levels
+    // * Test different completion levels
     const testCases = [
       { percentage: 100, expectedText: 'Complete', expectedIcon: '🏅' },
       { percentage: 85, expectedText: 'Nearly Done', expectedIcon: '⭐' },
@@ -101,7 +101,7 @@ describe('ElementCard Component', () => {
         />
       );
 
-      // Check badge text is present (note: checking for visible text, not exact match due to styling)
+      // * Check badge text is present (note: checking for visible text, not exact match due to styling)
       cy.get('[data-testid="element-card"]').should('contain.text', expectedText);
     });
   });
@@ -130,7 +130,7 @@ describe('ElementCard Component', () => {
         />
       );
 
-      // Check that the card renders with category-specific styling
+      // * Check that the card renders with category-specific styling
       cy.get('[data-testid="element-card"]').should('be.visible');
       cy.get('[data-testid="element-category"]').should('contain.text', category.replace('-', ' '));
     });
@@ -145,7 +145,7 @@ describe('ElementCard Component', () => {
       />
     );
 
-    // Check tags are displayed
+    // * Check tags are displayed
     cy.get('[data-testid="element-tag"]').should('have.length', 2);
     cy.get('[data-testid="element-tag"]').first().should('contain.text', 'hero');
     cy.get('[data-testid="element-tag"]').last().should('contain.text', 'warrior');
@@ -165,10 +165,10 @@ describe('ElementCard Component', () => {
       />
     );
 
-    // Should show only first 2 tags
+    // ? TODO: * Should show only first 2 tags
     cy.get('[data-testid="element-tag"]').should('have.length', 2);
     
-    // Should show more tags indicator
+    // ? TODO: * Should show more tags indicator
     cy.get('[data-testid="element-card"]').should('contain.text', '+3');
   });
 
@@ -181,7 +181,7 @@ describe('ElementCard Component', () => {
       />
     );
 
-    // Check relationships count
+    // * Check relationships count
     cy.get('[data-testid="element-card"]').should('contain.text', '1 connection');
   });
 
@@ -230,7 +230,7 @@ describe('ElementCard Component', () => {
       />
     );
 
-    // Check that the card is accessible
+    // * Check that the card is accessible
     cy.get('[data-testid="element-card"]')
       .should('be.visible')
       .and('have.attr', 'role'); // React Native Web converts Pressable to [data-cy*="button"]-like element
@@ -245,7 +245,7 @@ describe('ElementCard Component', () => {
       />
     );
 
-    // Check that updated date is formatted and displayed
+    // * Check that updated date is formatted and displayed
     cy.get('[data-testid="element-card"]').should('contain.text', 'Updated Jan 15, 2024');
   });
 

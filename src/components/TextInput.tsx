@@ -48,6 +48,7 @@ export const TextInput = forwardRef<RNTextInput, TextInputProps>(
             Platform.OS === 'web' && styles.webInput,
             inputStyle,
           ]}
+          // ! HARDCODED: Should use design tokens
           placeholderTextColor="#6B7280"
           multiline={multiline}
           numberOfLines={numberOfLines}
@@ -69,6 +70,7 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 14,
     fontWeight: '500',
+    // ! HARDCODED: Should use design tokens
     color: '#F9FAFB',
     marginBottom: 6,
     fontFamily: Platform.select({
@@ -78,13 +80,16 @@ const styles = StyleSheet.create({
     }),
   },
   input: {
+    // ! HARDCODED: Should use design tokens
     backgroundColor: '#1F2937',
     borderWidth: 1,
+    // ! HARDCODED: Should use design tokens
     borderColor: '#374151',
     borderRadius: 8,
     paddingHorizontal: 12,
     paddingVertical: 10,
     fontSize: 16,
+    // ! HARDCODED: Should use design tokens
     color: '#F9FAFB',
     minHeight: 44,
     fontFamily: Platform.select({
@@ -107,10 +112,12 @@ const styles = StyleSheet.create({
     }),
   },
   errorInput: {
+    // ! HARDCODED: Should use design tokens
     borderColor: '#DC2626',
   },
   errorText: {
     fontSize: 12,
+    // ! HARDCODED: Should use design tokens
     color: '#DC2626',
     marginTop: 4,
     fontFamily: Platform.select({

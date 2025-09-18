@@ -1,22 +1,22 @@
-// Component test helpers for missing components
-// These are React Native Web compatible stubs with data-cy attributes for testing
+// * Component test helpers for missing components
+// * These are React Native Web compatible stubs with data-cy attributes for testing
 
 import React, { useEffect, useState, useMemo, useRef } from 'react';
 import { View, Text, TouchableOpacity, TextInput, ActivityIndicator, Platform, ScrollView, RefreshControl } from 'react-native';
 
-// Helper function to add proper test attributes for React Native Web
+// * Helper function to add proper test attributes for React Native Web
 const getTestProps = (id: string) => {
   // React Native Web automatically converts testID to data-testid in the DOM
-  // We need to use testID for React Native components
+  // TODO: * We need to use testID for React Native components
   return {
     testID: id,
-    // Also add accessible prop for better testing
+    // * Also add accessible prop for better testing
     accessible: true,
     accessibilityTestID: id,
   };
 };
 
-// Format relative time for timestamps
+// * Format relative time for timestamps
 const formatRelativeTime = (date: Date | string | undefined): string => {
   if (!date) return '';
   
@@ -126,7 +126,7 @@ interface BasicQuestionsSelectorProps {
   onChange: (ids: string[]) => void;
 }
 
-// Default suggestions for different categories
+// * Default suggestions for different categories
 const defaultSuggestions: Record<string, string[]> = {
   character: ['name', 'age', 'species'],
   location: ['name', 'type', 'description'],
@@ -156,7 +156,7 @@ export const BasicQuestionsSelector: React.FC<BasicQuestionsSelectorProps> = ({
     }
   }, []); // Only run on mount
 
-  // Group questions by category
+  // * Group questions by category
   const questionsByCategory = questions.reduce((acc, q) => {
     const cat = q.category || 'General';
     if (!acc[cat]) acc[cat] = [];
@@ -369,22 +369,22 @@ export const BaseElementForm: React.FC<any> = ({
   ...props 
 }) => {
   const [mode, setMode] = React.useState('basic');
-  // Start with General category expanded by default
+  // * Start with General category expanded by default
   const [expandedCategories, setExpandedCategories] = React.useState<Set<string>>(() => {
-    // Check if we have a General category
+    // * Check if we have a General category
     const hasGeneral = questions.some(q => (q.category || 'General') === 'General');
     return hasGeneral ? new Set(['General']) : new Set();
   });
   const [inputValues, setInputValues] = React.useState<{[key: string]: any}>({});
   const [forceUpdate, setForceUpdate] = React.useState(0);
   
-  // Initialize input values from answers
+  // * Initialize input values from answers
   React.useEffect(() => {
     const initialValues: {[key: string]: any} = {};
     Object.keys(answers).forEach(key => {
       initialValues[key] = answers[key]?.value || '';
     });
-    // Also include any existing values not in answers
+    // * Also include any existing values not in answers
     questions.forEach((q: any) => {
       if (initialValues[q.id] === undefined) {
         initialValues[q.id] = '';
@@ -393,7 +393,7 @@ export const BaseElementForm: React.FC<any> = ({
     setInputValues(initialValues);
   }, [answers, questions]);
   
-  // Group questions by category
+  // * Group questions by category
   const questionsByCategory = questions.reduce((acc: any, q: any) => {
     const cat = q.category || 'General';
     if (!acc[cat]) acc[cat] = [];
@@ -419,16 +419,16 @@ export const BaseElementForm: React.FC<any> = ({
   
   const handleInputChange = (questionId: string, value: any) => {
     setInputValues(prev => ({ ...prev, [questionId]: value }));
-    // Also trigger onChange immediately for better test compatibility
+    // * Also trigger onChange immediately for better test compatibility
     if (onChange) {
       onChange(questionId, value);
     }
-    // Force a re-render to ensure state updates are visible in tests
+    // * Force a re-render to ensure state updates are visible in tests
     setForceUpdate(prev => prev + 1);
   };
   
   const handleInputBlur = (questionId: string) => {
-    // Call onChange with the complete value on blur as well
+    // * Call onChange with the complete value on blur as well
     if (onChange && inputValues[questionId] !== undefined) {
       onChange(questionId, inputValues[questionId]);
     }
@@ -468,7 +468,7 @@ export const BaseElementForm: React.FC<any> = ({
       
       {/* Categories and questions */}
       {Object.entries(questionsByCategory).map(([cat, categoryQuestions]: [string, any]) => {
-        // Don't filter by mode - show all questions when category is expanded
+        // ? Don't filter by mode - show all questions when category is expanded
         const questionsToShow = categoryQuestions;
         
         return (
@@ -508,7 +508,7 @@ export const BaseElementForm: React.FC<any> = ({
                       value={inputValues[q.id] || ''}
                       onChangeText={(text) => handleInputChange(q.id, text)}
                       onChange={(e: any) => {
-                        // For web compatibility, also handle onChange event
+                        // * For web compatibility, also handle onChange event
                         const text = e?.nativeEvent?.text || e?.target?.value || '';
                         handleInputChange(q.id, text);
                       }}
@@ -569,7 +569,7 @@ export const BaseElementForm: React.FC<any> = ({
                         onChange={(e) => {
                           const newValue = e.target.value;
                           handleInputChange(q.id, newValue);
-                          // Also call handleInputBlur to ensure the change is registered
+                          // * Also call handleInputBlur to ensure the change is registered
                           setTimeout(() => handleInputBlur(q.id), 0);
                         }}
                         onBlur={() => handleInputBlur(q.id)}
@@ -725,7 +725,7 @@ export const VirtualizedList: React.FC<any> = ({ items = [], renderItem, ...prop
   </View>
 );
 
-// UtilityComponents component
+// * UtilityComponents component
 export const UtilityComponents: React.FC<any> = (props) => (
   <View {...getTestProps('utility-components')}>
     <Text>Utility Components</Text>
@@ -749,7 +749,7 @@ export const CompletionHeatmap: React.FC<any> = ({ project, onElementClick, ...p
   </View>
 );
 
-// Styles for CreateElementModal
+// * Styles for CreateElementModal
 const modalStyles = {
   modal: { 
     position: 'absolute' as const, 
@@ -850,10 +850,10 @@ interface CreateElementModalProps {
   onSuccess?: (elementId: string) => void;
 }
 
-// Mock store for testing
+// * Mock store for testing
 const mockWorldbuildingStore = {
   createElement: async (projectId: string, name: string, category: string) => {
-    // Simulate async creation
+    // * Simulate async creation
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve({
@@ -867,7 +867,7 @@ const mockWorldbuildingStore = {
   projects: []
 };
 
-// Hook to get the store (will be mocked in tests)
+// * Hook to get the store (will be mocked in tests)
 export const useWorldbuildingStore = () => mockWorldbuildingStore;
 
 export const CreateElementModal: React.FC<CreateElementModalProps> = ({ 
@@ -903,7 +903,7 @@ export const CreateElementModal: React.FC<CreateElementModalProps> = ({
   };
   
   const getUniqueElementName = (category: string) => {
-    // In a real app, would check existing elements
+    // * In a real app, would check existing elements
     const categoryLabel = getCategoryLabel(category);
     const existingCount = store.projects
       .find(p => p.id === projectId)
@@ -998,7 +998,7 @@ export const CreateElementModal: React.FC<CreateElementModalProps> = ({
   );
 };
 
-// Breadcrumb component
+// * Breadcrumb component
 export const Breadcrumb: React.FC<any> = ({ items, onNavigate, ...props }) => (
   <View {...getTestProps('breadcrumb')}>
     {items?.map((item: any, i: number) => (
@@ -1013,7 +1013,7 @@ export const Breadcrumb: React.FC<any> = ({ items, onNavigate, ...props }) => (
   </View>
 );
 
-// Button component (already working but let's ensure it uses getTestProps)
+// * Button component (already working but let's ensure it uses getTestProps)
 export const Button: React.FC<any> = ({ title, onPress, disabled, ...props }) => (
   <TouchableOpacity 
     {...getTestProps('button')}
@@ -1024,7 +1024,7 @@ export const Button: React.FC<any> = ({ title, onPress, disabled, ...props }) =>
   </TouchableOpacity>
 );
 
-// Export stub types to satisfy TypeScript
+// * Export stub types to satisfy TypeScript
 export interface ElementCategory {
   character: 'character';
   location: 'location';
@@ -1069,12 +1069,12 @@ export interface Project {
   updatedAt?: Date | number;
 }
 
-// Mock store provider for tests
+// * Mock store provider for tests
 export const MockWorldbuildingStoreProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <>{children}</>
 );
 
-// Utility functions for tests
+// * Utility functions for tests
 export const createMockElement = (overrides = {}): WorldElement => ({
   id: 'test-1',
   name: 'Test Element',
@@ -1096,7 +1096,7 @@ export const createMockQuestion = (overrides = {}): Question => ({
   ...overrides
 });
 
-// Additional missing component stubs for tests
+// * Additional missing component stubs for tests
 
 // EditProjectModal component stub
 export const EditProjectModal: React.FC<any> = ({ 
@@ -1152,7 +1152,7 @@ export const GraphControls: React.FC<any> = ({ onZoomIn, onZoomOut, onReset, ...
   </View>
 );
 
-// Simple styles for ElementBrowser component
+// * Simple styles for ElementBrowser component
 const elementBrowserStyles = {
   container: { padding: 16, flex: 1 },
   searchContainer: { flexDirection: 'row' as const, marginBottom: 16 },
@@ -1206,11 +1206,11 @@ export const ElementBrowser: React.FC<ElementBrowserProps> = ({
   const [sortBy, setSortBy] = useState<string>('updated');
   const [showSortDropdown, setShowSortDropdown] = useState(false);
 
-  // Filter and search logic
+  // * Filter and search logic
   const filteredElements = useMemo(() => {
     let filtered = [...elements];
     
-    // Apply category filter
+    // * Apply category filter
     if (selectedCategory !== 'all') {
       filtered = filtered.filter(element => {
         if (selectedCategory === 'character') return element.category === 'character';
@@ -1221,7 +1221,7 @@ export const ElementBrowser: React.FC<ElementBrowserProps> = ({
       });
     }
     
-    // Apply search filter (case-insensitive)
+    // ! SECURITY: * Apply search filter (case-insensitive)
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
       filtered = filtered.filter(element => 
@@ -1231,7 +1231,7 @@ export const ElementBrowser: React.FC<ElementBrowserProps> = ({
       );
     }
     
-    // Apply sorting
+    // * Apply sorting
     filtered.sort((a, b) => {
       switch (sortBy) {
         case 'name':
@@ -1286,7 +1286,7 @@ export const ElementBrowser: React.FC<ElementBrowserProps> = ({
 
   const renderEmptyState = () => {
     if (searchQuery || selectedCategory !== 'all') {
-      // Filtered empty state
+      // * Filtered empty state
       return (
         <View style={elementBrowserStyles.centered}>
           <Text style={elementBrowserStyles.emptyTitle}>No elements found</Text>
@@ -1295,7 +1295,7 @@ export const ElementBrowser: React.FC<ElementBrowserProps> = ({
       );
     }
     
-    // True empty state
+    // * True empty state
     return (
       <View style={elementBrowserStyles.centered}>
         <Text style={elementBrowserStyles.emptyIcon}>📝</Text>
@@ -1476,7 +1476,7 @@ export const MobileHeader: React.FC<any> = ({ title, onMenuPress, ...props }) =>
   </View>
 );
 
-// PerformanceMonitor component stub
+// ! PERFORMANCE: PerformanceMonitor component stub
 export const PerformanceMonitor: React.FC<any> = ({ metrics = {}, ...props }) => (
   <View {...getTestProps('performance-monitor')}>
     <Text {...getTestProps('performance-title')}>Performance</Text>
@@ -1593,7 +1593,7 @@ export const KeyboardShortcutsHelp: React.FC<any> = ({ visible = false, onClose,
   );
 };
 
-// SyncQueueStatus component stub
+// * SyncQueueStatus component stub
 export const SyncQueueStatus: React.FC<any> = ({ queue = [], syncing = false, ...props }) => (
   <View {...getTestProps('sync-queue-status')}>
     <Text {...getTestProps('sync-title')}>Sync Status</Text>
@@ -1759,16 +1759,16 @@ const globalSearchStyles = {
   },
 };
 
-// Mock search provider hook
+// * Mock search provider hook
 const useSearch = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const searchAll = (query: string): SearchResult => {
-    // Return mock results based on query
+    // * Return mock results based on query
     if (!query) {
       return { projects: [], elements: [] };
     }
     
-    // Mock project and element data
+    // * Mock project and element data
     const mockProject: Project = {
       id: 'project-1',
       name: 'The Chronicles of Eldoria',
@@ -1823,21 +1823,21 @@ export const GlobalSearch: React.FC<GlobalSearchProps> = ({
     }
   }, [visible]);
 
-  // Debounced search
+  // ! PERFORMANCE: * Debounced search
   useEffect(() => {
     if (!searchQuery) {
       setSearchResults({ projects: [], elements: [] });
       return;
     }
 
-    // Clear existing timeout
+    // * Clear existing timeout
     if (searchTimeoutRef.current) {
       clearTimeout(searchTimeoutRef.current);
     }
 
     setIsSearching(true);
 
-    // Set new timeout for debounced search
+    // ! PERFORMANCE: * Set new timeout for debounced search
     searchTimeoutRef.current = setTimeout(() => {
       const results = searchAll(searchQuery);
       setSearchResults(results);
@@ -1857,12 +1857,12 @@ export const GlobalSearch: React.FC<GlobalSearchProps> = ({
   };
 
   const handleProjectPress = (project: Project) => {
-    // In tests, navigation is mocked
+    // * In tests, navigation is mocked
     onClose();
   };
 
   const handleElementPress = (element: WorldElement) => {
-    // In tests, navigation is mocked  
+    // * In tests, navigation is mocked  
     onClose();
   };
 
@@ -2148,7 +2148,7 @@ const projectCardStyles = {
   },
 };
 
-// Helper function to get status badge color
+// * Helper function to get status badge color
 const getStatusColor = (status: string) => {
   switch (status) {
     case 'active':
@@ -2166,7 +2166,7 @@ const getStatusColor = (status: string) => {
   }
 };
 
-// Helper function to format relative time
+// * Helper function to format relative time
 const formatRelativeProjectTime = (date: Date | string | undefined): string => {
   if (!date) return '';
   
@@ -2220,7 +2220,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
     }
   };
 
-  // Close menu when clicking outside (in a real app, this would be handled differently)
+  // * Close menu when clicking outside (in a real app, this would be handled differently)
   const handleOverlayPress = () => {
     if (showActionMenu) {
       setShowActionMenu(false);

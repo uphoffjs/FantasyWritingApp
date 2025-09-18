@@ -4,7 +4,7 @@ import { VirtualizedQuestionList } from '../../src/components/VirtualizedQuestio
 import { InfiniteScrollList } from '../support/component-test-helpersInfiniteScrollList';
 import { Project } from '../../src/types/models';
 
-// Mock react-window for all tests
+// * Mock react-window for all tests
 const mockFixedSizeGrid = ({ children, itemData, rowCount, columnCount }: any) => {
   const cells = [];
   for (let row = 0; row < Math.min(rowCount, 3); row++) {
@@ -91,7 +91,7 @@ describe('VirtualizedProjectList Component', () => {
       />
     );
     
-    // Should return null for empty array
+    // TODO: * Should return null for empty array
     cy.get('[data-testid="project-card"]').should('not.exist');
   });
 
@@ -128,7 +128,7 @@ describe('VirtualizedProjectList Component', () => {
   it('adjusts columns based on viewport width', () => {
     const projects = Array.from({ length: 9 }, (_, i) => mockProject(`${i + 1}`));
     
-    // Test mobile viewport (1 column)
+    // * Test mobile viewport (1 column)
     cy.viewport(375, 667);
     cy.mount(
       <VirtualizedProjectList
@@ -139,7 +139,7 @@ describe('VirtualizedProjectList Component', () => {
     );
     cy.get('[data-testid="project-card"]').should('exist');
     
-    // Test tablet viewport (2 columns)
+    // * Test tablet viewport (2 columns)
     cy.viewport(768, 1024);
     cy.mount(
       <VirtualizedProjectList
@@ -150,7 +150,7 @@ describe('VirtualizedProjectList Component', () => {
     );
     cy.get('[data-testid="project-card"]').should('exist');
     
-    // Test desktop viewport (3 columns)
+    // * Test desktop viewport (3 columns)
     cy.viewport(1920, 1080);
     cy.mount(
       <VirtualizedProjectList
@@ -164,7 +164,7 @@ describe('VirtualizedProjectList Component', () => {
 });
 
 describe('InfiniteScrollList Component', () => {
-  // Mock intersection observer
+  // * Mock intersection observer
   beforeEach(() => {
     cy.window().then((win) => {
       const mockIntersectionObserver = cy.stub();
@@ -307,7 +307,7 @@ describe('InfiniteScrollList Component', () => {
   });
 });
 
-// Simplified tests for VirtualizedQuestionList since it follows similar patterns
+// * Simplified tests for VirtualizedQuestionList since it follows similar patterns
 describe('VirtualizedQuestionList Component', () => {
   const mockQuestion = (id: string) => ({
     id,
@@ -359,7 +359,7 @@ describe('VirtualizedQuestionList Component', () => {
       />
     );
     
-    // Drag handles should be visible
+    // TODO: * Drag handles should be visible
     cy.get('[data-testid="drag-handle"]').should('exist');
   });
 
@@ -375,7 +375,7 @@ describe('VirtualizedQuestionList Component', () => {
       />
     );
     
-    // Drag handles should not be visible
+    // TODO: * Drag handles should not be visible
     cy.get('[data-testid="drag-handle"]').should('not.exist');
   });
 });

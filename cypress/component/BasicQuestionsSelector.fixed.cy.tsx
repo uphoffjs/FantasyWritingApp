@@ -88,11 +88,11 @@ describe('BasicQuestionsSelector Component - Fixed', () => {
         />
       );
 
-      // Use our custom React Native command
+      // * Use our custom React Native command
       cy.getRN('Apply Defaults').rnClick();
       cy.waitForRN();
       
-      // Should select suggested questions for character category
+      // TODO: * Should select suggested questions for character category
       cy.get('@onChange').should('have.been.called').then(() => {
         const call = onChangeSpy.getCall(0);
         expect(call.args[0]).to.include('name');
@@ -144,7 +144,7 @@ describe('BasicQuestionsSelector Component - Fixed', () => {
         />
       );
 
-      // Use getRN to find checkboxes by their question ID
+      // * Use getRN to find checkboxes by their question ID
       cy.getRN('question-checkbox-name').rnClick();
       cy.waitForRN();
 
@@ -169,7 +169,7 @@ describe('BasicQuestionsSelector Component - Fixed', () => {
         />
       );
 
-      // Check that selections in different categories are maintained
+      // * Check that selections in different categories are maintained
       cy.getRN('question-checkbox-name').should('be.checked');
       cy.getRN('question-checkbox-occupation').should('be.checked');
       cy.getRN('question-checkbox-backstory').should('be.checked');

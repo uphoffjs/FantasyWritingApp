@@ -6,7 +6,7 @@ import { ProjectSlice } from './projectStore';
 import { UISlice } from './uiStore';
 
 export interface SearchSlice {
-  // Search actions
+  // * Search actions
   searchElements: (query: string) => WorldElement[];
   searchElementsInProject: (projectId: string, query: string) => WorldElement[];
   searchElementsByCategory: (category: ElementCategory, query: string) => WorldElement[];
@@ -14,7 +14,7 @@ export interface SearchSlice {
   clearSearchCache: () => void;
 }
 
-// Create a combined interface for slices that depend on each other
+// * Create a combined interface for slices that depend on each other
 interface SearchStoreWithDeps extends SearchSlice, ProjectSlice, UISlice {}
 
 export const createSearchSlice: StateCreator<
@@ -23,24 +23,24 @@ export const createSearchSlice: StateCreator<
   [],
   SearchSlice
 > = (_set, get) => ({
-  // Search actions
+  // * Search actions
   searchElements: (query) => {
-    // Check cache first
+    // ! PERFORMANCE: * Check cache first
     const cached = searchCache.get(query);
     if (cached) {
       return cached as WorldElement[];
     }
 
-    // Use Fuse.js search service for better performance and fuzzy matching
+    // ! PERFORMANCE: Use Fuse.js search service for better performance and fuzzy matching
     const results = searchService.search(query, {
       limit: 100,
       threshold: 0.4
     }) as WorldElement[];
 
-    // Cache the results
+    // ! PERFORMANCE: * Cache the results
     searchCache.set(query, results);
     
-    // Add to search history if results found
+    // * Add to search history if results found
     if (results.length > 0 && query.trim()) {
       get().addSearchQuery(query.trim());
     }
@@ -49,7 +49,7 @@ export const createSearchSlice: StateCreator<
   },
 
   searchElementsInProject: (projectId, query) => {
-    // Cache key includes projectId for project-specific caching
+    // ! PERFORMANCE: * Cache key includes projectId for project-specific caching
     const cacheKey = `${projectId}:${query}`;
     const cached = searchCache.get(cacheKey);
     if (cached) {
@@ -66,7 +66,7 @@ export const createSearchSlice: StateCreator<
   },
 
   searchElementsByCategory: (category, query) => {
-    // Cache key includes category for category-specific caching
+    // ! PERFORMANCE: * Cache key includes category for category-specific caching
     const cacheKey = `cat:${category}:${query}`;
     const cached = searchCache.get(cacheKey);
     if (cached) {

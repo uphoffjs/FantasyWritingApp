@@ -1,6 +1,7 @@
 /**
- * Main App component for Fantasy Writing App
- * Configures React Navigation for both web and mobile platforms
+ * * Main App component for Fantasy Writing App
+ * * Configures React Navigation for both web and mobile platforms
+ * ! IMPORTANT: Entry point for the entire application
  */
 
 import React, { useEffect, useState } from 'react';
@@ -10,11 +11,11 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
-// Navigation configuration
+// * Navigation configuration
 import linking from './src/navigation/linking';
 import type { RootStackParamList } from './src/navigation/types';
 
-// Screens (to be created/converted)
+// * Screen components
 import { LoadingScreen } from './src/screens/LoadingScreen';
 import LoginScreen from './src/screens/LoginScreen';
 import { ProjectListScreen } from './src/screens/ProjectListScreen';
@@ -23,15 +24,15 @@ import { ElementScreen } from './src/screens/ElementScreen';
 import { SettingsScreen } from './src/screens/SettingsScreen';
 import { NotFoundScreen } from './src/screens/NotFoundScreen';
 
-// Store and providers
+// * Global state and context providers
 import { useAuthStore } from './src/store/authStore';
 import { SearchProvider } from './src/components/SearchProvider';
 
-// Additional components
+// * Additional UI components
 import AuthGuard from './src/components/AuthGuard';
 import { InstallPrompt } from './src/components/InstallPrompt';
 
-// Sync hook
+// * Database synchronization hook
 import { useSupabaseSync } from './src/hooks/useSupabaseSync';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -41,27 +42,27 @@ function App() {
   const [_isInitialized, setIsInitialized] = useState(false);
   const { isAuthenticated, initialize: initAuth } = useAuthStore();
   
-  // Initialize Supabase sync when authenticated
+  // * Initialize Supabase sync when authenticated
   useSupabaseSync();
 
-  // Initialize the app
+  // * Initialize the app
   useEffect(() => {
     const initializeApp = async () => {
       try {
-        // Initialize authentication first
+        // * Initialize authentication first
         await initAuth();
         
-        // Check if there's existing data to migrate
+        // * Check if there's existing data to migrate
         if (Platform.OS === 'web') {
-          // On web, check for existing localStorage data
+          // ! SECURITY: Checking localStorage for existing data
           const existingData = localStorage.getItem('worldbuilding-storage');
           if (existingData) {
             console.log('Found existing worldbuilding data, preserving...');
           }
         }
 
-        // Initialize store (Zustand will handle persistence)
-        // The store automatically loads persisted data via the persist middleware
+        // * Initialize store (Zustand will handle persistence)
+        // * The store automatically loads persisted data via the persist middleware
         
         setIsInitialized(true);
       } catch (error) {
@@ -96,18 +97,20 @@ function App() {
               initialRouteName={isAuthenticated ? "Projects" : "Login"}
               screenOptions={{
                 headerStyle: {
+                  // ! HARDCODED: Should use design tokens
                   backgroundColor: '#1A1815', // obsidian background
                 },
+                // ! HARDCODED: Should use design tokens
                 headerTintColor: '#C9A94F', // gold accent
                 headerTitleStyle: {
                   fontWeight: 'bold',
                 },
-                // Disable header for web (we'll use custom header)
+                // * Disable header for web (we'll use custom header)
                 headerShown: Platform.OS !== 'web',
                 animation: Platform.OS === 'web' ? 'none' : 'default',
               }}
             >
-              {/* Login Screen */}
+              {/* * Login Screen */}
               <Stack.Screen 
                 name="Login" 
                 options={{ 
@@ -121,7 +124,7 @@ function App() {
                 )}
               </Stack.Screen>
               
-              {/* Main App Flow */}
+              {/* * Main App Flow */}
               <Stack.Screen 
                 name="Projects" 
                 options={{ 
@@ -164,7 +167,7 @@ function App() {
                 )}
               </Stack.Screen>
               
-              {/* Settings */}
+              {/* * Settings */}
               <Stack.Screen 
                 name="Settings" 
                 options={{ 
@@ -179,7 +182,7 @@ function App() {
                 )}
               </Stack.Screen>
               
-              {/* Error/Not Found */}
+              {/* * Error/Not Found */}
               <Stack.Screen 
                 name="NotFound" 
                 component={NotFoundScreen}
@@ -191,7 +194,7 @@ function App() {
             </Stack.Navigator>
           </NavigationContainer>
 
-          {/* PWA Install Prompt (web only) */}
+          {/* * PWA Install Prompt (web only) */}
           {Platform.OS === 'web' && <InstallPrompt />}
         </SearchProvider>
       </SafeAreaProvider>

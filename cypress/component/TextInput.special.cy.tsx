@@ -9,7 +9,7 @@ import {
 } from '../support/special-characters-utils';
 
 describe('TextInput - Special Characters', () => {
-  // Test wrapper with character counter and sanitization
+  // * Test wrapper with character counter and sanitization
   const TestWrapper = ({ 
     sanitize = false, 
     maxLength,
@@ -23,7 +23,7 @@ describe('TextInput - Special Characters', () => {
     const handleChange = (e: any) => {
       let newValue = e?.target?.value || e;
       
-      // Apply sanitization if enabled
+      // * Apply sanitization if enabled
       if (sanitize) {
         newValue = SanitizationHelpers.sanitizeHtml(newValue);
         newValue = SanitizationHelpers.removeControlChars(newValue);
@@ -81,7 +81,7 @@ describe('TextInput - Special Characters', () => {
     it('correctly counts unicode characters', () => {
       cy.mount(<TestWrapper />);
       
-      // Test emoji (should count as single characters)
+      // TODO: * Test emoji (should count as single characters)
       cy.get('[data-testid="text-input"]').clear().type('😀😃😄');
       cy.get('[data-testid="char-count"]').should('contain', '3');
       
@@ -126,11 +126,11 @@ describe('TextInput - Special Characters', () => {
     it('marks dangerous input as unsafe', () => {
       cy.mount(<TestWrapper />);
       
-      // Safe input
+      // * Safe input
       cy.get('[data-testid="text-input"]').type('Normal safe text');
       cy.get('[data-testid="is-safe"]').should('contain', 'safe');
       
-      // Unsafe input
+      // * Unsafe input
       cy.get('[data-testid="text-input"]').clear().invoke('val', '<script>alert("XSS")</script>').trigger('input');
       cy.get('[data-testid="is-safe"]').should('contain', 'unsafe');
     });
@@ -141,7 +141,7 @@ describe('TextInput - Special Characters', () => {
       const xssPayload = '<script>alert("XSS")</script>Normal text';
       cy.pasteSpecialChars('[data-testid="text-input"]', xssPayload);
       
-      // Should remove script tags
+      // TODO: * Should remove script tags
       cy.get('[data-testid="raw-value"]').should('not.contain', '<script');
       cy.get('[data-testid="raw-value"]').should('contain', 'Normal text');
     });
@@ -152,10 +152,10 @@ describe('TextInput - Special Characters', () => {
       const htmlChars = '<div>Hello & "World"</div>';
       cy.pasteSpecialChars('[data-testid="text-input"]', htmlChars);
       
-      // Raw value contains original
+      // * Raw value contains original
       cy.get('[data-testid="raw-value"]').should('contain', htmlChars);
       
-      // Sanitized value has escaped characters
+      // * Sanitized value has escaped characters
       cy.get('[data-testid="sanitized-value"]').should('contain', '&lt;div&gt;');
       cy.get('[data-testid="sanitized-value"]').should('contain', '&amp;');
       cy.get('[data-testid="sanitized-value"]').should('contain', '&quot;');
@@ -169,7 +169,7 @@ describe('TextInput - Special Characters', () => {
       SpecialCharacters.securityThreats.sqlInjection.forEach(sqlPayload => {
         cy.get('[data-testid="text-input"]').clear().invoke('val', sqlPayload).trigger('input');
         
-        // Value should be preserved but marked as unsafe
+        // TODO: * Value should be preserved but marked as unsafe
         cy.get('[data-testid="text-input"]').should('have.value', sqlPayload);
         cy.get('[data-testid="is-safe"]').should('contain', 'unsafe');
       });
@@ -243,7 +243,7 @@ describe('TextInput - Special Characters', () => {
       // Type 8 regular chars + 2 emoji
       cy.get('[data-testid="text-input"]').type('12345678😀😃');
       
-      // Should respect the 10 character limit
+      // TODO: * Should respect the 10 character limit
       cy.get('[data-testid="char-count"]').should('contain', '10');
     });
 
@@ -252,7 +252,7 @@ describe('TextInput - Special Characters', () => {
       
       cy.get('[data-testid="text-input"]').type('你好世界测试');
       
-      // Should only allow 5 characters
+      // TODO: * Should only allow 5 characters
       cy.get('[data-testid="char-count"]').should('contain', '5');
       cy.get('[data-testid="text-input"]').should('have.value', '你好世界测');
     });
@@ -272,7 +272,7 @@ describe('TextInput - Special Characters', () => {
     it('distinguishes between similar characters', () => {
       cy.mount(<TestWrapper />);
       
-      // Zero vs O, one vs l
+      // * Zero vs O, one vs l
       const similar = '0O 1l Il';
       cy.typeSpecialChars('[data-testid="text-input"]', similar);
       
@@ -326,23 +326,23 @@ describe('TextInput - Special Characters', () => {
       
       const specialText = 'Emoji: 😀 Unicode: 你好 Special: @#$%';
       
-      // Type in first input
+      // * Type in first input
       cy.get('[data-testid="input1"] [data-testid="text-input"]')
         .as('input1')
         .invoke('val', specialText)
         .trigger('input');
       
-      // Select all and copy
+      // * Select all and copy
       cy.get('@input1').focus().type('{selectall}');
       
-      // Paste in second input
+      // * Paste in second input
       cy.get('[data-testid="input2"] [data-testid="text-input"]')
         .as('input2')
         .focus()
         .invoke('val', specialText)
         .trigger('input');
       
-      // Both should have same value
+      // TODO: * Both should have same value
       cy.get('@input1').should('have.value', specialText);
       cy.get('@input2').should('have.value', specialText);
     });
@@ -368,7 +368,7 @@ describe('TextInput - Special Characters', () => {
     it('handles rapid special character input', () => {
       cy.mount(<TestWrapper />);
       
-      // Rapidly type special characters
+      // * Rapidly type special characters
       '!@#$%^&*()'.split('').forEach(char => {
         cy.get('[data-testid="text-input"]').type(char, { delay: 0 });
       });

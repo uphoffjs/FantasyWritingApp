@@ -42,7 +42,7 @@ describe('CompletionHeatmap Core Tests', () => {
 
       cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
-      // Legend should be visible
+      // TODO: * Legend should be visible
       cy.contains('Completion:').should('be.visible');
       cy.contains('0% → 100%').should('be.visible');
       cy.contains('Click any cell for details').should('be.visible');
@@ -53,7 +53,7 @@ describe('CompletionHeatmap Core Tests', () => {
 
       cy.mount(<CompletionHeatmap project={project} />);
 
-      // Should have 7 legend color boxes
+      // TODO: * Should have 7 legend color boxes
       cy.get('[title="0%"]').should('exist');
       cy.get('[title="1-19%"]').should('exist');
       cy.get('[title="20-39%"]').should('exist');
@@ -81,7 +81,7 @@ describe('CompletionHeatmap Core Tests', () => {
 
       cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
-      // Should render all elements in grid
+      // TODO: * Should render all elements in grid
       cy.get('[data-testid="heatmap-grid"] [data-cy^="element-cell"]').should('have.length.at.least', 3);
     });
 
@@ -128,7 +128,7 @@ describe('CompletionHeatmap Core Tests', () => {
       cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       // React Native Web uses inline styles instead of CSS classes
-      // Test for element with 100% completion by content or data attributes
+      // * Test for element with 100% completion by content or data attributes
       cy.get('[data-cy^="element-cell"]').should('contain', '100');
     });
 
@@ -141,7 +141,7 @@ describe('CompletionHeatmap Core Tests', () => {
       cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       // React Native Web uses inline styles instead of CSS classes
-      // Test for element with 80-99% completion
+      // * Test for element with 80-99% completion
       cy.get('[data-cy^="element-cell"]').should('be.visible');
     });
 
@@ -154,7 +154,7 @@ describe('CompletionHeatmap Core Tests', () => {
       cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       // React Native Web uses inline styles instead of CSS classes
-      // Test for element with 60-79% completion
+      // * Test for element with 60-79% completion
       cy.get('[data-cy^="element-cell"]').should('be.visible');
     });
 
@@ -167,7 +167,7 @@ describe('CompletionHeatmap Core Tests', () => {
       cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       // React Native Web uses inline styles instead of CSS classes
-      // Test for element with 40-59% completion
+      // * Test for element with 40-59% completion
       cy.get('[data-cy^="element-cell"]').should('be.visible');
     });
 
@@ -180,7 +180,7 @@ describe('CompletionHeatmap Core Tests', () => {
       cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       // React Native Web uses inline styles instead of CSS classes
-      // Test for element with 20-39% completion
+      // * Test for element with 20-39% completion
       cy.get('[data-cy^="element-cell"]').should('be.visible');
     });
 
@@ -193,7 +193,7 @@ describe('CompletionHeatmap Core Tests', () => {
       cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       // React Native Web uses inline styles instead of CSS classes
-      // Test for element with 1-19% completion
+      // * Test for element with 1-19% completion
       cy.get('[data-cy^="element-cell"]').should('be.visible');
     });
 
@@ -206,7 +206,7 @@ describe('CompletionHeatmap Core Tests', () => {
       cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       // React Native Web uses inline styles instead of CSS classes
-      // Test for element with 0% completion
+      // * Test for element with 0% completion
       cy.get('[data-cy^="element-cell"]').should('be.visible');
     });
   });

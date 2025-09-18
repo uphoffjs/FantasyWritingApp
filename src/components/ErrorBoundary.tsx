@@ -1,9 +1,9 @@
 import React, { Component, ReactNode, ErrorInfo, createContext, useContext } from 'react';
 
-// Error context for useErrorHandler hook
+// * Error context for useErrorHandler hook
 const ErrorContext = createContext<((error: Error) => void) | null>(null);
 
-// Error handler hook
+// * Error handler hook
 export function useErrorHandler() {
   const context = useContext(ErrorContext);
   if (!context) {
@@ -48,7 +48,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
   }
 
   static getDerivedStateFromError(error: Error): Partial<ErrorBoundaryState> {
-    // Update state so the next render will show the fallback UI
+    // ? * Update state so the next render will show the fallback UI
     return {
       hasError: true,
       error,
@@ -57,16 +57,16 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    // Log error details
+    // * Log error details
     console.error('ErrorBoundary caught error:', error, errorInfo);
     
-    // Update state with error info
+    // * Update state with error info
     this.setState(prevState => ({
       errorInfo,
       errorCount: prevState.errorCount + 1
     }));
 
-    // Call onError callback if provided
+    // * Call onError callback if provided
     if (this.props.onError) {
       this.props.onError(error, errorInfo);
     }
@@ -83,7 +83,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
     const { resetKeys, resetOnPropsChange } = this.props;
     const { hasError } = this.state;
     
-    // Reset error boundary when resetKeys change
+    // * Reset error boundary when resetKeys change
     if (hasError && resetKeys) {
       const hasResetKeyChanged = resetKeys.some((key, index) => 
         key !== this.previousResetKeys[index]
@@ -95,7 +95,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
       }
     }
 
-    // Reset on any props change if enabled
+    // * Reset on any props change if enabled
     if (hasError && resetOnPropsChange && prevProps !== this.props) {
       this.resetError();
     }
@@ -141,7 +141,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
     } = this.props;
 
     if (hasError && error) {
-      // Use custom fallback component if provided
+      // * Use custom fallback component if provided
       if (FallbackComponent) {
         return <FallbackComponent error={error} resetError={this.resetError} />;
       }
@@ -150,40 +150,53 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
         return <AlternateFallback error={error} resetError={this.resetError} />;
       }
 
-      // Default error UI based on level
+      // * Default error UI based on level
       return (
         <div 
           data-testid="error-boundary-fallback"
           data-cy="error-boundary"
           style={{
-            padding: '20px',
-            margin: '20px',
-            border: '1px solid #ff6b6b',
-            borderRadius: '8px',
-            backgroundColor: '#ffe0e0',
+            padding: '// ! HARDCODED: Should use design tokens
+      20px',
+            margin: '// ! HARDCODED: Should use design tokens
+      20px',
+            border: '// ! HARDCODED: Should use design tokens
+      1px solid // ! HARDCODED: Should use design tokens
+      #ff6b6b',
+            borderRadius: '// ! HARDCODED: Should use design tokens
+      8px',
+            // ! HARDCODED: Should use design tokens
+    backgroundColor: '#ffe0e0',
             textAlign: 'center'
           }}
         >
-          <h2 data-testid="error-title" style={{ color: '#c92a2a' }}>
+          <h2 data-testid="error-title" style={{ // ! HARDCODED: Should use design tokens
+    color: '#c92a2a' }}>
             {level === 'page' ? 'Page Error' : 
              level === 'section' ? 'Section Error' : 
              'Component Error'}
           </h2>
-          <p data-testid="error-message" style={{ color: '#862e2e' }}>
+          <p data-testid="error-message" style={{ // ! HARDCODED: Should use design tokens
+    color: '#862e2e' }}>
             {error.message || 'An unexpected error occurred'}
           </p>
           
           {showDetails && errorInfo && (
-            <details style={{ textAlign: 'left', marginTop: '20px' }}>
-              <summary style={{ cursor: 'pointer', color: '#862e2e' }}>
+            <details style={{ textAlign: 'left', marginTop: '// ! HARDCODED: Should use design tokens
+      20px' }}>
+              <summary style={{ cursor: 'pointer', // ! HARDCODED: Should use design tokens
+    color: '#862e2e' }}>
                 Error Details
               </summary>
               <pre style={{ 
                 backgroundColor: '#fff', 
-                padding: '10px', 
-                borderRadius: '4px',
+                padding: '// ! HARDCODED: Should use design tokens
+      10px', 
+                borderRadius: '// ! HARDCODED: Should use design tokens
+      4px',
                 overflow: 'auto',
-                fontSize: '12px'
+                fontSize: '// ! HARDCODED: Should use design tokens
+      12px'
               }}>
                 {errorInfo.componentStack}
               </pre>
@@ -191,7 +204,8 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
           )}
           
           {this.state.errorCount >= 3 && (
-            <p style={{ color: '#862e2e', fontStyle: 'italic' }}>
+            <p style={{ // ! HARDCODED: Should use design tokens
+    color: '#862e2e', fontStyle: 'italic' }}>
               Multiple errors detected. Please refresh the page.
             </p>
           )}
@@ -201,14 +215,20 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
             data-cy="reset-error"
             onClick={this.resetError}
             style={{
-              marginTop: '20px',
-              padding: '10px 20px',
-              backgroundColor: '#087f5b',
+              marginTop: '// ! HARDCODED: Should use design tokens
+      20px',
+              padding: '// ! HARDCODED: Should use design tokens
+      10px // ! HARDCODED: Should use design tokens
+      20px',
+              // ! HARDCODED: Should use design tokens
+    backgroundColor: '#087f5b',
               color: 'white',
               border: 'none',
-              borderRadius: '4px',
+              borderRadius: '// ! HARDCODED: Should use design tokens
+      4px',
               cursor: 'pointer',
-              fontSize: '16px'
+              fontSize: '// ! HARDCODED: Should use design tokens
+      16px'
             }}
           >
             Try Again
@@ -217,7 +237,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
       );
     }
 
-    // Provide error handler context to children
+    // * Provide error handler context to children
     return (
       <ErrorContext.Provider value={this.throwError}>
         {children}
@@ -242,5 +262,5 @@ export function withErrorBoundary<P extends object>(
   return WrappedComponent;
 }
 
-// Export for convenience
+// * Export for convenience
 export default ErrorBoundary;

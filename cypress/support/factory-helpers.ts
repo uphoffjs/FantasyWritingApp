@@ -9,7 +9,7 @@ import { FactoryManager } from '../fixtures/factories';
  * Register factory hooks for automatic cleanup
  */
 export function registerFactoryHooks() {
-  // Reset factories before each test
+  // * Reset factories before each test
   beforeEach(() => {
     cy.task('factory:reset');
   });
@@ -75,7 +75,7 @@ declare global {
   }
 }
 
-// Register custom commands
+// * Register custom commands
 Cypress.Commands.add('resetFactories', () => {
   cy.task('factory:reset');
 });
@@ -92,7 +92,7 @@ Cypress.Commands.add('seedData', (options) => {
   return cy.task('factory:seed', options || {});
 });
 
-// Export for direct use in tests
+// * Export for direct use in tests
 export default {
   registerFactoryHooks,
   createTestData,
