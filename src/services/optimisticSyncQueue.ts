@@ -184,7 +184,6 @@ class OptimisticSyncQueueManager extends OptimisticSyncQueue {
   linkToSyncOperation(optimisticUpdateId: string, syncOperationId: string): void {
     // * Link optimistic update to sync operation for rollback purposes
     // * This could be implemented with a Map if needed
-    console.log(`Linking optimistic update ${optimisticUpdateId} to sync operation ${syncOperationId}`);
   }
   
   // * Get operation by ID

@@ -14,16 +14,13 @@ export const useSupabaseSync = () => {
   // ! SECURITY: * Sync on login
   useEffect(() => {
     if (isAuthenticated && user?.id) {
-      console.log('User authenticated, fetching projects from Supabase');
       
       // * First fetch existing projects from Supabase
       fetchFromSupabase().then(() => {
-        console.log('Projects fetched from Supabase');
         
         // * Then sync any local changes
         if (projects.length > 0) {
           syncWithSupabase().then(() => {
-            console.log('Local projects synced to Supabase');
           }).catch(error => {
             console.error('Error syncing to Supabase:', error);
           });
@@ -39,7 +36,6 @@ export const useSupabaseSync = () => {
     if (!isAuthenticated || !user?.id) return;
     
     const syncInterval = setInterval(() => {
-      console.log('Auto-syncing with Supabase');
       syncWithSupabase().catch(error => {
         console.error('Auto-sync error:', error);
       });
@@ -51,15 +47,12 @@ export const useSupabaseSync = () => {
   // * Manual sync function
   const manualSync = async () => {
     if (!isAuthenticated || !user?.id) {
-      console.log('Not authenticated, cannot sync');
       return;
     }
     
     try {
-      console.log('Manual sync triggered');
       await fetchFromSupabase();
       await syncWithSupabase();
-      console.log('Manual sync completed');
     } catch (error) {
       console.error('Manual sync error:', error);
       throw error;

@@ -5,7 +5,6 @@ export async function registerServiceWorker() {
     try {
       const registration = await navigator.serviceWorker.register('/service-worker.js');
       
-      console.log('Service Worker registered successfully:', registration);
       
       // * Check for updates periodically
       setInterval(() => {
@@ -52,7 +51,6 @@ export async function requestBackgroundSync(tag: string = 'sync-worldbuilding-da
     try {
       // Background Sync API is not in TypeScript types yet
       await (registration as any).sync?.register(tag);
-      console.log('Background sync registered:', tag);
     } catch (error) {
       console.error('Background sync registration failed:', error);
     }

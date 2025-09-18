@@ -215,7 +215,6 @@ if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
   setInterval(() => {
     const report = performanceMonitor.getReport();
     if (report) {
-      console.log('Performance Report:', report);
     }
   }, 30000);
 }

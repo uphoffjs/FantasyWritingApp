@@ -169,7 +169,6 @@ function queueOperationsIfOffline<T extends WorldbuildingStore>(
     // * Check for new projects
     newProjects.forEach(project => {
       if (!oldProjectIds.has(project.id)) {
-        console.log('[OfflineQueue] Detected new project:', project.id);
       }
     });
   }

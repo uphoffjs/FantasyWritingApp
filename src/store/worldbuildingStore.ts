@@ -138,8 +138,6 @@ export const useWorldbuildingStore = create<WorldbuildingStore>()(
       lastSyncAttempt: null,
 
       createProject: (name, description) => {
-        console.log("[worldbuildingStore] createProject called with:", { name, description });
-        console.log("[worldbuildingStore] DEFAULT_TEMPLATES:", DEFAULT_TEMPLATES);
         
         const project: Project = {
           id: uuidv4(),
@@ -158,22 +156,16 @@ export const useWorldbuildingStore = create<WorldbuildingStore>()(
           updatedAt: new Date()
         };
 
-        console.log("[worldbuildingStore] Created project object:", project);
-        console.log("[worldbuildingStore] Current state before set:");
         const currentState = get();
-        console.log("[worldbuildingStore] Current projects count:", currentState.projects.length);
         
         set((state) => {
-          console.log("[worldbuildingStore] Setting new state...");
           const newState = {
             projects: [...state.projects, project],
             currentProjectId: project.id
           };
-          console.log("[worldbuildingStore] New projects count:", newState.projects.length);
           return newState;
         });
 
-        console.log("[worldbuildingStore] Returning project:", project);
         return project;
       },
       updateProject: (projectId, updates) => {
@@ -832,7 +824,6 @@ export const useWorldbuildingStore = create<WorldbuildingStore>()(
       syncWithSupabase: async () => {
         const { user } = useAuthStore.getState();
         if (!user?.id) {
-          console.log('No authenticated user, skipping sync');
           return;
         }
         
@@ -864,7 +855,6 @@ export const useWorldbuildingStore = create<WorldbuildingStore>()(
       fetchFromSupabase: async () => {
         const { user } = useAuthStore.getState();
         if (!user?.id) {
-          console.log('No authenticated user, skipping fetch');
           return;
         }
         
@@ -907,7 +897,6 @@ export const useWorldbuildingStore = create<WorldbuildingStore>()(
       syncProjectToSupabase: async (projectId) => {
         const { user } = useAuthStore.getState();
         if (!user?.id) {
-          console.log('No authenticated user, skipping sync');
           return;
         }
         

@@ -134,16 +134,13 @@ export const migrateStorageData = async (
     if (!existingData && oldData) {
       // // DEPRECATED: * Migrate old data to new storage
       await crossPlatformStorage.setItem(storageKey, oldData);
-      console.log(`Successfully migrated data for key: ${storageKey}`);
       return true;
     }
     
     if (existingData) {
-      console.log(`Data already exists for key: ${storageKey}`);
       return false;
     }
     
-    console.log(`No data to migrate for key: ${storageKey}`);
     return false;
   } catch (error) {
     console.error('Error migrating storage data:', error);

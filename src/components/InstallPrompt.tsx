@@ -61,7 +61,6 @@ export function InstallPrompt() {
     };
 
     const handleAppInstalled = () => {
-      console.log('PWA was installed');
       setIsInstalled(true);
       setShowInstallPrompt(false);
       setDeferredPrompt(null);
@@ -87,15 +86,12 @@ export function InstallPrompt() {
       // * Wait for the user to respond
       const { outcome } = await deferredPrompt.userChoice;
       
-      console.log(`User response to install prompt: ${outcome}`);
       
       if (outcome === 'accepted') {
-        console.log('User accepted the install prompt');
         // * Clear the deferred prompt
         setDeferredPrompt(null);
         setShowInstallPrompt(false);
       } else {
-        console.log('User dismissed the install prompt');
         handleDismiss();
       }
     } catch (error) {
