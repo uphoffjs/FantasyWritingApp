@@ -3,7 +3,7 @@ import { WorldbuildingStore } from "@/store/rootStore"
 import { syncQueueManager } from '../../services/syncQueue'
 import { useAuthStore } from '../authStore'
 
-// Sync event types
+// * Sync event types
 export type SyncEvent = {
   type: 'project-modified' | 'element-modified' | 'answer-modified' | 'relationship-modified'
   projectId: string
@@ -12,12 +12,12 @@ export type SyncEvent = {
   timestamp: Date
 }
 
-// Sync event emitter
+// * Sync event emitter
 export class SyncEventEmitter extends EventTarget {
   emit(event: SyncEvent) {
     this.dispatchEvent(new CustomEvent('sync-change', { detail: event }))
     
-    // Add to sync queue if authenticated and online mode
+    // ! SECURITY: * Add to sync queue if authenticated and online mode
     const { isAuthenticated, isOfflineMode } = useAuthStore.getState()
     if (isAuthenticated && !isOfflineMode) {
       this.addToSyncQueue(event)
@@ -56,7 +56,7 @@ export class SyncEventEmitter extends EventTarget {
 
 export const syncEventEmitter = new SyncEventEmitter()
 
-// Type for the sync middleware
+// * Type for the sync middleware
 type SyncMiddleware = <
   T,
   Mps extends [StoreMutatorIdentifier, unknown][] = [],
@@ -65,35 +65,35 @@ type SyncMiddleware = <
   f: StateCreator<T, Mps, Mcs, T>
 ) => StateCreator<T, Mps, Mcs, T>
 
-// Sync middleware implementation
+// * Sync middleware implementation
 export const syncMiddleware: SyncMiddleware = (config) => (set, get, api) =>
   config(
     ((partial: any, replace?: boolean | undefined) => { // eslint-disable-line @typescript-eslint/no-explicit-any
-      // Before state update - capture current state
+      // * Before state update - capture current state
       const prevState = get() as WorldbuildingStore
       
-      // Perform the state update
+      // * Perform the state update
       set(partial, replace)
       
-      // After state update - detect changes
+      // * After state update - detect changes
       const newState = get() as WorldbuildingStore
       
-      // Detect what changed and emit sync events
+      // * Detect what changed and emit sync events
       detectChanges(prevState, newState)
     }) as any,
     get,
     api
   )
 
-// Change detection logic
+// * Change detection logic
 function detectChanges(prevState: WorldbuildingStore, newState: WorldbuildingStore) {
-  // Check for project changes
+  // * Check for project changes
   if (prevState.projects !== newState.projects) {
-    // Find added projects
+    // * Find added projects
     const prevProjectIds = new Set(prevState.projects.map(p => p.id))
     const newProjectIds = new Set(newState.projects.map(p => p.id))
     
-    // New projects
+    // * New projects
     for (const project of newState.projects) {
       if (!prevProjectIds.has(project.id)) {
         syncEventEmitter.emit({
@@ -103,7 +103,7 @@ function detectChanges(prevState: WorldbuildingStore, newState: WorldbuildingSto
           timestamp: new Date()
         })
         
-        // Mark project as modified in sync metadata
+        // * Mark project as modified in sync metadata
         const syncMetadata = newState.syncMetadata[project.id]
         if (syncMetadata) {
           newState.updateSyncMetadata(project.id, {
@@ -114,7 +114,7 @@ function detectChanges(prevState: WorldbuildingStore, newState: WorldbuildingSto
       }
     }
     
-    // Modified projects
+    // * Modified projects
     for (const project of newState.projects) {
       const prevProject = prevState.projects.find(p => p.id === project.id)
       if (prevProject && (prevProject.name !== project.name || prevProject.description !== project.description)) {
@@ -125,7 +125,7 @@ function detectChanges(prevState: WorldbuildingStore, newState: WorldbuildingSto
           timestamp: new Date()
         })
         
-        // Mark project as modified
+        // * Mark project as modified
         newState.updateSyncMetadata(project.id, {
           syncStatus: 'offline',
           lastModified: new Date()
@@ -133,7 +133,7 @@ function detectChanges(prevState: WorldbuildingStore, newState: WorldbuildingSto
       }
     }
     
-    // Deleted projects
+    // * Deleted projects
     for (const projectId of prevProjectIds) {
       if (!newProjectIds.has(projectId)) {
         syncEventEmitter.emit({
@@ -146,17 +146,17 @@ function detectChanges(prevState: WorldbuildingStore, newState: WorldbuildingSto
     }
   }
   
-  // Check for element changes within each project
+  // * Check for element changes within each project
   for (const project of newState.projects) {
     const prevProject = prevState.projects.find(p => p.id === project.id)
     if (!prevProject) continue
     
-    // Check elements
+    // * Check elements
     if (prevProject.elements !== project.elements) {
       const prevElementIds = new Set(prevProject.elements.map(e => e.id))
       const newElementIds = new Set(project.elements.map(e => e.id))
       
-      // New or modified elements
+      // * New or modified elements
       for (const element of project.elements) {
         if (!prevElementIds.has(element.id)) {
           syncEventEmitter.emit({
@@ -180,7 +180,7 @@ function detectChanges(prevState: WorldbuildingStore, newState: WorldbuildingSto
         }
       }
       
-      // Deleted elements
+      // * Deleted elements
       for (const elementId of prevElementIds) {
         if (!newElementIds.has(elementId)) {
           syncEventEmitter.emit({
@@ -193,19 +193,19 @@ function detectChanges(prevState: WorldbuildingStore, newState: WorldbuildingSto
         }
       }
       
-      // Mark project as modified if elements changed
+      // * Mark project as modified if elements changed
       newState.updateSyncMetadata(project.id, {
         syncStatus: 'offline',
         lastModified: new Date()
       })
     }
     
-    // Check for answer changes in elements
+    // * Check for answer changes in elements
     let answersChanged = false
     for (const element of project.elements) {
       const prevElement = prevProject.elements.find(e => e.id === element.id)
       if (prevElement) {
-        // Check if answers object has changed
+        // * Check if answers object has changed
         if (JSON.stringify(prevElement.answers) !== JSON.stringify(element.answers)) {
           answersChanged = true
           break
@@ -221,19 +221,19 @@ function detectChanges(prevState: WorldbuildingStore, newState: WorldbuildingSto
         timestamp: new Date()
       })
       
-      // Mark project as modified
+      // * Mark project as modified
       newState.updateSyncMetadata(project.id, {
         syncStatus: 'offline',
         lastModified: new Date()
       })
     }
     
-    // Check for relationship changes in elements
+    // * Check for relationship changes in elements
     let relationshipsChanged = false
     for (const element of project.elements) {
       const prevElement = prevProject.elements.find(e => e.id === element.id)
       if (prevElement) {
-        // Check if relationships array has changed
+        // * Check if relationships array has changed
         if (JSON.stringify(prevElement.relationships) !== JSON.stringify(element.relationships)) {
           relationshipsChanged = true
           break
@@ -249,7 +249,7 @@ function detectChanges(prevState: WorldbuildingStore, newState: WorldbuildingSto
         timestamp: new Date()
       })
       
-      // Mark project as modified
+      // * Mark project as modified
       newState.updateSyncMetadata(project.id, {
         syncStatus: 'offline',
         lastModified: new Date()

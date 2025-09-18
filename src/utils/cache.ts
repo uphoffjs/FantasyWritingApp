@@ -1,4 +1,4 @@
-// LRU (Least Recently Used) Cache implementation
+// ! PERFORMANCE: LRU (Least Recently Used) Cache implementation
 export class LRUCache<K, V> {
   private maxSize: number;
   private cache: Map<K, V>;
@@ -13,7 +13,7 @@ export class LRUCache<K, V> {
       return undefined;
     }
 
-    // Move to end (most recently used)
+    // * Move to end (most recently used)
     const value = this.cache.get(key)!;
     this.cache.delete(key);
     this.cache.set(key, value);
@@ -22,21 +22,21 @@ export class LRUCache<K, V> {
   }
 
   set(key: K, value: V): void {
-    // Remove if exists (to update position)
+    // * Remove if exists (to update position)
     if (this.cache.has(key)) {
       this.cache.delete(key);
     }
     
-    // Check size limit
+    // * Check size limit
     if (this.cache.size >= this.maxSize) {
-      // Remove least recently used (first item)
+      // * Remove least recently used (first item)
       const firstKey = this.cache.keys().next().value as K;
       if (firstKey !== undefined) {
         this.cache.delete(firstKey);
       }
     }
 
-    // Add to end (most recently used)
+    // * Add to end (most recently used)
     this.cache.set(key, value);
   }
 
@@ -53,7 +53,7 @@ export class LRUCache<K, V> {
   }
 }
 
-// Search result cache
+// ! PERFORMANCE: * Search result cache
 export interface CachedSearchResult<T = unknown> {
   query: string;
   results: T[];
@@ -81,7 +81,7 @@ export class SearchCache<T = unknown> {
       return undefined;
     }
 
-    // Check if expired
+    // * Check if expired
     if (Date.now() - cached.timestamp > this.ttl) {
       this.cache.clear(); // Could also just delete this key
       return undefined;
@@ -104,7 +104,7 @@ export class SearchCache<T = unknown> {
   }
 }
 
-// Computed value cache for expensive calculations
+// ! PERFORMANCE: * Computed value cache for expensive calculations
 export class ComputedValueCache<T> {
   private cache: Map<string, { value: T; timestamp: number }>;
   private ttl: number;
@@ -121,7 +121,7 @@ export class ComputedValueCache<T> {
       return undefined;
     }
 
-    // Check if expired
+    // * Check if expired
     if (Date.now() - cached.timestamp > this.ttl) {
       this.cache.delete(key);
       return undefined;
@@ -153,6 +153,6 @@ export class ComputedValueCache<T> {
   }
 }
 
-// Create singleton instances
+// * Create singleton instances
 export const searchCache = new SearchCache();
 export const computedCache = new ComputedValueCache();

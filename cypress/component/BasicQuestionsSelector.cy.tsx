@@ -126,7 +126,7 @@ describe('BasicQuestionsSelector Component', () => {
         />
       );
 
-      // Name is a suggested question for character category
+      // * Name is a suggested question for character category
       cy.contains('Name').parent().within(() => {
         cy.get('svg').should('exist'); // Star icon
       });
@@ -145,7 +145,7 @@ describe('BasicQuestionsSelector Component', () => {
 
       cy.contains('Apply Defaults').click();
       
-      // Should select suggested questions for character category
+      // TODO: * Should select suggested questions for character category
       cy.get('@onChange').should('have.been.called').then(() => {
         const call = onChangeSpy.getCall(0);
         expect(call.args[0]).to.include('name');
@@ -264,7 +264,7 @@ describe('BasicQuestionsSelector Component', () => {
         />
       );
 
-      // Check that selections in different categories are maintained
+      // * Check that selections in different categories are maintained
       cy.contains('label', 'Name').within(() => {
         cy.get('input[type="checkbox"]').should('be.checked');
       });
@@ -363,7 +363,7 @@ describe('BasicQuestionsSelector Component', () => {
       });
     });
 
-    // Skip auto-select tests as they rely on useEffect timing which can be flaky
+    // * Skip auto-select tests as they rely on useEffect timing which can be flaky
     it.skip('auto-selects suggestions when no basicQuestionIds provided', () => {
       cy.mount(
         <BasicQuestionsSelector
@@ -373,8 +373,8 @@ describe('BasicQuestionsSelector Component', () => {
         />
       );
 
-      // Should auto-select suggested questions for character category
-      // Wait for onChange to be called with proper assertion
+      // TODO: * Should auto-select suggested questions for character category
+      // * Wait for onChange to be called with proper assertion
       cy.get('@onChange', { timeout: 1000 }).should('have.been.called').then(() => {
         const call = onChangeSpy.getCall(0);
         expect(call.args[0]).to.include.members(['name', 'age', 'species']);
@@ -391,7 +391,7 @@ describe('BasicQuestionsSelector Component', () => {
         />
       );
 
-      // Give component time to initialize but verify onChange is NOT called
+      // * Give component time to initialize but verify onChange is NOT called
       cy.wait(200);
       cy.get('@onChange').should('not.have.been.called');
       
@@ -494,7 +494,7 @@ describe('BasicQuestionsSelector Component', () => {
 
       cy.contains('Apply Defaults').click();
       
-      // Should only select 'name' since other suggested IDs don't exist
+      // TODO: * Should only select 'name' since other suggested IDs don't exist
       cy.get('@onChange').should('have.been.calledWith', ['name']);
     });
 
@@ -507,7 +507,7 @@ describe('BasicQuestionsSelector Component', () => {
         />
       );
 
-      // Rapidly toggle multiple questions
+      // * Rapidly toggle multiple questions
       cy.contains('label', 'Name').click();
       cy.contains('label', 'Age').click();
       cy.contains('label', 'Species').click();
@@ -569,7 +569,7 @@ describe('BasicQuestionsSelector Component', () => {
       cy.contains('Before').focus();
       cy.focused().type('{tab}');
       
-      // Should be able to tab through controls
+      // TODO: * Should be able to tab through controls
       cy.focused().should('exist');
     });
 
@@ -697,15 +697,15 @@ describe('BasicQuestionsSelector Component', () => {
         />
       );
 
-      // Initially should show 0 basic questions
+      // ? TODO: * Initially should show 0 basic questions
       cy.contains('Basic Questions').parent().within(() => {
         cy.contains('0').should('be.visible');
       });
 
-      // Select some questions
+      // * Select some questions
       cy.contains('Select All').click();
 
-      // Should update to show all questions selected
+      // ? TODO: * Should update to show all questions selected
       cy.contains('Basic Questions').parent().within(() => {
         cy.contains('8').should('be.visible');
         cy.contains('~4 min to complete').should('be.visible'); // 8 * 30 = 240 seconds = 4 min

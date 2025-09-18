@@ -1,4 +1,4 @@
-// Image compression utilities for optimizing images before storage
+// * Image compression utilities for optimizing images before storage
 
 interface CompressionOptions {
   maxWidth?: number;
@@ -28,10 +28,10 @@ export async function compressImage(
       const img = new Image();
 
       img.onload = () => {
-        // Calculate new dimensions
+        // * Calculate new dimensions
         let { width, height } = img;
         
-        // Scale down if needed
+        // * Scale down if needed
         if (width > maxWidth || height > maxHeight) {
           const aspectRatio = width / height;
           
@@ -44,7 +44,7 @@ export async function compressImage(
           }
         }
 
-        // Create canvas
+        // * Create canvas
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
         
@@ -56,14 +56,14 @@ export async function compressImage(
         canvas.width = width;
         canvas.height = height;
 
-        // Enable image smoothing for better quality
+        // * Enable image smoothing for better quality
         ctx.imageSmoothingEnabled = true;
         ctx.imageSmoothingQuality = 'high';
 
-        // Draw resized image
+        // * Draw resized image
         ctx.drawImage(img, 0, 0, width, height);
 
-        // Convert to compressed format
+        // * Convert to compressed format
         canvas.toBlob(
           (blob) => {
             if (!blob) {
@@ -71,7 +71,7 @@ export async function compressImage(
               return;
             }
 
-            // Convert blob to base64
+            // * Convert blob to base64
             const blobReader = new FileReader();
             blobReader.onloadend = () => {
               if (typeof blobReader.result === 'string') {
@@ -110,10 +110,10 @@ export async function compressImage(
  * Calculate the size of a base64 string in bytes
  */
 export function getBase64Size(base64String: string): number {
-  // Remove data URL prefix if present
+  // TODO: * Remove data URL prefix if present
   const base64 = base64String.split(',')[1] || base64String;
   
-  // Calculate size in bytes
+  // * Calculate size in bytes
   const padding = (base64.match(/=/g) || []).length;
   return Math.floor((base64.length * 3) / 4) - padding;
 }
@@ -146,7 +146,7 @@ export function isAnimatedImage(file: File): boolean {
 export function getOptimalCompressionSettings(file: File): CompressionOptions {
   const fileSizeMB = file.size / (1024 * 1024);
   
-  // For small images, use less aggressive compression
+  // * For small images, use less aggressive compression
   if (fileSizeMB < 0.5) {
     return {
       quality: 0.95,
@@ -155,7 +155,7 @@ export function getOptimalCompressionSettings(file: File): CompressionOptions {
     };
   }
   
-  // For medium images, use moderate compression
+  // * For medium images, use moderate compression
   if (fileSizeMB < 2) {
     return {
       quality: 0.85,
@@ -164,7 +164,7 @@ export function getOptimalCompressionSettings(file: File): CompressionOptions {
     };
   }
   
-  // For large images, use more aggressive compression
+  // * For large images, use more aggressive compression
   return {
     quality: 0.75,
     maxWidth: 1280,

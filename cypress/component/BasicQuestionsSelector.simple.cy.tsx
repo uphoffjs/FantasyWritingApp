@@ -52,10 +52,10 @@ describe('BasicQuestionsSelector Simplified Tests', () => {
         />
       );
       
-      // Click on Name checkbox
+      // * Click on Name checkbox
       cy.contains('label', 'Name').click();
       
-      // Check onChange was called
+      // * Check onChange was called
       cy.get('@onChange').should('have.been.called');
     });
 
@@ -105,7 +105,7 @@ describe('BasicQuestionsSelector Simplified Tests', () => {
         />
       );
       
-      // Check that the correct checkboxes are checked
+      // * Check that the correct checkboxes are checked
       cy.contains('label', 'Name').within(() => {
         cy.get('input[type="checkbox"]').should('be.checked');
       });

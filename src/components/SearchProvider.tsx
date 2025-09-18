@@ -64,7 +64,7 @@ export function SearchProvider({ children }: SearchProviderProps) {
     ignoreLocation: true,
   };
 
-  // Search elements
+  // * Search elements
   const searchElements = useCallback(
     (elements: WorldElement[], query?: string) => {
       const searchTerm = query || searchQuery;
@@ -80,7 +80,7 @@ export function SearchProvider({ children }: SearchProviderProps) {
     [searchQuery, elementFuseOptions]
   );
 
-  // Search projects
+  // * Search projects
   const searchProjects = useCallback(
     (projects: Project[], query?: string) => {
       const searchTerm = query || searchQuery;
@@ -96,7 +96,7 @@ export function SearchProvider({ children }: SearchProviderProps) {
     [searchQuery, projectFuseOptions]
   );
 
-  // Search all (elements and projects)
+  // * Search all (elements and projects)
   const searchAll = useCallback(() => {
     const allElements: WorldElement[] = [];
     const allProjects: Project[] = [];

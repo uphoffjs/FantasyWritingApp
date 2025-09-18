@@ -4,7 +4,7 @@ import { BaseElementForm } from '../support/component-test-helpers';
 
 describe('BaseElementForm - Minimal Test', () => {
   it('mounts without crashing', () => {
-    // Absolute minimal test with no store, just raw component
+    // * Absolute minimal test with no store, just raw component
     const minimalQuestions = [
       {
         id: 'test',
@@ -24,12 +24,12 @@ describe('BaseElementForm - Minimal Test', () => {
       />
     );
     
-    // Just check if the component renders at all
+    // * Just check if the component renders at all
     cy.contains('Test Details').should('exist');
   });
   
   it('renders with mock div instead of component', () => {
-    // Test if mounting works at all
+    // * Test if mounting works at all
     cy.mount(<div data-testid="test">Hello World</div>);
     cy.get('[data-testid="test"]').should('contain', 'Hello World');
   });

@@ -17,14 +17,14 @@ describe('ResourceHints', () => {
     it('renders without visible UI', () => {
       cy.mount(<ResourceHints />);
       
-      // Component should not render any visible content
+      // TODO: * Component should not render any visible content
       cy.get('body').children().should('have.length', 0);
     });
     
     it('adds prefetch links to document head', () => {
       cy.mount(<ResourceHints />);
       
-      // Check for prefetch links
+      // * Check for prefetch links
       cy.document().then(doc => {
         const prefetchLinks = doc.querySelectorAll('link[rel="prefetch"]');
         expect(prefetchLinks.length).to.be.greaterThan(0);
@@ -38,7 +38,7 @@ describe('ResourceHints', () => {
         const preconnectLinks = doc.querySelectorAll('link[rel="preconnect"]');
         expect(preconnectLinks.length).to.be.greaterThan(0);
         
-        // Check for font domains
+        // * Check for font domains
         const fontPreconnect = Array.from(preconnectLinks).find(
           link => link.getAttribute('href')?.includes('fonts.googleapis.com')
         );
@@ -67,10 +67,10 @@ describe('ResourceHints', () => {
   
   describe('Cleanup', () => {
     it('component unmounts cleanly', () => {
-      // First mount the component
+      // * First mount the component
       cy.mount(<ResourceHints />);
       
-      // Then remount with different content to simulate replacement
+      // * Then remount with different content to simulate replacement
       cy.mount(<div>Replacement content</div>);
       cy.contains('Replacement content').should('be.visible');
     });
@@ -223,14 +223,14 @@ describe('LazyImage', () => {
     it('renders with loading placeholder initially', () => {
       cy.mount(<LazyImage {...defaultProps} />);
       
-      // Should show loading state initially
+      // ? TODO: * Should show loading state initially
       cy.get('div[class*="animate-pulse"]').should('be.visible');
     });
     
     it('shows image when loaded', () => {
       cy.mount(<LazyImage {...defaultProps} />);
       
-      // Wait for image to appear
+      // * Wait for image to appear
       cy.get('img[alt="Test image"]').should('be.visible');
     });
     
@@ -243,7 +243,7 @@ describe('LazyImage', () => {
     it('handles loading state', () => {
       cy.mount(<LazyImage {...defaultProps} />);
       
-      // Check for loading indicator
+      // * Check for loading indicator
       cy.get('[data-testid="image-loading"]').should('exist');
     });
   });
@@ -257,13 +257,13 @@ describe('LazyImage', () => {
         </div>
       );
       
-      // Image should not be loaded initially
+      // TODO: * Image should not be loaded initially
       cy.get('img').should('not.exist');
       
-      // Scroll to image
+      // * Scroll to image
       cy.scrollTo('bottom');
       
-      // Image should now be loaded
+      // TODO: * Image should now be loaded
       cy.get('img[alt="Test image"]').should('be.visible');
     });
   });
@@ -272,7 +272,7 @@ describe('LazyImage', () => {
     it('shows error state on load failure', () => {
       cy.mount(<LazyImage src="invalid-url" alt="Error test" />);
       
-      // Should show error state
+      // ? TODO: * Should show error state
       cy.get('[data-testid="image-error"]').should('be.visible');
     });
     
@@ -346,10 +346,10 @@ describe('ProjectSearchBar', () => {
       
       cy.get('input').type('test');
       
-      // Should not be called immediately
+      // TODO: * Should not be called immediately
       cy.wrap(onChange).should('not.have.been.called');
       
-      // Should be called after debounce
+      // TODO: ! PERFORMANCE: * Should be called after debounce
       cy.wait(350);
       cy.wrap(onChange).should('have.been.called');
     });
@@ -424,7 +424,7 @@ describe('ProjectSortDropdown', () => {
       cy.contains('Name').click();
       cy.contains('Date Created').click();
       
-      // Dropdown should be closed
+      // TODO: * Dropdown should be closed
       cy.contains('Last Modified').should('not.be.visible');
     });
     

@@ -8,38 +8,38 @@ export interface ErrorContext {
 
 // User-friendly error messages mapping
 const ERROR_MESSAGES: Record<string, string> = {
-  // Network errors
+  // * Network errors
   'NetworkError': 'Unable to connect to the server. Please check your internet connection.',
   'Failed to fetch': 'Connection failed. Please check your internet connection.',
   'ERR_NETWORK': 'Network connection lost. Your changes will be saved when you reconnect.',
   
-  // Auth errors
+  // ! SECURITY: * Auth errors
   'Invalid login credentials': 'Invalid email or password. Please try again.',
   'User already registered': 'An account with this email already exists.',
   'Token expired': 'Your session has expired. Please log in again.',
   'Unauthorized': 'You don\'t have permission to perform this action.',
   
-  // Validation errors
+  // * Validation errors
   'ValidationError': 'Please check your input and try again.',
   'Required field missing': 'Please fill in all required fields.',
   'Invalid email format': 'Please enter a valid email address.',
   
-  // Database errors  
+  // * Database errors  
   'UniqueConstraintError': 'This item already exists. Please use a different name.',
   'ForeignKeyConstraintError': 'Cannot delete this item because it\'s being used elsewhere.',
   'DatabaseError': 'A database error occurred. Please try again later.',
   
-  // File errors
+  // * File errors
   'File too large': 'The file is too large. Please choose a file under 10MB.',
   'Invalid file type': 'This file type is not supported.',
   'Upload failed': 'Failed to upload the file. Please try again.',
   
-  // Generic errors
+  // * Generic errors
   'Internal server error': 'Something went wrong on our end. Please try again later.',
   'Request timeout': 'The request took too long. Please try again.',
   'Invalid request': 'The request was invalid. Please refresh and try again.',
   
-  // Sync errors
+  // * Sync errors
   'SyncError': 'Failed to sync your changes. They\'ll be synced when you reconnect.',
   'MergeConflict': 'There\'s a conflict with changes from another device. Please review and merge.',
   'OfflineError': 'This action requires an internet connection.',
@@ -49,7 +49,7 @@ const ERROR_MESSAGES: Record<string, string> = {
  * Get a user-friendly error message from an error object
  */
 export function getUserFriendlyMessage(error: any): string {
-  // Check for specific error messages
+  // * Check for specific error messages
   if (error.message) {
     for (const [key, message] of Object.entries(ERROR_MESSAGES)) {
       if (error.message.includes(key)) {
@@ -58,17 +58,17 @@ export function getUserFriendlyMessage(error: any): string {
     }
   }
   
-  // Check error type/name
+  // * Check error type/name
   if (error.name && ERROR_MESSAGES[error.name]) {
     return ERROR_MESSAGES[error.name];
   }
   
-  // Check error code
+  // * Check error code
   if (error.code && ERROR_MESSAGES[error.code]) {
     return ERROR_MESSAGES[error.code];
   }
   
-  // Default message
+  // * Default message
   return 'An unexpected error occurred. Please try again.';
 }
 
@@ -105,20 +105,20 @@ export async function handleAsyncOperation<T>(
     
     return result;
   } catch (error: any) {
-    // Log the error
+    // * Log the error
     errorLoggingService.logError({
       error,
       errorInfo: {} as any,
       level: 'error' as any
     });
     
-    // Show user-friendly notification
+    // ? * Show user-friendly notification
     if (showErrorNotification) {
       const message = getUserFriendlyMessage(error);
       showError(errorTitle, message);
     }
     
-    // Rethrow if needed
+    // * Rethrow if needed
     if (rethrow) {
       throw error;
     }

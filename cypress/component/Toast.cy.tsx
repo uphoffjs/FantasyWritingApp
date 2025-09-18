@@ -3,7 +3,7 @@ import { ToastContainer } from '../../src/components/Toast';
 import { useToastStore } from '../../src/store/toastStore';
 import type { Toast, ToastStore } from '../../src/store/toastStore';
 
-// Helper component to trigger toasts
+// * Helper component to trigger toasts
 const ToastTestWrapper = () => {
   const addToast = useToastStore((state: ToastStore) => state.addToast);
   const clearAllToasts = useToastStore((state: ToastStore) => state.clearAllToasts);
@@ -88,11 +88,11 @@ const ToastTestWrapper = () => {
 
 describe('Toast Component', () => {
   beforeEach(() => {
-    // Clear any existing toasts before each test
+    // * Clear any existing toasts before each test
     cy.mount(<ToastTestWrapper />);
-    // Wait to let component initialize
+    // * Wait to let component initialize
     cy.wait(100);
-    // Use should to ensure [data-cy*="button"] exists before clicking
+    // TODO: * Use should to ensure [data-cy*="button"] exists before clicking
     cy.get('[data-testid="clear-all-toasts"]').should('exist').click();
   });
 
@@ -103,10 +103,10 @@ describe('Toast Component', () => {
       cy.contains('Success!').should('be.visible');
       cy.contains('Operation completed successfully').should('be.visible');
       
-      // Check for success icon (Check)
+      // * Check for success icon (Check)
       cy.get('svg').should('exist');
       
-      // Check colors
+      // * Check colors
       cy.get('[class*="border-forest-500"]').should('exist');
       cy.get('[class*="text-forest-400"]').should('exist');
     });
@@ -117,11 +117,11 @@ describe('Toast Component', () => {
       cy.contains('Error!').should('be.visible');
       cy.contains('Something went wrong').should('be.visible');
       
-      // Check colors
+      // * Check colors
       cy.get('[class*="border-blood-500"]').should('exist');
       cy.get('[class*="text-blood-400"]').should('exist');
       
-      // Error toasts should have Details [data-cy*="button"]
+      // TODO: * Error toasts should have Details [data-cy*="button"]
       cy.contains('Details').should('be.visible');
       cy.contains('Dismiss').should('be.visible');
     });
@@ -132,7 +132,7 @@ describe('Toast Component', () => {
       cy.contains('Information').should('be.visible');
       cy.contains('Here is some information').should('be.visible');
       
-      // Check colors
+      // * Check colors
       cy.get('[class*="border-sapphire-500"]').should('exist');
       cy.get('[class*="text-sapphire-400"]').should('exist');
     });
@@ -143,7 +143,7 @@ describe('Toast Component', () => {
       cy.contains('Warning!').should('be.visible');
       cy.contains('Please be careful').should('be.visible');
       
-      // Check colors
+      // * Check colors
       cy.get('[class*="border-flame-500"]').should('exist');
       cy.get('[class*="text-flame-400"]').should('exist');
     });
@@ -199,7 +199,7 @@ describe('Toast Component', () => {
       
       cy.contains('Success!').should('be.visible');
       
-      // Find and click the X [data-cy*="button"]
+      // * Find and click the X [data-cy*="button"]
       cy.get('[data-cy*="button"]').find('svg').parent().last().click();
       
       cy.contains('Success!').should('not.exist');
@@ -210,15 +210,15 @@ describe('Toast Component', () => {
     it('expands error details when Details [data-cy*="button"] is clicked', () => {
       cy.get('[data-testid="add-error-toast"]').click();
       
-      // Initially, the detailed view should not be visible
+      // TODO: * Initially, the detailed view should not be visible
       cy.get('pre').should('not.exist');
       
       cy.contains('Details').click();
       
-      // After clicking Details, the message should be shown in a pre tag
+      // ? TODO: * After clicking Details, the message should be shown in a pre tag
       cy.get('pre').should('be.visible').and('contain', 'Something went wrong');
       
-      // The chevron should change from down to up
+      // TODO: * The chevron should change from down to up
       cy.get('svg[class*="ChevronUp"]').should('exist');
     });
 
@@ -248,7 +248,7 @@ describe('Toast Component', () => {
       cy.get('[data-testid="add-success-toast"]').click();
       cy.get('[data-testid="add-error-toast"]').click();
       
-      // Dismiss the success toast
+      // * Dismiss the success toast
       cy.contains('Success!').parent().parent().find('[data-cy*="button"]').last().click();
       
       cy.contains('Success!').should('not.exist');
@@ -274,7 +274,7 @@ describe('Toast Component', () => {
 
   describe('Auto-dismiss Behavior', () => {
     it('auto-dismisses non-error toasts after duration', () => {
-      // Add toast through [data-cy*="button"] to ensure proper state update
+      // * Add toast through [data-cy*="button"] to ensure proper state update
       cy.window().then((win) => {
         const { addToast } = useToastStore.getState();
         addToast({
@@ -286,7 +286,7 @@ describe('Toast Component', () => {
       
       cy.contains('Auto Dismiss').should('be.visible');
       
-      // Use cy.wait instead of cy.tick since the timer is in Zustand
+      // * Use cy.wait instead of cy.tick since the timer is in Zustand
       cy.wait(2900);
       cy.contains('Auto Dismiss').should('be.visible');
       
@@ -300,13 +300,13 @@ describe('Toast Component', () => {
         addToast({
           type: 'error',
           title: 'Persistent Error'
-          // No duration specified, should default to 0 for errors
+          // TODO: * No duration specified, should default to 0 for errors
         });
       });
       
       cy.contains('Persistent Error').should('be.visible');
       
-      // Wait longer than typical auto-dismiss duration
+      // * Wait longer than typical auto-dismiss duration
       cy.wait(5000);
       cy.contains('Persistent Error').should('be.visible');
     });
@@ -336,13 +336,13 @@ describe('Toast Component', () => {
       cy.viewport(375, 667);
       cy.mount(<ToastTestWrapper />);
       
-      // Wait for component to be ready
+      // * Wait for component to be ready
       cy.wait(100);
       cy.get('[data-testid="clear-all-toasts"]').should('exist').click();
       
       cy.get('[data-testid="add-success-toast"]').click();
       
-      // On mobile, toasts should be positioned at the bottom
+      // TODO: * On mobile, toasts should be positioned at the bottom
       cy.get('.fixed').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
     });
 
@@ -350,13 +350,13 @@ describe('Toast Component', () => {
       cy.viewport(1920, 1080);
       cy.mount(<ToastTestWrapper />);
       
-      // Wait for component to be ready
+      // * Wait for component to be ready
       cy.wait(100);
       cy.get('[data-testid="clear-all-toasts"]').should('exist').click();
       
       cy.get('[data-testid="add-success-toast"]').click();
       
-      // On desktop, toasts should be positioned at the top-right
+      // TODO: * On desktop, toasts should be positioned at the top-right
       cy.get('.fixed').should('be.visible') // React Native Web uses inline styles instead of CSS classes.and('have.class', 'right-4');
     });
 
@@ -364,7 +364,7 @@ describe('Toast Component', () => {
       cy.viewport(768, 1024);
       cy.mount(<ToastTestWrapper />);
       
-      // Wait for component to be ready
+      // * Wait for component to be ready
       cy.wait(100);
       cy.get('[data-testid="clear-all-toasts"]').should('exist').click();
       
@@ -407,7 +407,7 @@ describe('Toast Component', () => {
         cy.get('[data-testid="add-success-toast"]').click();
       }
       
-      // Should have 5 toasts visible
+      // TODO: * Should have 5 toasts visible
       cy.get('.rounded-lg').should('have.length', 5);
     });
 

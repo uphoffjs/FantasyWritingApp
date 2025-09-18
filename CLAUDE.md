@@ -100,8 +100,20 @@ FantasyWritingApp/
 
 ## Core Development Rules
 
-### 1. Code Comments Policy
-- **Always include helpful code comments** to improve maintainability
+### 1. Code Comments Policy (Better Comments)
+- **Always include helpful code comments** using Better Comments patterns for visibility
+- **Better Comments Syntax** (works with Better Comments VS Code extension):
+  - `// !` - Important warnings, security issues, breaking changes (red)
+  - `// ?` - Questions, design decisions needing review (blue)
+  - `// TODO:` - Tasks that need to be done, improvements needed (orange)
+  - `// *` - Highlights, important notes, section headers (green)
+  - `// //` - Deprecated code marked for removal (strikethrough)
+- **Usage Guidelines**:
+  - Use `// !` for security warnings, critical performance issues, hardcoded values
+  - Use `// ?` for architectural decisions that need team discussion
+  - Use `// TODO:` for incomplete features, refactoring opportunities
+  - Use `// *` for explaining complex logic, cross-platform considerations
+  - Use `// //` for temporary workarounds or legacy code
 - Comments should explain "why" not just "what"
 - Document complex business logic inline
 - Write self-documenting code with clear function/variable names

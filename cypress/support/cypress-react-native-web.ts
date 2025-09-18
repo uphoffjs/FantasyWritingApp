@@ -7,21 +7,21 @@
 
 // Configure Cypress to work with React Native Web's attribute handling
 export const configureReactNativeWeb = () => {
-  // Add a custom command instead of overwriting get
+  // * Add a custom command instead of overwriting get
   // React Native Web converts testID to data-testid
   Cypress.Commands.add('getByTestId', (selector: string) => {
-    // Try multiple selector patterns for React Native Web
+    // * Try multiple selector patterns for React Native Web
     return cy.get(`[data-testid="${selector}"], [data-cy="${selector}"], [testID="${selector}"]`);
   });
 };
 
-// Helper to get elements with React Native Web compatibility
+// * Helper to get elements with React Native Web compatibility
 export const getReactNativeWebElement = (testId: string) => {
-  // Try all possible attribute patterns
+  // * Try all possible attribute patterns
   return cy.get(`[data-testid="${testId}"], [data-cy="${testId}"], [testID="${testId}"]`);
 };
 
-// Helper to check if element exists with any test attribute
+// * Helper to check if element exists with any test attribute
 export const elementExistsWithTestId = (testId: string) => {
   return cy.get('body').then(($body) => {
     return (
@@ -32,7 +32,7 @@ export const elementExistsWithTestId = (testId: string) => {
   });
 };
 
-// Viewport configuration for React Native Web testing
+// * Viewport configuration for React Native Web testing
 export const setMobileViewport = () => {
   cy.viewport('iphone-x');
 };
@@ -45,11 +45,11 @@ export const setDesktopViewport = () => {
   cy.viewport('macbook-15');
 };
 
-// Wait for React Native Web to fully render
+// * Wait for React Native Web to fully render
 export const waitForReactNativeWeb = () => {
-  // Wait for React to hydrate
+  // * Wait for React to hydrate
   cy.wait(100);
   
-  // Check if the root element exists
+  // * Check if the root element exists
   cy.get('[data-reactroot], #root').should('exist');
 };

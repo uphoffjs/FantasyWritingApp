@@ -11,16 +11,16 @@ export const useSupabaseSync = () => {
     lastSyncAttempt
   } = useWorldbuildingStore();
   
-  // Sync on login
+  // ! SECURITY: * Sync on login
   useEffect(() => {
     if (isAuthenticated && user?.id) {
       console.log('User authenticated, fetching projects from Supabase');
       
-      // First fetch existing projects from Supabase
+      // * First fetch existing projects from Supabase
       fetchFromSupabase().then(() => {
         console.log('Projects fetched from Supabase');
         
-        // Then sync any local changes
+        // * Then sync any local changes
         if (projects.length > 0) {
           syncWithSupabase().then(() => {
             console.log('Local projects synced to Supabase');
@@ -48,7 +48,7 @@ export const useSupabaseSync = () => {
     return () => clearInterval(syncInterval);
   }, [isAuthenticated, user?.id, syncWithSupabase]);
   
-  // Manual sync function
+  // * Manual sync function
   const manualSync = async () => {
     if (!isAuthenticated || !user?.id) {
       console.log('Not authenticated, cannot sync');

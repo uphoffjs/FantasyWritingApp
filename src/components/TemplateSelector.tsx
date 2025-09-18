@@ -31,11 +31,11 @@ export function TemplateSelector({
   const [selectedTemplateId, setSelectedTemplateId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Filter templates by category and search query
+  // TODO: * Filter templates by category and search query
   const filteredTemplates = useMemo(() => {
     const categoryTemplates = templates.filter(t => t.category === category);
     
-    // Add default template if it exists
+    // TODO: * Add default template if it exists
     const defaultTemplate = DEFAULT_TEMPLATES[category];
     if (defaultTemplate && defaultTemplate.questions?.length > 0) {
       const defaultWithId: QuestionnaireTemplate = {
@@ -155,7 +155,8 @@ export function TemplateSelector({
             <TextInput
               style={styles.searchInput}
               placeholder="Search templates..."
-              placeholderTextColor="#6B7280"
+              // ! HARDCODED: Should use design tokens
+          placeholderTextColor="#6B7280"
               value={searchQuery}
               onChangeText={setSearchQuery}
             />
@@ -163,7 +164,8 @@ export function TemplateSelector({
 
           {isLoading ? (
             <View style={styles.loadingContainer}>
-              <ActivityIndicator size="large" color="#6366F1" />
+              <ActivityIndicator size="large" // ! HARDCODED: Should use design tokens
+          color="#6366F1" />
               <Text style={styles.loadingText}>Loading templates...</Text>
             </View>
           ) : (
@@ -223,6 +225,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   modalContent: {
+    // ! HARDCODED: Should use design tokens
     backgroundColor: '#111827',
     borderRadius: 16,
     width: '90%',
@@ -245,6 +248,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: '700',
+    // ! HARDCODED: Should use design tokens
     color: '#F9FAFB',
   },
   closeButton: {
@@ -252,10 +256,12 @@ const styles = StyleSheet.create({
   },
   closeIcon: {
     fontSize: 24,
+    // ! HARDCODED: Should use design tokens
     color: '#6B7280',
   },
   subtitle: {
     fontSize: 14,
+    // ! HARDCODED: Should use design tokens
     color: '#9CA3AF',
     paddingHorizontal: 24,
     marginBottom: 20,
@@ -263,6 +269,7 @@ const styles = StyleSheet.create({
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    // ! HARDCODED: Should use design tokens
     backgroundColor: '#1F2937',
     borderRadius: 8,
     marginHorizontal: 24,
@@ -276,6 +283,7 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     flex: 1,
+    // ! HARDCODED: Should use design tokens
     color: '#F9FAFB',
     fontSize: 14,
   },
@@ -287,6 +295,7 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   templateCard: {
+    // ! HARDCODED: Should use design tokens
     backgroundColor: '#1F2937',
     borderRadius: 12,
     padding: 16,
@@ -295,8 +304,10 @@ const styles = StyleSheet.create({
     borderColor: 'transparent',
   },
   templateCardSelected: {
+    // ! HARDCODED: Should use design tokens
     borderColor: '#6366F1',
-    backgroundColor: '#1F293780',
+    backgroundColor: '// ! HARDCODED: Should use design tokens
+      #1F293780',
   },
   templateHeader: {
     flexDirection: 'row',
@@ -307,10 +318,12 @@ const styles = StyleSheet.create({
   templateName: {
     fontSize: 16,
     fontWeight: '600',
+    // ! HARDCODED: Should use design tokens
     color: '#F9FAFB',
     flex: 1,
   },
   defaultBadge: {
+    // ! HARDCODED: Should use design tokens
     backgroundColor: '#059669',
     borderRadius: 12,
     paddingHorizontal: 8,
@@ -319,10 +332,12 @@ const styles = StyleSheet.create({
   defaultBadgeText: {
     fontSize: 11,
     fontWeight: '600',
+    // ! HARDCODED: Should use design tokens
     color: '#FFFFFF',
   },
   templateDescription: {
     fontSize: 13,
+    // ! HARDCODED: Should use design tokens
     color: '#9CA3AF',
     marginBottom: 12,
     lineHeight: 18,
@@ -335,6 +350,7 @@ const styles = StyleSheet.create({
   },
   templateMetaText: {
     fontSize: 12,
+    // ! HARDCODED: Should use design tokens
     color: '#6B7280',
   },
   templateTags: {
@@ -344,6 +360,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   tag: {
+    // ! HARDCODED: Should use design tokens
     backgroundColor: '#374151',
     borderRadius: 12,
     paddingHorizontal: 8,
@@ -351,6 +368,7 @@ const styles = StyleSheet.create({
   },
   tagText: {
     fontSize: 11,
+    // ! HARDCODED: Should use design tokens
     color: '#9CA3AF',
   },
   difficultyContainer: {
@@ -361,6 +379,7 @@ const styles = StyleSheet.create({
   },
   difficultyLabel: {
     fontSize: 12,
+    // ! HARDCODED: Should use design tokens
     color: '#6B7280',
   },
   difficultyText: {
@@ -369,12 +388,15 @@ const styles = StyleSheet.create({
     textTransform: 'capitalize',
   },
   difficultyBeginner: {
+    // ! HARDCODED: Should use design tokens
     color: '#10B981',
   },
   difficultyIntermediate: {
+    // ! HARDCODED: Should use design tokens
     color: '#F59E0B',
   },
   difficultyAdvanced: {
+    // ! HARDCODED: Should use design tokens
     color: '#EF4444',
   },
   loadingContainer: {
@@ -386,6 +408,7 @@ const styles = StyleSheet.create({
   loadingText: {
     marginTop: 12,
     fontSize: 14,
+    // ! HARDCODED: Should use design tokens
     color: '#6B7280',
   },
   emptyContainer: {
@@ -399,11 +422,13 @@ const styles = StyleSheet.create({
   emptyTitle: {
     fontSize: 18,
     fontWeight: '600',
+    // ! HARDCODED: Should use design tokens
     color: '#F9FAFB',
     marginBottom: 8,
   },
   emptyText: {
     fontSize: 14,
+    // ! HARDCODED: Should use design tokens
     color: '#6B7280',
     textAlign: 'center',
   },
@@ -414,33 +439,39 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingVertical: 20,
     borderTopWidth: 1,
-    borderTopColor: '#374151',
+    borderTopColor: '// ! HARDCODED: Should use design tokens
+      #374151',
   },
   cancelButton: {
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 8,
     borderWidth: 1,
+    // ! HARDCODED: Should use design tokens
     borderColor: '#4B5563',
   },
   cancelButtonText: {
     fontSize: 14,
     fontWeight: '600',
+    // ! HARDCODED: Should use design tokens
     color: '#D1D5DB',
   },
   selectButton: {
+    // ! HARDCODED: Should use design tokens
     backgroundColor: '#6366F1',
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 8,
   },
   selectButtonDisabled: {
+    // ! HARDCODED: Should use design tokens
     backgroundColor: '#4B5563',
     opacity: 0.5,
   },
   selectButtonText: {
     fontSize: 14,
     fontWeight: '600',
+    // ! HARDCODED: Should use design tokens
     color: '#FFFFFF',
   },
 });

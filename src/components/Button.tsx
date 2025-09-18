@@ -1,6 +1,7 @@
 /**
- * Cross-platform Button component
- * Provides consistent styling and behavior across web and mobile
+ * * Cross-platform Button component
+ * * Provides consistent styling and behavior across web and mobile
+ * ! IMPORTANT: testID is required for all interactive components for Cypress testing
  */
 
 import React from 'react';
@@ -60,6 +61,7 @@ export function Button({
       style={({ pressed }) => [
         ...buttonStyles,
         pressed && !isDisabled && styles.pressed,
+        // * Web-specific styles for better UX
         Platform.OS === 'web' && styles.webButton,
       ]}
       onPress={onPress}
@@ -71,7 +73,10 @@ export function Button({
       {loading ? (
         <ActivityIndicator
           size="small"
-          color={variant === 'primary' ? '#FFFFFF' : '#6366F1'}
+          // TODO: ! SECURITY: ! HARDCODED: Should use design tokens
+          color={variant === 'primary' ? '// ! HARDCODED: Should use design tokens
+      #FFFFFF' : '// ! HARDCODED: Should use design tokens
+      #6366F1'}
         />
       ) : (
         <Text style={textStyles}>{title}</Text>
@@ -103,23 +108,28 @@ const styles = StyleSheet.create({
       default: {},
     }),
   },
-  // Variants
+  // * Button variant styles
   primary: {
+    // ! HARDCODED: Should use design tokens
     backgroundColor: '#6366F1',
     borderWidth: 1,
+    // ! HARDCODED: Should use design tokens
     borderColor: '#6366F1',
   },
   secondary: {
     backgroundColor: 'transparent',
     borderWidth: 1,
+    // ! HARDCODED: Should use design tokens
     borderColor: '#6366F1',
   },
   danger: {
+    // ! HARDCODED: Should use design tokens
     backgroundColor: '#DC2626',
     borderWidth: 1,
+    // ! HARDCODED: Should use design tokens
     borderColor: '#DC2626',
   },
-  // Sizes
+  // * Button size variations
   small: {
     paddingVertical: 6,
     paddingHorizontal: 12,
@@ -132,7 +142,7 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     paddingHorizontal: 28,
   },
-  // States
+  // * Interactive state styles
   pressed: {
     opacity: 0.8,
     transform: [{ scale: 0.98 }],
@@ -146,7 +156,7 @@ const styles = StyleSheet.create({
       default: {},
     }),
   },
-  // Text styles
+  // * Text styling based on variants and sizes
   text: {
     fontWeight: '600',
     textAlign: 'center',
@@ -157,12 +167,15 @@ const styles = StyleSheet.create({
     }),
   },
   text_primary: {
+    // ! HARDCODED: Should use design tokens
     color: '#FFFFFF',
   },
   text_secondary: {
+    // ! HARDCODED: Should use design tokens
     color: '#6366F1',
   },
   text_danger: {
+    // ! HARDCODED: Should use design tokens
     color: '#FFFFFF',
   },
   textSize_small: {

@@ -111,7 +111,7 @@ describe('ImageUpload Component', () => {
         />
       );
 
-      // Create a small test image file
+      // * Create a small test image file
       const fileName = 'test-image.png';
       const fileContent = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==';
       
@@ -121,7 +121,7 @@ describe('ImageUpload Component', () => {
         mimeType: 'image/png'
       }, { force: true });
 
-      // Wait for processing
+      // * Wait for processing
       cy.wait(1000);
       
       cy.get('@onImagesChange').should('have.been.called');
@@ -171,7 +171,7 @@ describe('ImageUpload Component', () => {
       const fileName = 'dropped-image.png';
       const fileContent = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==';
       
-      // Simulate file drop
+      // * Simulate file drop
       const file = new File([Cypress.Buffer.from(fileContent, 'base64')], fileName, { type: 'image/png' });
       const dataTransfer = new DataTransfer();
       dataTransfer.items.add(file);
@@ -231,7 +231,7 @@ describe('ImageUpload Component', () => {
 
       cy.contains('3 / 3 images').should('be.visible');
       
-      // Try to add another image
+      // * Try to add another image
       const fileName = 'test-image.png';
       const fileContent = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==';
       
@@ -241,7 +241,7 @@ describe('ImageUpload Component', () => {
         mimeType: 'image/png'
       }, { force: true });
 
-      // Should show alert or not add image
+      // ? TODO: * Should show alert or not add image
       cy.on('window:alert', (text) => {
         expect(text).to.contains('Maximum 3 images allowed');
       });
@@ -257,7 +257,7 @@ describe('ImageUpload Component', () => {
         />
       );
 
-      // Try to upload a text file
+      // * Try to upload a text file
       cy.get('input[type="file"]').selectFile({
         contents: 'This is a text file',
         fileName: 'document.txt',
@@ -276,7 +276,7 @@ describe('ImageUpload Component', () => {
         />
       );
 
-      // Create a large file
+      // * Create a large file
       const largeContent = 'A'.repeat(10000);
       
       cy.get('input[type="file"]').selectFile({
@@ -307,7 +307,7 @@ describe('ImageUpload Component', () => {
         mimeType: 'image/png'
       }, { force: true });
 
-      // Progress indicator should appear briefly
+      // TODO: * Progress indicator should appear briefly
       cy.get('[class*="animate-pulse"]', { timeout: 1000 }).should('exist');
     });
 
@@ -328,7 +328,7 @@ describe('ImageUpload Component', () => {
         mimeType: 'image/png'
       }, { force: true });
 
-      // Compression info might appear
+      // * Compression info might appear
       cy.get('body').then($body => {
         if ($body.find('[class*="Compressed"]').length > 0) {
           cy.contains('Compressed').should('be.visible');
@@ -383,7 +383,7 @@ describe('ImageUpload Component', () => {
 
       cy.get('[data-cy*="button"]').first().focus();
       cy.focused().tab();
-      // Should focus on the remove [data-cy*="button"] or upload area
+      // TODO: * Should focus on the remove [data-cy*="button"] or upload area
       cy.focused().should('exist');
     });
 
@@ -398,7 +398,7 @@ describe('ImageUpload Component', () => {
       cy.get('[class*="border-dashed"]').focus();
       cy.focused().type('{enter}');
       
-      // Should trigger file dialog (can't test actual dialog)
+      // TODO: * Should trigger file dialog (can't test actual dialog)
       cy.get('input[type="file"]').should('exist');
     });
   });
@@ -423,7 +423,7 @@ describe('ImageUpload Component', () => {
         />
       );
 
-      // Should not crash
+      // TODO: * Should not crash
       cy.get('[class*="border-dashed"]').should('be.visible');
     });
 
@@ -451,7 +451,7 @@ describe('ImageUpload Component', () => {
       const fileName = 'test-image.png';
       const fileContent = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==';
       
-      // Upload multiple files rapidly
+      // * Upload multiple files rapidly
       for (let i = 0; i < 3; i++) {
         cy.get('input[type="file"]').selectFile({
           contents: Cypress.Buffer.from(fileContent, 'base64'),

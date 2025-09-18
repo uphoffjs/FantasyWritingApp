@@ -1,5 +1,5 @@
-// Utility functions and helpers for testing rapid user interactions
-// Prevents race conditions and timing issues in tests
+// * Utility functions and helpers for testing rapid user interactions
+// * Prevents race conditions and timing issues in tests
 
 /**
  * Debounce and throttle utilities for testing rapid interactions
@@ -59,10 +59,10 @@ export const RapidInteractionCommands = {
     cy.get(selector).clear();
     
     if (delayBetweenChars === 0) {
-      // Instant typing - set value directly
+      // * Instant typing - set value directly
       cy.get(selector).invoke('val', text).trigger('input').trigger('change');
     } else {
-      // Type with custom delay
+      // * Type with custom delay
       cy.get(selector).type(text, { delay: delayBetweenChars });
     }
     
@@ -178,10 +178,10 @@ export const RaceConditionHelpers = {
     completionIndicator: string,
     timeout: number = 5000
   ) => {
-    // Trigger the operation
+    // * Trigger the operation
     cy.get(operationSelector).click();
     
-    // Wait for completion indicator
+    // * Wait for completion indicator
     cy.get(completionIndicator, { timeout }).should('exist');
     
     return cy.get(completionIndicator);
@@ -198,7 +198,7 @@ export const RaceConditionHelpers = {
       }
     });
     
-    // Wait for all updates to propagate
+    // * Wait for all updates to propagate
     return cy.wait(100);
   }
 };
@@ -309,7 +309,7 @@ export const StressTestHelpers = {
       cy.wait(100);
     }
     
-    // Verify only one submission was processed
+    // * Verify only one submission was processed
     cy.get('[data-submission-count]').should('have.text', '1');
   },
 
@@ -324,9 +324,9 @@ export const StressTestHelpers = {
     }
     
     batches.forEach(batch => {
-      // Execute batch concurrently
+      // * Execute batch concurrently
       batch.forEach(action => action());
-      // Wait for batch to complete
+      // * Wait for batch to complete
       cy.wait(100);
     });
   }
@@ -356,10 +356,10 @@ export const RapidInteractionAssertions = {
    * Assert that rapid input doesn't lose characters
    */
   assertNoCharacterLoss: (selector: string, text: string) => {
-    // Type rapidly
+    // * Type rapidly
     cy.get(selector).clear().type(text, { delay: 0 });
     
-    // Verify all characters are present
+    // * Verify all characters are present
     cy.get(selector).should('have.value', text);
   },
 
@@ -391,7 +391,7 @@ export const RapidInteractionAssertions = {
     
     action();
     
-    // Check that UI element is still interactive
+    // * Check that UI element is still interactive
     cy.get(checkSelector).click({ timeout: maxBlockingTime });
     
     const duration = Date.now() - startTime;
@@ -403,32 +403,32 @@ export const RapidInteractionAssertions = {
  * Configuration for rapid interaction testing
  */
 export const RapidInteractionConfig = {
-  // Default delays
+  // * Default delays
   DEFAULT_DEBOUNCE_DELAY: 300,
   DEFAULT_THROTTLE_DELAY: 150,
   DEFAULT_ANIMATION_DURATION: 300,
   
-  // Performance thresholds
+  // // DEPRECATED: ! PERFORMANCE: * Performance thresholds
   MAX_INPUT_LAG: 100, // ms
   MAX_RENDER_TIME: 16, // ms (60fps)
   MAX_RESPONSE_TIME: 200, // ms
   
-  // Stress test parameters
+  // * Stress test parameters
   RAGE_CLICK_RATE: 20, // clicks per second
   RAPID_TYPE_WPM: 100, // words per minute
   MAX_CONCURRENT_ACTIONS: 10,
   
-  // Retry configuration
+  // * Retry configuration
   DEFAULT_MAX_RETRIES: 3,
   RETRY_DELAY: 100, // ms
   
-  // Timeout configuration
+  // * Timeout configuration
   ASYNC_OPERATION_TIMEOUT: 5000, // ms
   STATE_SETTLE_TIMEOUT: 2000, // ms
   NETWORK_IDLE_TIMEOUT: 2000, // ms
 };
 
-// Register custom Cypress commands
+// * Register custom Cypress commands
 Cypress.Commands.add('rapidType', RapidInteractionCommands.rapidType);
 Cypress.Commands.add('rapidClick', RapidInteractionCommands.rapidClick);
 Cypress.Commands.add('rapidToggle', RapidInteractionCommands.rapidToggle);
@@ -439,7 +439,7 @@ Cypress.Commands.add('waitForDebounce', RapidInteractionUtils.waitForDebounce);
 Cypress.Commands.add('waitForThrottle', RapidInteractionUtils.waitForThrottle);
 Cypress.Commands.add('waitForReactRender', RapidInteractionUtils.waitForReactRender);
 
-// Type declarations for custom commands
+// * Type declarations for custom commands
 declare global {
   namespace Cypress {
     interface Chainable {

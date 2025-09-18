@@ -11,7 +11,7 @@ describe('MobileNavigation Component', () => {
     onMenuClickSpy = cy.spy().as('onMenuClick');
     navigateSpy = cy.stub();
     
-    // Set mobile viewport by default
+    // * Set mobile viewport by default
     cy.viewport(375, 667);
   });
 
@@ -65,7 +65,7 @@ describe('MobileNavigation Component', () => {
 
       mountWithRouter(<MobileNavigation onMenuClick={onMenuClickSpy} />);
 
-      // Create [data-cy*="button"] should have gold rounded background
+      // // DEPRECATED: TODO: Create [data-cy*="button"] should have gold rounded background
       cy.get('[aria-label="Create"]').within(() => {
         cy.get('[data-cy*="metals-gold"].rounded-full').should('exist');
       });
@@ -100,7 +100,7 @@ describe('MobileNavigation Component', () => {
         .should('be.visible') // React Native Web uses inline styles instead of CSS classes
         .and('have.attr', 'aria-current', 'page');
 
-      // Should show active indicator bar
+      // ? TODO: * Should show active indicator bar
       cy.get('[aria-label="Projects"]').within(() => {
         cy.get('[data-cy*="metals-gold"]').should('exist');
       });
@@ -209,7 +209,7 @@ describe('MobileNavigation Component', () => {
       mountWithRouter(<MobileNavigation onMenuClick={onMenuClickSpy} />);
 
       cy.get('[aria-label="Projects"]').click();
-      // In a real app, this would navigate to '/'
+      // * In a real app, this would navigate to '/'
     });
 
     it('navigates to project browse when Browse clicked', () => {
@@ -220,7 +220,7 @@ describe('MobileNavigation Component', () => {
       mountWithRouter(<MobileNavigation onMenuClick={onMenuClickSpy} />);
 
       cy.get('[aria-label="Browse"]').click();
-      // In a real app, this would navigate to '/project/project-123'
+      // * In a real app, this would navigate to '/project/project-123'
     });
 
     it('navigates with create hash when Create clicked', () => {
@@ -231,7 +231,7 @@ describe('MobileNavigation Component', () => {
       mountWithRouter(<MobileNavigation onMenuClick={onMenuClickSpy} />);
 
       cy.get('[aria-label="Create"]').click();
-      // In a real app, this would navigate to '/project/project-123#create'
+      // * In a real app, this would navigate to '/project/project-123#create'
     });
 
     it('navigates with search hash when Search clicked', () => {
@@ -242,7 +242,7 @@ describe('MobileNavigation Component', () => {
       mountWithRouter(<MobileNavigation onMenuClick={onMenuClickSpy} />);
 
       cy.get('[aria-label="Search"]').click();
-      // In a real app, this would navigate to '/project/project-123#search'
+      // * In a real app, this would navigate to '/project/project-123#search'
     });
 
     it('calls onMenuClick when Menu [data-cy*="button"] clicked', () => {
@@ -260,7 +260,7 @@ describe('MobileNavigation Component', () => {
       mountWithRouter(<MobileNavigation onMenuClick={onMenuClickSpy} />);
 
       cy.get('[aria-label="Browse"]').click({ force: true });
-      // Should not navigate
+      // TODO: * Should not navigate
     });
   });
 
@@ -417,7 +417,7 @@ describe('MobileNavigation Component', () => {
       mountWithRouter(<MobileNavigation />);
 
       cy.get('[aria-label="Menu"]').click();
-      // Should not throw error
+      // TODO: * Should not throw error
     });
 
     it('handles very long project IDs', () => {

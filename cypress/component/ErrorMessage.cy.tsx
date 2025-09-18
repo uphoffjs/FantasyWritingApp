@@ -34,7 +34,7 @@ describe('ErrorMessage Component', () => {
     it('renders error icon', () => {
       cy.mount(<ErrorMessage {...defaultProps} />);
       
-      // Check for AlertCircle icon (Lucide React)
+      // * Check for AlertCircle icon (Lucide React)
       cy.get('svg').first()
         .should('be.visible')
         .and('have.class', 'w-5')
@@ -70,7 +70,7 @@ describe('ErrorMessage Component', () => {
         .should('be.visible')
         .and('contain', 'Try again');
       
-      // Check for RefreshCw icon
+      // * Check for RefreshCw icon
       cy.get('[data-testid="error-retry"] svg')
         .should('be.visible')
         .and('have.class', 'w-4')
@@ -203,11 +203,11 @@ describe('ErrorMessage Component', () => {
         </div>
       );
       
-      // Test that retry [data-cy*="button"] is in tab order by verifying it can be focused
+      // * Test that retry [data-cy*="button"] is in tab order by verifying it can be focused
       cy.get('[data-testid="error-retry"]').focus();
       cy.focused().should('have.attr', 'data-cy', 'error-retry');
       
-      // Verify it's between the two [data-cy*="button"]s in tab order
+      // * Verify it's between the two [data-cy*="button"]s in tab order
       cy.get('[data-cy*="button"]').first().should('contain', 'Before');
       cy.get('[data-cy*="button"]').last().should('contain', 'After');
       cy.get('[data-testid="error-retry"]').should('exist');
@@ -217,7 +217,7 @@ describe('ErrorMessage Component', () => {
       const onRetrySpy = cy.spy().as('onRetry');
       cy.mount(<ErrorMessage {...defaultProps} onRetry={onRetrySpy} />);
       
-      // Focus and trigger enter key on the [data-cy*="button"]
+      // * Focus and trigger enter key on the [data-cy*="button"]
       cy.get('[data-testid="error-retry"]').focus().trigger('keydown', { key: 'Enter', keyCode: 13 });
       cy.get('[data-testid="error-retry"]').click(); // Fallback to click to ensure the action
       
@@ -228,7 +228,7 @@ describe('ErrorMessage Component', () => {
       const onRetrySpy = cy.spy().as('onRetry');
       cy.mount(<ErrorMessage {...defaultProps} onRetry={onRetrySpy} />);
       
-      // Focus and trigger space key on the [data-cy*="button"]
+      // * Focus and trigger space key on the [data-cy*="button"]
       cy.get('[data-testid="error-retry"]').focus().trigger('keydown', { key: ' ', keyCode: 32 });
       cy.get('[data-testid="error-retry"]').click(); // Fallback to click to ensure the action
       
@@ -253,7 +253,7 @@ describe('ErrorMessage Component', () => {
       cy.get('[data-testid="error-description"]').should('be.visible');
       cy.get('[data-testid="error-retry"]').should('be.visible');
       
-      // Check that layout is still correct on small screen
+      // * Check that layout is still correct on small screen
       cy.get('.flex.items-start.gap-3').should('exist');
     });
 

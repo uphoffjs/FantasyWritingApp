@@ -42,7 +42,7 @@ describe('CompletionHeatmap Component', () => {
 
       cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
-      // Legend should be visible
+      // TODO: * Legend should be visible
       cy.contains('Completion:').should('be.visible');
       cy.contains('0% → 100%').should('be.visible');
       cy.contains('Click any cell for details').should('be.visible');
@@ -53,7 +53,7 @@ describe('CompletionHeatmap Component', () => {
 
       cy.mount(<CompletionHeatmap project={project} />);
 
-      // Should have 7 legend color boxes
+      // TODO: * Should have 7 legend color boxes
       cy.get('[title="0%"]').should('exist');
       cy.get('[title="1-19%"]').should('exist');
       cy.get('[title="20-39%"]').should('exist');
@@ -81,7 +81,7 @@ describe('CompletionHeatmap Component', () => {
 
       cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
-      // Should render all elements in grid
+      // TODO: * Should render all elements in grid
       cy.get('[data-testid="grid"] > div').should('have.length.at.least', 3);
     });
 
@@ -208,7 +208,7 @@ describe('CompletionHeatmap Component', () => {
 
       cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
-      // Character elements should appear before location
+      // TODO: * Character elements should appear before location
       cy.get('[data-testid="grid"] > div').first().should('contain', '👤');
     });
 
@@ -222,7 +222,7 @@ describe('CompletionHeatmap Component', () => {
 
       cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
-      // Should be sorted by completion percentage descending within category
+      // TODO: * Should be sorted by completion percentage descending within category
       cy.get('[data-testid="grid"] > div:not([class*="bg-parchment-aged"])').then($cells => {
         expect($cells.eq(0)).to.have.class('bg-emerald-500'); // 80%
         expect($cells.eq(1)).to.have.class('bg-orange-500');  // 50%
@@ -240,7 +240,7 @@ describe('CompletionHeatmap Component', () => {
 
       cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
-      // Grid should have appropriate columns for 10 elements
+      // TODO: * Grid should have appropriate columns for 10 elements
       // React Native Web uses flexbox instead of CSS Grid
 
       cy.get('[data-testid="grid"]').should('have.css', 'grid-template-columns') // CSS properties work in React Native Web;
@@ -256,7 +256,7 @@ describe('CompletionHeatmap Component', () => {
 
       cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
-      // Should have empty cells to fill the grid
+      // TODO: * Should have empty cells to fill the grid
       cy.get('[data-cy*="parchment-aged"].border-parchment-border').should('exist');
     });
 
@@ -306,7 +306,7 @@ describe('CompletionHeatmap Component', () => {
 
       cy.get('[data-testid="grid"] > div').first().trigger('mouseenter');
       
-      // Tooltip should be visible on hover
+      // TODO: * Tooltip should be visible on hover
       cy.contains('Test Character').should('exist');
       cy.contains('75% complete').should('exist');
     });
@@ -403,16 +403,16 @@ describe('CompletionHeatmap Component', () => {
         { category: 'custom', icon: '📋' }
       ];
 
-      // Create all elements with different categories
+      // * Create all elements with different categories
       const elements = categories.map(({ category }, index) => 
         createMockElement({ id: `${index}`, category })
       );
       const project = createMockProject(elements);
 
-      // Mount once with all elements
+      // * Mount once with all elements
       cy.mount(<CompletionHeatmap project={project} />);
 
-      // Verify all icons are visible
+      // * Verify all icons are visible
       categories.forEach(({ icon }) => {
         cy.contains(icon).should('be.visible');
       });
@@ -471,7 +471,7 @@ describe('CompletionHeatmap Component', () => {
 
       cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
-      // Tooltip should be hidden on mobile
+      // TODO: * Tooltip should be hidden on mobile
       cy.get('.hidden.sm\\:block').should('exist');
     });
 
@@ -550,7 +550,7 @@ describe('CompletionHeatmap Component', () => {
       cy.mount(<CompletionHeatmap project={project} />);
 
       cy.get('[data-testid="grid"] > div').first().click();
-      // Should not throw error
+      // TODO: * Should not throw error
     });
 
     it('handles elements with same completion percentage', () => {

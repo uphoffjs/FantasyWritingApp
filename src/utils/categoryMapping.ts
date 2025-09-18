@@ -4,7 +4,7 @@
 
 import { ElementCategory } from '../types/worldbuilding';
 
-// Map from app categories to Supabase categories
+// * Map from app categories to Supabase categories
 const APP_TO_DB_CATEGORY_MAP: Record<string, string> = {
   'character': 'character',
   'location': 'location',
@@ -20,7 +20,7 @@ const APP_TO_DB_CATEGORY_MAP: Record<string, string> = {
   'custom': 'custom'
 };
 
-// Reverse map from Supabase categories to app categories
+// * Reverse map from Supabase categories to app categories
 const DB_TO_APP_CATEGORY_MAP: Record<string, ElementCategory> = {
   'character': 'character',
   'location': 'location',

@@ -51,18 +51,18 @@ describe('RelationshipModal Component', () => {
         }
       );
 
-      // Check header
+      // * Check header
       cy.get('h2').should('contain', 'Create Relationship');
       cy.get('[data-testid="close-relationship-modal"]').should('be.visible');
 
-      // Check source element is displayed
+      // * Check source element is displayed
       cy.get('[data-cy*="parchment-shadow"]').first().within(() => {
         cy.contains('From Element').should('be.visible');
         cy.contains('Gandalf').should('be.visible');
         cy.contains('character').should('be.visible');
       });
 
-      // Check search input is present
+      // * Check search input is present
       cy.get('[data-testid="relationship-target-search"]').should('be.visible');
     });
 
@@ -80,13 +80,13 @@ describe('RelationshipModal Component', () => {
         }
       );
 
-      // Should show all target elements but not source
+      // ? TODO: * Should show all target elements but not source
       targetElements.forEach(element => {
         cy.get(`[data-testid="select"]-element-${element.id}"]`).should('be.visible');
         cy.get(`[data-testid="select"]-element-${element.id}"]`).should('contain', element.name);
       });
 
-      // Source element should not be in the list
+      // TODO: * Source element should not be in the list
       cy.get(`[data-testid="select"]-element-${sourceElement.id}"]`).should('not.exist');
     });
 
@@ -104,7 +104,7 @@ describe('RelationshipModal Component', () => {
         }
       );
 
-      // Component should return null
+      // TODO: * Component should return null
       cy.get('h2').should('not.exist');
     });
   });
@@ -126,7 +126,7 @@ describe('RelationshipModal Component', () => {
 
       cy.get('[data-testid="relationship-target-search"]').type('Rivendell');
       
-      // Only Rivendell should be visible
+      // TODO: Only Rivendell should be visible
       cy.get(`[data-testid="select"]-element-loc-1"]`).should('be.visible');
       cy.get(`[data-testid="select"]-element-char-2"]`).should('not.exist');
       cy.get(`[data-testid="select"]-element-org-1"]`).should('not.exist');
@@ -148,7 +148,7 @@ describe('RelationshipModal Component', () => {
 
       cy.get('[data-testid="relationship-target-search"]').type('Ring bearer');
       
-      // Only Frodo should be visible
+      // TODO: Only Frodo should be visible
       cy.get(`[data-testid="select"]-element-char-2"]`).should('be.visible');
       cy.get(`[data-testid="select"]-element-loc-1"]`).should('not.exist');
     });
@@ -169,7 +169,7 @@ describe('RelationshipModal Component', () => {
 
       cy.get('[data-testid="relationship-target-search"]').type('location');
       
-      // Only location element should be visible
+      // TODO: * Only location element should be visible
       cy.get(`[data-testid="select"]-element-loc-1"]`).should('be.visible');
       cy.get(`[data-testid="select"]-element-char-2"]`).should('not.exist');
     });
@@ -190,7 +190,7 @@ describe('RelationshipModal Component', () => {
 
       cy.get('[data-testid="relationship-target-search"]').type('NonExistentElement');
       
-      // No elements should be visible
+      // TODO: * No elements should be visible
       cy.get('[data-cy^="[data-cy*="select"]-element-"]').should('not.exist');
     });
   });
@@ -212,13 +212,13 @@ describe('RelationshipModal Component', () => {
 
       cy.get(`[data-testid="select"]-element-char-2"]`).click();
 
-      // Should show relationship type section
+      // ? TODO: * Should show relationship type section
       cy.contains('Relationship Type').should('be.visible');
       
-      // Should show bidirectional option
+      // ? TODO: * Should show bidirectional option
       cy.get('[data-testid="bidirectional-toggle"]').should('be.visible');
       
-      // Should show description field
+      // ? TODO: * Should show description field
       cy.get('[data-testid="relationship-description"]').should('be.visible');
     });
 
@@ -238,7 +238,7 @@ describe('RelationshipModal Component', () => {
 
       cy.get(`[data-testid="select"]-element-char-2"]`).click();
       
-      // Selected element should have active style
+      // TODO: * Selected element should have active style
       cy.get(`[data-testid="select"]-element-char-2"]`)
         .should('be.visible') // React Native Web uses inline styles instead of CSS classes;
     });
@@ -261,7 +261,7 @@ describe('RelationshipModal Component', () => {
 
       cy.get(`[data-testid="select"]-element-char-2"]`).click();
 
-      // Check for character-specific relationship types
+      // * Check for character-specific relationship types
       const expectedTypes = ['related to', 'friend of', 'mentor of', 'works with'];
       expectedTypes.forEach(type => {
         cy.get(`[data-testid="relationship-type-${type.replace(/\s+/g, '-')}"]`)
@@ -286,7 +286,7 @@ describe('RelationshipModal Component', () => {
 
       cy.get(`[data-testid="select"]-element-loc-1"]`).click();
 
-      // Check for character-to-location relationship types
+      // * Check for character-to-location relationship types
       const expectedTypes = ['lives in', 'born in', 'visits frequently'];
       expectedTypes.forEach(type => {
         cy.get(`[data-testid="relationship-type-${type.replace(/\s+/g, '-')}"]`)
@@ -311,7 +311,7 @@ describe('RelationshipModal Component', () => {
 
       cy.get(`[data-testid="select"]-element-org-1"]`).click();
 
-      // Check for character-to-organization relationship types
+      // * Check for character-to-organization relationship types
       const expectedTypes = ['member of', 'leads', 'founded', 'works for'];
       expectedTypes.forEach(type => {
         cy.get(`[data-testid="relationship-type-${type.replace(/\s+/g, '-')}"]`)
@@ -348,7 +348,7 @@ describe('RelationshipModal Component', () => {
 
       cy.get(`[data-testid="select"]-element-custom-1"]`).click();
 
-      // Should show default relationship types
+      // ? TODO: * Should show default relationship types
       const defaultTypes = ['related to', 'connected to', 'associated with'];
       defaultTypes.forEach(type => {
         cy.get(`[data-testid="relationship-type-${type.replace(/\s+/g, '-')}"]`)
@@ -375,7 +375,7 @@ describe('RelationshipModal Component', () => {
       cy.get(`[data-testid="select"]-element-char-2"]`).click();
       cy.get('[data-testid="relationship-type-friend-of"]').click();
 
-      // Selected type should be highlighted
+      // TODO: * Selected type should be highlighted
       cy.get('[data-testid="relationship-type-friend-of"]')
         .should('be.visible') // React Native Web uses inline styles instead of CSS classes;
     });
@@ -397,7 +397,7 @@ describe('RelationshipModal Component', () => {
       cy.get(`[data-testid="select"]-element-char-2"]`).click();
       cy.get('[data-testid="custom-relationship-type"]').type('teaches magic to');
 
-      // Custom type should be in the input
+      // TODO: * Custom type should be in the input
       cy.get('[data-testid="custom-relationship-type"]').should('have.value', 'teaches magic to');
     });
 
@@ -422,10 +422,10 @@ describe('RelationshipModal Component', () => {
       cy.get('[data-testid="relationship-type-friend-of"]')
         .should('be.visible') // React Native Web uses inline styles instead of CSS classes;
 
-      // Then enter custom type
+      // * Then enter custom type
       cy.get('[data-testid="custom-relationship-type"]').type('custom relation');
 
-      // Predefined [data-cy*="select"]ion should be cleared
+      // TODO: Predefined [data-cy*="select"]ion should be cleared
       cy.get('[data-testid="relationship-type-friend-of"]')
         .should('not.have.class', 'bg-sapphire-600');
     });
@@ -446,13 +446,13 @@ describe('RelationshipModal Component', () => {
 
       cy.get(`[data-testid="select"]-element-char-2"]`).click();
       
-      // Enter custom type
+      // * Enter custom type
       cy.get('[data-testid="custom-relationship-type"]').type('custom relation');
       
-      // Select predefined type
+      // * Select predefined type
       cy.get('[data-testid="relationship-type-friend-of"]').click();
 
-      // Custom input should be cleared
+      // TODO: * Custom input should be cleared
       cy.get('[data-testid="custom-relationship-type"]').should('have.value', '');
     });
   });
@@ -474,13 +474,13 @@ describe('RelationshipModal Component', () => {
 
       cy.get(`[data-testid="select"]-element-char-2"]`).click();
       
-      // Initially reverse type input should not be visible
+      // TODO: * Initially reverse type input should not be visible
       cy.get('[data-testid="reverse-relationship-type"]').should('not.exist');
       
-      // Check bidirectional
+      // * Check bidirectional
       cy.get('[data-testid="bidirectional-toggle"]').click();
       
-      // Reverse type input should appear
+      // TODO: * Reverse type input should appear
       cy.get('[data-testid="reverse-relationship-type"]').should('be.visible');
       cy.contains('Reverse relationship type').should('be.visible');
     });
@@ -501,11 +501,11 @@ describe('RelationshipModal Component', () => {
 
       cy.get(`[data-testid="select"]-element-char-2"]`).click();
       
-      // Enable bidirectional
+      // * Enable bidirectional
       cy.get('[data-testid="bidirectional-toggle"]').click();
       cy.get('[data-testid="reverse-relationship-type"]').should('be.visible');
       
-      // Disable bidirectional
+      // * Disable bidirectional
       cy.get('[data-testid="bidirectional-toggle"]').click();
       cy.get('[data-testid="reverse-relationship-type"]').should('not.exist');
     });
@@ -570,13 +570,13 @@ describe('RelationshipModal Component', () => {
         }
       );
 
-      // Initially description should not be visible
+      // TODO: * Initially description should not be visible
       cy.get('[data-testid="relationship-description"]').should('not.exist');
       
-      // Select an element
+      // * Select an element
       cy.get(`[data-testid="select"]-element-char-2"]`).click();
       
-      // Description should now be visible
+      // TODO: * Description should now be visible
       cy.get('[data-testid="relationship-description"]').should('be.visible');
     });
   });
@@ -666,10 +666,10 @@ describe('RelationshipModal Component', () => {
       cy.get('[data-testid="reverse-relationship-type"]').type('apprentice of');
       cy.get('[data-testid="create-relationship"]').click();
 
-      // Should be called twice for bidirectional
+      // TODO: * Should be called twice for bidirectional
       cy.wrap(addRelationshipStub).should('have.been.calledTwice');
       
-      // First call - forward relationship
+      // * First call - forward relationship
       cy.wrap(addRelationshipStub).should('have.been.calledWith',
         testProject.id,
         Cypress.sinon.match({
@@ -679,7 +679,7 @@ describe('RelationshipModal Component', () => {
         })
       );
 
-      // Second call - reverse relationship
+      // * Second call - reverse relationship
       cy.wrap(addRelationshipStub).should('have.been.calledWith',
         testProject.id,
         Cypress.sinon.match({
@@ -725,7 +725,7 @@ describe('RelationshipModal Component', () => {
 
       cy.get(`[data-testid="select"]-element-char-2"]`).click();
       
-      // Without [data-cy*="select"]ing type, [data-cy*="button"] should still be disabled
+      // TODO: Without [data-cy*="select"]ing type, [data-cy*="button"] should still be disabled
       cy.get('[data-testid="create-relationship"]')
         .should('be.disabled');
     });
@@ -773,7 +773,7 @@ describe('RelationshipModal Component', () => {
       // Don't fill reverse type
       cy.get('[data-testid="create-relationship"]').click();
 
-      // Should only create forward relationship
+      // TODO: * Should only create forward relationship
       cy.wrap(addRelationshipStub).should('have.been.calledOnce');
     });
   });
@@ -829,7 +829,7 @@ describe('RelationshipModal Component', () => {
         }
       );
 
-      // Click on the backdrop
+      // * Click on the backdrop
       cy.get('.fixed.inset-0[data-cy*="black"]').click({ force: true });
       cy.wrap(onCloseSpy).should('not.have.been.called');
     });
@@ -855,7 +855,7 @@ describe('RelationshipModal Component', () => {
         }
       );
 
-      // Should show empty list
+      // ? TODO: * Should show empty list
       cy.get('[data-cy^="[data-cy*="select"]-element-"]').should('not.exist');
       cy.get('[data-testid="create-relationship"]').should('be.disabled');
     });
@@ -889,7 +889,7 @@ describe('RelationshipModal Component', () => {
       cy.get(`[data-testid="select"]-element-long-1"]`).should('be.visible');
       cy.get(`[data-testid="select"]-element-long-1"]`).click();
       
-      // Should handle long names in relationship preview
+      // ? TODO: * Should handle long names in relationship preview
       cy.get('[data-testid="relationship-type-friend-of"]').should('be.visible');
     });
 
@@ -936,12 +936,12 @@ describe('RelationshipModal Component', () => {
         }
       );
 
-      // Rapidly click different elements
+      // * Rapidly click different elements
       cy.get(`[data-testid="select"]-element-char-2"]`).click();
       cy.get(`[data-testid="select"]-element-loc-1"]`).click();
       cy.get(`[data-testid="select"]-element-org-1"]`).click();
 
-      // Should show organization relationships
+      // ? TODO: * Should show organization relationships
       cy.get('[data-testid="relationship-type-member-of"]').should('be.visible');
     });
 
@@ -965,10 +965,10 @@ describe('RelationshipModal Component', () => {
         }
       );
 
-      // Element list should be scrollable
+      // TODO: * Element list should be scrollable
       cy.get('[data-testid="grid"].gap-2.max-h-48.overflow-y-auto').should('exist');
       
-      // Should be able to scroll to see more elements
+      // TODO: * Should be able to scroll to see more elements
       cy.get('[data-testid="grid"].gap-2.max-h-48.overflow-y-auto').scrollTo('bottom');
     });
   });
@@ -1011,18 +1011,18 @@ describe('RelationshipModal Component', () => {
         }
       );
 
-      // Tab to search
+      // * Tab to search
       cy.get('[data-testid="relationship-target-search"]').focus();
       cy.focused().should('have.attr', 'data-cy', 'relationship-target-search');
 
-      // Type to search
+      // * Type to search
       cy.focused().type('Frodo');
       
-      // Tab to element [data-cy*="select"]ion
+      // * Tab to element [data-cy*="select"]ion
       cy.focused().tab();
       cy.get(`[data-testid="select"]-element-char-2"]`).click();
 
-      // Tab through relationship options
+      // * Tab through relationship options
       cy.get('[data-testid="relationship-type-friend-of"]').focus();
       cy.focused().should('contain', 'friend of');
     });
@@ -1071,7 +1071,7 @@ describe('RelationshipModal Component', () => {
         }
       );
 
-      // Modal should be fullscreen on mobile
+      // TODO: * Modal should be fullscreen on mobile
       cy.get('.max-w-2xl').should('be.visible');
       cy.get('.overflow-y-auto').should('be.visible');
     });

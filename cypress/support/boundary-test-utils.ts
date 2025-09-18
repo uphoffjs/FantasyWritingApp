@@ -1,11 +1,11 @@
-// Utility functions and test data for boundary condition testing
-// Helps ensure components handle edge cases properly
+// * Utility functions and test data for boundary condition testing
+// * Helps ensure components handle edge cases properly
 
 /**
  * Collection of boundary test values for various data types
  */
 export const BoundaryValues = {
-  // String boundaries
+  // * String boundaries
   strings: {
     empty: '',
     single: 'a',
@@ -26,7 +26,7 @@ export const BoundaryValues = {
     withEscapeChars: '\\n\\t\\r\\\'\\"\\\\'
   },
 
-  // Number boundaries
+  // * Number boundaries
   numbers: {
     zero: 0,
     one: 1,
@@ -46,7 +46,7 @@ export const BoundaryValues = {
     verySmallDecimal: 0.000000001
   },
 
-  // Array boundaries
+  // * Array boundaries
   arrays: {
     empty: [],
     single: ['one'],
@@ -62,7 +62,7 @@ export const BoundaryValues = {
     sparse: Object.assign([], { 0: 'first', 999: 'last' })
   },
 
-  // Object boundaries
+  // * Object boundaries
   objects: {
     empty: {},
     single: { key: 'value' },
@@ -92,7 +92,7 @@ export const BoundaryValues = {
     }
   },
 
-  // Date boundaries
+  // * Date boundaries
   dates: {
     now: new Date(),
     epoch: new Date(0),
@@ -106,7 +106,7 @@ export const BoundaryValues = {
     justBeforeMidnight: new Date('2023-06-15T23:59:59.999Z')
   },
 
-  // Boolean boundaries (simple but complete)
+  // * Boolean boundaries (simple but complete)
   booleans: {
     true: true,
     false: false,
@@ -114,7 +114,7 @@ export const BoundaryValues = {
     falsy: [0, '', null, undefined, false, NaN]
   },
 
-  // Null and undefined
+  // * Null and undefined
   nullish: {
     null: null,
     undefined: undefined,
@@ -126,7 +126,7 @@ export const BoundaryValues = {
  * Test data for form inputs
  */
 export const FormBoundaryData = {
-  // Text input boundaries
+  // * Text input boundaries
   textInputs: {
     valid: ['Normal text', 'user@example.com', 'John Doe'],
     empty: ['', '   ', '\t\n'],
@@ -136,7 +136,7 @@ export const FormBoundaryData = {
     unicode: ['😀🎉', '你好', 'مرحبا', 'こんにちは']
   },
 
-  // Number input boundaries
+  // * Number input boundaries
   numberInputs: {
     valid: [0, 1, 100, -50, 3.14],
     boundaries: [Number.MAX_SAFE_INTEGER, Number.MIN_SAFE_INTEGER],
@@ -144,7 +144,7 @@ export const FormBoundaryData = {
     strings: ['123', '3.14', '1e5', 'not a number']
   },
 
-  // Email validation
+  // * Email validation
   emails: {
     valid: [
       'user@example.com',
@@ -169,7 +169,7 @@ export const FormBoundaryData = {
     ]
   },
 
-  // Password validation
+  // ! SECURITY: * Password validation
   passwords: {
     weak: ['123', 'password', 'abc'],
     medium: ['Password1', 'Test123!'],
@@ -177,7 +177,7 @@ export const FormBoundaryData = {
     edge: ['', ' ', 'a'.repeat(100)]
   },
 
-  // File uploads
+  // * File uploads
   files: {
     sizes: {
       empty: 0,
@@ -290,10 +290,10 @@ export const BoundaryTestHelpers = {
         mountComponent(data);
         const mountTime = performance.now() - startTime;
         
-        // Assert reasonable performance (adjust threshold as needed)
+        // // DEPRECATED: ! PERFORMANCE: * Assert reasonable performance (adjust threshold as needed)
         expect(mountTime).to.be.lessThan(size * 10); // 10ms per item max
         
-        // Verify all items rendered
+        // * Verify all items rendered
         cy.get('[data-testid*="item"]').should('have.length.at.least', Math.min(size, 100));
       });
     });
@@ -311,7 +311,7 @@ export const BoundaryTestHelpers = {
       requiredProps.forEach(prop => {
         it(`handles null ${prop} (required)`, () => {
           const props = { [prop]: null };
-          // Should either handle gracefully or throw meaningful error
+          // TODO: * Should either handle gracefully or throw meaningful error
           cy.wrap(() => mountComponent(props)).should('not.throw');
         });
 
@@ -360,10 +360,10 @@ Cypress.Commands.add('testBoundaryConditions', (component: any, testConfig: any)
     );
   }
   
-  // Add more boundary test configurations as needed
+  // * Add more boundary test configurations as needed
 });
 
-// Type declarations for custom commands
+// * Type declarations for custom commands
 declare global {
   namespace Cypress {
     interface Chainable {

@@ -8,13 +8,13 @@ import { errorLoggingService } from '../../services/errorLogging';
  * Base async store slice providing consistent async operation handling
  */
 export interface AsyncSlice {
-  // Loading states for different operations
+  // * Loading states for different operations
   loadingStates: Record<string, boolean>;
   
-  // Error states for different operations
+  // * Error states for different operations
   errors: Record<string, Error | null>;
   
-  // Active operations that can be cancelled
+  // * Active operations that can be cancelled
   activeOperations: Map<string, AsyncOperation<any>>;
   
   // Actions
@@ -23,7 +23,7 @@ export interface AsyncSlice {
   clearError: (operationId: string) => void;
   clearAllErrors: () => void;
   
-  // Async operation wrapper
+  // * Async operation wrapper
   executeAsync: <T>(
     operationId: string,
     asyncFn: () => Promise<T>,
@@ -34,16 +34,16 @@ export interface AsyncSlice {
     }
   ) => Promise<T>;
   
-  // Cancel an active operation
+  // * Cancel an active operation
   cancelOperation: (operationId: string) => void;
   
-  // Cancel all active operations
+  // * Cancel all active operations
   cancelAllOperations: () => void;
   
-  // Get loading state for an operation
+  // * Get loading state for an operation
   isLoading: (operationId: string) => boolean;
   
-  // Get error for an operation
+  // * Get error for an operation
   getError: (operationId: string) => Error | null;
 }
 
@@ -90,38 +90,38 @@ export const createAsyncSlice: StateCreator<
     const { onSuccess, onError, cancelPrevious = true } = options;
     const { setLoading, setError, activeOperations } = get();
     
-    // Cancel previous operation if requested
+    // * Cancel previous operation if requested
     if (cancelPrevious && activeOperations.has(operationId)) {
       const prevOperation = activeOperations.get(operationId);
       prevOperation?.cancel();
     }
     
-    // Set loading state
+    // * Set loading state
     setLoading(operationId, true);
     setError(operationId, null);
     
-    // Create cancellable operation
+    // * Create cancellable operation
     const operation = createCancellableAsync(asyncFn)();
     activeOperations.set(operationId, operation);
     
     try {
       const result = await operation.promise;
       
-      // Clear from active operations
+      // * Clear from active operations
       activeOperations.delete(operationId);
       
-      // Clear loading state
+      // * Clear loading state
       setLoading(operationId, false);
       
-      // Call success callback
+      // * Call success callback
       onSuccess?.(result);
       
       return result;
     } catch (error) {
-      // Clear from active operations
+      // * Clear from active operations
       activeOperations.delete(operationId);
       
-      // Clear loading state
+      // * Clear loading state
       setLoading(operationId, false);
       
       // Don't set error if cancelled
@@ -129,7 +129,7 @@ export const createAsyncSlice: StateCreator<
         const errorObj = error instanceof Error ? error : new Error(String(error));
         setError(operationId, errorObj);
         
-        // Log the error
+        // * Log the error
         errorLoggingService.logError({
           error: errorObj,
           errorInfo: { 
@@ -141,7 +141,7 @@ export const createAsyncSlice: StateCreator<
           }
         });
         
-        // Show user-friendly notification
+        // ? * Show user-friendly notification
         const { showError } = useNotificationStore.getState();
         const userFriendlyMessage = getUserFriendlyMessage(errorObj);
         showError('Operation Failed', userFriendlyMessage);
@@ -188,7 +188,7 @@ export function createAsyncActionId(namespace: string, action: string): string {
  * Async action types for common operations
  */
 export const AsyncActionTypes = {
-  // Project operations
+  // * Project operations
   CREATE_PROJECT: 'project.create',
   UPDATE_PROJECT: 'project.update',
   DELETE_PROJECT: 'project.delete',
@@ -196,22 +196,22 @@ export const AsyncActionTypes = {
   EXPORT_PROJECT: 'project.export',
   IMPORT_PROJECT: 'project.import',
   
-  // Element operations
+  // * Element operations
   CREATE_ELEMENT: 'element.create',
   UPDATE_ELEMENT: 'element.update',
   DELETE_ELEMENT: 'element.delete',
   
-  // Template operations
+  // TODO: * Template operations
   CREATE_TEMPLATE: 'template.create',
   DELETE_TEMPLATE: 'template.delete',
   EXPORT_TEMPLATE: 'template.export',
   IMPORT_TEMPLATE: 'template.import',
   
-  // Sync operations
+  // * Sync operations
   SYNC_PROJECT: 'sync.project',
   SYNC_ALL: 'sync.all',
   
-  // Search operations
+  // * Search operations
   SEARCH_ELEMENTS: 'search.elements',
   BUILD_INDEX: 'search.buildIndex',
 } as const;

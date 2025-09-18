@@ -6,7 +6,7 @@
 
 export const fantasyMasterColors = {
   // ===== ATTRIBUTE COLORS =====
-  // Named after classic RPG attributes
+  // * Named after classic RPG attributes
   attributes: {
     // Strength - Red tones for power and might
     might: {
@@ -66,7 +66,7 @@ export const fantasyMasterColors = {
   },
 
   // ===== CLASS COLORS =====
-  // Named after fantasy archetypes
+  // * Named after fantasy archetypes
   classes: {
     // Fighter/Warrior - Red tones
     warrior: {
@@ -147,7 +147,7 @@ export const fantasyMasterColors = {
   // ===== UI COLORS =====
   // Fantasy-themed UI elements
   ui: {
-    // Parchment backgrounds
+    // * Parchment backgrounds
     parchment: {
       DEFAULT: '#F5F0E6',
       50: '#FFFFFF',
@@ -162,7 +162,7 @@ export const fantasyMasterColors = {
       900: '#CCBFAA',
     },
     
-    // Dark theme backgrounds (like ancient stone)
+    // * Dark theme backgrounds (like ancient stone)
     obsidian: {
       DEFAULT: '#1A1815',
       50: '#3A3632',
@@ -177,7 +177,7 @@ export const fantasyMasterColors = {
       900: '#050404',
     },
     
-    // Text colors - Ink variations
+    // * Text colors - Ink variations
     ink: {
       primary: {
         DEFAULT: '#2D1C15',
@@ -195,7 +195,7 @@ export const fantasyMasterColors = {
       },
     },
     
-    // Metallic accents
+    // * Metallic accents
     metals: {
       gold: {
         DEFAULT: '#C9A94F',
@@ -235,7 +235,7 @@ export const fantasyMasterColors = {
   },
 
   // ===== SEMANTIC COLORS =====
-  // Status and feedback colors with fantasy names
+  // * Status and feedback colors with fantasy names
   semantic: {
     // Danger/Error - Dragon's fire
     dragonfire: {
@@ -295,7 +295,7 @@ export const fantasyMasterColors = {
   },
 
   // ===== ELEMENT TYPES =====
-  // For different content categories
+  // * For different content categories
   elements: {
     character: '#A31C1C', // Warrior red
     location: '#2E7D4F',  // Vitality green
@@ -329,5 +329,5 @@ export const fantasyMasterColors = {
   },
 };
 
-// Export type for TypeScript
+// * Export type for TypeScript
 export type FantasyMasterColors = typeof fantasyMasterColors;

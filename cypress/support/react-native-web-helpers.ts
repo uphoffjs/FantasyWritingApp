@@ -12,7 +12,7 @@
  */
 export const getByTestId = (testId: string) => {
   // Primary: look for data-testid (React Native Web standard)
-  // Fallback: look for data-cy (legacy)
+  // // DEPRECATED: Fallback: look for data-cy (legacy)
   return cy.get(`[data-testid="${testId}"], [data-cy="${testId}"]`).first();
 };
 
@@ -117,7 +117,7 @@ export const checkAccessibility = (testId: string) => {
   };
 };
 
-// Export as default object for easier importing
+// * Export as default object for easier importing
 export default {
   getByTestId,
   findByTestId,

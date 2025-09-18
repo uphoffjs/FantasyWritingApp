@@ -16,7 +16,7 @@ export class FactoryManager {
    * Should be called before each test to ensure clean state
    */
   static resetAll() {
-    // Import dynamically to avoid circular dependencies
+    // * Import dynamically to avoid circular dependencies
     const { StoryFactory } = require('./story.factory');
     const { CharacterFactory } = require('./character.factory');
     const { ProjectFactory } = require('./project.factory');
@@ -126,7 +126,7 @@ export class FactoryManager {
         categories: ['character', 'location', 'magic-power']
       }),
       
-      // Search tests
+      // * Search tests
       'global-search': () => ({
         projects: ProjectFactory.createMany(3),
         stories: StoryFactory.createMany(5),
@@ -134,7 +134,7 @@ export class FactoryManager {
         elements: ProjectFactory.createElements(15)
       }),
       
-      // Empty states
+      // * Empty states
       'empty-states': () => ({
         projects: [],
         stories: [],
@@ -200,5 +200,5 @@ export const factoryTasks = {
   }
 };
 
-// Default export for convenience
+// * Default export for convenience
 export default FactoryManager;

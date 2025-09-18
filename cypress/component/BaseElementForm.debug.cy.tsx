@@ -35,13 +35,13 @@ describe('BaseElementForm - Debug Tests', () => {
       />
     );
     
-    // Check that category is visible
+    // * Check that category is visible
     cy.contains('General').should('be.visible');
     
-    // Check that the toggle button exists with correct testID
+    // * Check that the toggle button exists with correct testID
     cy.get('[data-testid="category-toggle-general"]').should('exist');
     
-    // Log what we see
+    // * Log what we see
     cy.get('[data-testid="category-toggle-general"]').then($el => {
       console.log('Toggle element found:', $el);
     });
@@ -58,13 +58,13 @@ describe('BaseElementForm - Debug Tests', () => {
       />
     );
     
-    // Click the category toggle
+    // * Click the category toggle
     cy.get('[data-testid="category-toggle-general"]').click();
     
-    // Wait a bit for React to update
+    // * Wait a bit for React to update
     cy.wait(500);
     
-    // Check if questions container exists
+    // * Check if questions container exists
     cy.get('[data-testid="category-general-questions"]').should('exist');
     
     // Log DOM state after click
@@ -84,15 +84,15 @@ describe('BaseElementForm - Debug Tests', () => {
       />
     );
     
-    // Click to expand
+    // * Click to expand
     cy.get('[data-testid="category-toggle-general"]').click();
     cy.wait(500);
     
-    // Check for question labels
+    // * Check for question labels
     cy.get('[data-testid="question-label-name"]').should('exist');
     cy.get('[data-testid="question-label-age"]').should('exist');
     
-    // Check if text is visible
+    // * Check if text is visible
     cy.contains('Name').should('be.visible');
     cy.contains('Age').should('be.visible');
   });
@@ -108,18 +108,18 @@ describe('BaseElementForm - Debug Tests', () => {
       />
     );
     
-    // Click to expand
+    // * Click to expand
     cy.get('[data-testid="category-toggle-general"]').click();
     cy.wait(500);
     
-    // Check for inputs by question ID
+    // * Check for inputs by question ID
     cy.get('[data-testid="question-name-input"]').should('exist');
     cy.get('[data-testid="question-age-input"]').should('exist');
     
-    // Check for text-input testID
+    // * Check for text-input testID
     cy.get('[data-testid="text-input"]').should('exist');
     
-    // Check values
+    // * Check values
     cy.get('[data-testid="question-name-input"]').should('have.value', 'Test Name');
     cy.get('[data-testid="question-age-input"]').should('have.value', '30');
   });

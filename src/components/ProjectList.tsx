@@ -23,7 +23,7 @@ interface ProjectListProps {
   onRefresh?: () => void;
 }
 
-// Sort options
+// ? * Sort configuration - defines how projects can be sorted
 const SORT_OPTIONS = [
   { value: 'updated', label: 'Recently Updated' },
   { value: 'created', label: 'Recently Created' },
@@ -46,11 +46,11 @@ export function ProjectList({
   const [sortBy, setSortBy] = useState<SortOption>('updated');
   const [showSortOptions, setShowSortOptions] = useState(false);
 
-  // Filter and sort projects
+  // * Filter and sort projects based on search query and sort selection
   const filteredProjects = useMemo(() => {
     let filtered = [...projects];
 
-    // Apply search filter
+    // * Apply search filter - searches name, description, and tags
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
       filtered = filtered.filter(
@@ -61,7 +61,7 @@ export function ProjectList({
       );
     }
 
-    // Apply sorting
+    // * Apply sorting based on selected sort option
     filtered.sort((a, b) => {
       switch (sortBy) {
         case 'name':
@@ -80,7 +80,7 @@ export function ProjectList({
     return filtered;
   }, [projects, searchQuery, sortBy]);
 
-  // Render individual project card
+  // * Render individual project card with press and delete handlers
   const renderProject = useCallback(
     ({ item }: { item: Project }) => (
       <ProjectCard
@@ -92,12 +92,13 @@ export function ProjectList({
     [onProjectSelect, onProjectDelete]
   );
 
-  // Render empty state
+  // ? * Render empty state - shows loading or empty message
   const renderEmpty = () => {
     if (loading) {
       return (
         <View style={styles.emptyContainer}>
-          <ActivityIndicator size="large" color="#6366F1" />
+          <ActivityIndicator size="large" // ! HARDCODED: Should use design tokens
+          color="#6366F1" />
           <Text style={styles.emptyText}>Loading projects...</Text>
         </View>
       );
@@ -123,15 +124,16 @@ export function ProjectList({
     );
   };
 
-  // Render header with search and sort
+  // * Render header with search bar and sort controls
   const renderHeader = () => (
     <View style={styles.header}>
-      {/* Search Bar */}
+      {/* * Search Bar - allows filtering projects by name/description/tags */}
       <View style={styles.searchContainer}>
         <Text style={styles.searchIcon}>🔍</Text>
         <TextInput
           style={styles.searchInput}
           placeholder="Search projects..."
+          // ! HARDCODED: Should use design tokens
           placeholderTextColor="#6B7280"
           value={searchQuery}
           onChangeText={setSearchQuery}
@@ -145,7 +147,7 @@ export function ProjectList({
         )}
       </View>
 
-      {/* Sort and Stats */}
+      {/* * Sort dropdown and project count display */}
       <View style={styles.controlsContainer}>
         <Pressable
           style={styles.sortButton}
@@ -162,7 +164,7 @@ export function ProjectList({
         </Text>
       </View>
 
-      {/* Sort Dropdown */}
+      {/* * Sort Dropdown - appears when sort button is pressed */}
       {showSortOptions && (
         <View style={styles.sortDropdown}>
           {SORT_OPTIONS.map((option) => (
@@ -193,7 +195,7 @@ export function ProjectList({
     </View>
   );
 
-  // Key extractor for FlatList
+  // ! PERFORMANCE: * Key extractor for FlatList optimization
   const keyExtractor = useCallback((item: Project) => item.id, []);
 
   return (
@@ -213,7 +215,9 @@ export function ProjectList({
             <RefreshControl
               refreshing={refreshing}
               onRefresh={onRefresh}
+              // ! HARDCODED: Should use design tokens
               tintColor="#6366F1"
+              // ! HARDCODED: Should use design tokens
               colors={['#6366F1']}
             />
           ) : undefined
@@ -227,7 +231,7 @@ export function ProjectList({
         ItemSeparatorComponent={() => <View style={styles.separator} />}
       />
 
-      {/* Floating Action Button */}
+      {/* * Floating Action Button - creates new project */}
       {onCreateProject && filteredProjects.length > 0 && (
         <Pressable style={styles.fab} onPress={onCreateProject}>
           <Text style={styles.fabIcon}>+</Text>
@@ -240,6 +244,7 @@ export function ProjectList({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    // ! HARDCODED: Should use design tokens
     backgroundColor: '#111827',
   },
   header: {
@@ -250,6 +255,7 @@ const styles = StyleSheet.create({
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    // ! HARDCODED: Should use design tokens
     backgroundColor: '#1F2937',
     borderRadius: 8,
     paddingHorizontal: 12,
@@ -262,6 +268,7 @@ const styles = StyleSheet.create({
   searchInput: {
     flex: 1,
     height: 40,
+    // ! HARDCODED: Should use design tokens
     color: '#F9FAFB',
     fontSize: 14,
   },
@@ -270,6 +277,7 @@ const styles = StyleSheet.create({
   },
   clearIcon: {
     fontSize: 16,
+    // ! HARDCODED: Should use design tokens
     color: '#6B7280',
   },
   controlsContainer: {
@@ -283,6 +291,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 12,
     paddingVertical: 6,
+    // ! HARDCODED: Should use design tokens
     backgroundColor: '#1F2937',
     borderRadius: 6,
   },
@@ -292,19 +301,23 @@ const styles = StyleSheet.create({
   },
   sortText: {
     fontSize: 12,
+    // ! HARDCODED: Should use design tokens
     color: '#F9FAFB',
   },
   projectCount: {
     fontSize: 12,
+    // ! HARDCODED: Should use design tokens
     color: '#6B7280',
   },
   sortDropdown: {
     position: 'absolute',
     top: 100,
     left: 16,
+    // ! HARDCODED: Should use design tokens
     backgroundColor: '#1F2937',
     borderRadius: 8,
     borderWidth: 1,
+    // ! HARDCODED: Should use design tokens
     borderColor: '#374151',
     paddingVertical: 4,
     minWidth: 150,
@@ -323,18 +336,22 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
   },
   sortOptionSelected: {
+    // ! HARDCODED: Should use design tokens
     backgroundColor: '#374151',
   },
   sortOptionText: {
     fontSize: 14,
+    // ! HARDCODED: Should use design tokens
     color: '#9CA3AF',
   },
   sortOptionTextSelected: {
+    // ! HARDCODED: Should use design tokens
     color: '#6366F1',
     fontWeight: '600',
   },
   checkIcon: {
     fontSize: 12,
+    // ! HARDCODED: Should use design tokens
     color: '#6366F1',
   },
   listContent: {
@@ -360,11 +377,13 @@ const styles = StyleSheet.create({
   emptyTitle: {
     fontSize: 18,
     fontWeight: '600',
+    // ! HARDCODED: Should use design tokens
     color: '#F9FAFB',
     marginBottom: 8,
   },
   emptyText: {
     fontSize: 14,
+    // ! HARDCODED: Should use design tokens
     color: '#6B7280',
     textAlign: 'center',
     marginBottom: 24,
@@ -372,12 +391,14 @@ const styles = StyleSheet.create({
   createButton: {
     paddingHorizontal: 24,
     paddingVertical: 12,
+    // ! HARDCODED: Should use design tokens
     backgroundColor: '#6366F1',
     borderRadius: 8,
   },
   createButtonText: {
     fontSize: 14,
     fontWeight: '600',
+    // ! HARDCODED: Should use design tokens
     color: '#FFFFFF',
   },
   fab: {
@@ -387,6 +408,7 @@ const styles = StyleSheet.create({
     width: 56,
     height: 56,
     borderRadius: 28,
+    // ! HARDCODED: Should use design tokens
     backgroundColor: '#6366F1',
     justifyContent: 'center',
     alignItems: 'center',
@@ -398,6 +420,7 @@ const styles = StyleSheet.create({
   },
   fabIcon: {
     fontSize: 28,
+    // ! HARDCODED: Should use design tokens
     color: '#FFFFFF',
     fontWeight: '300',
   },

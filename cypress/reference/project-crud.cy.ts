@@ -4,44 +4,44 @@ import { setupAuth } from '../../support/test-helpers'
 
 describe('Project Creation', () => {
   beforeEach(() => {
-    // Setup test environment with auth
+    // ! SECURITY: * Setup test environment with auth
     cy.setupTestEnvironment()
     setupAuth()
     cy.visit('/projects')
-    // Wait for the page to be fully loaded instead of arbitrary wait
+    // * Wait for the page to be fully loaded instead of arbitrary wait
     cy.get('body').should('be.visible')
     cy.url().should('include', '/projects')
   })
 
   it('should allow user to create their first project', () => {
-    // Verify we're on the projects page
+    // * Verify we're on the projects page
     cy.url().should('include', '/projects')
     
     // Click Get Started button on welcome screen
     cy.get('[data-testid="get-started"]').should('be.visible').click()
     
-    // Verify the create project modal opens
+    // * Verify the create project modal opens
     cy.get('[data-testid="create-project-modal"]').should('be.visible')
     
-    // Fill in the project details
+    // * Fill in the project details
     const projectName = 'My Fantasy World'
     const projectDescription = 'A world of magic and adventure'
     
     cy.get('[data-testid="project-name"]').type(projectName)
     cy.get('[data-testid="project-description"]').type(projectDescription)
     
-    // Submit the form
+    // * Submit the form
     cy.get('[data-testid="submit"]').click()
     
-    // Verify the modal closes
+    // * Verify the modal closes
     cy.get('[data-testid="create-project-modal"]').should('not.exist')
     
-    // Verify the new project appears in the project list
+    // * Verify the new project appears in the project list
     cy.get('[data-testid="project-card"]')
       .should('contain', projectName)
       .and('contain', projectDescription)
     
-    // Verify the project persists after page reload
+    // * Verify the project persists after page reload
     cy.reload()
     cy.get('[data-testid="project-card"]')
       .should('contain', projectName)
@@ -52,103 +52,103 @@ describe('Project Creation', () => {
     // Click Get Started button on welcome screen
     cy.get('[data-testid="get-started"]').click()
     
-    // Verify submit button is disabled without required fields
+    // * Verify submit button is disabled without required fields
     cy.get('[data-testid="submit"]').should('be.disabled')
     
-    // Type a space and clear to trigger validation
+    // * Type a space and clear to trigger validation
     cy.get('[data-testid="project-name"]').type(' ').clear()
     
-    // Submit button should still be disabled
+    // TODO: * Submit button should still be disabled
     cy.get('[data-testid="submit"]').should('be.disabled')
     
-    // Fill in the name and submit
+    // * Fill in the name and submit
     cy.get('[data-testid="project-name"]').type('Test Project')
     cy.get('[data-testid="submit"]').click()
     
-    // Verify the project is created successfully
+    // * Verify the project is created successfully
     cy.get('[data-testid="create-project-modal"]').should('not.exist')
     cy.get('[data-testid="project-card"]').should('contain', 'Test Project')
   })
 
   it('should handle project creation errors gracefully', () => {
-    // Mock a server error for project creation
+    // * Mock a server error for project creation
     cy.intercept('POST', '**/rest/v1/projects', {
       statusCode: 500,
       body: { error: 'Internal server error' }
     }).as('createProjectError')
     
-    // Try to create a project
+    // * Try to create a project
     cy.get('[data-testid="get-started"]').click()
     cy.get('[data-testid="project-name"]').type('Failed Project')
     cy.get('[data-testid="submit"]').click()
     
-    // Since we're using localStorage, the project should still be created
-    // The error intercept won't affect localStorage operations
+    // TODO: * Since we're using localStorage, the project should still be created
+    // * The error intercept won't affect localStorage operations
     cy.get('[data-testid="create-project-modal"]').should('not.exist')
     cy.get('[data-testid="project-card"]').should('contain', 'Failed Project')
   })
 
   it('should allow canceling project creation', () => {
-    // Open create project modal
+    // * Open create project modal
     cy.get('[data-testid="get-started"]').click()
     
-    // Type some data
+    // * Type some data
     cy.get('[data-testid="project-name"]').type('Cancelled Project')
     
-    // Click cancel button
+    // * Click cancel button
     cy.get('[data-testid="cancel"]').click()
     
-    // Verify modal closes without creating the project
+    // * Verify modal closes without creating the project
     cy.get('[data-testid="create-project-modal"]').should('not.exist')
     
-    // Verify we're back at the welcome screen (no projects exist)
+    // * Verify we're back at the welcome screen (no projects exist)
     cy.get('[data-testid="get-started"]').should('be.visible')
   })
 })
 
 describe('Project Creation - With Existing Projects', () => {
   beforeEach(() => {
-    // Clear localStorage first
+    // * Clear localStorage first
     cy.window().then((win) => {
       win.localStorage.clear()
     })
     
-    // Setup auth and offline mode
+    // ! SECURITY: * Setup auth and offline mode
     setupAuth()
     
-    // Visit the page first
+    // * Visit the page first
     cy.visit('/projects')
-    // Wait for page to load properly
+    // * Wait for page to load properly
     cy.get('body').should('be.visible')
     cy.url().should('include', '/projects')
     
-    // Now create a project through the UI
+    // * Now create a project through the UI
     cy.get('[data-testid="get-started"]').click()
     cy.get('[data-testid="project-name"]').type('Existing Project')
     cy.get('[data-testid="project-description"]').type('A test project')
     cy.get('[data-testid="submit"]').click()
     
-    // Wait for the project to be created
+    // * Wait for the project to be created
     cy.get('[data-testid="project-card"]').should('contain', 'Existing Project')
   })
 
   it('should show create project button when projects exist', () => {
-    // When projects exist, we should see the project list
+    // TODO: * When projects exist, we should see the project list
     // with the existing project card
     cy.get('[data-testid="project-card"]').should('contain', 'Existing Project')
     
-    // The ProjectList component should have a create project button
-    // There are multiple create buttons - desktop, mobile, and FAB
+    // TODO: The ProjectList component should have a create project button
+    // * There are multiple create buttons - desktop, mobile, and FAB
     cy.get('[data-testid="create-project"], [data-testid="fab-create-project"]')
       .first()
       .should('be.visible')
     
-    // Test that clicking it opens the modal
+    // * Test that clicking it opens the modal
     cy.get('[data-testid="create-project"], [data-testid="fab-create-project"]')
       .first()
       .click()
     
-    // Verify modal opens
+    // * Verify modal opens
     cy.get('[data-testid="create-project-modal"]').should('be.visible')
   })
 })

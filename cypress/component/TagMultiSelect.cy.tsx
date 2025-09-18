@@ -267,7 +267,7 @@ describe('TagMultiSelect Component', () => {
         cy.get('[data-cy*="button"]').click();
       });
       
-      // Dropdown should still be open
+      // TODO: * Dropdown should still be open
       cy.get('input[placeholder="Search tags..."]').should('be.visible');
     });
   });
@@ -302,7 +302,7 @@ describe('TagMultiSelect Component', () => {
     it('shows result count when searching', () => {
       cy.get('input[placeholder="Search tags..."]').type('a');
       
-      // Should find tags containing 'a'
+      // TODO: * Should find tags containing 'a'
       cy.get('body').then($body => {
         const count = availableTags.filter(tag => tag.toLowerCase().includes('a')).length;
         cy.contains(`${count} tag${count !== 1 ? 's' : ''} found`).should('be.visible');
@@ -313,13 +313,13 @@ describe('TagMultiSelect Component', () => {
       cy.get('input[placeholder="Search tags..."]').type('mag');
       cy.contains('Magic').should('be.visible');
       
-      // Close dropdown
+      // * Close dropdown
       cy.get('body').click(0, 0);
       
-      // Reopen dropdown
+      // * Reopen dropdown
       cy.get('[class*="cursor-pointer"]').click();
       
-      // Search should be cleared
+      // TODO: * Search should be cleared
       cy.get('input[placeholder="Search tags..."]').should('have.value', '');
       availableTags.forEach(tag => {
         cy.contains(tag).should('be.visible');
@@ -347,7 +347,7 @@ describe('TagMultiSelect Component', () => {
 
       cy.get('[class*="cursor-pointer"]').click();
       
-      // Small delay for focus to be set
+      // * Small delay for focus to be set
       cy.wait(50);
       cy.get('input[placeholder="Search tags..."]').should('have.focus');
     });
@@ -363,7 +363,7 @@ describe('TagMultiSelect Component', () => {
 
       cy.get('[class*="cursor-pointer"]').click();
       
-      // Clicking search input should not close dropdown
+      // TODO: * Clicking search input should not close dropdown
       cy.get('input[placeholder="Search tags..."]').click();
       cy.get('input[placeholder="Search tags..."]').should('be.visible');
     });
@@ -410,7 +410,7 @@ describe('TagMultiSelect Component', () => {
 
       cy.get('[class*="cursor-pointer"]').click();
       
-      // Should have scrollable container
+      // TODO: * Should have scrollable container
       cy.get('[class*="overflow-y-auto"]').should('exist');
     });
 
@@ -425,7 +425,7 @@ describe('TagMultiSelect Component', () => {
 
       cy.get('[class*="cursor-pointer"]').click();
       
-      // Rapidly click the same tag
+      // * Rapidly click the same tag
       cy.contains('[data-cy*="button"]', 'Fantasy').click();
       cy.contains('[data-cy*="button"]', 'Fantasy').click();
       cy.contains('[data-cy*="button"]', 'Fantasy').click();
@@ -469,7 +469,7 @@ describe('TagMultiSelect Component', () => {
       cy.contains('Before').focus();
       cy.focused().tab();
       
-      // Should be able to tab through the component
+      // TODO: * Should be able to tab through the component
       cy.focused().should('exist');
     });
 

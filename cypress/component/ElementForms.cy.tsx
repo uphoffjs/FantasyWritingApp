@@ -1,7 +1,7 @@
 /// <reference types="cypress" />
 import React from 'react';
 import { BaseElementForm } from '../support/component-test-helpers';
-// TODO: Import other form components when implemented
+// TODO: TODO: Import other form components when implemented
 // import { CharacterForm } from '../../src/components/elements/CharacterForm';
 // import { LocationForm } from '../../src/components/elements/LocationForm';
 // import { CultureForm } from '../../src/components/elements/CultureForm';
@@ -17,7 +17,7 @@ import { Answer, ElementCategory } from '../../src/types/worldbuilding';
 import { QuestionFactory } from '../../fixtures/factories';
 import { MockWorldbuildingStoreProvider } from '../../support/component-test-helpers';
 
-// Use factory for mock data
+// * Use factory for mock data
 const mockQuestions = [
   QuestionFactory.createText({
     id: 'q1',
@@ -86,7 +86,7 @@ const mockAnswers: Record<string, Answer> = {
 
 describe('BaseElementForm', () => {
   beforeEach(() => {
-    // Reset factory counters for test isolation
+    // * Reset factory counters for test isolation
     cy.resetFactories();
   });
   
@@ -106,39 +106,39 @@ describe('BaseElementForm', () => {
         </MockWorldbuildingStoreProvider>
       );
       
-      // Check form header
+      // * Check form header
       cy.contains('Character Details').should('be.visible');
       
-      // Check mode toggle
+      // * Check mode toggle
       cy.contains('Basic').should('be.visible');
       cy.contains('Detailed').should('be.visible');
       
-      // Expand categories to see questions
+      // * Expand categories to see questions
       cy.contains('General').click();
       cy.contains('Details').click();
       cy.contains('Powers').click();
       cy.contains('Status').click();
       cy.contains('Timeline').click();
       
-      // Check text input
+      // * Check text input
       cy.get('[data-testid="text-input"]').first().should('have.value', 'Test Character');
       
-      // Check textarea (should be RichTextEditor for large size)
+      // TODO: * Check textarea (should be RichTextEditor for large size)
       cy.contains('Description').should('be.visible');
       
-      // Check number input
+      // * Check number input
       cy.get('input[type="number"]').should('have.value', '25');
       
       // Check [data-cy*="select"] dropdown
       cy.get('[data-cy*="select"]').should('have.value', 'hero');
       
-      // Check multi[data-cy*="select"] checkboxes
+      // * Check multi[data-cy*="select"] checkboxes
       cy.get('input[type="checkbox"][checked]').should('have.length', 2);
       
-      // Check boolean radio [data-cy*="button"]s
+      // * Check boolean radio [data-cy*="button"]s
       cy.get('input[type="radio"][checked]').should('exist');
       
-      // Check date input
+      // * Check date input
       cy.get('input[type="date"]').should('have.value', '2023-01-15');
     });
     
@@ -192,14 +192,14 @@ describe('BaseElementForm', () => {
         </MockWorldbuildingStoreProvider>
       );
       
-      // Start in basic mode
+      // * Start in basic mode
       cy.contains('Quick Mode').should('be.visible');
       
-      // Switch to detailed mode
+      // * Switch to detailed mode
       cy.get('[data-cy*="button"]').contains('Detailed').parent().click();
       cy.contains('Quick Mode').should('not.exist');
       
-      // Switch back to basic
+      // * Switch back to basic
       cy.get('[data-cy*="button"]').contains('Basic').parent().click();
       cy.contains('Quick Mode').should('be.visible');
     });
@@ -219,13 +219,13 @@ describe('BaseElementForm', () => {
         </MockWorldbuildingStoreProvider>
       );
       
-      // In basic mode, should show limited questions
+      // ? TODO: * In basic mode, should show limited questions
       cy.contains('Quick Mode').should('be.visible');
       
-      // Switch to detailed mode
+      // * Switch to detailed mode
       cy.get('[data-cy*="button"]').contains('Detailed').parent().click();
       
-      // All categories should be available
+      // TODO: * All categories should be available
       cy.contains('General').should('be.visible');
       cy.contains('Details').should('be.visible');
       cy.contains('Powers').should('be.visible');
@@ -248,14 +248,14 @@ describe('BaseElementForm', () => {
         </MockWorldbuildingStoreProvider>
       );
       
-      // Category should be collapsed initially
+      // TODO: * Category should be collapsed initially
       cy.contains('Name').should('not.be.visible');
       
-      // Expand category
+      // * Expand category
       cy.contains('General').click();
       cy.contains('Name').should('be.visible');
       
-      // Collapse category
+      // * Collapse category
       cy.contains('General').click();
       cy.contains('Name').should('not.be.visible');
     });
@@ -531,11 +531,11 @@ describe('BaseElementForm', () => {
         </MockWorldbuildingStoreProvider>
       );
       
-      // Tab through form elements
+      // * Tab through form elements
       cy.get('body').tab();
       cy.focused().should('contain', 'General');
       
-      // Expand category with Enter
+      // * Expand category with Enter
       cy.focused().type('{enter}');
       cy.contains('Name').should('be.visible');
     });
@@ -582,10 +582,10 @@ describe('CharacterForm', () => {
         </MockWorldbuildingStoreProvider>
       );
       
-      // Base form should render
+      // TODO: * Base form should render
       cy.contains('Character Details').should('be.visible');
       
-      // Species [data-cy*="select"]or should render (may be in different location)
+      // TODO: Species [data-cy*="select"]or should render (may be in different location)
       cy.get('body').should('contain', 'Species').or('contain', 'Race');
     });
     
@@ -610,7 +610,7 @@ describe('CharacterForm', () => {
         </MockWorldbuildingStoreProvider>
       );
       
-      // Should show [data-cy*="select"]ed race somewhere in the UI
+      // ? TODO: * Should show [data-cy*="select"]ed race somewhere in the UI
       cy.get('body').should('contain', 'Elf');
     });
   });
@@ -644,16 +644,16 @@ describe('Other Element Forms', () => {
           </MockWorldbuildingStoreProvider>
         );
         
-        // Should render base form
+        // TODO: * Should render base form
         cy.get('.space-y-6').should('exist');
         
-        // Expand first category
+        // * Expand first category
         cy.get('[data-cy*="button"]').first().click();
         
-        // Type in first input
+        // * Type in first input
         cy.get('[data-testid="text-input"]').first().type('Test Value');
         
-        // Should call onChange
+        // TODO: * Should call onChange
         cy.wrap(onChange).should('have.been.called');
       });
     });

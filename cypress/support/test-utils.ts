@@ -1,4 +1,4 @@
-// Test utility functions for Cypress component tests
+// * Test utility functions for Cypress component tests
 
 export const waitForAnimation = (duration: number = 300) => {
   cy.wait(duration);
@@ -76,7 +76,7 @@ export const shouldBeEnabled = (element: string) => {
   cy.get(`[data-cy="${element}"]`).should('not.be.disabled');
 };
 
-// Additional missing test utility functions
+// * Additional missing test utility functions
 export const typeInInput = (selector: string, text: string) => {
   cy.get(selector).type(text);
 };
@@ -157,7 +157,7 @@ export const findElement = (text: string) => {
   return cy.contains(text);
 };
 
-// Keyboard navigation helpers
+// * Keyboard navigation helpers
 export const pressKey = (key: string) => {
   cy.get('body').type(key);
 };
@@ -174,7 +174,7 @@ export const pressTab = () => {
   cy.get('body').type('{tab}');
 };
 
-// Focus management
+// * Focus management
 export const checkFocused = (selector: string) => {
   cy.get(selector).should('have.focus');
 };
@@ -187,7 +187,7 @@ export const blurElement = (selector: string) => {
   cy.get(selector).blur();
 };
 
-// Form helpers
+// * Form helpers
 export const submitForm = (selector: string) => {
   cy.get(selector).submit();
 };
@@ -199,7 +199,7 @@ export const checkValidationMessage = (selector: string, message: string) => {
   });
 };
 
-// Scroll helpers
+// * Scroll helpers
 export const scrollToElement = (selector: string) => {
   cy.get(selector).scrollIntoView();
 };
@@ -212,7 +212,7 @@ export const scrollToBottom = () => {
   cy.window().scrollTo('bottom');
 };
 
-// Class and attribute helpers
+// * Class and attribute helpers
 export const checkHasClass = (selector: string, className: string) => {
   cy.get(selector).should('have.class', className);
 };

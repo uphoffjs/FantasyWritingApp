@@ -4,7 +4,7 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { useWorldbuildingStore } from '../../src/store/worldbuildingStore';
 import { useAuthStore } from '../../src/store/authStore';
 
-// Mock the child components
+// * Mock the child components
 const mockComponents = {
   MobileHeader: () => <div data-testid="mobile-header">Mobile Header</div>,
   MobileBackButton: () => <div data-testid="mobile-back-[data-cy*="button"]">Mobile Back Button</div>,
@@ -13,7 +13,7 @@ const mockComponents = {
   AutoSyncStatus: () => <div data-testid="auto-sync">Auto Sync</div>
 };
 
-// Mock the components
+// * Mock the components
 jest.mock('../../src/components/MobileHeader', () => ({
   MobileHeader: mockComponents.MobileHeader
 }));
@@ -40,7 +40,7 @@ describe('Header Component', () => {
     exportProjectSpy = cy.stub();
     importProjectSpy = cy.stub().resolves(true);
 
-    // Mock platform service
+    // * Mock platform service
     cy.window().then((win) => {
       (win as any).getPlatformService = () => ({
         dialog: {
@@ -101,7 +101,7 @@ describe('Header Component', () => {
     });
 
     it('shows elements browser [data-cy*="button"] when project is [data-cy*="select"]ed', () => {
-      // Mock store with a current project
+      // * Mock store with a current project
       cy.stub(useWorldbuildingStore, 'getState').returns({
         getCurrentProject: () => ({ id: '1', name: 'Test Project' }),
         currentProjectId: '1',
@@ -165,14 +165,14 @@ describe('Header Component', () => {
       mountWithRouter(<Header isMobile={false} />);
 
       cy.get('[title="Home"]').click();
-      // In a real test, we'd verify navigation happened
+      // * In a real test, we'd verify navigation happened
     });
 
     it('navigates back to projects from project page', () => {
       mountWithRouter(<Header isMobile={false} />, '/project/123');
 
       cy.get('[data-testid="back-to-projects"]').click();
-      // In a real test, we'd verify navigation happened
+      // * In a real test, we'd verify navigation happened
     });
 
     it('navigates to elements browser when [data-cy*="button"] is clicked', () => {
@@ -186,7 +186,7 @@ describe('Header Component', () => {
       mountWithRouter(<Header isMobile={false} />, '/');
 
       cy.get('[title="Elements Browser"]').click();
-      // In a real test, we'd verify navigation happened
+      // * In a real test, we'd verify navigation happened
     });
   });
 
@@ -251,7 +251,7 @@ describe('Header Component', () => {
 
       mountWithRouter(<Header isMobile={false} />);
 
-      // Export [data-cy*="button"] should be disabled, so this shouldn't happen
+      // TODO: Export [data-cy*="button"] should be disabled, so this shouldn't happen
       cy.get('[title="Export Project"]').should('be.disabled');
     });
   });
@@ -269,7 +269,7 @@ describe('Header Component', () => {
 
       cy.get('[title="Import Project"]').click();
       
-      // In a real test, we'd verify file dialog opened and import was called
+      // * In a real test, we'd verify file dialog opened and import was called
     });
 
     it('handles failed import', () => {
@@ -286,7 +286,7 @@ describe('Header Component', () => {
 
       cy.get('[title="Import Project"]').click();
       
-      // In a real test, we'd verify error alert was shown
+      // ? * In a real test, we'd verify error alert was shown
     });
   });
 
@@ -366,7 +366,7 @@ describe('Header Component', () => {
       cy.get('[title="Home"]').focus();
       cy.focused().should('have.attr', 'title', 'Home');
       
-      // Tab to next [data-cy*="button"]
+      // * Tab to next [data-cy*="button"]
       cy.focused().tab();
       cy.focused().should('exist');
     });
@@ -423,7 +423,7 @@ describe('Header Component', () => {
 
       cy.get('[title="Export Project"]').click();
       
-      // Should use fallback name 'project'
+      // TODO: * Should use fallback name 'project'
       cy.wrap(exportProjectSpy).should('have.been.called');
     });
 

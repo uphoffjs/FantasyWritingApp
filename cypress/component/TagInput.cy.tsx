@@ -153,15 +153,15 @@ describe('TagInput Component', () => {
     cy.get('[data-testid="tag-input-field"]').type('d');
     cy.get('[data-testid="tag-suggestion"]').should('have.length', 2);
     
-    // Navigate down
+    // * Navigate down
     cy.get('[data-testid="tag-input-field"]').type('{downArrow}');
     cy.get('[data-testid="tag-suggestion"]').first().should('be.visible') // React Native Web uses inline styles instead of CSS classes;
     
-    // Navigate down again
+    // * Navigate down again
     cy.get('[data-testid="tag-input-field"]').type('{downArrow}');
     cy.get('[data-testid="tag-suggestion"]').last().should('be.visible') // React Native Web uses inline styles instead of CSS classes;
     
-    // Select with Enter
+    // * Select with Enter
     cy.get('[data-testid="tag-input-field"]').type('{enter}');
     cy.wrap(onChange).should('have.been.calledWith', ['dwarf']);
   });

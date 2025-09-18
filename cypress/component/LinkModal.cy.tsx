@@ -109,7 +109,7 @@ describe('LinkModal Component', () => {
         />
       );
 
-      // Input should have type="url"
+      // TODO: * Input should have type="url"
       cy.get('#link-url').should('have.attr', 'type', 'url');
       cy.get('#link-url').should('have.attr', 'required');
     });
@@ -181,7 +181,7 @@ describe('LinkModal Component', () => {
       );
 
       cy.get('#link-url').should('have.focus');
-      // Check that text is [data-cy*="select"]ed (ready to be replaced)
+      // * Check that text is [data-cy*="select"]ed (ready to be replaced)
       cy.window().then((win) => {
         const input = win.document.getElementById('link-url') as HTMLInputElement;
         expect(input.[data-cy*="select"]ionStart).to.equal(0);
@@ -200,7 +200,7 @@ describe('LinkModal Component', () => {
 
       cy.get('#link-url').should('not.exist');
 
-      // Open modal by remounting
+      // * Open modal by remounting
       mountWithProviders(
         <LinkModal 
           isOpen={true}
@@ -273,7 +273,7 @@ describe('LinkModal Component', () => {
         />
       );
 
-      // Try to submit without entering URL
+      // * Try to submit without entering URL
       cy.get('#link-url').clear();
       cy.contains('[data-cy*="button"]', 'Add Link').click();
 
@@ -291,11 +291,11 @@ describe('LinkModal Component', () => {
         />
       );
 
-      // Enter invalid URL
+      // * Enter invalid URL
       cy.get('#link-url').type('not a url');
       cy.contains('[data-cy*="button"]', 'Add Link').click();
 
-      // Should trigger HTML5 validation
+      // TODO: * Should trigger HTML5 validation
       cy.get('#link-url:invalid').should('exist');
       cy.wrap(onConfirmSpy).should('not.have.been.called');
     });
@@ -391,7 +391,7 @@ describe('LinkModal Component', () => {
 
       cy.get('#link-url').should('have.value', 'https://first.com');
 
-      // Update currentUrl prop
+      // * Update currentUrl prop
       mountWithProviders(
         <LinkModal 
           isOpen={true}
@@ -414,10 +414,10 @@ describe('LinkModal Component', () => {
         />
       );
 
-      // Modify the URL
+      // * Modify the URL
       cy.get('#link-url').clear().type('https://modified.com');
 
-      // Close modal
+      // * Close modal
       mountWithProviders(
         <LinkModal 
           isOpen={false}
@@ -427,7 +427,7 @@ describe('LinkModal Component', () => {
         />
       );
 
-      // Reopen modal
+      // * Reopen modal
       mountWithProviders(
         <LinkModal 
           isOpen={true}
@@ -437,7 +437,7 @@ describe('LinkModal Component', () => {
         />
       );
 
-      // Should reset to original URL
+      // TODO: * Should reset to original URL
       cy.get('#link-url').should('have.value', 'https://example.com');
     });
   });
@@ -524,7 +524,7 @@ describe('LinkModal Component', () => {
         />
       );
 
-      // Rapidly toggle modal
+      // * Rapidly toggle modal
       for (let i = 0; i < 5; i++) {
         mountWithProviders(
           <LinkModal 
@@ -543,7 +543,7 @@ describe('LinkModal Component', () => {
         );
       }
 
-      // Modal should still work correctly
+      // TODO: * Modal should still work correctly
       cy.get('#link-url').should('be.visible').and('have.focus');
     });
   });
@@ -586,14 +586,14 @@ describe('LinkModal Component', () => {
         />
       );
 
-      // Start with focus on input
+      // * Start with focus on input
       cy.get('#link-url').should('have.focus');
 
-      // Tab to Cancel [data-cy*="button"]
+      // * Tab to Cancel [data-cy*="button"]
       cy.focused().tab();
       cy.focused().should('contain', 'Cancel');
 
-      // Tab to Add Link [data-cy*="button"]
+      // * Tab to Add Link [data-cy*="button"]
       cy.focused().tab();
       cy.focused().should('contain', 'Add Link');
     });
@@ -607,13 +607,13 @@ describe('LinkModal Component', () => {
         />
       );
 
-      // Tab through all focusable elements
+      // * Tab through all focusable elements
       cy.get('#link-url').focus();
       cy.focused().tab(); // Cancel
       cy.focused().tab(); // Add Link
       cy.focused().tab(); // Should cycle back to close [data-cy*="button"] or first element
       
-      // Focus should remain within modal
+      // TODO: * Focus should remain within modal
       cy.focused().should('exist');
     });
   });

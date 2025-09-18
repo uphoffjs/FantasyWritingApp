@@ -22,7 +22,7 @@ export default function LoginScreen() {
   const navigation = useNavigation();
   const { signIn, signUp, isLoading } = useAuthStore();
   
-  // Form state
+  // * Form state
   const [mode, setMode] = useState<AuthMode>('signin');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -58,7 +58,7 @@ export default function LoginScreen() {
     return true;
   };
   
-  // Handle form submission
+  // * Handle form submission
   const handleSubmit = async () => {
     setError(null);
     
@@ -90,7 +90,7 @@ export default function LoginScreen() {
   };
   
   
-  // Handle forgot password
+  // ! SECURITY: * Handle forgot password
   const handleForgotPassword = async () => {
     if (!forgotPasswordEmail || !forgotPasswordEmail.includes('@')) {
       Alert.alert('Error', 'Please enter a valid email address');
@@ -114,7 +114,7 @@ export default function LoginScreen() {
     }
   };
   
-  // Switch between sign in and sign up
+  // * Switch between sign in and sign up
   const switchMode = () => {
     setMode(mode === 'signin' ? 'signup' : 'signin');
     setError(null);

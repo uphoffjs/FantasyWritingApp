@@ -1,7 +1,7 @@
 import React from 'react';
 import { VirtualizedList, useVirtualizedList } from '../support/component-test-helpersVirtualizedList';
 
-// Test component using the hook
+// * Test component using the hook
 function TestComponentWithHook({ items }: { items: string[] }) {
   const { containerRef, virtualizedListProps } = useVirtualizedList(items, 50);
   
@@ -16,7 +16,7 @@ function TestComponentWithHook({ items }: { items: string[] }) {
 }
 
 describe('VirtualizedList Component', () => {
-  // Helper to create test items
+  // * Helper to create test items
   const createItems = (count: number) => 
     Array.from({ length: count }, (_, i) => `Item ${i + 1}`);
 
@@ -32,7 +32,7 @@ describe('VirtualizedList Component', () => {
         />
       );
       
-      // With containerHeight=200 and itemHeight=50, should show ~4 items + overscan
+      // ? TODO: * With containerHeight=200 and itemHeight=50, should show ~4 items + overscan
       cy.get('[data-testid="list-item"]').should('have.length.lessThan', 15);
       cy.get('[data-testid="list-item"]').first().should('contain', 'Item 1');
     });
@@ -79,7 +79,7 @@ describe('VirtualizedList Component', () => {
         />
       );
       
-      // Total height should be items.length * itemHeight
+      // TODO: * Total height should be items.length * itemHeight
       cy.get('.overflow-y-auto > div')
         .should('have.css', 'height', `${50 * itemHeight}px`);
     });
@@ -97,13 +97,13 @@ describe('VirtualizedList Component', () => {
         />
       );
       
-      // Initially should show first items
+      // ? TODO: * Initially should show first items
       cy.get('[data-testid="list-item"]').first().should('contain', 'Item 1');
       
-      // Scroll down
+      // * Scroll down
       cy.get('.overflow-y-auto').scrollTo(0, 500);
       
-      // Should now show different items
+      // ? TODO: * Should now show different items
       cy.get('[data-testid="list-item"]').first().should('not.contain', 'Item 1');
       cy.get('[data-testid="list-item"]').should('contain', 'Item 10');
     });
@@ -120,11 +120,11 @@ describe('VirtualizedList Component', () => {
         />
       );
       
-      // Check initial render count
+      // * Check initial render count
       cy.get('[data-testid="list-item"]').then($items => {
         const initialCount = $items.length;
         
-        // Scroll and check count remains reasonable
+        // * Scroll and check count remains reasonable
         cy.get('.overflow-y-auto').scrollTo(0, 1000);
         cy.get('[data-testid="list-item"]').should('have.length.lessThan', initialCount + 5);
       });
@@ -141,10 +141,10 @@ describe('VirtualizedList Component', () => {
         />
       );
       
-      // Scroll to bottom
+      // * Scroll to bottom
       cy.get('.overflow-y-auto').scrollTo('bottom');
       
-      // Should show last items
+      // ? TODO: * Should show last items
       cy.get('[data-testid="list-item"]').last().should('contain', 'Item 50');
     });
 
@@ -159,11 +159,11 @@ describe('VirtualizedList Component', () => {
         />
       );
       
-      // Scroll down then back up
+      // * Scroll down then back up
       cy.get('.overflow-y-auto').scrollTo(0, 1000);
       cy.get('.overflow-y-auto').scrollTo('top');
       
-      // Should show first items again
+      // ? TODO: * Should show first items again
       cy.get('[data-testid="list-item"]').first().should('contain', 'Item 1');
     });
   });
@@ -180,7 +180,7 @@ describe('VirtualizedList Component', () => {
         />
       );
       
-      // Should render visible items (4) + overscan (3 above + 3 below)
+      // TODO: * Should render visible items (4) + overscan (3 above + 3 below)
       cy.get('[data-testid="list-item"]').should('have.length.at.least', 4);
       cy.get('[data-testid="list-item"]').should('have.length.at.most', 10);
     });
@@ -197,7 +197,7 @@ describe('VirtualizedList Component', () => {
         />
       );
       
-      // Should render visible items (2) + overscan (5 above + 5 below, capped by bounds)
+      // TODO: * Should render visible items (2) + overscan (5 above + 5 below, capped by bounds)
       cy.get('[data-testid="list-item"]').should('have.length.at.least', 2);
       cy.get('[data-testid="list-item"]').should('have.length.at.most', 12);
     });
@@ -214,7 +214,7 @@ describe('VirtualizedList Component', () => {
         />
       );
       
-      // Should render exactly visible items with no overscan
+      // TODO: * Should render exactly visible items with no overscan
       cy.get('[data-testid="list-item"]').should('have.length', 3);
     });
   });
@@ -231,7 +231,7 @@ describe('VirtualizedList Component', () => {
         />
       );
       
-      // Items should render without key warnings (check console is clean)
+      // TODO: * Items should render without key warnings (check console is clean)
       cy.get('[data-testid="list-item"]').should('have.length.at.least', 4);
     });
 
@@ -302,7 +302,7 @@ describe('VirtualizedList Component', () => {
         />
       );
       
-      // Should render all items
+      // TODO: * Should render all items
       cy.get('[data-testid="list-item"]').should('have.length', 3);
     });
 
@@ -317,10 +317,10 @@ describe('VirtualizedList Component', () => {
         />
       );
       
-      // Should still only render visible items
+      // TODO: * Should still only render visible items
       cy.get('[data-testid="list-item"]').should('have.length.lessThan', 20);
       
-      // Should be able to scroll to bottom
+      // TODO: * Should be able to scroll to bottom
       cy.get('.overflow-y-auto').scrollTo('bottom');
       cy.get('[data-testid="list-item"]').last().should('contain', 'Item 10000');
     });
@@ -336,13 +336,13 @@ describe('VirtualizedList Component', () => {
         />
       );
       
-      // Rapidly scroll multiple times
+      // * Rapidly scroll multiple times
       cy.get('.overflow-y-auto').scrollTo(0, 500);
       cy.get('.overflow-y-auto').scrollTo(0, 1000);
       cy.get('.overflow-y-auto').scrollTo(0, 200);
       cy.get('.overflow-y-auto').scrollTo(0, 1500);
       
-      // Should still render correctly
+      // TODO: * Should still render correctly
       cy.get('[data-testid="list-item"]').should('exist');
       cy.get('[data-testid="list-item"]').should('have.length.lessThan', 15);
     });
@@ -353,7 +353,7 @@ describe('VirtualizedList Component', () => {
       const items = createItems(10);
       cy.mount(<TestComponentWithHook items={items} />);
       
-      // Component should render with hook
+      // TODO: * Component should render with hook
       cy.get('.overflow-y-auto').should('exist');
       cy.get('.overflow-y-auto').should('have.css', 'height') // CSS properties work in React Native Web;
     });
@@ -362,15 +362,15 @@ describe('VirtualizedList Component', () => {
       const items = createItems(10);
       cy.mount(<TestComponentWithHook items={items} />);
       
-      // Get initial height
+      // * Get initial height
       cy.get('.overflow-y-auto').then($el => {
         const initialHeight = $el.height();
         
-        // Trigger resize
+        // * Trigger resize
         cy.viewport(800, 600);
         cy.wait(100);
         
-        // Height might change based on container
+        // * Height might change based on container
         cy.get('.overflow-y-auto').should('have.css', 'height') // CSS properties work in React Native Web;
       });
     });
@@ -379,7 +379,7 @@ describe('VirtualizedList Component', () => {
       const items = createItems(20);
       cy.mount(<TestComponentWithHook items={items} />);
       
-      // Should render items
+      // TODO: * Should render items
       cy.get('.overflow-y-auto').should('exist');
       cy.contains('Item 1').should('be.visible');
     });
@@ -406,11 +406,11 @@ describe('VirtualizedList Component', () => {
         const initialRenderCount = renderCount;
         expect(initialRenderCount).to.be.lessThan(20);
         
-        // Scroll and check render count
+        // * Scroll and check render count
         cy.get('.overflow-y-auto').scrollTo(0, 500);
         
         cy.then(() => {
-          // Should have rendered some new items but not all
+          // TODO: * Should have rendered some new items but not all
           expect(renderCount).to.be.lessThan(initialRenderCount + 20);
         });
       });
@@ -427,12 +427,12 @@ describe('VirtualizedList Component', () => {
         />
       );
       
-      // Scroll through large list
+      // * Scroll through large list
       cy.get('.overflow-y-auto').scrollTo(0, 10000);
       cy.get('.overflow-y-auto').scrollTo(0, 50000);
       cy.get('.overflow-y-auto').scrollTo(0, 100000);
       
-      // Should maintain reasonable render count
+      // TODO: * Should maintain reasonable render count
       cy.get('[data-testid="list-item"]').should('have.length.lessThan', 20);
     });
   });
@@ -453,7 +453,7 @@ describe('VirtualizedList Component', () => {
         />
       );
       
-      // Should be able to tab through visible items
+      // TODO: * Should be able to tab through visible items
       cy.get('[data-testid="list-item"]').first().focus();
       cy.get('[data-testid="list-item"]').first().should('have.focus');
     });

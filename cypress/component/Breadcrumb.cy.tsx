@@ -47,7 +47,7 @@ describe('Breadcrumb Component', () => {
 
       mountWithRouter(<Breadcrumb items={items} />);
 
-      // Should have 2 chevrons for 3 items
+      // TODO: * Should have 2 chevrons for 3 items
       cy.get('svg').should('have.length', 2);
     });
 
@@ -110,10 +110,10 @@ describe('Breadcrumb Component', () => {
       mountWithRouter(<Breadcrumb items={items} />);
 
       cy.get('[data-testid="breadcrumb-home"]').click();
-      // In a real app, this would navigate to '/'
+      // * In a real app, this would navigate to '/'
       
       cy.get('[data-testid="breadcrumb-projects"]').click();
-      // In a real app, this would navigate to '/projects'
+      // * In a real app, this would navigate to '/projects'
     });
 
     it('last item is not clickable', () => {
@@ -331,10 +331,10 @@ describe('Breadcrumb Component', () => {
 
       mountWithRouter(<Breadcrumb items={items} />);
 
-      // Links use text-ink-light
+      // * Links use text-ink-light
       cy.get('[data-testid="breadcrumb-home"]').should('exist');
       
-      // Current item uses text-ink-black for better contrast
+      // * Current item uses text-ink-black for better contrast
       cy.get('[data-testid="breadcrumb-current"]')
         .should('be.visible') // React Native Web uses inline styles instead of CSS classes;
     });
@@ -420,13 +420,13 @@ describe('Breadcrumb Component', () => {
 
       mountWithRouter(<Breadcrumb items={items} />);
 
-      // Verify hierarchical structure is maintained
+      // * Verify hierarchical structure is maintained
       cy.get('[data-testid="breadcrumb"] > div').should('have.length', 4);
       
-      // Verify correct number of separators
+      // * Verify correct number of separators
       cy.get('svg').should('have.length', 3);
       
-      // Verify last item is not a link
+      // * Verify last item is not a link
       cy.get('[data-testid="breadcrumb-edit"]').should('have.prop', 'tagName', 'SPAN');
     });
   });

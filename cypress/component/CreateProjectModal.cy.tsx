@@ -20,7 +20,7 @@ describe('CreateProjectModal Component', () => {
   // We'll create stubs inside each test that needs them
   
   beforeEach(() => {
-    // Setup can go here if needed
+    // * Setup can go here if needed
   });
 
   describe('Rendering', () => {
@@ -36,10 +36,10 @@ describe('CreateProjectModal Component', () => {
       const onSuccess = cy.stub();
       mountWithProviders(<CreateProjectModal onClose={onClose} onSuccess={onSuccess} />);
       
-      // Check modal title
+      // * Check modal title
       cy.contains('h3', 'Create New Project').should('be.visible');
       
-      // Check form fields
+      // * Check form fields
       cy.get('[data-testid="project-name"]').should('be.visible');
       cy.get('[data-testid="project-genre"]').should('be.visible');
       cy.get('[data-testid="project-description"]').should('be.visible');
@@ -157,9 +157,9 @@ describe('CreateProjectModal Component', () => {
 
   describe('Form Submission', () => {
     beforeEach(() => {
-      // Reset the module before each test
+      // * Reset the module before each test
       cy.window().then(() => {
-        // Clear any previous stubs
+        // * Clear any previous stubs
         if (useAsyncStoreModule.useProjectOperations.restore) {
           useAsyncStoreModule.useProjectOperations.restore();
         }
@@ -167,14 +167,14 @@ describe('CreateProjectModal Component', () => {
     });
 
     it('submits form with valid data', () => {
-      // Create stubs for the operations
+      // * Create stubs for the operations
       const createProjectStub = cy.stub().resolves({ id: '123', name: 'Test Project', description: 'A test description' }).as('createProject');
       const updateProjectStub = cy.stub().resolves().as('updateProject');
       const onSuccess = cy.stub().as('onSuccess');
       const onClose = cy.stub().as('onClose');
       const clearProjectErrorsStub = cy.stub().as('clearProjectErrors');
       
-      // Mock the useProjectOperations hook
+      // * Mock the useProjectOperations hook
       cy.stub(useAsyncStoreModule, 'useProjectOperations').returns({
         createProject: createProjectStub,
         updateProject: updateProjectStub,
@@ -200,20 +200,20 @@ describe('CreateProjectModal Component', () => {
 
       mountWithProviders(<CreateProjectModal onClose={onClose} onSuccess={onSuccess} />);
       
-      // Fill in form
+      // * Fill in form
       cy.get('[data-testid="project-name"]').type('Test Project');
       cy.get('[data-testid="project-genre"]').select('Sci-Fi');
       cy.get('[data-testid="project-description"]').type('A test description');
       
-      // Submit form
+      // * Submit form
       cy.get('[data-testid="submit"]').click();
       
-      // Wait for the promises to resolve
+      // * Wait for the promises to resolve
       cy.wrap(null).then(() => {
-        // Use cy.wrap to wait for the next tick
+        // * Use cy.wrap to wait for the next tick
         return new Promise(resolve => setTimeout(resolve, 0));
       }).then(() => {
-        // Verify the operations were called
+        // * Verify the operations were called
         expect(createProjectStub).to.have.been.calledWith('Test Project', 'A test description');
         expect(onSuccess).to.have.been.called;
       });
@@ -224,7 +224,7 @@ describe('CreateProjectModal Component', () => {
       const onSuccess = cy.stub();
       const onClose = cy.stub();
       
-      // Mock with loading state
+      // * Mock with loading state
       cy.stub(useAsyncStoreModule, 'useProjectOperations').returns({
         createProject: cy.stub().resolves({ id: '123', name: 'Test' }),
         updateProject: cy.stub().resolves(),
@@ -250,14 +250,14 @@ describe('CreateProjectModal Component', () => {
 
       mountWithProviders(<CreateProjectModal onClose={onClose} onSuccess={onSuccess} />);
       
-      // Fill form to meet validation requirements
+      // * Fill form to meet validation requirements
       cy.get('[data-testid="project-name"]').type('Test Project');
       
-      // Check that the [data-cy*="button"] shows loading state
+      // ? * Check that the [data-cy*="button"] shows loading state
       cy.get('[data-testid="submit"]').should('contain', 'Creating...');
       cy.get('[data-testid="submit"]').should('be.disabled');
       
-      // Check for spinner icon
+      // * Check for spinner icon
       cy.get('[data-testid="submit"] svg.animate-spin').should('exist');
     });
 
@@ -290,10 +290,10 @@ describe('CreateProjectModal Component', () => {
       
       mountWithProviders(<CreateProjectModal onClose={cy.stub()} onSuccess={onSuccess} />);
       
-      // Try to submit with empty name via Enter key
+      // * Try to submit with empty name via Enter key
       cy.get('[data-testid="project-description"]').type('{enter}');
       
-      // Verify form was not submitted
+      // * Verify form was not submitted
       cy.get('@createProject').should('not.have.been.called');
       cy.get('@onSuccess').should('not.have.been.called');
     });
@@ -328,18 +328,18 @@ describe('CreateProjectModal Component', () => {
 
       mountWithProviders(<CreateProjectModal onClose={cy.stub()} onSuccess={onSuccess} />);
       
-      // Type values with extra whitespace
+      // * Type values with extra whitespace
       cy.get('[data-testid="project-name"]').type('  Test Project  ');
       cy.get('[data-testid="project-description"]').type('  A test description  ');
       
-      // Submit form
+      // * Submit form
       cy.get('[data-testid="submit"]').click();
       
-      // Wait for async operations
+      // * Wait for async operations
       cy.wrap(null).then(() => {
         return new Promise(resolve => setTimeout(resolve, 0));
       }).then(() => {
-        // Verify trimmed values were passed
+        // * Verify trimmed values were passed
         expect(createProjectStub).to.have.been.calledWith('Test Project', 'A test description');
       });
     });
@@ -373,11 +373,11 @@ describe('CreateProjectModal Component', () => {
 
       mountWithProviders(<CreateProjectModal onClose={cy.stub()} onSuccess={cy.stub()} />);
       
-      // Fill and submit form
+      // * Fill and submit form
       cy.get('[data-testid="project-name"]').type('Test Project');
       cy.get('[data-testid="submit"]').click();
       
-      // Verify errors were cleared
+      // * Verify errors were cleared
       cy.get('@clearProjectErrors').should('have.been.called');
     });
 
@@ -411,11 +411,11 @@ describe('CreateProjectModal Component', () => {
 
       mountWithProviders(<CreateProjectModal onClose={cy.stub()} onSuccess={onSuccess} />);
       
-      // Fill and submit form
+      // * Fill and submit form
       cy.get('[data-testid="project-name"]').type('Test Project');
       cy.get('[data-testid="submit"]').click();
       
-      // Verify onSuccess was not called due to error
+      // * Verify onSuccess was not called due to error
       cy.wrap(null).then(() => {
         return new Promise(resolve => setTimeout(resolve, 0));
       }).then(() => {
@@ -426,8 +426,8 @@ describe('CreateProjectModal Component', () => {
 
   describe('Error Handling', () => {
     it('handles error display structure', () => {
-      // This test verifies the component can handle errors structurally
-      // In a real app, we'd mock the hook to show an error state
+      // * This test verifies the component can handle errors structurally
+      // ? * In a real app, we'd mock the hook to show an error state
       const onClose = cy.stub();
       const onSuccess = cy.stub();
       mountWithProviders(<CreateProjectModal onClose={onClose} onSuccess={onSuccess} />);
@@ -444,7 +444,7 @@ describe('CreateProjectModal Component', () => {
       const onSuccess = cy.stub();
       mountWithProviders(<CreateProjectModal onClose={onClose} onSuccess={onSuccess} />);
       
-      // Check labels
+      // * Check labels
       cy.get('label[for="name"]').should('contain', 'Project Name');
       cy.get('label[for="genre"]').should('contain', 'Genre');
       cy.get('label[for="description"]').should('contain', 'Description');
@@ -471,13 +471,13 @@ describe('CreateProjectModal Component', () => {
       const onSuccess = cy.stub();
       mountWithProviders(<CreateProjectModal onClose={onClose} onSuccess={onSuccess} />);
       
-      // Verify all form elements can receive focus
+      // * Verify all form elements can receive focus
       cy.get('[data-testid="project-name"]').should('have.focus');
       
-      // Enter text to enable submit [data-cy*="button"]
+      // * Enter text to enable submit [data-cy*="button"]
       cy.get('[data-testid="project-name"]').type('Test Project');
       
-      // Now test focus on all elements
+      // * Now test focus on all elements
       cy.get('[data-testid="project-genre"]').focus().should('have.focus');
       cy.get('[data-testid="project-description"]').focus().should('have.focus');
       cy.get('[data-testid="cancel"]').focus().should('have.focus');
@@ -492,7 +492,7 @@ describe('CreateProjectModal Component', () => {
       const onSuccess = cy.stub();
       mountWithProviders(<CreateProjectModal onClose={onClose} onSuccess={onSuccess} />);
       
-      // Check that modal takes full width on mobile
+      // * Check that modal takes full width on mobile
       cy.get('[data-testid="create-project-modal"]').should('be.visible');
       cy.get('[data-cy*="parchment-aged"]').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
     });

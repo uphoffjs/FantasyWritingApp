@@ -22,7 +22,7 @@ describe('ErrorNotification Component', () => {
     it('displays error icon', () => {
       cy.mount(<ErrorNotification error={mockError} />);
       
-      // AlertCircle icon should be visible
+      // TODO: AlertCircle icon should be visible
       cy.get('svg').first()
         .should('be.visible')
         .and('have.class', 'w-5')
@@ -55,7 +55,7 @@ describe('ErrorNotification Component', () => {
       cy.get('[data-cy*="button"][aria-label="Close error notification"]')
         .should('be.visible');
       
-      // X icon should be visible
+      // TODO: X icon should be visible
       cy.get('[data-cy*="button"][aria-label="Close error notification"] svg')
         .should('be.visible') // React Native Web uses inline styles instead of CSS classes
         .and('have.class', 'h-4');
@@ -183,7 +183,7 @@ describe('ErrorNotification Component', () => {
       
       cy.get('[data-testid="error-message"]').should('not.exist');
       
-      // Timer should be cleared, no errors should occur
+      // TODO: * Timer should be cleared, no errors should occur
       cy.tick(5000);
     });
   });
@@ -318,20 +318,20 @@ describe('ErrorNotification Component', () => {
       
       cy.mount(<TestComponent />);
       
-      // Wait for notifications to appear
+      // * Wait for notifications to appear
       cy.get('[data-testid="error-message"]').should('have.length', 2);
       
-      // Wait for [data-cy*="button"] to be available
+      // * Wait for [data-cy*="button"] to be available
       cy.get('[data-testid="error-message"]').first().should('exist');
       
-      // First verify the [data-cy*="button"] exists before trying to click
+      // * First verify the [data-cy*="button"] exists before trying to click
       cy.get('[data-testid="error-message"]').first().should('exist');
       cy.get('[data-testid="error-message"]').first().find('[data-cy*="button"][aria-label="Close error notification"]').should('exist');
       
-      // Now click the close [data-cy*="button"] on first notification
+      // * Now click the close [data-cy*="button"] on first notification
       cy.get('[data-testid="error-message"]').first().find('[data-cy*="button"][aria-label="Close error notification"]').click();
       
-      // Verify result
+      // * Verify result
       cy.get('[data-testid="error-message"]').should('have.length', 1);
       cy.contains('Error 2').should('be.visible');
       cy.contains('Error 1').should('not.exist');
@@ -354,11 +354,11 @@ describe('ErrorNotification Component', () => {
       
       cy.get('[data-testid="error-message"]').should('have.length', 3);
       
-      // Wait for animations to complete
+      // * Wait for animations to complete
       cy.get('[data-testid="error-message"]').should('have.length', 3);
       
-      // Check that notifications have different transform values for stacking
-      // The wrapper divs around each ErrorNotification have the stacking styles
+      // * Check that notifications have different transform values for stacking
+      // * The wrapper divs around each ErrorNotification have the stacking styles
       cy.get('.fixed.top-4.right-4.z-50.space-y-2 > div')
         .eq(0)
         .should('have.attr', 'style')
@@ -395,11 +395,11 @@ describe('ErrorNotification Component', () => {
         </div>
       );
       
-      // Test that close [data-cy*="button"] is focusable and in tab order
+      // * Test that close [data-cy*="button"] is focusable and in tab order
       cy.get('[data-cy*="button"][aria-label="Close error notification"]').focus();
       cy.focused().should('have.attr', 'aria-label', 'Close error notification');
       
-      // Verify other [data-cy*="button"]s exist in DOM
+      // * Verify other [data-cy*="button"]s exist in DOM
       cy.get('[data-cy*="button"]').contains('Focus Start').should('exist');
       cy.get('[data-cy*="button"]').contains('Focus End').should('exist');
     });

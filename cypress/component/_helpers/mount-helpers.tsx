@@ -3,10 +3,10 @@ import { BrowserRouter, MemoryRouter } from 'react-router-dom';
 import { mockProject, mockElements } from './test-data';
 import type { Project, WorldElement } from '../../../src/types/worldbuilding';
 
-// Mock the useWorldbuildingStore directly
+// * Mock the useWorldbuildingStore directly
 const mockStoreData: any = {};
 
-// Mock store context
+// * Mock store context
 const MockStoreContext = createContext<any>(null);
 
 // Mock Zustand store for testing
@@ -15,12 +15,12 @@ interface MockStoreProviderProps {
   initialState?: any;
 }
 
-// Mock store provider that actually provides store functionality
+// * Mock store provider that actually provides store functionality
 export const MockStoreProvider: React.FC<MockStoreProviderProps> = ({ 
   children, 
   initialState = {} 
 }) => {
-  // Set up default state
+  // * Set up default state
   const defaultState = {
     projects: [mockProject],
     currentProjectId: mockProject.id,
@@ -36,13 +36,13 @@ export const MockStoreProvider: React.FC<MockStoreProviderProps> = ({
     return projects.find(p => p.id === currentProjectId);
   }, [projects, currentProjectId]);
 
-  // Create mock store value
+  // * Create mock store value
   const storeValue = {
     projects,
     currentProjectId,
     elements,
     getCurrentProject,
-    // Add other methods as needed
+    // * Add other methods as needed
     setCurrentProject: (id: string) => {},
     addElement: (element: WorldElement) => {},
     updateElement: (id: string, updates: Partial<WorldElement>) => {},
@@ -56,11 +56,11 @@ export const MockStoreProvider: React.FC<MockStoreProviderProps> = ({
   );
 };
 
-// Export hook for components to use
+// * Export hook for components to use
 export const useMockStore = () => {
   const context = useContext(MockStoreContext);
   if (!context) {
-    // Return a default value if not in provider
+    // * Return a default value if not in provider
     return {
       projects: [],
       currentProjectId: null,
@@ -71,7 +71,7 @@ export const useMockStore = () => {
   return context;
 };
 
-// Mount helper with all necessary providers
+// * Mount helper with all necessary providers
 export const mountWithProviders = (
   component: ReactNode, 
   options?: { 
@@ -82,7 +82,7 @@ export const mountWithProviders = (
   const { initialState = {}, routerProps = {} } = options || {};
   
   // Use MemoryRouter for tests as it supports initialEntries
-  // Default to root path if no initialEntries provided
+  // * Default to root path if no initialEntries provided
   const routerConfig = {
     initialEntries: ['/'],
     ...routerProps
@@ -97,7 +97,7 @@ export const mountWithProviders = (
   );
 };
 
-// Mount helper for components that don't need routing
+// * Mount helper for components that don't need routing
 export const mountWithStore = (
   component: ReactNode,
   initialState?: any
@@ -109,7 +109,7 @@ export const mountWithStore = (
   );
 };
 
-// Simple mount without any providers
+// * Simple mount without any providers
 export const mountSimple = (component: ReactNode) => {
   return cy.mount(component);
 };

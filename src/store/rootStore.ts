@@ -5,9 +5,9 @@ import { optimisticSyncMiddleware } from './middleware/optimisticSyncMiddleware'
 import { performanceMiddleware } from './middleware/performanceMiddleware';
 import { searchService } from '../services/searchService';
 import { searchCache } from '../utils/cache';
-// Images removed from MVP - no longer importing ImageWithCaption
+// * Images removed from MVP - no longer importing ImageWithCaption
 
-// Import all slices
+// * Import all slices
 import { ProjectSlice, createProjectSlice } from './slices/projectStore';
 import { ElementSlice, createElementSlice } from './slices/elementStore';
 import { RelationshipSlice, createRelationshipSlice } from './slices/relationshipStore';
@@ -15,18 +15,18 @@ import { UISlice, createUISlice } from './slices/uiStore';
 import { SearchSlice, createSearchSlice } from './slices/searchStore';
 import { SyncSlice, createSyncSlice } from './slices/syncStore';
 import { AsyncSlice, createAsyncSlice } from './slices/asyncStore';
-// import { relationshipOptimizer } from '../services/core/RelationshipOptimizationService';
+// ! PERFORMANCE: import { relationshipOptimizer } from '../services/core/RelationshipOptimizationService';
 
-// Combine all slice interfaces
+// * Combine all slice interfaces
 export interface WorldbuildingStore extends ProjectSlice, ElementSlice, RelationshipSlice, UISlice, SearchSlice, SyncSlice, AsyncSlice {}
 
-// Create the root store with proper typing
+// * Create the root store with proper typing
 export const useWorldbuildingStore = create<WorldbuildingStore>()(
-  // performanceMiddleware(
+  // ! PERFORMANCE: performanceMiddleware(
     // optimisticSyncMiddleware(
       persist(
       (set, get, api) => ({
-        // Compose all slices with proper typing
+        // * Compose all slices with proper typing
         ...createProjectSlice(set as any, get as any, api as any),
         ...createElementSlice(set as any, get as any, api as any),
         ...createRelationshipSlice(set as any, get as any, api as any),
@@ -35,29 +35,29 @@ export const useWorldbuildingStore = create<WorldbuildingStore>()(
         ...createSyncSlice(set as any, get as any, api as any),
         ...createAsyncSlice(set as any, get as any, api as any),
         
-        // Override actions that need to trigger sync
+        // TODO: * Override actions that need to trigger sync
         updateProject: async (projectId: string, updates: any) => {
           await createProjectSlice(set as any, get as any, api as any).updateProject(projectId, updates);
-          // Mark project as modified for sync
+          // * Mark project as modified for sync
           (get() as WorldbuildingStore).markProjectAsModified(projectId);
         },
         
         createElement: async (projectId: string, name: string, category: any, templateId?: string) => {
           const element = await createElementSlice(set as any, get as any, api as any).createElement(projectId, name, category, templateId);
-          // Mark project as modified for sync
+          // * Mark project as modified for sync
           (get() as WorldbuildingStore).markProjectAsModified(projectId);
           return element;
         },
         
         updateElement: async (projectId: string, elementId: string, updates: any) => {
           await createElementSlice(set as any, get as any, api as any).updateElement(projectId, elementId, updates);
-          // Mark project as modified for sync
+          // * Mark project as modified for sync
           (get() as WorldbuildingStore).markProjectAsModified(projectId);
         },
         
         deleteElement: async (projectId: string, elementId: string) => {
           await createElementSlice(set as any, get as any, api as any).deleteElement(projectId, elementId);
-          // Mark project as modified for sync
+          // * Mark project as modified for sync
           (get() as WorldbuildingStore).markProjectAsModified(projectId);
         }
       }),
@@ -75,17 +75,17 @@ export const useWorldbuildingStore = create<WorldbuildingStore>()(
   // ) as any
 );
 
-// Subscribe to store changes to update search index
+// * Subscribe to store changes to update search index
 useWorldbuildingStore.subscribe((state, prevState) => {
   if (state.projects !== prevState.projects) {
-    // Update search index whenever projects change
+    // * Update search index whenever projects change
     searchService.updateSearchIndex(state.projects);
-    // Clear search cache when index is updated
+    // ! PERFORMANCE: * Clear search cache when index is updated
     searchCache.clear();
   }
 });
 
-// Initialize search index with existing data on store creation
+// * Initialize search index with existing data on store creation
 const initialState = useWorldbuildingStore.getState();
 if (initialState.projects.length > 0) {
   searchService.updateSearchIndex(initialState.projects);

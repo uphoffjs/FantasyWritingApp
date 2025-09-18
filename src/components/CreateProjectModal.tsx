@@ -273,6 +273,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   modalContent: {
+    // ! HARDCODED: Should use design tokens
     backgroundColor: '#1F2937',
     borderRadius: 16,
     width: '90%',
@@ -297,6 +298,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: '600',
+    // ! HARDCODED: Should use design tokens
     color: '#F9FAFB',
   },
   closeButton: {
@@ -304,6 +306,7 @@ const styles = StyleSheet.create({
   },
   closeIcon: {
     fontSize: 24,
+    // ! HARDCODED: Should use design tokens
     color: '#9CA3AF',
   },
   form: {
@@ -315,6 +318,7 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 14,
     fontWeight: '500',
+    // ! HARDCODED: Should use design tokens
     color: '#F9FAFB',
     marginBottom: 8,
   },
@@ -329,19 +333,25 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 16,
+    // ! HARDCODED: Should use design tokens
     backgroundColor: '#374151',
     borderWidth: 1,
+    // ! HARDCODED: Should use design tokens
     borderColor: '#4B5563',
   },
   genreChipSelected: {
+    // ! HARDCODED: Should use design tokens
     backgroundColor: '#6366F1',
+    // ! HARDCODED: Should use design tokens
     borderColor: '#6366F1',
   },
   genreText: {
     fontSize: 12,
+    // ! HARDCODED: Should use design tokens
     color: '#9CA3AF',
   },
   genreTextSelected: {
+    // ! HARDCODED: Should use design tokens
     color: '#FFFFFF',
     fontWeight: '500',
   },
@@ -362,6 +372,7 @@ const styles = StyleSheet.create({
     height: 20,
     borderRadius: 10,
     borderWidth: 2,
+    // ! HARDCODED: Should use design tokens
     borderColor: '#6366F1',
     justifyContent: 'center',
     alignItems: 'center',
@@ -370,10 +381,12 @@ const styles = StyleSheet.create({
     width: 10,
     height: 10,
     borderRadius: 5,
+    // ! HARDCODED: Should use design tokens
     backgroundColor: '#6366F1',
   },
   statusText: {
     fontSize: 14,
+    // ! HARDCODED: Should use design tokens
     color: '#F9FAFB',
   },
   actions: {

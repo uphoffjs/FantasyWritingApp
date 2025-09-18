@@ -26,16 +26,16 @@ describe('ElementHeader', () => {
     it('renders all header elements', () => {
       cy.mount(<ElementHeader {...defaultProps} />);
       
-      // Category display
+      // * Category display
       cy.get('[data-testid="element-category"]').should('contain', 'character');
       
-      // Name input
+      // * Name input
       cy.get('#element-name').should('have.value', 'Test Character');
       
-      // Completion percentage
+      // * Completion percentage
       cy.get('[data-testid="completion-percentage"]').should('contain', '75%');
       
-      // Progress bar
+      // * Progress bar
       cy.get('[data-testid="completion-bar"]').should('have.attr', 'data-percentage', '75');
       
       // Buttons
@@ -91,10 +91,10 @@ describe('ElementHeader', () => {
       cy.viewport(375, 667);
       cy.mount(<ElementHeader {...defaultProps} saveStatus="saved" lastSaved={new Date()} />);
       
-      // Mobile save indicator should be visible
+      // TODO: * Mobile save indicator should be visible
       cy.get('.sm\\:hidden').contains('Saved').should('be.visible');
       
-      // Desktop save indicator should be hidden
+      // TODO: * Desktop save indicator should be hidden
       cy.get('.hidden.sm\\:block').should('not.be.visible');
     });
     
@@ -102,7 +102,7 @@ describe('ElementHeader', () => {
       cy.viewport(375, 667);
       cy.mount(<ElementHeader {...defaultProps} />);
       
-      // Check responsive classes are applied
+      // * Check responsive classes are applied
       cy.get('.flex-col.sm\\:flex-row').should('exist');
     });
   });
@@ -118,10 +118,10 @@ describe('ElementHeader', () => {
     it('supports keyboard navigation', () => {
       cy.mount(<ElementHeader {...defaultProps} />);
       
-      // Name input should be auto-focused
+      // TODO: * Name input should be auto-focused
       cy.focused().should('have.id', 'element-name');
       
-      // Tab through interactive elements
+      // * Tab through interactive elements
       cy.get('body').tab();
       cy.focused().should('have.attr', 'data-cy', 'markdown-[data-cy*="button"]');
       
@@ -288,7 +288,7 @@ describe('ElementImages', () => {
       const onReorderImages = cy.stub();
       cy.mount(<ElementImages {...defaultProps} onReorderImages={onReorderImages} />);
       
-      // Simulate drag and drop
+      // * Simulate drag and drop
       cy.get('[data-testid="image-item-1"]').trigger('dragstart');
       cy.get('[data-testid="image-item-2"]').trigger('drop');
       
@@ -405,13 +405,13 @@ describe('ElementRelationships', () => {
       
       cy.get('[data-testid="add-relationship-[data-cy*="button"]"]').click();
       
-      // Select target element
+      // * Select target element
       cy.get('[data-testid="element-[data-cy*="select"]"]').select('3');
       
-      // Select relationship type
+      // * Select relationship type
       cy.get('[data-testid="relationship-type"]').select('employs');
       
-      // Add description
+      // * Add description
       cy.get('[data-testid="relationship-description"]').type('Works for this organization');
       
       // Save
@@ -441,7 +441,7 @@ describe('ElementRelationships', () => {
       
       cy.get('[data-testid="edit-relationship-r1"]').click();
       
-      // Update description
+      // * Update description
       cy.get('[data-testid="relationship-description"]').clear().type('New description');
       
       // Save
@@ -458,7 +458,7 @@ describe('ElementRelationships', () => {
       
       cy.get('[data-testid="remove-relationship-r1"]').click();
       
-      // Confirm deletion
+      // * Confirm deletion
       cy.contains('Are you sure').should('be.visible');
       cy.get('[data-testid="confirm-delete"]').click();
       
@@ -477,15 +477,15 @@ describe('ElementRelationships', () => {
     it('toggles between list and graph views', () => {
       cy.mount(<ElementRelationships {...defaultProps} />);
       
-      // Start in list view
+      // * Start in list view
       cy.get('[data-testid="relationships-list"]').should('be.visible');
       
-      // Switch to graph view
+      // * Switch to graph view
       cy.get('[data-testid="view-graph"]').click();
       cy.get('[data-testid="relationship-graph"]').should('be.visible');
       cy.get('[data-testid="relationships-list"]').should('not.exist');
       
-      // Switch back to list view
+      // * Switch back to list view
       cy.get('[data-testid="view-list"]').click();
       cy.get('[data-testid="relationships-list"]').should('be.visible');
       cy.get('[data-testid="relationship-graph"]').should('not.exist');
@@ -573,11 +573,11 @@ describe('ElementTags', () => {
       const onAddTag = cy.stub();
       cy.mount(<ElementTags {...defaultProps} onAddTag={onAddTag} />);
       
-      // Empty tag
+      // * Empty tag
       cy.get('[data-testid="tag-input"]').type('{enter}');
       cy.wrap(onAddTag).should('not.have.been.called');
       
-      // Tag with special characters
+      // * Tag with special characters
       cy.get('[data-testid="tag-input"]').type('tag@#${enter}');
       cy.contains('Invalid characters').should('be.visible');
     });
@@ -606,7 +606,7 @@ describe('ElementTags', () => {
       const onReorderTags = cy.stub();
       cy.mount(<ElementTags {...defaultProps} onReorderTags={onReorderTags} />);
       
-      // Simulate drag and drop
+      // * Simulate drag and drop
       cy.get('[data-testid="tag-fantasy"]').trigger('dragstart');
       cy.get('[data-testid="tag-adventure"]').trigger('drop');
       
@@ -657,7 +657,7 @@ describe('ElementTags', () => {
     it('announces tag operations to screen readers', () => {
       cy.mount(<ElementTags {...defaultProps} />);
       
-      // Check for live region
+      // * Check for live region
       cy.get('[aria-live="polite"]').should('exist');
     });
   });

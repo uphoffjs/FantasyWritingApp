@@ -6,10 +6,10 @@ import { mountWithProviders } from './_helpers/mount-helpers';
 
 describe('Single Test - ElementBrowser', () => {
   it('should mount without crashing', () => {
-    // Most basic test possible
+    // * Most basic test possible
     const mockProject = ProjectFactory.createFantasyProject();
     
-    // Try mounting with the simplest possible setup
+    // * Try mounting with the simplest possible setup
     cy.mount(
       <div>
         <h1>Test Mount</h1>
@@ -29,7 +29,7 @@ describe('Single Test - ElementBrowser', () => {
       </MemoryRouter>
     );
     
-    // Should render something (even if it errors about store)
+    // TODO: * Should render something (even if it errors about store)
     cy.get('body').should('exist');
   });
   
@@ -46,7 +46,7 @@ describe('Single Test - ElementBrowser', () => {
       }
     });
     
-    // Check if create button exists
+    // * Check if create button exists
     cy.get('[data-testid="create-element-button"]').should('exist');
   });
 });

@@ -59,7 +59,7 @@ describe('CompletionHeatmap Edge Cases & Accessibility', () => {
       cy.mount(<CompletionHeatmap project={project} />);
 
       cy.get('[data-cy^="element-cell"]').first().click();
-      // Should not throw error
+      // TODO: * Should not throw error
     });
 
     it.skip('handles elements with same completion percentage', () => {
@@ -138,7 +138,7 @@ describe('CompletionHeatmap Edge Cases & Accessibility', () => {
 
       cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
-      // Tooltip should be hidden on mobile - React Native Web uses conditional rendering
+      // TODO: * Tooltip should be hidden on mobile - React Native Web uses conditional rendering
       cy.get('[data-testid="tooltip"]').should('not.exist');
     });
 

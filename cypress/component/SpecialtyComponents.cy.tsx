@@ -6,7 +6,7 @@ import { AccountMenu } from '../../src/components/AccountMenu';
 import { AuthGuard } from '../../src/components/AuthGuard';
 import { BrowserRouter, MemoryRouter } from 'react-router-dom';
 
-// Mock stores
+// * Mock stores
 const mockAuthStore = {
   user: { email: 'test@example.com' },
   profile: { display_name: 'Test User' },
@@ -37,10 +37,10 @@ const mockMigrationService = {
   resetProgress: cy.stub()
 };
 
-// Mock navigate
+// * Mock navigate
 let mockNavigate: any;
 
-// Router wrapper for components that need it
+// * Router wrapper for components that need it
 const RouterWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <BrowserRouter>{children}</BrowserRouter>
 );
@@ -245,7 +245,7 @@ describe('EmailVerificationBanner Component', () => {
       cy.mount(<EmailVerificationBanner />);
       cy.contains('Resend verification email').click();
       cy.contains('Email sent!').should('be.visible');
-      // Button should be replaced with success message
+      // TODO: * Button should be replaced with success message
       cy.contains('Resend verification email').should('not.exist');
     });
   });
@@ -417,7 +417,7 @@ describe('MigrationPrompt Component', () => {
       cy.mount(<MigrationPrompt isOpen={true} onClose={defaultProps.onClose} onComplete={defaultProps.onComplete} />);
       cy.contains('Start Upload').click();
       
-      // X [data-cy*="button"] should not be visible during migration
+      // TODO: X [data-cy*="button"] should not be visible during migration
       cy.get('[data-cy*="button"]').contains('×').should('not.exist');
     });
 
@@ -462,7 +462,7 @@ describe('MigrationPrompt Component', () => {
       cy.contains('Start Upload').click();
       cy.contains('Try Again').click();
       
-      // Should reset to initial state
+      // TODO: * Should reset to initial state
       cy.contains('Start Upload').should('be.visible');
     });
   });
@@ -617,7 +617,7 @@ describe('AccountMenu Component', () => {
       cy.get('[data-cy*="gradient-to-br"]').click();
       cy.contains('Test User').should('be.visible');
       
-      // Simulate clicking outside
+      // * Simulate clicking outside
       cy.get('[data-testid="outside"]').click();
       cy.contains('Test User').should('not.exist');
     });
@@ -774,7 +774,7 @@ describe('AuthGuard Component', () => {
         </MemoryRouter>
       );
       
-      // Should redirect after a small delay
+      // TODO: * Should redirect after a small delay
       cy.tick(100);
       expect(mockNavigate).to.have.been.calledWith('/projects', { replace: true });
     });
@@ -833,7 +833,7 @@ describe('AuthGuard Component', () => {
         </MemoryRouter>
       );
       
-      // Component should redirect with location state
+      // TODO: * Component should redirect with location state
       cy.contains('Protected').should('not.exist');
     });
 
@@ -894,7 +894,7 @@ describe('AuthGuard Component', () => {
       
       cy.contains('Protected').should('not.exist');
       
-      // Simulate auth state change
+      // ! SECURITY: * Simulate auth state change
       authStore.isAuthenticated = true;
       cy.mount(
         <MemoryRouter>

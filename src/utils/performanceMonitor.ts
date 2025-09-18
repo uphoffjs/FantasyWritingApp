@@ -24,7 +24,7 @@ class PerformanceMonitor {
   private lastFrameTime = performance.now();
   private enabled = process.env.NODE_ENV === 'development';
   
-  // Component render tracking
+  // * Component render tracking
   trackRender(componentName: string, duration: number, props?: Record<string, any>) {
     if (!this.enabled) return;
     
@@ -37,12 +37,12 @@ class PerformanceMonitor {
     
     this.metrics.push(metric);
     
-    // Keep only last 100 metrics
+    // * Keep only last 100 metrics
     if (this.metrics.length > 100) {
       this.metrics.shift();
     }
     
-    // Log slow renders
+    // * Log slow renders
     if (duration > 16) { // More than one frame (60fps)
       console.warn(`Slow render detected: ${componentName} took ${duration.toFixed(2)}ms`);
     }
@@ -58,13 +58,13 @@ class PerformanceMonitor {
     
     this.fpsFrames.push(delta);
     
-    // Keep last 60 frames for average
+    // * Keep last 60 frames for average
     if (this.fpsFrames.length > 60) {
       this.fpsFrames.shift();
     }
   }
   
-  // Memory usage tracking
+  // * Memory usage tracking
   trackMemory() {
     if (!this.enabled) return;
     
@@ -87,13 +87,13 @@ class PerformanceMonitor {
       timestamp: Date.now()
     });
     
-    // Keep only last 100 runtime metrics
+    // * Keep only last 100 runtime metrics
     if (this.runtimeMetrics.length > 100) {
       this.runtimeMetrics.shift();
     }
   }
   
-  // Get performance report
+  // ! PERFORMANCE: * Get performance report
   getReport() {
     if (!this.enabled) return null;
     
@@ -132,7 +132,7 @@ class PerformanceMonitor {
     };
   }
   
-  // Clear all metrics
+  // * Clear all metrics
   clear() {
     this.metrics = [];
     this.runtimeMetrics = [];
@@ -144,7 +144,7 @@ class PerformanceMonitor {
     this.enabled = enabled;
   }
   
-  // Sanitize props to avoid storing sensitive data
+  // ! SECURITY: * Sanitize props to avoid storing sensitive data
   private sanitizeProps(props?: Record<string, any>) {
     if (!props) return undefined;
     
@@ -163,23 +163,23 @@ class PerformanceMonitor {
   }
 }
 
-// Singleton instance
+// * Singleton instance
 export const performanceMonitor = new PerformanceMonitor();
 
-// React hook for component performance tracking
+// ! PERFORMANCE: * React hook for component performance tracking
 export function usePerformanceTracking(componentName: string, props?: Record<string, any>) {
   if (process.env.NODE_ENV !== 'development') return;
   
   const renderStartTime = performance.now();
   
-  // Track after render
+  // * Track after render
   setTimeout(() => {
     const renderEndTime = performance.now();
     performanceMonitor.trackRender(componentName, renderEndTime - renderStartTime, props);
   }, 0);
 }
 
-// HOC for performance tracking
+// ! PERFORMANCE: HOC for performance tracking
 export function withPerformanceTracking<T extends {}>(
   Component: React.ComponentType<T>,
   componentName?: string
@@ -192,7 +192,7 @@ export function withPerformanceTracking<T extends {}>(
   });
 }
 
-// Start runtime monitoring
+// * Start runtime monitoring
 if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
   // Track FPS
   // let _animationFrameId: number;
@@ -203,15 +203,15 @@ if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
   };
   trackFPS();
   
-  // Track memory every 5 seconds
+  // * Track memory every 5 seconds
   setInterval(() => {
     performanceMonitor.trackMemory();
   }, 5000);
   
-  // Expose to window for debugging
+  // * Expose to window for debugging
   (window as any).performanceMonitor = performanceMonitor;
   
-  // Log report every 30 seconds in development
+  // * Log report every 30 seconds in development
   setInterval(() => {
     const report = performanceMonitor.getReport();
     if (report) {

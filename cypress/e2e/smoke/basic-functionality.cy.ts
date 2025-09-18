@@ -7,22 +7,22 @@ describe('Basic App Functionality - Smoke Tests', () => {
   })
   
   it('should display main navigation after authentication', () => {
-    // Setup auth and visit main page
+    // ! SECURITY: * Setup auth and visit main page
     cy.setupTestEnvironment()
     cy.visit('/')
     
-    // Should navigate to stories page for authenticated users
+    // TODO: ! SECURITY: * Should navigate to stories page for authenticated users
     cy.url().should('satisfy', (url) => {
       return url.includes('/stories') || url.includes('/dashboard')
     })
   })
 
   it('should use createStory command if available', () => {
-    // Try to test if the command exists
+    // * Try to test if the command exists
     const commandExists = typeof cy.createStory === 'function'
     cy.log(`createStory command exists: ${commandExists}`)
     
-    // Setup environment and visit
+    // * Setup environment and visit
     cy.setupTestEnvironment()
     cy.visit('/')
   })
@@ -31,7 +31,7 @@ describe('Basic App Functionality - Smoke Tests', () => {
     cy.setupTestEnvironment()
     cy.visit('/stories')
     
-    // Should show create story button
+    // ? TODO: * Should show create story button
     cy.get('[data-testid="create-story"], [data-testid="get-started"]').should('be.visible')
   })
 
@@ -39,10 +39,10 @@ describe('Basic App Functionality - Smoke Tests', () => {
     cy.setupTestEnvironment()
     cy.visit('/')
     
-    // Check that main navigation elements exist
+    // * Check that main navigation elements exist
     cy.get('body').should('be.visible')
     
-    // Basic smoke test - app loads without throwing errors
+    // * Basic smoke test - app loads without throwing errors
     cy.get('[data-testid="app-container"], main, #root').should('exist')
   })
 
@@ -50,12 +50,12 @@ describe('Basic App Functionality - Smoke Tests', () => {
     cy.setupTestEnvironment()
     cy.visit('/')
     
-    // Check that React Native Web components render
+    // * Check that React Native Web components render
     cy.get('body').should('have.css', 'font-family')
     
-    // Should not have any critical console errors
+    // TODO: * Should not have any critical console errors
     cy.window().then((win) => {
-      // Basic check that window and document are available
+      // * Basic check that window and document are available
       expect(win.document).to.exist
       expect(win.navigator).to.exist
     })
@@ -64,14 +64,15 @@ describe('Basic App Functionality - Smoke Tests', () => {
   it('should handle offline mode gracefully', () => {
     cy.setupTestEnvironment()
     
-    // Verify offline mode is set
+    // * Verify offline mode is set
     cy.window().then((win) => {
-      expect(win.localStorage.getItem('fantasy-writing-app-offline-mode')).to.equal('true')
+      expect(win.// ! SECURITY: Using localStorage
+      localStorage.getItem('fantasy-writing-app-offline-mode')).to.equal('true')
     })
     
     cy.visit('/')
     
-    // App should still load in offline mode
+    // TODO: * App should still load in offline mode
     cy.get('body').should('be.visible')
   })
 
@@ -79,15 +80,15 @@ describe('Basic App Functionality - Smoke Tests', () => {
     cy.setupTestEnvironment()
     cy.visit('/')
     
-    // Test mobile viewport
+    // * Test mobile viewport
     cy.viewport(375, 667)
     cy.get('body').should('be.visible')
     
-    // Test tablet viewport
+    // * Test tablet viewport
     cy.viewport(768, 1024)
     cy.get('body').should('be.visible')
     
-    // Test desktop viewport
+    // * Test desktop viewport
     cy.viewport(1920, 1080)
     cy.get('body').should('be.visible')
   })
@@ -96,7 +97,7 @@ describe('Basic App Functionality - Smoke Tests', () => {
     cy.setupTestEnvironment()
     cy.visit('/')
     
-    // Basic check that error boundary components would work
+    // * Basic check that error boundary components would work
     // (This is mainly to ensure the app structure supports error handling)
     cy.window().then((win) => {
       // Check React is loaded

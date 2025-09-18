@@ -1,5 +1,5 @@
-// Performance monitoring and optimization utilities for Cypress tests
-// Prevents memory leaks, improves execution speed, and reduces flakiness
+// ! PERFORMANCE: * Performance monitoring and optimization utilities for Cypress tests
+// TODO: * Prevents memory leaks, improves execution speed, and reduces flakiness
 
 /**
  * Memory management utilities
@@ -44,7 +44,7 @@ export const MemoryManagement = {
    * Clean up DOM elements
    */
   cleanupDOM: () => {
-    // Remove all test containers
+    // * Remove all test containers
     cy.document().then(doc => {
       const testContainers = doc.querySelectorAll('[data-cy-root], [data-test-root]');
       testContainers.forEach(container => container.remove());
@@ -56,17 +56,17 @@ export const MemoryManagement = {
    */
   clearEventListeners: () => {
     cy.window().then(win => {
-      // Store original addEventListener
+      // * Store original addEventListener
       const originalAddEventListener = win.addEventListener;
       const listeners: Array<{ type: string; listener: EventListener; options?: any }> = [];
       
-      // Override addEventListener to track listeners
+      // * Override addEventListener to track listeners
       win.addEventListener = function(type: string, listener: EventListener, options?: any) {
         listeners.push({ type, listener, options });
         return originalAddEventListener.call(this, type, listener, options);
       };
       
-      // Clean up function
+      // * Clean up function
       return () => {
         listeners.forEach(({ type, listener, options }) => {
           win.removeEventListener(type, listener, options);
@@ -81,13 +81,13 @@ export const MemoryManagement = {
    */
   clearAllTimers: () => {
     cy.window().then(win => {
-      // Clear all timeouts
+      // * Clear all timeouts
       let id = win.setTimeout(() => {}, 0);
       while (id--) {
         win.clearTimeout(id);
       }
       
-      // Clear all intervals
+      // * Clear all intervals
       id = win.setInterval(() => {}, 1000);
       while (id--) {
         win.clearInterval(id);
@@ -102,7 +102,7 @@ export const MemoryManagement = {
     cy.window().then(win => {
       const reactRoot = (win as any).__REACT_DEVTOOLS_GLOBAL_HOOK__;
       if (reactRoot) {
-        // Clear React DevTools cache
+        // ! PERFORMANCE: Clear React DevTools cache
         reactRoot.renderers?.clear?.();
         reactRoot.fiberRoots?.clear?.();
       }
@@ -203,10 +203,10 @@ export const TestOptimization = {
       // Use DocumentFragment for batch insertions
       const fragment = doc.createDocumentFragment();
       
-      // Execute all operations
+      // * Execute all operations
       operations.forEach(op => op());
       
-      // Force single reflow
+      // * Force single reflow
       doc.body.offsetHeight;
     });
   },
@@ -368,7 +368,7 @@ export const AntiFlakinessUtils = {
         });
       });
       
-      // Resolve after timeout even if network is active
+      // * Resolve after timeout even if network is active
       setTimeout(resolve, timeout);
     });
   },
@@ -409,7 +409,7 @@ export const Benchmarking = {
   ) => {
     const timings: number[] = [];
     
-    // Warmup run
+    // * Warmup run
     await fn();
     
     for (let i = 0; i < iterations; i++) {
@@ -530,13 +530,13 @@ export const ResourceMonitoring = {
   }
 };
 
-// Register cleanup hooks
+// * Register cleanup hooks
 Cypress.on('test:after:run', () => {
   MemoryManagement.performCleanup();
   PerformanceMonitoring.clearMetrics();
 });
 
-// Custom commands
+// * Custom commands
 Cypress.Commands.add('measurePerformance', (label: string, fn: () => void) => {
   const start = PerformanceMonitoring.startTiming(label);
   fn();
@@ -557,7 +557,7 @@ Cypress.Commands.add('ensureNoMemoryLeak', (threshold: number = 1000000) => {
   }
 });
 
-// Type declarations
+// * Type declarations
 declare global {
   namespace Cypress {
     interface Chainable {

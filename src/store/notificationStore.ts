@@ -10,7 +10,7 @@ interface NotificationState {
   removeNotification: (id: string) => void;
   clearNotifications: () => void;
   
-  // Helper methods
+  // * Helper methods
   showSuccess: (title: string, message?: string, duration?: number) => void;
   showError: (title: string, message?: string, duration?: number) => void;
   showWarning: (title: string, message?: string, duration?: number) => void;

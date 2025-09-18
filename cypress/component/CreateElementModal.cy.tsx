@@ -15,12 +15,12 @@ describe('CreateElementModal Component', () => {
   };
 
   beforeEach(() => {
-    // Create stubs inside beforeEach
+    // * Create stubs inside beforeEach
     mockCreateElement = cy.stub().as('createElement');
     mockOnClose = cy.stub().as('onClose');
     mockOnSuccess = cy.stub().as('onSuccess');
     
-    // Mock the worldbuilding store
+    // * Mock the worldbuilding store
     mockStore = {
       createElement: mockCreateElement,
       projects: [
@@ -40,7 +40,7 @@ describe('CreateElementModal Component', () => {
 
     // Note: The store is already mocked in the component-test-helpers
     
-    // Update default props with new stubs
+    // * Update default props with new stubs
     defaultProps.onClose = mockOnClose;
     defaultProps.onSuccess = mockOnSuccess;
   });
@@ -48,16 +48,16 @@ describe('CreateElementModal Component', () => {
   it('should render when visible', () => {
     cy.mount(<CreateElementModal {...defaultProps} />);
 
-    // Check modal title
+    // * Check modal title
     cy.contains('Create New Element').should('be.visible');
     
-    // Check instructions
+    // * Check instructions
     cy.contains('Choose a category for your new element').should('be.visible');
     
-    // Check that category options are visible
+    // * Check that category options are visible
     cy.get('[data-cy^="category-"]').should('have.length.greaterThan', 0);
     
-    // Check action [data-cy*="button"]s
+    // * Check action [data-cy*="button"]s
     cy.contains('Cancel').should('be.visible');
     cy.contains('Select a Category').should('be.visible');
   });
@@ -71,7 +71,7 @@ describe('CreateElementModal Component', () => {
   it('should display all category options', () => {
     cy.mount(<CreateElementModal {...defaultProps} />);
 
-    // Check that all expected categories are present
+    // * Check that all expected categories are present
     const expectedCategories = [
       'character',
       'location',
@@ -95,31 +95,31 @@ describe('CreateElementModal Component', () => {
   it('should handle category [data-cy*="select"]ion', () => {
     cy.mount(<CreateElementModal {...defaultProps} />);
 
-    // Select a character category
+    // * Select a character category
     cy.get('[data-testid="category-character"]').click();
 
-    // Check that the [data-cy*="button"] text changes
+    // * Check that the [data-cy*="button"] text changes
     cy.contains('Create Element').should('be.visible');
     
-    // Check that the [data-cy*="select"]ed category has visual feedback
+    // * Check that the [data-cy*="select"]ed category has visual feedback
     cy.get('[data-testid="category-character"]').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
   });
 
   it('should handle close functionality', () => {
     cy.mount(<CreateElementModal {...defaultProps} />);
 
-    // Test close [data-cy*="button"]
+    // * Test close [data-cy*="button"]
     cy.get('[data-cy*="button"]').contains('✕').click();
     cy.get('@onClose').should('have.been.called');
     
-    // Test cancel [data-cy*="button"]
+    // * Test cancel [data-cy*="button"]
     cy.mount(<CreateElementModal {...defaultProps} />);
     cy.contains('Cancel').click();
     cy.get('@onClose').should('have.been.called');
   });
 
   it('should create element when category [data-cy*="select"]ed and create [data-cy*="button"] clicked', () => {
-    // Mock successful creation
+    // * Mock successful creation
     mockCreateElement.resolves({
       id: 'new-element-1',
       name: 'Untitled Character 1',
@@ -128,18 +128,18 @@ describe('CreateElementModal Component', () => {
 
     cy.mount(<CreateElementModal {...defaultProps} />);
 
-    // Select character category
+    // * Select character category
     cy.get('[data-testid="category-character"]').click();
     
-    // Click create [data-cy*="button"]
+    // * Click create [data-cy*="button"]
     cy.contains('Create Element').click();
 
-    // Verify createElement was called with correct parameters
+    // * Verify createElement was called with correct parameters
     cy.get('@createElement').should('have.been.calledWith', 'test-project-1', 'Untitled Character 1', 'character');
   });
 
   it('should show loading state during creation', () => {
-    // Mock delayed creation
+    // * Mock delayed creation
     mockCreateElement.returns(new Promise(resolve => setTimeout(() => resolve({
       id: 'new-element-1',
       name: 'Untitled Character 1',
@@ -148,13 +148,13 @@ describe('CreateElementModal Component', () => {
 
     cy.mount(<CreateElementModal {...defaultProps} />);
 
-    // Select category and click create
+    // * Select category and click create
     cy.get('[data-testid="category-character"]').click();
     cy.contains('Create Element').click();
 
-    // Check for loading indicator (ActivityIndicator in React Native Web becomes a spinner)
+    // * Check for loading indicator (ActivityIndicator in React Native Web becomes a spinner)
     cy.get('[data-testid="element-card"]').should('contain', 'Create Element');
-    // The [data-cy*="button"] should be disabled during loading
+    // TODO: The [data-cy*="button"] should be disabled during loading
     cy.contains('Create Element').should('be.disabled');
   });
 
@@ -182,14 +182,14 @@ describe('CreateElementModal Component', () => {
     cy.get('[data-testid="category-character"]').click();
     cy.contains('Create Element').click();
 
-    // The component should handle the error and not crash
+    // TODO: * The component should handle the error and not crash
     cy.contains('Create Element').should('be.visible');
   });
 
   it('should disable create [data-cy*="button"] when no category [data-cy*="select"]ed', () => {
     cy.mount(<CreateElementModal {...defaultProps} />);
 
-    // Initially should show "Select a Category" and be disabled
+    // ? TODO: * Initially should show "Select a Category" and be disabled
     cy.contains('Select a Category').should('be.visible');
     cy.contains('Select a Category').should('be.disabled');
   });
@@ -197,7 +197,7 @@ describe('CreateElementModal Component', () => {
   it('should show different categories with proper icons and descriptions', () => {
     cy.mount(<CreateElementModal {...defaultProps} />);
 
-    // Test a few specific categories
+    // * Test a few specific categories
     const categoryTests = [
       { 
         id: 'character', 
@@ -231,22 +231,22 @@ describe('CreateElementModal Component', () => {
   it('should handle multiple category [data-cy*="select"]ions (only latest should be [data-cy*="select"]ed)', () => {
     cy.mount(<CreateElementModal {...defaultProps} />);
 
-    // Select character first
+    // * Select character first
     cy.get('[data-testid="category-character"]').click();
     cy.get('[data-testid="category-character"]').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
 
-    // Select location second
+    // * Select location second
     cy.get('[data-testid="category-location"]').click();
     cy.get('[data-testid="category-location"]').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
     
-    // Character should no longer be [data-cy*="select"]ed
+    // TODO: * Character should no longer be [data-cy*="select"]ed
     cy.get('[data-testid="category-character"]').should('not.have.class', 'categoryCardSelected');
   });
 
   it('should be accessible', () => {
     cy.mount(<CreateElementModal {...defaultProps} />);
 
-    // Check that interactive elements have proper accessibility
+    // * Check that interactive elements have proper accessibility
     cy.get('[data-cy^="category-"]').each(($el) => {
       cy.wrap($el).should('have.attr', 'role');
     });
@@ -259,13 +259,13 @@ describe('CreateElementModal Component', () => {
   it('should handle keyboard navigation and interaction', () => {
     cy.mount(<CreateElementModal {...defaultProps} />);
 
-    // Test that categories can be accessed with keyboard
+    // * Test that categories can be accessed with keyboard
     cy.get('[data-testid="category-character"]').focus().type('{enter}');
     cy.get('[data-testid="category-character"]').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
 
-    // Test that create [data-cy*="button"] can be activated with keyboard
+    // * Test that create [data-cy*="button"] can be activated with keyboard
     cy.contains('Create Element').focus().type('{enter}');
-    // Should attempt to create (will depend on mocked function)
+    // TODO: TODO: * Should attempt to create (will depend on mocked function)
   });
 
   it('should generate unique element names for same category', () => {
@@ -280,7 +280,7 @@ describe('CreateElementModal Component', () => {
     cy.get('[data-testid="category-character"]').click();
     cy.contains('Create Element').click();
 
-    // The createElement should be called with a unique name
+    // TODO: * The createElement should be called with a unique name
     cy.get('@createElement').should('have.been.calledWith', 'test-project-1', 'Untitled Character 2', 'character');
   });
 });

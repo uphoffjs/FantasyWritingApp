@@ -5,7 +5,7 @@ import { Project, WorldElement } from '../../src/types/models';
 // Note: Confetti mocking will be handled in beforeEach
 let mockConfetti: any;
 
-// Helper function to create mock elements
+// * Helper function to create mock elements
 const createMockElement = (overrides?: Partial<WorldElement>): WorldElement => ({
   id: 'element-1',
   name: 'Test Element',
@@ -23,7 +23,7 @@ const createMockElement = (overrides?: Partial<WorldElement>): WorldElement => (
   ...overrides
 });
 
-// Helper function to create mock project
+// * Helper function to create mock project
 const createMockProject = (elements: WorldElement[] = []): Project => ({
   id: 'project-1',
   name: 'Test Project',
@@ -39,7 +39,7 @@ describe('MilestoneSystem Component', () => {
   beforeEach(() => {
     cy.clock();
     mockConfetti = cy.stub();
-    // Mock canvas-confetti if it's used
+    // * Mock canvas-confetti if it's used
     cy.window().then((win) => {
       (win as any).confetti = mockConfetti;
     });
@@ -58,7 +58,7 @@ describe('MilestoneSystem Component', () => {
       const project = createMockProject();
       cy.mount(<MilestoneSystem project={project} />);
       
-      // Should render 8 milestones
+      // TODO: * Should render 8 milestones
       cy.get('[class*="rounded-lg border"]').should('have.length', 8);
     });
 
@@ -66,14 +66,14 @@ describe('MilestoneSystem Component', () => {
       const project = createMockProject();
       cy.mount(<MilestoneSystem project={project} />);
       
-      // Check creation milestones
+      // * Check creation milestones
       cy.contains('World Builder').should('be.visible');
       cy.contains('Storyteller').should('be.visible');
       cy.contains('Lorekeeper').should('be.visible');
       cy.contains('Master Chronicler').should('be.visible');
       cy.contains('World Architect').should('be.visible');
       
-      // Check completion milestones
+      // * Check completion milestones
       cy.contains('Perfectionist').should('be.visible');
       cy.contains('Detail Oriented').should('be.visible');
       cy.contains('Completionist').should('be.visible');
@@ -109,12 +109,12 @@ describe('MilestoneSystem Component', () => {
       const project = createMockProject(elements);
       cy.mount(<MilestoneSystem project={project} />);
       
-      // Should have achieved: World Builder (1), Storyteller (5), and Lorekeeper (10)
+      // TODO: * Should have achieved: World Builder (1), Storyteller (5), and Lorekeeper (10)
       cy.contains('World Builder').parent().parent().should('not.have.class', 'opacity-50');
       cy.contains('Storyteller').parent().parent().should('not.have.class', 'opacity-50');
       cy.contains('Lorekeeper').parent().parent().should('not.have.class', 'opacity-50');
       
-      // Should not have achieved Master Chronicler (25)
+      // TODO: * Should not have achieved Master Chronicler (25)
       cy.contains('Master Chronicler').parent().parent().should('be.visible') // React Native Web uses inline styles instead of CSS classes;
     });
 
@@ -128,11 +128,11 @@ describe('MilestoneSystem Component', () => {
       const project = createMockProject(elements);
       cy.mount(<MilestoneSystem project={project} />);
       
-      // Should have achieved: Perfectionist (1 complete) and Detail Oriented (5 complete)
+      // TODO: * Should have achieved: Perfectionist (1 complete) and Detail Oriented (5 complete)
       cy.contains('Perfectionist').parent().parent().should('not.have.class', 'opacity-50');
       cy.contains('Detail Oriented').parent().parent().should('not.have.class', 'opacity-50');
       
-      // Should not have achieved Completionist (10 complete)
+      // TODO: * Should not have achieved Completionist (10 complete)
       cy.contains('Completionist').parent().parent().should('be.visible') // React Native Web uses inline styles instead of CSS classes;
     });
 
@@ -151,7 +151,7 @@ describe('MilestoneSystem Component', () => {
       const project = createMockProject(elements);
       cy.mount(<MilestoneSystem project={project} />);
       
-      // Should have 6 achievements: 
+      // TODO: * Should have 6 achievements: 
       // World Builder, Storyteller, Lorekeeper, Master Chronicler (creation)
       // Perfectionist, Detail Oriented (completion)
       cy.contains('Achievements Unlocked')
@@ -174,11 +174,11 @@ describe('MilestoneSystem Component', () => {
       const project = createMockProject(elements);
       cy.mount(<MilestoneSystem project={project} />);
       
-      // Next milestone is Storyteller (5 elements)
+      // * Next milestone is Storyteller (5 elements)
       cy.contains('Next: Storyteller').should('be.visible');
       cy.contains('3 / 5').should('be.visible');
       
-      // Progress bar should be 60% filled
+      // TODO: * Progress bar should be 60% filled
       cy.contains('Next: Storyteller')
         .parent()
         .parent()
@@ -197,11 +197,11 @@ describe('MilestoneSystem Component', () => {
       const project = createMockProject(elements);
       cy.mount(<MilestoneSystem project={project} />);
       
-      // Next milestone is Detail Oriented (5 complete)
+      // * Next milestone is Detail Oriented (5 complete)
       cy.contains('Next: Detail Oriented').should('be.visible');
       cy.contains('3 / 5').should('be.visible');
       
-      // Progress bar should be 60% filled
+      // TODO: * Progress bar should be 60% filled
       cy.contains('Next: Detail Oriented')
         .parent()
         .parent()
@@ -220,68 +220,68 @@ describe('MilestoneSystem Component', () => {
       const project = createMockProject(elements);
       cy.mount(<MilestoneSystem project={project} />);
       
-      // All element creation milestones achieved, but not all completion milestones
+      // * All element creation milestones achieved, but not all completion milestones
       cy.contains('Next: World Builder').should('not.exist');
       cy.contains('Next: World Architect').should('not.exist');
       
-      // Should still show completion milestone progress (not all achieved)
+      // ? TODO: * Should still show completion milestone progress (not all achieved)
       cy.contains('Next:').should('exist');
     });
   });
 
   describe('New Achievement Animation', () => {
     it('triggers confetti for newly achieved milestone', () => {
-      // Start with no elements
+      // * Start with no elements
       cy.mount(<MilestoneSystem project={createMockProject()} />);
       
-      // Add an element to trigger first milestone
+      // * Add an element to trigger first milestone
       const elements = [createMockElement()];
       const updatedProject = createMockProject(elements);
       
-      // Remount with updated project
+      // * Remount with updated project
       cy.mount(<MilestoneSystem project={updatedProject} />);
       
-      // Confetti should be triggered
+      // TODO: * Confetti should be triggered
       cy.wrap(mockConfetti).should('have.been.called');
     });
 
     it('shows NEW badge on recently achieved milestone', () => {
-      // Start with no elements
+      // * Start with no elements
       cy.mount(<MilestoneSystem project={createMockProject()} />);
       
-      // Add elements to trigger milestones
+      // * Add elements to trigger milestones
       const elements = Array.from({ length: 5 }, (_, i) => 
         createMockElement({ id: `element-${i}` })
       );
       const updatedProject = createMockProject(elements);
       
-      // Remount with updated project
+      // * Remount with updated project
       cy.mount(<MilestoneSystem project={updatedProject} />);
       
-      // Should show NEW badges
+      // ? TODO: * Should show NEW badges
       cy.contains('NEW!').should('exist');
       cy.get('.animate-bounce').should('exist');
       cy.get('.animate-pulse').should('exist');
     });
 
     it('removes NEW badge after 5 seconds', () => {
-      // Start with no elements
+      // * Start with no elements
       cy.mount(<MilestoneSystem project={createMockProject()} />);
       
-      // Add an element to trigger milestone
+      // * Add an element to trigger milestone
       const elements = [createMockElement()];
       const updatedProject = createMockProject(elements);
       
-      // Remount with updated project
+      // * Remount with updated project
       cy.mount(<MilestoneSystem project={updatedProject} />);
       
-      // NEW badge should be visible
+      // TODO: NEW badge should be visible
       cy.contains('NEW!').should('exist');
       
-      // Advance time by 5 seconds
+      // * Advance time by 5 seconds
       cy.tick(5000);
       
-      // NEW badge should be removed
+      // TODO: NEW badge should be removed
       cy.contains('NEW!').should('not.exist');
     });
   });
@@ -296,7 +296,7 @@ describe('MilestoneSystem Component', () => {
       const project = createMockProject(elements);
       cy.mount(<MilestoneSystem project={project} />);
       
-      // Mobile shows threshold count instead of full description
+      // // DEPRECATED: ? * Mobile shows threshold count instead of full description
       cy.contains('1 elements').should('be.visible');
       cy.contains('Create your first element').should('not.be.visible');
     });
@@ -305,7 +305,7 @@ describe('MilestoneSystem Component', () => {
       const project = createMockProject();
       cy.mount(<MilestoneSystem project={project} />);
       
-      // Check for mobile-specific classes
+      // * Check for mobile-specific classes
       cy.get('.text-xs').should('exist');
       cy.get('.p-3').should('exist');
       cy.get('.gap-3').should('exist');
@@ -318,7 +318,7 @@ describe('MilestoneSystem Component', () => {
       const project = createMockProject(elements);
       cy.mount(<MilestoneSystem project={project} />);
       
-      // Progress bars should be visible and functional
+      // TODO: * Progress bars should be visible and functional
       cy.contains('Next: Storyteller').should('be.visible');
       cy.get('[data-cy*="metals-gold"]').should('be.visible');
     });
@@ -329,13 +329,13 @@ describe('MilestoneSystem Component', () => {
       const project = createMockProject([]);
       cy.mount(<MilestoneSystem project={project} />);
       
-      // Should show 0 achievements
+      // ? TODO: * Should show 0 achievements
       cy.contains('Achievements Unlocked')
         .parent()
         .find('[class*="text-2xl"]')
         .should('have.text', '0');
       
-      // All milestones should be inactive
+      // TODO: * All milestones should be inactive
       cy.get('.opacity-50').should('have.length', 8);
     });
 
@@ -349,13 +349,13 @@ describe('MilestoneSystem Component', () => {
       const project = createMockProject(elements);
       cy.mount(<MilestoneSystem project={project} />);
       
-      // All milestones should be achieved
+      // TODO: * All milestones should be achieved
       cy.contains('Achievements Unlocked')
         .parent()
         .find('[class*="text-2xl"]')
         .should('have.text', '8');
       
-      // No progress sections should be shown
+      // ? TODO: * No progress sections should be shown
       cy.contains('Next:').should('not.exist');
     });
 
@@ -374,21 +374,21 @@ describe('MilestoneSystem Component', () => {
     });
 
     it('handles rapid state changes', () => {
-      // Start with no elements
+      // * Start with no elements
       cy.mount(<MilestoneSystem project={createMockProject()} />);
       
-      // Rapidly add elements
+      // * Rapidly add elements
       for (let i = 1; i <= 5; i++) {
         const elements = Array.from({ length: i }, (_, j) => 
           createMockElement({ id: `element-${j}` })
         );
         const project = createMockProject(elements);
         
-        // Remount with updated project
+        // * Remount with updated project
         cy.mount(<MilestoneSystem project={project} />);
       }
       
-      // Should handle all updates correctly
+      // TODO: * Should handle all updates correctly
       cy.contains('Storyteller').parent().parent().should('not.have.class', 'opacity-50');
     });
   });
@@ -398,7 +398,7 @@ describe('MilestoneSystem Component', () => {
       const project = createMockProject();
       cy.mount(<MilestoneSystem project={project} />);
       
-      // Check for proper heading hierarchy
+      // * Check for proper heading hierarchy
       cy.get('h2').contains('Achievements').should('exist');
       cy.get('h3').should('exist');
     });
@@ -408,12 +408,12 @@ describe('MilestoneSystem Component', () => {
       const project = createMockProject(elements);
       cy.mount(<MilestoneSystem project={project} />);
       
-      // Active milestone should have good contrast
+      // TODO: * Active milestone should have good contrast
       cy.contains('World Builder')
         .should('be.visible') // React Native Web uses inline styles instead of CSS classes
         .and('be.visible');
       
-      // Inactive milestones should be visible but dimmed
+      // TODO: * Inactive milestones should be visible but dimmed
       cy.contains('Storyteller')
         .should('be.visible') // React Native Web uses inline styles instead of CSS classes
         .and('be.visible');
@@ -426,14 +426,14 @@ describe('MilestoneSystem Component', () => {
       const project = createMockProject(elements);
       cy.mount(<MilestoneSystem project={project} />);
       
-      // Achieved milestones should have distinct styling
+      // TODO: * Achieved milestones should have distinct styling
       cy.contains('Storyteller')
         .parent()
         .parent()
         .should('be.visible') // React Native Web uses inline styles instead of CSS classes
         .and('not.have.class', 'opacity-50');
       
-      // Icons should be visible
+      // TODO: * Icons should be visible
       cy.get('.lucide-star').should('exist');
       cy.get('.lucide-sparkles').should('exist');
     });
@@ -445,7 +445,7 @@ describe('MilestoneSystem Component', () => {
       const project = createMockProject(elements);
       cy.mount(<MilestoneSystem project={project} />);
       
-      // World Builder should have sapphire styling
+      // TODO: World Builder should have sapphire styling
       cy.contains('World Builder')
         .parent()
         .parent()
@@ -467,25 +467,25 @@ describe('MilestoneSystem Component', () => {
       const project = createMockProject(elements);
       cy.mount(<MilestoneSystem project={project} />);
       
-      // Element progress should use gold
+      // // DEPRECATED: TODO: * Element progress should use gold
       cy.get('[data-cy*="metals-gold"]').should('exist');
       
-      // Completion progress should use forest green
+      // TODO: * Completion progress should use forest green
       cy.get('[data-cy*="forest-"]500').should('exist');
     });
 
     it('animates milestone achievement', () => {
-      // Start with no elements
+      // * Start with no elements
       cy.mount(<MilestoneSystem project={createMockProject()} />);
       
-      // Add element to trigger animation
+      // * Add element to trigger animation
       const elements = [createMockElement()];
       const updatedProject = createMockProject(elements);
       
-      // Remount with updated project
+      // * Remount with updated project
       cy.mount(<MilestoneSystem project={updatedProject} />);
       
-      // Check for animation classes
+      // * Check for animation classes
       cy.get('.animate-pulse').should('exist');
       cy.get('.animate-bounce').should('exist');
       cy.get('.ring-2.ring-flame-400').should('exist');

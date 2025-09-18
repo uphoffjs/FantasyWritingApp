@@ -4,7 +4,7 @@ import { CustomElementType } from './CustomElementType';
 
 export interface ProjectSettings {
   useRichText?: boolean;
-  // Add other settings as needed
+  // * Add other settings as needed
 }
 
 export interface ProjectMetadata {

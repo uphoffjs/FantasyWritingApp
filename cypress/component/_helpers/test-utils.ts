@@ -1,4 +1,4 @@
-// Common test utilities for Cypress component tests
+// * Common test utilities for Cypress component tests
 
 export const waitForAnimation = () => cy.wait(300);
 
@@ -80,7 +80,7 @@ export const pressEnter = () => {
   cy.focused().type('{enter}');
 };
 
-// Mobile viewport helpers
+// * Mobile viewport helpers
 export const setMobileViewport = () => {
   cy.viewport('iphone-x');
 };
@@ -93,7 +93,7 @@ export const setDesktopViewport = () => {
   cy.viewport(1280, 720);
 };
 
-// Error state helpers
+// * Error state helpers
 export const checkErrorMessage = (message: string) => {
   cy.get('[data-cy="error-message"]').should('contain', message);
 };
@@ -102,7 +102,7 @@ export const checkNoErrorMessage = () => {
   cy.get('[data-cy="error-message"]').should('not.exist');
 };
 
-// Loading state helpers
+// * Loading state helpers
 export const checkLoadingState = () => {
   cy.get('[data-cy="loading-spinner"]').should('be.visible');
 };

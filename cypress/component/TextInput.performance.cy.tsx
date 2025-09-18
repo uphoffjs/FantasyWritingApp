@@ -16,7 +16,7 @@ import {
 } from '../support/test-optimization-config';
 
 describe('TextInput - Performance & Memory', () => {
-  // Set up performance hooks for all tests
+  // ! PERFORMANCE: * Set up performance hooks for all tests
   setupPerformanceHooks();
 
   describe('Memory Management', () => {
@@ -39,10 +39,10 @@ describe('TextInput - Performance & Memory', () => {
 
       cy.mount(<MountUnmountTest />);
       
-      // Take initial snapshot
+      // * Take initial snapshot
       MemoryManagement.takeSnapshot('initial');
       
-      // Perform multiple mount/unmount cycles
+      // * Perform multiple mount/unmount cycles
       for (let i = 0; i < 10; i++) {
         cy.get('[data-testid="toggle-mount"]').click();
         cy.wait(50);
@@ -50,12 +50,12 @@ describe('TextInput - Performance & Memory', () => {
         cy.wait(50);
       }
       
-      // Force garbage collection and take final snapshot
+      // * Force garbage collection and take final snapshot
       MemoryManagement.forceGarbageCollection();
       cy.wait(100);
       MemoryManagement.takeSnapshot('final');
       
-      // Check for memory leaks
+      // * Check for memory leaks
       const leak = MemoryManagement.compareSnapshots('initial', 'final');
       expect(leak).to.be.lessThan(TestConfig.memoryThresholds.leak);
     });
@@ -63,19 +63,19 @@ describe('TextInput - Performance & Memory', () => {
     it('should clean up event listeners properly', () => {
       cy.mount(<TextInput data-testid="test-input" />);
       
-      // Add multiple event listeners
+      // * Add multiple event listeners
       cy.get('[data-testid="test-input"]').then($input => {
         const element = $input[0];
         let listenerCount = 0;
         
-        // Track event listeners
+        // * Track event listeners
         const originalAddEventListener = element.addEventListener;
         element.addEventListener = function(...args) {
           listenerCount++;
           return originalAddEventListener.apply(this, args);
         };
         
-        // Simulate heavy interaction
+        // * Simulate heavy interaction
         for (let i = 0; i < 20; i++) {
           cy.get('[data-testid="test-input"]')
             .focus()
@@ -83,10 +83,10 @@ describe('TextInput - Performance & Memory', () => {
             .blur();
         }
         
-        // Unmount and check cleanup
+        // * Unmount and check cleanup
         cy.mount(<div>Empty</div>);
         
-        // Verify listeners were removed (count should be 0 or very low)
+        // TODO: * Verify listeners were removed (count should be 0 or very low)
         expect(listenerCount).to.be.lessThan(5);
       });
     });
@@ -106,7 +106,7 @@ describe('TextInput - Performance & Memory', () => {
         'after-large-text'
       );
       
-      // Memory increase should be reasonable for 10KB of text
+      // TODO: * Memory increase should be reasonable for 10KB of text
       expect(memoryIncrease).to.be.lessThan(TestConfig.memoryThresholds.warning);
     });
   });
@@ -140,7 +140,7 @@ describe('TextInput - Performance & Memory', () => {
       
       const start = PerformanceMonitoring.startTiming('render-updates');
       
-      // Type rapidly to trigger multiple renders
+      // * Type rapidly to trigger multiple renders
       cy.get('[data-testid="test-input"]').type('Performance test text', { delay: 0 });
       
       const duration = PerformanceMonitoring.endTiming('render-updates', start);
@@ -154,7 +154,7 @@ describe('TextInput - Performance & Memory', () => {
       
       const start = PerformanceMonitoring.startTiming('rapid-interaction');
       
-      // Simulate rapid user input
+      // * Simulate rapid user input
       for (let i = 0; i < 50; i++) {
         cy.get('[data-testid="test-input"]')
           .type('a', { delay: 0 })
@@ -192,7 +192,7 @@ describe('TextInput - Performance & Memory', () => {
         5
       );
       
-      // Compare the performance
+      // ! PERFORMANCE: * Compare the performance
       cy.wrap(null).then(() => {
         const stats = PerformanceMonitoring.getStatistics('mount');
         cy.log(`Mount Performance - Avg: ${stats.avg.toFixed(2)}ms, P95: ${stats.p95.toFixed(2)}ms`);
@@ -227,7 +227,7 @@ describe('TextInput - Performance & Memory', () => {
         }
       ], 5);
       
-      // Results are logged automatically by comparePerformance
+      // ! PERFORMANCE: * Results are logged automatically by comparePerformance
       expect(results).to.have.property('Uncontrolled');
       expect(results).to.have.property('Controlled');
     });
@@ -237,7 +237,7 @@ describe('TextInput - Performance & Memory', () => {
     it('should not cause frame drops during input', () => {
       cy.mount(<TextInput data-testid="test-input" />);
       
-      // Monitor frame rate during interaction
+      // * Monitor frame rate during interaction
       if ('requestAnimationFrame' in window) {
         let frameCount = 0;
         const startTime = performance.now();
@@ -251,11 +251,11 @@ describe('TextInput - Performance & Memory', () => {
         
         requestAnimationFrame(measureFrames);
         
-        // Type while monitoring frames
+        // * Type while monitoring frames
         cy.get('[data-testid="test-input"]').type('Frame rate test input text');
         
         cy.wait(1000).then(() => {
-          // Should maintain close to 60 FPS
+          // TODO: * Should maintain close to 60 FPS
           expect(frameCount).to.be.greaterThan(50);
         });
       }
@@ -289,11 +289,11 @@ describe('TextInput - Performance & Memory', () => {
       
       const mountDuration = PerformanceMonitoring.endTiming('batch-mount', start);
       
-      // Batch mounting should be efficient
+      // TODO: * Batch mounting should be efficient
       const averagePerInput = mountDuration / 10;
       expect(averagePerInput).to.be.lessThan(TestConfig.performanceBudgets.componentMount);
       
-      // Test batch updates
+      // * Test batch updates
       const updateStart = PerformanceMonitoring.startTiming('batch-update');
       
       TestOptimization.batchDOMOperations([
@@ -336,10 +336,10 @@ describe('TextInput - Performance & Memory', () => {
 
       cy.mount(<DebouncedInput />);
       
-      // Use optimized helper for stable interaction
+      // * Use optimized helper for stable interaction
       OptimizedHelpers.interactWithRetry('debounced-input', 'type', 'test');
       
-      // Wait for debounce with stable state
+      // ! PERFORMANCE: * Wait for debounce with stable state
       OptimizedHelpers.waitForStableState();
       
       cy.get('[data-testid="debounced-output"]').should('have.text', 'test');
@@ -367,14 +367,14 @@ describe('TextInput - Performance & Memory', () => {
 
       cy.mount(<ThrottledInput />);
       
-      // Type rapidly
+      // * Type rapidly
       for (let i = 0; i < 10; i++) {
         cy.get('[data-testid="throttled-input"]').type('a', { delay: 10 });
       }
       
       cy.wait(500);
       
-      // Updates should be throttled (less than 10)
+      // TODO: ! PERFORMANCE: * Updates should be throttled (less than 10)
       cy.get('[data-testid="update-count"]').then($el => {
         const count = parseInt($el.text());
         expect(count).to.be.lessThan(10);
@@ -385,11 +385,11 @@ describe('TextInput - Performance & Memory', () => {
 
   describe('Performance Report', () => {
     after(() => {
-      // Generate comprehensive performance report
+      // ! PERFORMANCE: * Generate comprehensive performance report
       cy.wrap(null).then(() => {
         cy.log('=== Performance Test Summary ===');
         
-        // Memory statistics
+        // * Memory statistics
         const memorySnapshots = Array.from(MemoryManagement.memorySnapshots.entries());
         if (memorySnapshots.length > 0) {
           cy.log('Memory Usage:');
@@ -398,7 +398,7 @@ describe('TextInput - Performance & Memory', () => {
           });
         }
         
-        // Timing statistics
+        // * Timing statistics
         const timingLabels = ['mount', 'render-updates', 'interaction'];
         timingLabels.forEach(label => {
           const stats = PerformanceMonitoring.getStatistics(label);
@@ -409,7 +409,7 @@ describe('TextInput - Performance & Memory', () => {
           }
         });
         
-        // Benchmark results
+        // * Benchmark results
         const benchmarks = Array.from(Benchmarking.benchmarks.entries());
         if (benchmarks.length > 0) {
           cy.log('Benchmark Results:');

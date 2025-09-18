@@ -3,7 +3,7 @@ import { SyncQueueStatus } from '../../src/components/SyncQueueStatus';
 import { ConflictResolver, SyncConflict } from '../../src/components/ConflictResolver';
 import { AutoSyncStatus } from '../../src/components/AutoSyncStatus';
 
-// Mock the sync queue manager
+// * Mock the sync queue manager
 const mockSyncQueueManager = {
   getQueueStatus: cy.stub().resolves({
     total: 5,
@@ -17,7 +17,7 @@ jest.mock('../../src/services/syncQueue', () => ({
   syncQueueManager: mockSyncQueueManager
 }));
 
-// Mock the auto sync service
+// * Mock the auto sync service
 const mockAutoSyncService = {
   getState: cy.stub().returns({
     status: 'idle' as 'idle' | 'syncing' | 'offline' | 'error',
@@ -33,7 +33,7 @@ jest.mock('../../src/services/autoSync', () => ({
   autoSyncService: mockAutoSyncService
 }));
 
-// Mock auth store
+// ! SECURITY: * Mock auth store
 const mockAuthStore = {
   isAuthenticated: true,
   isOfflineMode: false
@@ -43,16 +43,16 @@ jest.mock('../../src/store/authStore', () => ({
   useAuthStore: () => mockAuthStore
 }));
 
-// Mock toast store
+// * Mock toast store
 let mockAddToast: any;
 
 beforeEach(() => {
   mockAddToast = cy.stub();
   // Note: jest.mock doesn't work in Cypress
-  // You'll need to mock useToastStore differently
+  // TODO: You'll need to mock useToastStore differently
 });
 
-// Mock date-fns
+// * Mock date-fns
 jest.mock('date-fns', () => ({
   formatDistanceToNow: cy.stub().returns('5 minutes')
 }));
@@ -62,7 +62,7 @@ describe('SyncQueueStatus Component', () => {
     mockSyncQueueManager.getQueueStatus.resetHistory();
     mockSyncQueueManager.clearQueue.resetHistory();
     
-    // Reset to default queue status
+    // * Reset to default queue status
     mockSyncQueueManager.getQueueStatus.resolves({
       total: 5,
       byPriority: { high: 1, normal: 3, low: 1 },
@@ -107,12 +107,12 @@ describe('SyncQueueStatus Component', () => {
     
     cy.contains('5 pending').click();
     
-    // Check priority items
+    // * Check priority items
     cy.contains('high').should('be.visible');
     cy.contains('normal').should('be.visible');
     cy.contains('low').should('be.visible');
     
-    // Check counts
+    // * Check counts
     cy.contains('high').parent().contains('1');
     cy.contains('normal').parent().contains('3');
     cy.contains('low').parent().contains('1');
@@ -183,7 +183,7 @@ describe('SyncQueueStatus Component', () => {
     
     cy.contains('5 pending').click();
     
-    // Check for different colored icons
+    // * Check for different colored icons
     cy.get('.text-blood-400').should('exist'); // high priority
     cy.get('.text-flame-400').should('exist'); // normal priority
     cy.get('.text-forest-400').should('exist'); // low priority
@@ -397,9 +397,9 @@ describe('ConflictResolver Component', () => {
       />
     );
     
-    // Check that dates are displayed
+    // * Check that dates are displayed
     cy.contains('Modified:').should('exist');
-    // Date formatting will vary based on locale
+    // * Date formatting will vary based on locale
   });
 
   it('animates modal entrance', () => {
@@ -424,7 +424,7 @@ describe('AutoSyncStatus Component', () => {
     mockAutoSyncService.retry.resetHistory();
     mockAddToast.resetHistory();
     
-    // Reset to default state
+    // * Reset to default state
     mockAutoSyncService.getState.returns({
       status: 'idle',
       pendingOperations: 0,

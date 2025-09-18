@@ -32,12 +32,13 @@ export function CrossPlatformPicker({
   style,
   enabled = true,
   placeholder = "Select an option...",
-  dropdownIconColor = "#9CA3AF",
+  dropdownIconColor = "// ! HARDCODED: Should use design tokens
+      #9CA3AF",
   mode = "dropdown", // eslint-disable-line @typescript-eslint/no-unused-vars
 }: CrossPlatformPickerProps) {
   const [isOpen, setIsOpen] = useState(false);
 
-  // For web, use native select element
+  // * For web, use native select element
   if (Platform.OS === 'web') {
     return (
       <select
@@ -58,7 +59,7 @@ export function CrossPlatformPicker({
     );
   }
 
-  // For native, use custom dropdown
+  // * For native, use custom dropdown
   const selectedItem = items.find(item => item.value === selectedValue);
   const displayText = selectedItem ? selectedItem.label : placeholder;
 
@@ -124,7 +125,7 @@ export function CrossPlatformPicker({
 }
 
 const styles = StyleSheet.create({
-  // Web styles
+  // * Web styles
   webSelect: {
     appearance: 'none',
     WebkitAppearance: 'none',
@@ -132,11 +133,16 @@ const styles = StyleSheet.create({
     paddingRight: 30,
     paddingLeft: 12,
     backgroundImage: `url("data:image/svg+xml;charset=US-ASCII,${encodeURIComponent(
-      '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><path fill="#9CA3AF" d="M6 9L1 4h10z"/></svg>'
+      '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><path fill="// ! HARDCODED: Should use design tokens
+      #9CA3AF" d="M6 9L1 4h10z"/></svg>'
     )}")`,
     backgroundRepeat: 'no-repeat',
-    backgroundPosition: 'right 12px center',
-    backgroundSize: '12px 12px',
+    backgroundPosition: 'right // ! HARDCODED: Should use design tokens
+      12px center',
+    backgroundSize: '// ! HARDCODED: Should use design tokens
+      12px // ! HARDCODED: Should use design tokens
+      12px',
+    // ! HARDCODED: Should use design tokens
     color: '#F9FAFB',
     backgroundColor: 'transparent',
     border: 'none',
@@ -146,12 +152,14 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   webOption: {
+    // ! HARDCODED: Should use design tokens
     backgroundColor: '#1F2937',
+    // ! HARDCODED: Should use design tokens
     color: '#F9FAFB',
     padding: 8,
   },
 
-  // Native styles
+  // * Native styles
   nativeButton: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -163,9 +171,11 @@ const styles = StyleSheet.create({
   buttonText: {
     flex: 1,
     fontSize: 14,
+    // ! HARDCODED: Should use design tokens
     color: '#F9FAFB',
   },
   placeholderText: {
+    // ! HARDCODED: Should use design tokens
     color: '#6B7280',
   },
   arrow: {
@@ -176,7 +186,7 @@ const styles = StyleSheet.create({
     opacity: 0.5,
   },
 
-  // Modal styles
+  // * Modal styles
   modalOverlay: {
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
@@ -184,6 +194,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   modalContent: {
+    // ! HARDCODED: Should use design tokens
     backgroundColor: '#111827',
     borderRadius: 12,
     width: '90%',
@@ -201,11 +212,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '#374151',
+    borderBottomColor: '// ! HARDCODED: Should use design tokens
+      #374151',
   },
   modalTitle: {
     fontSize: 18,
     fontWeight: '600',
+    // ! HARDCODED: Should use design tokens
     color: '#F9FAFB',
   },
   closeButton: {
@@ -213,6 +226,7 @@ const styles = StyleSheet.create({
   },
   closeButtonText: {
     fontSize: 18,
+    // ! HARDCODED: Should use design tokens
     color: '#6B7280',
   },
   optionsList: {
@@ -225,21 +239,26 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#374151',
+    borderBottomColor: '// ! HARDCODED: Should use design tokens
+      #374151',
   },
   optionSelected: {
+    // ! HARDCODED: Should use design tokens
     backgroundColor: '#374151',
   },
   optionText: {
     fontSize: 14,
+    // ! HARDCODED: Should use design tokens
     color: '#F9FAFB',
     flex: 1,
   },
   optionSelectedText: {
+    // ! HARDCODED: Should use design tokens
     color: '#6366F1',
     fontWeight: '500',
   },
   checkmark: {
+    // ! HARDCODED: Should use design tokens
     color: '#6366F1',
     fontSize: 16,
     fontWeight: 'bold',

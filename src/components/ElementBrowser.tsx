@@ -23,7 +23,7 @@ interface ElementBrowserProps {
   onRefresh?: () => void;
 }
 
-// Category filter options
+// * Category filter options
 const CATEGORY_FILTERS: Array<{ value: ElementCategory | 'all'; label: string; icon: string }> = [
   { value: 'all', label: 'All', icon: '📚' },
   { value: 'character', label: 'Characters', icon: '👤' },
@@ -39,7 +39,7 @@ const CATEGORY_FILTERS: Array<{ value: ElementCategory | 'all'; label: string; i
   { value: 'technology', label: 'Technology', icon: '⚙️' },
 ];
 
-// Sort options
+// * Sort options
 const SORT_OPTIONS = [
   { value: 'name', label: 'Name' },
   { value: 'updated', label: 'Recently Updated' },
@@ -60,16 +60,16 @@ export function ElementBrowser({
   const [sortBy, setSortBy] = useState<'name' | 'updated' | 'created' | 'completion'>('updated');
   const [showSortOptions, setShowSortOptions] = useState(false);
 
-  // Filter and sort elements
+  // * Filter and sort elements
   const filteredElements = useMemo(() => {
     let filtered = [...elements];
 
-    // Apply category filter
+    // * Apply category filter
     if (selectedCategory !== 'all') {
       filtered = filtered.filter((e) => e.category === selectedCategory);
     }
 
-    // Apply search filter
+    // * Apply search filter
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
       filtered = filtered.filter(
@@ -80,7 +80,7 @@ export function ElementBrowser({
       );
     }
 
-    // Apply sorting
+    // * Apply sorting
     filtered.sort((a, b) => {
       switch (sortBy) {
         case 'name':
@@ -114,7 +114,8 @@ export function ElementBrowser({
     if (loading) {
       return (
         <View style={styles.emptyContainer}>
-          <ActivityIndicator size="large" color="#6366F1" />
+          <ActivityIndicator size="large" // ! HARDCODED: Should use design tokens
+          color="#6366F1" />
           <Text style={styles.emptyText}>Loading elements...</Text>
         </View>
       );
@@ -150,6 +151,7 @@ export function ElementBrowser({
         <TextInput
           style={styles.searchInput}
           placeholder="Search elements..."
+          // ! HARDCODED: Should use design tokens
           placeholderTextColor="#6B7280"
           value={searchQuery}
           onChangeText={setSearchQuery}
@@ -259,7 +261,9 @@ export function ElementBrowser({
             <RefreshControl
               refreshing={refreshing}
               onRefresh={onRefresh}
+              // ! HARDCODED: Should use design tokens
               tintColor="#6366F1"
+              // ! HARDCODED: Should use design tokens
               colors={['#6366F1']}
             />
           ) : undefined
@@ -285,6 +289,7 @@ export function ElementBrowser({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    // ! HARDCODED: Should use design tokens
     backgroundColor: '#111827',
   },
   header: {
@@ -295,6 +300,7 @@ const styles = StyleSheet.create({
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    // ! HARDCODED: Should use design tokens
     backgroundColor: '#1F2937',
     borderRadius: 8,
     paddingHorizontal: 12,
@@ -307,6 +313,7 @@ const styles = StyleSheet.create({
   searchInput: {
     flex: 1,
     height: 40,
+    // ! HARDCODED: Should use design tokens
     color: '#F9FAFB',
     fontSize: 14,
   },
@@ -315,6 +322,7 @@ const styles = StyleSheet.create({
   },
   clearIcon: {
     fontSize: 16,
+    // ! HARDCODED: Should use design tokens
     color: '#6B7280',
   },
   filterContainer: {
@@ -328,6 +336,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 12,
     paddingVertical: 6,
+    // ! HARDCODED: Should use design tokens
     backgroundColor: '#1F2937',
     borderRadius: 16,
     marginRight: 8,
@@ -335,7 +344,9 @@ const styles = StyleSheet.create({
     borderColor: 'transparent',
   },
   filterChipSelected: {
-    backgroundColor: '#4338CA20',
+    backgroundColor: '// ! HARDCODED: Should use design tokens
+      #4338CA20',
+    // ! HARDCODED: Should use design tokens
     borderColor: '#6366F1',
   },
   filterIcon: {
@@ -344,10 +355,12 @@ const styles = StyleSheet.create({
   },
   filterLabel: {
     fontSize: 12,
+    // ! HARDCODED: Should use design tokens
     color: '#9CA3AF',
     fontWeight: '500',
   },
   filterLabelSelected: {
+    // ! HARDCODED: Should use design tokens
     color: '#6366F1',
   },
   sortContainer: {
@@ -361,6 +374,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 12,
     paddingVertical: 6,
+    // ! HARDCODED: Should use design tokens
     backgroundColor: '#1F2937',
     borderRadius: 6,
   },
@@ -370,19 +384,23 @@ const styles = StyleSheet.create({
   },
   sortText: {
     fontSize: 12,
+    // ! HARDCODED: Should use design tokens
     color: '#F9FAFB',
   },
   resultCount: {
     fontSize: 12,
+    // ! HARDCODED: Should use design tokens
     color: '#6B7280',
   },
   sortDropdown: {
     position: 'absolute',
     top: 140,
     left: 16,
+    // ! HARDCODED: Should use design tokens
     backgroundColor: '#1F2937',
     borderRadius: 8,
     borderWidth: 1,
+    // ! HARDCODED: Should use design tokens
     borderColor: '#374151',
     paddingVertical: 4,
     minWidth: 150,
@@ -401,18 +419,22 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
   },
   sortOptionSelected: {
+    // ! HARDCODED: Should use design tokens
     backgroundColor: '#374151',
   },
   sortOptionText: {
     fontSize: 14,
+    // ! HARDCODED: Should use design tokens
     color: '#9CA3AF',
   },
   sortOptionTextSelected: {
+    // ! HARDCODED: Should use design tokens
     color: '#6366F1',
     fontWeight: '600',
   },
   checkIcon: {
     fontSize: 12,
+    // ! HARDCODED: Should use design tokens
     color: '#6366F1',
   },
   listContent: {
@@ -435,11 +457,13 @@ const styles = StyleSheet.create({
   emptyTitle: {
     fontSize: 18,
     fontWeight: '600',
+    // ! HARDCODED: Should use design tokens
     color: '#F9FAFB',
     marginBottom: 8,
   },
   emptyText: {
     fontSize: 14,
+    // ! HARDCODED: Should use design tokens
     color: '#6B7280',
     textAlign: 'center',
     marginBottom: 24,
@@ -447,12 +471,14 @@ const styles = StyleSheet.create({
   createButton: {
     paddingHorizontal: 24,
     paddingVertical: 12,
+    // ! HARDCODED: Should use design tokens
     backgroundColor: '#6366F1',
     borderRadius: 8,
   },
   createButtonText: {
     fontSize: 14,
     fontWeight: '600',
+    // ! HARDCODED: Should use design tokens
     color: '#FFFFFF',
   },
   fab: {
@@ -462,6 +488,7 @@ const styles = StyleSheet.create({
     width: 56,
     height: 56,
     borderRadius: 28,
+    // ! HARDCODED: Should use design tokens
     backgroundColor: '#6366F1',
     justifyContent: 'center',
     alignItems: 'center',
@@ -473,6 +500,7 @@ const styles = StyleSheet.create({
   },
   fabIcon: {
     fontSize: 28,
+    // ! HARDCODED: Should use design tokens
     color: '#FFFFFF',
     fontWeight: '300',
   },

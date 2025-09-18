@@ -18,9 +18,9 @@ export const TestableView: React.FC<TestableViewProps> = ({
   const ref = useRef<any>(null);
 
   useEffect(() => {
-    // Only run on web platform
+    // * Only run on web platform
     if (Platform.OS === 'web' && ref.current && dataCy) {
-      // Set data-cy attribute directly on the DOM element
+      // * Set data-cy attribute directly on the DOM element
       if (ref.current._nativeTag) {
         const element = document.querySelector(`[data-reactroot] [data-rnw-id="${ref.current._nativeTag}"]`);
         if (element) {
@@ -32,14 +32,14 @@ export const TestableView: React.FC<TestableViewProps> = ({
     }
   }, [dataCy]);
 
-  // Build attributes object
+  // * Build attributes object
   const testAttributes: any = {};
   
   if (dataCy) {
-    // Add testID for React Native testing
+    // * Add testID for React Native testing
     testAttributes.testID = dataCy;
     
-    // Add web-specific attributes
+    // * Add web-specific attributes
     if (Platform.OS === 'web') {
       testAttributes['data-cy'] = dataCy;
       testAttributes['data-testid'] = dataCy;
@@ -57,7 +57,7 @@ export const TestableView: React.FC<TestableViewProps> = ({
   );
 };
 
-// Helper function to create testable attributes
+// * Helper function to create testable attributes
 export const getTestableProps = (id: string): any => {
   const props: any = {
     testID: id,

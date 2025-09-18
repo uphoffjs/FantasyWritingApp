@@ -136,7 +136,7 @@ declare module 'react-window' {
   export const VariableSizeList: ComponentType<VariableSizeListProps>;
   export const FixedSizeGrid: ComponentType<FixedSizeGridProps>;
   
-  // Aliases for common usage
+  // * Aliases for common usage
   export const List: typeof FixedSizeList;
   export const Grid: typeof FixedSizeGrid;
 }

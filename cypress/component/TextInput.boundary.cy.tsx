@@ -4,7 +4,7 @@ import { TextInput } from '../../src/components/TextInput';
 import { BoundaryValues, FormBoundaryData, BoundaryTestHelpers } from '../support/boundary-test-utils';
 
 describe('TextInput - Boundary Conditions', () => {
-  // Test wrapper component
+  // * Test wrapper component
   const TestWrapper = ({ value, onChange, ...props }: any) => {
     const [currentValue, setCurrentValue] = React.useState(value || '');
     
@@ -67,7 +67,7 @@ describe('TextInput - Boundary Conditions', () => {
       const xss = '<script>alert("xss")</script>';
       cy.mount(<TestWrapper value={xss} />);
       cy.get('[data-testid="text-input"]').should('have.value', xss);
-      // Verify script is not executed
+      // * Verify script is not executed
       cy.window().then((win) => {
         cy.stub(win, 'alert').as('alertStub');
       });
@@ -101,7 +101,7 @@ describe('TextInput - Boundary Conditions', () => {
       
       cy.get('[data-testid="text-input"]').type('abc');
       cy.get('[data-testid="text-input"]').blur();
-      // Input should be invalid
+      // TODO: * Input should be invalid
       cy.get('[data-testid="text-input"]').then(($input) => {
         expect($input[0].validity.tooShort).to.be.true;
       });
@@ -138,7 +138,7 @@ describe('TextInput - Boundary Conditions', () => {
     it('handles null onChange', () => {
       cy.mount(<TestWrapper value="test" onChange={null} />);
       cy.get('[data-testid="text-input"]').type(' more text');
-      // Should not throw error
+      // TODO: * Should not throw error
       cy.get('[data-testid="text-input"]').should('have.value', 'test more text');
     });
   });
@@ -151,7 +151,7 @@ describe('TextInput - Boundary Conditions', () => {
       const longText = 'a'.repeat(100);
       cy.get('[data-testid="text-input"]').type(longText, { delay: 0 });
       cy.get('[data-testid="text-input"]').should('have.value', longText);
-      // Verify onChange was called for each character
+      // * Verify onChange was called for each character
       cy.wrap(onChange).its('callCount').should('be.gte', 50);
     });
 
@@ -224,7 +224,7 @@ describe('TextInput - Boundary Conditions', () => {
         />
       );
       
-      // Test invalid patterns
+      // * Test invalid patterns
       const invalidInputs = ['john doe', 'JOHN DOE', 'John', '123', 'John123 Doe'];
       invalidInputs.forEach(input => {
         cy.get('[data-testid="text-input"]').clear().type(input).blur();
@@ -233,7 +233,7 @@ describe('TextInput - Boundary Conditions', () => {
         });
       });
       
-      // Test valid pattern
+      // * Test valid pattern
       cy.get('[data-testid="text-input"]').clear().type('John Doe').blur();
       cy.get('[data-testid="text-input"]').then(($input) => {
         expect($input[0].validity.valid).to.be.true;
@@ -278,7 +278,7 @@ describe('TextInput - Boundary Conditions', () => {
       const specialError = 'Error: <script>alert("xss")</script> & "quotes"';
       cy.mount(<TestWrapper value="invalid" error={true} errorText={specialError} />);
       cy.get('[data-testid="error-text"]').should('contain.text', specialError);
-      // Verify no script execution
+      // * Verify no script execution
       cy.window().then((win) => {
         cy.stub(win, 'alert').as('alertStub');
       });

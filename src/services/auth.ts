@@ -51,9 +51,9 @@ class AuthService {
 
   async resendVerificationEmail(email: string) {
     try {
-      // Supabase doesn't have a direct resend verification email method
-      // The typical approach is to sign out and sign in again to trigger a new verification email
-      // Or use the resend OTP method for email verification
+      // * Supabase doesn't have a direct resend verification email method
+      // * The typical approach is to sign out and sign in again to trigger a new verification email
+      // * Or use the resend OTP method for email verification
       const { error } = await supabase.auth.resend({
         type: 'signup',
         email: email,
@@ -78,8 +78,8 @@ class AuthService {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return false;
       
-      // Check if email is verified from user metadata
-      // Supabase sets email_confirmed_at when email is verified
+      // * Check if email is verified from user metadata
+      // * Supabase sets email_confirmed_at when email is verified
       return user.email_confirmed_at !== null && user.email_confirmed_at !== undefined;
     } catch (error) {
       console.error('Error checking email verification:', error);
@@ -96,7 +96,7 @@ class AuthService {
         .single();
 
       if (error) {
-        // Profile might not exist yet, which is ok
+        // * Profile might not exist yet, which is ok
         if (error.code === 'PGRST116') {
           return null;
         }

@@ -20,7 +20,7 @@ import {
  * These ensure data integrity when loading from localStorage, API, or imports
  */
 
-// Helper functions
+// * Helper functions
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
@@ -94,7 +94,7 @@ export function isQuestionValidation(value: unknown): value is QuestionValidatio
   );
 }
 
-// Question guard
+// * Question guard
 export function isQuestion(value: unknown): value is Question {
   if (!isRecord(value)) return false;
   
@@ -106,7 +106,7 @@ export function isQuestion(value: unknown): value is Question {
   
   if (!hasRequiredFields) return false;
   
-  // Check optional fields
+  // * Check optional fields
   const optionalFieldsValid = (
     (!hasProperty(value, 'category') || isString(value.category)) &&
     (!hasProperty(value, 'subcategory') || isString(value.subcategory)) &&
@@ -122,7 +122,7 @@ export function isQuestion(value: unknown): value is Question {
   return optionalFieldsValid;
 }
 
-// Answer guard
+// * Answer guard
 export function isAnswer(value: unknown): value is Answer {
   if (!isRecord(value)) return false;
   
@@ -152,7 +152,7 @@ export function isRelationshipMetadata(value: unknown): value is RelationshipMet
   );
 }
 
-// Relationship guard
+// * Relationship guard
 export function isRelationship(value: unknown): value is Relationship {
   if (!isRecord(value)) return false;
   
@@ -186,14 +186,14 @@ export function isWorldElement(value: unknown): value is WorldElement {
   
   if (!hasRequiredFields) return false;
   
-  // Check answers are all valid
+  // * Check answers are all valid
   if (hasProperty(value, 'answers') && isRecord(value.answers)) {
     for (const answer of Object.values(value.answers)) {
       if (!isAnswer(answer)) return false;
     }
   }
   
-  // Check optional fields
+  // * Check optional fields
   const optionalFieldsValid = (
     (!hasProperty(value, 'description') || isString(value.description)) &&
     (!hasProperty(value, 'customTypeId') || isString(value.customTypeId)) &&
@@ -206,7 +206,7 @@ export function isWorldElement(value: unknown): value is WorldElement {
   return optionalFieldsValid;
 }
 
-// Questionnaire Template guard
+// TODO: Questionnaire Template guard
 export function isQuestionnaireTemplate(value: unknown): value is QuestionnaireTemplate {
   if (!isRecord(value)) return false;
   
@@ -248,7 +248,7 @@ export function isProjectSettings(value: unknown): value is { useRichText?: bool
   return (!hasProperty(value, 'useRichText') || isBoolean(value.useRichText));
 }
 
-// Project guard
+// * Project guard
 export function isProject(value: unknown): value is Project {
   if (!isRecord(value)) return false;
   
@@ -264,7 +264,7 @@ export function isProject(value: unknown): value is Project {
   
   if (!hasRequiredFields) return false;
   
-  // Check optional fields
+  // * Check optional fields
   const optionalFieldsValid = (
     (!hasProperty(value, 'genre') || isString(value.genre)) &&
     (!hasProperty(value, 'status') || isString(value.status)) &&
@@ -296,7 +296,7 @@ export function isImportData(value: unknown): value is ImportData {
   );
 }
 
-// Validation helper for store boundaries
+// * Validation helper for store boundaries
 export function validateExternalData<T>(
   data: unknown,
   guard: (value: unknown) => value is T,
@@ -308,7 +308,7 @@ export function validateExternalData<T>(
   return data;
 }
 
-// Batch validation with partial results
+// * Batch validation with partial results
 export function validateArray<T>(
   items: unknown[],
   guard: (value: unknown) => value is T

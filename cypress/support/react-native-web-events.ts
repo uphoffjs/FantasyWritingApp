@@ -1,9 +1,9 @@
 // React Native Web Event Handling for Cypress Tests
-// This file provides comprehensive event handling fixes for React Native Web components in tests
+// TODO: * This file provides comprehensive event handling fixes for React Native Web components in tests
 
 import { Platform } from 'react-native';
 
-// Debug logging for event tracking
+// * Debug logging for event tracking
 const DEBUG_EVENTS = false;
 
 export function logEvent(eventName: string, detail?: any) {
@@ -12,7 +12,7 @@ export function logEvent(eventName: string, detail?: any) {
   }
 }
 
-// Create a synthetic React Native event
+// * Create a synthetic React Native event
 export function createSyntheticEvent(type: string, target: any, value?: any) {
   const event = {
     type,
@@ -43,18 +43,18 @@ Cypress.Commands.add('rnTypeText', { prevSubject: true }, (subject, text: string
   return cy.wrap(subject).then(($el) => {
     const element = $el[0];
     
-    // Focus the element
+    // * Focus the element
     element.focus();
     logEvent('Focus', { element });
     
-    // Clear existing value
+    // * Clear existing value
     element.value = '';
     
-    // Type each character
+    // * Type each character
     for (const char of text) {
       element.value += char;
       
-      // Trigger input event
+      // * Trigger input event
       const inputEvent = new Event('input', { bubbles: true });
       Object.defineProperty(inputEvent, 'target', {
         value: element,
@@ -63,7 +63,7 @@ Cypress.Commands.add('rnTypeText', { prevSubject: true }, (subject, text: string
       element.dispatchEvent(inputEvent);
       logEvent('Input event', { char, value: element.value });
       
-      // Trigger change event
+      // * Trigger change event
       const changeEvent = new Event('change', { bubbles: true });
       Object.defineProperty(changeEvent, 'target', {
         value: element,
@@ -79,11 +79,11 @@ Cypress.Commands.add('rnTypeText', { prevSubject: true }, (subject, text: string
       }
     }
     
-    // Blur to ensure final change is registered
+    // * Blur to ensure final change is registered
     element.blur();
     logEvent('Blur', { finalValue: element.value });
     
-    // Trigger final change event on blur
+    // * Trigger final change event on blur
     const finalChangeEvent = new Event('change', { bubbles: true });
     Object.defineProperty(finalChangeEvent, 'target', {
       value: element,
@@ -95,13 +95,13 @@ Cypress.Commands.add('rnTypeText', { prevSubject: true }, (subject, text: string
   });
 });
 
-// Command to properly select options in React Native Web
+// * Command to properly select options in React Native Web
 Cypress.Commands.add('rnSelectOption', { prevSubject: true }, (subject, value: string) => {
   return cy.wrap(subject).then(($el) => {
     const element = $el[0];
     
     if (element.tagName === 'SELECT') {
-      // Standard select element
+      // * Standard select element
       element.value = value;
       
       const changeEvent = new Event('change', { bubbles: true });
@@ -122,12 +122,12 @@ Cypress.Commands.add('rnSelectOption', { prevSubject: true }, (subject, value: s
   });
 });
 
-// Command to trigger blur with proper event handling
+// * Command to trigger blur with proper event handling
 Cypress.Commands.add('rnBlur', { prevSubject: true }, (subject) => {
   return cy.wrap(subject).then(($el) => {
     const element = $el[0];
     
-    // Create and dispatch blur event
+    // * Create and dispatch blur event
     const blurEvent = new FocusEvent('blur', {
       bubbles: true,
       cancelable: true,
@@ -138,7 +138,7 @@ Cypress.Commands.add('rnBlur', { prevSubject: true }, (subject) => {
     element.blur();
     logEvent('Blur triggered', { element });
     
-    // Also trigger change if there's a value
+    // * Also trigger change if there's a value
     if (element.value !== undefined) {
       const changeEvent = new Event('change', { bubbles: true });
       Object.defineProperty(changeEvent, 'target', {
@@ -153,12 +153,12 @@ Cypress.Commands.add('rnBlur', { prevSubject: true }, (subject) => {
   });
 });
 
-// Command to properly click React Native TouchableOpacity elements
+// * Command to properly click React Native TouchableOpacity elements
 Cypress.Commands.add('rnClick', { prevSubject: true }, (subject) => {
   return cy.wrap(subject).then(($el) => {
     const element = $el[0];
     
-    // Simulate touch events for React Native Web
+    // * Simulate touch events for React Native Web
     const touchStartEvent = new TouchEvent('touchstart', {
       bubbles: true,
       cancelable: true,
@@ -174,13 +174,13 @@ Cypress.Commands.add('rnClick', { prevSubject: true }, (subject) => {
     element.dispatchEvent(touchStartEvent);
     logEvent('Touch start', { element });
     
-    // Small delay to simulate real touch
+    // * Small delay to simulate real touch
     setTimeout(() => {
       element.dispatchEvent(touchEndEvent);
       logEvent('Touch end', { element });
     }, 50);
     
-    // Also trigger standard click as fallback
+    // * Also trigger standard click as fallback
     element.click();
     logEvent('Click fallback', { element });
     
@@ -188,7 +188,7 @@ Cypress.Commands.add('rnClick', { prevSubject: true }, (subject) => {
   });
 });
 
-// Helper to wait for React Native Web state updates
+// * Helper to wait for React Native Web state updates
 Cypress.Commands.add('waitForRNState', (timeout = 100) => {
   cy.wait(timeout);
   
@@ -202,9 +202,9 @@ Cypress.Commands.add('waitForRNState', (timeout = 100) => {
   }
 });
 
-// Helper to get elements with better React Native Web compatibility
+// * Helper to get elements with better React Native Web compatibility
 Cypress.Commands.add('getRNElement', (selector: string) => {
-  // Try multiple selector strategies
+  // * Try multiple selector strategies
   const selectors = [
     `[data-testid="${selector}"]`,
     `[data-cy="${selector}"]`,
@@ -221,11 +221,11 @@ Cypress.Commands.add('getRNElement', (selector: string) => {
     }
   }
   
-  // Fallback to standard get
+  // * Fallback to standard get
   return cy.get(selector);
 });
 
-// Add type declarations
+// * Add type declarations
 declare global {
   namespace Cypress {
     interface Chainable {
@@ -239,12 +239,12 @@ declare global {
   }
 }
 
-// Export helper for enabling debug mode
+// * Export helper for enabling debug mode
 export function enableEventDebug() {
   (window as any).__RN_WEB_EVENT_DEBUG__ = true;
 }
 
-// Export helper for checking if React Native Web is ready
+// * Export helper for checking if React Native Web is ready
 export function isReactNativeWebReady(): boolean {
   if (typeof window === 'undefined') return false;
   
@@ -255,7 +255,7 @@ export function isReactNativeWebReady(): boolean {
   return hasReact && hasReactDOM;
 }
 
-// Initialize event handling improvements
+// TODO: * Initialize event handling improvements
 export function initializeEventHandling() {
   if (typeof window !== 'undefined' && (window as any).Cypress) {
     // Patch React Native Web's event handling for better test compatibility

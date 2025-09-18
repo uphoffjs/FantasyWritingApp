@@ -67,7 +67,7 @@ describe('RelationshipList Component', () => {
         />
       );
 
-      // Check that all relationships are rendered
+      // * Check that all relationships are rendered
       testRelationships.forEach(rel => {
         cy.get(`[data-testid="relationship-${rel.id}"]`).should('be.visible');
         
@@ -109,7 +109,7 @@ describe('RelationshipList Component', () => {
         />
       );
 
-      // Check for category-specific icons
+      // * Check for category-specific icons
       cy.get(`[data-testid="relationship-rel-1"]`).should('contain', '📍'); // location
       cy.get(`[data-testid="relationship-rel-2"]`).should('contain', '🏢'); // organization
       cy.get(`[data-testid="relationship-rel-3"]`).should('contain', '✨'); // magic-system
@@ -148,7 +148,7 @@ describe('RelationshipList Component', () => {
         />
       );
 
-      // Should not render the relationship with missing target
+      // TODO: * Should not render the relationship with missing target
       cy.get(`[data-testid="relationship-rel-missing"]`).should('not.exist');
     });
   });
@@ -232,16 +232,16 @@ describe('RelationshipList Component', () => {
         />
       );
 
-      // Type quickly
+      // * Type quickly
       cy.get('[data-testid="relationship-search"]').type('Riv');
       
-      // Should still show all immediately (before debounce)
+      // ? TODO: ! PERFORMANCE: * Should still show all immediately (before debounce)
       cy.get('[data-cy^="relationship-"]').should('have.length', 4);
       
-      // Wait for debounce
+      // ! PERFORMANCE: * Wait for debounce
       waitForAnimation();
       
-      // Now should show filtered results
+      // ? TODO: * Now should show filtered results
       cy.get(`[data-testid="relationship-rel-1"]`).should('be.visible');
       cy.get('[data-cy^="relationship-"]').should('have.length', 1);
     });
@@ -311,7 +311,7 @@ describe('RelationshipList Component', () => {
         />
       );
 
-      // First filter
+      // * First filter
       cy.get('[data-testid="relationship-filter"]').select('owns');
       cy.get('[data-cy^="relationship-"]').should('have.length', 1);
       
@@ -334,7 +334,7 @@ describe('RelationshipList Component', () => {
 
       cy.get('[data-testid="relationship-sort"]').select('name');
       
-      // Get all relationship elements and check order
+      // * Get all relationship elements and check order
       cy.get('[data-cy^="relationship-"]').then($relationships => {
         const names = [];
         $relationships.each((_, el) => {
@@ -361,7 +361,7 @@ describe('RelationshipList Component', () => {
 
       cy.get('[data-testid="relationship-sort"]').select('type');
       
-      // Check that relationships are sorted by type
+      // * Check that relationships are sorted by type
       cy.get('[data-cy^="relationship-"]').then($relationships => {
         const types = [];
         $relationships.each((_, el) => {
@@ -372,7 +372,7 @@ describe('RelationshipList Component', () => {
           if (text.includes('practices')) types.push('practices');
         });
         
-        // Should be alphabetically sorted
+        // TODO: * Should be alphabetically sorted
         expect(types).to.deep.equal(['lives in', 'member of', 'owns', 'practices']);
       });
     });
@@ -389,7 +389,7 @@ describe('RelationshipList Component', () => {
 
       cy.get('[data-testid="relationship-sort"]').select('category');
       
-      // Relationships should be sorted by target element category
+      // TODO: * Relationships should be sorted by target element category
       cy.get('[data-cy^="relationship-"]').first().should('contain', 'Staff'); // item-object
       cy.get('[data-cy^="relationship-"]').last().should('contain', 'Fellowship'); // organization
     });
@@ -418,15 +418,15 @@ describe('RelationshipList Component', () => {
         />
       );
 
-      // Apply type filter
+      // * Apply type filter
       cy.get('[data-testid="relationship-filter"]').select('owns');
       cy.get('[data-cy^="relationship-"]').should('have.length', 2);
       
-      // Add search filter
+      // * Add search filter
       cy.get('[data-testid="relationship-search"]').type('Rivendell');
       waitForAnimation();
       
-      // Should only show the one that matches both filters
+      // ? TODO: * Should only show the one that matches both filters
       cy.get('[data-cy^="relationship-"]').should('have.length', 1);
       cy.get('[data-testid="relationship-rel-5"]').should('be.visible');
     });
@@ -441,14 +441,14 @@ describe('RelationshipList Component', () => {
         />
       );
 
-      // Apply filter
+      // * Apply filter
       cy.get('[data-testid="relationship-filter"]').select('member of');
       cy.get('[data-cy^="relationship-"]').should('have.length', 1);
       
-      // Change sort
+      // * Change sort
       cy.get('[data-testid="relationship-sort"]').select('type');
       
-      // Filter should still be applied
+      // TODO: * Filter should still be applied
       cy.get('[data-cy^="relationship-"]').should('have.length', 1);
       cy.get('[data-testid="relationship-rel-2"]').should('be.visible');
     });
@@ -494,14 +494,14 @@ describe('RelationshipList Component', () => {
         />
       );
 
-      // Delete [data-cy*="button"] should be hidden initially
+      // TODO: Delete [data-cy*="button"] should be hidden initially
       cy.get('[data-testid="delete-relationship-rel-1"]')
         .should('be.visible') // React Native Web uses inline styles instead of CSS classes;
       
-      // Hover over relationship
+      // * Hover over relationship
       cy.get('[data-testid="relationship-rel-1"]').trigger('mouseenter');
       
-      // Delete [data-cy*="button"] should be visible
+      // TODO: Delete [data-cy*="button"] should be visible
       cy.get('[data-testid="delete-relationship-rel-1"]')
         .should('be.visible') // React Native Web uses inline styles instead of CSS classes;
     });
@@ -517,7 +517,7 @@ describe('RelationshipList Component', () => {
         />
       );
 
-      // Delete [data-cy*="button"]s should be visible without hover on mobile
+      // TODO: Delete [data-cy*="button"]s should be visible without hover on mobile
       cy.get('[data-testid="delete-relationship-rel-1"]').should('be.visible');
     });
   });
@@ -566,7 +566,7 @@ describe('RelationshipList Component', () => {
         />
       );
 
-      // Should truncate long descriptions
+      // TODO: * Should truncate long descriptions
       cy.get('[data-testid="relationship-rel-long"]').within(() => {
         cy.get('.line-clamp-2').should('exist');
       });
@@ -593,10 +593,10 @@ describe('RelationshipList Component', () => {
         />
       );
 
-      // Should render all relationships
+      // TODO: * Should render all relationships
       cy.get('[data-cy^="relationship-"]').should('have.length', 50);
       
-      // Filter dropdown should have unique types
+      // TODO: * Filter dropdown should have unique types
       cy.get('[data-testid="relationship-filter"] option').should('have.length', 6); // All + 5 types
     });
 
@@ -647,7 +647,7 @@ describe('RelationshipList Component', () => {
         />
       );
 
-      // Should use default icon
+      // TODO: * Should use default icon
       cy.get('[data-testid="relationship-rel-unknown"]').should('contain', '📄');
     });
   });
@@ -680,15 +680,15 @@ describe('RelationshipList Component', () => {
         />
       );
 
-      // Tab to search
+      // * Tab to search
       cy.get('[data-testid="relationship-search"]').focus();
       cy.focused().should('have.attr', 'data-cy', 'relationship-search');
       
-      // Tab to filter
+      // * Tab to filter
       cy.focused().tab();
       cy.focused().should('have.attr', 'data-cy', 'relationship-filter');
       
-      // Tab to sort
+      // * Tab to sort
       cy.focused().tab();
       cy.focused().should('have.attr', 'data-cy', 'relationship-sort');
     });
@@ -721,7 +721,7 @@ describe('RelationshipList Component', () => {
         />
       );
 
-      // Check mobile-specific classes
+      // * Check mobile-specific classes
       cy.get('.flex-col.sm\\:flex-row').should('exist');
       cy.get('.hidden.sm\\:block').should('exist');
       cy.get('.min-h-\\[40px\\]').should('exist');
@@ -738,7 +738,7 @@ describe('RelationshipList Component', () => {
         />
       );
 
-      // Check tablet/desktop classes
+      // * Check tablet/desktop classes
       cy.get('.sm\\:flex-row').should('be.visible');
       cy.get('.sm\\:gap-3').should('exist');
     });
@@ -754,7 +754,7 @@ describe('RelationshipList Component', () => {
         />
       );
 
-      // Check desktop-specific features
+      // * Check desktop-specific features
       cy.get('.sm\\:opacity-0').should('exist'); // Hover-based delete [data-cy*="button"]s
       cy.get('.sm\\:items-center').should('exist');
     });

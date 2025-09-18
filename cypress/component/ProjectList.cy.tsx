@@ -24,7 +24,7 @@ describe('ProjectList Component', () => {
   };
 
   beforeEach(() => {
-    // Clear localStorage before each test
+    // * Clear localStorage before each test
     cy.clearLocalStorage();
   });
 
@@ -37,10 +37,10 @@ describe('ProjectList Component', () => {
     it('displays title and controls', () => {
       mountWithProviders(<ProjectList />);
       
-      // Check title
+      // * Check title
       cy.contains('Your Worldbuilding Projects').should('be.visible');
       
-      // Check main controls
+      // * Check main controls
       cy.get('[data-testid="create-project"]').should('be.visible');
       cy.get('[data-testid="toggle-archived"]').should('be.visible');
     });
@@ -59,10 +59,10 @@ describe('ProjectList Component', () => {
         initialState: { projects }
       });
       
-      // Should show 3 project cards
+      // ? TODO: * Should show 3 project cards
       cy.get('[data-testid="project-card"]').should('have.length', 3);
       
-      // Verify project names
+      // * Verify project names
       projects.forEach(project => {
         cy.contains(project.name).should('be.visible');
       });
@@ -74,7 +74,7 @@ describe('ProjectList Component', () => {
         initialState: { projects }
       });
       
-      // Should use virtualized list component (check for react-window container)
+      // TODO: * Should use virtualized list component (check for react-window container)
       cy.get('.react-window').should('exist');
     });
 
@@ -102,11 +102,11 @@ describe('ProjectList Component', () => {
         initialState: { projects }
       });
       
-      // Search for specific project
+      // * Search for specific project
       cy.get('[data-testid="project-search"]').type('Unique');
       waitForAnimation(); // Wait for debounce
       
-      // Should show only matching project
+      // ? TODO: * Should show only matching project
       cy.get('[data-testid="project-card"]').should('have.length', 1);
       cy.contains('Unique Test Project').should('be.visible');
       cy.contains('Showing 1 project matching "Unique"').should('be.visible');
@@ -121,12 +121,12 @@ describe('ProjectList Component', () => {
         initialState: { projects }
       });
       
-      // Search by description
+      // * Search by description
       cy.get('[data-testid="project-search"]').type('Magic');
       waitForAnimation();
       cy.get('[data-testid="project-card"]').should('have.length', 1);
       
-      // Clear and search by genre
+      // * Clear and search by genre
       cy.get('[data-testid="clear-search"]').click();
       cy.get('[data-testid="project-search"]').type('Cyberpunk');
       waitForAnimation();
@@ -152,16 +152,16 @@ describe('ProjectList Component', () => {
         initialState: { projects }
       });
       
-      // Type quickly
+      // * Type quickly
       cy.get('[data-testid="project-search"]').type('Pro');
       
-      // Should still show all projects immediately
+      // ? TODO: * Should still show all projects immediately
       cy.get('[data-testid="project-card"]').should('have.length', 3);
       
-      // Wait for debounce
+      // ! PERFORMANCE: * Wait for debounce
       waitForAnimation();
       
-      // Now should show filtered results
+      // ? TODO: * Now should show filtered results
       cy.get('[data-testid="project-card"]').should('have.length', 3); // All match "Pro"
     });
   });
@@ -173,7 +173,7 @@ describe('ProjectList Component', () => {
         initialState: { projects }
       });
       
-      // Default sort should be modified-desc
+      // TODO: * Default sort should be modified-desc
       cy.get('[data-testid="project-card"]').first().should('contain', 'Project 3');
       cy.get('[data-testid="project-card"]').last().should('contain', 'Project 1');
     });
@@ -189,7 +189,7 @@ describe('ProjectList Component', () => {
         initialState: { projects }
       });
       
-      // Change sort to name-asc
+      // * Change sort to name-asc
       cy.get('[data-testid="sort-dropdown"]').select('name-asc');
       
       cy.get('[data-testid="project-card"]').first().should('contain', 'Alpha Project');
@@ -202,7 +202,7 @@ describe('ProjectList Component', () => {
         initialState: { projects }
       });
       
-      // Change sort to created-asc
+      // * Change sort to created-asc
       cy.get('[data-testid="sort-dropdown"]').select('created-asc');
       
       cy.get('[data-testid="project-card"]').first().should('contain', 'Project 1');
@@ -212,18 +212,19 @@ describe('ProjectList Component', () => {
     it('persists sort preference in localStorage', () => {
       mountWithProviders(<ProjectList />);
       
-      // Change sort preference
+      // * Change sort preference
       cy.get('[data-testid="sort-dropdown"]').select('name-desc');
       
-      // Check localStorage
+      // * Check localStorage
       cy.window().then((win) => {
-        expect(win.localStorage.getItem('worldbuilding-project-sort')).to.equal('name-desc');
+        expect(win.// ! SECURITY: Using localStorage
+      localStorage.getItem('worldbuilding-project-sort')).to.equal('name-desc');
       });
       
-      // Remount component
+      // * Remount component
       cy.mount(<ProjectList />);
       
-      // Should retain sort preference
+      // TODO: * Should retain sort preference
       cy.get('[data-testid="sort-dropdown"]').should('have.value', 'name-desc');
     });
   });
@@ -237,7 +238,7 @@ describe('ProjectList Component', () => {
         initialState: { projects: [...activeProjects, ...archivedProjects] }
       });
       
-      // Should only show active projects
+      // ? TODO: * Should only show active projects
       cy.get('[data-testid="project-card"]').should('have.length', 2);
       cy.contains('(2 archived)').should('be.visible');
     });
@@ -250,10 +251,10 @@ describe('ProjectList Component', () => {
         initialState: { projects: [...activeProjects, ...archivedProjects] }
       });
       
-      // Toggle to archived
+      // * Toggle to archived
       cy.get('[data-testid="toggle-archived"]').click();
       
-      // Should show archived projects
+      // ? TODO: * Should show archived projects
       cy.get('[data-testid="project-card"]').should('have.length', 2);
       cy.get('[data-testid="toggle-archived"]').should('contain', 'Showing Archived');
     });
@@ -265,7 +266,7 @@ describe('ProjectList Component', () => {
         initialState: { projects: activeProjects }
       });
       
-      // Toggle to archived (which has none)
+      // * Toggle to archived (which has none)
       cy.get('[data-testid="toggle-archived"]').click();
       
       cy.contains('No archived projects').should('be.visible');
@@ -303,18 +304,18 @@ describe('ProjectList Component', () => {
         initialState: { projects }
       });
       
-      // Stub window.confirm
+      // * Stub window.confirm
       cy.window().then((win) => {
         cy.stub(win, 'confirm').returns(true);
       });
       
-      // Open action menu on first project
+      // * Open action menu on first project
       cy.get('[data-testid="project-card"]').first().find('[aria-label="Project actions"]').click();
       
-      // Click delete option
+      // * Click delete option
       cy.contains('Delete Project').click();
       
-      // Verify confirm was called
+      // * Verify confirm was called
       cy.window().its('confirm').should('have.been.called');
     });
 
@@ -325,18 +326,18 @@ describe('ProjectList Component', () => {
         initialState: { projects }
       });
       
-      // Stub window.confirm to return false
+      // * Stub window.confirm to return false
       cy.window().then((win) => {
         cy.stub(win, 'confirm').returns(false);
       });
       
-      // Open action menu on first project
+      // * Open action menu on first project
       cy.get('[data-testid="project-card"]').first().find('[aria-label="Project actions"]').click();
       
-      // Click delete option
+      // * Click delete option
       cy.contains('Delete Project').click();
       
-      // Verify projects still exist
+      // * Verify projects still exist
       cy.get('[data-testid="project-card"]').should('have.length', 2);
     });
 
@@ -351,13 +352,13 @@ describe('ProjectList Component', () => {
         cy.stub(win, 'confirm').returns(true);
       });
       
-      // Open action menu on first project
+      // * Open action menu on first project
       cy.get('[data-testid="project-card"]').first().find('[aria-label="Project actions"]').click();
       
-      // Click delete option
+      // * Click delete option
       cy.contains('Delete Project').click();
       
-      // Should show "Deleting..." text in the menu (if it reopens)
+      // ? TODO: * Should show "Deleting..." text in the menu (if it reopens)
       // Note: The actual loading behavior depends on the implementation
     });
   });
@@ -372,14 +373,14 @@ describe('ProjectList Component', () => {
         initialState: { projects: [...activeProjects, ...archivedProjects] }
       });
       
-      // Switch to archived
+      // * Switch to archived
       cy.get('[data-testid="toggle-archived"]').click();
       
       // Search
       cy.get('[data-testid="project-search"]').type('Special');
       waitForAnimation();
       
-      // Should find the archived project
+      // TODO: * Should find the archived project
       cy.get('[data-testid="project-card"]').should('have.length', 1);
       cy.contains('Archived Special').should('be.visible');
     });
@@ -395,15 +396,15 @@ describe('ProjectList Component', () => {
         initialState: { projects }
       });
       
-      // Open sort dropdown and [data-cy*="select"] name-desc
+      // * Open sort dropdown and [data-cy*="select"] name-desc
       cy.get('[data-testid="sort-dropdown"]').click();
       cy.get('[data-testid="sort-option-name-desc"]').click();
       
-      // Search for "Test"
+      // * Search for "Test"
       cy.get('[data-testid="project-search"]').type('Test');
       waitForAnimation();
       
-      // Should maintain desc order by name
+      // TODO: * Should maintain desc order by name
       cy.get('[data-testid="project-card"]').first().should('contain', 'Gamma Test');
       cy.get('[data-testid="project-card"]').last().should('contain', 'Alpha Test');
     });
@@ -418,10 +419,10 @@ describe('ProjectList Component', () => {
         initialState: { projects }
       });
       
-      // Check mobile-specific elements
+      // * Check mobile-specific elements
       cy.get('[data-testid="fab-create-project"]').should('be.visible');
       
-      // Check responsive grid
+      // * Check responsive grid
       // React Native Web uses flexbox instead of CSS Grid
 
       cy.get('[data-testid="grid"]').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
@@ -435,10 +436,10 @@ describe('ProjectList Component', () => {
         initialState: { projects }
       });
       
-      // FAB should be hidden
+      // TODO: FAB should be hidden
       cy.get('[data-testid="fab-create-project"]').should('not.be.visible');
       
-      // Check responsive grid
+      // * Check responsive grid
       // React Native Web uses flexbox instead of CSS Grid
 
       cy.get('[data-testid="grid"]').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
@@ -452,7 +453,7 @@ describe('ProjectList Component', () => {
         initialState: { projects }
       });
       
-      // Check desktop layout
+      // * Check desktop layout
       // React Native Web uses flexbox instead of CSS Grid
 
       cy.get('[data-testid="grid"]').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
@@ -473,7 +474,7 @@ describe('ProjectList Component', () => {
         initialState: { projects }
       });
       
-      // Focus and verify interactive elements are keyboard accessible
+      // * Focus and verify interactive elements are keyboard accessible
       cy.get('[data-testid="toggle-archived"]').focus();
       cy.focused().should('have.attr', 'data-cy', 'toggle-archived');
       
@@ -496,7 +497,7 @@ describe('ProjectList Component', () => {
       cy.get('[data-testid="project-search"]').type('Project');
       waitForAnimation();
       
-      // Results count should be visible and readable
+      // TODO: * Results count should be visible and readable
       cy.contains('Showing 5 projects matching "Project"')
         .should('be.visible');
     });
@@ -509,10 +510,10 @@ describe('ProjectList Component', () => {
         initialState: { projects }
       });
       
-      // Should use virtualized list (check for react-window)
+      // TODO: * Should use virtualized list (check for react-window)
       cy.get('.react-window').should('exist');
       
-      // Should not render all 100 items at once
+      // TODO: * Should not render all 100 items at once
       cy.get('[data-testid="project-card"]').should('have.length.lessThan', 30);
     });
 
@@ -523,16 +524,16 @@ describe('ProjectList Component', () => {
         initialState: { projects }
       });
       
-      // Type a search query
+      // * Type a search query
       cy.get('[data-testid="project-search"]').type('Project 25');
       
-      // Wait for debounce
+      // ! PERFORMANCE: * Wait for debounce
       waitForAnimation();
       
-      // Should find the matching project
+      // TODO: * Should find the matching project
       cy.contains('Project 25').should('be.visible');
       
-      // Verify search is working with large dataset
+      // * Verify search is working with large dataset
       cy.get('[data-testid="project-card"]').should('have.length', 1);
     });
   });
@@ -548,7 +549,7 @@ describe('ProjectList Component', () => {
         initialState: { projects }
       });
       
-      // Should render without errors
+      // TODO: * Should render without errors
       cy.get('[data-testid="project-card"]').should('have.length', 2);
     });
 
@@ -575,12 +576,12 @@ describe('ProjectList Component', () => {
         initialState: { projects: [...activeProjects, ...archivedProjects] }
       });
       
-      // Rapidly toggle
+      // * Rapidly toggle
       cy.get('[data-testid="toggle-archived"]').click();
       cy.get('[data-testid="toggle-archived"]').click();
       cy.get('[data-testid="toggle-archived"]').click();
       
-      // Should end up showing archived
+      // ? TODO: * Should end up showing archived
       cy.get('[data-testid="project-card"]').should('have.length', 2);
       cy.get('[data-testid="toggle-archived"]').should('contain', 'Showing Archived');
     });
@@ -591,15 +592,15 @@ describe('ProjectList Component', () => {
         initialState: { projects }
       });
       
-      // Type and then clear
+      // * Type and then clear
       cy.get('[data-testid="project-search"]').type('Test');
       cy.get('[data-testid="clear-search"]').click();
       waitForAnimation();
       
-      // Should show all projects
+      // ? TODO: * Should show all projects
       cy.get('[data-testid="project-card"]').should('have.length', 3);
       
-      // Should not show search message
+      // ? TODO: * Should not show search message
       cy.contains('matching ""').should('not.exist');
     });
   });

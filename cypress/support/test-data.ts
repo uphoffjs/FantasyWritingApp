@@ -1,5 +1,5 @@
-// Mock test data for Cypress tests in Writing App
-// Adapted from fantasy-element-builder for writing domain
+// * Mock test data for Cypress tests in Writing App
+// * Adapted from fantasy-element-builder for writing domain
 
 export interface Story {
   id: string;
@@ -206,7 +206,7 @@ export const createMockRelationship = (overrides?: Partial<Relationship>): Relat
   ...overrides
 });
 
-// Character development templates
+// TODO: * Character development templates
 export const characterQuestions = {
   basic: [
     { id: 'name', label: 'Full Name', type: 'text', required: true },
@@ -238,7 +238,7 @@ export const characterQuestions = {
   ]
 };
 
-// Story outline templates
+// TODO: * Story outline templates
 export const storyStructure = {
   threeAct: {
     act1: ['Hook', 'Inciting Incident', 'Plot Point 1'],

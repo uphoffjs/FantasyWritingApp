@@ -7,11 +7,11 @@ describe('Simple Test', () => {
   })
   
   it('should use createProject command if available', () => {
-    // Try to test if the command exists
+    // * Try to test if the command exists
     const commandExists = typeof cy.createProject === 'function'
     cy.log(`createProject command exists: ${commandExists}`)
     
-    // Just visit the page
+    // * Just visit the page
     cy.visit('/')
   })
 })

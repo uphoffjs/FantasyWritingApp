@@ -57,19 +57,19 @@ describe('TemplateEditor Component', () => {
         />
       );
 
-      // Header elements
+      // * Header elements
       cy.get('[data-testid="template-editor-title"]').should('contain', 'Template Editor');
       cy.get('[data-testid="close-[data-cy*="button"]"]').should('be.visible');
 
-      // Tab navigation
+      // * Tab navigation
       cy.get('[data-testid="questions-tab"]').should('be.visible').and('have.attr', 'aria-[data-cy*="select"]ed', 'true');
       cy.get('[data-testid="basic-mode-tab"]').should('be.visible');
 
-      // Template name and description
+      // TODO: * Template name and description
       cy.get('[data-testid="template-name-input"]').should('have.value', 'Character Template');
       cy.get('[data-testid="template-description-input"]').should('have.value', 'A template for creating character elements');
 
-      // Questions list
+      // * Questions list
       cy.get('[data-cy^="question-item-"]').should('have.length', 3);
       
       // Action [data-cy*="button"]s
@@ -113,7 +113,7 @@ describe('TemplateEditor Component', () => {
         />
       );
 
-      // First question (text, required)
+      // * First question (text, required)
       cy.get('[data-testid="question-item-q1"]').within(() => {
         cy.get('[data-testid="drag-handle"]').should('be.visible');
         cy.get('[data-testid="question-text"]').should('contain', "What is the character's name?");
@@ -123,14 +123,14 @@ describe('TemplateEditor Component', () => {
         cy.get('[data-testid="delete-question-[data-cy*="button"]"]').should('be.visible');
       });
 
-      // Second question (textarea, not required)
+      // * Second question (textarea, not required)
       cy.get('[data-testid="question-item-q2"]').within(() => {
         cy.get('[data-testid="question-text"]').should('contain', 'Describe their appearance');
         cy.get('[data-testid="question-type-badge"]').should('contain', 'textarea');
         cy.get('[data-testid="required-badge"]').should('not.exist');
       });
 
-      // Third question ([data-cy*="select"] with options)
+      // * Third question ([data-cy*="select"] with options)
       cy.get('[data-testid="question-item-q3"]').within(() => {
         cy.get('[data-testid="question-text"]').should('contain', 'What is their role?');
         cy.get('[data-testid="question-type-badge"]').should('contain', '[data-cy*="select"]');
@@ -209,10 +209,10 @@ describe('TemplateEditor Component', () => {
 
       cy.get('[data-testid="add-question-[data-cy*="button"]"]').click();
       
-      // Question editor should appear
+      // TODO: * Question editor should appear
       cy.get('[data-testid="question-editor-modal"]').should('be.visible');
       
-      // Fill in question details
+      // * Fill in question details
       cy.get('[data-testid="question-text-input"]').type('What is their backstory?');
       cy.get('[data-testid="question-type-[data-cy*="select"]"]').select('textarea');
       cy.get('[data-testid="question-required-checkbox"]').check();
@@ -220,7 +220,7 @@ describe('TemplateEditor Component', () => {
       
       cy.get('[data-testid="save-question-[data-cy*="button"]"]').click();
       
-      // Verify question was added
+      // * Verify question was added
       cy.get('[data-cy^="question-item-"]').should('have.length', 4);
       cy.get('[data-cy^="question-item-"]:last').should('contain', 'What is their backstory?');
     });
@@ -239,7 +239,7 @@ describe('TemplateEditor Component', () => {
       cy.get('[data-testid="question-text-input"]').type('What is their alignment?');
       cy.get('[data-testid="question-type-[data-cy*="select"]"]').select('[data-cy*="select"]');
       
-      // Add options
+      // * Add options
       cy.get('[data-testid="add-option-[data-cy*="button"]"]').click();
       cy.get('[data-testid="option-input-0"]').type('Lawful Good');
       
@@ -251,7 +251,7 @@ describe('TemplateEditor Component', () => {
       
       cy.get('[data-testid="save-question-[data-cy*="button"]"]').click();
       
-      // Verify question was added with options
+      // * Verify question was added with options
       cy.get('[data-cy^="question-item-"]:last').within(() => {
         cy.get('[data-testid="question-text"]').should('contain', 'What is their alignment?');
         cy.get('[data-testid="options-count"]').should('contain', '3 options');
@@ -272,14 +272,14 @@ describe('TemplateEditor Component', () => {
       cy.get('[data-testid="question-text-input"]').type('How old are they?');
       cy.get('[data-testid="question-type-[data-cy*="select"]"]').select('number');
       
-      // Open validation panel
+      // * Open validation panel
       cy.get('[data-testid="validation-panel-toggle"]').click();
       cy.get('[data-testid="min-value-input"]').type('0');
       cy.get('[data-testid="max-value-input"]').type('500');
       
       cy.get('[data-testid="save-question-[data-cy*="button"]"]').click();
       
-      // Verify question was added with validation
+      // * Verify question was added with validation
       cy.get('[data-cy^="question-item-"]:last').within(() => {
         cy.get('[data-testid="question-text"]').should('contain', 'How old are they?');
         cy.get('[data-testid="validation-badge"]').should('be.visible');
@@ -302,7 +302,7 @@ describe('TemplateEditor Component', () => {
       cy.get('[data-testid="question-text-input"]').type('Test question');
       cy.get('[data-testid="cancel-question-[data-cy*="button"]"]').click();
       
-      // Question count should remain the same
+      // TODO: * Question count should remain the same
       cy.get('[data-cy^="question-item-"]').should('have.length', initialCount);
     });
   });
@@ -317,7 +317,7 @@ describe('TemplateEditor Component', () => {
         />
       );
 
-      // Edit first question
+      // * Edit first question
       cy.get('[data-testid="question-item-q1"]').within(() => {
         cy.get('[data-testid="edit-question-[data-cy*="button"]"]').click();
       });
@@ -333,7 +333,7 @@ describe('TemplateEditor Component', () => {
       
       cy.get('[data-testid="save-question-[data-cy*="button"]"]').click();
       
-      // Verify question was updated
+      // * Verify question was updated
       cy.get('[data-testid="question-item-q1"]').within(() => {
         cy.get('[data-testid="question-text"]').should('contain', 'What is their full name?');
         cy.get('[data-testid="required-badge"]').should('not.exist');
@@ -351,12 +351,12 @@ describe('TemplateEditor Component', () => {
 
       cy.get('[data-cy^="question-item-"]').should('have.length', 3);
       
-      // Delete second question
+      // * Delete second question
       cy.get('[data-testid="question-item-q2"]').within(() => {
         cy.get('[data-testid="delete-question-[data-cy*="button"]"]').click();
       });
       
-      // Confirm deletion
+      // * Confirm deletion
       cy.get('[data-testid="confirm-delete-[data-cy*="button"]"]').click();
       
       cy.get('[data-cy^="question-item-"]').should('have.length', 2);
@@ -395,11 +395,11 @@ describe('TemplateEditor Component', () => {
         />
       );
 
-      // Get initial order
+      // * Get initial order
       cy.get('[data-cy^="question-item-"]').first()
         .should('contain', "What is the character's name?");
       
-      // Simulate drag and drop (simplified for testing)
+      // * Simulate drag and drop (simplified for testing)
       cy.get('[data-testid="question-item-q1"] [data-testid="drag-handle"]')
         .trigger('mousedown', { [data-cy*="button"]: 0 });
       
@@ -409,7 +409,7 @@ describe('TemplateEditor Component', () => {
       
       // Note: Actual drag-and-drop behavior would require more complex simulation
       // or using a library like cypress-drag-drop
-      // For now, we'll verify the drag handle exists and is interactive
+      // * For now, we'll verify the drag handle exists and is interactive
       cy.get('[data-testid="question-item-q1"] [data-testid="drag-handle"]')
         .should('have.css', 'cursor', 'grab');
     });
@@ -441,23 +441,23 @@ describe('TemplateEditor Component', () => {
         />
       );
 
-      // Edit a question to add conditional logic
+      // * Edit a question to add conditional logic
       cy.get('[data-testid="question-item-q2"]').within(() => {
         cy.get('[data-testid="edit-question-[data-cy*="button"]"]').click();
       });
       
-      // Open conditional panel
+      // * Open conditional panel
       cy.get('[data-testid="conditional-panel-toggle"]').click();
       cy.get('[data-testid="conditional-panel"]').should('be.visible');
       
-      // Set up condition
+      // * Set up condition
       cy.get('[data-testid="condition-question-[data-cy*="select"]"]').select('q3');
       cy.get('[data-testid="condition-operator-[data-cy*="select"]"]').select('equals');
       cy.get('[data-testid="condition-value-input"]').type('Villain');
       
       cy.get('[data-testid="save-question-[data-cy*="button"]"]').click();
       
-      // Verify conditional badge appears
+      // * Verify conditional badge appears
       cy.get('[data-testid="question-item-q2"]').within(() => {
         cy.get('[data-testid="conditional-badge"]').should('be.visible');
       });
@@ -548,10 +548,10 @@ describe('TemplateEditor Component', () => {
       
       cy.get('[data-testid="apply-basic-mode-[data-cy*="button"]"]').click();
       
-      // Switch back to Questions tab
+      // * Switch back to Questions tab
       cy.get('[data-testid="questions-tab"]').click();
       
-      // Verify questions were added
+      // * Verify questions were added
       cy.get('[data-cy^="question-item-"]').should('have.length', 3);
       cy.get('[data-cy^="question-item-"]').first().should('contain', 'What is their motivation?');
     });
@@ -572,7 +572,7 @@ describe('TemplateEditor Component', () => {
       cy.get('[data-testid="preview-modal"]').should('be.visible');
       cy.get('[data-testid="preview-title"]').should('contain', 'Template Preview');
       
-      // Verify questions are displayed in preview
+      // ? * Verify questions are displayed in preview
       cy.get('[data-testid="preview-question-1"]').should('contain', "What is the character's name?");
       cy.get('[data-testid="preview-question-2"]').should('contain', 'Describe their appearance');
       cy.get('[data-testid="preview-question-3"]').should('contain', 'What is their role?');
@@ -605,7 +605,7 @@ describe('TemplateEditor Component', () => {
         />
       );
 
-      // Make changes
+      // * Make changes
       cy.get('[data-testid="template-name-input"]')
         .clear()
         .type('Updated Template');
@@ -614,7 +614,7 @@ describe('TemplateEditor Component', () => {
       cy.get('[data-testid="question-text-input"]').type('New Question');
       cy.get('[data-testid="save-question-[data-cy*="button"]"]').click();
       
-      // Save template
+      // TODO: * Save template
       cy.get('[data-testid="save-template-[data-cy*="button"]"]').click();
       
       cy.get('@onSave').should('have.been.calledOnce');
@@ -632,19 +632,19 @@ describe('TemplateEditor Component', () => {
         />
       );
 
-      // Make a change
+      // * Make a change
       cy.get('[data-testid="template-name-input"]')
         .clear()
         .type('Changed Name');
       
       cy.get('[data-testid="cancel-[data-cy*="button"]"]').click();
       
-      // Confirmation dialog should appear
+      // TODO: * Confirmation dialog should appear
       cy.get('[data-testid="confirm-dialog"]').should('be.visible');
       cy.get('[data-testid="confirm-dialog-message"]')
         .should('contain', 'You have unsaved changes');
       
-      // Confirm cancellation
+      // * Confirm cancellation
       cy.get('[data-testid="confirm-cancel-[data-cy*="button"]"]').click();
       
       cy.get('@onClose').should('have.been.calledOnce');
@@ -666,7 +666,7 @@ describe('TemplateEditor Component', () => {
       cy.get('[data-testid="cancel-[data-cy*="button"]"]').click();
       cy.get('[data-testid="continue-editing-[data-cy*="button"]"]').click();
       
-      // Should remain in editor
+      // TODO: * Should remain in editor
       cy.get('[data-testid="template-editor-title"]').should('be.visible');
       cy.get('@onClose').should('not.have.been.called');
     });
@@ -682,7 +682,7 @@ describe('TemplateEditor Component', () => {
 
       cy.get('[data-testid="cancel-[data-cy*="button"]"]').click();
       
-      // Should close immediately without confirmation
+      // TODO: * Should close immediately without confirmation
       cy.get('[data-testid="confirm-dialog"]').should('not.exist');
       cy.get('@onClose').should('have.been.calledOnce');
     });
@@ -793,7 +793,7 @@ describe('TemplateEditor Component', () => {
 
       cy.get('[data-cy^="question-item-"]').should('have.length', 50);
       
-      // Try to add one more
+      // * Try to add one more
       cy.get('[data-testid="add-question-[data-cy*="button"]"]').click();
       cy.get('[data-testid="max-questions-warning"]').should('contain', 'Maximum 50 questions allowed');
     });
@@ -809,7 +809,7 @@ describe('TemplateEditor Component', () => {
         />
       );
 
-      // Tab through main elements
+      // * Tab through main elements
       cy.get('[data-testid="template-name-input"]').focus();
       cy.focused().should('have.attr', 'data-cy', 'template-name-input');
       
@@ -851,12 +851,12 @@ describe('TemplateEditor Component', () => {
         />
       );
 
-      // Add a question
+      // * Add a question
       cy.get('[data-testid="add-question-[data-cy*="button"]"]').click();
       cy.get('[data-testid="question-text-input"]').type('New question');
       cy.get('[data-testid="save-question-[data-cy*="button"]"]').click();
       
-      // Check for aria-live region
+      // * Check for aria-live region
       cy.get('[aria-live="polite"]').should('contain', 'Question added');
     });
 
@@ -889,14 +889,14 @@ describe('TemplateEditor Component', () => {
         />
       );
 
-      // Check mobile-specific layout
+      // * Check mobile-specific layout
       cy.get('[data-testid="template-editor-title"]').should('be.visible');
       
-      // Buttons should stack on mobile
+      // TODO: * Buttons should stack on mobile
       cy.get('[data-testid="save-template-[data-cy*="button"]"]').should('be.visible');
       cy.get('[data-testid="cancel-[data-cy*="button"]"]').should('be.visible');
       
-      // Question items should be full width
+      // TODO: * Question items should be full width
       cy.get('[data-cy^="question-item-"]').first()
         .should('have.css', 'width')
         .and('match', /3[0-9]{2}px/); // Close to viewport width
@@ -928,13 +928,13 @@ describe('TemplateEditor Component', () => {
         />
       );
 
-      // All elements should be visible
+      // TODO: * All elements should be visible
       cy.get('[data-testid="template-editor-title"]').should('be.visible');
       cy.get('[data-testid="template-name-input"]').should('be.visible');
       cy.get('[data-testid="template-description-input"]').should('be.visible');
       cy.get('[data-cy^="question-item-"]').should('have.length', 3);
       
-      // Buttons should be inline on desktop
+      // TODO: * Buttons should be inline on desktop
       cy.get('[data-testid="save-template-[data-cy*="button"]"]').should('be.visible');
       cy.get('[data-testid="cancel-[data-cy*="button"]"]').should('be.visible');
     });
@@ -950,7 +950,7 @@ describe('TemplateEditor Component', () => {
         />
       );
 
-      // Simulate touch on add [data-cy*="button"]
+      // * Simulate touch on add [data-cy*="button"]
       cy.get('[data-testid="add-question-[data-cy*="button"]"]')
         .trigger('touchstart')
         .trigger('touchend');

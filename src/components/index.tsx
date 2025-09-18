@@ -1,7 +1,7 @@
-// Central export file for all components
-// This file helps tests find components
+// * Central export file for all components
+// * This file helps tests find components
 
-// Export existing components
+// * Export existing components
 export { default as AuthGuard } from './AuthGuard';
 export { default as Button } from './Button';
 export { default as ColorPaletteDemo } from './ColorPaletteDemo';
@@ -26,13 +26,13 @@ export { default as TemplateSelector } from './TemplateSelector';
 export { default as TestableView } from './TestableView';
 export { default as TextInput } from './TextInput';
 
-// Import real error components
+// * Import real error components
 import { ErrorBoundary, useErrorHandler, withErrorBoundary } from './ErrorBoundary';
 import { ErrorMessage, useErrorMessage } from './ErrorMessage';
 import { ErrorNotification, useNotifications, NotificationContainer } from './ErrorNotification';
 
 // Re-export test helper components that tests expect
-// These are imported from test helpers for now
+// * These are imported from test helpers for now
 import {
   BasicQuestionsSelector,
   Breadcrumb,
@@ -142,7 +142,7 @@ export {
   SpeciesSelector
 };
 
-// Export real error components
+// * Export real error components
 export {
   ErrorBoundary,
   useErrorHandler,
@@ -154,6 +154,6 @@ export {
   NotificationContainer
 };
 
-// Export any subcomponent paths that tests might be looking for
+// * Export any subcomponent paths that tests might be looking for
 export { ElementHeader as ElementHeader2 } from '../../cypress/support/component-test-helpers';
 export { GraphControls as GraphControls2 } from '../../cypress/support/component-test-helpers';

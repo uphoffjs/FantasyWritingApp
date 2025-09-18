@@ -3,7 +3,7 @@ import { PerformanceMonitorComponent } from '../../src/components/PerformanceMon
 import { PerformanceDashboard } from '../../src/components/PerformanceDashboard';
 import { PerformanceProfiler, withPerformanceProfiler } from '../../src/components/PerformanceProfiler';
 
-// Mock the performance monitor service
+// ! PERFORMANCE: * Mock the performance monitor service
 const mockPerformanceMonitor = {
   getReport: cy.stub(),
   clear: cy.stub(),
@@ -12,12 +12,12 @@ const mockPerformanceMonitor = {
   recordMetric: cy.stub()
 };
 
-// Mock the usePerformanceMetrics hook
+// ! PERFORMANCE: * Mock the usePerformanceMetrics hook
 const mockUsePerformanceMetrics = {
   metrics: []
 };
 
-// Test component for profiler
+// * Test component for profiler
 const TestComponent: React.FC<{ text: string }> = ({ text }) => (
   <div data-testid="test-component">{text}</div>
 );
@@ -177,14 +177,14 @@ describe('PerformanceMonitorComponent', () => {
       cy.clock();
       cy.mount(<PerformanceMonitorComponent defaultOpen={true} />);
       
-      // Initial call
+      // * Initial call
       expect(mockPerformanceMonitor.getReport).to.have.been.calledOnce;
       
       // Advance 2 seconds
       cy.tick(2000);
       expect(mockPerformanceMonitor.getReport).to.have.been.calledTwice;
       
-      // Advance another 2 seconds
+      // * Advance another 2 seconds
       cy.tick(2000);
       expect(mockPerformanceMonitor.getReport).to.have.been.calledThrice;
     });
@@ -568,8 +568,8 @@ describe('PerformanceProfiler Component', () => {
 
   describe('Performance Warnings', () => {
     it('warns when update render exceeds 16ms', () => {
-      // This test would need actual re-rendering to trigger update phase
-      // For component testing, we'll simulate the callback
+      // * This test would need actual re-rendering to trigger update phase
+      // * For component testing, we'll simulate the callback
       const onRender = cy.stub();
       
       // Simulate React calling onRender with update phase and high duration
@@ -588,7 +588,7 @@ describe('PerformanceProfiler Component', () => {
 
   describe('Wasted Render Detection', () => {
     it('tracks wasted renders when ratio > 0.5', () => {
-      // Simulate a wasted render scenario
+      // * Simulate a wasted render scenario
       const onRender = (id, phase, actualDuration, baseDuration) => {
         const wastedRatio = baseDuration > 0 ? (baseDuration - actualDuration) / baseDuration : 0;
         if (wastedRatio > 0.5) {
@@ -600,7 +600,7 @@ describe('PerformanceProfiler Component', () => {
         }
       };
       
-      // Simulate a render where actual is much less than base (indicating optimization potential)
+      // ! PERFORMANCE: * Simulate a render where actual is much less than base (indicating optimization potential)
       onRender('test', 'update', 5, 20);
       
       expect(mockPerformanceMonitor.recordMetric).to.have.been.calledWith(
@@ -687,7 +687,7 @@ describe('PerformanceProfiler Component', () => {
       cy.get('[data-testid="test-component"]').should('contain', 'Nested');
       
       cy.wait(10).then(() => {
-        // Both profilers should record metrics
+        // TODO: * Both profilers should record metrics
         const calls = mockPerformanceMonitor.recordMetric.getCalls();
         const metricNames = calls.map(call => call.args[0]);
         expect(metricNames).to.include('outer_mount_duration');

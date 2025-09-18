@@ -5,7 +5,7 @@ import MobileBreadcrumbs from '../../src/components/MobileBreadcrumbs';
 import MobileBackButton from '../../src/components/MobileBackButton';
 import { BrowserRouter, useLocation, useNavigate, useParams } from 'react-router-dom';
 
-// Mock stores
+// * Mock stores
 const mockWorldbuildingStore = {
   getCurrentProject: cy.stub(),
   exportProject: cy.stub(),
@@ -25,14 +25,14 @@ let mockNavigate: any;
 const mockLocation = { pathname: '/project/123/element/456' };
 const mockParams = { projectId: '123', elementId: '456' };
 
-// Wrapper component with Router
+// * Wrapper component with Router
 const RouterWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <BrowserRouter>{children}</BrowserRouter>
 );
 
 beforeEach(() => {
   mockNavigate = cy.stub();
-  // Mock modules
+  // * Mock modules
   cy.stub(window, 'useWorldbuildingStore').returns(mockWorldbuildingStore);
 });
 cy.stub(window, 'useAuthStore').returns(mockAuthStore);
@@ -219,7 +219,7 @@ describe('MobileHeader Component', () => {
       const exportStub = cy.stub().resolves('export-data');
       mockWorldbuildingStore.exportProject = exportStub;
       
-      // Create a stub for URL methods
+      // * Create a stub for URL methods
       const createObjectURL = cy.stub(URL, 'createObjectURL').returns('blob:url');
       const revokeObjectURL = cy.stub(URL, 'revokeObjectURL');
       
@@ -277,7 +277,7 @@ describe('MobileHeader Component', () => {
         </RouterWrapper>
       );
       
-      // This would trigger file input, but we can't fully test file [data-cy*="select"]ion in component tests
+      // * This would trigger file input, but we can't fully test file [data-cy*="select"]ion in component tests
       cy.contains('Import Project').click();
     });
 

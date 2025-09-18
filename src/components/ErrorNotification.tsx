@@ -38,11 +38,11 @@ export const ErrorNotification: React.FC<ErrorNotificationProps> = ({
   const [isVisible, setIsVisible] = useState(true);
   const [progress, setProgress] = useState(100);
 
-  // Get the message to display
+  // * Get the message to display
   const displayMessage = message || (error instanceof Error ? error.message : error) || 'An error occurred';
   const displayTitle = title || (type === 'error' ? 'Error' : type === 'warning' ? 'Warning' : type === 'success' ? 'Success' : 'Info');
 
-  // Handle auto-dismiss
+  // * Handle auto-dismiss
   useEffect(() => {
     if (!persistent && duration > 0) {
       const interval = showProgress ? 50 : duration;
@@ -82,44 +82,58 @@ export const ErrorNotification: React.FC<ErrorNotificationProps> = ({
     return null;
   }
 
-  // Style based on type
+  // * Style based on type
   const typeStyles = {
     error: {
-      backgroundColor: '#f44336',
+      // ! HARDCODED: Should use design tokens
+    backgroundColor: '#f44336',
       color: 'white',
       iconColor: 'white'
     },
     warning: {
-      backgroundColor: '#ff9800',
+      // ! HARDCODED: Should use design tokens
+    backgroundColor: '#ff9800',
       color: 'white',
       iconColor: 'white'
     },
     success: {
-      backgroundColor: '#4caf50',
+      // ! HARDCODED: Should use design tokens
+    backgroundColor: '#4caf50',
       color: 'white',
       iconColor: 'white'
     },
     info: {
-      backgroundColor: '#2196f3',
+      // ! HARDCODED: Should use design tokens
+    backgroundColor: '#2196f3',
       color: 'white',
       iconColor: 'white'
     }
   };
 
-  // Position styles
+  // * Position styles
   const positionStyles: Record<string, React.CSSProperties> = {
-    'top': { top: '20px', left: '50%', transform: 'translateX(-50%)' },
-    'bottom': { bottom: '20px', left: '50%', transform: 'translateX(-50%)' },
-    'top-right': { top: '20px', right: '20px' },
-    'top-left': { top: '20px', left: '20px' },
-    'bottom-right': { bottom: '20px', right: '20px' },
-    'bottom-left': { bottom: '20px', left: '20px' }
+    'top': { top: '// ! HARDCODED: Should use design tokens
+      20px', left: '50%', transform: 'translateX(-50%)' },
+    'bottom': { bottom: '// ! HARDCODED: Should use design tokens
+      20px', left: '50%', transform: 'translateX(-50%)' },
+    'top-right': { top: '// ! HARDCODED: Should use design tokens
+      20px', right: '// ! HARDCODED: Should use design tokens
+      20px' },
+    'top-left': { top: '// ! HARDCODED: Should use design tokens
+      20px', left: '// ! HARDCODED: Should use design tokens
+      20px' },
+    'bottom-right': { bottom: '// ! HARDCODED: Should use design tokens
+      20px', right: '// ! HARDCODED: Should use design tokens
+      20px' },
+    'bottom-left': { bottom: '// ! HARDCODED: Should use design tokens
+      20px', left: '// ! HARDCODED: Should use design tokens
+      20px' }
   };
 
   const currentTypeStyle = typeStyles[type];
   const currentPositionStyle = positionStyles[position];
 
-  // Icons for different types
+  // * Icons for different types
   const icons = {
     error: '❌',
     warning: '⚠️',
@@ -135,15 +149,22 @@ export const ErrorNotification: React.FC<ErrorNotificationProps> = ({
       style={{
         position: 'fixed',
         ...currentPositionStyle,
-        minWidth: '300px',
-        maxWidth: '500px',
-        padding: '16px',
-        borderRadius: '8px',
-        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+        minWidth: '// ! HARDCODED: Should use design tokens
+      300px',
+        maxWidth: '// ! HARDCODED: Should use design tokens
+      500px',
+        padding: '// ! HARDCODED: Should use design tokens
+      16px',
+        borderRadius: '// ! HARDCODED: Should use design tokens
+      8px',
+        boxShadow: '0 // ! HARDCODED: Should use design tokens
+      4px // ! HARDCODED: Should use design tokens
+      6px rgba(0, 0, 0, 0.1)',
         zIndex: 9999,
         display: 'flex',
         flexDirection: 'column',
-        gap: '8px',
+        gap: '// ! HARDCODED: Should use design tokens
+      8px',
         ...currentTypeStyle,
         opacity: isVisible ? 1 : 0,
         transition: animated ? 'opacity 0.3s ease-in-out' : 'none',
@@ -154,8 +175,10 @@ export const ErrorNotification: React.FC<ErrorNotificationProps> = ({
     >
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span data-testid={`${testId}-icon`} style={{ fontSize: '20px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '// ! HARDCODED: Should use design tokens
+      8px' }}>
+          <span data-testid={`${testId}-icon`} style={{ fontSize: '// ! HARDCODED: Should use design tokens
+      20px' }}>
             {icons[type]}
           </span>
           <strong data-testid={`${testId}-title`}>{displayTitle}</strong>
@@ -168,10 +191,12 @@ export const ErrorNotification: React.FC<ErrorNotificationProps> = ({
             background: 'transparent',
             border: 'none',
             color: currentTypeStyle.iconColor,
-            fontSize: '24px',
+            fontSize: '// ! HARDCODED: Should use design tokens
+      24px',
             cursor: 'pointer',
             padding: '0',
-            marginLeft: '12px',
+            marginLeft: '// ! HARDCODED: Should use design tokens
+      12px',
             lineHeight: 1
           }}
           aria-label="Close notification"
@@ -181,7 +206,8 @@ export const ErrorNotification: React.FC<ErrorNotificationProps> = ({
       </div>
 
       {/* Message */}
-      <div data-testid={`${testId}-message`} style={{ paddingLeft: '28px' }}>
+      <div data-testid={`${testId}-message`} style={{ paddingLeft: '// ! HARDCODED: Should use design tokens
+      28px' }}>
         {displayMessage}
       </div>
 
@@ -193,14 +219,20 @@ export const ErrorNotification: React.FC<ErrorNotificationProps> = ({
           onClick={onRetry}
           style={{
             alignSelf: 'flex-start',
-            marginLeft: '28px',
-            padding: '4px 12px',
+            marginLeft: '// ! HARDCODED: Should use design tokens
+      28px',
+            padding: '// ! HARDCODED: Should use design tokens
+      4px // ! HARDCODED: Should use design tokens
+      12px',
             backgroundColor: 'rgba(255, 255, 255, 0.2)',
             color: 'white',
-            border: '1px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '4px',
+            border: '// ! HARDCODED: Should use design tokens
+      1px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '// ! HARDCODED: Should use design tokens
+      4px',
             cursor: 'pointer',
-            fontSize: '14px'
+            fontSize: '// ! HARDCODED: Should use design tokens
+      14px'
           }}
         >
           {retryText}
@@ -215,11 +247,14 @@ export const ErrorNotification: React.FC<ErrorNotificationProps> = ({
             position: 'absolute',
             bottom: 0,
             left: 0,
-            height: '4px',
+            height: '// ! HARDCODED: Should use design tokens
+      4px',
             width: `${progress}%`,
             backgroundColor: 'rgba(255, 255, 255, 0.5)',
-            borderBottomLeftRadius: progress > 5 ? '8px' : '0',
-            borderBottomRightRadius: progress > 95 ? '8px' : '0',
+            borderBottomLeftRadius: progress > 5 ? '// ! HARDCODED: Should use design tokens
+      8px' : '0',
+            borderBottomRightRadius: progress > 95 ? '// ! HARDCODED: Should use design tokens
+      8px' : '0',
             transition: 'width 0.05s linear'
           }}
         />
@@ -228,7 +263,7 @@ export const ErrorNotification: React.FC<ErrorNotificationProps> = ({
   );
 };
 
-// Notification manager for managing multiple notifications
+// * Notification manager for managing multiple notifications
 interface Notification {
   id: string;
   props: ErrorNotificationProps;
@@ -259,7 +294,7 @@ export const useNotifications = () => {
   };
 };
 
-// Notification container component
+// * Notification container component
 export const NotificationContainer: React.FC<{ notifications: Notification[] }> = ({ notifications }) => {
   return (
     <>

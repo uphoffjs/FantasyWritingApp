@@ -1,4 +1,4 @@
-// Note: Old and new Relationship types are now the same after migration
+// // DEPRECATED: Note: Old and new Relationship types are now the same after migration
 import type { Relationship, RelationshipType, RelationshipMetadata } from '../types/worldbuilding';
 
 /**
@@ -21,42 +21,42 @@ export interface OldRelationship {
  */
 export type NewRelationship = Relationship;
 
-// Map common relationship types to the new enum values
+// * Map common relationship types to the new enum values
 const RELATIONSHIP_TYPE_MAP: Record<string, RelationshipType> = {
-  // Family relationships
+  // * Family relationships
   'parent of': 'parent_of',
   'child of': 'child_of',
   'sibling of': 'sibling_of',
   'spouse of': 'spouse_of',
   
-  // Social relationships
+  // * Social relationships
   'friend of': 'friend_of',
   'enemy of': 'enemy_of',
   'ally of': 'ally_of',
   
-  // Organizational relationships
+  // * Organizational relationships
   'member of': 'member_of',
   'leader of': 'leader_of',
   'rules over': 'leader_of',
   
-  // Spatial relationships
+  // * Spatial relationships
   'located in': 'located_in',
   'resides in': 'located_in',
   
-  // Ownership relationships
+  // * Ownership relationships
   'owns': 'owns',
   'created by': 'created_by',
   'created': 'created_by',
   
-  // Part relationships
+  // * Part relationships
   'part of': 'part_of',
   'belongs to': 'part_of',
   
-  // Generic relationships
+  // * Generic relationships
   'related to': 'related_to',
   'connected to': 'related_to',
   
-  // Race relationships
+  // * Race relationships
   'belongs to race': 'belongs_to_race',
   'of race': 'belongs_to_race'
 };
@@ -65,18 +65,18 @@ const RELATIONSHIP_TYPE_MAP: Record<string, RelationshipType> = {
  * Normalize relationship type string to match new enum format
  */
 function normalizeRelationshipType(type: string): RelationshipType {
-  // First try exact match
+  // * First try exact match
   if (RELATIONSHIP_TYPE_MAP[type]) {
     return RELATIONSHIP_TYPE_MAP[type];
   }
   
-  // Try lowercase match
+  // * Try lowercase match
   const lowercaseType = type.toLowerCase().trim();
   if (RELATIONSHIP_TYPE_MAP[lowercaseType]) {
     return RELATIONSHIP_TYPE_MAP[lowercaseType];
   }
   
-  // Try to match by replacing spaces with underscores
+  // * Try to match by replacing spaces with underscores
   const underscoreType = lowercaseType.replace(/\s+/g, '_') as RelationshipType;
   const validTypes: RelationshipType[] = [
     'parent_of', 'child_of', 'sibling_of', 'spouse_of',
@@ -89,7 +89,7 @@ function normalizeRelationshipType(type: string): RelationshipType {
     return underscoreType;
   }
   
-  // Default to 'related_to' for unknown types
+  // * Default to 'related_to' for unknown types
   console.warn(`Unknown relationship type "${type}", defaulting to "related_to"`);
   return 'related_to';
 }

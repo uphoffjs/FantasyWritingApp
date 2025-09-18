@@ -2,7 +2,7 @@
 import React from 'react';
 import { ErrorBoundary, useErrorHandler } from '../../src/components/ErrorBoundary';
 
-// Test component that throws an error
+// * Test component that throws an error
 const ThrowError = ({ shouldThrow = false, errorMessage = 'Test error' }) => {
   if (shouldThrow) {
     throw new Error(errorMessage);
@@ -10,7 +10,7 @@ const ThrowError = ({ shouldThrow = false, errorMessage = 'Test error' }) => {
   return <div data-testid="child-content">Child component rendered</div>;
 };
 
-// Test component using useErrorHandler hook
+// * Test component using useErrorHandler hook
 const ComponentWithErrorHandler = ({ triggerError = false }) => {
   const throwError = useErrorHandler();
   
@@ -23,7 +23,7 @@ const ComponentWithErrorHandler = ({ triggerError = false }) => {
   return <div data-testid="hook-component">Component with error handler</div>;
 };
 
-// Custom fallback component
+// * Custom fallback component
 const CustomFallback = ({ error, resetError }: any) => {
   return (
     <div data-testid="custom-fallback">
@@ -66,7 +66,7 @@ describe('ErrorBoundary', () => {
         </ErrorBoundary>
       );
       
-      // In development mode, error ID should be visible
+      // TODO: * In development mode, error ID should be visible
       if (Cypress.env('NODE_ENV') !== 'production') {
         cy.contains('Debug Info').click();
         cy.contains('Test error').should('be.visible');
@@ -277,7 +277,7 @@ describe('ErrorBoundary', () => {
   
   describe('Development vs Production', () => {
     it('shows error details in development', () => {
-      // This test assumes we're in development mode
+      // * This test assumes we're in development mode
       if (process.env.NODE_ENV === 'development') {
         cy.mount(
           <ErrorBoundary level="component">
@@ -317,9 +317,9 @@ describe('ErrorBoundary', () => {
         </ErrorBoundary>
       );
       
-      // Component level error boundary should catch it
+      // TODO: * Component level error boundary should catch it
       cy.contains('Component Error').should('be.visible');
-      // Sibling should still render
+      // TODO: * Sibling should still render
       cy.get('[data-testid="sibling"]').should('be.visible');
     });
   });
@@ -360,8 +360,8 @@ describe('ErrorBoundary', () => {
         return <div>Async component</div>;
       };
       
-      // Note: Async errors need to be caught differently
-      // This test demonstrates that async errors don't trigger error boundary
+      // TODO: Note: Async errors need to be caught differently
+      // * This test demonstrates that async errors don't trigger error boundary
       cy.mount(
         <ErrorBoundary>
           <AsyncError />
