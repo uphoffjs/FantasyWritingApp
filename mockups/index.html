@@ -11,10 +11,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=EB+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Styles -->
-    <link rel="stylesheet" href="css/base.css">
-    <link rel="stylesheet" href="css/tokens.css"> <!-- Generated tokens from Storybook -->
-    <link rel="stylesheet" href="css/components.css">
+    <!-- Styles - Order matters for cascade -->
+    <link rel="stylesheet" href="css/tokens.css"> <!-- Design tokens from fantasyMasterColors -->
+    <link rel="stylesheet" href="css/base.css"> <!-- Reset and base styles -->
+    <link rel="stylesheet" href="css/theme.css"> <!-- Theme-specific styles -->
+    <link rel="stylesheet" href="css/components.css"> <!-- Component styles -->
+    <link rel="stylesheet" href="css/responsive.css"> <!-- Responsive breakpoints -->
 </head>
 <body>
     <div class="container">
@@ -32,28 +34,34 @@
                     <p>Authentication and onboarding</p>
                 </a>
                 
-                <a href="stories.html" class="mockup-card" data-cy="stories-mockup-link">
+                <a href="projects.html" class="mockup-card" data-cy="projects-mockup-link">
                     <div class="mockup-icon">📚</div>
-                    <h3>Stories List</h3>
-                    <p>Browse and manage stories</p>
+                    <h3>Projects List</h3>
+                    <p>Browse and manage writing projects</p>
                 </a>
                 
-                <a href="story-editor.html" class="mockup-card" data-cy="editor-mockup-link">
+                <a href="project-dashboard.html" class="mockup-card" data-cy="dashboard-mockup-link">
+                    <div class="mockup-icon">🏰</div>
+                    <h3>Project Dashboard</h3>
+                    <p>Project overview and elements</p>
+                </a>
+                
+                <a href="element-editor.html" class="mockup-card" data-cy="element-mockup-link">
                     <div class="mockup-icon">✍️</div>
-                    <h3>Story Editor</h3>
-                    <p>Rich text editing interface</p>
-                </a>
-                
-                <a href="characters.html" class="mockup-card" data-cy="characters-mockup-link">
-                    <div class="mockup-icon">👥</div>
-                    <h3>Character Manager</h3>
-                    <p>Create and manage characters</p>
+                    <h3>Element Editor</h3>
+                    <p>Edit world-building elements</p>
                 </a>
                 
                 <a href="settings.html" class="mockup-card" data-cy="settings-mockup-link">
                     <div class="mockup-icon">⚙️</div>
                     <h3>Settings</h3>
                     <p>App preferences and account</p>
+                </a>
+                
+                <a href="navigation-example.html" class="mockup-card" data-cy="navigation-mockup-link">
+                    <div class="mockup-icon">🧭</div>
+                    <h3>Navigation Example</h3>
+                    <p>Responsive navigation patterns</p>
                 </a>
             </div>
         </nav>

@@ -1,3 +1,6 @@
+/* * Import shared design tokens */
+@import 'shared-tokens.css';
+
 /* * Base CSS - Reset and foundational styles */
 /* * Inspired by React Native's default styling behavior */
 

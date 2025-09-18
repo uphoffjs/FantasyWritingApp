@@ -8,10 +8,13 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=EB+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
     
-    <!-- CSS Files -->
-    <link rel="stylesheet" href="css/base.css">
-    <link rel="stylesheet" href="css/tokens.css"> <!-- Generated tokens from Storybook -->
-    <link rel="stylesheet" href="css/components.css">
+    <!-- Styles - Order matters for cascade -->
+    <link rel="stylesheet" href="css/tokens.css"> <!-- Design tokens from fantasyMasterColors -->
+    <link rel="stylesheet" href="css/base.css"> <!-- Reset and base styles -->
+    <link rel="stylesheet" href="css/theme.css"> <!-- Theme-specific styles -->
+    <link rel="stylesheet" href="css/components.css"> <!-- Component styles -->
+    <link rel="stylesheet" href="css/navigation.css"> <!-- Navigation components -->
+    <link rel="stylesheet" href="css/responsive.css"> <!-- Responsive breakpoints -->
     
     <style>
         /* Project List Specific Styles */
@@ -244,6 +247,9 @@
     </style>
 </head>
 <body>
+    <!-- Include Navigation -->
+    <!-- In a real implementation, this would be server-side included or injected via JS -->
+    <!-- For now, copy the navigation HTML here -->
     <div class="main-container">
         <div class="container mx-auto max-w-4xl">
             <!-- Header -->

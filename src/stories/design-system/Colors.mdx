@@ -1,0 +1,296 @@
+import { Meta, ColorPalette, ColorItem } from '@storybook/blocks';
+
+<Meta title="Design System/Colors" />
+
+# Color System
+
+Our fantasy-inspired color palette creates an immersive, magical experience while maintaining excellent readability and accessibility.
+
+## Design Principles
+
+- **Fantasy Aesthetic**: Rich, mystical colors inspired by fantasy literature
+- **Accessibility First**: All color combinations meet WCAG AA standards
+- **Semantic Naming**: Colors have meaningful names for consistent usage
+- **Theme Support**: Automatic adaptation for light and dark modes
+
+## Primary Palette
+
+<ColorPalette>
+  <ColorItem
+    title="Primary"
+    subtitle="Main brand color"
+    colors={{
+      50: '#e8f4f1',
+      100: '#c5e4dc',
+      200: '#9fd3c5',
+      300: '#76c2ad',
+      400: '#55b59b',
+      500: '#2da888',
+      600: '#239a7c',
+      700: '#008970',
+      800: '#007862',
+      900: '#005d48',
+    }}
+  />
+  <ColorItem
+    title="Secondary"
+    subtitle="Accent and emphasis"
+    colors={{
+      50: '#f3e5f5',
+      100: '#e1bee7',
+      200: '#ce93d8',
+      300: '#ba68c8',
+      400: '#ab47bc',
+      500: '#9c27b0',
+      600: '#8e24aa',
+      700: '#7b1fa2',
+      800: '#6a1b9a',
+      900: '#4a148c',
+    }}
+  />
+  <ColorItem
+    title="Tertiary"
+    subtitle="Highlights and special elements"
+    colors={{
+      50: '#fff8e1',
+      100: '#ffecb3',
+      200: '#ffe082',
+      300: '#ffd54f',
+      400: '#ffca28',
+      500: '#ffc107',
+      600: '#ffb300',
+      700: '#ffa000',
+      800: '#ff8f00',
+      900: '#ff6f00',
+    }}
+  />
+</ColorPalette>
+
+## Semantic Colors
+
+### Status Colors
+
+<ColorPalette>
+  <ColorItem
+    title="Success"
+    subtitle="Positive actions and states"
+    colors={{
+      light: '#4caf50',
+      main: '#2e7d32',
+      dark: '#1b5e20',
+    }}
+  />
+  <ColorItem
+    title="Warning"
+    subtitle="Caution and attention"
+    colors={{
+      light: '#ff9800',
+      main: '#f57c00',
+      dark: '#e65100',
+    }}
+  />
+  <ColorItem
+    title="Error"
+    subtitle="Errors and destructive actions"
+    colors={{
+      light: '#f44336',
+      main: '#d32f2f',
+      dark: '#b71c1c',
+    }}
+  />
+  <ColorItem
+    title="Info"
+    subtitle="Informational content"
+    colors={{
+      light: '#2196f3',
+      main: '#1976d2',
+      dark: '#0d47a1',
+    }}
+  />
+</ColorPalette>
+
+## Theme Colors
+
+### Light Theme
+
+<ColorPalette>
+  <ColorItem
+    title="Backgrounds"
+    subtitle="Surface colors"
+    colors={{
+      primary: '#ffffff',
+      secondary: '#f5f7fa',
+      tertiary: '#e8ebf0',
+      paper: '#fafbfc',
+    }}
+  />
+  <ColorItem
+    title="Text"
+    subtitle="Typography colors"
+    colors={{
+      primary: '#1a202c',
+      secondary: '#4a5568',
+      tertiary: '#718096',
+      disabled: '#cbd5e0',
+    }}
+  />
+  <ColorItem
+    title="Borders"
+    subtitle="Dividers and outlines"
+    colors={{
+      default: '#e2e8f0',
+      focus: '#2da888',
+      error: '#f44336',
+    }}
+  />
+</ColorPalette>
+
+### Dark Theme
+
+<ColorPalette>
+  <ColorItem
+    title="Backgrounds"
+    subtitle="Surface colors"
+    colors={{
+      primary: '#1a202c',
+      secondary: '#2d3748',
+      tertiary: '#4a5568',
+      paper: '#243142',
+    }}
+  />
+  <ColorItem
+    title="Text"
+    subtitle="Typography colors"
+    colors={{
+      primary: '#f7fafc',
+      secondary: '#e2e8f0',
+      tertiary: '#cbd5e0',
+      disabled: '#718096',
+    }}
+  />
+  <ColorItem
+    title="Borders"
+    subtitle="Dividers and outlines"
+    colors={{
+      default: '#4a5568',
+      focus: '#55b59b',
+      error: '#fc8181',
+    }}
+  />
+</ColorPalette>
+
+## Usage Guidelines
+
+### Color Contrast
+All text colors must meet WCAG AA standards:
+- Normal text: 4.5:1 contrast ratio
+- Large text: 3:1 contrast ratio
+- Interactive elements: 3:1 contrast ratio
+
+### Semantic Usage
+```tsx
+// ✅ Good - Use semantic tokens
+backgroundColor: tokens.colors.background.primary
+color: tokens.colors.text.primary
+
+// ❌ Bad - Don't use hex values directly
+backgroundColor: '#ffffff'
+color: '#1a202c'
+```
+
+### Theme Adaptation
+```tsx
+// Colors automatically adapt to theme
+const styles = {
+  container: {
+    backgroundColor: tokens.colors.background.primary,
+    borderColor: tokens.colors.border.default,
+  },
+  text: {
+    color: tokens.colors.text.primary,
+  },
+};
+```
+
+### Status Communication
+Never rely on color alone to convey information:
+```tsx
+// ✅ Good - Color + Icon + Text
+<View style={[styles.alert, styles.error]}>
+  <Icon name="error" color={tokens.colors.error.main} />
+  <Text>Error: Invalid input</Text>
+</View>
+
+// ❌ Bad - Color only
+<View style={styles.redBox} />
+```
+
+## Accessibility
+
+### Color Blind Considerations
+- Use patterns and icons in addition to color
+- Test with color blindness simulators
+- Provide alternative indicators
+
+### High Contrast Mode
+- Support system high contrast settings
+- Increase contrast ratios when enabled
+- Test with Windows High Contrast
+
+### Focus Indicators
+- Always visible focus states
+- 3:1 contrast ratio minimum
+- 2px minimum border width
+
+## Implementation
+
+### Importing Tokens
+```tsx
+import { tokens } from '@/shared-styles/fantasy-tokens';
+
+const primaryColor = tokens.colors.primary[500];
+const backgroundColor = tokens.colors.background.primary;
+```
+
+### Platform Differences
+```tsx
+// React Native
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: tokens.colors.background.primary,
+  },
+});
+
+// Web CSS
+.container {
+  background-color: var(--color-background-primary);
+}
+```
+
+### Dynamic Theming
+```tsx
+const { theme } = useTheme();
+const colors = tokens.colors[theme];
+
+return (
+  <View style={{
+    backgroundColor: colors.background.primary,
+  }}>
+    {/* Content */}
+  </View>
+);
+```
+
+## Color Combinations
+
+### Recommended Pairings
+- Primary text on primary background
+- Secondary text on secondary background
+- Primary buttons on neutral backgrounds
+- Status colors with appropriate backgrounds
+
+### Avoid These Combinations
+- Low contrast pairings
+- Vibrating color combinations
+- Pure black on pure white (use off-blacks/whites)
+- Colors that clash aesthetically

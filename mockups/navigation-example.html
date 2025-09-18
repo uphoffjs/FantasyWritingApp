@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigation Example - Fantasy Writing App</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=EB+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Styles - Order matters for cascade -->
+    <link rel="stylesheet" href="css/tokens.css"> <!-- Design tokens from fantasyMasterColors -->
+    <link rel="stylesheet" href="css/base.css"> <!-- Reset and base styles -->
+    <link rel="stylesheet" href="css/theme.css"> <!-- Theme-specific styles -->
+    <link rel="stylesheet" href="css/components.css"> <!-- Component styles -->
+    <link rel="stylesheet" href="css/navigation.css"> <!-- Navigation components -->
+    <link rel="stylesheet" href="css/responsive.css"> <!-- Responsive breakpoints -->
+</head>
+<body>
+    <!-- Mobile Header (visible on mobile/tablet, hidden on desktop) -->
+    <header class="mobile-header" data-cy="mobile-header">
+        <!-- Hamburger Menu Button -->
+        <button class="hamburger" id="hamburger" data-cy="menu-button" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        
+        <!-- Page Title -->
+        <h1 class="mobile-header-title" data-cy="header-title">My Projects</h1>
+        
+        <!-- Header Actions -->
+        <div class="mobile-header-actions">
+            <!-- Search Button -->
+            <button class="mobile-header-btn" data-cy="search-button" aria-label="Search">
+                🔍
+            </button>
+            <!-- Profile Button -->
+            <button class="mobile-header-btn" data-cy="profile-button" aria-label="Profile">
+                👤
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation Drawer -->
+    <nav class="mobile-nav" id="mobile-nav" data-cy="mobile-nav">
+        <div class="nav-menu">
+            <!-- Main Navigation Section -->
+            <div class="nav-section">
+                <div class="nav-section-title">Main</div>
+                <a href="index.html" class="nav-item" data-cy="nav-home">
+                    <span class="nav-icon">🏠</span>
+                    <span class="nav-label">Home</span>
+                </a>
+                <a href="projects.html" class="nav-item active" data-cy="nav-projects">
+                    <span class="nav-icon">📚</span>
+                    <span class="nav-label">My Projects</span>
+                    <span class="nav-badge">3</span>
+                </a>
+                <a href="project-dashboard.html" class="nav-item" data-cy="nav-dashboard">
+                    <span class="nav-icon">🏰</span>
+                    <span class="nav-label">Current Project</span>
+                </a>
+            </div>
+            
+            <!-- Create Section -->
+            <div class="nav-section">
+                <div class="nav-section-title">Create</div>
+                <a href="element-editor.html" class="nav-item" data-cy="nav-new-element">
+                    <span class="nav-icon">✨</span>
+                    <span class="nav-label">New Element</span>
+                </a>
+                <a href="#" class="nav-item" data-cy="nav-new-project">
+                    <span class="nav-icon">➕</span>
+                    <span class="nav-label">New Project</span>
+                </a>
+            </div>
+            
+            <!-- Tools Section -->
+            <div class="nav-section">
+                <div class="nav-section-title">Tools</div>
+                <a href="#" class="nav-item" data-cy="nav-templates">
+                    <span class="nav-icon">📝</span>
+                    <span class="nav-label">Templates</span>
+                </a>
+                <a href="#" class="nav-item" data-cy="nav-import-export">
+                    <span class="nav-icon">📦</span>
+                    <span class="nav-label">Import/Export</span>
+                </a>
+                <a href="#" class="nav-item" data-cy="nav-search">
+                    <span class="nav-icon">🔍</span>
+                    <span class="nav-label">Search</span>
+                </a>
+            </div>
+            
+            <!-- Account Section -->
+            <div class="nav-section">
+                <div class="nav-section-title">Account</div>
+                <a href="settings.html" class="nav-item" data-cy="nav-settings">
+                    <span class="nav-icon">⚙️</span>
+                    <span class="nav-label">Settings</span>
+                </a>
+                <a href="login.html" class="nav-item" data-cy="nav-logout">
+                    <span class="nav-icon">🚪</span>
+                    <span class="nav-label">Logout</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Nav Overlay (for closing menu when clicking outside) -->
+    <div class="mobile-nav-overlay" id="mobile-nav-overlay"></div>
+
+    <!-- Desktop Sidebar (hidden on mobile, visible on desktop) -->
+    <aside class="desktop-sidebar" data-cy="desktop-sidebar">
+        <!-- Sidebar Header -->
+        <div class="sidebar-header">
+            <a href="index.html" class="sidebar-logo">
+                <span class="sidebar-logo-icon">🏰</span>
+                <span class="sidebar-logo-text">Fantasy Writing</span>
+            </a>
+        </div>
+        
+        <!-- Navigation Menu (same structure as mobile) -->
+        <div class="nav-menu">
+            <!-- Main Navigation Section -->
+            <div class="nav-section">
+                <div class="nav-section-title">Main</div>
+                <a href="index.html" class="nav-item" data-cy="sidebar-home">
+                    <span class="nav-icon">🏠</span>
+                    <span class="nav-label">Home</span>
+                </a>
+                <a href="projects.html" class="nav-item active" data-cy="sidebar-projects">
+                    <span class="nav-icon">📚</span>
+                    <span class="nav-label">My Projects</span>
+                    <span class="nav-badge">3</span>
+                </a>
+                <a href="project-dashboard.html" class="nav-item" data-cy="sidebar-dashboard">
+                    <span class="nav-icon">🏰</span>
+                    <span class="nav-label">Current Project</span>
+                </a>
+            </div>
+            
+            <!-- Create Section -->
+            <div class="nav-section">
+                <div class="nav-section-title">Create</div>
+                <a href="element-editor.html" class="nav-item" data-cy="sidebar-new-element">
+                    <span class="nav-icon">✨</span>
+                    <span class="nav-label">New Element</span>
+                </a>
+                <a href="#" class="nav-item" data-cy="sidebar-new-project">
+                    <span class="nav-icon">➕</span>
+                    <span class="nav-label">New Project</span>
+                </a>
+            </div>
+            
+            <!-- Tools Section -->
+            <div class="nav-section">
+                <div class="nav-section-title">Tools</div>
+                <a href="#" class="nav-item" data-cy="sidebar-templates">
+                    <span class="nav-icon">📝</span>
+                    <span class="nav-label">Templates</span>
+                </a>
+                <a href="#" class="nav-item" data-cy="sidebar-import-export">
+                    <span class="nav-icon">📦</span>
+                    <span class="nav-label">Import/Export</span>
+                </a>
+                <a href="#" class="nav-item" data-cy="sidebar-search">
+                    <span class="nav-icon">🔍</span>
+                    <span class="nav-label">Search</span>
+                </a>
+            </div>
+            
+            <!-- Account Section -->
+            <div class="nav-section">
+                <div class="nav-section-title">Account</div>
+                <a href="settings.html" class="nav-item" data-cy="sidebar-settings">
+                    <span class="nav-icon">⚙️</span>
+                    <span class="nav-label">Settings</span>
+                </a>
+                <a href="login.html" class="nav-item" data-cy="sidebar-logout">
+                    <span class="nav-icon">🚪</span>
+                    <span class="nav-label">Logout</span>
+                </a>
+            </div>
+        </div>
+        
+        <!-- User Section at Bottom -->
+        <div class="sidebar-user">
+            <div class="user-info">
+                <div class="user-avatar">JD</div>
+                <div class="user-details">
+                    <div class="user-name">John Doe</div>
+                    <div class="user-email">john@example.com</div>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <div class="container">
+            <div class="project-header">
+                <h1 class="project-title">My Projects</h1>
+                <button class="new-project-btn btn btn-primary" data-cy="new-project-button">
+                    <span style="margin-right: 0.5rem;">➕</span>
+                    New Project
+                </button>
+            </div>
+            
+            <p style="margin-bottom: 2rem; color: var(--ink-secondary);">
+                This example demonstrates the responsive navigation system:
+            </p>
+            
+            <div style="background: var(--parchment-200); padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
+                <h2 style="margin-bottom: 1rem;">Navigation Features</h2>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="margin-bottom: 0.5rem;">📱 <strong>Mobile View (< 1024px):</strong> Hamburger menu with slide-out drawer</li>
+                    <li style="margin-bottom: 0.5rem;">💻 <strong>Desktop View (≥ 1024px):</strong> Fixed sidebar navigation</li>
+                    <li style="margin-bottom: 0.5rem;">🎨 <strong>Theme Support:</strong> Toggle between light and dark themes</li>
+                    <li style="margin-bottom: 0.5rem;">✅ <strong>Active States:</strong> Current page is highlighted</li>
+                    <li style="margin-bottom: 0.5rem;">🔖 <strong>Badges:</strong> Show counts and notifications</li>
+                </ul>
+            </div>
+            
+            <div style="background: var(--parchment-100); padding: 1.5rem; border-radius: 8px;">
+                <h3 style="margin-bottom: 1rem;">Try It Out:</h3>
+                <ol style="margin-left: 1.5rem;">
+                    <li style="margin-bottom: 0.5rem;">Resize your browser window to see responsive behavior</li>
+                    <li style="margin-bottom: 0.5rem;">Click the hamburger menu on mobile view</li>
+                    <li style="margin-bottom: 0.5rem;">Toggle the theme using the button</li>
+                    <li style="margin-bottom: 0.5rem;">Navigate to different pages</li>
+                </ol>
+            </div>
+        </div>
+    </main>
+
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" onclick="toggleTheme()" data-cy="theme-toggle">
+        <span class="theme-icon">🌞</span>
+    </button>
+
+    <script src="js/mockup-helpers.js"></script>
+    <script>
+        // * Setup mobile menu toggle
+        const hamburger = document.getElementById('hamburger');
+        const mobileNav = document.getElementById('mobile-nav');
+        const overlay = document.getElementById('mobile-nav-overlay');
+        
+        if (hamburger && mobileNav && overlay) {
+            // * Toggle mobile menu
+            hamburger.addEventListener('click', function() {
+                hamburger.classList.toggle('active');
+                mobileNav.classList.toggle('active');
+                overlay.classList.toggle('active');
+            });
+            
+            // * Close menu when clicking overlay
+            overlay.addEventListener('click', function() {
+                hamburger.classList.remove('active');
+                mobileNav.classList.remove('active');
+                overlay.classList.remove('active');
+            });
+            
+            // * Close menu when clicking a link (for mobile)
+            document.querySelectorAll('.mobile-nav .nav-item').forEach(link => {
+                link.addEventListener('click', function() {
+                    hamburger.classList.remove('active');
+                    mobileNav.classList.remove('active');
+                    overlay.classList.remove('active');
+                });
+            });
+        }
+    </script>
+</body>
+</html>
