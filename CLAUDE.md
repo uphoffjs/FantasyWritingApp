@@ -2,9 +2,44 @@
 
 This file provides comprehensive guidance to Claude Code (claude.ai/code) for developing the FantasyWritingApp React Native project.
 
+## 🚨 MANDATORY PRE-CODE CHECKLIST
+Before writing ANY code, you MUST:
+1. ✅ Read this entire CLAUDE.md file if not already done in this session
+2. ✅ Always include helpful code comments explaining complex logic
+3. ✅ Use only `data-cy` attributes for test selectors (NEVER use CSS classes, IDs, or other selectors)
+4. ✅ Run `npm run lint` before marking tasks complete
+5. ✅ Fix code first when tests fail, then verify test correctness if code appears correct
+6. ✅ Read existing files with Read tool before editing
+
+**REMINDER**: After compacting/compression, ALWAYS re-read this file first!
+
+---
+
 ## Project Overview
 
 **FantasyWritingApp** is a cross-platform creative writing application built with React Native that helps fiction writers craft, organize, and manage their stories. It provides tools for story creation, character development, scene management, and chapter organization across iOS, Android, and web platforms.
+
+### Quick Commands
+```bash
+# Development
+npm run web            # Start web dev server (port 3002)
+npm run ios           # Start iOS simulator
+npm run android       # Start Android emulator
+npm run lint          # Run linter (MANDATORY before commits)
+
+# Testing
+npm run test          # Run Jest unit tests
+npm run cypress:open  # Open Cypress UI
+npm run cypress:run   # Run Cypress headlessly
+
+# Build & Deploy
+npm run build:web     # Build for web production
+npm run build:ios     # Build iOS app
+npm run build:android # Build Android APK
+
+# Git operations (when requested)
+git commit           # Create well-formatted commit with conventional format
+```
 
 ## Tech Stack
 
@@ -60,6 +95,66 @@ FantasyWritingApp/
 │   └── support/              # Test utilities
 └── __tests__/                # Jest unit tests
 ```
+
+---
+
+## Core Development Rules
+
+### 1. Code Comments Policy
+- **Always include helpful code comments** to improve maintainability
+- Comments should explain "why" not just "what"
+- Document complex business logic inline
+- Write self-documenting code with clear function/variable names
+
+### 2. Testing Selectors
+- **ONLY use `data-cy` attributes** - This is the ONLY acceptable selector strategy
+- **NEVER use**: CSS classes, IDs, tag names, text content, or any other selector
+- If a `data-cy` attribute doesn't exist, ADD IT TO THE CODE FIRST
+- Use kebab-case naming: `data-cy="submit-button"`
+- For React Native: use `testID` which converts to `data-cy` on web
+
+### 3. Code Quality Standards
+- **Run `npm run lint` MANDATORY** before marking any task complete
+- No `console.log` statements in production code
+- All components MUST have error boundaries
+- Validate and sanitize ALL user inputs
+- Never expose sensitive data or API keys
+
+### 4. Development Workflow
+
+#### Before Writing Code
+1. ✅ Read existing file(s) with Read tool first
+2. ✅ Check if framework/library exists in package.json
+3. ✅ Identify existing patterns and conventions
+4. ✅ Verify elements have `data-cy`/`testID` attributes (add if missing)
+5. ✅ All components made and edited should be mobile first
+
+#### During Development
+1. ✅ Follow import organization and component structure
+2. ✅ Include helpful code comments
+3. ✅ Add `data-cy`/`testID` attributes using kebab-case
+4. ✅ Implement error handling (loading/success/error states)
+5. ✅ Add error boundaries
+6. ✅ Validate and sanitize user inputs
+7. ✅ Write tests as you code (TDD approach)
+
+#### After Writing Code
+1. ✅ Run `npm run lint` (MANDATORY)
+2. ✅ Check browser console for errors
+3. ✅ Test on mobile/tablet/desktop viewports
+4. ✅ Run all tests
+5. ✅ Verify no sensitive data exposed
+
+### NEVER Do These
+- ❌ Skip reading files before editing
+- ❌ Use selectors other than `data-cy`/`testID`
+- ❌ Commit without running lint
+- ❌ Create feature branches unless explicitly requested
+- ❌ Use if statements in Cypress tests
+- ❌ Skip tests to make suite pass
+- ❌ Leave console.log statements in code
+
+---
 
 ## React Native Development Guidelines
 
@@ -310,6 +405,30 @@ export const AppNavigator = () => {
   );
 };
 ```
+
+## Testing Philosophy & Requirements
+
+### Core Testing Principles
+1. **When tests fail**: Assume code is wrong FIRST, then verify test correctness if code appears correct
+2. **Test independence**: Each test must pass in isolation
+3. **No conditional logic**: ABSOLUTELY NO `if` statements in Cypress tests
+4. **Comprehensive coverage**: Test happy paths AND edge cases
+
+### Testing Coverage Requirements
+- Minimum: 80% unit tests, 70% integration tests
+- ALL new features must include:
+  - Comprehensive E2E tests
+  - Component tests for UI
+  - Unit tests for utilities
+  - API tests for endpoints
+
+### Debugging Failed Tests
+1. Check debug files in `cypress/debug-logs/` (if available)
+2. Analyze debug output for root cause
+3. Fix the CODE (assume code is wrong first)
+4. If code appears correct, verify test logic
+5. NEVER add if statements to make tests pass
+6. NEVER skip tests to make suite pass
 
 ## Cypress Testing for React Native Web
 
@@ -726,3 +845,45 @@ Every piece of code must:
 - Include appropriate test coverage
 - Follow React Native best practices
 - Use consistent styling patterns
+
+---
+
+## Quick Reference
+
+### Essential Rules Checklist
+- [ ] Code has helpful comments
+- [ ] Only `data-cy`/`testID` attributes for selectors
+- [ ] Lint passes (`npm run lint`)
+- [ ] Tests written and passing
+- [ ] Error handling implemented
+- [ ] Accessibility verified
+- [ ] No console.log statements
+- [ ] No sensitive data exposed
+- [ ] Read existing files before editing
+
+### Common Commands
+```bash
+npm run web          # Start web development
+npm run lint         # Check code quality (MANDATORY)
+npm run test         # Run unit tests
+npm run cypress:open # Open Cypress UI
+
+# Building
+npm run build:web    # Build for web
+npm run build:ios    # Build iOS app
+npm run build:android # Build Android app
+```
+
+### File Paths
+- Component tests: `/cypress/component/`
+- E2E tests: `/cypress/e2e/`
+- Support files: `/cypress/support/`
+- Components: `/src/components/`
+- Screens: `/src/screens/`
+- Store: `/src/store/`
+- Types: `/src/types/`
+- Utils: `/src/utils/`
+
+---
+
+**Remember**: After compacting or starting a new session, ALWAYS re-read this file first!
