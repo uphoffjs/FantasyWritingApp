@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#F5F0E6">
+    <title>Login - Fantasy Writing App</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=EB+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/components.css">
+    
+    <style>
+        /* * Page-specific styles */
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, var(--parchment-300) 0%, var(--parchment-200) 100%);
+        }
+        
+        .login-card {
+            width: 100%;
+            max-width: 400px;
+            background-color: var(--parchment-50);
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 10px 40px rgba(26, 22, 19, 0.15);
+            border: 2px solid var(--gold-base);
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .app-logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1rem;
+            background: var(--gold-base);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: white;
+            box-shadow: 0 4px 12px rgba(201, 169, 79, 0.3);
+        }
+        
+        .login-title {
+            font-family: 'Cinzel', Georgia, serif;
+            font-size: 1.75rem;
+            color: var(--ink-primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .login-subtitle {
+            color: var(--ink-secondary);
+            font-size: 1rem;
+        }
+        
+        .social-login {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .social-btn {
+            flex: 1;
+            padding: 0.75rem;
+            border: 2px solid var(--parchment-600);
+            background-color: var(--parchment-100);
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-family: 'EB Garamond', Georgia, serif;
+            color: var(--ink-primary);
+        }
+        
+        .social-btn:hover {
+            background-color: var(--parchment-200);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(26, 22, 19, 0.1);
+        }
+        
+        .divider {
+            text-align: center;
+            position: relative;
+            margin: 2rem 0;
+            color: var(--ink-secondary);
+        }
+        
+        .divider::before,
+        .divider::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 45%;
+            height: 1px;
+            background-color: var(--parchment-600);
+        }
+        
+        .divider::before {
+            left: 0;
+        }
+        
+        .divider::after {
+            right: 0;
+        }
+        
+        .form-footer {
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+        
+        .link {
+            color: var(--mystic-base);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
+        
+        .link:hover {
+            color: var(--mystic-dark);
+            text-decoration: underline;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            margin-right: 0.5rem;
+        }
+        
+        .forgot-password {
+            text-align: right;
+            margin-bottom: 1rem;
+        }
+        
+        .nav-link {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            color: var(--mystic-base);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .nav-link:hover {
+            color: var(--mystic-dark);
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="nav-link" data-cy="back-to-index">
+        ← Back to Index
+    </a>
+    
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="app-logo">⚔️</div>
+                <h1 class="login-title">Welcome Back</h1>
+                <p class="login-subtitle">Continue your epic journey</p>
+            </div>
+            
+            <form id="login-form">
+                <!-- Social Login -->
+                <div class="social-login">
+                    <button type="button" class="social-btn" data-cy="google-login">
+                        <span>🔵</span>
+                        <span>Google</span>
+                    </button>
+                    <button type="button" class="social-btn" data-cy="apple-login">
+                        <span>⚫</span>
+                        <span>Apple</span>
+                    </button>
+                </div>
+                
+                <div class="divider">or</div>
+                
+                <!-- Email/Password Login -->
+                <div class="form-group">
+                    <label for="email" class="form-label">Email Address</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        class="form-input" 
+                        placeholder="your@email.com" 
+                        required
+                        data-cy="email-input"
+                    >
+                </div>
+                
+                <div class="form-group">
+                    <label for="password" class="form-label">Password</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        class="form-input" 
+                        placeholder="Enter your password" 
+                        required
+                        data-cy="password-input"
+                    >
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="remember" data-cy="remember-checkbox">
+                    <label for="remember">Remember me</label>
+                </div>
+                
+                <div class="forgot-password">
+                    <a href="#" class="link" data-cy="forgot-password-link">Forgot password?</a>
+                </div>
+                
+                <button type="submit" class="btn btn-primary w-full" data-cy="login-button">
+                    Enter the Realm
+                </button>
+                
+                <div class="form-footer">
+                    <p>New to the realm? <a href="#" class="link" data-cy="signup-link">Create an account</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" onclick="toggleTheme()" data-cy="theme-toggle">
+        <span class="theme-icon">🌞</span>
+    </button>
+
+    <script src="js/mockup-helpers.js"></script>
+    <script>
+        // * Form submission handler
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Show loading state
+            const button = this.querySelector('.btn-primary');
+            const originalText = button.textContent;
+            button.textContent = 'Entering...';
+            button.disabled = true;
+            
+            // Simulate login
+            mockupHelpers.simulateDataLoad(() => {
+                button.textContent = originalText;
+                button.disabled = false;
+                mockupHelpers.showNotification('Welcome back, adventurer!', 'success');
+                
+                // Redirect after a moment
+                setTimeout(() => {
+                    window.location.href = 'stories.html';
+                }, 1500);
+            }, 1500);
+        });
+        
+        // * Social login handlers
+        document.querySelectorAll('.social-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const provider = this.textContent.trim();
+                mockupHelpers.showNotification(`Connecting to ${provider}...`, 'info');
+            });
+        });
+        
+        // * Forgot password handler
+        document.querySelector('[data-cy="forgot-password-link"]').addEventListener('click', function(e) {
+            e.preventDefault();
+            mockupHelpers.showNotification('Password reset email sent!', 'success');
+        });
+    </script>
+</body>
+</html>

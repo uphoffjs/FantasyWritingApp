@@ -1,0 +1,294 @@
+/* * Theme CSS - Fantasy Master Color Palette */
+/* * Mirrors the React Native fantasyMasterColors */
+
+:root {
+    /* * Attribute Colors */
+    --might-lightest: #FBE9E9;
+    --might-lighter: #F5C1C1;
+    --might-light: #E89B9B;
+    --might-soft: #D87272;
+    --might-medium: #C84545;
+    --might-strong: #B33030;
+    --might-base: #A31C1C;
+    --might-dark: #741313;
+    --might-darkest: #4C0B0B;
+    
+    --swiftness-lightest: #E8EFFA;
+    --swiftness-lighter: #C3D6F5;
+    --swiftness-light: #9DBBEF;
+    --swiftness-soft: #789FE8;
+    --swiftness-medium: #4F7EDA;
+    --swiftness-strong: #3369C3;
+    --swiftness-base: #1C4FA3;
+    --swiftness-dark: #153A7A;
+    --swiftness-darkest: #0F2652;
+    
+    --vitality-lightest: #E8F4EC;
+    --vitality-lighter: #C2E3D0;
+    --vitality-light: #9BD2B3;
+    --vitality-soft: #74C095;
+    --vitality-medium: #4DAD78;
+    --vitality-strong: #3E9A67;
+    --vitality-base: #2E7D4F;
+    --vitality-dark: #205C39;
+    --vitality-darkest: #143D26;
+    
+    --finesse-lightest: #FFF4E0;
+    --finesse-lighter: #FCDDA6;
+    --finesse-light: #F8C56D;
+    --finesse-soft: #F3AD34;
+    --finesse-medium: #E3941C;
+    --finesse-strong: #C77E13;
+    --finesse-base: #A7660E;
+    --finesse-dark: #7D4C0A;
+    --finesse-darkest: #523204;
+    
+    /* * Class Colors */
+    --warrior-600: #A31C1C;
+    --shadow-700: #1F1F1F;
+    --hunter-600: #3A7F3C;
+    --explorer-600: #2C5FA3;
+    --guardian-600: #5C2E91;
+    
+    /* * UI Colors - Parchment (Light Theme) */
+    --parchment-50: #FFFFFF;
+    --parchment-100: #FDFBF8;
+    --parchment-200: #FAF6EF;
+    --parchment-300: #F5F0E6;
+    --parchment-400: #F0E9DC;
+    --parchment-500: #EAE2D3;
+    --parchment-600: #E5DCCC;
+    --parchment-700: #DFD6C5;
+    --parchment-800: #D9D0BE;
+    --parchment-900: #CCBFAA;
+    
+    /* * UI Colors - Obsidian (Dark Theme) */
+    --obsidian-50: #3A3632;
+    --obsidian-100: #2F2C28;
+    --obsidian-200: #252320;
+    --obsidian-300: #1E1B18;
+    --obsidian-400: #1A1815;
+    --obsidian-500: #171513;
+    --obsidian-600: #141210;
+    --obsidian-700: #110F0D;
+    --obsidian-800: #0E0C0B;
+    --obsidian-900: #050404;
+    
+    /* * Ink Colors */
+    --ink-primary: #2D1C15;
+    --ink-primary-light: #6F4D3F;
+    --ink-primary-lighter: #8D7367;
+    --ink-primary-dark: #1A0D08;
+    --ink-primary-darker: #0F0705;
+    
+    --ink-secondary: #5B463C;
+    --ink-secondary-light: #937C73;
+    --ink-secondary-lighter: #AA9890;
+    --ink-secondary-dark: #3D2E27;
+    --ink-secondary-darker: #201712;
+    
+    /* * Metallic Colors */
+    --gold-pale: #FFFBE9;
+    --gold-light: #F5EBB7;
+    --gold-soft: #EAD985;
+    --gold-bright: #E0C952;
+    --gold-base: #C9A94F;
+    --gold-antique: #AD8F3D;
+    --gold-tarnished: #8F742E;
+    --gold-dark: #70591F;
+    --gold-shadow: #523F10;
+    
+    --silver-pale: #F7F8F9;
+    --silver-light: #E1E3E5;
+    --silver-soft: #CACDCF;
+    --silver-bright: #B4B6B9;
+    --silver-base: #B0B4B9;
+    --silver-antique: #92969B;
+    --silver-tarnished: #74787D;
+    --silver-dark: #565A5E;
+    --silver-shadow: #383B3F;
+    
+    --bronze-light: #D4B896;
+    --bronze-base: #B08D57;
+    --bronze-dark: #8B6F45;
+    
+    --copper-light: #E09D5D;
+    --copper-base: #B87333;
+    --copper-dark: #8B5A2B;
+    
+    /* * Semantic Colors */
+    --dragonfire-pale: #FCEDED;
+    --dragonfire-light: #F7BEBE;
+    --dragonfire-soft: #F19090;
+    --dragonfire-medium: #EC6161;
+    --dragonfire-strong: #E73333;
+    --dragonfire-base: #C03030;
+    --dragonfire-dark: #992525;
+    --dragonfire-darker: #731A1A;
+    --dragonfire-shadow: #4D0F0F;
+    
+    --elixir-pale: #E8F5ED;
+    --elixir-light: #C3E3CF;
+    --elixir-soft: #9FD1B1;
+    --elixir-medium: #7ABF93;
+    --elixir-strong: #56AD75;
+    --elixir-base: #4FA361;
+    --elixir-dark: #3C7F4B;
+    --elixir-darker: #2D5F38;
+    --elixir-shadow: #1E3F26;
+    
+    --sunburst-pale: #FEF3C7;
+    --sunburst-light: #FDE68A;
+    --sunburst-soft: #FCD34D;
+    --sunburst-medium: #FBBF24;
+    --sunburst-strong: #F59E0B;
+    --sunburst-base: #D97706;
+    --sunburst-dark: #B45309;
+    --sunburst-darker: #92400E;
+    --sunburst-shadow: #78350F;
+    
+    --mystic-pale: #EFF6FF;
+    --mystic-light: #DBEAFE;
+    --mystic-soft: #BFDBFE;
+    --mystic-medium: #93C5FD;
+    --mystic-strong: #60A5FA;
+    --mystic-base: #3B82F6;
+    --mystic-dark: #2563EB;
+    --mystic-darker: #1D4ED8;
+    --mystic-shadow: #1E40AF;
+    
+    /* * Element Type Colors */
+    --element-character: #A31C1C;
+    --element-location: #2E7D4F;
+    --element-item: #C9A94F;
+    --element-magic: #5C2E91;
+    --element-creature: #3A7F3C;
+    --element-culture: #E3941C;
+    --element-organization: #2C5FA3;
+    --element-religion: #B0B4B9;
+    --element-technology: #B87333;
+    --element-history: #8B6F45;
+    --element-language: #1C4FA3;
+}
+
+/* * Dark Theme */
+[data-theme="dark"] {
+    --parchment-50: var(--obsidian-900);
+    --parchment-100: var(--obsidian-800);
+    --parchment-200: var(--obsidian-700);
+    --parchment-300: var(--obsidian-600);
+    --parchment-400: var(--obsidian-500);
+    --parchment-500: var(--obsidian-400);
+    --parchment-600: var(--obsidian-300);
+    --parchment-700: var(--obsidian-200);
+    --parchment-800: var(--obsidian-100);
+    --parchment-900: var(--obsidian-50);
+    
+    --ink-primary: #F5F0E6;
+    --ink-primary-light: #FAF6EF;
+    --ink-primary-lighter: #FDFBF8;
+    --ink-primary-dark: #E5DCCC;
+    --ink-primary-darker: #CCBFAA;
+    
+    --ink-secondary: #D9D0BE;
+    --ink-secondary-light: #E5DCCC;
+    --ink-secondary-lighter: #F0E9DC;
+    --ink-secondary-dark: #CCBFAA;
+    --ink-secondary-darker: #AA9890;
+}
+
+/* * Animation Keyframes */
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse-slow {
+    0%, 100% { opacity: 0.8; }
+    50% { opacity: 1; }
+}
+
+@keyframes shimmer {
+    0% { opacity: 0.8; }
+    50% { opacity: 1; }
+    100% { opacity: 0.8; }
+}
+
+@keyframes sealPress {
+    0% { 
+        transform: scale(1.2) rotate(-5deg);
+        opacity: 0;
+    }
+    50% { 
+        transform: scale(0.95) rotate(2deg);
+        opacity: 1;
+    }
+    100% { 
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+}
+
+@keyframes pageTurn {
+    0% { transform: rotateY(0deg); }
+    100% { transform: rotateY(-20deg); }
+}
+
+/* * Animation Utilities */
+.animate-float {
+    animation: float 3s ease-in-out infinite;
+}
+
+.animate-pulse-slow {
+    animation: pulse-slow 3s ease-in-out infinite;
+}
+
+.animate-shimmer {
+    animation: shimmer 2s ease-in-out infinite;
+}
+
+.animate-seal-press {
+    animation: sealPress 0.3s ease-out;
+}
+
+.animate-page-turn {
+    animation: pageTurn 0.5s ease-in-out;
+}
+
+/* * Special Effects */
+.glow-gold {
+    box-shadow: 0 0 20px rgba(201, 169, 79, 0.3);
+}
+
+.glow-silver {
+    box-shadow: 0 0 20px rgba(176, 180, 185, 0.3);
+}
+
+.glow-magic {
+    box-shadow: 0 0 20px rgba(92, 46, 145, 0.3);
+}
+
+.glow-fire {
+    box-shadow: 0 0 20px rgba(192, 48, 48, 0.3);
+}
+
+.glow-ice {
+    box-shadow: 0 0 20px rgba(28, 79, 163, 0.3);
+}
+
+.glow-nature {
+    box-shadow: 0 0 20px rgba(46, 125, 79, 0.3);
+}
+
+/* * Parchment Shadows */
+.shadow-parchment {
+    box-shadow: 0 2px 8px rgba(26, 22, 19, 0.1);
+}
+
+.shadow-parchment-hover {
+    box-shadow: 0 4px 12px rgba(26, 22, 19, 0.15);
+}
+
+.shadow-parchment-active {
+    box-shadow: 0 1px 4px rgba(26, 22, 19, 0.2);
+}
