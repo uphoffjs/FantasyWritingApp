@@ -5,7 +5,7 @@
  * ! IMPORTANT: Integrates with AppShell for responsive behavior
  */
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import {
   View,
   Text,
@@ -15,6 +15,7 @@ import {
   Platform,
   Animated,
   Pressable,
+  LayoutAnimation,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NavigationProp } from '../../navigation/types';
@@ -54,6 +55,29 @@ export const Sidebar: React.FC<SidebarProps> = ({
   // * Animation for slide-in effect on mobile
   const [slideAnimation] = useState(new Animated.Value(isVisible ? 0 : -300));
 
+  // * Create animated values for accordion sections
+  const sectionAnimations = useRef<{ [key: string]: Animated.Value }>({});
+  const rotationAnimations = useRef<{ [key: string]: Animated.Value }>({});
+  
+  // * Initialize animation values for each section
+  const getSectionAnimation = (sectionId: string) => {
+    if (!sectionAnimations.current[sectionId]) {
+      sectionAnimations.current[sectionId] = new Animated.Value(
+        expandedSections.has(sectionId) ? 1 : 0
+      );
+    }
+    return sectionAnimations.current[sectionId];
+  };
+
+  const getRotationAnimation = (sectionId: string) => {
+    if (!rotationAnimations.current[sectionId]) {
+      rotationAnimations.current[sectionId] = new Animated.Value(
+        expandedSections.has(sectionId) ? 1 : 0
+      );
+    }
+    return rotationAnimations.current[sectionId];
+  };
+
   React.useEffect(() => {
     Animated.timing(slideAnimation, {
       toValue: isVisible ? 0 : -300,
@@ -62,15 +86,46 @@ export const Sidebar: React.FC<SidebarProps> = ({
     }).start();
   }, [isVisible, slideAnimation]);
 
-  // * Toggle section expansion
+  // * Toggle section expansion with smooth animation
   const toggleSection = useCallback((sectionId: string) => {
+    // * Configure LayoutAnimation for smooth height transitions (mobile fallback)
+    if (Platform.OS !== 'web') {
+      LayoutAnimation.configureNext(
+        LayoutAnimation.create(
+          300,
+          LayoutAnimation.Types.easeInEaseOut,
+          LayoutAnimation.Properties.opacity
+        )
+      );
+    }
+
     setExpandedSections(prev => {
       const newSet = new Set(prev);
-      if (newSet.has(sectionId)) {
-        newSet.delete(sectionId);
-      } else {
+      const isExpanding = !newSet.has(sectionId);
+      
+      if (isExpanding) {
         newSet.add(sectionId);
+      } else {
+        newSet.delete(sectionId);
       }
+
+      // * Animate the section height and rotation
+      const sectionAnim = getSectionAnimation(sectionId);
+      const rotationAnim = getRotationAnimation(sectionId);
+      
+      Animated.parallel([
+        Animated.timing(sectionAnim, {
+          toValue: isExpanding ? 1 : 0,
+          duration: 300,
+          useNativeDriver: false,
+        }),
+        Animated.timing(rotationAnim, {
+          toValue: isExpanding ? 1 : 0,
+          duration: 300,
+          useNativeDriver: true,
+        }),
+      ]).start();
+      
       return newSet;
     });
   }, []);
@@ -145,9 +200,27 @@ export const Sidebar: React.FC<SidebarProps> = ({
     );
   };
 
-  // * Render collapsible section
+  // * Render collapsible section with smooth animations
   const renderSection = (sectionId: string, title: string, items: MenuItem[]) => {
     const isExpanded = expandedSections.has(sectionId);
+    const sectionAnim = getSectionAnimation(sectionId);
+    const rotationAnim = getRotationAnimation(sectionId);
+    
+    // * Calculate animated styles for smooth transitions
+    const animatedHeight = sectionAnim.interpolate({
+      inputRange: [0, 1],
+      outputRange: [0, items.length * 50 + 16], // Approximate height based on items
+    });
+    
+    const animatedOpacity = sectionAnim.interpolate({
+      inputRange: [0, 0.5, 1],
+      outputRange: [0, 0.5, 1],
+    });
+    
+    const animatedRotation = rotationAnim.interpolate({
+      inputRange: [0, 1],
+      outputRange: ['0deg', '90deg'],
+    });
     
     return (
       <View key={sectionId} style={styles.section}>
@@ -157,13 +230,30 @@ export const Sidebar: React.FC<SidebarProps> = ({
           testID={`sidebar-section-${sectionId}`}
         >
           <Text style={styles.sectionTitle}>{title}</Text>
-          <Text style={styles.sectionToggle}>{isExpanded ? '▼' : '▶'}</Text>
+          <Animated.Text 
+            style={[
+              styles.sectionToggle,
+              { transform: [{ rotate: animatedRotation }] }
+            ]}
+          >
+            ▶
+          </Animated.Text>
         </Pressable>
-        {isExpanded && (
-          <View style={styles.sectionContent}>
+        <Animated.View 
+          style={[
+            styles.sectionContent,
+            {
+              height: animatedHeight,
+              opacity: animatedOpacity,
+              overflow: 'hidden',
+            }
+          ]}
+        >
+          {/* * Always render content but control visibility with animation */}
+          <View style={{ paddingVertical: 8 }}>
             {items.map(renderMenuItem)}
           </View>
-        )}
+        </Animated.View>
       </View>
     );
   };
@@ -358,7 +448,7 @@ const createStyles = (theme: any) => StyleSheet.create({
     color: theme.ui.text.secondary,
   },
   sectionContent: {
-    paddingLeft: 8,
+    // * Padding handled inside animated view for smooth transitions
   },
   
   // * Menu items

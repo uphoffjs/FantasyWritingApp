@@ -12,11 +12,13 @@ import {
 } from 'react-native';
 import { Project } from '../types/models';
 import { ProjectCard } from './ProjectCard';
+import { SwipeableRow } from './gestures/SwipeableRow';
 
 interface ProjectListProps {
   projects: Project[];
   onProjectSelect?: (project: Project) => void;
   onProjectDelete?: (projectId: string) => void;
+  onProjectArchive?: (projectId: string) => void;
   onCreateProject?: () => void;
   loading?: boolean;
   refreshing?: boolean;
@@ -37,6 +39,7 @@ export function ProjectList({
   projects,
   onProjectSelect,
   onProjectDelete,
+  onProjectArchive,
   onCreateProject,
   loading = false,
   refreshing = false,
@@ -82,14 +85,32 @@ export function ProjectList({
 
   // * Render individual project card with press and delete handlers
   const renderProject = useCallback(
-    ({ item }: { item: Project }) => (
-      <ProjectCard
-        project={item}
-        onPress={() => onProjectSelect?.(item)}
-        onDelete={onProjectDelete ? () => onProjectDelete(item.id) : undefined}
-      />
-    ),
-    [onProjectSelect, onProjectDelete]
+    ({ item, index }: { item: Project; index: number }) => {
+      // * Wrap with SwipeableRow only on mobile platforms
+      const card = (
+        <ProjectCard
+          project={item}
+          onDelete={onProjectDelete ? () => onProjectDelete(item.id) : undefined}
+          index={index} // * Pass index for staggered animations
+        />
+      );
+
+      // * Enable swipe gestures on mobile platforms only
+      if (Platform.OS !== 'web' && (onProjectDelete || onProjectArchive)) {
+        return (
+          <SwipeableRow
+            onDelete={onProjectDelete ? () => onProjectDelete(item.id) : undefined}
+            onArchive={onProjectArchive ? () => onProjectArchive(item.id) : undefined}
+            testID={`swipeable-project-${item.id}`}
+          >
+            {card}
+          </SwipeableRow>
+        );
+      }
+
+      return card;
+    },
+    [onProjectDelete, onProjectArchive]
   );
 
   // ? * Render empty state - shows loading or empty message

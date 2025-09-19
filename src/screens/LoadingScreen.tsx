@@ -1,24 +1,41 @@
 /**
- * Loading screen component with React Native
- * Shows a loading spinner and optional message
+ * LoadingScreen.tsx
+ * * Full screen loading component using the enhanced LoadingIndicator
+ * * Theme-aware with fantasy styling
+ * ! IMPORTANT: Uses LoadingIndicator for consistent loading patterns
  */
 
 import React from 'react';
-import { View, Text, ActivityIndicator, StyleSheet, Platform } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import { LoadingIndicator } from '../components/loading/LoadingIndicator';
+import { useTheme } from '../providers/ThemeProvider';
 
 interface LoadingScreenProps {
   message?: string;
+  // * Loading variant to use
+  variant?: 'spinner' | 'dots' | 'bar' | 'ring';
+  // * Optional progress for bar variant
+  progress?: number;
 }
 
-export function LoadingScreen({ message = 'Loading...' }: LoadingScreenProps) {
+export function LoadingScreen({ 
+  message = 'Loading...', 
+  variant = 'ring',
+  progress 
+}: LoadingScreenProps) {
+  const { theme } = useTheme();
+  
   return (
-    <View style={styles.container}>
-      <ActivityIndicator 
-        size="large" 
-        color="#6366F1"
-        style={styles.spinner}
+    <View style={[styles.container, { backgroundColor: theme.ui.background.primary }]}>
+      <LoadingIndicator
+        variant={variant}
+        size="large"
+        message={message}
+        progress={progress}
+        fullscreen={false}
+        testID="loading-screen"
+        accessibilityLabel="Loading application"
       />
-      <Text style={styles.message}>{message}</Text>
     </View>
   );
 }
@@ -28,20 +45,5 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#111827',
-  },
-  spinner: {
-    marginBottom: 16,
-  },
-  message: {
-    fontSize: 16,
-    color: '#F9FAFB',
-    textAlign: 'center',
-    paddingHorizontal: 20,
-    fontFamily: Platform.select({
-      ios: 'System',
-      android: 'Roboto',
-      web: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
-    }),
   },
 });

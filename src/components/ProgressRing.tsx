@@ -2,11 +2,12 @@
  * ProgressRing.tsx
  * * Circular progress indicator with fantasy-themed colors
  * * Uses SVG for smooth animations and cross-platform support
+ * * Enhanced with spring animations, pulse effects, and completion animations
  * ! IMPORTANT: Requires react-native-svg for mobile platforms
  */
 
-import React, { useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, Animated, Platform } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { Text, StyleSheet, Animated, Platform, Easing } from 'react-native';
 import Svg, { Circle, G } from 'react-native-svg';
 import { useTheme } from '../providers/ThemeProvider';
 
@@ -30,8 +31,14 @@ interface ProgressRingProps {
   backgroundColor?: string;
   // * Enable animation
   animated?: boolean;
+  // * Animation type: 'timing' | 'spring' | 'elastic'
+  animationType?: 'timing' | 'spring' | 'elastic';
   // * Animation duration in milliseconds
   animationDuration?: number;
+  // * Enable pulse animation for loading states
+  pulseAnimation?: boolean;
+  // * Enable completion animation when reaching 100%
+  completionAnimation?: boolean;
   // * Test ID for testing
   testID?: string;
 }
@@ -50,11 +57,19 @@ export const ProgressRing: React.FC<ProgressRingProps> = ({
   progressColor,
   backgroundColor,
   animated = true,
+  animationType = 'timing',
   animationDuration = 500,
+  pulseAnimation = false,
+  completionAnimation = false,
   testID = 'progress-ring',
 }) => {
   const { theme } = useTheme();
   const animatedValue = useRef(new Animated.Value(0)).current;
+  const pulseAnim = useRef(new Animated.Value(1)).current;
+  const completionScale = useRef(new Animated.Value(1)).current;
+  const completionOpacity = useRef(new Animated.Value(1)).current;
+  const textScale = useRef(new Animated.Value(1)).current;
+  const [hasCompleted, setHasCompleted] = useState(false);
   
   // * Clamp progress between 0 and 100
   const clampedProgress = Math.max(0, Math.min(100, progress));
@@ -131,18 +146,133 @@ export const ProgressRing: React.FC<ProgressRingProps> = ({
   
   const colors = getColors();
   
-  // * Animate progress changes
+  // * Animate progress changes with different animation types
   useEffect(() => {
     if (animated) {
-      Animated.timing(animatedValue, {
-        toValue: clampedProgress,
-        duration: animationDuration,
-        useNativeDriver: false, // SVG properties can't use native driver
-      }).start();
+      let animation;
+      
+      // * Choose animation type based on prop
+      switch (animationType) {
+        case 'spring':
+          animation = Animated.spring(animatedValue, {
+            toValue: clampedProgress,
+            friction: 6,
+            tension: 40,
+            useNativeDriver: false, // SVG properties can't use native driver
+          });
+          break;
+          
+        case 'elastic':
+          animation = Animated.timing(animatedValue, {
+            toValue: clampedProgress,
+            duration: animationDuration,
+            easing: Easing.elastic(1.2),
+            useNativeDriver: false,
+          });
+          break;
+          
+        default: // 'timing'
+          animation = Animated.timing(animatedValue, {
+            toValue: clampedProgress,
+            duration: animationDuration,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: false,
+          });
+      }
+      
+      animation.start(() => {
+        // * Check for completion and trigger completion animation
+        if (clampedProgress === 100 && !hasCompleted && completionAnimation) {
+          setHasCompleted(true);
+          
+          // * Completion celebration animation
+          Animated.sequence([
+            Animated.parallel([
+              // * Scale up and fade out ring
+              Animated.timing(completionScale, {
+                toValue: 1.1,
+                duration: 300,
+                useNativeDriver: true,
+              }),
+              Animated.timing(completionOpacity, {
+                toValue: 0.8,
+                duration: 300,
+                useNativeDriver: true,
+              }),
+            ]),
+            Animated.parallel([
+              // * Scale back to normal
+              Animated.spring(completionScale, {
+                toValue: 1,
+                friction: 3,
+                tension: 100,
+                useNativeDriver: true,
+              }),
+              Animated.timing(completionOpacity, {
+                toValue: 1,
+                duration: 200,
+                useNativeDriver: true,
+              }),
+            ]),
+            // * Bounce the text
+            Animated.sequence([
+              Animated.spring(textScale, {
+                toValue: 1.2,
+                friction: 3,
+                tension: 200,
+                useNativeDriver: true,
+              }),
+              Animated.spring(textScale, {
+                toValue: 1,
+                friction: 3,
+                tension: 100,
+                useNativeDriver: true,
+              }),
+            ]),
+          ]).start();
+        } else if (clampedProgress < 100) {
+          // * Reset completion state if progress goes back down
+          setHasCompleted(false);
+        }
+      });
     } else {
       animatedValue.setValue(clampedProgress);
     }
-  }, [clampedProgress, animated, animationDuration, animatedValue]);
+  }, [clampedProgress, animated, animationType, animationDuration, animatedValue, hasCompleted, completionAnimation, completionScale, completionOpacity, textScale]);
+  
+  // * Pulse animation for loading states
+  useEffect(() => {
+    if (pulseAnimation && animated) {
+      // * Create continuous pulse effect
+      const pulseSequence = Animated.loop(
+        Animated.sequence([
+          Animated.timing(pulseAnim, {
+            toValue: 1.05,
+            duration: 1000,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: true,
+          }),
+          Animated.timing(pulseAnim, {
+            toValue: 1,
+            duration: 1000,
+            easing: Easing.inOut(Easing.ease),
+            useNativeDriver: true,
+          }),
+        ])
+      );
+      
+      pulseSequence.start();
+      
+      // * Cleanup function to stop animation when component unmounts
+      return () => {
+        pulseSequence.stop();
+        pulseAnim.setValue(1);
+      };
+    } else {
+      // * Reset pulse animation if disabled
+      pulseAnim.setValue(1);
+    }
+  }, [pulseAnimation, animated, pulseAnim]);
   
   // * Calculate stroke dash offset for progress
   const strokeDashoffset = animatedValue.interpolate({
@@ -154,8 +284,26 @@ export const ProgressRing: React.FC<ProgressRingProps> = ({
   const styles = createStyles(theme, ringDiameter, size);
   
   return (
-    <View style={styles.container} testID={testID}>
-      <View style={styles.ringContainer}>
+    <Animated.View 
+      style={[
+        styles.container,
+        {
+          // * Apply completion animation scale and opacity
+          transform: [{ scale: completionScale }],
+          opacity: completionOpacity,
+        }
+      ]} 
+      testID={testID}
+    >
+      <Animated.View 
+        style={[
+          styles.ringContainer,
+          {
+            // * Apply pulse animation if enabled
+            transform: [{ scale: pulseAnim }],
+          }
+        ]}
+      >
         <Svg
           width={ringDiameter}
           height={ringDiameter}
@@ -191,7 +339,15 @@ export const ProgressRing: React.FC<ProgressRingProps> = ({
         
         {/* Percentage text in center */}
         {showPercentage && (
-          <View style={styles.textContainer}>
+          <Animated.View 
+            style={[
+              styles.textContainer,
+              {
+                // * Apply text scale animation for completion
+                transform: [{ scale: textScale }],
+              }
+            ]}
+          >
             <Text style={styles.percentageText} testID={`${testID}-percentage`}>
               {Math.round(clampedProgress)}%
             </Text>
@@ -200,10 +356,10 @@ export const ProgressRing: React.FC<ProgressRingProps> = ({
                 {label}
               </Text>
             )}
-          </View>
+          </Animated.View>
         )}
-      </View>
-    </View>
+      </Animated.View>
+    </Animated.View>
   );
 };
 

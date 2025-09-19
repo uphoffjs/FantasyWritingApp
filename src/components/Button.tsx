@@ -2,20 +2,22 @@
  * * Cross-platform Button component
  * * Provides consistent styling and behavior across web and mobile
  * * Now integrated with fantasy theme system for dynamic theming
+ * * Enhanced with smooth press animations and effects
  * ! IMPORTANT: testID is required for all interactive components for Cypress testing
  */
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useRef, useCallback, useEffect } from 'react';
 import {
   Pressable,
   Text,
   StyleSheet,
   Platform,
-  ActivityIndicator,
   ViewStyle,
   TextStyle,
+  Animated,
 } from 'react-native';
 import { useTheme } from '../providers/ThemeProvider';
+import { LoadingIndicator } from './loading/LoadingIndicator';
 
 interface ButtonProps {
   title: string;
@@ -43,10 +45,80 @@ export function Button({
   const { theme } = useTheme();
   const isDisabled = disabled || loading;
 
+  // * Animated values for smooth press effects
+  const scaleAnim = useRef(new Animated.Value(1)).current;
+  const opacityAnim = useRef(new Animated.Value(1)).current;
+  const elevationAnim = useRef(new Animated.Value(0)).current;
+
   // * Create dynamic styles based on theme
   const themedStyles = useMemo(() => {
     return createStyles(theme);
   }, [theme]);
+
+  // * Handle press in animation - spring effect for more natural feel
+  const handlePressIn = useCallback(() => {
+    if (isDisabled) return;
+    
+    // * Parallel animations for smooth effect
+    Animated.parallel([
+      // * Spring animation for scale - bouncy press effect
+      Animated.spring(scaleAnim, {
+        toValue: 0.96,
+        friction: 3,
+        tension: 100,
+        useNativeDriver: true,
+      }),
+      // * Timing animation for opacity - fade effect
+      Animated.timing(opacityAnim, {
+        toValue: 0.85,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+      // * Elevation animation for depth effect (mobile only)
+      Platform.OS !== 'web' && Animated.timing(elevationAnim, {
+        toValue: 2,
+        duration: 100,
+        useNativeDriver: false, // * Elevation can't use native driver
+      }),
+    ].filter(Boolean)).start();
+  }, [isDisabled, scaleAnim, opacityAnim, elevationAnim]);
+
+  // * Handle press out animation - spring back to original state
+  const handlePressOut = useCallback(() => {
+    if (isDisabled) return;
+    
+    // * Parallel animations for smooth release
+    Animated.parallel([
+      // * Spring animation for scale - bounce back effect
+      Animated.spring(scaleAnim, {
+        toValue: 1,
+        friction: 3,
+        tension: 100,
+        useNativeDriver: true,
+      }),
+      // * Timing animation for opacity - fade back
+      Animated.timing(opacityAnim, {
+        toValue: 1,
+        duration: 150,
+        useNativeDriver: true,
+      }),
+      // * Elevation animation reset (mobile only)
+      Platform.OS !== 'web' && Animated.timing(elevationAnim, {
+        toValue: 0,
+        duration: 150,
+        useNativeDriver: false,
+      }),
+    ].filter(Boolean)).start();
+  }, [isDisabled, scaleAnim, opacityAnim, elevationAnim]);
+
+  // * Reset animations when disabled state changes
+  useEffect(() => {
+    if (isDisabled) {
+      scaleAnim.setValue(1);
+      opacityAnim.setValue(1);
+      elevationAnim.setValue(0);
+    }
+  }, [isDisabled, scaleAnim, opacityAnim, elevationAnim]);
 
   const buttonStyles = [
     themedStyles.base,
@@ -74,29 +146,49 @@ export function Button({
     return theme.colors.button.primary;
   }, [variant, theme]);
 
+  // * Animated styles for smooth transitions
+  const animatedButtonStyle = {
+    transform: [{ scale: scaleAnim }],
+    opacity: opacityAnim,
+    // * Add elevation for depth effect on mobile
+    ...(Platform.OS !== 'web' && {
+      elevation: elevationAnim,
+      shadowOpacity: 0.3,
+      shadowRadius: 4,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+    }),
+  };
+
   return (
-    <Pressable
-      style={({ pressed }) => [
-        ...buttonStyles,
-        pressed && !isDisabled && themedStyles.pressed,
-        // * Web-specific styles for better UX
-        Platform.OS === 'web' && themedStyles.webButton,
-      ]}
-      onPress={onPress}
-      disabled={isDisabled}
-      testID={testID}
-      accessibilityRole="button"
-      accessibilityState={{ disabled: isDisabled }}
-    >
-      {loading ? (
-        <ActivityIndicator
-          size="small"
-          color={loadingColor}
-        />
-      ) : (
-        <Text style={textStyles}>{title}</Text>
-      )}
-    </Pressable>
+    <Animated.View style={animatedButtonStyle}>
+      <Pressable
+        style={[
+          ...buttonStyles,
+          // * Web-specific styles for better UX
+          Platform.OS === 'web' && themedStyles.webButton,
+        ]}
+        onPressIn={handlePressIn}
+        onPressOut={handlePressOut}
+        onPress={onPress}
+        disabled={isDisabled}
+        testID={testID}
+        accessibilityRole="button"
+        accessibilityState={{ disabled: isDisabled }}
+      >
+        {loading ? (
+          <LoadingIndicator
+            variant="spinner"
+            size="small"
+            color={loadingColor}
+            inline={true}
+            testID={`${testID}-loading`}
+          />
+        ) : (
+          <Text style={textStyles}>{title}</Text>
+        )}
+      </Pressable>
+    </Animated.View>
   );
 }
 
@@ -153,11 +245,7 @@ const createStyles = (theme: any) => StyleSheet.create({
     paddingVertical: theme.spacing.sm + 6,
     paddingHorizontal: theme.spacing.lg + 4,
   },
-  // * Interactive state styles
-  pressed: {
-    opacity: 0.8,
-    transform: [{ scale: 0.98 }],
-  },
+  // * Interactive state styles handled by animations now
   disabled: {
     opacity: 0.5,
     backgroundColor: theme.colors.button.disabled,

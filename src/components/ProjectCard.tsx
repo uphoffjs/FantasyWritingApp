@@ -1,4 +1,4 @@
-import React, { useState, memo, useMemo } from 'react';
+import React, { useState, memo, useMemo, useRef, useCallback } from 'react';
 import {
   View,
   Text,
@@ -8,6 +8,7 @@ import {
   ActivityIndicator,
   Alert,
   Platform,
+  Animated,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -16,11 +17,14 @@ import { Project } from '../types/models';
 import { useWorldbuildingStore } from '../store/worldbuildingStore';
 import { useTheme } from '../providers/ThemeProvider';
 import { ProgressRing } from './ProgressRing';
+import { BackgroundWithTexture } from './effects/ParchmentTexture';
+import { ContentReveal } from './animations/ContentReveal';
 
 interface ProjectCardProps {
   project: Project;
   onDelete?: (projectId: string) => void;
   isDeleting?: boolean;
+  index?: number; // * For staggered animations in list
 }
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
@@ -29,6 +33,7 @@ export const ProjectCard = memo(function ProjectCard({
   project,
   onDelete,
   isDeleting = false,
+  index = 0,
 }: ProjectCardProps) {
   const navigation = useNavigation<NavigationProp>();
   const { setCurrentProject } = useWorldbuildingStore();
@@ -36,9 +41,16 @@ export const ProjectCard = memo(function ProjectCard({
   const [showActions, setShowActions] = useState(false);
   const [isDuplicating, setIsDuplicating] = useState(false);
   const [imageError, setImageError] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
   
   // * Create dynamic styles based on theme
   const styles = useMemo(() => createStyles(theme), [theme]);
+  
+  // * Animation values for smooth card interactions
+  const scaleAnim = useRef(new Animated.Value(1)).current;
+  const elevationAnim = useRef(new Animated.Value(5)).current;
+  const translateYAnim = useRef(new Animated.Value(0)).current;
+  const rotateAnim = useRef(new Animated.Value(0)).current;
   
   // * Calculate project completion percentage from elements
   const completionPercentage = useMemo(() => {
@@ -73,6 +85,120 @@ export const ProjectCard = memo(function ProjectCard({
       ) || 0,
     };
   }, [project.elements]);
+
+  // * Handle hover animations for web
+  const handleMouseEnter = useCallback(() => {
+    if (Platform.OS === 'web') {
+      setIsHovered(true);
+      // * Lift the card with scale and translation
+      Animated.parallel([
+        Animated.spring(scaleAnim, {
+          toValue: 1.02,
+          friction: 4,
+          tension: 100,
+          useNativeDriver: true,
+        }),
+        Animated.timing(translateYAnim, {
+          toValue: -4,
+          duration: 200,
+          useNativeDriver: true,
+        }),
+        Animated.timing(elevationAnim, {
+          toValue: 12,
+          duration: 200,
+          useNativeDriver: false,
+        }),
+      ]).start();
+    }
+  }, [scaleAnim, translateYAnim, elevationAnim]);
+
+  const handleMouseLeave = useCallback(() => {
+    if (Platform.OS === 'web') {
+      setIsHovered(false);
+      // * Return card to original position
+      Animated.parallel([
+        Animated.spring(scaleAnim, {
+          toValue: 1,
+          friction: 4,
+          tension: 100,
+          useNativeDriver: true,
+        }),
+        Animated.timing(translateYAnim, {
+          toValue: 0,
+          duration: 200,
+          useNativeDriver: true,
+        }),
+        Animated.timing(elevationAnim, {
+          toValue: 5,
+          duration: 200,
+          useNativeDriver: false,
+        }),
+      ]).start();
+    }
+  }, [scaleAnim, translateYAnim, elevationAnim]);
+
+  // * Handle press animations
+  const handlePressIn = useCallback(() => {
+    // * Subtle press effect
+    Animated.parallel([
+      Animated.spring(scaleAnim, {
+        toValue: 0.98,
+        friction: 3,
+        tension: 100,
+        useNativeDriver: true,
+      }),
+      Animated.timing(elevationAnim, {
+        toValue: 2,
+        duration: 100,
+        useNativeDriver: false,
+      }),
+    ]).start();
+  }, [scaleAnim, elevationAnim]);
+
+  const handlePressOut = useCallback(() => {
+    // * Release effect
+    Animated.parallel([
+      Animated.spring(scaleAnim, {
+        toValue: isHovered && Platform.OS === 'web' ? 1.02 : 1,
+        friction: 3,
+        tension: 100,
+        useNativeDriver: true,
+      }),
+      Animated.timing(elevationAnim, {
+        toValue: isHovered && Platform.OS === 'web' ? 12 : 5,
+        duration: 150,
+        useNativeDriver: false,
+      }),
+    ]).start();
+  }, [scaleAnim, elevationAnim, isHovered]);
+
+  // * Handle long press wiggle animation for mobile
+  const handleLongPress = useCallback(() => {
+    setShowActions(true);
+    // * Wiggle animation to indicate interaction
+    Animated.sequence([
+      Animated.timing(rotateAnim, {
+        toValue: 1,
+        duration: 50,
+        useNativeDriver: true,
+      }),
+      Animated.timing(rotateAnim, {
+        toValue: -1,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+      Animated.timing(rotateAnim, {
+        toValue: 1,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+      Animated.timing(rotateAnim, {
+        toValue: 0,
+        duration: 50,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  }, [rotateAnim]);
 
   const handleOpenProject = () => {
     setCurrentProject(project.id);
@@ -153,19 +279,64 @@ export const ProjectCard = memo(function ProjectCard({
     });
   };
 
+  // * Animated styles for the card
+  const animatedCardStyle = {
+    transform: [
+      { scale: scaleAnim },
+      { translateY: translateYAnim },
+      {
+        rotate: rotateAnim.interpolate({
+          inputRange: [-1, 1],
+          outputRange: ['-1deg', '1deg'],
+        }),
+      },
+    ],
+    elevation: elevationAnim,
+    shadowOpacity: elevationAnim.interpolate({
+      inputRange: [2, 5, 12],
+      outputRange: [0.1, 0.15, 0.25],
+    }),
+    shadowRadius: elevationAnim.interpolate({
+      inputRange: [2, 5, 12],
+      outputRange: [4, 8, 12],
+    }),
+  };
+
   return (
-    <Pressable
-      style={({ pressed }) => [
-        styles.card,
-        pressed && styles.cardPressed,
-        Platform.OS === 'web' && styles.cardWeb,
-      ]}
-      onPress={handleOpenProject}
-      onLongPress={() => setShowActions(true)}
-      data-cy="project-card"
+    <ContentReveal
+      animation="slideUp"
+      duration={600}
+      delay={index * 100} // * Stagger delay based on position in list
+      distance={30}
+      easing="spring"
+      testID={`project-card-reveal-${index}`}
     >
-      {/* Cover Image or Default Header with Progress Ring Overlay */}
-      <View style={styles.header}>
+      <BackgroundWithTexture 
+        variant="subtle"
+        style={styles.textureWrapper}
+        testID="project-card-texture"
+      >
+        <Animated.View 
+          style={[styles.card, animatedCardStyle]}
+        // * Add mouse enter/leave for web hover effects
+        {...(Platform.OS === 'web' && {
+          onMouseEnter: handleMouseEnter,
+          onMouseLeave: handleMouseLeave,
+        })}
+      >
+        <Pressable
+          style={[
+            styles.cardPressable,
+            Platform.OS === 'web' && styles.cardWeb,
+          ]}
+          onPress={handleOpenProject}
+          onPressIn={handlePressIn}
+          onPressOut={handlePressOut}
+          onLongPress={handleLongPress}
+          data-cy="project-card"
+        >
+        {/* Cover Image or Default Header with Progress Ring Overlay */}
+        <View style={styles.header}>
         {project.coverImage && !imageError ? (
           <Image
             source={{ uri: project.coverImage }}
@@ -325,20 +496,27 @@ export const ProjectCard = memo(function ProjectCard({
           </View>
         </>
       )}
-    </Pressable>
+        </Pressable>
+      </Animated.View>
+    </BackgroundWithTexture>
+    </ContentReveal>
   );
 });
 
 // * Dynamic style creation based on theme
 const createStyles = (theme: any) => StyleSheet.create({
+  textureWrapper: {
+    borderRadius: theme.borderRadius.lg,
+    marginBottom: theme.spacing.md,
+    overflow: 'hidden',
+  },
   card: {
     backgroundColor: theme.colors.surface.card,
     borderRadius: theme.borderRadius.lg,
     borderWidth: 1,
     borderColor: theme.colors.metal.gold + '40', // * Subtle gold border
     overflow: 'hidden',
-    marginBottom: theme.spacing.md,
-    // * Enhanced fantasy theme shadow for magical depth
+    // * Enhanced fantasy theme shadow for magical depth (handled by animation now)
     shadowColor: theme.colors.effects.shadow,
     shadowOffset: {
       width: 0,
@@ -347,21 +525,12 @@ const createStyles = (theme: any) => StyleSheet.create({
     shadowOpacity: 0.15,
     shadowRadius: 8,
     elevation: 5,
-    // * Web-specific hover effect
-    ...(Platform.OS === 'web' && {
-      transition: 'all 0.3s ease',
-    }),
   },
-  cardPressed: {
-    opacity: 0.8,
+  cardPressable: {
+    flex: 1,
   },
   cardWeb: {
     cursor: 'pointer',
-    '&:hover': {
-      transform: 'translateY(-2px)',
-      shadowOpacity: 0.2,
-      borderColor: theme.colors.metal.gold + '60',
-    },
   },
   header: {
     height: 160,
