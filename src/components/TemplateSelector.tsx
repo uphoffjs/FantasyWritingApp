@@ -77,6 +77,7 @@ export function TemplateSelector({
       <Pressable
         key={template.id}
         style={[styles.templateCard, isSelected && styles.templateCardSelected]}
+        testID={`template-card-${template.id}`}
         onPress={() => setSelectedTemplateId(template.id)}
       >
         <View style={styles.templateHeader}>
@@ -141,7 +142,7 @@ export function TemplateSelector({
         <View style={styles.modalContent}>
           <View style={styles.header}>
             <Text style={styles.title}>Select Template</Text>
-            <Pressable onPress={onClose} style={styles.closeButton}>
+            <Pressable onPress={onClose} style={styles.closeButton} testID="template-selector-close-button">
               <Text style={styles.closeIcon}>✕</Text>
             </Pressable>
           </View>
@@ -155,6 +156,7 @@ export function TemplateSelector({
             <TextInput
               style={styles.searchInput}
               placeholder="Search templates..."
+              testID="template-search-input"
               // ! HARDCODED: Should use design tokens
           placeholderTextColor="#6B7280"
               value={searchQuery}
@@ -194,6 +196,7 @@ export function TemplateSelector({
             <Pressable
               style={styles.cancelButton}
               onPress={onClose}
+              testID="template-selector-cancel-button"
             >
               <Text style={styles.cancelButtonText}>Cancel</Text>
             </Pressable>
@@ -205,6 +208,7 @@ export function TemplateSelector({
               ]}
               onPress={handleSelectTemplate}
               disabled={!selectedTemplateId}
+              testID="template-selector-use-button"
             >
               <Text style={styles.selectButtonText}>
                 Use Template

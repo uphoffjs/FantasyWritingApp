@@ -79,6 +79,7 @@ export function GlobalSearch({ visible, onClose }: GlobalSearchProps) {
         <Pressable
           style={styles.resultItem}
           onPress={() => handleResultPress(item)}
+          testID={`search-result-project-${project.id}`}
         >
           <View style={styles.resultIcon}>
             <Text style={styles.resultIconText}>📚</Text>
@@ -102,6 +103,7 @@ export function GlobalSearch({ visible, onClose }: GlobalSearchProps) {
         <Pressable
           style={styles.resultItem}
           onPress={() => handleResultPress(item)}
+          testID={`search-result-element-${element.id}`}
         >
           <View style={styles.resultIcon}>
             <Text style={styles.resultIconText}>
@@ -162,12 +164,18 @@ export function GlobalSearch({ visible, onClose }: GlobalSearchProps) {
       animationType="slide"
       transparent={true}
       onRequestClose={onClose}
+      testID="global-search-modal"
     >
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.container}
+        testID="global-search-keyboard-avoiding"
       >
-        <Pressable style={styles.backdrop} onPress={onClose} />
+        <Pressable 
+          style={styles.backdrop} 
+          onPress={onClose}
+          testID="global-search-backdrop"
+        />
         
         <View style={styles.modalContent}>
           {/* Header */}
@@ -184,17 +192,23 @@ export function GlobalSearch({ visible, onClose }: GlobalSearchProps) {
                 autoFocus
                 autoCorrect={false}
                 autoCapitalize="none"
+                testID="global-search-input"
               />
               {localQuery.length > 0 && (
                 <Pressable
                   onPress={() => setLocalQuery('')}
                   style={styles.clearButton}
+                  testID="global-search-clear-button"
                 >
                   <Text style={styles.clearIcon}>✕</Text>
                 </Pressable>
               )}
             </View>
-            <Pressable onPress={onClose} style={styles.cancelButton}>
+            <Pressable 
+              onPress={onClose} 
+              style={styles.cancelButton}
+              testID="global-search-cancel-button"
+            >
               <Text style={styles.cancelText}>Cancel</Text>
             </Pressable>
           </View>
@@ -213,6 +227,7 @@ export function GlobalSearch({ visible, onClose }: GlobalSearchProps) {
             ]}
             showsVerticalScrollIndicator={false}
             ItemSeparatorComponent={() => <View style={styles.separator} />}
+            testID="global-search-results-list"
           />
 
           {/* Result Count */}

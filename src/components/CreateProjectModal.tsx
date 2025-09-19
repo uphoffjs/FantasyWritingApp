@@ -121,20 +121,21 @@ export function CreateProjectModal({
       animationType="slide"
       transparent={true}
       onRequestClose={handleClose}
+      testID="create-project-modal"
     >
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.keyboardView}
       >
         <View style={styles.modalOverlay}>
-          <Pressable style={styles.backdrop} onPress={handleClose} />
+          <Pressable style={styles.backdrop} onPress={handleClose} testID="create-project-backdrop" />
           
           <View style={styles.modalContent}>
             <ScrollView showsVerticalScrollIndicator={false}>
               {/* Header */}
               <View style={styles.header}>
                 <Text style={styles.title}>Create New Project</Text>
-                <Pressable onPress={handleClose} style={styles.closeButton}>
+                <Pressable onPress={handleClose} style={styles.closeButton} testID="create-project-close-button">
                   <Text style={styles.closeIcon}>✕</Text>
                 </Pressable>
               </View>
@@ -154,6 +155,7 @@ export function CreateProjectModal({
                   placeholder="Enter project name"
                   error={errors.name}
                   autoFocus
+                  testID="create-project-name-input"
                 />
 
                 {/* Description */}
@@ -170,6 +172,7 @@ export function CreateProjectModal({
                   multiline
                   numberOfLines={4}
                   error={errors.description}
+                  testID="create-project-description-input"
                 />
 
                 {/* Genre Selection */}
@@ -189,6 +192,7 @@ export function CreateProjectModal({
                             formData.genre === genre && styles.genreChipSelected,
                           ]}
                           onPress={() => setFormData({ ...formData, genre })}
+                          testID={`genre-chip-${genre.toLowerCase().replace(/\s+/g, '-')}`}
                         >
                           <Text
                             style={[
@@ -216,6 +220,7 @@ export function CreateProjectModal({
                           formData.status === status.value && styles.statusOptionSelected,
                         ]}
                         onPress={() => setFormData({ ...formData, status: status.value })}
+                        testID={`status-option-${status.value}`}
                       >
                         <View style={styles.radioCircle}>
                           {formData.status === status.value && (
@@ -236,6 +241,7 @@ export function CreateProjectModal({
                   onPress={handleClose}
                   variant="secondary"
                   size="medium"
+                  testID="create-project-cancel-button"
                 />
                 <Button
                   title={isCreating ? 'Creating...' : 'Create Project'}
@@ -244,6 +250,7 @@ export function CreateProjectModal({
                   size="medium"
                   loading={isCreating}
                   disabled={!formData.name.trim() || isCreating}
+                  testID="create-project-submit-button"
                 />
               </View>
             </ScrollView>

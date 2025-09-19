@@ -1,4 +1,4 @@
-import React, { useState, memo } from 'react';
+import React, { useState, memo, useMemo } from 'react';
 import {
   View,
   Text,
@@ -14,6 +14,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/types';
 import { Project } from '../types/models';
 import { useWorldbuildingStore } from '../store/worldbuildingStore';
+import { useTheme } from '../providers/ThemeProvider';
 
 interface ProjectCardProps {
   project: Project;
@@ -30,8 +31,12 @@ export const ProjectCard = memo(function ProjectCard({
 }: ProjectCardProps) {
   const navigation = useNavigation<NavigationProp>();
   const { setCurrentProject } = useWorldbuildingStore();
+  const { theme } = useTheme();
   const [showActions, setShowActions] = useState(false);
   const [isDuplicating, setIsDuplicating] = useState(false);
+  
+  // * Create dynamic styles based on theme
+  const styles = useMemo(() => createStyles(theme), [theme]);
 
   const handleOpenProject = () => {
     setCurrentProject(project.id);
@@ -80,25 +85,20 @@ export const ProjectCard = memo(function ProjectCard({
   };
 
   const getStatusColor = (status?: string) => {
+    // * Use theme colors for status indicators
     switch (status) {
       case 'active':
-        // ! HARDCODED: Should use design tokens
-    return '#10B981'; // Green
+        return theme.colors.semantic.success;
       case 'completed':
-        // ! HARDCODED: Should use design tokens
-    return '#F59E0B'; // Amber
+        return theme.colors.accent.finesse; // Gold/amber for completed
       case 'on-hold':
-        // ! HARDCODED: Should use design tokens
-    return '#F97316'; // Orange
+        return theme.colors.semantic.warning;
       case 'planning':
-        // ! HARDCODED: Should use design tokens
-    return '#6366F1'; // Indigo
+        return theme.colors.accent.swiftness; // Blue for planning
       case 'revision':
-        // ! HARDCODED: Should use design tokens
-    return '#EF4444'; // Red
+        return theme.colors.semantic.error;
       default:
-        // ! HARDCODED: Should use design tokens
-    return '#6B7280'; // Gray
+        return theme.colors.text.secondary;
     }
   };
 
@@ -223,8 +223,7 @@ export const ProjectCard = memo(function ProjectCard({
               disabled={isDuplicating}
             >
               {isDuplicating ? (
-                <ActivityIndicator size="small" // ! HARDCODED: Should use design tokens
-          color="#6366F1" />
+                <ActivityIndicator size="small" color={theme.colors.primary.DEFAULT} />
               ) : (
                 <Text style={styles.menuItemText}>📋 Duplicate</Text>
               )}
@@ -236,8 +235,7 @@ export const ProjectCard = memo(function ProjectCard({
               disabled={isDeleting}
             >
               {isDeleting ? (
-                <ActivityIndicator size="small" // ! HARDCODED: Should use design tokens
-          color="#DC2626" />
+                <ActivityIndicator size="small" color={theme.colors.semantic.error} />
               ) : (
                 <Text style={[styles.menuItemText, styles.deleteText]}>
                   🗑️ Delete Project
@@ -251,16 +249,24 @@ export const ProjectCard = memo(function ProjectCard({
   );
 });
 
-const styles = StyleSheet.create({
+// * Dynamic style creation based on theme
+const createStyles = (theme: any) => StyleSheet.create({
   card: {
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#1F2937',
-    borderRadius: 12,
+    backgroundColor: theme.colors.surface.card,
+    borderRadius: theme.borderRadius.lg,
     borderWidth: 1,
-    // ! HARDCODED: Should use design tokens
-    borderColor: '#374151',
+    borderColor: theme.colors.primary.border,
     overflow: 'hidden',
-    marginBottom: 16,
+    marginBottom: theme.spacing.md,
+    // * Fantasy theme: subtle shadow for depth
+    shadowColor: theme.colors.effects.shadow,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   cardPressed: {
     opacity: 0.8,
@@ -271,8 +277,7 @@ const styles = StyleSheet.create({
   },
   header: {
     height: 160,
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#374151',
+    backgroundColor: theme.colors.surface.backgroundAlt,
   },
   coverImage: {
     width: '100%',
@@ -282,91 +287,88 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: theme.colors.surface.backgroundAlt,
   },
   folderIcon: {
     fontSize: 48,
   },
   content: {
-    padding: 20,
+    padding: theme.spacing.md + 4,
   },
   titleRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    marginBottom: 8,
+    marginBottom: theme.spacing.xs,
   },
   title: {
-    fontSize: 20,
+    fontSize: theme.typography.fontSize.xl,
     fontWeight: '600',
-    // ! HARDCODED: Should use design tokens
-    color: '#F9FAFB',
+    color: theme.colors.text.primary,
     flex: 1,
-    marginRight: 8,
+    marginRight: theme.spacing.xs,
+    fontFamily: theme.typography.fontFamily.bold,
   },
   actionButton: {
-    padding: 4,
+    padding: theme.spacing.xs,
   },
   actionIcon: {
-    fontSize: 20,
-    // ! HARDCODED: Should use design tokens
-    color: '#9CA3AF',
+    fontSize: theme.typography.fontSize.xl,
+    color: theme.colors.text.secondary,
   },
   tags: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 8,
-    marginBottom: 12,
+    gap: theme.spacing.xs,
+    marginBottom: theme.spacing.sm + 4,
   },
   tag: {
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#374151',
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: 12,
+    backgroundColor: theme.colors.surface.backgroundAlt,
+    paddingHorizontal: theme.spacing.sm + 2,
+    paddingVertical: theme.spacing.xs,
+    borderRadius: theme.borderRadius.lg,
+    borderWidth: 1,
+    borderColor: theme.colors.metal.gold,
   },
   tagText: {
-    fontSize: 12,
-    // ! HARDCODED: Should use design tokens
-    color: '#F9FAFB',
+    fontSize: theme.typography.fontSize.sm,
+    color: theme.colors.text.primary,
     fontWeight: '500',
   },
   statusTag: {
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: 12,
+    paddingHorizontal: theme.spacing.sm + 2,
+    paddingVertical: theme.spacing.xs,
+    borderRadius: theme.borderRadius.lg,
   },
   statusText: {
-    fontSize: 12,
+    fontSize: theme.typography.fontSize.sm,
     fontWeight: '500',
   },
   description: {
-    fontSize: 14,
-    // ! HARDCODED: Should use design tokens
-    color: '#9CA3AF',
+    fontSize: theme.typography.fontSize.md,
+    color: theme.colors.text.secondary,
     lineHeight: 20,
-    marginBottom: 16,
+    marginBottom: theme.spacing.md,
     flex: 1,
   },
   footer: {
     borderTopWidth: 1,
-    borderTopColor: '#374151',
-    paddingTop: 12,
-    marginTop: 12,
+    borderTopColor: theme.colors.primary.borderLight,
+    paddingTop: theme.spacing.sm + 4,
+    marginTop: theme.spacing.sm + 4,
   },
   footerRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 4,
+    marginBottom: theme.spacing.xs,
   },
   footerText: {
-    fontSize: 12,
-    // ! HARDCODED: Should use design tokens
-    color: '#6B7280',
+    fontSize: theme.typography.fontSize.sm,
+    color: theme.colors.text.tertiary,
   },
   openButton: {
-    fontSize: 12,
-    // ! HARDCODED: Should use design tokens
-    color: '#F59E0B',
+    fontSize: theme.typography.fontSize.sm,
+    color: theme.colors.accent.finesse,
     fontWeight: '600',
   },
   overlay: {
@@ -380,16 +382,14 @@ const styles = StyleSheet.create({
   actionMenu: {
     position: 'absolute',
     top: 60,
-    right: 20,
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#1F2937',
-    borderRadius: 8,
+    right: theme.spacing.md + 4,
+    backgroundColor: theme.colors.surface.modal,
+    borderRadius: theme.borderRadius.md,
     borderWidth: 1,
-    // ! HARDCODED: Should use design tokens
-    borderColor: '#374151',
-    paddingVertical: 4,
+    borderColor: theme.colors.primary.border,
+    paddingVertical: theme.spacing.xs,
     minWidth: 180,
-    shadowColor: '#000',
+    shadowColor: theme.colors.effects.shadow,
     shadowOffset: {
       width: 0,
       height: 2,
@@ -399,22 +399,19 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   menuItem: {
-    paddingHorizontal: 16,
-    paddingVertical: 12,
+    paddingHorizontal: theme.spacing.md,
+    paddingVertical: theme.spacing.sm + 4,
   },
   menuItemText: {
-    fontSize: 14,
-    // ! HARDCODED: Should use design tokens
-    color: '#F9FAFB',
+    fontSize: theme.typography.fontSize.md,
+    color: theme.colors.text.primary,
   },
   deleteText: {
-    // ! HARDCODED: Should use design tokens
-    color: '#EF4444',
+    color: theme.colors.semantic.error,
   },
   menuDivider: {
     height: 1,
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#374151',
-    marginVertical: 4,
+    backgroundColor: theme.colors.primary.borderLight,
+    marginVertical: theme.spacing.xs,
   },
 });

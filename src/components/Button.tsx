@@ -1,10 +1,11 @@
 /**
  * * Cross-platform Button component
  * * Provides consistent styling and behavior across web and mobile
+ * * Now integrated with fantasy theme system for dynamic theming
  * ! IMPORTANT: testID is required for all interactive components for Cypress testing
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
   Pressable,
   Text,
@@ -14,6 +15,7 @@ import {
   ViewStyle,
   TextStyle,
 } from 'react-native';
+import { useTheme } from '../providers/ThemeProvider';
 
 interface ButtonProps {
   title: string;
@@ -38,31 +40,47 @@ export function Button({
   textStyle,
   testID,
 }: ButtonProps) {
+  const { theme } = useTheme();
   const isDisabled = disabled || loading;
 
+  // * Create dynamic styles based on theme
+  const themedStyles = useMemo(() => {
+    return createStyles(theme);
+  }, [theme]);
+
   const buttonStyles = [
-    styles.base,
-    styles[variant],
-    styles[size],
-    isDisabled && styles.disabled,
+    themedStyles.base,
+    themedStyles[variant],
+    themedStyles[size],
+    isDisabled && themedStyles.disabled,
     style,
   ];
 
   const textStyles = [
-    styles.text,
-    styles[`text_${variant}`],
-    styles[`textSize_${size}`],
-    isDisabled && styles.disabledText,
+    themedStyles.text,
+    themedStyles[`text_${variant}`],
+    themedStyles[`textSize_${size}`],
+    isDisabled && themedStyles.disabledText,
     textStyle,
   ];
+
+  // * Get appropriate loading indicator color based on variant and theme
+  const loadingColor = useMemo(() => {
+    if (variant === 'primary') {
+      return theme.colors.button.primaryText;
+    } else if (variant === 'danger') {
+      return theme.colors.button.dangerText;
+    }
+    return theme.colors.button.primary;
+  }, [variant, theme]);
 
   return (
     <Pressable
       style={({ pressed }) => [
         ...buttonStyles,
-        pressed && !isDisabled && styles.pressed,
+        pressed && !isDisabled && themedStyles.pressed,
         // * Web-specific styles for better UX
-        Platform.OS === 'web' && styles.webButton,
+        Platform.OS === 'web' && themedStyles.webButton,
       ]}
       onPress={onPress}
       disabled={isDisabled}
@@ -73,8 +91,7 @@ export function Button({
       {loading ? (
         <ActivityIndicator
           size="small"
-          // ! HARDCODED: Should use design tokens
-          color={variant === 'primary' ? '#FFFFFF' : '#6366F1'}
+          color={loadingColor}
         />
       ) : (
         <Text style={textStyles}>{title}</Text>
@@ -83,9 +100,10 @@ export function Button({
   );
 }
 
-const styles = StyleSheet.create({
+// * Dynamic style creation based on theme
+const createStyles = (theme: any) => StyleSheet.create({
   base: {
-    borderRadius: 8,
+    borderRadius: theme.borderRadius.md,
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
@@ -106,39 +124,34 @@ const styles = StyleSheet.create({
       default: {},
     }),
   },
-  // * Button variant styles
+  // * Button variant styles using theme colors
   primary: {
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#6366F1',
+    backgroundColor: theme.colors.button.primary,
     borderWidth: 1,
-    // ! HARDCODED: Should use design tokens
-    borderColor: '#6366F1',
+    borderColor: theme.colors.button.primary,
   },
   secondary: {
     backgroundColor: 'transparent',
     borderWidth: 1,
-    // ! HARDCODED: Should use design tokens
-    borderColor: '#6366F1',
+    borderColor: theme.colors.button.secondary,
   },
   danger: {
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#DC2626',
+    backgroundColor: theme.colors.button.danger,
     borderWidth: 1,
-    // ! HARDCODED: Should use design tokens
-    borderColor: '#DC2626',
+    borderColor: theme.colors.button.danger,
   },
-  // * Button size variations
+  // * Button size variations using theme spacing
   small: {
-    paddingVertical: 6,
-    paddingHorizontal: 12,
+    paddingVertical: theme.spacing.xs + 2,
+    paddingHorizontal: theme.spacing.sm + 4,
   },
   medium: {
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    paddingVertical: theme.spacing.sm + 2,
+    paddingHorizontal: theme.spacing.md + 4,
   },
   large: {
-    paddingVertical: 14,
-    paddingHorizontal: 28,
+    paddingVertical: theme.spacing.sm + 6,
+    paddingHorizontal: theme.spacing.lg + 4,
   },
   // * Interactive state styles
   pressed: {
@@ -147,6 +160,8 @@ const styles = StyleSheet.create({
   },
   disabled: {
     opacity: 0.5,
+    backgroundColor: theme.colors.button.disabled,
+    borderColor: theme.colors.button.disabled,
     ...Platform.select({
       web: {
         cursor: 'not-allowed',
@@ -154,38 +169,32 @@ const styles = StyleSheet.create({
       default: {},
     }),
   },
-  // * Text styling based on variants and sizes
+  // * Text styling based on variants and theme typography
   text: {
     fontWeight: '600',
     textAlign: 'center',
-    fontFamily: Platform.select({
-      ios: 'System',
-      android: 'Roboto',
-      web: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-    }),
+    fontFamily: theme.typography.fontFamily.medium,
   },
   text_primary: {
-    // ! HARDCODED: Should use design tokens
-    color: '#FFFFFF',
+    color: theme.colors.button.primaryText,
   },
   text_secondary: {
-    // ! HARDCODED: Should use design tokens
-    color: '#6366F1',
+    color: theme.colors.button.secondaryText,
   },
   text_danger: {
-    // ! HARDCODED: Should use design tokens
-    color: '#FFFFFF',
+    color: theme.colors.button.dangerText,
   },
   textSize_small: {
-    fontSize: 12,
+    fontSize: theme.typography.fontSize.sm,
   },
   textSize_medium: {
-    fontSize: 14,
+    fontSize: theme.typography.fontSize.md,
   },
   textSize_large: {
-    fontSize: 16,
+    fontSize: theme.typography.fontSize.lg,
   },
   disabledText: {
+    color: theme.colors.button.disabledText,
     opacity: 0.7,
   },
 });
