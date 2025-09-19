@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, useMemo } from 'react';
 import {
   View,
   Text,
@@ -9,6 +9,8 @@ import {
 import { WorldElement } from '../types/models';
 import { getCategoryIcon } from '../utils/categoryMapping';
 import { getElementColor } from '../utils/elementColors';
+import { useTheme } from '../providers/ThemeProvider';
+import { ProgressRing } from './ProgressRing';
 
 interface ElementCardProps {
   element: WorldElement;
@@ -22,29 +24,61 @@ export const ElementCard = memo(function ElementCard({
   onPress,
 }: ElementCardProps) {
   const categoryIcon = icon || getCategoryIcon(element.category);
+  const { theme } = useTheme();
   
+  // * Create dynamic styles based on theme
+  const styles = useMemo(() => createStyles(theme), [theme]);
+  
+  // * Use theme colors for completion states
   const getCompletionColor = (percentage: number) => {
-    if (percentage >= 80) // ! HARDCODED: Should use design tokens
-    return '#10B981'; // Green
-    if (percentage >= 50) // ! HARDCODED: Should use design tokens
-    return '#F59E0B'; // Amber
-    if (percentage > 0) // ! HARDCODED: Should use design tokens
-    return '#F97316'; // Orange
-    // ! HARDCODED: Should use design tokens
-    return '#6B7280'; // Gray
+    if (percentage >= 80) return theme.colors.semantic.success;
+    if (percentage >= 50) return theme.colors.semantic.warning;
+    if (percentage > 0) return theme.colors.semantic.error;
+    return theme.colors.text.tertiary;
   };
 
   const getCompletionBadge = (percentage: number) => {
-    // ! HARDCODED: Should use design tokens
-    if (percentage === 100) return { text: 'Complete', color: '#FBBF24', icon: '🏅' };
-    // ! HARDCODED: Should use design tokens
-    if (percentage >= 80) return { text: 'Nearly Done', color: '#E5E7EB', icon: '⭐' };
-    // ! HARDCODED: Should use design tokens
-    if (percentage >= 50) return { text: 'In Progress', color: '#D97706', icon: '⚡' };
-    // ! HARDCODED: Should use design tokens
-    if (percentage > 0) return { text: 'Started', color: '#B91C1C', icon: '✨' };
-    // ! HARDCODED: Should use design tokens
-    return { text: 'Not Started', color: '#374151', icon: '📋' };
+    if (percentage === 100) return { 
+      text: 'Complete', 
+      color: theme.colors.metal.gold, 
+      icon: '🏅' 
+    };
+    if (percentage >= 80) return { 
+      text: 'Nearly Done', 
+      color: theme.colors.metal.silver, 
+      icon: '⭐' 
+    };
+    if (percentage >= 50) return { 
+      text: 'In Progress', 
+      color: theme.colors.metal.bronze, 
+      icon: '⚡' 
+    };
+    if (percentage > 0) return { 
+      text: 'Started', 
+      color: theme.colors.accent.warmth, 
+      icon: '✨' 
+    };
+    return { 
+      text: 'Not Started', 
+      color: theme.colors.surface.backgroundElevated, 
+      icon: '📋' 
+    };
+  };
+  
+  // * Get the appropriate color preset for ProgressRing based on element category
+  const getProgressColorPreset = () => {
+    switch (element.category) {
+      case 'character':
+        return 'character';
+      case 'location':
+        return 'location';
+      case 'magic':
+        return 'magic';
+      case 'item':
+        return 'item';
+      default:
+        return 'default';
+    }
   };
 
   const formatDate = (date: Date) => {
@@ -70,17 +104,19 @@ export const ElementCard = memo(function ElementCard({
       data-cy="element-card"
     >
       {/* Completion Badge */}
-      <View style={[styles.badge, { backgroundColor: badge.color }]}>
+      <View style={[styles.badge, { backgroundColor: badge.color + '20', borderColor: badge.color }]}>
         <Text style={styles.badgeIcon}>{badge.icon}</Text>
-        <Text style={styles.badgeText}>{badge.text}</Text>
+        <Text style={[styles.badgeText, { color: badge.color }]}>{badge.text}</Text>
       </View>
 
       {/* Header */}
       <View style={styles.header}>
         <View style={styles.headerLeft}>
-          <Text style={styles.categoryIcon} data-cy="category-icon">
-            {categoryIcon}
-          </Text>
+          <View style={[styles.categoryIconContainer, { backgroundColor: elementColors.bg }]}>
+            <Text style={styles.categoryIcon} data-cy="category-icon">
+              {categoryIcon}
+            </Text>
+          </View>
           <View style={styles.headerInfo}>
             <Text
               style={[styles.elementName, { color: elementColors.text }]}
@@ -95,19 +131,15 @@ export const ElementCard = memo(function ElementCard({
           </View>
         </View>
 
-        <View style={styles.completionContainer}>
-          <Text style={styles.completionIcon}>
-            {element.completionPercentage === 100 ? '✓' : '⏰'}
-          </Text>
-          <Text
-            style={[
-              styles.completionText,
-              { color: getCompletionColor(element.completionPercentage) },
-            ]}
-            data-cy="completion-text"
-          >
-            {element.completionPercentage}%
-          </Text>
+        {/* Replace completion text with ProgressRing */}
+        <View style={styles.progressRingContainer}>
+          <ProgressRing
+            progress={element.completionPercentage}
+            size="small"
+            showPercentage={true}
+            colorPreset={getProgressColorPreset()}
+            testID="element-card-progress"
+          />
         </View>
       </View>
 
@@ -122,20 +154,7 @@ export const ElementCard = memo(function ElementCard({
         </Text>
       )}
 
-      {/* Progress Bar */}
-      <View style={styles.progressBarContainer}>
-        <View style={styles.progressBarBackground}>
-          <View
-            style={[
-              styles.progressBarFill,
-              {
-                width: `${element.completionPercentage}%`,
-                backgroundColor: getCompletionColor(element.completionPercentage),
-              },
-            ]}
-          />
-        </View>
-      </View>
+      {/* Remove the old progress bar - using ProgressRing instead */}
 
       {/* Footer */}
       <View style={styles.footer}>
@@ -158,54 +177,72 @@ export const ElementCard = memo(function ElementCard({
         )}
       </View>
 
-      {/* Relationships */}
+      {/* Relationships Badge */}
       {element.relationships && element.relationships.length > 0 && (
         <View style={styles.relationships}>
-          <Text style={styles.relationshipsText}>
-            {element.relationships.length} connection
-            {element.relationships.length !== 1 ? 's' : ''}
-          </Text>
+          <View style={styles.relationshipBadge}>
+            <Text style={styles.relationshipIcon}>🔗</Text>
+            <Text style={styles.relationshipsText}>
+              {element.relationships.length} connection
+              {element.relationships.length !== 1 ? 's' : ''}
+            </Text>
+          </View>
         </View>
       )}
     </Pressable>
   );
 });
 
-const styles = StyleSheet.create({
+// * Dynamic style creation based on theme
+const createStyles = (theme: any) => StyleSheet.create({
   card: {
-    borderWidth: 2,
-    borderRadius: 8,
-    padding: 16,
-    marginBottom: 12,
+    borderWidth: 1,
+    borderRadius: theme.borderRadius.lg,
+    padding: theme.spacing.md,
+    marginBottom: theme.spacing.md,
     position: 'relative',
-    minHeight: 120,
+    minHeight: 140,
+    // * Fantasy theme shadows
+    shadowColor: theme.colors.effects.shadow,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   cardPressed: {
     opacity: 0.8,
   },
   cardWeb: {
-    transition: 'all 0.2s ease',
+    transition: 'all 0.3s ease',
     cursor: 'pointer',
+    '&:hover': {
+      transform: 'translateY(-1px)',
+      shadowOpacity: 0.15,
+    },
   },
   badge: {
     position: 'absolute',
-    top: 0,
-    right: 0,
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderBottomLeftRadius: 8,
+    top: -1,
+    right: -1,
+    paddingHorizontal: theme.spacing.sm,
+    paddingVertical: theme.spacing.xs,
+    borderBottomLeftRadius: theme.borderRadius.md,
+    borderTopRightRadius: theme.borderRadius.lg,
+    borderWidth: 1,
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
   },
   badgeIcon: {
-    fontSize: 12,
+    fontSize: theme.typography.fontSize.sm,
   },
   badgeText: {
-    fontSize: 10,
+    fontSize: theme.typography.fontSize.xs,
     fontWeight: '600',
-    // ! HARDCODED: Should use design tokens
-    color: '#111827',
+    fontFamily: theme.typography.fontFamily.bold,
   },
   header: {
     flexDirection: 'row',
@@ -217,7 +254,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-start',
     flex: 1,
-    gap: 8,
+    gap: theme.spacing.sm,
+  },
+  categoryIconContainer: {
+    width: 40,
+    height: 40,
+    borderRadius: theme.borderRadius.md,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: theme.colors.primary.borderLight,
   },
   categoryIcon: {
     fontSize: 24,
@@ -226,48 +272,24 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   elementName: {
-    fontSize: 16,
+    fontSize: theme.typography.fontSize.lg,
     fontWeight: '600',
     marginBottom: 2,
+    fontFamily: theme.typography.fontFamily.bold,
   },
   categoryText: {
-    fontSize: 12,
-    // ! HARDCODED: Should use design tokens
-    color: '#9CA3AF',
+    fontSize: theme.typography.fontSize.sm,
+    color: theme.colors.text.secondary,
     textTransform: 'capitalize',
   },
-  completionContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-  },
-  completionIcon: {
-    fontSize: 14,
-  },
-  completionText: {
-    fontSize: 14,
-    fontWeight: '500',
+  progressRingContainer: {
+    marginRight: theme.spacing.xs,
   },
   description: {
-    fontSize: 12,
-    // ! HARDCODED: Should use design tokens
-    color: '#9CA3AF',
+    fontSize: theme.typography.fontSize.sm,
+    color: theme.colors.text.secondary,
     lineHeight: 18,
-    marginBottom: 12,
-  },
-  progressBarContainer: {
-    marginBottom: 12,
-  },
-  progressBarBackground: {
-    height: 4,
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#374151',
-    borderRadius: 2,
-    overflow: 'hidden',
-  },
-  progressBarFill: {
-    height: '100%',
-    borderRadius: 2,
+    marginBottom: theme.spacing.md,
   },
   footer: {
     flexDirection: 'row',
@@ -275,40 +297,45 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   updatedText: {
-    fontSize: 11,
-    // ! HARDCODED: Should use design tokens
-    color: '#6B7280',
+    fontSize: theme.typography.fontSize.xs,
+    color: theme.colors.text.tertiary,
   },
   tags: {
     flexDirection: 'row',
-    gap: 4,
+    gap: theme.spacing.xs,
   },
   tag: {
-    paddingHorizontal: 6,
+    paddingHorizontal: theme.spacing.xs + 2,
     paddingVertical: 2,
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#374151',
-    borderRadius: 4,
+    backgroundColor: theme.colors.surface.backgroundElevated,
+    borderRadius: theme.borderRadius.sm,
+    borderWidth: 1,
+    borderColor: theme.colors.primary.borderLight,
   },
   tagText: {
-    fontSize: 10,
-    // ! HARDCODED: Should use design tokens
-    color: '#F9FAFB',
+    fontSize: theme.typography.fontSize.xs,
+    color: theme.colors.text.primary,
   },
   moreTagsText: {
-    fontSize: 11,
-    // ! HARDCODED: Should use design tokens
-    color: '#6B7280',
+    fontSize: theme.typography.fontSize.xs,
+    color: theme.colors.text.secondary,
   },
   relationships: {
-    marginTop: 12,
-    paddingTop: 12,
+    marginTop: theme.spacing.sm,
+    paddingTop: theme.spacing.sm,
     borderTopWidth: 1,
-    borderTopColor: '#374151',
+    borderTopColor: theme.colors.primary.borderLight,
+  },
+  relationshipBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: theme.spacing.xs,
+  },
+  relationshipIcon: {
+    fontSize: theme.typography.fontSize.sm,
   },
   relationshipsText: {
-    fontSize: 11,
-    // ! HARDCODED: Should use design tokens
-    color: '#6B7280',
+    fontSize: theme.typography.fontSize.xs,
+    color: theme.colors.text.secondary,
   },
 });

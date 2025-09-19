@@ -15,6 +15,7 @@ import { RootStackParamList } from '../navigation/types';
 import { Project } from '../types/models';
 import { useWorldbuildingStore } from '../store/worldbuildingStore';
 import { useTheme } from '../providers/ThemeProvider';
+import { ProgressRing } from './ProgressRing';
 
 interface ProjectCardProps {
   project: Project;
@@ -34,9 +35,44 @@ export const ProjectCard = memo(function ProjectCard({
   const { theme } = useTheme();
   const [showActions, setShowActions] = useState(false);
   const [isDuplicating, setIsDuplicating] = useState(false);
+  const [imageError, setImageError] = useState(false);
   
   // * Create dynamic styles based on theme
   const styles = useMemo(() => createStyles(theme), [theme]);
+  
+  // * Calculate project completion percentage from elements
+  const completionPercentage = useMemo(() => {
+    if (!project.elements || project.elements.length === 0) return 0;
+    const totalCompletion = project.elements.reduce(
+      (sum, element) => sum + (element.completionPercentage || 0),
+      0
+    );
+    return Math.round(totalCompletion / project.elements.length);
+  }, [project.elements]);
+  
+  // * Calculate stats for the project
+  const projectStats = useMemo(() => {
+    const elementsByCategory = project.elements?.reduce((acc, element) => {
+      const category = element.category;
+      acc[category] = (acc[category] || 0) + 1;
+      return acc;
+    }, {} as Record<string, number>) || {};
+    
+    // * Mock word count and chapters for now (these would come from actual content)
+    const wordCount = project.elements?.length * 250 || 0; // Rough estimate
+    const chapterCount = Math.max(1, Math.floor(project.elements?.length / 5) || 1);
+    
+    return {
+      elementCount: project.elements?.length || 0,
+      elementsByCategory,
+      wordCount,
+      chapterCount,
+      relationshipCount: project.elements?.reduce(
+        (sum, el) => sum + (el.relationships?.length || 0),
+        0
+      ) || 0,
+    };
+  }, [project.elements]);
 
   const handleOpenProject = () => {
     setCurrentProject(project.id);
@@ -128,19 +164,37 @@ export const ProjectCard = memo(function ProjectCard({
       onLongPress={() => setShowActions(true)}
       data-cy="project-card"
     >
-      {/* Cover Image or Default Header */}
+      {/* Cover Image or Default Header with Progress Ring Overlay */}
       <View style={styles.header}>
-        {project.coverImage ? (
+        {project.coverImage && !imageError ? (
           <Image
             source={{ uri: project.coverImage }}
             style={styles.coverImage}
             resizeMode="cover"
+            onError={() => setImageError(true)}
+            testID="project-card-cover-image"
           />
         ) : (
           <View style={styles.defaultHeader}>
-            <Text style={styles.folderIcon}>📁</Text>
+            <View style={styles.defaultHeaderContent}>
+              <Text style={styles.folderIcon}>📚</Text>
+              <Text style={styles.genreLabel}>
+                {project.genre || 'Fantasy'}
+              </Text>
+            </View>
           </View>
         )}
+        
+        {/* Progress Ring Overlay in top right corner */}
+        <View style={styles.progressOverlay}>
+          <ProgressRing
+            progress={completionPercentage}
+            size="small"
+            showPercentage={true}
+            colorPreset="default"
+            testID="project-card-progress"
+          />
+        </View>
       </View>
 
       {/* Content */}
@@ -187,21 +241,47 @@ export const ProjectCard = memo(function ProjectCard({
           {project.description || 'No description provided'}
         </Text>
 
-        {/* Footer Stats */}
+        {/* Enhanced Stats Display */}
+        <View style={styles.statsGrid}>
+          <View style={styles.statItem}>
+            <Text style={styles.statIcon}>📝</Text>
+            <Text style={styles.statValue}>{projectStats.elementCount}</Text>
+            <Text style={styles.statLabel}>Elements</Text>
+          </View>
+          <View style={styles.statItem}>
+            <Text style={styles.statIcon}>🔗</Text>
+            <Text style={styles.statValue}>{projectStats.relationshipCount}</Text>
+            <Text style={styles.statLabel}>Links</Text>
+          </View>
+          <View style={styles.statItem}>
+            <Text style={styles.statIcon}>📖</Text>
+            <Text style={styles.statValue}>{projectStats.chapterCount}</Text>
+            <Text style={styles.statLabel}>Chapters</Text>
+          </View>
+          <View style={styles.statItem}>
+            <Text style={styles.statIcon}>✍️</Text>
+            <Text style={styles.statValue}>
+              {projectStats.wordCount >= 1000
+                ? `${(projectStats.wordCount / 1000).toFixed(1)}k`
+                : projectStats.wordCount}
+            </Text>
+            <Text style={styles.statLabel}>Words</Text>
+          </View>
+        </View>
+        
+        {/* Footer with dates and action */}
         <View style={styles.footer}>
           <View style={styles.footerRow}>
             <Text style={styles.footerText}>
-              📝 {project.elements.length} elements
+              📅 {formatDate(project.updatedAt)}
             </Text>
-            <Text style={styles.openButton}>Open →</Text>
-          </View>
-          <View style={styles.footerRow}>
-            <Text style={styles.footerText}>
-              📅 {formatDate(project.createdAt)}
-            </Text>
-            <Text style={styles.footerText}>
-              🕐 {formatDate(project.updatedAt)}
-            </Text>
+            <Pressable
+              style={styles.openButton}
+              onPress={handleOpenProject}
+              testID="project-card-open-button"
+            >
+              <Text style={styles.openButtonText}>Open →</Text>
+            </Pressable>
           </View>
         </View>
       </View>
@@ -255,29 +335,38 @@ const createStyles = (theme: any) => StyleSheet.create({
     backgroundColor: theme.colors.surface.card,
     borderRadius: theme.borderRadius.lg,
     borderWidth: 1,
-    borderColor: theme.colors.primary.border,
+    borderColor: theme.colors.metal.gold + '40', // * Subtle gold border
     overflow: 'hidden',
     marginBottom: theme.spacing.md,
-    // * Fantasy theme: subtle shadow for depth
+    // * Enhanced fantasy theme shadow for magical depth
     shadowColor: theme.colors.effects.shadow,
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 4,
     },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
+    elevation: 5,
+    // * Web-specific hover effect
+    ...(Platform.OS === 'web' && {
+      transition: 'all 0.3s ease',
+    }),
   },
   cardPressed: {
     opacity: 0.8,
   },
   cardWeb: {
-    transition: 'all 0.2s ease',
     cursor: 'pointer',
+    '&:hover': {
+      transform: 'translateY(-2px)',
+      shadowOpacity: 0.2,
+      borderColor: theme.colors.metal.gold + '60',
+    },
   },
   header: {
     height: 160,
     backgroundColor: theme.colors.surface.backgroundAlt,
+    position: 'relative',
   },
   coverImage: {
     width: '100%',
@@ -287,10 +376,38 @@ const createStyles = (theme: any) => StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: theme.colors.surface.backgroundAlt,
+    backgroundColor: `${theme.colors.metal.silver}10`, // * Subtle metallic sheen
+    backgroundImage: Platform.OS === 'web' 
+      ? `linear-gradient(135deg, ${theme.colors.metal.silver}05 0%, ${theme.colors.metal.gold}10 100%)`
+      : undefined,
+  },
+  defaultHeaderContent: {
+    alignItems: 'center',
   },
   folderIcon: {
-    fontSize: 48,
+    fontSize: 56,
+    marginBottom: theme.spacing.xs,
+  },
+  genreLabel: {
+    fontSize: theme.typography.fontSize.sm,
+    color: theme.colors.text.secondary,
+    fontStyle: 'italic',
+    fontFamily: theme.typography.fontFamily.serif,
+  },
+  progressOverlay: {
+    position: 'absolute',
+    top: theme.spacing.sm,
+    right: theme.spacing.sm,
+    backgroundColor: theme.colors.surface.modal + 'E0', // * Semi-transparent background
+    borderRadius: theme.borderRadius.full,
+    padding: 2,
+    borderWidth: 1,
+    borderColor: theme.colors.metal.gold + '40',
+    shadowColor: theme.colors.effects.shadow,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 3,
   },
   content: {
     padding: theme.spacing.md + 4,
@@ -362,11 +479,46 @@ const createStyles = (theme: any) => StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: theme.spacing.xs,
   },
+  statsGrid: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: theme.spacing.md,
+    paddingTop: theme.spacing.sm,
+    borderTopWidth: 1,
+    borderTopColor: theme.colors.primary.borderLight,
+  },
+  statItem: {
+    alignItems: 'center',
+    flex: 1,
+  },
+  statIcon: {
+    fontSize: 20,
+    marginBottom: 2,
+  },
+  statValue: {
+    fontSize: theme.typography.fontSize.lg,
+    fontWeight: '600',
+    color: theme.colors.text.primary,
+    fontFamily: theme.typography.fontFamily.bold,
+  },
+  statLabel: {
+    fontSize: theme.typography.fontSize.xs,
+    color: theme.colors.text.secondary,
+    marginTop: 2,
+  },
   footerText: {
     fontSize: theme.typography.fontSize.sm,
     color: theme.colors.text.tertiary,
   },
   openButton: {
+    paddingHorizontal: theme.spacing.md,
+    paddingVertical: theme.spacing.xs,
+    borderRadius: theme.borderRadius.md,
+    backgroundColor: theme.colors.accent.finesse + '20',
+    borderWidth: 1,
+    borderColor: theme.colors.accent.finesse + '40',
+  },
+  openButtonText: {
     fontSize: theme.typography.fontSize.sm,
     color: theme.colors.accent.finesse,
     fontWeight: '600',
