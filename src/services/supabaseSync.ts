@@ -1,6 +1,7 @@
 import { supabase } from '../lib/supabase';
 import { optimisticSyncQueueManager } from './optimisticSyncQueue';
 import { Project, WorldElement, Relationship, QuestionnaireTemplate } from '../types';
+import { mapCategoryToDb, ensureCategoryForDb } from '../utils/categoryMapping';
 
 export class SupabaseSyncService {
   // * Sync all projects for the current user
@@ -96,7 +97,7 @@ export class SupabaseSyncService {
             projectId: projectId,
             data: {
               name: localElement.name,
-              category: localElement.category,
+              category: ensureCategoryForDb(localElement.category),
               template_id: localElement.templateId,
               answers: localElement.answers || {}
             }
@@ -110,7 +111,7 @@ export class SupabaseSyncService {
             projectId: projectId,
             data: {
               name: localElement.name,
-              category: localElement.category,
+              category: ensureCategoryForDb(localElement.category),
               template_id: localElement.templateId,
               answers: localElement.answers || {},
               updated_at: new Date().toISOString()

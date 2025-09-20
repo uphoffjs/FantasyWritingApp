@@ -90,9 +90,9 @@ class OptimisticSyncQueue {
     switch (type) {
       case 'create':
         // * Build the insert data
-        const insertData: any = { 
-          ...data, 
-          local_id: entityId,  // * Use local_id instead of client_id (database column name)
+        const insertData: any = {
+          ...data,
+          client_id: entityId,  // * Use client_id to match database schema
         };
         
         // * For projects, don't add project_id (it's the same as client_id)
@@ -141,14 +141,14 @@ class OptimisticSyncQueue {
 
       case 'update':
         const updateQuery = supabase.from(table).update(data);
-        
-        // * Use 'local_id' for matching (client-side ID stored in database)
+
+        // * Use 'client_id' for matching (client-side ID stored in database)
         if (entity === 'project') {
-          // * For projects, entityId is the client-side ID, match against local_id
-          updateQuery.eq('local_id', entityId);
+          // * For projects, entityId is the client-side ID, match against client_id
+          updateQuery.eq('client_id', entityId);
         } else {
-          // * For other entities, use local_id + project_id constraint
-          updateQuery.eq('local_id', entityId).eq('project_id', projectId);
+          // * For other entities, use client_id + project_id constraint
+          updateQuery.eq('client_id', entityId).eq('project_id', projectId);
         }
         
         const { error: updateError } = await updateQuery;
@@ -160,16 +160,16 @@ class OptimisticSyncQueue {
         if (!entityId) {
           throw new Error(`Cannot delete ${entity}: ID is undefined`);
         }
-        
+
         const deleteQuery = supabase.from(table).delete();
-        
-        // * Use 'local_id' for matching (client-side ID stored in database)
+
+        // * Use 'client_id' for matching (client-side ID stored in database)
         if (entity === 'project') {
-          // * For projects, entityId is the client-side ID, match against local_id
-          deleteQuery.eq('local_id', entityId);
+          // * For projects, entityId is the client-side ID, match against client_id
+          deleteQuery.eq('client_id', entityId);
         } else {
-          // * For other entities (elements, relationships), use local_id + project_id
-          deleteQuery.eq('local_id', entityId).eq('project_id', projectId);
+          // * For other entities (elements, relationships), use client_id + project_id
+          deleteQuery.eq('client_id', entityId).eq('project_id', projectId);
         }
         
         const { error: deleteError } = await deleteQuery;
