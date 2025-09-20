@@ -453,76 +453,315 @@ export const AppNavigator = () => {
 2. **Test independence**: Each test must pass in isolation
 3. **No conditional logic**: ABSOLUTELY NO `if` statements in Cypress tests
 4. **Comprehensive coverage**: Test happy paths AND edge cases
+5. **Test Structure**: Use Arrange → Act → Assert pattern
 
-### Testing Coverage Requirements
-- Minimum: 80% unit tests, 70% integration tests
-- ALL new features must include:
-  - Comprehensive E2E tests
-  - Component tests for UI
-  - Unit tests for utilities
-  - API tests for endpoints
+### Cypress Testing Rules
 
-### Debugging Failed Tests
-1. Check debug files in `cypress/debug-logs/` (if available)
-2. Analyze debug output for root cause
-3. Fix the CODE (assume code is wrong first)
-4. If code appears correct, verify test logic
-5. NEVER add if statements to make tests pass
-6. NEVER skip tests to make suite pass
+#### Mandatory in EVERY Test
+- **`cy.comprehensiveDebug()`** in every `beforeEach` hook
+- Use `function()` syntax (not arrow functions) for hooks to access `this.currentTest`
+- Single flat describe blocks (never nest)
+- Clear test naming that describes expected behavior
 
-## Cypress Testing for React Native Web
-
-### Setup for React Native Web Testing
-```typescript
-// cypress/e2e/story-creation.cy.ts
-describe('Story Creation', () => {
-  beforeEach(() => {
-    cy.visit('http://localhost:3002'); // Web dev server
-    cy.viewport('iphone-x'); // Test mobile viewport
+#### Test File Structure
+```javascript
+// * MANDATORY structure for all Cypress tests
+describe('Feature Name', () => {
+  // ! MUST use function() syntax, not arrow functions
+  beforeEach(function() {
+    // ! MANDATORY: comprehensive debugging
+    cy.comprehensiveDebug();
+    
+    // ! MANDATORY: clean state before any operations
+    cy.cleanState();
+    
+    // Setup test data if needed
+    cy.setupTestData();
+    
+    // Visit the app
+    cy.visit('http://localhost:3002');
+    
+    // Set viewport for React Native Web testing
+    cy.viewport('iphone-x'); // Mobile-first testing
   });
-
-  it('creates a new story', () => {
-    // React Native Web converts testID to data-cy
-    cy.get('[data-cy="create-story-button"]').click();
-    cy.get('[data-cy="story-title-input"]').type('My Fantasy Novel');
-    cy.get('[data-cy="story-genre-select"]').select('Fantasy');
-    cy.get('[data-cy="save-story-button"]').click();
-    
-    // Verify navigation and persistence
-    cy.url().should('include', '/story/');
-    cy.get('[data-cy="story-title"]').should('contain', 'My Fantasy Novel');
+  
+  afterEach(function() {
+    // Capture debug info on failure
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
-
-  it('works on different viewports', () => {
-    // Test responsive behavior
-    cy.viewport('iphone-x');
-    cy.get('[data-cy="mobile-menu"]').should('be.visible');
+  
+  it('should perform specific behavior', () => {
+    // * Arrange: Set up test conditions
+    cy.get('[data-cy="element"]').should('be.visible');
     
-    cy.viewport('ipad-2');
-    cy.get('[data-cy="tablet-sidebar"]').should('be.visible');
+    // * Act: Perform the action being tested
+    cy.get('[data-cy="action-button"]').click();
     
-    cy.viewport('macbook-15');
-    cy.get('[data-cy="desktop-layout"]').should('be.visible');
+    // * Assert: Verify the expected outcome
+    cy.get('[data-cy="result"]').should('contain', 'expected text');
   });
 });
 ```
 
-### Testing Touch Interactions
-```typescript
+#### Custom Commands for React Native Web
+```javascript
 // cypress/support/commands.ts
-Cypress.Commands.add('swipe', (selector: string, direction: 'left' | 'right') => {
+
+// * Comprehensive debugging command (MANDATORY in all tests)
+Cypress.Commands.add('comprehensiveDebug', () => {
+  const timestamp = new Date().toISOString();
+  cy.task('log', `[${timestamp}] Test started: ${Cypress.currentTest.title}`);
+  
+  // Log browser info
+  cy.window().then((win) => {
+    cy.task('log', `Browser: ${win.navigator.userAgent}`);
+    cy.task('log', `Viewport: ${win.innerWidth}x${win.innerHeight}`);
+  });
+  
+  // Log any console errors
+  cy.on('window:before:load', (win) => {
+    cy.stub(win.console, 'error').callsFake((...args) => {
+      cy.task('log', `Console Error: ${args.join(' ')}`);
+    });
+  });
+});
+
+// * Clean state before tests
+Cypress.Commands.add('cleanState', () => {
+  // Clear AsyncStorage (React Native Web)
+  cy.window().then((win) => {
+    win.localStorage.clear();
+    win.sessionStorage.clear();
+  });
+  
+  // Clear any persisted Zustand stores
+  cy.clearAllSessionStorage();
+  cy.clearAllLocalStorage();
+});
+
+// * Capture failure debug info
+Cypress.Commands.add('captureFailureDebug', () => {
+  const testName = Cypress.currentTest.title;
+  const timestamp = Date.now();
+  
+  // Screenshot with meaningful name
+  cy.screenshot(`failed-${testName}-${timestamp}`);
+  
+  // Log current URL and any visible errors
+  cy.url().then((url) => {
+    cy.task('log', `Failed at URL: ${url}`);
+  });
+  
+  // Capture any React Native error boundaries
+  cy.get('[data-cy="error-boundary"]', { timeout: 0 }).then(($el) => {
+    if ($el.length) {
+      cy.task('log', `Error boundary triggered: ${$el.text()}`);
+    }
+  });
+});
+
+// * React Native Web specific - handle touch interactions
+Cypress.Commands.add('swipe', (selector: string, direction: 'left' | 'right' | 'up' | 'down') => {
+  const positions = {
+    left: { start: 'right', end: 'left' },
+    right: { start: 'left', end: 'right' },
+    up: { start: 'bottom', end: 'top' },
+    down: { start: 'top', end: 'bottom' }
+  };
+  
   cy.get(selector)
-    .trigger('touchstart', { position: 'center' })
-    .trigger('touchmove', { 
-      position: direction === 'left' ? 'left' : 'right' 
-    })
+    .trigger('touchstart', { position: positions[direction].start })
+    .trigger('touchmove', { position: positions[direction].end })
     .trigger('touchend');
 });
 
-// Usage in tests
-cy.swipe('[data-cy="story-card"]', 'left');
-cy.get('[data-cy="delete-option"]').should('be.visible');
+// * Setup test data for React Native app
+Cypress.Commands.add('setupTestData', () => {
+  // Create default test story
+  const testStory = {
+    id: 'test-story-1',
+    title: 'Test Fantasy Story',
+    genre: 'fantasy',
+    content: 'Test content',
+    createdAt: new Date().toISOString()
+  };
+  
+  // Store in AsyncStorage format for React Native
+  cy.window().then((win) => {
+    win.localStorage.setItem(
+      'fantasy-writing-app-stories',
+      JSON.stringify({ stories: [testStory] })
+    );
+  });
+});
 ```
+
+#### Testing React Native Web Components
+```typescript
+// cypress/e2e/story-creation.cy.ts
+describe('Story Creation - React Native Web', () => {
+  beforeEach(function() {
+    // ! MANDATORY debugging
+    cy.comprehensiveDebug();
+    cy.cleanState();
+    
+    cy.visit('http://localhost:3002');
+    cy.viewport('iphone-x'); // Mobile-first
+  });
+  
+  afterEach(function() {
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
+  });
+
+  it('creates a new story with React Native components', () => {
+    // * Test React Native TouchableOpacity
+    cy.get('[data-cy="create-story-button"]').click();
+    
+    // * Test React Native TextInput
+    cy.get('[data-cy="story-title-input"]')
+      .type('My Fantasy Novel')
+      .should('have.value', 'My Fantasy Novel');
+    
+    // * Test React Native Picker/Select
+    cy.get('[data-cy="story-genre-picker"]').click();
+    cy.get('[data-cy="genre-option-fantasy"]').click();
+    
+    // * Test form submission
+    cy.get('[data-cy="save-story-button"]').click();
+    
+    // * Verify navigation (React Navigation)
+    cy.url().should('include', '/story/');
+    cy.get('[data-cy="story-title"]').should('contain', 'My Fantasy Novel');
+    
+    // * Verify persistence (AsyncStorage/Zustand)
+    cy.reload();
+    cy.get('[data-cy="story-title"]').should('contain', 'My Fantasy Novel');
+  });
+
+  it('handles responsive viewports correctly', () => {
+    // * Mobile viewport
+    cy.viewport('iphone-x');
+    cy.get('[data-cy="mobile-navigation"]').should('be.visible');
+    cy.get('[data-cy="desktop-sidebar"]').should('not.exist');
+    
+    // * Tablet viewport
+    cy.viewport('ipad-2');
+    cy.get('[data-cy="tablet-layout"]').should('be.visible');
+    
+    // * Desktop viewport
+    cy.viewport('macbook-15');
+    cy.get('[data-cy="desktop-sidebar"]').should('be.visible');
+    cy.get('[data-cy="mobile-navigation"]').should('not.exist');
+  });
+
+  it('handles touch gestures on mobile', () => {
+    cy.viewport('iphone-x');
+    
+    // * Test swipe to delete
+    cy.get('[data-cy="story-card-1"]').should('be.visible');
+    cy.swipe('[data-cy="story-card-1"]', 'left');
+    cy.get('[data-cy="delete-action"]').should('be.visible');
+    
+    // * Test pull to refresh
+    cy.swipe('[data-cy="story-list"]', 'down');
+    cy.get('[data-cy="refresh-indicator"]').should('be.visible');
+  });
+
+  it('validates form inputs properly', () => {
+    cy.get('[data-cy="create-story-button"]').click();
+    
+    // * Test empty submission
+    cy.get('[data-cy="save-story-button"]').click();
+    cy.get('[data-cy="error-message"]').should('contain', 'Title is required');
+    
+    // * Test validation rules
+    cy.get('[data-cy="story-title-input"]').type('a'); // Too short
+    cy.get('[data-cy="save-story-button"]').click();
+    cy.get('[data-cy="error-message"]').should('contain', 'Title must be at least 3 characters');
+    
+    // * Test successful submission
+    cy.get('[data-cy="story-title-input"]').clear().type('Valid Story Title');
+    cy.get('[data-cy="save-story-button"]').click();
+    cy.get('[data-cy="error-message"]').should('not.exist');
+  });
+});
+```
+
+### Testing Coverage Requirements
+- **Minimum Coverage**:
+  - 80% unit tests (Jest + React Native Testing Library)
+  - 70% integration tests
+  - 100% critical user paths E2E tests
+  
+- **ALL new features must include**:
+  - Comprehensive E2E tests covering happy path and edge cases
+  - Component tests for UI components
+  - Unit tests for utilities and business logic
+  - API tests for Supabase endpoints
+  - Cross-platform tests (mobile/tablet/desktop viewports)
+
+### Debugging Failed Tests
+
+#### Step-by-Step Debugging Process
+1. **Check debug output**:
+   - Look in `cypress/debug-logs/` for detailed logs
+   - Review screenshots in `cypress/screenshots/`
+   - Check video recordings in `cypress/videos/`
+
+2. **Analyze failure patterns**:
+   - Is it a timing issue? Add appropriate waits
+   - Is it a selector issue? Verify `data-cy` attributes exist
+   - Is it a state issue? Check `cy.cleanState()` is working
+
+3. **Fix the CODE first**:
+   - Assume the implementation is wrong
+   - Check React Native component rendering
+   - Verify testID → data-cy conversion
+
+4. **Verify test logic** (only if code appears correct):
+   - Check test is using correct selectors
+   - Verify assertions match expected behavior
+   - Ensure test data setup is correct
+
+5. **NEVER DO**:
+   - Add `if` statements to make tests pass
+   - Skip failing tests
+   - Use `.only()` to avoid running other tests
+   - Modify test expectations to match broken behavior
+
+#### Common React Native Web Testing Issues
+
+1. **testID not converting to data-cy**:
+   ```javascript
+   // ❌ Wrong - testID might not convert
+   <TouchableOpacity testID="button">
+   
+   // ✅ Correct - explicit platform handling
+   <TouchableOpacity {...Platform.select({
+     web: { 'data-cy': 'button' },
+     default: { testID: 'button' }
+   })}>
+   ```
+
+2. **Timing issues with React Native animations**:
+   ```javascript
+   // Wait for React Native animations
+   cy.get('[data-cy="animated-view"]').should('be.visible');
+   cy.wait(500); // Wait for animation to complete
+   ```
+
+3. **AsyncStorage not persisting**:
+   ```javascript
+   // Ensure AsyncStorage is mocked properly
+   cy.window().then((win) => {
+     // Check localStorage is being used on web
+     expect(win.localStorage.getItem('key')).to.exist;
+   });
+   ```
 
 ## Development Commands
 
