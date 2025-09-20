@@ -19,6 +19,51 @@ import {
 } from 'react-native';
 import { useTheme } from '../../providers/ThemeProvider';
 
+// * Helper to safely use theme context
+// * Returns null if not within a ThemeProvider
+const useOptionalTheme = () => {
+  try {
+    return useTheme();
+  } catch {
+    // ! ThemeProvider not available during initial app loading
+    return null;
+  }
+};
+
+// * Fallback theme values for when ThemeProvider is not available
+const getFallbackTheme = () => ({
+  colors: {
+    accent: {
+      swiftness: '#C9A94F', // gold accent color
+    },
+    surface: {
+      background: '#F3E9D2',
+      backgroundElevated: '#E8D9BE',
+    },
+    text: {
+      primary: '#2C2416',
+      secondary: '#5A4D3B',
+    },
+  },
+  spacing: {
+    xs: 4,
+    sm: 8,
+    md: 16,
+    lg: 24,
+  },
+  borderRadius: {
+    lg: 12,
+  },
+  typography: {
+    body: {
+      fontFamily: 'System',
+    },
+    caption: {
+      fontFamily: 'System',
+    },
+  },
+});
+
 interface LoadingIndicatorProps {
   // * Loading variant for different contexts
   variant?: 'spinner' | 'dots' | 'bar' | 'ring' | 'overlay';
@@ -60,7 +105,9 @@ export const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({
   accessibilityLabel = 'Loading content',
   animationDuration = 1000,
 }) => {
-  const { theme } = useTheme();
+  // * Use theme if available, otherwise use fallback values
+  const themeContext = useOptionalTheme();
+  const theme = themeContext?.theme || getFallbackTheme();
   
   // * Animation values for different effects
   const fadeAnim = useRef(new Animated.Value(0)).current;

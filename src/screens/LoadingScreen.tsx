@@ -5,10 +5,21 @@
  * ! IMPORTANT: Uses LoadingIndicator for consistent loading patterns
  */
 
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { LoadingIndicator } from '../components/loading/LoadingIndicator';
 import { useTheme } from '../providers/ThemeProvider';
+
+// * Helper to safely use theme context
+// * Returns null if not within a ThemeProvider
+const useOptionalTheme = () => {
+  try {
+    return useTheme();
+  } catch {
+    // ! ThemeProvider not available during initial app loading
+    return null;
+  }
+};
 
 interface LoadingScreenProps {
   message?: string;
@@ -23,10 +34,12 @@ export function LoadingScreen({
   variant = 'ring',
   progress 
 }: LoadingScreenProps) {
-  const { theme } = useTheme();
+  // * Use theme if available, otherwise use fallback color
+  const themeContext = useOptionalTheme();
+  const backgroundColor = themeContext?.theme.ui.background.primary ?? '#F3E9D2';
   
   return (
-    <View style={[styles.container, { backgroundColor: theme.ui.background.primary }]}>
+    <View style={[styles.container, { backgroundColor }]}>
       <LoadingIndicator
         variant={variant}
         size="large"
