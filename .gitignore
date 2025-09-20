@@ -80,3 +80,19 @@ yarn-error.log
 
 *storybook.log
 storybook-static
+
+# Claude documentation and session files
+claudedocs/SESSION_*.md
+claudedocs/claude-*.md
+claudedocs/SUPABASE_*.md
+claudedocs/TODO_PROJECT_*.md
+SESSION_*.md
+claude-*.md
+
+# Temporary development artifacts
+*.tmp
+*.temp
+.npm-cache/
+
+# Development mockups (keep in claudedocs)
+mockups/
