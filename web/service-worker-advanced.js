@@ -23,7 +23,7 @@ const CACHE_STRATEGIES = {
 };
 
 // Offline queue for background sync
-let offlineQueue = [];
+const offlineQueue = [];
 
 // Install event - cache static assets
 self.addEventListener('install', (event) => {
