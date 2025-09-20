@@ -162,13 +162,15 @@ module.exports = {
     open: {
       // * Configure to open in Brave browser
       app: {
-        name: 'Brave Browser',
-        // ! Platform-specific browser paths
-        arguments: process.platform === 'darwin' 
-          ? [] // macOS doesn't need arguments
+        name: process.platform === 'darwin'
+          ? 'Brave Browser' // macOS app name
           : process.platform === 'win32'
-          ? [] // Windows doesn't need arguments
-          : ['--new-window'] // Linux may need this
+          ? 'brave' // Windows executable name
+          : 'brave-browser', // Linux executable name
+        // ! Platform-specific browser arguments
+        arguments: process.platform === 'linux'
+          ? ['--new-window'] // Linux may need this
+          : [] // macOS and Windows don't need arguments
       }
     },
     static: {

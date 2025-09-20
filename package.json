@@ -14,7 +14,7 @@
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest",
-    "web": "webpack serve --mode development",
+    "web": "webpack serve --mode development --open",
     "build:web": "WEBPACK=true webpack --config webpack.prod.js",
     "build:analyze": "WEBPACK=true ANALYZE=true webpack --config webpack.prod.js",
     "serve:prod": "npx serve -s dist -l 3000",
