@@ -55,11 +55,28 @@ export function mapCategoryFromDb(dbCategory: string): ElementCategory {
  */
 export function isValidDbCategory(category: string): boolean {
   const validCategories = [
-    'character', 'location', 'magic_system', 'culture', 
+    'character', 'location', 'magic_system', 'culture',
     'creature', 'organization', 'religion', 'technology',
     'historical_event', 'language', 'item', 'custom'
   ];
   return validCategories.includes(category);
+}
+
+/**
+ * Ensure category is not null for database operations
+ * Maps app category to DB format and defaults to 'custom' if null
+ */
+export function ensureCategoryForDb(category: ElementCategory | string | null | undefined): string {
+  if (!category) {
+    console.warn('[categoryMapping] Category is null/undefined, defaulting to "custom"');
+    return 'custom';
+  }
+  const mappedCategory = mapCategoryToDb(category as ElementCategory);
+  if (!mappedCategory) {
+    console.warn(`[categoryMapping] Unknown category "${category}", defaulting to "custom"`);
+    return 'custom';
+  }
+  return mappedCategory;
 }
 
 /**

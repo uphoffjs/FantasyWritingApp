@@ -254,21 +254,24 @@ export const useWorldbuildingStore = create<WorldbuildingStore>()(
         const project = get().projects.find((p) => p.id === projectId);
         if (!project) throw new Error('Project not found');
 
+        // * Ensure category is never null for database operations
+        const validCategory = category || 'custom';
+
         let questions: Question[] = [];
-        
+
         if (templateId) {
           const template = project.templates.find((t) => t.id === templateId);
           if (template) {
             questions = [...template.questions];
           }
-        } else if (DEFAULT_TEMPLATES[category]) {
-          questions = convertQuestionOptions(DEFAULT_TEMPLATES[category].questions || []);
+        } else if (DEFAULT_TEMPLATES[validCategory]) {
+          questions = convertQuestionOptions(DEFAULT_TEMPLATES[validCategory].questions || []);
         }
 
         const element: WorldElement = {
           id: uuidv4(),
           name,
-          category,
+          category: validCategory,
           description: '',
           questions,
           answers: {},
