@@ -2,6 +2,8 @@
 
 This document outlines essential best practices for writing effective, maintainable, and reliable Cypress tests for the FantasyWritingApp project.
 
+> **⚠️ CRITICAL RULE**: NEVER use conditional statements (if/else) in Cypress tests. Tests must be deterministic. See [Avoiding Conditional Testing](#avoiding-conditional-testing) section.
+
 ## Table of Contents
 1. [Organizing Tests](#organizing-tests)
 2. [Selecting Elements](#selecting-elements)

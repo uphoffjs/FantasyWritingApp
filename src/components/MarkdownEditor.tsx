@@ -204,9 +204,10 @@ export function MarkdownEditor({
       )}
 
       {/* Help Text */}
+      {/* ! HARDCODED: Should use design tokens */}
       {!isPreviewMode && (
         <Text style={styles.helpText}>
-          Tip: Use **bold**, _italic_, # headers, - lists, {'>'} quotes {/* ! HARDCODED: Should use design tokens */}
+          Tip: Use **bold**, _italic_, # headers, - lists, &gt; quotes
         </Text>
       )}
     </KeyboardAvoidingView>
