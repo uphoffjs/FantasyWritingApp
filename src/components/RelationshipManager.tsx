@@ -208,8 +208,7 @@ export function RelationshipManager({
               {otherElement.name}
             </Text>
             <Text style={styles.relationshipType}>
-              {isOutgoing ? relationship.type.replace(/_/g, ' ') : `← ${relationship.type.replace(/_/g, ' ')}`}
-            </Text>
+              {isOutgoing ? relationship.type.replace(/_/g, ' ') : `← ${relationship.type.replace(/_/g, ' ')}`} </Text>
             {relationship.description && (
               <Text style={styles.relationshipDescription}>
                 {relationship.description}
@@ -262,9 +261,7 @@ export function RelationshipManager({
                   style={styles.input}
                   value={searchQuery}
                   onChangeText={setSearchQuery}
-                  placeholder="Search by name, category, or description..."
-                  // ! HARDCODED: Should use design tokens
-          placeholderTextColor="#6B7280"
+                  placeholder="Search by name, category, or description..." placeholderTextColor="#6B7280"
                 />
               </View>
 
@@ -276,7 +273,7 @@ export function RelationshipManager({
                     onValueChange={setSelectedElementId}
                     items={elementPickerItems}
                     style={styles.picker}
-                    dropdownIconColor="// ! HARDCODED: Should use design tokens
+                    dropdownIconColor="
       #9CA3AF"
                     placeholder="Choose an element..."
                     mode="dropdown"
@@ -292,7 +289,7 @@ export function RelationshipManager({
                     onValueChange={setRelationshipType}
                     items={relationshipTypeItems}
                     style={styles.picker}
-                    dropdownIconColor="// ! HARDCODED: Should use design tokens
+                    dropdownIconColor="
       #9CA3AF"
                     mode="dropdown"
                   />
@@ -358,13 +355,11 @@ export function RelationshipManager({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: ' // ! HARDCODED: Should use design tokens // ! HARDCODED: Should use design tokensrgba(0, 0, 0, 0.5)',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  modalContent: {
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#111827',
+  modalContent: { backgroundColor: '#111827', // ! HARDCODED: Should use design tokens
     borderRadius: 16,
     width: '90%',
     maxWidth: 600,
@@ -385,28 +380,20 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
-    fontWeight: '700',
-    // ! HARDCODED: Should use design tokens
-    color: '#F9FAFB',
+    fontWeight: '700', color: '#F9FAFB', // ! HARDCODED: Should use design tokens
   },
   closeButton: {
     padding: 8,
   },
   closeIcon: {
-    fontSize: 24,
-    // ! HARDCODED: Should use design tokens
-    color: '#6B7280',
+    fontSize: 24, color: '#6B7280', // ! HARDCODED: Should use design tokens
   },
   elementName: {
     fontSize: 16,
-    fontWeight: '600',
-    // ! HARDCODED: Should use design tokens
-    color: '#9CA3AF',
+    fontWeight: '600', color: '#9CA3AF', // ! HARDCODED: Should use design tokens
     paddingHorizontal: 24,
     paddingBottom: 16,
-    borderBottomWidth: 1,
-    // ! HARDCODED: Should use design tokens
-    borderBottomColor: '#374151',
+    borderBottomWidth: 1, borderBottomColor: '#374151', // ! HARDCODED: Should use design tokens
   },
   content: {
     flex: 1,
@@ -417,9 +404,7 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 18,
-    fontWeight: '600',
-    // ! HARDCODED: Should use design tokens
-    color: '#F9FAFB',
+    fontWeight: '600', color: '#F9FAFB', // ! HARDCODED: Should use design tokens
     marginBottom: 16,
   },
   field: {
@@ -427,72 +412,48 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 14,
-    fontWeight: '500',
-    // ! HARDCODED: Should use design tokens
-    color: '#D1D5DB',
+    fontWeight: '500', color: '#D1D5DB', // ! HARDCODED: Should use design tokens
     marginBottom: 8,
   },
-  input: {
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#1F2937',
+  input: { backgroundColor: '#1F2937', // ! HARDCODED: Should use design tokens
     borderRadius: 8,
-    padding: 12,
-    // ! HARDCODED: Should use design tokens
-    color: '#F9FAFB',
+    padding: 12, color: '#F9FAFB', // ! HARDCODED: Should use design tokens
     fontSize: 14,
-    borderWidth: 1,
-    // ! HARDCODED: Should use design tokens
-    borderColor: '#374151',
+    borderWidth: 1, borderColor: '#374151', // ! HARDCODED: Should use design tokens
   },
   textArea: {
     minHeight: 80,
     textAlignVertical: 'top',
   },
-  pickerContainer: {
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#1F2937',
+  pickerContainer: { backgroundColor: '#1F2937', // ! HARDCODED: Should use design tokens
     borderRadius: 8,
-    borderWidth: 1,
-    // ! HARDCODED: Should use design tokens
-    borderColor: '#374151',
+    borderWidth: 1, borderColor: '#374151', // ! HARDCODED: Should use design tokens
     overflow: 'hidden',
   },
-  picker: {
-    // ! HARDCODED: Should use design tokens
-    color: '#F9FAFB',
+  picker: { color: '#F9FAFB', // ! HARDCODED: Should use design tokens
     height: 50,
   },
-  createButton: {
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#6366F1',
+  createButton: { backgroundColor: '#6366F1', // ! HARDCODED: Should use design tokens
     borderRadius: 8,
     paddingVertical: 12,
     alignItems: 'center',
     marginTop: 8,
   },
-  createButtonDisabled: {
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#4B5563',
+  createButtonDisabled: { backgroundColor: '#4B5563', // ! HARDCODED: Should use design tokens
     opacity: 0.5,
   },
   createButtonText: {
     fontSize: 16,
-    fontWeight: '600',
-    // ! HARDCODED: Should use design tokens
-    color: '#FFFFFF',
+    fontWeight: '600', color: '#FFFFFF', // ! HARDCODED: Should use design tokens
   },
   relationshipsList: {
     gap: 12,
   },
-  relationshipCard: {
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#1F2937',
+  relationshipCard: { backgroundColor: '#1F2937', // ! HARDCODED: Should use design tokens
     borderRadius: 12,
     padding: 16,
     marginBottom: 12,
-    borderWidth: 1,
-    // ! HARDCODED: Should use design tokens
-    borderColor: '#374151',
+    borderWidth: 1, borderColor: '#374151', // ! HARDCODED: Should use design tokens
   },
   relationshipContent: {
     flexDirection: 'row',
@@ -501,9 +462,7 @@ const styles = StyleSheet.create({
   relationshipIcon: {
     width: 40,
     height: 40,
-    borderRadius: 8,
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#374151',
+    borderRadius: 8, backgroundColor: '#374151', // ! HARDCODED: Should use design tokens
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: 12,
@@ -516,22 +475,16 @@ const styles = StyleSheet.create({
   },
   relationshipName: {
     fontSize: 16,
-    fontWeight: '600',
-    // ! HARDCODED: Should use design tokens
-    color: '#F9FAFB',
+    fontWeight: '600', color: '#F9FAFB', // ! HARDCODED: Should use design tokens
     marginBottom: 2,
   },
   relationshipType: {
-    fontSize: 13,
-    // ! HARDCODED: Should use design tokens
-    color: '#6366F1',
+    fontSize: 13, color: '#6366F1', // ! HARDCODED: Should use design tokens
     marginBottom: 4,
     textTransform: 'capitalize',
   },
   relationshipDescription: {
-    fontSize: 12,
-    // ! HARDCODED: Should use design tokens
-    color: '#9CA3AF',
+    fontSize: 12, color: '#9CA3AF', // ! HARDCODED: Should use design tokens
     fontStyle: 'italic',
   },
   deleteButton: {
@@ -551,15 +504,11 @@ const styles = StyleSheet.create({
   },
   emptyTitle: {
     fontSize: 18,
-    fontWeight: '600',
-    // ! HARDCODED: Should use design tokens
-    color: '#F9FAFB',
+    fontWeight: '600', color: '#F9FAFB', // ! HARDCODED: Should use design tokens
     marginBottom: 8,
   },
   emptyText: {
-    fontSize: 14,
-    // ! HARDCODED: Should use design tokens
-    color: '#6B7280',
+    fontSize: 14, color: '#6B7280', // ! HARDCODED: Should use design tokens
     textAlign: 'center',
     lineHeight: 20,
   },

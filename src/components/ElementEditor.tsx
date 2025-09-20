@@ -49,9 +49,7 @@ function QuestionField({ question, value, onChange, disabled }: QuestionFieldPro
           style={styles.textInput}
           value={value || ''}
           onChangeText={onChange}
-          placeholder={question.placeholder}
-          // ! HARDCODED: Should use design tokens
-          placeholderTextColor="#6B7280"
+          placeholder={question.placeholder} placeholderTextColor="#6B7280"
           editable={!disabled}
           maxLength={question.validation?.maxLength}
         />
@@ -171,9 +169,7 @@ function QuestionField({ question, value, onChange, disabled }: QuestionFieldPro
             const num = parseFloat(text);
             onChange(isNaN(num) ? null : num);
           }}
-          placeholder={question.placeholder}
-          // ! HARDCODED: Should use design tokens
-          placeholderTextColor="#6B7280"
+          placeholder={question.placeholder} placeholderTextColor="#6B7280"
           keyboardType="numeric"
           editable={!disabled}
         />
@@ -198,11 +194,8 @@ function QuestionField({ question, value, onChange, disabled }: QuestionFieldPro
           value={value === true}
           onValueChange={onChange}
           disabled={disabled}
-          // ! HARDCODED: Should use design tokens
-          trackColor={{ false: '#374151', true: '#6366F1' }}
-          // ! HARDCODED: Should use design tokens
+          trackColor={{ false: '#374151', true: '#6366F1' }} // ! HARDCODED: Should use design tokens
           thumbColor={value ? '#FFFFFF' : '#9CA3AF'}
-          // ! HARDCODED: Should use design tokens
           ios_backgroundColor="#374151"
         />
       </View>
@@ -404,11 +397,10 @@ export function ElementEditor({
             disabled={!hasChanges || isSaving}
           >
             {isSaving ? (
-              <ActivityIndicator size="small" // ! HARDCODED: Should use design tokens
-          color="#FFFFFF" />
+              <ActivityIndicator size="small" color="#FFFFFF" />
             ) : (
               <Text style={styles.saveButtonText}>
-                {hasChanges ? 'Save Changes' : 'Saved'}
+                {hasChanges ?  'Save Changes'  : 'Saved'}
               </Text>
             )}
           </Pressable>
@@ -425,9 +417,7 @@ export function ElementEditor({
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#111827',
+    flex: 1, backgroundColor: '#111827', // ! HARDCODED: Should use design tokens
   },
   scrollView: {
     flex: 1,
@@ -444,57 +434,41 @@ const styles = StyleSheet.create({
   },
   elementName: {
     fontSize: 24,
-    fontWeight: '600',
-    // ! HARDCODED: Should use design tokens
-    color: '#F9FAFB',
+    fontWeight: '600', color: '#F9FAFB', // ! HARDCODED: Should use design tokens
     marginBottom: 4,
   },
   elementCategory: {
-    fontSize: 14,
-    // ! HARDCODED: Should use design tokens
-    color: '#9CA3AF',
+    fontSize: 14, color: '#9CA3AF', // ! HARDCODED: Should use design tokens
     textTransform: 'capitalize',
   },
   progressContainer: {
     marginTop: 12,
   },
   progressText: {
-    fontSize: 12,
-    // ! HARDCODED: Should use design tokens
-    color: '#9CA3AF',
+    fontSize: 12, color: '#9CA3AF', // ! HARDCODED: Should use design tokens
     marginBottom: 4,
   },
   progressBar: {
-    height: 4,
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#374151',
+    height: 4, backgroundColor: '#374151', // ! HARDCODED: Should use design tokens
     borderRadius: 2,
     overflow: 'hidden',
   },
   progressFill: {
-    height: '100%',
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#10B981',
+    height: '100%', backgroundColor: '#10B981', // ! HARDCODED: Should use design tokens
   },
   descriptionContainer: {
     marginBottom: 24,
-    padding: 16,
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#1F2937',
+    padding: 16, backgroundColor: '#1F2937', // ! HARDCODED: Should use design tokens
     borderRadius: 8,
   },
   descriptionLabel: {
-    fontSize: 12,
-    // ! HARDCODED: Should use design tokens
-    color: '#9CA3AF',
+    fontSize: 12, color: '#9CA3AF', // ! HARDCODED: Should use design tokens
     marginBottom: 4,
     textTransform: 'uppercase',
     letterSpacing: 0.5,
   },
   description: {
-    fontSize: 14,
-    // ! HARDCODED: Should use design tokens
-    color: '#F9FAFB',
+    fontSize: 14, color: '#F9FAFB', // ! HARDCODED: Should use design tokens
     lineHeight: 20,
   },
   categorySection: {
@@ -502,9 +476,7 @@ const styles = StyleSheet.create({
   },
   categoryTitle: {
     fontSize: 18,
-    fontWeight: '600',
-    // ! HARDCODED: Should use design tokens
-    color: '#F9FAFB',
+    fontWeight: '600', color: '#F9FAFB', // ! HARDCODED: Should use design tokens
     marginBottom: 16,
     paddingBottom: 8,
     borderBottomWidth: 1,
@@ -515,67 +487,43 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 14,
-    fontWeight: '500',
-    // ! HARDCODED: Should use design tokens
-    color: '#F9FAFB',
+    fontWeight: '500', color: '#F9FAFB', // ! HARDCODED: Should use design tokens
     marginBottom: 6,
   },
-  required: {
-    // ! HARDCODED: Should use design tokens
-    color: '#EF4444',
+  required: { color: '#EF4444', // ! HARDCODED: Should use design tokens
   },
   helpText: {
-    fontSize: 12,
-    // ! HARDCODED: Should use design tokens
-    color: '#6B7280',
+    fontSize: 12, color: '#6B7280', // ! HARDCODED: Should use design tokens
     marginBottom: 4,
   },
-  textInput: {
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#1F2937',
+  textInput: { backgroundColor: '#1F2937', // ! HARDCODED: Should use design tokens
     borderRadius: 8,
-    padding: 12,
-    // ! HARDCODED: Should use design tokens
-    color: '#F9FAFB',
+    padding: 12, color: '#F9FAFB', // ! HARDCODED: Should use design tokens
     fontSize: 14,
-    borderWidth: 1,
-    // ! HARDCODED: Should use design tokens
-    borderColor: '#374151',
+    borderWidth: 1, borderColor: '#374151', // ! HARDCODED: Should use design tokens
   },
-  pickerContainer: {
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#1F2937',
+  pickerContainer: { backgroundColor: '#1F2937', // ! HARDCODED: Should use design tokens
     borderRadius: 8,
-    borderWidth: 1,
-    // ! HARDCODED: Should use design tokens
-    borderColor: '#374151',
+    borderWidth: 1, borderColor: '#374151', // ! HARDCODED: Should use design tokens
     overflow: 'hidden',
   },
-  picker: {
-    // ! HARDCODED: Should use design tokens
-    color: '#F9FAFB',
+  picker: { color: '#F9FAFB', // ! HARDCODED: Should use design tokens
     height: 50,
   },
   pickerItem: {
     fontSize: 14,
   },
-  checkboxGroup: {
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#1F2937',
+  checkboxGroup: { backgroundColor: '#1F2937', // ! HARDCODED: Should use design tokens
     borderRadius: 8,
     padding: 12,
-    borderWidth: 1,
-    // ! HARDCODED: Should use design tokens
-    borderColor: '#374151',
+    borderWidth: 1, borderColor: '#374151', // ! HARDCODED: Should use design tokens
   },
   checkboxItem: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 8,
   },
-  checkboxItemSelected: {
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#374151',
+  checkboxItemSelected: { backgroundColor: '#374151', // ! HARDCODED: Should use design tokens
     marginHorizontal: -12,
     paddingHorizontal: 12,
     borderRadius: 4,
@@ -584,29 +532,19 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
     borderRadius: 4,
-    borderWidth: 2,
-    // ! HARDCODED: Should use design tokens
-    borderColor: '#6B7280',
+    borderWidth: 2, borderColor: '#6B7280', // ! HARDCODED: Should use design tokens
     marginRight: 12,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  checkboxChecked: {
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#6366F1',
-    // ! HARDCODED: Should use design tokens
-    borderColor: '#6366F1',
+  checkboxChecked: { backgroundColor: '#6366F1', // ! HARDCODED: Should use design tokens borderColor: '#6366F1', // ! HARDCODED: Should use design tokens
   },
-  checkmark: {
-    // ! HARDCODED: Should use design tokens
-    color: '#FFFFFF',
+  checkmark: { color: '#FFFFFF', // ! HARDCODED: Should use design tokens
     fontSize: 12,
     fontWeight: 'bold',
   },
   checkboxLabel: {
-    fontSize: 14,
-    // ! HARDCODED: Should use design tokens
-    color: '#F9FAFB',
+    fontSize: 14, color: '#F9FAFB', // ! HARDCODED: Should use design tokens
   },
   booleanContainer: {
     flexDirection: 'row',
@@ -620,19 +558,13 @@ const styles = StyleSheet.create({
   dateButton: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#1F2937',
+    alignItems: 'center', backgroundColor: '#1F2937', // ! HARDCODED: Should use design tokens
     borderRadius: 8,
     padding: 12,
-    borderWidth: 1,
-    // ! HARDCODED: Should use design tokens
-    borderColor: '#374151',
+    borderWidth: 1, borderColor: '#374151', // ! HARDCODED: Should use design tokens
   },
   dateButtonText: {
-    fontSize: 14,
-    // ! HARDCODED: Should use design tokens
-    color: '#F9FAFB',
+    fontSize: 14, color: '#F9FAFB', // ! HARDCODED: Should use design tokens
   },
   dateIcon: {
     fontSize: 16,
@@ -650,33 +582,23 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     minHeight: 48,
   },
-  cancelButton: {
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#374151',
+  cancelButton: { backgroundColor: '#374151', // ! HARDCODED: Should use design tokens
   },
   cancelButtonText: {
     fontSize: 16,
-    fontWeight: '600',
-    // ! HARDCODED: Should use design tokens
-    color: '#F9FAFB',
+    fontWeight: '600', color: '#F9FAFB', // ! HARDCODED: Should use design tokens
   },
-  saveButton: {
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#6366F1',
+  saveButton: { backgroundColor: '#6366F1', // ! HARDCODED: Should use design tokens
   },
   saveButtonText: {
     fontSize: 16,
-    fontWeight: '600',
-    // ! HARDCODED: Should use design tokens
-    color: '#FFFFFF',
+    fontWeight: '600', color: '#FFFFFF', // ! HARDCODED: Should use design tokens
   },
   buttonDisabled: {
     opacity: 0.5,
   },
   autoSaveText: {
-    fontSize: 12,
-    // ! HARDCODED: Should use design tokens
-    color: '#6B7280',
+    fontSize: 12, color: '#6B7280', // ! HARDCODED: Should use design tokens
     textAlign: 'center',
     marginTop: 8,
   },

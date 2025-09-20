@@ -243,9 +243,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     padding: 12,
-    fontSize: 14,
-    // ! HARDCODED: Should use design tokens
-    color: '#F9FAFB',
+    fontSize: 14, color: '#F9FAFB', // ! HARDCODED: Should use design tokens
     backgroundColor: 'transparent',
     border: 'none',
     // * React Native doesn't support outline property - removed
@@ -262,9 +260,7 @@ const styles = StyleSheet.create({
     left: 12,
     top: '50%',
     transform: 'translateY(-50%)',
-    fontSize: 14,
-    // ! HARDCODED: Should use design tokens
-    color: '#6B7280',
+    fontSize: 14, color: '#6B7280', // ! HARDCODED: Should use design tokens
     pointerEvents: 'none',
   },
 
@@ -279,13 +275,9 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     flex: 1,
-    fontSize: 14,
-    // ! HARDCODED: Should use design tokens
-    color: '#F9FAFB',
+    fontSize: 14, color: '#F9FAFB', // ! HARDCODED: Should use design tokens
   },
-  placeholderText: {
-    // ! HARDCODED: Should use design tokens
-    color: '#6B7280',
+  placeholderText: { color: '#6B7280', // ! HARDCODED: Should use design tokens
   },
   dateIcon: {
     fontSize: 16,
@@ -302,9 +294,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  modalContent: {
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#111827',
+  modalContent: { backgroundColor: '#111827', // ! HARDCODED: Should use design tokens
     borderRadius: 12,
     width: '90%',
     maxWidth: 400,
@@ -322,9 +312,7 @@ const styles = StyleSheet.create({
   },
   modalTitle: {
     fontSize: 18,
-    fontWeight: '600',
-    // ! HARDCODED: Should use design tokens
-    color: '#F9FAFB',
+    fontWeight: '600', color: '#F9FAFB', // ! HARDCODED: Should use design tokens
     textTransform: 'capitalize',
   },
   datePickerContainer: {
@@ -341,29 +329,21 @@ const styles = StyleSheet.create({
     minWidth: 60,
   },
   dateLabel: {
-    fontSize: 12,
-    // ! HARDCODED: Should use design tokens
-    color: '#9CA3AF',
+    fontSize: 12, color: '#9CA3AF', // ! HARDCODED: Should use design tokens
     marginBottom: 8,
     textTransform: 'capitalize',
   },
-  dateInput: {
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#1F2937',
+  dateInput: { backgroundColor: '#1F2937', // ! HARDCODED: Should use design tokens
     borderRadius: 8,
     paddingVertical: 12,
     paddingHorizontal: 16,
-    borderWidth: 1,
-    // ! HARDCODED: Should use design tokens
-    borderColor: '#374151',
+    borderWidth: 1, borderColor: '#374151', // ! HARDCODED: Should use design tokens
     minWidth: 60,
     alignItems: 'center',
   },
   dateInputText: {
     fontSize: 16,
-    fontWeight: '600',
-    // ! HARDCODED: Should use design tokens
-    color: '#F9FAFB',
+    fontWeight: '600', color: '#F9FAFB', // ! HARDCODED: Should use design tokens
   },
   modalActions: {
     flexDirection: 'row',
@@ -378,24 +358,16 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     alignItems: 'center',
   },
-  cancelButton: {
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#374151',
+  cancelButton: { backgroundColor: '#374151', // ! HARDCODED: Should use design tokens
   },
   cancelButtonText: {
     fontSize: 16,
-    fontWeight: '600',
-    // ! HARDCODED: Should use design tokens
-    color: '#F9FAFB',
+    fontWeight: '600', color: '#F9FAFB', // ! HARDCODED: Should use design tokens
   },
-  confirmButton: {
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#6366F1',
+  confirmButton: { backgroundColor: '#6366F1', // ! HARDCODED: Should use design tokens
   },
   confirmButtonText: {
     fontSize: 16,
-    fontWeight: '600',
-    // ! HARDCODED: Should use design tokens
-    color: '#FFFFFF',
+    fontWeight: '600', color: '#FFFFFF', // ! HARDCODED: Should use design tokens
   },
 });

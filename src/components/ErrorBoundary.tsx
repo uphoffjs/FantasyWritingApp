@@ -157,12 +157,8 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
           data-cy="error-boundary"
           style={{
             padding: '20px',
-            margin: '20px',
-            // ! HARDCODED: Should use design tokens
-            border: '1px solid #ff6b6b',
-            borderRadius: '8px',
-            // ! HARDCODED: Should use design tokens
-    backgroundColor: '#ffe0e0',
+            margin: '20px', border: '1px solid #ff6b6b', // ! HARDCODED: Should use design tokens
+            borderRadius: '8px', backgroundColor: '#ffe0e0', // ! HARDCODED: Should use design tokens
             textAlign: 'center'
           }}
         >
@@ -188,10 +184,8 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
                 backgroundColor: '#fff', 
                 padding: '10px', 
                 borderRadius: '4px',
-                overflow: 'auto',
-                // ! HARDCODED: Should use design tokens
-    fontSize: '12px'
-              }}>
+                overflow: 'auto', fontSize: '12px', // ! HARDCODED: Should use design tokens
+  }}>
                 {errorInfo.componentStack}
               </pre>
             </details>
@@ -209,18 +203,12 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
             data-cy="reset-error"
             onClick={this.resetError}
             style={{
-              marginTop: '20px',
-              // ! HARDCODED: Should use design tokens
-              padding: '10px 20px',
-              // ! HARDCODED: Should use design tokens
-    backgroundColor: '#087f5b',
+              marginTop: '20px', padding: '10px 20px', // ! HARDCODED: Should use design tokens backgroundColor: '#087f5b', // ! HARDCODED: Should use design tokens
               color: 'white',
               border: 'none',
               borderRadius: '4px',
-              cursor: 'pointer',
-              // ! HARDCODED: Should use design tokens
-    fontSize: '16px'
-            }}
+              cursor: 'pointer', fontSize: '16px', // ! HARDCODED: Should use design tokens
+  }}
           >
             Try Again
           </button>

@@ -41,22 +41,10 @@ export const ErrorMessage: React.FC<ErrorMessageProps> = ({
       borderColor: '#fcc',
       color: '#c00'
     },
-    warning: {
-      // ! HARDCODED: Should use design tokens
-    backgroundColor: '#fff3cd',
-      // ! HARDCODED: Should use design tokens
-    borderColor: '#ffeeba',
-      // ! HARDCODED: Should use design tokens
-    color: '#856404'
-    },
-    info: {
-      // ! HARDCODED: Should use design tokens
-    backgroundColor: '#d1ecf1',
-      // ! HARDCODED: Should use design tokens
-    borderColor: '#bee5eb',
-      // ! HARDCODED: Should use design tokens
-    color: '#0c5460'
-    }
+    warning: { backgroundColor: '#fff3cd', // ! HARDCODED: Should use design tokens borderColor: '#ffeeba', // ! HARDCODED: Should use design tokens color: '#856404', // ! HARDCODED: Should use design tokens
+  },
+    info: { backgroundColor: '#d1ecf1', // ! HARDCODED: Should use design tokens borderColor: '#bee5eb', // ! HARDCODED: Should use design tokens color: '#0c5460', // ! HARDCODED: Should use design tokens
+  }
   };
 
   const currentStyle = typeStyles[type];
@@ -72,9 +60,7 @@ export const ErrorMessage: React.FC<ErrorMessageProps> = ({
       data-cy={`${type}-message`}
       className={`error-message ${type} ${className}`}
       style={{
-        padding: '12px // ! HARDCODED: Should use design tokens
-      16px',
-        margin: '12px 0',
+        padding: '12px 16px', margin: '12px 0', // ! HARDCODED: Should use design tokens
         border: '1px solid',
         borderRadius: '4px',
         display: 'flex',
@@ -102,9 +88,7 @@ export const ErrorMessage: React.FC<ErrorMessageProps> = ({
               fontSize: '20px',
               cursor: 'pointer',
               padding: '0',
-              marginLeft: '// ! HARDCODED: Should use design tokens
-      12px'
-            }}
+              marginLeft: '12px' }}
           >
             ×
           </button>
@@ -117,8 +101,7 @@ export const ErrorMessage: React.FC<ErrorMessageProps> = ({
       {/* Error details (if available) */}
       {showDetails && (details || (error instanceof Error && error.stack)) && (
         <details data-testid={`${testId}-details`}>
-          <summary style={{ cursor: 'pointer', marginTop: '// ! HARDCODED: Should use design tokens
-      8px' }}>
+          <summary style={{ cursor: 'pointer', // ! HARDCODED: Should use design tokens marginTop: '8px' }}> {/* ! HARDCODED: Should use design tokens */}
             Show Details
           </summary>
           <pre style={{
@@ -128,10 +111,8 @@ export const ErrorMessage: React.FC<ErrorMessageProps> = ({
             borderRadius: '4px',
             fontSize: '12px',
             overflow: 'auto',
-            maxHeight: '// ! HARDCODED: Should use design tokens
-      200px'
-          }}>
-            {details || (error instanceof Error ? error.stack : '')}
+            maxHeight: '200px' }}>
+            {details || (error instanceof Error ? error.stack : '' // ! HARDCODED: Should use design tokens)}
           </pre>
         </details>
       )}
@@ -144,19 +125,13 @@ export const ErrorMessage: React.FC<ErrorMessageProps> = ({
           onClick={onRetry}
           style={{
             alignSelf: 'flex-start',
-            padding: '6px // ! HARDCODED: Should use design tokens
-      12px',
-            backgroundColor: type === 'error' ? '// ! HARDCODED: Should use design tokens
-      #dc3545' : type === 'warning' ? '// ! HARDCODED: Should use design tokens
-      #ffc107' : '#17a2b8',
-            color: 'white',
+            padding: '6px 12px', backgroundColor: type === 'error' // ! HARDCODED: Should use design tokens ? '#dc3545' : type === 'warning' ? '#ffc107' : '#17a2b8', color: 'white', // ! HARDCODED: Should use design tokens
             border: 'none',
             borderRadius: '4px',
             cursor: 'pointer',
             fontSize: '14px',
-            marginTop: '// ! HARDCODED: Should use design tokens
-      8px'
-          }}
+            marginTop: '8px', // ! HARDCODED: Should use design tokens
+  }}
         >
           {retryText}
         </button>

@@ -47,12 +47,10 @@ export const TextInput = forwardRef<RNTextInput, TextInputProps>(
             error && styles.errorInput,
             Platform.OS === 'web' && styles.webInput,
             inputStyle,
-          ]}
-          // ! HARDCODED: Should use design tokens
-          placeholderTextColor="#6B7280"
+          ]} placeholderTextColor="#6B7280"
           multiline={multiline}
           numberOfLines={numberOfLines}
-          textAlignVertical={multiline ? 'top' : 'center'}
+          textAlignVertical={multiline ?  'top'  : 'center'}
           {...props}
         />
         {error && <Text style={styles.errorText}>{error}</Text>}
@@ -69,9 +67,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 14,
-    fontWeight: '500',
-    // ! HARDCODED: Should use design tokens
-    color: '#F9FAFB',
+    fontWeight: '500', color: '#F9FAFB', // ! HARDCODED: Should use design tokens
     marginBottom: 6,
     fontFamily: Platform.select({
       ios: 'System',
@@ -79,18 +75,12 @@ const styles = StyleSheet.create({
       web: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
     }),
   },
-  input: {
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#1F2937',
-    borderWidth: 1,
-    // ! HARDCODED: Should use design tokens
-    borderColor: '#374151',
+  input: { backgroundColor: '#1F2937', // ! HARDCODED: Should use design tokens
+    borderWidth: 1, borderColor: '#374151', // ! HARDCODED: Should use design tokens
     borderRadius: 8,
     paddingHorizontal: 12,
     paddingVertical: 10,
-    fontSize: 16,
-    // ! HARDCODED: Should use design tokens
-    color: '#F9FAFB',
+    fontSize: 16, color: '#F9FAFB', // ! HARDCODED: Should use design tokens
     minHeight: 44,
     fontFamily: Platform.select({
       ios: 'System',
@@ -111,14 +101,10 @@ const styles = StyleSheet.create({
       default: {},
     }),
   },
-  errorInput: {
-    // ! HARDCODED: Should use design tokens
-    borderColor: '#DC2626',
+  errorInput: { borderColor: '#DC2626', // ! HARDCODED: Should use design tokens
   },
   errorText: {
-    fontSize: 12,
-    // ! HARDCODED: Should use design tokens
-    color: '#DC2626',
+    fontSize: 12, color: '#DC2626', // ! HARDCODED: Should use design tokens
     marginTop: 4,
     fontFamily: Platform.select({
       ios: 'System',

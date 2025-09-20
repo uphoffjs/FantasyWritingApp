@@ -209,8 +209,7 @@ export function CreateElementModal({
                 disabled={!selectedCategory || isCreating}
               >
                 {isCreating ? (
-                  <ActivityIndicator size="small" // ! HARDCODED: Should use design tokens
-          color="#FFFFFF" />
+                  <ActivityIndicator size="small" color="#FFFFFF" />
                 ) : (
                   <Text style={styles.createButtonText}>
                     {selectedCategory ? 'Create Element' : 'Select a Category'}
@@ -242,8 +241,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   modalContent: {
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#1F2937',
+    backgroundColor: '#1F2937', // ! HARDCODED: Should use design tokens
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     maxHeight: '90%',
@@ -266,16 +264,14 @@ const styles = StyleSheet.create({
   dragIndicator: {
     width: 36,
     height: 4,
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#4B5563',
+    backgroundColor: '#4B5563', // ! HARDCODED: Should use design tokens
     borderRadius: 2,
     marginBottom: 16,
   },
   title: {
     fontSize: 20,
     fontWeight: '600',
-    // ! HARDCODED: Should use design tokens
-    color: '#F9FAFB',
+    color: '#F9FAFB', // ! HARDCODED: Should use design tokens
   },
   closeButton: {
     position: 'absolute',
@@ -285,13 +281,11 @@ const styles = StyleSheet.create({
   },
   closeIcon: {
     fontSize: 24,
-    // ! HARDCODED: Should use design tokens
-    color: '#9CA3AF',
+    color: '#9CA3AF', // ! HARDCODED: Should use design tokens
   },
   instructions: {
     fontSize: 14,
-    // ! HARDCODED: Should use design tokens
-    color: '#9CA3AF',
+    color: '#9CA3AF', // ! HARDCODED: Should use design tokens
     textAlign: 'center',
     marginBottom: 20,
     paddingHorizontal: 24,
@@ -308,8 +302,7 @@ const styles = StyleSheet.create({
   },
   categoryCard: {
     width: '48%',
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#374151',
+    backgroundColor: '#374151', // ! HARDCODED: Should use design tokens
     borderRadius: 12,
     padding: 16,
     alignItems: 'center',
@@ -317,10 +310,8 @@ const styles = StyleSheet.create({
     borderColor: 'transparent',
   },
   categoryCardSelected: {
-    // ! HARDCODED: Should use design tokens
-    borderColor: '#6366F1',
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#4338CA20',
+    borderColor: '#6366F1', // ! HARDCODED: Should use design tokens
+    backgroundColor: '#4338CA20', // ! HARDCODED: Should use design tokens
   },
   categoryIcon: {
     fontSize: 32,
@@ -329,25 +320,21 @@ const styles = StyleSheet.create({
   categoryLabel: {
     fontSize: 14,
     fontWeight: '600',
-    // ! HARDCODED: Should use design tokens
-    color: '#F9FAFB',
+    color: '#F9FAFB', // ! HARDCODED: Should use design tokens
     marginBottom: 4,
     textAlign: 'center',
   },
   categoryLabelSelected: {
-    // ! HARDCODED: Should use design tokens
-    color: '#6366F1',
+    color: '#6366F1', // ! HARDCODED: Should use design tokens
   },
   categoryDescription: {
     fontSize: 11,
-    // ! HARDCODED: Should use design tokens
-    color: '#6B7280',
+    color: '#6B7280', // ! HARDCODED: Should use design tokens
     textAlign: 'center',
     lineHeight: 14,
   },
   categoryDescriptionSelected: {
-    // ! HARDCODED: Should use design tokens
-    color: '#9CA3AF',
+    color: '#9CA3AF', // ! HARDCODED: Should use design tokens
   },
   actions: {
     flexDirection: 'row',
@@ -364,24 +351,20 @@ const styles = StyleSheet.create({
     minHeight: 48,
   },
   cancelButton: {
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#374151',
+    backgroundColor: '#374151', // ! HARDCODED: Should use design tokens
   },
   cancelButtonText: {
     fontSize: 16,
     fontWeight: '600',
-    // ! HARDCODED: Should use design tokens
-    color: '#F9FAFB',
+    color: '#F9FAFB', // ! HARDCODED: Should use design tokens
   },
   createButton: {
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#6366F1',
+    backgroundColor: '#6366F1', // ! HARDCODED: Should use design tokens
   },
   createButtonText: {
     fontSize: 16,
     fontWeight: '600',
-    // ! HARDCODED: Should use design tokens
-    color: '#FFFFFF',
+    color: '#FFFFFF', // ! HARDCODED: Should use design tokens
   },
   buttonDisabled: {
     opacity: 0.5,

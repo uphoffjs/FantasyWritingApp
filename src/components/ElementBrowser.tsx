@@ -114,8 +114,7 @@ export function ElementBrowser({
     if (loading) {
       return (
         <View style={styles.emptyContainer}>
-          <ActivityIndicator size="large" // ! HARDCODED: Should use design tokens
-          color="#6366F1" />
+          <ActivityIndicator size="large" color="#6366F1" />
           <Text style={styles.emptyText}>Loading elements...</Text>
         </View>
       );
@@ -125,7 +124,7 @@ export function ElementBrowser({
       <View style={styles.emptyContainer}>
         <Text style={styles.emptyIcon}>📝</Text>
         <Text style={styles.emptyTitle}>
-          {searchQuery || selectedCategory !== 'all'
+          {searchQuery || selectedCategory !== 'all' // ! HARDCODED: Should use design tokens
             ? 'No elements found'
             : 'No elements yet'}
         </Text>
@@ -150,9 +149,7 @@ export function ElementBrowser({
         <Text style={styles.searchIcon}>🔍</Text>
         <TextInput
           style={styles.searchInput}
-          placeholder="Search elements..."
-          // ! HARDCODED: Should use design tokens
-          placeholderTextColor="#6B7280"
+          placeholder="Search elements..." placeholderTextColor="#6B7280"
           value={searchQuery}
           onChangeText={setSearchQuery}
           autoCorrect={false}
@@ -260,11 +257,8 @@ export function ElementBrowser({
           onRefresh ? (
             <RefreshControl
               refreshing={refreshing}
-              onRefresh={onRefresh}
-              // ! HARDCODED: Should use design tokens
-              tintColor="#6366F1"
-              // ! HARDCODED: Should use design tokens
-              colors={['#6366F1']}
+              onRefresh={onRefresh} tintColor="#6366F1" // ! HARDCODED: Should use design tokens
+              colors={['#6366F1']} // ! HARDCODED: Should use design tokens
             />
           ) : undefined
         }
@@ -289,8 +283,7 @@ export function ElementBrowser({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#111827',
+    backgroundColor: '#111827', // ! HARDCODED: Should use design tokens
   },
   header: {
     paddingTop: 16,
@@ -300,8 +293,7 @@ const styles = StyleSheet.create({
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#1F2937',
+    backgroundColor: '#1F2937', // ! HARDCODED: Should use design tokens
     borderRadius: 8,
     paddingHorizontal: 12,
     marginBottom: 12,
@@ -313,8 +305,7 @@ const styles = StyleSheet.create({
   searchInput: {
     flex: 1,
     height: 40,
-    // ! HARDCODED: Should use design tokens
-    color: '#F9FAFB',
+    color: '#F9FAFB', // ! HARDCODED: Should use design tokens
     fontSize: 14,
   },
   clearButton: {
@@ -322,8 +313,7 @@ const styles = StyleSheet.create({
   },
   clearIcon: {
     fontSize: 16,
-    // ! HARDCODED: Should use design tokens
-    color: '#6B7280',
+    color: '#6B7280', // ! HARDCODED: Should use design tokens
   },
   filterContainer: {
     marginBottom: 12,
@@ -336,18 +326,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 12,
     paddingVertical: 6,
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#1F2937',
+    backgroundColor: '#1F2937', // ! HARDCODED: Should use design tokens
     borderRadius: 16,
     marginRight: 8,
     borderWidth: 1,
     borderColor: 'transparent',
   },
   filterChipSelected: {
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#4338CA20',
-    // ! HARDCODED: Should use design tokens
-    borderColor: '#6366F1',
+    backgroundColor: '#4338CA20', // ! HARDCODED: Should use design tokens
+    borderColor: '#6366F1', // ! HARDCODED: Should use design tokens
   },
   filterIcon: {
     fontSize: 14,
@@ -355,13 +342,11 @@ const styles = StyleSheet.create({
   },
   filterLabel: {
     fontSize: 12,
-    // ! HARDCODED: Should use design tokens
-    color: '#9CA3AF',
+    color: '#9CA3AF', // ! HARDCODED: Should use design tokens
     fontWeight: '500',
   },
   filterLabelSelected: {
-    // ! HARDCODED: Should use design tokens
-    color: '#6366F1',
+    color: '#6366F1', // ! HARDCODED: Should use design tokens
   },
   sortContainer: {
     flexDirection: 'row',
@@ -374,8 +359,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 12,
     paddingVertical: 6,
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#1F2937',
+    backgroundColor: '#1F2937', // ! HARDCODED: Should use design tokens
     borderRadius: 6,
   },
   sortIcon: {
@@ -384,24 +368,20 @@ const styles = StyleSheet.create({
   },
   sortText: {
     fontSize: 12,
-    // ! HARDCODED: Should use design tokens
-    color: '#F9FAFB',
+    color: '#F9FAFB', // ! HARDCODED: Should use design tokens
   },
   resultCount: {
     fontSize: 12,
-    // ! HARDCODED: Should use design tokens
-    color: '#6B7280',
+    color: '#6B7280', // ! HARDCODED: Should use design tokens
   },
   sortDropdown: {
     position: 'absolute',
     top: 140,
     left: 16,
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#1F2937',
+    backgroundColor: '#1F2937', // ! HARDCODED: Should use design tokens
     borderRadius: 8,
     borderWidth: 1,
-    // ! HARDCODED: Should use design tokens
-    borderColor: '#374151',
+    borderColor: '#374151', // ! HARDCODED: Should use design tokens
     paddingVertical: 4,
     minWidth: 150,
     shadowColor: '#000',
@@ -419,23 +399,19 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
   },
   sortOptionSelected: {
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#374151',
+    backgroundColor: '#374151', // ! HARDCODED: Should use design tokens
   },
   sortOptionText: {
     fontSize: 14,
-    // ! HARDCODED: Should use design tokens
-    color: '#9CA3AF',
+    color: '#9CA3AF', // ! HARDCODED: Should use design tokens
   },
   sortOptionTextSelected: {
-    // ! HARDCODED: Should use design tokens
-    color: '#6366F1',
+    color: '#6366F1', // ! HARDCODED: Should use design tokens
     fontWeight: '600',
   },
   checkIcon: {
     fontSize: 12,
-    // ! HARDCODED: Should use design tokens
-    color: '#6366F1',
+    color: '#6366F1', // ! HARDCODED: Should use design tokens
   },
   listContent: {
     paddingHorizontal: 16,
@@ -457,29 +433,25 @@ const styles = StyleSheet.create({
   emptyTitle: {
     fontSize: 18,
     fontWeight: '600',
-    // ! HARDCODED: Should use design tokens
-    color: '#F9FAFB',
+    color: '#F9FAFB', // ! HARDCODED: Should use design tokens
     marginBottom: 8,
   },
   emptyText: {
     fontSize: 14,
-    // ! HARDCODED: Should use design tokens
-    color: '#6B7280',
+    color: '#6B7280', // ! HARDCODED: Should use design tokens
     textAlign: 'center',
     marginBottom: 24,
   },
   createButton: {
     paddingHorizontal: 24,
     paddingVertical: 12,
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#6366F1',
+    backgroundColor: '#6366F1', // ! HARDCODED: Should use design tokens
     borderRadius: 8,
   },
   createButtonText: {
     fontSize: 14,
     fontWeight: '600',
-    // ! HARDCODED: Should use design tokens
-    color: '#FFFFFF',
+    color: '#FFFFFF', // ! HARDCODED: Should use design tokens
   },
   fab: {
     position: 'absolute',
@@ -487,9 +459,7 @@ const styles = StyleSheet.create({
     right: 24,
     width: 56,
     height: 56,
-    borderRadius: 28,
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#6366F1',
+    borderRadius: 28, backgroundColor: '#6366F1', // ! HARDCODED: Should use design tokens
     justifyContent: 'center',
     alignItems: 'center',
     shadowColor: '#000',
@@ -499,9 +469,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   fabIcon: {
-    fontSize: 28,
-    // ! HARDCODED: Should use design tokens
-    color: '#FFFFFF',
+    fontSize: 28, color: '#FFFFFF', // ! HARDCODED: Should use design tokens
     fontWeight: '300',
   },
 });

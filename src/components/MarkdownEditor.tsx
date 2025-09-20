@@ -186,9 +186,7 @@ export function MarkdownEditor({
             style={[styles.input, { height: Math.max(minHeight, Math.min(inputHeight, maxHeight)) }]}
             value={value}
             onChangeText={onChange}
-            placeholder={placeholder}
-            // ! HARDCODED: Should use design tokens
-          placeholderTextColor="#6B7280"
+            placeholder={placeholder} placeholderTextColor="#6B7280"
             multiline
             textAlignVertical="top"
             onSelectionChange={(event) => setSelection(event.nativeEvent.selection)}
@@ -208,7 +206,7 @@ export function MarkdownEditor({
       {/* Help Text */}
       {!isPreviewMode && (
         <Text style={styles.helpText}>
-          Tip: Use **bold**, _italic_, # headers, - lists, {'>'} quotes
+          Tip: Use **bold**, _italic_, # headers, - lists, {'>'} quotes {/* ! HARDCODED: Should use design tokens */}
         </Text>
       )}
     </KeyboardAvoidingView>
@@ -227,25 +225,17 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 14,
-    fontWeight: '500',
-    // ! HARDCODED: Should use design tokens
-    color: '#F9FAFB',
+    fontWeight: '500', color: '#F9FAFB', // ! HARDCODED: Should use design tokens
   },
   previewToggle: {
     paddingHorizontal: 8,
-    paddingVertical: 4,
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#374151',
+    paddingVertical: 4, backgroundColor: '#374151', // ! HARDCODED: Should use design tokens
     borderRadius: 4,
   },
   previewToggleText: {
-    fontSize: 12,
-    // ! HARDCODED: Should use design tokens
-    color: '#9CA3AF',
+    fontSize: 12, color: '#9CA3AF', // ! HARDCODED: Should use design tokens
   },
-  toolbar: {
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#1F2937',
+  toolbar: { backgroundColor: '#1F2937', // ! HARDCODED: Should use design tokens
     borderRadius: 8,
     marginBottom: 8,
     maxHeight: 44,
@@ -258,32 +248,22 @@ const styles = StyleSheet.create({
   toolbarButton: {
     paddingHorizontal: 12,
     paddingVertical: 8,
-    marginRight: 4,
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#374151',
+    marginRight: 4, backgroundColor: '#374151', // ! HARDCODED: Should use design tokens
     borderRadius: 4,
     minWidth: 36,
     alignItems: 'center',
   },
   toolbarButtonText: {
     fontSize: 14,
-    fontWeight: '600',
-    // ! HARDCODED: Should use design tokens
-    color: '#F9FAFB',
+    fontWeight: '600', color: '#F9FAFB', // ! HARDCODED: Should use design tokens
   },
-  editorContainer: {
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#1F2937',
+  editorContainer: { backgroundColor: '#1F2937', // ! HARDCODED: Should use design tokens
     borderRadius: 8,
-    borderWidth: 1,
-    // ! HARDCODED: Should use design tokens
-    borderColor: '#374151',
+    borderWidth: 1, borderColor: '#374151', // ! HARDCODED: Should use design tokens
   },
   input: {
     padding: 12,
-    fontSize: 14,
-    // ! HARDCODED: Should use design tokens
-    color: '#F9FAFB',
+    fontSize: 14, color: '#F9FAFB', // ! HARDCODED: Should use design tokens
     lineHeight: 20,
     fontFamily: Platform.OS === 'ios' ? 'Menlo' : 'monospace',
   },
@@ -291,22 +271,16 @@ const styles = StyleSheet.create({
     padding: 12,
   },
   previewText: {
-    fontSize: 14,
-    // ! HARDCODED: Should use design tokens
-    color: '#F9FAFB',
+    fontSize: 14, color: '#F9FAFB', // ! HARDCODED: Should use design tokens
     lineHeight: 22,
   },
   error: {
-    fontSize: 12,
-    // ! HARDCODED: Should use design tokens
-    color: '#EF4444',
+    fontSize: 12, color: '#EF4444', // ! HARDCODED: Should use design tokens
     marginTop: 4,
     marginLeft: 4,
   },
   helpText: {
-    fontSize: 11,
-    // ! HARDCODED: Should use design tokens
-    color: '#6B7280',
+    fontSize: 11, color: '#6B7280', // ! HARDCODED: Should use design tokens
     marginTop: 4,
     marginLeft: 4,
   },
