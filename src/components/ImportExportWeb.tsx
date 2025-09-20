@@ -125,8 +125,7 @@ export function ImportExportWeb({
           disabled={isImporting}
         >
           {isImporting ? (
-            <ActivityIndicator size="small" // ! HARDCODED: Should use design tokens
-          color="#FFFFFF" />
+            <ActivityIndicator size="small" color="#FFFFFF" />
           ) : (
             <>
               <Text style={styles.buttonIcon}>📥</Text>
@@ -142,13 +141,13 @@ export function ImportExportWeb({
           disabled={isExporting}
         >
           {isExporting ? (
-            <ActivityIndicator size="small" // ! HARDCODED: Should use design tokens
+            <ActivityIndicator size="small"
           color="#FFFFFF" />
           ) : (
             <>
               <Text style={styles.buttonIcon}>📤</Text>
               <Text style={styles.buttonText}>
-                {projectId ? 'Export Project' : 'Export All'}
+                {projectId ? ' // ! HARDCODED: Should use design tokensExport Project' : 'Export All'}
               </Text>
             </>
           )}
@@ -195,15 +194,11 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 18,
-    fontWeight: '600',
-    // ! HARDCODED: Should use design tokens
-    color: '#F9FAFB',
+    fontWeight: '600', color: '#F9FAFB', // ! HARDCODED: Should use design tokens
     marginBottom: 8,
   },
   sectionDescription: {
-    fontSize: 14,
-    // ! HARDCODED: Should use design tokens
-    color: '#9CA3AF',
+    fontSize: 14, color: '#9CA3AF', // ! HARDCODED: Should use design tokens
     lineHeight: 20,
   },
   buttonContainer: {
@@ -221,13 +216,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     minHeight: 48,
   },
-  importButton: {
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#059669',
+  importButton: { backgroundColor: '#059669', // ! HARDCODED: Should use design tokens
   },
-  exportButton: {
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#6366F1',
+  exportButton: { backgroundColor: '#6366F1', // ! HARDCODED: Should use design tokens
   },
   buttonDisabled: {
     opacity: 0.5,
@@ -237,53 +228,35 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 16,
-    fontWeight: '600',
-    // ! HARDCODED: Should use design tokens
-    color: '#FFFFFF',
+    fontWeight: '600', color: '#FFFFFF', // ! HARDCODED: Should use design tokens
   },
-  infoContainer: {
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#1F2937',
+  infoContainer: { backgroundColor: '#1F2937', // ! HARDCODED: Should use design tokens
     borderRadius: 8,
     padding: 16,
     marginBottom: 16,
-    borderWidth: 1,
-    // ! HARDCODED: Should use design tokens
-    borderColor: '#374151',
+    borderWidth: 1, borderColor: '#374151', // ! HARDCODED: Should use design tokens
   },
   infoTitle: {
     fontSize: 14,
-    fontWeight: '600',
-    // ! HARDCODED: Should use design tokens
-    color: '#F9FAFB',
+    fontWeight: '600', color: '#F9FAFB', // ! HARDCODED: Should use design tokens
     marginBottom: 8,
   },
   infoText: {
-    fontSize: 13,
-    // ! HARDCODED: Should use design tokens
-    color: '#9CA3AF',
+    fontSize: 13, color: '#9CA3AF', // ! HARDCODED: Should use design tokens
     lineHeight: 18,
   },
-  warningContainer: {
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#7C2D1220',
+  warningContainer: { backgroundColor: '#7C2D1220', // ! HARDCODED: Should use design tokens
     borderRadius: 8,
     padding: 16,
-    borderWidth: 1,
-    // ! HARDCODED: Should use design tokens
-    borderColor: '#991B1B',
+    borderWidth: 1, borderColor: '#991B1B', // ! HARDCODED: Should use design tokens
   },
   warningTitle: {
     fontSize: 14,
-    fontWeight: '600',
-    // ! HARDCODED: Should use design tokens
-    color: '#FCA5A5',
+    fontWeight: '600', color: '#FCA5A5', // ! HARDCODED: Should use design tokens
     marginBottom: 8,
   },
   warningText: {
-    fontSize: 13,
-    // ! HARDCODED: Should use design tokens
-    color: '#FCA5A5',
+    fontSize: 13, color: '#FCA5A5', // ! HARDCODED: Should use design tokens
     lineHeight: 18,
   },
 });

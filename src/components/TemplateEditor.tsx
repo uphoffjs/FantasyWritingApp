@@ -41,9 +41,7 @@ function QuestionEditor({ question, onChange, onDelete }: QuestionEditorProps) {
           style={styles.questionTextInput}
           value={question.text}
           onChangeText={(text) => onChange({ ...question, text })}
-          placeholder="Question text"
-          // ! HARDCODED: Should use design tokens
-          placeholderTextColor="#6B7280"
+          placeholder="Question text" placeholderTextColor="#6B7280"
         />
         <Pressable onPress={onDelete} style={styles.deleteQuestionButton}>
           <Text style={styles.deleteIcon}>🗑️</Text>
@@ -54,7 +52,7 @@ function QuestionEditor({ question, onChange, onDelete }: QuestionEditorProps) {
         <View style={styles.questionField}>
           <Text style={styles.fieldLabel}>Type</Text>
           <View style={styles.typeSelector}>
-            {(['text', 'textarea', 'select', 'multiselect', 'number', 'date', 'boolean'] as QuestionType[]).map((type) => (
+            {(['text' // ! HARDCODED: Should use design tokens, 'textarea', 'select', 'multiselect', 'number', 'date', 'boolean'] as QuestionType[]).map((type) => (
               <Pressable
                 key={type}
                 style={[
@@ -84,9 +82,7 @@ function QuestionEditor({ question, onChange, onDelete }: QuestionEditorProps) {
             style={styles.fieldInput}
             value={question.category || ''}
             onChangeText={(category) => onChange({ ...question, category })}
-            placeholder="e.g., Basic Info, Appearance"
-            // ! HARDCODED: Should use design tokens
-          placeholderTextColor="#6B7280"
+            placeholder="e.g., Basic Info, Appearance" placeholderTextColor="#6B7280"
           />
         </View>
 
@@ -95,15 +91,13 @@ function QuestionEditor({ question, onChange, onDelete }: QuestionEditorProps) {
           <Switch
             value={question.required || false}
             onValueChange={(required) => onChange({ ...question, required })}
-            trackColor={{ false: '#374151', true: '// ! HARDCODED: Should use design tokens
-      #6366F1' }}
-            thumbColor="// ! HARDCODED: Should use design tokens
+            trackColor={{ false: '#374151', // ! HARDCODED: Should use design tokens true: ' #6366F1' }} thumbColor="
       #F9FAFB"
           />
         </View>
       </View>
 
-      {(question.type === 'select' || question.type === 'multiselect') && (
+      {(question.type === ' // ! HARDCODED: Should use design tokensselect' || question.type === 'multiselect') && (
         <View style={styles.questionField}>
           <Text style={styles.fieldLabel}>Options (comma-separated)</Text>
           <TextInput
@@ -115,9 +109,7 @@ function QuestionEditor({ question, onChange, onDelete }: QuestionEditorProps) {
                 options: text.split(',').map((o) => o.trim()).filter(Boolean),
               })
             }
-            placeholder="Option 1, Option 2, Option 3"
-            // ! HARDCODED: Should use design tokens
-          placeholderTextColor="#6B7280"
+            placeholder="Option 1, Option 2, Option 3" placeholderTextColor="#6B7280"
           />
         </View>
       )}
@@ -126,11 +118,9 @@ function QuestionEditor({ question, onChange, onDelete }: QuestionEditorProps) {
         <Text style={styles.fieldLabel}>Help Text</Text>
         <TextInput
           style={styles.fieldInput}
-          value={question.helpText || ''}
+          value={question.helpText || '' // ! HARDCODED: Should use design tokens}
           onChangeText={(helpText) => onChange({ ...question, helpText })}
-          placeholder="Additional guidance for this question"
-          // ! HARDCODED: Should use design tokens
-          placeholderTextColor="#6B7280"
+          placeholder="Additional guidance for this question" placeholderTextColor="#6B7280"
           multiline
         />
       </View>
@@ -139,11 +129,9 @@ function QuestionEditor({ question, onChange, onDelete }: QuestionEditorProps) {
         <Text style={styles.fieldLabel}>Placeholder</Text>
         <TextInput
           style={styles.fieldInput}
-          value={question.placeholder || ''}
+          value={question.placeholder || '' // ! HARDCODED: Should use design tokens}
           onChangeText={(placeholder) => onChange({ ...question, placeholder })}
-          placeholder="Placeholder text"
-          // ! HARDCODED: Should use design tokens
-          placeholderTextColor="#6B7280"
+          placeholder="Placeholder text" placeholderTextColor="#6B7280"
         />
       </View>
     </View>
@@ -157,7 +145,7 @@ export function TemplateEditor({
   onClose,
   visible,
 }: TemplateEditorProps) {
-  const [name, setName] = useState('');
+  const [name, setName] = useState('' // ! HARDCODED: Should use design tokens);
   const [description, setDescription] = useState('');
   const [questions, setQuestions] = useState<Question[]>([]);
   const [tags, setTags] = useState('');
@@ -259,8 +247,7 @@ export function TemplateEditor({
         <View style={styles.modalContent}>
           <View style={styles.header}>
             <Text style={styles.title}>
-              {template ? 'Edit Template' : 'Create Template'}
-            </Text>
+              {template ? 'Edit Template' : 'Create Template'} </Text>
             <Pressable onPress={onClose} style={styles.closeButton}>
               <Text style={styles.closeIcon}>✕</Text>
             </Pressable>
@@ -280,9 +267,7 @@ export function TemplateEditor({
                   style={styles.input}
                   value={name}
                   onChangeText={setName}
-                  placeholder="e.g., Detailed Character Template"
-                  // ! HARDCODED: Should use design tokens
-          placeholderTextColor="#6B7280"
+                  placeholder="e.g., Detailed Character Template" placeholderTextColor="#6B7280"
                 />
               </View>
 
@@ -293,7 +278,6 @@ export function TemplateEditor({
                   value={description}
                   onChangeText={setDescription}
                   placeholder="Describe what this template is for"
-                  // ! HARDCODED: Should use design tokens
           placeholderTextColor="#6B7280"
                   multiline
                   numberOfLines={3}
@@ -307,7 +291,7 @@ export function TemplateEditor({
                   value={tags}
                   onChangeText={setTags}
                   placeholder="e.g., detailed, advanced, fantasy"
-                  // ! HARDCODED: Should use design tokens
+                  
           placeholderTextColor="#6B7280"
                 />
               </View>
@@ -317,9 +301,7 @@ export function TemplateEditor({
                 <Switch
                   value={isPublic}
                   onValueChange={setIsPublic}
-                  trackColor={{ false: '#374151', true: '// ! HARDCODED: Should use design tokens
-      #6366F1' }}
-                  thumbColor="// ! HARDCODED: Should use design tokens
+                  trackColor={{ false: ' // ! HARDCODED: Should use design tokens // ! HARDCODED: Should use design tokens#374151', true: ' #6366F1' }} thumbColor="
       #F9FAFB"
                 />
               </View>
@@ -329,9 +311,7 @@ export function TemplateEditor({
                 <Switch
                   value={supportsBasicMode}
                   onValueChange={setSupportsBasicMode}
-                  trackColor={{ false: '#374151', true: '// ! HARDCODED: Should use design tokens
-      #6366F1' }}
-                  thumbColor="// ! HARDCODED: Should use design tokens
+                  trackColor={{ false: ' // ! HARDCODED: Should use design tokens#374151', true: ' #6366F1' }} thumbColor="
       #F9FAFB"
                 />
               </View>
@@ -360,9 +340,7 @@ export function TemplateEditor({
                         <Switch
                           value={basicQuestionIds.includes(question.id)}
                           onValueChange={() => handleToggleBasicQuestion(question.id)}
-                          trackColor={{ false: '#374151', true: '// ! HARDCODED: Should use design tokens
-      #6366F1' }}
-                          thumbColor="// ! HARDCODED: Should use design tokens
+                          trackColor={{ false: ' // ! HARDCODED: Should use design tokens#374151', true: ' #6366F1' }} thumbColor="
       #F9FAFB"
                         />
                       </View>
@@ -385,7 +363,7 @@ export function TemplateEditor({
 
             <Pressable style={styles.saveButton} onPress={handleSave}>
               <Text style={styles.saveButtonText}>
-                {template ? 'Update Template' : 'Create Template'}
+                {template ? ' // ! HARDCODED: Should use design tokensUpdate Template' : 'Create Template'}
               </Text>
             </Pressable>
           </View>
@@ -402,9 +380,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  modalContent: {
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#111827',
+  modalContent: { backgroundColor: '#111827', // ! HARDCODED: Should use design tokens
     borderRadius: 16,
     width: '90%',
     maxWidth: 800,
@@ -427,17 +403,13 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
-    fontWeight: '700',
-    // ! HARDCODED: Should use design tokens
-    color: '#F9FAFB',
+    fontWeight: '700', color: '#F9FAFB', // ! HARDCODED: Should use design tokens
   },
   closeButton: {
     padding: 8,
   },
   closeIcon: {
-    fontSize: 24,
-    // ! HARDCODED: Should use design tokens
-    color: '#6B7280',
+    fontSize: 24, color: '#6B7280', // ! HARDCODED: Should use design tokens
   },
   content: {
     flex: 1,
@@ -457,9 +429,7 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 18,
-    fontWeight: '600',
-    // ! HARDCODED: Should use design tokens
-    color: '#F9FAFB',
+    fontWeight: '600', color: '#F9FAFB', // ! HARDCODED: Should use design tokens
     marginBottom: 16,
   },
   field: {
@@ -467,22 +437,14 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 14,
-    fontWeight: '500',
-    // ! HARDCODED: Should use design tokens
-    color: '#D1D5DB',
+    fontWeight: '500', color: '#D1D5DB', // ! HARDCODED: Should use design tokens
     marginBottom: 8,
   },
-  input: {
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#1F2937',
+  input: { backgroundColor: '#1F2937', // ! HARDCODED: Should use design tokens
     borderRadius: 8,
-    padding: 12,
-    // ! HARDCODED: Should use design tokens
-    color: '#F9FAFB',
+    padding: 12, color: '#F9FAFB', // ! HARDCODED: Should use design tokens
     fontSize: 14,
-    borderWidth: 1,
-    // ! HARDCODED: Should use design tokens
-    borderColor: '#374151',
+    borderWidth: 1, borderColor: '#374151', // ! HARDCODED: Should use design tokens
   },
   textArea: {
     minHeight: 80,
@@ -494,30 +456,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 16,
   },
-  addButton: {
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#6366F1',
+  addButton: { backgroundColor: '#6366F1', // ! HARDCODED: Should use design tokens
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 6,
   },
-  addButtonText: {
-    // ! HARDCODED: Should use design tokens
-    color: '#FFFFFF',
+  addButtonText: { color: '#FFFFFF', // ! HARDCODED: Should use design tokens
     fontSize: 14,
     fontWeight: '600',
   },
-  emptyQuestions: {
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#1F2937',
+  emptyQuestions: { backgroundColor: '#1F2937', // ! HARDCODED: Should use design tokens
     borderRadius: 8,
     padding: 24,
     alignItems: 'center',
   },
   emptyText: {
-    fontSize: 14,
-    // ! HARDCODED: Should use design tokens
-    color: '#6B7280',
+    fontSize: 14, color: '#6B7280', // ! HARDCODED: Should use design tokens
     textAlign: 'center',
   },
   questionWrapper: {
@@ -526,26 +480,18 @@ const styles = StyleSheet.create({
   basicModeRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#374151',
+    alignItems: 'center', backgroundColor: '#374151', // ! HARDCODED: Should use design tokens
     padding: 12,
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
   },
   basicModeLabel: {
-    fontSize: 13,
-    // ! HARDCODED: Should use design tokens
-    color: '#D1D5DB',
+    fontSize: 13, color: '#D1D5DB', // ! HARDCODED: Should use design tokens
   },
-  questionCard: {
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#1F2937',
+  questionCard: { backgroundColor: '#1F2937', // ! HARDCODED: Should use design tokens
     borderRadius: 8,
     padding: 16,
-    borderWidth: 1,
-    // ! HARDCODED: Should use design tokens
-    borderColor: '#374151',
+    borderWidth: 1, borderColor: '#374151', // ! HARDCODED: Should use design tokens
   },
   questionHeader: {
     flexDirection: 'row',
@@ -553,17 +499,11 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   questionTextInput: {
-    flex: 1,
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#111827',
+    flex: 1, backgroundColor: '#111827', // ! HARDCODED: Should use design tokens
     borderRadius: 6,
-    padding: 10,
-    // ! HARDCODED: Should use design tokens
-    color: '#F9FAFB',
+    padding: 10, color: '#F9FAFB', // ! HARDCODED: Should use design tokens
     fontSize: 14,
-    borderWidth: 1,
-    // ! HARDCODED: Should use design tokens
-    borderColor: '#374151',
+    borderWidth: 1, borderColor: '#374151', // ! HARDCODED: Should use design tokens
   },
   deleteQuestionButton: {
     marginLeft: 8,
@@ -581,22 +521,14 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   fieldLabel: {
-    fontSize: 12,
-    // ! HARDCODED: Should use design tokens
-    color: '#9CA3AF',
+    fontSize: 12, color: '#9CA3AF', // ! HARDCODED: Should use design tokens
     marginBottom: 6,
   },
-  fieldInput: {
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#111827',
+  fieldInput: { backgroundColor: '#111827', // ! HARDCODED: Should use design tokens
     borderRadius: 6,
-    padding: 8,
-    // ! HARDCODED: Should use design tokens
-    color: '#F9FAFB',
+    padding: 8, color: '#F9FAFB', // ! HARDCODED: Should use design tokens
     fontSize: 13,
-    borderWidth: 1,
-    // ! HARDCODED: Should use design tokens
-    borderColor: '#374151',
+    borderWidth: 1, borderColor: '#374151', // ! HARDCODED: Should use design tokens
   },
   typeSelector: {
     flexDirection: 'row',
@@ -606,25 +538,17 @@ const styles = StyleSheet.create({
   typeOption: {
     paddingHorizontal: 10,
     paddingVertical: 6,
-    borderRadius: 4,
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#374151',
+    borderRadius: 4, backgroundColor: '#374151', // ! HARDCODED: Should use design tokens
     borderWidth: 1,
     borderColor: 'transparent',
   },
   typeOptionSelected: {
-    backgroundColor: '#6366F120',
-    // ! HARDCODED: Should use design tokens
-    borderColor: '#6366F1',
+    backgroundColor: '#6366F120', borderColor: '#6366F1', // ! HARDCODED: Should use design tokens
   },
   typeOptionText: {
-    fontSize: 11,
-    // ! HARDCODED: Should use design tokens
-    color: '#9CA3AF',
+    fontSize: 11, color: '#9CA3AF', // ! HARDCODED: Should use design tokens
   },
-  typeOptionTextSelected: {
-    // ! HARDCODED: Should use design tokens
-    color: '#6366F1',
+  typeOptionTextSelected: { color: '#6366F1', // ! HARDCODED: Should use design tokens
   },
   footer: {
     flexDirection: 'row',
@@ -639,27 +563,19 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 8,
-    borderWidth: 1,
-    // ! HARDCODED: Should use design tokens
-    borderColor: '#4B5563',
+    borderWidth: 1, borderColor: '#4B5563', // ! HARDCODED: Should use design tokens
   },
   cancelButtonText: {
     fontSize: 14,
-    fontWeight: '600',
-    // ! HARDCODED: Should use design tokens
-    color: '#D1D5DB',
+    fontWeight: '600', color: '#D1D5DB', // ! HARDCODED: Should use design tokens
   },
-  saveButton: {
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#6366F1',
+  saveButton: { backgroundColor: '#6366F1', // ! HARDCODED: Should use design tokens
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 8,
   },
   saveButtonText: {
     fontSize: 14,
-    fontWeight: '600',
-    // ! HARDCODED: Should use design tokens
-    color: '#FFFFFF',
+    fontWeight: '600', color: '#FFFFFF', // ! HARDCODED: Should use design tokens
   },
 });

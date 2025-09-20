@@ -30,7 +30,9 @@ module.exports = {
   ],
   resolve: {
     alias: {
-      'react-native$': 'react-native-web'
+      'react-native$': 'react-native-web',
+      // * Map react-native-svg to react-native-svg/lib/commonjs for web compatibility
+      'react-native-svg': 'react-native-svg/lib/commonjs'
     },
     extensions: ['.web.js', '.web.ts', '.web.tsx', '.js', '.ts', '.tsx', '.json'],
     fullySpecified: false,
@@ -51,7 +53,7 @@ module.exports = {
     rules: [
       {
         test: /\.(ts|tsx|js|jsx)$/,
-        exclude: /node_modules\/(?!(react-native.*|@react-native.*|@react-navigation.*|react-native-gesture-handler|react-native-reanimated|react-native-safe-area-context|react-native-screens)\/).*/,
+        exclude: /node_modules\/(?!(react-native.*|@react-native.*|@react-navigation.*|react-native-gesture-handler|react-native-reanimated|react-native-safe-area-context|react-native-screens|react-native-svg)\/).*/,
         use: {
           loader: 'babel-loader',
           options: {
@@ -71,6 +73,25 @@ module.exports = {
               }],
               'react-native-web'
               // NativeWind babel plugin removed for web builds - causes PostCSS async issues
+            ]
+          }
+        }
+      },
+      {
+        // * Special handling for react-native-svg modules to fix ESM/CJS conflicts
+        test: /node_modules[/\\]react-native-svg[/\\].*\.js$/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: [
+              ['@babel/preset-env', { 
+                modules: 'commonjs',  // * Force CommonJS for react-native-svg
+                targets: { esmodules: false }
+              }],
+              ['@babel/preset-react', { runtime: 'automatic' }]
+            ],
+            plugins: [
+              '@babel/plugin-transform-modules-commonjs'
             ]
           }
         }

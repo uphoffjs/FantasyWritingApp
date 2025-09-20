@@ -38,7 +38,11 @@ const linking: LinkingOptions<RootStackParamList> = {
   config: {
     screens: {
       // ! SECURITY: * Auth routes
-      Login: 'login',
+      Login: {
+        path: 'login',
+        // * Root path ('') should also route to Login initially, then AuthGuard will redirect if authenticated
+        exact: true,
+      },
       
       // * Main app routes
       Projects: 'projects',

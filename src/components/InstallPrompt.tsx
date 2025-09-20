@@ -247,9 +247,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 20,
     left: 20,
-    right: 20,
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#1F2937',
+    right: 20, backgroundColor: '#1F2937', // ! HARDCODED: Should use design tokens
     borderRadius: 16,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
@@ -259,9 +257,7 @@ const styles = StyleSheet.create({
     zIndex: 1000,
     maxWidth: 480,
     alignSelf: 'center',
-    borderWidth: 1,
-    // ! HARDCODED: Should use design tokens
-    borderColor: '#374151',
+    borderWidth: 1, borderColor: '#374151', // ! HARDCODED: Should use design tokens
   },
   content: {
     padding: 20,
@@ -278,16 +274,12 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    fontWeight: '700',
-    // ! HARDCODED: Should use design tokens
-    color: '#F9FAFB',
+    fontWeight: '700', color: '#F9FAFB', // ! HARDCODED: Should use design tokens
     marginBottom: 8,
     textAlign: 'center',
   },
   description: {
-    fontSize: 14,
-    // ! HARDCODED: Should use design tokens
-    color: '#9CA3AF',
+    fontSize: 14, color: '#9CA3AF', // ! HARDCODED: Should use design tokens
     textAlign: 'center',
     lineHeight: 20,
   },
@@ -305,35 +297,23 @@ const styles = StyleSheet.create({
   },
   dismissButton: {
     backgroundColor: 'transparent',
-    borderWidth: 1,
-    // ! HARDCODED: Should use design tokens
-    borderColor: '#4B5563',
+    borderWidth: 1, borderColor: '#4B5563', // ! HARDCODED: Should use design tokens
   },
   dismissButtonText: {
     fontSize: 14,
-    fontWeight: '600',
-    // ! HARDCODED: Should use design tokens
-    color: '#9CA3AF',
+    fontWeight: '600', color: '#9CA3AF', // ! HARDCODED: Should use design tokens
   },
-  remindButton: {
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#374151',
+  remindButton: { backgroundColor: '#374151', // ! HARDCODED: Should use design tokens
   },
   remindButtonText: {
     fontSize: 14,
-    fontWeight: '600',
-    // ! HARDCODED: Should use design tokens
-    color: '#D1D5DB',
+    fontWeight: '600', color: '#D1D5DB', // ! HARDCODED: Should use design tokens
   },
-  installButton: {
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#6366F1',
+  installButton: { backgroundColor: '#6366F1', // ! HARDCODED: Should use design tokens
   },
   installButtonText: {
     fontSize: 14,
-    fontWeight: '600',
-    // ! HARDCODED: Should use design tokens
-    color: '#FFFFFF',
+    fontWeight: '600', color: '#FFFFFF', // ! HARDCODED: Should use design tokens
   },
   closeButton: {
     position: 'absolute',
@@ -342,43 +322,29 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   closeIcon: {
-    fontSize: 20,
-    // ! HARDCODED: Should use design tokens
-    color: '#6B7280',
+    fontSize: 20, color: '#6B7280', // ! HARDCODED: Should use design tokens
   },
-  iosInstructions: {
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#374151',
+  iosInstructions: { backgroundColor: '#374151', // ! HARDCODED: Should use design tokens
     padding: 12,
     borderBottomLeftRadius: 16,
     borderBottomRightRadius: 16,
-    borderTopWidth: 1,
-    // ! HARDCODED: Should use design tokens
-    borderTopColor: '#4B5563',
+    borderTopWidth: 1, borderTopColor: '#4B5563', // ! HARDCODED: Should use design tokens
   },
   iosInstructionsText: {
-    fontSize: 12,
-    // ! HARDCODED: Should use design tokens
-    color: '#9CA3AF',
+    fontSize: 12, color: '#9CA3AF', // ! HARDCODED: Should use design tokens
     textAlign: 'center',
     lineHeight: 18,
   },
   statusContainer: {
     position: 'absolute',
     top: 10,
-    right: 10,
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#1F2937',
+    right: 10, backgroundColor: '#1F2937', // ! HARDCODED: Should use design tokens
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 6,
-    borderWidth: 1,
-    // ! HARDCODED: Should use design tokens
-    borderColor: '#374151',
+    borderWidth: 1, borderColor: '#374151', // ! HARDCODED: Should use design tokens
   },
   statusText: {
-    fontSize: 12,
-    // ! HARDCODED: Should use design tokens
-    color: '#9CA3AF',
+    fontSize: 12, color: '#9CA3AF', // ! HARDCODED: Should use design tokens
   },
 });

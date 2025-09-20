@@ -12,11 +12,13 @@ import {
 } from 'react-native';
 import { Project } from '../types/models';
 import { ProjectCard } from './ProjectCard';
+import { SwipeableRow } from './gestures/SwipeableRow';
 
 interface ProjectListProps {
   projects: Project[];
   onProjectSelect?: (project: Project) => void;
   onProjectDelete?: (projectId: string) => void;
+  onProjectArchive?: (projectId: string) => void;
   onCreateProject?: () => void;
   loading?: boolean;
   refreshing?: boolean;
@@ -37,6 +39,7 @@ export function ProjectList({
   projects,
   onProjectSelect,
   onProjectDelete,
+  onProjectArchive,
   onCreateProject,
   loading = false,
   refreshing = false,
@@ -82,23 +85,40 @@ export function ProjectList({
 
   // * Render individual project card with press and delete handlers
   const renderProject = useCallback(
-    ({ item }: { item: Project }) => (
-      <ProjectCard
-        project={item}
-        onPress={() => onProjectSelect?.(item)}
-        onDelete={onProjectDelete ? () => onProjectDelete(item.id) : undefined}
-      />
-    ),
-    [onProjectSelect, onProjectDelete]
+    ({ item, index }: { item: Project; index: number }) => {
+      // * Wrap with SwipeableRow only on mobile platforms
+      const card = (
+        <ProjectCard
+          project={item}
+          onDelete={onProjectDelete ? () => onProjectDelete(item.id) : undefined}
+          index={index} // * Pass index for staggered animations
+        />
+      );
+
+      // * Enable swipe gestures on mobile platforms only
+      if (Platform.OS !== 'web' && (onProjectDelete || onProjectArchive)) {
+        return (
+          <SwipeableRow
+            onDelete={onProjectDelete ? () => onProjectDelete(item.id) : undefined}
+            onArchive={onProjectArchive ? () => onProjectArchive(item.id) : undefined}
+            testID={`swipeable-project-${item.id}`}
+          >
+            {card}
+          </SwipeableRow>
+        );
+      }
+
+      return card;
+    },
+    [onProjectDelete, onProjectArchive]
   );
 
-  // ? * Render empty state - shows loading or empty message
+  // ?  * Render empty state - shows loading or empty message
   const renderEmpty = () => {
     if (loading) {
       return (
         <View style={styles.emptyContainer}>
-          <ActivityIndicator size="large" // ! HARDCODED: Should use design tokens
-          color="#6366F1" />
+          <ActivityIndicator size="large" color="#6366F1" />
           <Text style={styles.emptyText}>Loading projects...</Text>
         </View>
       );
@@ -108,7 +128,7 @@ export function ProjectList({
       <View style={styles.emptyContainer}>
         <Text style={styles.emptyIcon}>📚</Text>
         <Text style={styles.emptyTitle}>
-          {searchQuery ? 'No projects found' : 'No projects yet'}
+          {searchQuery ? 'No projects found'  : 'No projects yet'}
         </Text>
         <Text style={styles.emptyText}>
           {searchQuery
@@ -132,9 +152,7 @@ export function ProjectList({
         <Text style={styles.searchIcon}>🔍</Text>
         <TextInput
           style={styles.searchInput}
-          placeholder="Search projects..."
-          // ! HARDCODED: Should use design tokens
-          placeholderTextColor="#6B7280"
+          placeholder="Search projects..." placeholderTextColor="#6B7280"
           value={searchQuery}
           onChangeText={setSearchQuery}
           autoCorrect={false}
@@ -214,11 +232,8 @@ export function ProjectList({
           onRefresh ? (
             <RefreshControl
               refreshing={refreshing}
-              onRefresh={onRefresh}
-              // ! HARDCODED: Should use design tokens
-              tintColor="#6366F1"
-              // ! HARDCODED: Should use design tokens
-              colors={['#6366F1']}
+              onRefresh={onRefresh} tintColor="#6366F1"
+              colors={['#6366F1']} // ! HARDCODED: Should use design tokens
             />
           ) : undefined
         }
@@ -243,9 +258,7 @@ export function ProjectList({
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#111827',
+    flex: 1, backgroundColor: '#111827', // ! HARDCODED: Should use design tokens
   },
   header: {
     paddingTop: 16,
@@ -254,9 +267,7 @@ const styles = StyleSheet.create({
   },
   searchContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#1F2937',
+    alignItems: 'center', backgroundColor: '#1F2937', // ! HARDCODED: Should use design tokens
     borderRadius: 8,
     paddingHorizontal: 12,
     marginBottom: 12,
@@ -267,18 +278,14 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     flex: 1,
-    height: 40,
-    // ! HARDCODED: Should use design tokens
-    color: '#F9FAFB',
+    height: 40, color: '#F9FAFB', // ! HARDCODED: Should use design tokens
     fontSize: 14,
   },
   clearButton: {
     padding: 4,
   },
   clearIcon: {
-    fontSize: 16,
-    // ! HARDCODED: Should use design tokens
-    color: '#6B7280',
+    fontSize: 16, color: '#6B7280', // ! HARDCODED: Should use design tokens
   },
   controlsContainer: {
     flexDirection: 'row',
@@ -290,9 +297,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 12,
-    paddingVertical: 6,
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#1F2937',
+    paddingVertical: 6, backgroundColor: '#1F2937', // ! HARDCODED: Should use design tokens
     borderRadius: 6,
   },
   sortIcon: {
@@ -300,25 +305,17 @@ const styles = StyleSheet.create({
     marginRight: 4,
   },
   sortText: {
-    fontSize: 12,
-    // ! HARDCODED: Should use design tokens
-    color: '#F9FAFB',
+    fontSize: 12, color: '#F9FAFB', // ! HARDCODED: Should use design tokens
   },
   projectCount: {
-    fontSize: 12,
-    // ! HARDCODED: Should use design tokens
-    color: '#6B7280',
+    fontSize: 12, color: '#6B7280', // ! HARDCODED: Should use design tokens
   },
   sortDropdown: {
     position: 'absolute',
     top: 100,
-    left: 16,
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#1F2937',
+    left: 16, backgroundColor: '#1F2937', // ! HARDCODED: Should use design tokens
     borderRadius: 8,
-    borderWidth: 1,
-    // ! HARDCODED: Should use design tokens
-    borderColor: '#374151',
+    borderWidth: 1, borderColor: '#374151', // ! HARDCODED: Should use design tokens
     paddingVertical: 4,
     minWidth: 150,
     shadowColor: '#000',
@@ -335,24 +332,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 8,
   },
-  sortOptionSelected: {
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#374151',
+  sortOptionSelected: { backgroundColor: '#374151', // ! HARDCODED: Should use design tokens
   },
   sortOptionText: {
-    fontSize: 14,
-    // ! HARDCODED: Should use design tokens
-    color: '#9CA3AF',
+    fontSize: 14, color: '#9CA3AF', // ! HARDCODED: Should use design tokens
   },
-  sortOptionTextSelected: {
-    // ! HARDCODED: Should use design tokens
-    color: '#6366F1',
+  sortOptionTextSelected: { color: '#6366F1', // ! HARDCODED: Should use design tokens
     fontWeight: '600',
   },
   checkIcon: {
-    fontSize: 12,
-    // ! HARDCODED: Should use design tokens
-    color: '#6366F1',
+    fontSize: 12, color: '#6366F1', // ! HARDCODED: Should use design tokens
   },
   listContent: {
     paddingHorizontal: 16,
@@ -376,30 +365,22 @@ const styles = StyleSheet.create({
   },
   emptyTitle: {
     fontSize: 18,
-    fontWeight: '600',
-    // ! HARDCODED: Should use design tokens
-    color: '#F9FAFB',
+    fontWeight: '600', color: '#F9FAFB', // ! HARDCODED: Should use design tokens
     marginBottom: 8,
   },
   emptyText: {
-    fontSize: 14,
-    // ! HARDCODED: Should use design tokens
-    color: '#6B7280',
+    fontSize: 14, color: '#6B7280', // ! HARDCODED: Should use design tokens
     textAlign: 'center',
     marginBottom: 24,
   },
   createButton: {
     paddingHorizontal: 24,
-    paddingVertical: 12,
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#6366F1',
+    paddingVertical: 12, backgroundColor: '#6366F1', // ! HARDCODED: Should use design tokens
     borderRadius: 8,
   },
   createButtonText: {
     fontSize: 14,
-    fontWeight: '600',
-    // ! HARDCODED: Should use design tokens
-    color: '#FFFFFF',
+    fontWeight: '600', color: '#FFFFFF', // ! HARDCODED: Should use design tokens
   },
   fab: {
     position: 'absolute',
@@ -407,9 +388,7 @@ const styles = StyleSheet.create({
     right: 24,
     width: 56,
     height: 56,
-    borderRadius: 28,
-    // ! HARDCODED: Should use design tokens
-    backgroundColor: '#6366F1',
+    borderRadius: 28, backgroundColor: '#6366F1', // ! HARDCODED: Should use design tokens
     justifyContent: 'center',
     alignItems: 'center',
     shadowColor: '#000',
@@ -419,9 +398,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   fabIcon: {
-    fontSize: 28,
-    // ! HARDCODED: Should use design tokens
-    color: '#FFFFFF',
+    fontSize: 28, color: '#FFFFFF', // ! HARDCODED: Should use design tokens
     fontWeight: '300',
   },
 });

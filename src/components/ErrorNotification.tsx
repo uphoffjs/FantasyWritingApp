@@ -84,27 +84,19 @@ export const ErrorNotification: React.FC<ErrorNotificationProps> = ({
 
   // * Style based on type
   const typeStyles = {
-    error: {
-      // ! HARDCODED: Should use design tokens
-    backgroundColor: '#f44336',
+    error: { backgroundColor: '#f44336', // ! HARDCODED: Should use design tokens
       color: 'white',
       iconColor: 'white'
     },
-    warning: {
-      // ! HARDCODED: Should use design tokens
-    backgroundColor: '#ff9800',
+    warning: { backgroundColor: '#ff9800', // ! HARDCODED: Should use design tokens
       color: 'white',
       iconColor: 'white'
     },
-    success: {
-      // ! HARDCODED: Should use design tokens
-    backgroundColor: '#4caf50',
+    success: { backgroundColor: '#4caf50', // ! HARDCODED: Should use design tokens
       color: 'white',
       iconColor: 'white'
     },
-    info: {
-      // ! HARDCODED: Should use design tokens
-    backgroundColor: '#2196f3',
+    info: { backgroundColor: '#2196f3', // ! HARDCODED: Should use design tokens
       color: 'white',
       iconColor: 'white'
     }
@@ -114,14 +106,10 @@ export const ErrorNotification: React.FC<ErrorNotificationProps> = ({
   const positionStyles: Record<string, React.CSSProperties> = {
     'top': { top: '20px', left: '50%', transform: 'translateX(-50%)' },
     'bottom': { bottom: '20px', left: '50%', transform: 'translateX(-50%)' },
-    'top-right': { top: '20px', right: '// ! HARDCODED: Should use design tokens
-      20px' },
-    'top-left': { top: '20px', left: '// ! HARDCODED: Should use design tokens
-      20px' },
-    'bottom-right': { bottom: '20px', right: '// ! HARDCODED: Should use design tokens
-      20px' },
-    'bottom-left': { bottom: '20px', left: '// ! HARDCODED: Should use design tokens
-      20px' }
+    'top-right': { top: '20px', right: '20px' },
+    'top-left': { top: '20px', left: '20px' }, // ! HARDCODED: Should use design tokens
+    'bottom-right': { bottom: '20px', right: '20px' }, // ! HARDCODED: Should use design tokens
+    'bottom-left': { bottom: '20px', left: '20px' } // ! HARDCODED: Should use design tokens
   };
 
   const currentTypeStyle = typeStyles[type];
@@ -129,7 +117,7 @@ export const ErrorNotification: React.FC<ErrorNotificationProps> = ({
 
   // * Icons for different types
   const icons = {
-    error: '❌',
+    error: '❌', // ! HARDCODED: Should use design tokens
     warning: '⚠️',
     success: '✅',
     info: 'ℹ️'
@@ -147,11 +135,8 @@ export const ErrorNotification: React.FC<ErrorNotificationProps> = ({
         maxWidth: '500px',
         padding: '16px',
         borderRadius: '8px',
-        boxShadow: '0 // ! HARDCODED: Should use design tokens
-      4px // ! HARDCODED: Should use design tokens
-      6px rgba(0, 0, 0, 0.1)',
-        zIndex: 9999,
-        display: 'flex',
+        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', zIndex: 9999,
+        display: 'flex', // ! HARDCODED: Should use design tokens
         flexDirection: 'column',
         gap: '8px',
         ...currentTypeStyle,
@@ -164,10 +149,8 @@ export const ErrorNotification: React.FC<ErrorNotificationProps> = ({
     >
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '// ! HARDCODED: Should use design tokens
-      8px' }}>
-          <span data-testid={`${testId}-icon`} style={{ // ! HARDCODED: Should use design tokens
-    fontSize: '20px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <span data-testid={`${testId}-icon`} style={{ fontSize: '20px' }}> {/* ! HARDCODED: Should use design tokens */}
             {icons[type]}
           </span>
           <strong data-testid={`${testId}-title`}>{displayTitle}</strong>
@@ -193,8 +176,7 @@ export const ErrorNotification: React.FC<ErrorNotificationProps> = ({
       </div>
 
       {/* Message */}
-      <div data-testid={`${testId}-message`} style={{ paddingLeft: '// ! HARDCODED: Should use design tokens
-      28px' }}>
+      <div data-testid={`${testId}-message`} style={{ paddingLeft: ' 28px' }}>
         {displayMessage}
       </div>
 
@@ -205,18 +187,15 @@ export const ErrorNotification: React.FC<ErrorNotificationProps> = ({
           data-cy="retry-notification"
           onClick={onRetry}
           style={{
-            alignSelf: 'flex-start',
+            alignSelf: 'flex-start', // ! HARDCODED: Should use design tokens
             marginLeft: '28px',
-            padding: '4px // ! HARDCODED: Should use design tokens
-      12px',
-            backgroundColor: 'rgba(255, 255, 255, 0.2)',
+            padding: '4px 12px',
+            backgroundColor: 'rgba(255, 255, 255, 0.2)', // ! HARDCODED: Should use design tokens
             color: 'white',
             border: '1px solid rgba(255, 255, 255, 0.3)',
             borderRadius: '4px',
-            cursor: 'pointer',
-            // ! HARDCODED: Should use design tokens
-    fontSize: '14px'
-          }}
+            cursor: 'pointer', fontSize: '14px', // ! HARDCODED: Should use design tokens
+  }}
         >
           {retryText}
         </button>
@@ -233,10 +212,8 @@ export const ErrorNotification: React.FC<ErrorNotificationProps> = ({
             height: '4px',
             width: `${progress}%`,
             backgroundColor: 'rgba(255, 255, 255, 0.5)',
-            borderBottomLeftRadius: progress > 5 ? '// ! HARDCODED: Should use design tokens
-      8px' : '0',
-            borderBottomRightRadius: progress > 95 ? '// ! HARDCODED: Should use design tokens
-      8px' : '0',
+            borderBottomLeftRadius: progress > 5 ? '8px' : '0', // ! HARDCODED: Should use design tokens
+            borderBottomRightRadius: progress > 95 ? '8px' : '0', // ! HARDCODED: Should use design tokens
             transition: 'width 0.05s linear'
           }}
         />
