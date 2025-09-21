@@ -114,7 +114,7 @@ export function getBase64Size(base64String: string): number {
   const base64 = base64String.split(',')[1] || base64String;
   
   // * Calculate size in bytes
-  const padding = (base64.match(/=/g) || []).length;
+  const padding = (base64.match(/[=]/g) || []).length;
   return Math.floor((base64.length * 3) / 4) - padding;
 }
 

@@ -27,6 +27,7 @@ import { NotFoundScreen } from './src/screens/NotFoundScreen';
 // * Global state and context providers
 import { useAuthStore } from './src/store/authStore';
 import { SearchProvider } from './src/components/SearchProvider';
+import { ThemeProvider } from './src/providers/ThemeProvider';
 
 // * Additional UI components
 import AuthGuard from './src/components/AuthGuard';
@@ -76,13 +77,18 @@ function App() {
   }, [initAuth]);
 
   if (isLoading) {
-    return <LoadingScreen message="Initializing Fantasy Writing App..." />;
+    return (
+      <ThemeProvider>
+        <LoadingScreen message="Initializing Fantasy Writing App..." />
+      </ThemeProvider>
+    );
   }
 
   return (
-    <GestureHandlerRootView style={appStyles.rootView}>
-      <SafeAreaProvider>
-        <SearchProvider>
+    <ThemeProvider>
+      <GestureHandlerRootView style={appStyles.rootView}>
+        <SafeAreaProvider>
+          <SearchProvider>
           {Platform.OS !== 'web' && (
             <StatusBar 
               barStyle="light-content" 
@@ -199,6 +205,7 @@ function App() {
         </SearchProvider>
       </SafeAreaProvider>
     </GestureHandlerRootView>
+  </ThemeProvider>
   );
 }
 

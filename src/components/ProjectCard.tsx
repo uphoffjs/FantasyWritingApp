@@ -15,8 +15,18 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/types';
 import { Project } from '../types/models';
 import { useWorldbuildingStore } from '../store/worldbuildingStore';
-import { useTheme } from '../providers/ThemeProvider';
 import { ProgressRing } from './ProgressRing';
+
+// * Helper to safely use theme context
+const useOptionalTheme = () => {
+  try {
+     
+    const { useTheme } = require('../providers/ThemeProvider');
+    return useTheme();
+  } catch {
+    return null;
+  }
+};
 import { BackgroundWithTexture } from './effects/ParchmentTexture';
 import { ContentReveal } from './animations/ContentReveal';
 
@@ -37,7 +47,23 @@ export const ProjectCard = memo(function ProjectCard({
 }: ProjectCardProps) {
   const navigation = useNavigation<NavigationProp>();
   const { setCurrentProject } = useWorldbuildingStore();
-  const { theme } = useTheme();
+  const themeContext = useOptionalTheme();
+  const theme = themeContext?.theme || {
+    // * Fallback theme values
+    colors: {
+      text: { primary: '#1A1613', secondary: '#6B5E52', muted: '#9B8C7D' },
+      surface: {
+        background: '#F5F2E8',
+        card: '#FFFFFF',
+        cardBorder: '#E5DCC7',
+        backgroundElevated: '#FDFCF8',
+      },
+      primary: { DEFAULT: '#1C4FA3' },
+      accent: { DEFAULT: '#C9A94F' },
+      status: { success: '#2E7D4F', warning: '#E67E22', error: '#E74C3C' }
+    },
+    layout: { borderRadius: { medium: 16, small: 12 }, spacing: { md: 16, sm: 12, xs: 8 } }
+  };
   const [showActions, setShowActions] = useState(false);
   const [isDuplicating, setIsDuplicating] = useState(false);
   const [imageError, setImageError] = useState(false);

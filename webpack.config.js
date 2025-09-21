@@ -6,7 +6,7 @@ const CopyPlugin = require('copy-webpack-plugin');
 
 // Get port from environment variable or use defaults
 const PORT = process.env.PORT || 3000;
-const FALLBACK_PORTS = [3001, 5000, 5173, 8000, 8080, 8081, 9000];
+const _FALLBACK_PORTS = [3001, 5000, 5173, 8000, 8080, 8081, 9000]; // Unused but kept for reference
 
 module.exports = {
   entry: './index.web.entry.js',

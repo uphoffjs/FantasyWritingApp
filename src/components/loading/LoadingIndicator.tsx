@@ -371,14 +371,14 @@ const createStyles = (
   container: {
     justifyContent: 'center',
     alignItems: 'center',
-    padding: theme.spacing.md,
+    padding: theme?.spacing?.md || 16,
     ...(inline ? {} : {
       minHeight: dimensions.container,
       minWidth: dimensions.container,
     }),
     ...(fullscreen ? {} : {
-      backgroundColor: theme.colors.surface.background,
-      borderRadius: theme.borderRadius.lg,
+      backgroundColor: theme?.colors?.surface?.background || '#F3E9D2',
+      borderRadius: theme?.borderRadius?.lg || 12,
     }),
   },
   indicatorWrapper: {
@@ -388,11 +388,11 @@ const createStyles = (
     width: dimensions.indicator,
   },
   message: {
-    marginTop: theme.spacing.sm,
+    marginTop: theme?.spacing?.sm || 8,
     fontSize: dimensions.fontSize,
-    color: theme.colors.text.primary,
+    color: theme?.colors?.text?.primary || '#2C2416',
     textAlign: 'center',
-    fontFamily: theme.typography.body.fontFamily,
+    fontFamily: theme?.typography?.body?.fontFamily || 'System',
   },
   dotsContainer: {
     flexDirection: 'row',
@@ -404,7 +404,7 @@ const createStyles = (
     height: dimensions.indicator / 3,
     borderRadius: dimensions.indicator / 6,
     backgroundColor: color,
-    marginHorizontal: theme.spacing.xs / 2,
+    marginHorizontal: (theme?.spacing?.xs || 4) / 2,
   },
   barContainer: {
     width: dimensions.container * 2,
@@ -413,7 +413,7 @@ const createStyles = (
   barBackground: {
     width: '100%',
     height: 8,
-    backgroundColor: theme.colors.surface.backgroundElevated,
+    backgroundColor: theme?.colors?.surface?.backgroundElevated || '#E8D9BE',
     borderRadius: 4,
     overflow: 'hidden',
   },
@@ -423,10 +423,10 @@ const createStyles = (
     borderRadius: 4,
   },
   progressText: {
-    marginTop: theme.spacing.xs,
+    marginTop: theme?.spacing?.xs || 4,
     fontSize: dimensions.fontSize - 2,
-    color: theme.colors.text.secondary,
-    fontFamily: theme.typography.caption.fontFamily,
+    color: theme?.colors?.text?.secondary || '#5A4D3B',
+    fontFamily: theme?.typography?.caption?.fontFamily || 'System',
   },
   ringContainer: {
     width: dimensions.indicator,

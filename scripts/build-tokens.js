@@ -17,7 +17,7 @@ buildDirs.forEach(dir => {
 
 // * Helper function to convert nested object to CSS variables
 function objectToCSSVariables(obj, prefix = '') {
-  let cssVars = [];
+  const cssVars = [];
   
   for (const [key, value] of Object.entries(obj)) {
     const varName = prefix ? `${prefix}-${key}` : key;

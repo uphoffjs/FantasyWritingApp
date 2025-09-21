@@ -9,8 +9,18 @@ import {
 import { WorldElement } from '../types/models';
 import { getCategoryIcon } from '../utils/categoryMapping';
 import { getElementColor } from '../utils/elementColors';
-import { useTheme } from '../providers/ThemeProvider';
 import { ProgressRing } from './ProgressRing';
+
+// * Helper to safely use theme context
+const useOptionalTheme = () => {
+  try {
+     
+    const { useTheme } = require('../providers/ThemeProvider');
+    return useTheme();
+  } catch {
+    return null;
+  }
+};
 
 interface ElementCardProps {
   element: WorldElement;
@@ -24,7 +34,20 @@ export const ElementCard = memo(function ElementCard({
   onPress,
 }: ElementCardProps) {
   const categoryIcon = icon || getCategoryIcon(element.category);
-  const { theme } = useTheme();
+  const themeContext = useOptionalTheme();
+  const theme = themeContext?.theme || {
+    // * Fallback theme values
+    colors: {
+      text: { primary: '#1A1613', secondary: '#6B5E52', muted: '#9B8C7D' },
+      surface: {
+        background: '#F5F2E8',
+        card: '#FFFFFF',
+        cardBorder: '#E5DCC7',
+        backgroundElevated: '#FDFCF8',
+      }
+    },
+    layout: { borderRadius: { medium: 12, small: 8 }, spacing: { md: 16 } }
+  };
   
   // * Create dynamic styles based on theme
   const styles = useMemo(() => createStyles(theme), [theme]);

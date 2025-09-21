@@ -29,14 +29,15 @@ interface LoadingScreenProps {
   progress?: number;
 }
 
-export function LoadingScreen({ 
-  message = 'Loading...', 
+export function LoadingScreen({
+  message = 'Loading...',
   variant = 'ring',
-  progress 
+  progress
 }: LoadingScreenProps) {
   // * Use theme if available, otherwise use fallback color
   const themeContext = useOptionalTheme();
-  const backgroundColor = themeContext?.theme.ui.background.primary ?? '#F3E9D2';
+  // ! Fixed: Changed from theme.ui.background.primary to theme.surface.background
+  const backgroundColor = themeContext?.theme?.surface?.background ?? '#F3E9D2';
   
   return (
     <View style={[styles.container, { backgroundColor }]}>
