@@ -3,7 +3,7 @@ import { StateCreator, StoreMutatorIdentifier } from 'zustand'
 type WorldbuildingStore = any // This will be properly typed at runtime
 import { optimisticSyncQueueManager } from '../../services/optimisticSyncQueue'
 import { useAuthStore } from '../authStore'
-import { optimisticUpdateManager, /* captureEntityState, applyRollback */ } from '../optimisticUpdates'
+import { optimisticUpdateManager /* captureEntityState, applyRollback */ } from '../optimisticUpdates'
 
 // ! PERFORMANCE: * Simple debounce helper
 // ! PERFORMANCE: function _debounce<T extends (...args: unknown[]) => unknown>(func: T, wait: number): T {

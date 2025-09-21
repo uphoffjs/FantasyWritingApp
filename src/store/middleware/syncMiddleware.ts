@@ -26,7 +26,7 @@ export class SyncEventEmitter extends EventTarget {
   
   private async addToSyncQueue(event: SyncEvent) {
     let entity: 'project' | 'element' | 'answer' | 'relationship'
-    const data: any = {} // eslint-disable-line @typescript-eslint/no-explicit-any
+    const data: any = {}  
     
     switch (event.type) {
       case 'project-modified':
@@ -68,7 +68,7 @@ type SyncMiddleware = <
 // * Sync middleware implementation
 export const syncMiddleware: SyncMiddleware = (config) => (set, get, api) =>
   config(
-    ((partial: any, replace?: boolean | undefined) => { // eslint-disable-line @typescript-eslint/no-explicit-any
+    ((partial: any, replace?: boolean | undefined) => {  
       // * Before state update - capture current state
       const prevState = get() as WorldbuildingStore
       

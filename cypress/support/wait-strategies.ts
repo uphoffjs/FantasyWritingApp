@@ -108,7 +108,7 @@ Cypress.Commands.add('waitForAnimation', (timeout = 1000) => {
 Cypress.Commands.add('waitForLayout', (timeout = 500) => {
   cy.log(`⏳ Waiting for layout to stabilize`);
   
-  let previousPositions: Map<Element, DOMRect> = new Map();
+  const previousPositions: Map<Element, DOMRect> = new Map();
   
   cy.document().then(doc => {
     // * Capture initial positions

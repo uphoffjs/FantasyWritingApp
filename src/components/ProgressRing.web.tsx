@@ -1,27 +1,14 @@
 /**
- * ProgressRing.tsx
- * * Circular progress indicator with fantasy-themed colors
- * * Uses SVG for smooth animations and cross-platform support
- * * Enhanced with spring animations, pulse effects, and completion animations
- * ! IMPORTANT: Requires react-native-svg for mobile platforms
+ * ProgressRing.web.tsx
+ * * Web-safe version of ProgressRing that doesn't require ThemeProvider
+ * * Uses hardcoded theme values as fallbacks for web builds
+ * * Maintains full compatibility with original ProgressRing interface
+ * ! This is the web-safe version - use ProgressRing.tsx for native platforms
  */
 
 import React, { useEffect, useRef, useState } from 'react';
 import { Text, StyleSheet, Animated, Platform, Easing } from 'react-native';
 import Svg, { Circle, G } from 'react-native-svg';
-
-// * Helper to safely use theme context
-// * Returns null if not within a ThemeProvider
-const useOptionalTheme = () => {
-  try {
-     
-    const { useTheme } = require('../providers/ThemeProvider');
-    return useTheme();
-  } catch {
-    // ! ThemeProvider not available
-    return null;
-  }
-};
 
 interface ProgressRingProps {
   // * Progress value between 0 and 100
@@ -55,6 +42,48 @@ interface ProgressRingProps {
   testID?: string;
 }
 
+// * Hardcoded theme fallbacks for web builds
+const WEB_THEME_FALLBACKS = {
+  colors: {
+    primary: {
+      DEFAULT: '#1C4FA3', // swiftness.base
+    },
+    surface: {
+      backgroundElevated: '#F5F2E8', // parchment.50
+    },
+    text: {
+      primary: '#1A1613', // ink.primary.DEFAULT
+      secondary: '#6B5E52', // ink.secondary.DEFAULT
+    },
+    elements: {
+      character: '#A31C1C', // Warrior red
+      location: '#2E7D4F',  // Vitality green
+      item: '#C9A94F',      // Gold
+      magic: '#5C2E91',     // Guardian purple
+    },
+    accent: {
+      might: '#A31C1C',     // might.base
+      swiftness: '#1C4FA3', // swiftness.base
+      vitality: '#2E7D4F',  // vitality.base
+      finesse: '#E3941C',   // finesse.base
+    },
+  },
+  typography: {
+    fontFamily: {
+      heading: Platform.select({
+        ios: 'Cinzel-SemiBold',
+        android: 'Cinzel-SemiBold',
+        web: 'Cinzel, serif',
+      }),
+      ui: Platform.select({
+        ios: 'System',
+        android: 'Roboto',
+        web: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+      }),
+    },
+  },
+};
+
 // * Animated circle component for smooth transitions
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
@@ -75,31 +104,19 @@ export const ProgressRing: React.FC<ProgressRingProps> = ({
   completionAnimation = false,
   testID = 'progress-ring',
 }) => {
-  const themeContext = useOptionalTheme();
-  const theme = themeContext?.theme || {
-    // * Fallback theme values when ThemeProvider is not available
-    colors: {
-      primary: { DEFAULT: '#1C4FA3' },
-      surface: { backgroundElevated: '#F5F2E8' },
-      text: { primary: '#1A1613', secondary: '#6B5E52' },
-      elements: {
-        character: '#A31C1C',
-        location: '#2E7D4F',
-        magic: '#5C2E91',
-        item: '#C9A94F',
-      }
-    }
-  };
+  // * Use hardcoded theme instead of useTheme hook
+  const theme = WEB_THEME_FALLBACKS;
+
   const animatedValue = useRef(new Animated.Value(0)).current;
   const pulseAnim = useRef(new Animated.Value(1)).current;
   const completionScale = useRef(new Animated.Value(1)).current;
   const completionOpacity = useRef(new Animated.Value(1)).current;
   const textScale = useRef(new Animated.Value(1)).current;
   const [hasCompleted, setHasCompleted] = useState(false);
-  
+
   // * Clamp progress between 0 and 100
   const clampedProgress = Math.max(0, Math.min(100, progress));
-  
+
   // * Size presets
   const sizeMap = {
     small: 48,
@@ -107,20 +124,20 @@ export const ProgressRing: React.FC<ProgressRingProps> = ({
     large: 120,
     xlarge: 160,
   };
-  
+
   // * Calculate dimensions
   const ringDiameter = diameter || sizeMap[size];
   const ringStrokeWidth = strokeWidth || (ringDiameter / 10);
   const radius = (ringDiameter - ringStrokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
-  
+
   // * Get colors based on preset or custom
   const getColors = () => {
     if (progressColor && backgroundColor) {
       return { progress: progressColor, background: backgroundColor };
     }
-    
-    // * Use theme colors based on preset
+
+    // * Use hardcoded theme colors based on preset
     switch (colorPreset) {
       case 'character':
         return {
@@ -169,14 +186,14 @@ export const ProgressRing: React.FC<ProgressRingProps> = ({
         };
     }
   };
-  
+
   const colors = getColors();
-  
+
   // * Animate progress changes with different animation types
   useEffect(() => {
     if (animated) {
       let animation;
-      
+
       // * Choose animation type based on prop
       switch (animationType) {
         case 'spring':
@@ -187,7 +204,7 @@ export const ProgressRing: React.FC<ProgressRingProps> = ({
             useNativeDriver: false, // SVG properties can't use native driver
           });
           break;
-          
+
         case 'elastic':
           animation = Animated.timing(animatedValue, {
             toValue: clampedProgress,
@@ -196,7 +213,7 @@ export const ProgressRing: React.FC<ProgressRingProps> = ({
             useNativeDriver: false,
           });
           break;
-          
+
         default: // 'timing'
           animation = Animated.timing(animatedValue, {
             toValue: clampedProgress,
@@ -205,12 +222,12 @@ export const ProgressRing: React.FC<ProgressRingProps> = ({
             useNativeDriver: false,
           });
       }
-      
+
       animation.start(() => {
         // * Check for completion and trigger completion animation
         if (clampedProgress === 100 && !hasCompleted && completionAnimation) {
           setHasCompleted(true);
-          
+
           // * Completion celebration animation
           Animated.sequence([
             Animated.parallel([
@@ -265,7 +282,7 @@ export const ProgressRing: React.FC<ProgressRingProps> = ({
       animatedValue.setValue(clampedProgress);
     }
   }, [clampedProgress, animated, animationType, animationDuration, animatedValue, hasCompleted, completionAnimation, completionScale, completionOpacity, textScale]);
-  
+
   // * Pulse animation for loading states
   useEffect(() => {
     if (pulseAnimation && animated) {
@@ -286,9 +303,9 @@ export const ProgressRing: React.FC<ProgressRingProps> = ({
           }),
         ])
       );
-      
+
       pulseSequence.start();
-      
+
       // * Cleanup function to stop animation when component unmounts
       return () => {
         pulseSequence.stop();
@@ -299,18 +316,18 @@ export const ProgressRing: React.FC<ProgressRingProps> = ({
       pulseAnim.setValue(1);
     }
   }, [pulseAnimation, animated, pulseAnim]);
-  
+
   // * Calculate stroke dash offset for progress
   const strokeDashoffset = animatedValue.interpolate({
     inputRange: [0, 100],
     outputRange: [circumference, 0],
   });
-  
+
   // * Create dynamic styles
   const styles = createStyles(theme, ringDiameter, size);
-  
+
   return (
-    <Animated.View 
+    <Animated.View
       style={[
         styles.container,
         {
@@ -318,10 +335,10 @@ export const ProgressRing: React.FC<ProgressRingProps> = ({
           transform: [{ scale: completionScale }],
           opacity: completionOpacity,
         }
-      ]} 
+      ]}
       testID={testID}
     >
-      <Animated.View 
+      <Animated.View
         style={[
           styles.ringContainer,
           {
@@ -362,10 +379,10 @@ export const ProgressRing: React.FC<ProgressRingProps> = ({
             />
           </G>
         </Svg>
-        
+
         {/* Percentage text in center */}
         {showPercentage && (
-          <Animated.View 
+          <Animated.View
             style={[
               styles.textContainer,
               {
@@ -389,7 +406,7 @@ export const ProgressRing: React.FC<ProgressRingProps> = ({
   );
 };
 
-// * Style creation function
+// * Style creation function with hardcoded theme
 const createStyles = (theme: any, diameter: number, size: string) => {
   // * Font sizes based on ring size
   const fontSizeMap = {
@@ -398,14 +415,14 @@ const createStyles = (theme: any, diameter: number, size: string) => {
     large: 24,
     xlarge: 32,
   };
-  
+
   const labelFontSizeMap = {
     small: 10,
     medium: 12,
     large: 14,
     xlarge: 16,
   };
-  
+
   return StyleSheet.create({
     container: {
       alignItems: 'center',

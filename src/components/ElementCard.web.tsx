@@ -6,8 +6,7 @@
 import React, { memo } from 'react';
 import { WorldElement } from '../types/models';
 import { getCategoryIcon } from '../utils/categoryMapping';
-import { getElementColor } from '../utils/elementColors';
-import { ProgressRing } from './ProgressRing';
+import { ProgressRing } from './ProgressRing.web';
 
 interface ElementCardProps {
   element: WorldElement;
@@ -21,7 +20,6 @@ export const ElementCard = memo(function ElementCard({
   onPress,
 }: ElementCardProps) {
   const categoryIcon = icon || getCategoryIcon(element.category);
-  const categoryColor = getElementColor(element.category);
 
   // * Calculate completion percentage safely
   const completionPercentage = element.completionPercentage || 0;

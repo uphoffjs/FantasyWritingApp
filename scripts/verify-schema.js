@@ -26,7 +26,7 @@ async function verifySchema() {
   ];
 
   let existingTables = 0;
-  let missingTables = [];
+  const missingTables = [];
 
   for (const table of tables) {
     try {

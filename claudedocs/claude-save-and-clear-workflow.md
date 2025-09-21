@@ -10,7 +10,8 @@
 3. /clear
 4. /sc:load but do not start to work on anything yet
 5. read_memory("checkpoint")
-6. /sc:load @/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/docs/cypress-best-practices.md @/Users/jacobstoragepug/Desktop/FantasyWritingApp/CLAUDE.md
+6. /sc:load @/Users/jacobstoragepug/Desktop/FantasyWritingApp/cypress/docs/cypress-best-practices.md @/Users/jacobstoragepug/Desktop/FantasyWritingApp/CLAUDE.md do not start to work on anything yet
+7. /sc:load @/Users/jacobstoragepug/Desktop/FantasyWritingApp/CLAUDE.md do not start to work on anything yet
 ```
 
 ## 📋 Detailed Step-by-Step Workflow

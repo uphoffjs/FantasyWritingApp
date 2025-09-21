@@ -435,7 +435,7 @@ Cypress.Commands.add('rnScrollTo', { prevSubject: true }, (subject, position = '
   return cy.wrap(subject).then($el => {
     const element = $el[0];
     
-    let scrollOptions: ScrollIntoViewOptions = {
+    const scrollOptions: ScrollIntoViewOptions = {
       behavior: 'smooth',
       block: 'center',
       inline: 'center'

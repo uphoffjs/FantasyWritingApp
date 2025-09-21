@@ -9,6 +9,8 @@ export default defineConfig({
     specPattern: "cypress/e2e/**/*.cy.{js,jsx,ts,tsx}",
     screenshotOnRunFailure: true,
     video: true,
+    // Browser configuration
+    chromeWebSecurity: false,
     videoCompression: 32,
     videosFolder: "cypress/videos",
     screenshotsFolder: "cypress/screenshots",

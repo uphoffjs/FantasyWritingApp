@@ -8,9 +8,9 @@ import React, { useState } from 'react';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import type { RootStackScreenProps, NavigationProp } from '../navigation/types';
 import { useWorldbuildingStore } from '../store/worldbuildingStore';
-import { ElementBrowser } from '../components/ElementBrowser';
-import { CreateElementModal } from '../components/CreateElementModal';
-import { RelationshipManager } from '../components/RelationshipManager';
+import { ElementBrowser } from '../components/ElementBrowser.web';
+import { CreateElementModal } from '../components/CreateElementModal.web';
+import { RelationshipManager } from '../components/RelationshipManager.web';
 
 export function ProjectScreen() {
   const route = useRoute<RootStackScreenProps<'Project'>['route']>();
