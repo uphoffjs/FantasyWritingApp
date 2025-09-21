@@ -803,6 +803,165 @@ node scripts/supabase-cli.js "SELECT * FROM projects"
 node scripts/supabase-cli.js --file scripts/simple-fix-rls.sql
 ```
 
+## App Debugging & Error Diagnostics
+
+### When App Fails to Launch - Claude's Diagnostic Workflow
+
+When the app fails to launch or shows errors, Claude follows this systematic diagnostic process:
+
+#### 1. Check Webpack Dev Server Output
+```bash
+# * Check for compilation errors in running webpack process
+# Look for ERROR or FAIL in the output
+# Claude uses: BashOutput tool to check background processes
+```
+
+#### 2. Verify HTTP Response
+```bash
+# * Check if app server is responding
+curl -s -o /dev/null -w "%{http_code}" http://localhost:3000
+# Should return 200 for success
+```
+
+#### 3. Run Automated E2E Tests
+```bash
+# * Run Cypress tests to capture console errors
+npm run cypress:run -- --spec "cypress/e2e/app-launch.cy.ts"
+# Tests will capture and report any console errors
+```
+
+#### 4. Check TypeScript Compilation
+```bash
+# * Look for TypeScript errors
+npm run typecheck
+# Fix any type errors before proceeding
+```
+
+#### 5. Verify Dependencies
+```bash
+# * Check for missing or conflicting dependencies
+npm ls
+# Look for unmet peer dependencies or version conflicts
+```
+
+### Error Boundary Implementation
+
+Claude will check for and implement error boundaries to catch React runtime errors:
+
+```tsx
+// * Add to App.tsx or create ErrorBoundary.tsx
+import React from 'react';
+import { View, Text } from 'react-native';
+
+class ErrorBoundary extends React.Component<
+  { children: React.ReactNode },
+  { hasError: boolean; error: Error | null }
+> {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+
+  static getDerivedStateFromError(error: Error) {
+    // * Update state so next render shows fallback UI
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    // * Log error to console for debugging
+    console.error('App Error Boundary:', error, errorInfo);
+    // TODO: Send to error reporting service
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <View testID="error-boundary" style={{ padding: 20 }}>
+          <Text>Something went wrong. Please refresh the app.</Text>
+          <Text>{this.state.error?.message}</Text>
+        </View>
+      );
+    }
+
+    return this.props.children;
+  }
+}
+
+// * Wrap App component
+export default function AppWithErrorBoundary() {
+  return (
+    <ErrorBoundary>
+      <App />
+    </ErrorBoundary>
+  );
+}
+```
+
+### Console Error Capture
+
+Claude can implement automatic error capturing:
+
+```javascript
+// * Add to index.web.js or App.tsx initialization
+if (Platform.OS === 'web') {
+  // * Capture all uncaught errors
+  window.addEventListener('error', (event) => {
+    console.error('Uncaught error:', {
+      message: event.message,
+      source: event.filename,
+      line: event.lineno,
+      column: event.colno,
+      stack: event.error?.stack
+    });
+
+    // * Send to monitoring service in production
+    if (process.env.NODE_ENV === 'production') {
+      // TODO: Implement error reporting
+    }
+  });
+
+  // * Capture unhandled promise rejections
+  window.addEventListener('unhandledrejection', (event) => {
+    console.error('Unhandled promise rejection:', event.reason);
+  });
+}
+```
+
+### What Claude Cannot Do
+
+Claude cannot directly:
+- Access your browser's DevTools console
+- See client-side errors that aren't logged to server
+- Debug visual rendering issues without screenshots
+
+### What You Should Do
+
+When encountering errors:
+
+1. **Open Browser DevTools** (F12 or right-click → Inspect)
+2. **Check Console Tab** for red error messages
+3. **Look at Network Tab** for failed API requests
+4. **Take Screenshots** of any visual issues
+5. **Copy Error Messages** and share with Claude
+
+Example error report to Claude:
+```
+Error in console:
+TypeError: Cannot read property 'map' of undefined
+  at ProjectList (ProjectList.tsx:45)
+  at renderWithHooks (react-dom.development.js:14985)
+```
+
+### Common Error Patterns & Solutions
+
+| Error Pattern | Likely Cause | Claude's Fix |
+|--------------|--------------|--------------|
+| "Cannot read property of undefined" | Missing null checks | Add optional chaining (?.) |
+| "Module not found" | Missing dependency | Run npm install |
+| "Invalid hook call" | Hook rules violation | Check hook usage rules |
+| "Text strings must be rendered" | Raw text in View | Wrap in Text component |
+| "Network request failed" | API connection issue | Check Supabase/backend |
+
 ## Platform-Specific Considerations
 
 ### iOS Development
