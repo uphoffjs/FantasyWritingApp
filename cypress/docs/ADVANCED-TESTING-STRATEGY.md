@@ -24,6 +24,8 @@ This document outlines the comprehensive Cypress testing strategy for FantasyWri
 3. **Comprehensive Coverage**: E2E for critical paths, components for UI logic
 4. **Defensive Testing**: Mandatory debug utilities for failure analysis
 5. **React Native First**: All patterns consider mobile-first development
+6. **Local Development First**: Test against local servers for maximum control
+7. **State Isolation**: Each test must be completely independent
 
 ### Testing Pyramid for React Native
 ```
@@ -118,6 +120,296 @@ describe('[Feature Name]', () => {
 });
 ```
 
+## Data Seeding Strategies
+
+### Three Primary Methods (from Official Cypress Docs)
+
+#### 1. Using cy.exec() - Run System Commands
+```javascript
+// * Run database reset and seed scripts
+describe('Elements with Fresh Data', () => {
+  beforeEach(function() {
+    cy.comprehensiveDebug();
+    // * Reset and seed database using npm scripts
+    cy.exec('npm run db:reset && npm run db:seed');
+    cy.cleanState();
+  });
+
+  it('displays seeded elements', () => {
+    cy.visit('/');
+    cy.contains('Seeded Character').should('be.visible');
+  });
+});
+```
+
+#### 2. Using cy.task() - Run Node.js Code
+```javascript
+// * In cypress.config.js
+module.exports = defineConfig({
+  e2e: {
+    setupNodeEvents(on, config) {
+      on('task', {
+        'db:seed': () => {
+          // * Node.js database seeding code here
+          return seedDatabase();
+        },
+        'reset:testData': () => {
+          // * Reset to known state
+          return resetTestData();
+        }
+      });
+    }
+  }
+});
+
+// * In test file
+beforeEach(function() {
+  cy.comprehensiveDebug();
+  cy.task('reset:testData');
+  cy.task('db:seed');
+});
+```
+
+#### 3. Using cy.request() - Make HTTP Requests
+```javascript
+// * Seed via API endpoints
+beforeEach(function() {
+  cy.comprehensiveDebug();
+  cy.cleanState();
+
+  // * Create test project via API
+  cy.request('POST', '/test/seed/project', {
+    name: 'Test Fantasy World',
+    description: 'A test project'
+  }).its('body').as('project');
+
+  // * Create test elements
+  cy.request('POST', '/test/seed/element', {
+    name: 'Test Dragon',
+    type: 'creature',
+    projectId: '@project.id'
+  });
+});
+```
+
+### Stubbing Server Responses
+```javascript
+// * Instead of real data, stub API responses
+describe('Elements with Stubbed Data', () => {
+  beforeEach(function() {
+    cy.comprehensiveDebug();
+
+    // * Stub the elements API
+    cy.intercept('GET', '/api/elements', {
+      fixture: 'elements.json'
+    }).as('getElements');
+
+    // * Stub specific element
+    cy.intercept('GET', '/api/elements/*', {
+      statusCode: 200,
+      body: {
+        id: 1,
+        name: 'Stubbed Dragon',
+        type: 'creature',
+        completionPercentage: 75
+      }
+    }).as('getElement');
+  });
+
+  it('displays stubbed elements', () => {
+    cy.visit('/elements');
+    cy.wait('@getElements');
+    cy.contains('Stubbed Dragon').should('be.visible');
+  });
+});
+```
+
+## Session Management with cy.session()
+
+### Core Session Concepts
+
+`cy.session()` provides intelligent caching of browser state (cookies, localStorage, sessionStorage) between tests, dramatically improving test performance while maintaining proper isolation.
+
+### Session Lifecycle
+
+```javascript
+// Session Creation Flow
+cy.session(id, setup, options)
+// 1. Clear all session data
+// 2. Execute setup function
+// 3. Cache session data with id
+// 4. Run validation (if provided)
+// 5. Restore session in subsequent calls
+```
+
+### Session ID Best Practices
+
+```javascript
+// ✅ Good - Unique IDs that prevent conflicts
+cy.session([email, role, environment])
+cy.session([userType, permissions.join(',')])
+cy.session(`${username}-${timestamp}`) // For forced refresh
+
+// ❌ Bad - Non-unique or random IDs
+cy.session('user') // Too generic
+cy.session(Math.random()) // Creates new session every time
+```
+
+### Advanced Session Patterns
+
+#### Multi-Role Testing
+```javascript
+describe('Role-Based Access Control', () => {
+  it('admin has full access', () => {
+    cy.loginAs('admin'); // Uses cy.session internally
+    cy.visit('/admin');
+    cy.get('[data-cy="admin-panel"]').should('be.visible');
+  });
+
+  it('viewer has limited access', () => {
+    cy.loginAs('viewer'); // Different session
+    cy.visit('/admin');
+    cy.get('[data-cy="access-denied"]').should('be.visible');
+  });
+});
+```
+
+#### Cross-Origin Sessions
+```javascript
+cy.session('multi-domain', () => {
+  // Login to main app
+  cy.visit('https://app.example.com/login');
+  cy.get('#email').type('user@example.com');
+  cy.get('#password').type('password');
+  cy.get('#submit').click();
+
+  // Establish session on API domain
+  cy.origin('https://api.example.com', () => {
+    cy.visit('/authorize');
+    cy.get('#approve').click();
+  });
+});
+```
+
+#### Session Validation Strategies
+```javascript
+// Token-based validation
+{
+  validate() {
+    cy.window().then((win) => {
+      const token = win.localStorage.getItem('auth-token');
+      if (token) {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        expect(payload.exp * 1000).to.be.greaterThan(Date.now());
+      }
+    });
+  }
+}
+
+// API-based validation
+{
+  validate() {
+    cy.request({
+      url: '/api/validate',
+      failOnStatusCode: false
+    }).then((response) => {
+      expect(response.status).to.eq(200);
+    });
+  }
+}
+
+// Cookie-based validation
+{
+  validate() {
+    cy.getCookie('session').should('exist')
+      .then((cookie) => {
+        expect(cookie.value).to.not.be.empty;
+        expect(cookie.httpOnly).to.be.true;
+      });
+  }
+}
+```
+
+### Session Performance Optimization
+
+```javascript
+// Use API login instead of UI when possible
+cy.session('fast-login', () => {
+  // Fast: Direct API call
+  cy.request('POST', '/api/login', { email, password })
+    .then((res) => {
+      window.localStorage.setItem('token', res.body.token);
+    });
+
+  // Slow: UI interactions
+  // cy.visit('/login');
+  // cy.get('#email').type(email);
+  // etc.
+});
+
+// Cache sessions across specs for suite-wide performance
+cy.session('shared-user', setup, {
+  cacheAcrossSpecs: true // Reuse in all spec files
+});
+```
+
+### Session Debugging
+
+```javascript
+// Force new session creation
+cy.session('user', setup, {
+  validate() {
+    if (Cypress.env('RESET_SESSION')) {
+      throw new Error('Forcing session reset');
+    }
+    // Normal validation
+  }
+});
+
+// Log session events
+cy.session('debug', () => {
+  cy.task('log', 'Creating session');
+  // Setup
+}).then(() => {
+  cy.task('log', 'Session restored');
+});
+
+// View session in Cypress UI
+// Click on session command in command log to see:
+// - Session ID
+// - Creation/restoration status
+// - Validation results
+// - Timing information
+```
+
+### Migration from Old Login Patterns
+
+```javascript
+// Before: Repeated login in every test
+beforeEach(() => {
+  cy.visit('/login');
+  cy.get('#email').type('user@example.com');
+  cy.get('#password').type('password');
+  cy.get('#submit').click();
+});
+
+// After: Cached session
+beforeEach(() => {
+  cy.session('user', () => {
+    cy.visit('/login');
+    cy.get('#email').type('user@example.com');
+    cy.get('#password').type('password');
+    cy.get('#submit').click();
+  }, {
+    validate() {
+      cy.getCookie('auth').should('exist');
+    },
+    cacheAcrossSpecs: true
+  });
+  cy.visit('/'); // Navigate after session restore
+});
+```
+
 ## Custom Commands Architecture
 
 ### Command Categories
@@ -142,32 +434,126 @@ Cypress.Commands.add('cleanState', () => {
   cy.clearLocalStorage();
 });
 
-// setupTestUser.js - Create authenticated test user
+// setupTestUser.js - Create authenticated test user with enhanced session caching
 Cypress.Commands.add('setupTestUser', (options = {}) => {
   const defaults = {
     username: 'test_user_' + Date.now(),
     email: `test_${Date.now()}@example.com`,
     projects: [],
-    elements: []
+    elements: [],
+    role: 'user' // Added role support
   };
-  
+
   const userData = { ...defaults, ...options };
-  
-  // * Set up Zustand store directly
-  cy.window().then((win) => {
-    const storeData = {
-      auth: {
-        user: userData,
-        isAuthenticated: true
+
+  // * Use cy.session with unique ID including all parameters
+  cy.session(
+    [userData.email, userData.role], // Include role in session ID
+    () => {
+      // * Set up Zustand store directly
+      cy.window().then((win) => {
+        const storeData = {
+          auth: {
+            user: userData,
+            isAuthenticated: true,
+            token: 'mock-jwt-token-' + Date.now()
+          },
+          projects: userData.projects,
+          elements: userData.elements
+        };
+
+        win.localStorage.setItem('fantasy-writing-app-store', JSON.stringify(storeData));
+        // Also set auth token for API requests
+        win.localStorage.setItem('auth-token', storeData.auth.token);
+      });
+    },
+    {
+      validate() {
+        // * Enhanced validation to ensure session integrity
+        cy.window().then((win) => {
+          const store = win.localStorage.getItem('fantasy-writing-app-store');
+          expect(store, 'Store data should exist').to.not.be.null;
+
+          const data = JSON.parse(store);
+          expect(data.auth.isAuthenticated, 'User should be authenticated').to.be.true;
+          expect(data.auth.user.role, 'User role should match').to.equal(userData.role);
+
+          // Validate token exists and is not expired
+          const token = win.localStorage.getItem('auth-token');
+          expect(token, 'Auth token should exist').to.not.be.null;
+        });
       },
-      projects: userData.projects,
-      elements: userData.elements
-    };
-    
-    win.localStorage.setItem('fantasy-writing-app-store', JSON.stringify(storeData));
-  });
-  
+      cacheAcrossSpecs: true  // * Cache session across test files for performance
+    }
+  );
+
   return cy.wrap(userData);
+});
+
+// login.js - Login with different authentication methods
+Cypress.Commands.add('login', (method = 'ui', credentials = {}) => {
+  const { email = 'test@example.com', password = 'password123' } = credentials;
+
+  cy.session(
+    [email, method], // Include method in session ID
+    () => {
+      if (method === 'ui') {
+        // UI-based login
+        cy.visit('/login');
+        cy.get('[data-cy="email-input"]').type(email);
+        cy.get('[data-cy="password-input"]').type(password);
+        cy.get('[data-cy="submit-button"]').click();
+        cy.url().should('not.include', '/login');
+      } else if (method === 'api') {
+        // API-based login (faster)
+        cy.request('POST', '/api/login', { email, password })
+          .then((response) => {
+            window.localStorage.setItem('auth-token', response.body.token);
+            window.localStorage.setItem('user', JSON.stringify(response.body.user));
+          });
+      }
+    },
+    {
+      validate() {
+        cy.getCookie('session').should('exist');
+      },
+      cacheAcrossSpecs: true
+    }
+  );
+});
+
+// loginAs.js - Role-based login helper
+const testUsers = {
+  admin: { email: 'admin@example.com', password: 'admin123', role: 'admin' },
+  editor: { email: 'editor@example.com', password: 'editor123', role: 'editor' },
+  viewer: { email: 'viewer@example.com', password: 'viewer123', role: 'viewer' }
+};
+
+Cypress.Commands.add('loginAs', (userType) => {
+  const user = testUsers[userType];
+
+  cy.session(
+    ['role', userType, user.email],
+    () => {
+      // Use API login for speed
+      cy.request('POST', '/api/login', {
+        email: user.email,
+        password: user.password
+      }).then((response) => {
+        window.localStorage.setItem('auth-token', response.body.token);
+        window.localStorage.setItem('user-role', user.role);
+      });
+    },
+    {
+      validate() {
+        cy.window().then((win) => {
+          const role = win.localStorage.getItem('user-role');
+          expect(role).to.equal(user.role);
+        });
+      },
+      cacheAcrossSpecs: true
+    }
+  );
 });
 ```
 
@@ -583,6 +969,102 @@ cypress/debug-logs/
 5. **Environment**: Viewport, URL, browser info
 6. **Screenshots**: Full-page captures on failure
 
+## Configuration Best Practices
+
+### Cypress Configuration (cypress.config.js)
+```javascript
+import { defineConfig } from 'cypress';
+
+export default defineConfig({
+  e2e: {
+    // * Essential configuration
+    baseUrl: 'http://localhost:3002',
+    viewportWidth: 375,  // Mobile-first
+    viewportHeight: 812,
+
+    // * Timeouts optimized for React Native Web
+    defaultCommandTimeout: 10000,  // UI commands
+    requestTimeout: 10000,         // HTTP requests
+    responseTimeout: 10000,        // Server responses
+    pageLoadTimeout: 30000,        // Page transitions
+
+    // * Video and screenshots
+    video: false,                          // Enable only for debugging
+    screenshotOnRunFailure: true,
+    trashAssetsBeforeRuns: true,
+
+    // * Retries for flaky tests
+    retries: {
+      runMode: 2,     // CI/CD pipeline
+      openMode: 0     // Local development
+    },
+
+    // * Test isolation
+    testIsolation: true,  // Clean browser context between tests
+
+    // * Experimental features for React Native Web
+    experimentalStudio: true,        // Visual test recorder
+    experimentalRunAllSpecs: true,   // Run all specs button
+
+    setupNodeEvents(on, config) {
+      // * Task plugins for data seeding
+      on('task', {
+        'db:reset': () => {
+          // Reset database logic
+          return null;
+        },
+        'db:seed': (data) => {
+          // Seed database with test data
+          return null;
+        },
+        log(message) {
+          console.log(message);
+          return null;
+        }
+      });
+
+      // * Environment-specific configuration
+      const environmentName = config.env.environmentName || 'local';
+      if (environmentName === 'staging') {
+        config.baseUrl = 'https://staging.fantasyapp.com';
+      }
+
+      return config;
+    }
+  },
+
+  component: {
+    devServer: {
+      framework: 'react',
+      bundler: 'webpack',
+      webpackConfig: require('./webpack.config.js')
+    },
+    specPattern: 'cypress/component/**/*.cy.{js,jsx,ts,tsx}',
+    supportFile: 'cypress/support/component.js'
+  }
+});
+```
+
+### Environment-Specific Configuration
+```javascript
+// cypress/config/staging.json
+{
+  "baseUrl": "https://staging.fantasyapp.com",
+  "env": {
+    "apiUrl": "https://api.staging.fantasyapp.com",
+    "environment": "staging"
+  }
+}
+
+// Load environment config in cypress.config.js
+setupNodeEvents(on, config) {
+  const environmentName = config.env.environmentName || 'local';
+  const environmentFilename = `./cypress/config/${environmentName}.json`;
+  const environmentConfig = require(environmentFilename);
+  return { ...config, ...environmentConfig };
+}
+```
+
 ## Performance & Optimization
 
 ### 1. Parallel Execution
@@ -619,6 +1101,344 @@ it('should handle large datasets @performance', () => {
 
 // Run only performance tests
 npm run cypress:run -- --env grep=@performance
+```
+
+## Code Coverage Strategy
+
+### Coverage Setup & Configuration
+
+#### Installation
+```bash
+npm install --save-dev @cypress/code-coverage babel-plugin-istanbul
+```
+
+#### Configuration Files
+```javascript
+// cypress.config.js
+module.exports = defineConfig({
+  e2e: {
+    setupNodeEvents(on, config) {
+      // Enable code coverage collection
+      require('@cypress/code-coverage/task')(on, config)
+
+      // Custom coverage tasks
+      on('task', {
+        'coverage:reset': () => {
+          // Reset coverage between test suites
+          return null
+        },
+        'coverage:report': () => {
+          // Generate custom reports
+          const NYC = require('nyc')
+          const nyc = new NYC({
+            reporter: ['html', 'text', 'json']
+          })
+          return nyc.report()
+        }
+      })
+
+      return config
+    }
+  }
+})
+
+// cypress/support/e2e.js
+import '@cypress/code-coverage/support'
+```
+
+#### Instrumentation for React Native Web
+```javascript
+// babel.config.js
+module.exports = {
+  presets: ['module:metro-react-native-babel-preset'],
+  plugins: [
+    ['istanbul', {
+      exclude: [
+        '**/*.test.{js,jsx,ts,tsx}',
+        '**/*.cy.{js,jsx,ts,tsx}',
+        '**/node_modules/**',
+        '**/cypress/**'
+      ]
+    }]
+  ],
+  env: {
+    test: {
+      plugins: ['istanbul']
+    }
+  }
+}
+
+// webpack.config.js (for web build)
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.(js|jsx|ts|tsx)$/,
+        include: [
+          path.resolve(__dirname, 'src'),
+          // Include React Native Web modules
+          path.resolve(__dirname, 'node_modules/react-native-web')
+        ],
+        use: {
+          loader: 'babel-loader',
+          options: {
+            plugins: process.env.COVERAGE ? ['istanbul'] : []
+          }
+        }
+      }
+    ]
+  }
+}
+```
+
+### Coverage Goals & Thresholds
+
+#### Overall Project Thresholds
+```json
+// .nycrc
+{
+  "all": true,
+  "include": ["src/**/*.{js,jsx,ts,tsx}"],
+  "exclude": [
+    "**/*.test.{js,jsx,ts,tsx}",
+    "**/*.cy.{js,jsx,ts,tsx}",
+    "**/node_modules/**",
+    "**/coverage/**",
+    "**/__mocks__/**"
+  ],
+  "reporter": ["html", "text", "lcov", "json"],
+  "check-coverage": true,
+  "branches": 75,
+  "lines": 80,
+  "functions": 80,
+  "statements": 80
+}
+```
+
+#### Component-Specific Coverage Targets
+```javascript
+// Coverage enforcement by component type
+const coverageTargets = {
+  'src/auth/**': { lines: 95, branches: 90 },      // Critical: Authentication
+  'src/models/**': { lines: 90, branches: 85 },    // High: Data models
+  'src/components/**': { lines: 85, branches: 80 }, // Medium: UI components
+  'src/utils/**': { lines: 95, branches: 90 },     // High: Utilities
+  'src/navigation/**': { lines: 80, branches: 75 }, // Medium: Navigation
+  'src/errors/**': { lines: 90, branches: 85 }     // High: Error handlers
+}
+```
+
+### Coverage Collection Strategies
+
+#### 1. E2E Test Coverage
+```javascript
+describe('E2E Coverage Collection', () => {
+  beforeEach(() => {
+    // Coverage is automatically collected
+    cy.visit('/')
+  })
+
+  it('covers critical user paths', () => {
+    cy.login('user@example.com', 'password')
+    cy.navigateToProject('Test Project')
+    cy.createElement({ type: 'character', name: 'Hero' })
+    // Each interaction increases code coverage
+  })
+
+  after(() => {
+    // Check coverage thresholds
+    cy.task('coverage').then((coverage) => {
+      expect(coverage.lines.pct).to.be.at.least(80)
+    })
+  })
+})
+```
+
+#### 2. Component Test Coverage
+```javascript
+// src/components/ElementCard.cy.tsx
+describe('Component Coverage', () => {
+  it('covers all component branches', () => {
+    // Test all props combinations
+    const props = [
+      { element: mockElement, editable: true },
+      { element: mockElement, editable: false },
+      { element: { ...mockElement, relationships: [] } }
+    ]
+
+    props.forEach(prop => {
+      cy.mount(<ElementCard {...prop} />)
+      cy.get('[data-cy="element-card"]').should('exist')
+    })
+  })
+})
+```
+
+#### 3. Combining Coverage from Multiple Sources
+```javascript
+// package.json scripts
+{
+  "scripts": {
+    "coverage:e2e": "cypress run",
+    "coverage:component": "cypress run --component",
+    "coverage:unit": "jest --coverage",
+    "coverage:combine": "nyc merge coverage-e2e coverage-unit coverage-combined",
+    "coverage:report": "nyc report -t coverage-combined"
+  }
+}
+```
+
+### Coverage Reporting & Analysis
+
+#### HTML Report Generation
+```bash
+# Generate interactive HTML report
+npx nyc report --reporter=html
+open coverage/lcov-report/index.html
+```
+
+#### CI/CD Integration
+```yaml
+# GitHub Actions example
+- name: Run tests with coverage
+  run: |
+    npm run test:coverage
+    npm run coverage:report
+
+- name: Upload coverage to Codecov
+  uses: codecov/codecov-action@v3
+  with:
+    files: ./coverage/lcov.info
+    flags: cypress
+
+- name: Check coverage thresholds
+  run: npm run coverage:check
+```
+
+#### Custom Coverage Commands
+```javascript
+// cypress/support/commands.js
+Cypress.Commands.add('checkCoverage', (threshold = 80) => {
+  cy.task('coverage').then((coverage) => {
+    const { lines, branches, functions, statements } = coverage
+
+    cy.log(`Coverage Report:
+      Lines: ${lines.pct}%
+      Branches: ${branches.pct}%
+      Functions: ${functions.pct}%
+      Statements: ${statements.pct}%
+    `)
+
+    // Fail if below threshold
+    if (lines.pct < threshold) {
+      throw new Error(`Line coverage ${lines.pct}% is below ${threshold}%`)
+    }
+  })
+})
+
+// Usage in tests
+afterEach(() => {
+  cy.checkCoverage(85) // Require 85% coverage
+})
+```
+
+### Coverage Best Practices
+
+#### 1. Incremental Coverage Improvement
+```javascript
+// Track coverage trends over time
+const coverageTrend = {
+  'sprint-1': { lines: 60, target: 65 },
+  'sprint-2': { lines: 70, target: 75 },
+  'sprint-3': { lines: 80, target: 85 }
+}
+
+// Enforce incremental improvements
+cy.task('coverage').then((current) => {
+  const target = coverageTrend[currentSprint].target
+  expect(current.lines.pct).to.be.at.least(target)
+})
+```
+
+#### 2. Focus on Critical Paths
+```javascript
+describe('Critical Path Coverage @critical', () => {
+  // These tests MUST achieve 95%+ coverage
+  const criticalPaths = [
+    'authentication',
+    'payment-processing',
+    'data-persistence',
+    'error-recovery'
+  ]
+
+  criticalPaths.forEach(path => {
+    it(`ensures ${path} has high coverage`, () => {
+      // Test implementation
+      cy.checkCoverage(95)
+    })
+  })
+})
+```
+
+#### 3. Exclude Unreachable Code
+```javascript
+/* istanbul ignore next - Platform specific code */
+if (Platform.OS === 'ios') {
+  // iOS-only code
+}
+
+/* istanbul ignore if - Defensive programming */
+if (!this_should_never_happen) {
+  throw new Error('Impossible state')
+}
+
+/* istanbul ignore next - Dev only */
+if (__DEV__) {
+  console.log('Debug info')
+}
+```
+
+#### 4. Coverage-Driven Development
+```javascript
+// Write tests to increase coverage
+describe('Increase Coverage', () => {
+  it('covers untested error paths', () => {
+    // Force error conditions
+    cy.intercept('GET', '/api/**', { statusCode: 500 })
+    cy.visit('/')
+    cy.get('[data-cy="error-message"]').should('be.visible')
+  })
+
+  it('covers edge cases', () => {
+    // Test boundary conditions
+    cy.createElement({ name: 'A'.repeat(255) }) // Max length
+    cy.createElement({ name: '' }) // Empty
+    cy.createElement({ name: '特殊字符' }) // Unicode
+  })
+})
+```
+
+### Coverage Troubleshooting
+
+#### Common Issues & Solutions
+```javascript
+// Issue: Coverage shows 0%
+// Solution: Check window.__coverage__ exists
+cy.window().then((win) => {
+  expect(win.__coverage__, 'Coverage object should exist').to.exist
+})
+
+// Issue: Missing source maps
+// Solution: Enable source maps in build
+// webpack.config.js
+{
+  devtool: 'source-map'
+}
+
+// Issue: Coverage not combining
+// Solution: Clear cache and regenerate
+rm -rf .nyc_output coverage
+npm run test:coverage
 ```
 
 ## Best Practices
@@ -681,6 +1501,113 @@ cy.get('[data-cy="search-results"]')
   .should('contain', 'Dragon');
 ```
 
+## Advanced Patterns from Official Cypress Documentation
+
+### Testing Different User Roles
+```javascript
+describe('Role-based Access', () => {
+  it('admin can manage all elements', () => {
+    cy.setupTestUser({ role: 'admin', email: 'admin@example.com' });
+    cy.visit('/admin');
+    cy.get('[data-cy="admin-panel"]').should('be.visible');
+  });
+
+  it('regular user has limited access', () => {
+    cy.setupTestUser({ role: 'user', email: 'user@example.com' });
+    cy.visit('/admin');
+    cy.url().should('include', '/unauthorized');
+  });
+});
+```
+
+### Network Request Patterns
+```javascript
+// * Wait for specific requests
+cy.intercept('POST', '/api/elements').as('createElement');
+cy.get('[data-cy="save-button"]').click();
+cy.wait('@createElement').then((interception) => {
+  expect(interception.response.statusCode).to.eq(201);
+  expect(interception.response.body).to.have.property('id');
+});
+
+// * Modify requests on the fly
+cy.intercept('GET', '/api/elements', (req) => {
+  req.headers['authorization'] = 'Bearer test-token';
+}).as('getElements');
+```
+
+### Error State Testing
+```javascript
+describe('Error Handling', () => {
+  it('handles network errors gracefully', () => {
+    // * Simulate network failure
+    cy.intercept('GET', '/api/elements', {
+      statusCode: 500,
+      body: { error: 'Internal Server Error' }
+    }).as('serverError');
+
+    cy.visit('/elements');
+    cy.wait('@serverError');
+    cy.get('[data-cy="error-message"]')
+      .should('be.visible')
+      .and('contain', 'Something went wrong');
+
+    // * Test retry mechanism
+    cy.get('[data-cy="retry-button"]').click();
+  });
+
+  it('handles timeout errors', () => {
+    // * Simulate timeout
+    cy.intercept('GET', '/api/elements', (req) => {
+      req.reply((res) => {
+        res.delay(31000);  // Longer than timeout
+        res.send({ fixture: 'elements.json' });
+      });
+    });
+
+    cy.visit('/elements', { timeout: 30000 });
+    cy.get('[data-cy="timeout-error"]').should('be.visible');
+  });
+});
+```
+
+### Form Validation Testing
+```javascript
+describe('Form Validation', () => {
+  beforeEach(function() {
+    cy.comprehensiveDebug();
+    cy.cleanState();
+    cy.visit('/elements/create');
+  });
+
+  it('validates required fields', () => {
+    // * Submit empty form
+    cy.get('[data-cy="submit-button"]').click();
+
+    // * Check all validation messages
+    cy.get('[data-cy="name-error"]').should('contain', 'Name is required');
+    cy.get('[data-cy="type-error"]').should('contain', 'Type is required');
+  });
+
+  it('validates field formats', () => {
+    // * Test invalid inputs
+    cy.get('[data-cy="name-input"]').type('a');  // Too short
+    cy.get('[data-cy="submit-button"]').click();
+    cy.get('[data-cy="name-error"]').should('contain', 'at least 3 characters');
+  });
+});
+```
+
 ## Conclusion
 
-This comprehensive testing strategy ensures robust, maintainable tests for the FantasyWritingApp. By following these patterns and best practices, the test suite will provide confidence in the application's functionality across all platforms while maintaining excellent debugging capabilities and performance.
+This comprehensive testing strategy, enhanced with official Cypress best practices, ensures robust, maintainable tests for the FantasyWritingApp. By following these patterns and incorporating proper data seeding, stubbing, session management, and configuration strategies, the test suite will provide confidence in the application's functionality across all platforms while maintaining excellent debugging capabilities and performance.
+
+### Key Takeaways
+1. **Always start your local development server** before running tests
+2. **Use baseUrl configuration** to avoid hardcoding URLs
+3. **Implement multiple data seeding strategies** based on test needs
+4. **Cache authentication with cy.session()** for faster tests
+5. **Stub external services** to isolate your application
+6. **Configure timeouts appropriately** for React Native Web
+7. **Use environment-specific configurations** for different stages
+8. **Test error states and edge cases** comprehensively

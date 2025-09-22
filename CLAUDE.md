@@ -54,6 +54,8 @@ npm run lint          # Run linter (MANDATORY before commits)
 npm run test          # Run Jest unit tests
 npm run cypress:open  # Open Cypress UI
 npm run cypress:run   # Run Cypress headlessly
+npm run test:coverage # Run tests with code coverage
+npm run coverage:report # Generate coverage report
 
 # Build & Deploy
 npm run build:web     # Build for web production
@@ -454,6 +456,8 @@ export const AppNavigator = () => {
 3. **No conditional logic**: ABSOLUTELY NO `if` statements in Cypress tests
 4. **Comprehensive coverage**: Test happy paths AND edge cases
 5. **Test Structure**: Use Arrange → Act → Assert pattern
+6. **Local Development First**: Always test against local servers (port 3002) for maximum control
+7. **State Isolation**: Clean state before tests, never after
 
 ### Cypress Testing Rules
 
@@ -465,6 +469,15 @@ export const AppNavigator = () => {
 - Clear test naming that describes expected behavior
 - NEVER use conditional logic (if/else statements) in tests
 
+#### Starting Your Development Server
+```bash
+# ! IMPORTANT: Server must be running BEFORE Cypress
+npm run web  # Starts on port 3002
+
+# For CI/CD, use start-server-and-test:
+"test:e2e": "start-server-and-test web http://localhost:3002 cypress:run"
+```
+
 #### Test File Structure
 ```javascript
 // * MANDATORY structure for all Cypress tests
@@ -473,16 +486,16 @@ describe('Feature Name', () => {
   beforeEach(function() {
     // ! MANDATORY: comprehensive debugging
     cy.comprehensiveDebug();
-    
+
     // ! MANDATORY: clean state before any operations
     cy.cleanState();
-    
+
     // Setup test data if needed
     cy.setupTestData();
-    
-    // Visit the app
-    cy.visit('http://localhost:3002');
-    
+
+    // Visit the app using baseUrl (configured in cypress.config.js)
+    cy.visit('/');
+
     // Set viewport for React Native Web testing
     cy.viewport('iphone-x'); // Mobile-first testing
   });
@@ -505,6 +518,30 @@ describe('Feature Name', () => {
     cy.get('[data-cy="result"]').should('contain', 'expected text');
   });
 });
+```
+
+#### Data Seeding Strategies
+```javascript
+// * Method 1: cy.exec() - Run system commands
+beforeEach(function() {
+  cy.exec('npm run db:reset && npm run db:seed');
+  cy.cleanState();
+});
+
+// * Method 2: cy.task() - Run Node.js code
+beforeEach(function() {
+  cy.task('db:seed', { projects: 2, elements: 5 });
+  cy.cleanState();
+});
+
+// * Method 3: cy.request() - API seeding
+beforeEach(function() {
+  cy.request('POST', '/test/seed/user', userData);
+  cy.request('POST', '/test/seed/project', projectData);
+});
+
+// * Method 4: Stubbing responses
+cy.intercept('GET', '/api/elements', { fixture: 'elements.json' }).as('getElements');
 ```
 
 #### Custom Commands for React Native Web
@@ -579,24 +616,188 @@ Cypress.Commands.add('swipe', (selector: string, direction: 'left' | 'right' | '
     .trigger('touchend');
 });
 
-// * Setup test data for React Native app
-Cypress.Commands.add('setupTestData', () => {
-  // Create default test story
-  const testStory = {
-    id: 'test-story-1',
-    title: 'Test Fantasy Story',
-    genre: 'fantasy',
-    content: 'Test content',
-    createdAt: new Date().toISOString()
-  };
-  
-  // Store in AsyncStorage format for React Native
-  cy.window().then((win) => {
-    win.localStorage.setItem(
-      'fantasy-writing-app-stories',
-      JSON.stringify({ stories: [testStory] })
-    );
-  });
+// * Setup test data with enhanced cy.session() for caching
+Cypress.Commands.add('setupTestData', (options = {}) => {
+  const sessionId = options.sessionId || 'default-test-data';
+  const testData = options.data || {};
+
+  cy.session(
+    [sessionId, testData], // Include data in ID for unique sessions
+    () => {
+      // Create default test story
+      const testStory = {
+        id: 'test-story-1',
+        title: 'Test Fantasy Story',
+        genre: 'fantasy',
+        content: 'Test content',
+        createdAt: new Date().toISOString(),
+        ...testData.story
+      };
+
+      // Store in AsyncStorage format for React Native
+      cy.window().then((win) => {
+        win.localStorage.setItem(
+          'fantasy-writing-app-stories',
+          JSON.stringify({ stories: [testStory] })
+        );
+
+        // Store any additional test data
+        if (testData.user) {
+          win.localStorage.setItem('current-user', JSON.stringify(testData.user));
+        }
+        if (testData.projects) {
+          win.localStorage.setItem('projects', JSON.stringify(testData.projects));
+        }
+      });
+    },
+    {
+      validate() {
+        // Enhanced validation to ensure session integrity
+        cy.window().then((win) => {
+          const data = win.localStorage.getItem('fantasy-writing-app-stories');
+          expect(data, 'Stories data should exist').to.not.be.null;
+
+          // Validate data structure
+          const parsed = JSON.parse(data);
+          expect(parsed).to.have.property('stories');
+          expect(parsed.stories).to.have.length.greaterThan(0);
+        });
+      },
+      cacheAcrossSpecs: true  // Cache across test files for performance
+    }
+  );
+});
+
+// * Login with cy.session() for authentication caching
+Cypress.Commands.add('login', (email = 'test@example.com', password = 'password123') => {
+  cy.session(
+    email, // Use email as unique session identifier
+    () => {
+      cy.visit('/login');
+      cy.get('[data-cy="email-input"]').type(email);
+      cy.get('[data-cy="password-input"]').type(password);
+      cy.get('[data-cy="submit-button"]').click();
+
+      // Wait for successful login
+      cy.url().should('not.include', '/login');
+      cy.get('[data-cy="user-avatar"]').should('be.visible');
+    },
+    {
+      validate() {
+        // Check if still authenticated
+        cy.window().then((win) => {
+          const authToken = win.localStorage.getItem('auth-token');
+          expect(authToken).to.not.be.null;
+
+          // Optional: Verify token is still valid
+          if (authToken) {
+            const payload = JSON.parse(atob(authToken.split('.')[1]));
+            expect(payload.exp * 1000).to.be.greaterThan(Date.now());
+          }
+        });
+      },
+      cacheAcrossSpecs: true
+    }
+  );
+});
+
+// * Multiple user roles with cy.session()
+const testUsers = {
+  admin: { email: 'admin@example.com', password: 'admin123', role: 'admin' },
+  editor: { email: 'editor@example.com', password: 'edit123', role: 'editor' },
+  viewer: { email: 'viewer@example.com', password: 'view123', role: 'viewer' }
+};
+
+Cypress.Commands.add('loginAs', (userType) => {
+  const user = testUsers[userType];
+
+  cy.session(
+    [userType, user.email], // Unique session per user type
+    () => {
+      cy.visit('/login');
+      cy.get('[data-cy="email-input"]').type(user.email);
+      cy.get('[data-cy="password-input"]').type(user.password);
+      cy.get('[data-cy="submit-button"]').click();
+
+      // Wait for role-specific dashboard
+      cy.url().should('include', '/dashboard');
+      cy.get(`[data-cy="${user.role}-dashboard"]`).should('be.visible');
+    },
+    {
+      validate() {
+        cy.window().then((win) => {
+          const userData = win.localStorage.getItem('user');
+          expect(userData).to.not.be.null;
+          const parsedUser = JSON.parse(userData);
+          expect(parsedUser.role).to.eq(user.role);
+        });
+      },
+      cacheAcrossSpecs: true
+    }
+  );
+});
+```
+
+#### Session Management Best Practices
+
+##### Core Principles
+1. **Use cy.session() for all authentication** - Cache login state across tests
+2. **Include unique parameters in session ID** - Prevent session conflicts
+3. **Always validate sessions** - Ensure session is still valid
+4. **Call cy.visit() after cy.session()** - Navigate after session restore
+5. **Use cacheAcrossSpecs for stable sessions** - Share sessions between spec files
+
+##### Session Patterns
+```javascript
+// Basic session with validation
+cy.session('user', () => {
+  // Setup: Login steps
+  cy.visit('/login');
+  cy.get('[data-cy="email"]').type('user@example.com');
+  cy.get('[data-cy="password"]').type('password');
+  cy.get('[data-cy="submit"]').click();
+}, {
+  validate() {
+    // Ensure session is still valid
+    cy.getCookie('auth-token').should('exist');
+  }
+});
+
+// Dynamic session IDs for different scenarios
+cy.session([username, role, environment], setupFunction);
+
+// Cross-spec session caching
+cy.session('shared-user', setup, {
+  cacheAcrossSpecs: true // Available in all spec files
+});
+
+// API-based session setup (faster than UI)
+cy.session('api-user', () => {
+  cy.request('POST', '/api/login', { email, password })
+    .then((response) => {
+      window.localStorage.setItem('token', response.body.token);
+    });
+});
+```
+
+##### Session Debugging
+```javascript
+// Force session recreation
+cy.session('user', setup, {
+  validate() {
+    if (Cypress.env('FORCE_NEW_SESSION')) {
+      throw new Error('Forcing new session');
+    }
+    // Normal validation
+  }
+});
+
+// Log session events
+cy.session('debug-user', () => {
+  cy.task('log', 'Creating new session');
+  // Setup steps
+}).then(() => {
+  cy.task('log', 'Session ready');
 });
 ```
 
@@ -675,31 +876,125 @@ describe('Story Creation - React Native Web', () => {
 
   it('validates form inputs properly', () => {
     cy.get('[data-cy="create-story-button"]').click();
-    
+
     // * Test empty submission
     cy.get('[data-cy="save-story-button"]').click();
     cy.get('[data-cy="error-message"]').should('contain', 'Title is required');
-    
+
     // * Test validation rules
     cy.get('[data-cy="story-title-input"]').type('a'); // Too short
     cy.get('[data-cy="save-story-button"]').click();
     cy.get('[data-cy="error-message"]').should('contain', 'Title must be at least 3 characters');
-    
+
     // * Test successful submission
     cy.get('[data-cy="story-title-input"]').clear().type('Valid Story Title');
     cy.get('[data-cy="save-story-button"]').click();
     cy.get('[data-cy="error-message"]').should('not.exist');
   });
+
+  it('handles network errors gracefully', () => {
+    // * Simulate server error
+    cy.intercept('POST', '/api/stories', {
+      statusCode: 500,
+      body: { error: 'Internal Server Error' }
+    }).as('serverError');
+
+    cy.get('[data-cy="create-story-button"]').click();
+    cy.get('[data-cy="story-title-input"]').type('Test Story');
+    cy.get('[data-cy="save-story-button"]').click();
+
+    cy.wait('@serverError');
+    cy.get('[data-cy="error-message"]')
+      .should('be.visible')
+      .and('contain', 'Something went wrong');
+  });
 });
 ```
 
 ### Testing Coverage Requirements
+
+#### Code Coverage Metrics
+- **Minimum Thresholds**:
+  - Lines: 80%
+  - Branches: 75%
+  - Functions: 80%
+  - Statements: 80%
+
+- **Component-Specific Targets**:
+  - Authentication: 95% (critical)
+  - Data Models: 90%
+  - UI Components: 85%
+  - Utilities: 95%
+  - Navigation: 80%
+  - Error Handlers: 90%
+
 - **Test Pyramid Distribution**:
   - 50-60% Unit tests (Jest + React Native Testing Library)
   - 25-35% Component tests (React Native Testing Library)
   - 15-20% E2E tests (Cypress for Web, Detox for Mobile)
   - 100% critical user paths must have E2E coverage
-  
+
+#### Code Coverage Setup for React Native Web
+
+##### Installation
+```bash
+npm install --save-dev @cypress/code-coverage
+```
+
+##### Configuration
+```javascript
+// cypress.config.js - Add coverage task
+setupNodeEvents(on, config) {
+  require('@cypress/code-coverage/task')(on, config)
+  return config
+}
+
+// cypress/support/e2e.js - Import support
+import '@cypress/code-coverage/support'
+
+// babel.config.js - Add Istanbul plugin for instrumentation
+module.exports = {
+  presets: ['module:metro-react-native-babel-preset'],
+  plugins: [
+    ['istanbul', {
+      exclude: ['**/*.test.js', '**/*.cy.js', '**/node_modules/**']
+    }]
+  ]
+}
+```
+
+##### NYC Configuration (.nycrc)
+```json
+{
+  "all": true,
+  "include": ["src/**/*.{js,jsx,ts,tsx}"],
+  "exclude": [
+    "**/*.test.{js,jsx,ts,tsx}",
+    "**/*.cy.{js,jsx,ts,tsx}",
+    "**/node_modules/**",
+    "**/coverage/**"
+  ],
+  "reporter": ["html", "text", "lcov"],
+  "check-coverage": true,
+  "branches": 75,
+  "lines": 80,
+  "functions": 80,
+  "statements": 80
+}
+```
+
+##### Coverage Scripts
+```json
+// package.json
+{
+  "scripts": {
+    "test:coverage": "COVERAGE=true npm run web & wait-on http://localhost:3002 && cypress run",
+    "coverage:report": "nyc report --reporter=html --reporter=text",
+    "coverage:check": "nyc check-coverage"
+  }
+}
+```
+
 - **ALL new features must include**:
   - Comprehensive E2E tests covering happy path and edge cases
   - Component tests for UI components
@@ -774,17 +1069,27 @@ npm install
 cd ios && pod install  # iOS only
 
 # Start development
-npm run web            # Start web dev server (port 3002)
+npm run web            # Start web dev server (port 3002) - RUN FIRST FOR TESTING
 npm run ios           # Start iOS simulator
 npm run android       # Start Android emulator
 npm run start         # Start Metro bundler
 
-# Testing
+# Testing (make sure server is running first!)
 npm run test          # Run Jest unit tests
 npm run test:watch    # Watch mode for Jest
-npm run cypress:open  # Open Cypress for web testing
-npm run cypress:run   # Run Cypress headlessly
-npm run test:e2e      # Run all E2E tests
+npm run cypress:open  # Open Cypress for web testing (server must be running)
+npm run cypress:run   # Run Cypress headlessly (server must be running)
+npm run test:e2e      # Run all E2E tests with server auto-start
+
+# Code Coverage
+npm run test:coverage # Run tests with code coverage collection
+npm run coverage:report # Generate HTML coverage report
+npm run coverage:check # Check if coverage meets thresholds
+open coverage/lcov-report/index.html # View coverage report
+
+# CI/CD Testing
+npm run test:e2e:ci   # Starts server and runs tests (for CI pipelines)
+npm run test:coverage:ci # Run tests with coverage for CI
 
 # Building
 npm run build:web     # Build for web production
@@ -1303,15 +1608,19 @@ Every piece of code must:
 ## Quick Reference
 
 ### Essential Rules Checklist
+- [ ] Development server running on port 3002 (for testing)
 - [ ] Code has helpful comments
 - [ ] Only `data-cy`/`testID` attributes for selectors
 - [ ] Lint passes (`npm run lint`)
 - [ ] Tests written and passing
+- [ ] Used appropriate data seeding strategy
 - [ ] Error handling implemented
+- [ ] Network errors tested with cy.intercept()
 - [ ] Accessibility verified
 - [ ] No console.log statements
 - [ ] No sensitive data exposed
 - [ ] Read existing files before editing
+- [ ] baseUrl configured in cypress.config.js
 
 ### Common Commands
 ```bash

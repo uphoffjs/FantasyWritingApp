@@ -96,8 +96,6 @@ read_memory("checkpoint")
 
 **Step 2: Create checkpoint in your app**
 ```javascript
-// Click the "📸 Checkpoint" button in DevMemoryTools
-// OR call this in your code:
 memoryHelpers.checkpoint("Session checkpoint")
 ```
 
