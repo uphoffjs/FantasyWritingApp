@@ -19,7 +19,9 @@ import { RichTextEditor } from '../../../src/components/RichTextEditor';
 describe('RichTextEditor Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
   let onChangeSpy: any;
 
@@ -35,7 +37,9 @@ describe('RichTextEditor Component', () => {
   describe('Rendering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('renders the editor with toolbar', () => {
       cy.mount(
@@ -123,7 +127,9 @@ describe('RichTextEditor Component', () => {
   describe('Text Formatting', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     beforeEach(function() {
     // ! MANDATORY: Comprehensive debug setup
@@ -175,7 +181,9 @@ describe('RichTextEditor Component', () => {
   describe('Heading Formatting', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     beforeEach(function() {
     // ! MANDATORY: Comprehensive debug setup
@@ -223,7 +231,9 @@ describe('RichTextEditor Component', () => {
   describe('List Formatting', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     beforeEach(function() {
     // ! MANDATORY: Comprehensive debug setup
@@ -272,7 +282,9 @@ describe('RichTextEditor Component', () => {
   describe('Link Functionality', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('opens link modal when link button is clicked', () => {
       cy.mount(
@@ -393,7 +405,9 @@ describe('RichTextEditor Component', () => {
   describe('Content Updates', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('calls onChange when content is modified', () => {
       cy.mount(
@@ -433,7 +447,9 @@ describe('RichTextEditor Component', () => {
   describe('Accessibility', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('has proper ARIA attributes', () => {
       cy.mount(
@@ -496,7 +512,9 @@ describe('RichTextEditor Component', () => {
   describe('Edge Cases', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('handles empty content gracefully', () => {
       cy.mount(
@@ -560,7 +578,9 @@ describe('RichTextEditor Component', () => {
   describe('Responsive Design', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('adapts toolbar for mobile viewport', () => {
       cy.viewport(375, 667);

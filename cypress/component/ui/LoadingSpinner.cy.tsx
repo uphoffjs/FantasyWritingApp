@@ -25,7 +25,9 @@ describe('LoadingScreen Component', () => {
 
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   it('should render with default loading message', () => {

@@ -48,7 +48,9 @@ jest.mock('../../src/components/AutoSyncStatus', () => ({
 describe('Header Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
   let navigateSpy: any;
   let exportProjectSpy: any;
@@ -91,7 +93,9 @@ describe('Header Component', () => {
   describe('Desktop Rendering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('renders desktop header with title and logo', () => {
       mountWithRouter(<Header isMobile={false} />);
@@ -150,7 +154,9 @@ describe('Header Component', () => {
   describe('Mobile Rendering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('renders mobile header when isMobile is true', () => {
       const setMobileMenuOpen = cy.stub();
@@ -184,7 +190,9 @@ describe('Header Component', () => {
   describe('Navigation', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('navigates to projects when home button is clicked', () => {
       mountWithRouter(<Header isMobile={false} />);
@@ -214,7 +222,9 @@ describe('Header Component', () => {
   describe('Export Functionality', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('disables export button when no project is selected', () => {
       cy.stub(useWorldbuildingStore, 'getState').returns({
@@ -276,7 +286,9 @@ describe('Header Component', () => {
   describe('Import Functionality', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('handles successful import', () => {
       cy.stub(useWorldbuildingStore, 'getState').returns({
@@ -310,7 +322,9 @@ describe('Header Component', () => {
   describe('Authentication UI', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('shows auth UI when authenticated', () => {
       cy.stub(useAuthStore, 'getState').returns({
@@ -349,7 +363,9 @@ describe('Header Component', () => {
   describe('Hover Effects', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('shows hover effect on buttons', () => {
       mountWithRouter(<Header isMobile={false} />);
@@ -364,7 +380,9 @@ describe('Header Component', () => {
   describe('Accessibility', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('has proper title attributes on buttons', () => {
       mountWithRouter(<Header isMobile={false} />);
@@ -394,7 +412,9 @@ describe('Header Component', () => {
   describe('Responsive Design', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('renders correctly on desktop viewport', () => {
       cy.viewport(1920, 1080);
@@ -420,7 +440,9 @@ describe('Header Component', () => {
   describe('Edge Cases', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('handles missing getCurrentProject function', () => {
       cy.stub(useWorldbuildingStore, 'getState').returns({

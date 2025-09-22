@@ -93,7 +93,9 @@ describe('TextInput - Accessibility (A11Y)', () => {
   describe('WCAG Compliance', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('passes WCAG 2.1 Level A criteria', () => {
@@ -147,7 +149,9 @@ describe('TextInput - Accessibility (A11Y)', () => {
   describe('ARIA Attributes', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('has proper ARIA attributes when labeled', () => {
@@ -218,7 +222,9 @@ describe('TextInput - Accessibility (A11Y)', () => {
   describe('Keyboard Navigation', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('can be focused with Tab key', () => {
@@ -304,7 +310,9 @@ describe('TextInput - Accessibility (A11Y)', () => {
   describe('Screen Reader Support', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('announces label correctly', () => {
@@ -395,7 +403,9 @@ describe('TextInput - Accessibility (A11Y)', () => {
   describe('Form Integration', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('works correctly in a form with proper labeling', () => {
@@ -450,7 +460,9 @@ describe('TextInput - Accessibility (A11Y)', () => {
   describe('Error Prevention', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('provides clear constraints for input', () => {
@@ -515,7 +527,9 @@ describe('TextInput - Accessibility (A11Y)', () => {
   describe('Mobile and Touch Accessibility', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('has appropriate touch target size', () => {
@@ -542,7 +556,9 @@ describe('TextInput - Accessibility (A11Y)', () => {
   describe('Comprehensive A11Y Test', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('passes all accessibility checks for a complete form', () => {

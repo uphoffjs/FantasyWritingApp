@@ -102,7 +102,9 @@ const mockAnswers: Record<string, Answer> = {
 describe('BaseElementForm', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
   beforeEach(function() {
     // ! MANDATORY: Comprehensive debug setup
@@ -117,7 +119,9 @@ describe('BaseElementForm', () => {
   describe('Rendering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('renders all question types correctly', () => {
       const onChange = cy.stub();
@@ -206,7 +210,9 @@ describe('BaseElementForm', () => {
   describe('Mode Toggle', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('switches between basic and detailed modes', () => {
       cy.mount(
@@ -264,7 +270,9 @@ describe('BaseElementForm', () => {
   describe('Category Expansion', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('expands and collapses categories', () => {
       cy.mount(
@@ -311,7 +319,9 @@ describe('BaseElementForm', () => {
   describe('User Interactions', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('handles text input changes', () => {
       const onChange = cy.stub();
@@ -437,7 +447,9 @@ describe('BaseElementForm', () => {
   describe('Validation', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('respects number input validation', () => {
       cy.mount(
@@ -477,7 +489,9 @@ describe('BaseElementForm', () => {
   describe('Edge Cases', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('handles empty questions array', () => {
       cy.mount(
@@ -533,7 +547,9 @@ describe('BaseElementForm', () => {
   describe('Accessibility', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('has proper ARIA labels', () => {
       cy.mount(
@@ -577,7 +593,9 @@ describe('BaseElementForm', () => {
 describe('CharacterForm', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
   
   const mockProject = {
@@ -602,7 +620,9 @@ describe('CharacterForm', () => {
   describe('Rendering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('renders base form with species selector', () => {
       const onChange = cy.stub();
@@ -658,7 +678,9 @@ describe('CharacterForm', () => {
 describe('Other Element Forms', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
   
   const testForms = [
@@ -674,11 +696,13 @@ describe('Other Element Forms', () => {
     { Component: TechnologyForm, name: 'TechnologyForm' }
   ];
   
-  testForms.forEach(({ Component, name }); => {
+  testForms.forEach(({ Component, name }) => {
     describe(name, () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
       it('renders and handles changes', () => {
         const onChange = cy.stub();

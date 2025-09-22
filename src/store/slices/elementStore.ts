@@ -9,7 +9,7 @@ import {
   // hasCustomType,
   // CustomElementType
 } from '../../types/worldbuilding';
-import { CalculationService } from '../../services/core/CalculationService';
+import { calculationService } from '../../services/core/CalculationService';
 import { ProjectSlice } from './projectStore';
 import { AsyncSlice, AsyncActionTypes } from './asyncStore';
 // import { createOptimisticUpdate } from '../../utils/async';
@@ -141,7 +141,7 @@ export const createElementSlice: StateCreator<
                           ...element, 
                           ...normalizedUpdates, 
                           updatedAt: new Date(),
-                          completionPercentage: CalculationService.calculateElementCompletion({ ...element, ...normalizedUpdates })
+                          completionPercentage: calculationService.calculateElementCompletion({ ...element, ...normalizedUpdates })
                         }
                       : element
                   ),
@@ -234,7 +234,7 @@ export const createElementSlice: StateCreator<
                             }
                           },
                           updatedAt: new Date(),
-                          completionPercentage: CalculationService.calculateElementCompletion({
+                          completionPercentage: calculationService.calculateElementCompletion({
                             ...element,
                             answers: {
                               ...element.answers,

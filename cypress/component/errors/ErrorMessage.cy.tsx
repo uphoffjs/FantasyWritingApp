@@ -24,7 +24,9 @@ describe('ErrorMessage Component', () => {
   });
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
   
   const defaultProps = {
@@ -34,7 +36,9 @@ describe('ErrorMessage Component', () => {
   describe('Rendering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('renders with required message prop', () => {
       cy.mount(<ErrorMessage {...defaultProps} />);
@@ -87,7 +91,9 @@ describe('ErrorMessage Component', () => {
   describe('Retry Functionality', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('renders retry button when onRetry is provided', () => {
       const onRetrySpy = cy.spy().as('onRetry');
@@ -129,7 +135,9 @@ describe('ErrorMessage Component', () => {
   describe('Different Error Types', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('displays network error', () => {
       cy.mount(
@@ -168,7 +176,9 @@ describe('ErrorMessage Component', () => {
   describe('Edge Cases', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('handles very long error messages', () => {
       const longMessage = 'A'.repeat(500);
@@ -211,7 +221,9 @@ describe('ErrorMessage Component', () => {
   describe('Accessibility', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('has proper ARIA role', () => {
       cy.mount(<ErrorMessage {...defaultProps} />);
@@ -268,7 +280,9 @@ describe('ErrorMessage Component', () => {
   describe('Responsive Design', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('renders correctly on mobile viewport', () => {
       cy.viewport(375, 667);
@@ -310,7 +324,9 @@ describe('ErrorMessage Component', () => {
   describe('Integration', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('works in a form context', () => {
       cy.mount(

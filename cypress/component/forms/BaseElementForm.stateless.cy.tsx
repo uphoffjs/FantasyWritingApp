@@ -27,7 +27,9 @@ describe('BaseElementForm - Stateless Tests', () => {
 
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   // * Test with minimal React - no providers, no store

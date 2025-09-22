@@ -33,7 +33,7 @@ import React from 'react';
 // import { ComponentName } from '../../../src/components/ComponentName';
 
 // * Import factories if needed
-// TODO: import { ElementFactory } from '../../fixtures/factories/ElementFactory';
+// TODO: import { elementFactory } from '../../fixtures/factories/ElementFactory';
 
 // * Import test utilities if needed
 // import { mountWithProviders } from '../../support/component-test-helpers';

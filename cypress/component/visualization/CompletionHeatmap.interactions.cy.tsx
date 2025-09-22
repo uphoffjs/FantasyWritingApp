@@ -20,7 +20,9 @@ import { Project, WorldElement } from '../../../src/types/models';
 describe('CompletionHeatmap Interaction Tests', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   
@@ -61,7 +63,9 @@ describe('CompletionHeatmap Interaction Tests', () => {
   describe('Sorting', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('sorts elements by category first', () => {
@@ -103,7 +107,9 @@ describe('CompletionHeatmap Interaction Tests', () => {
   describe('Grid Layout', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('calculates appropriate grid dimensions', () => {
@@ -149,7 +155,9 @@ describe('CompletionHeatmap Interaction Tests', () => {
   describe('Interactions', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('calls onElementClick when element is clicked', () => {
@@ -210,7 +218,9 @@ describe('CompletionHeatmap Interaction Tests', () => {
   describe('Statistics', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('calculates completed count correctly', () => {
@@ -277,7 +287,9 @@ describe('CompletionHeatmap Interaction Tests', () => {
   describe('Category Icons', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('displays correct icon for each category', () => {

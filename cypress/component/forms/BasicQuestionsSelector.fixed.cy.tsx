@@ -19,7 +19,9 @@ import { BasicQuestionsSelector, Question } from '../../support/component-test-h
 describe('BasicQuestionsSelector Component - Fixed', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   
@@ -49,7 +51,9 @@ describe('BasicQuestionsSelector Component - Fixed', () => {
   describe('Rendering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('renders with title and description', () => {
@@ -113,7 +117,9 @@ describe('BasicQuestionsSelector Component - Fixed', () => {
   describe('Quick Actions', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('applies default suggestions when clicked', () => {
@@ -173,7 +179,9 @@ describe('BasicQuestionsSelector Component - Fixed', () => {
   describe('Question Selection', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('toggles question selection when checkbox is clicked', () => {
@@ -221,7 +229,9 @@ describe('BasicQuestionsSelector Component - Fixed', () => {
   describe('Visual Feedback', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('shows summary when questions are selected', () => {
@@ -242,7 +252,9 @@ describe('BasicQuestionsSelector Component - Fixed', () => {
   describe('Initialization', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('uses provided basicQuestionIds on mount', () => {
@@ -264,7 +276,9 @@ describe('BasicQuestionsSelector Component - Fixed', () => {
   describe('Edge Cases', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('handles empty questions array', () => {
@@ -303,7 +317,9 @@ describe('BasicQuestionsSelector Component - Fixed', () => {
   describe('Responsive Design', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('works on mobile viewport', () => {
@@ -341,7 +357,9 @@ describe('BasicQuestionsSelector Component - Fixed', () => {
   describe('Time Calculations', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('calculates basic mode time correctly', () => {

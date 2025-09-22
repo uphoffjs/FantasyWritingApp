@@ -23,7 +23,9 @@ import { WorldElement } from '../../../src/types/models';
 describe('RelationshipModal Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   let onCloseSpy: any;
@@ -65,7 +67,9 @@ describe('RelationshipModal Component', () => {
   describe('Rendering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('renders with source element displayed', () => {
@@ -143,7 +147,9 @@ describe('RelationshipModal Component', () => {
   describe('Element Search', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('filters elements by search term in name', () => {
@@ -234,7 +240,9 @@ describe('RelationshipModal Component', () => {
   describe('Element Selection', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('selects target element and shows relationship options', () => {
@@ -288,7 +296,9 @@ describe('RelationshipModal Component', () => {
   describe('Relationship Type Suggestions', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('shows character-to-character relationship suggestions', () => {
@@ -406,7 +416,9 @@ describe('RelationshipModal Component', () => {
   describe('Relationship Type Selection', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('selects predefined relationship type', () => {
@@ -511,7 +523,9 @@ describe('RelationshipModal Component', () => {
   describe('Bidirectional Relationships', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('shows reverse relationship input when bidirectional is checked', () => {
@@ -592,7 +606,9 @@ describe('RelationshipModal Component', () => {
   describe('Description Field', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('accepts optional description text', () => {
@@ -645,7 +661,9 @@ describe('RelationshipModal Component', () => {
   describe('Form Submission', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('creates single relationship with predefined type', () => {
@@ -847,7 +865,9 @@ describe('RelationshipModal Component', () => {
   describe('Modal Actions', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('closes modal when close button is clicked', () => {
@@ -909,7 +929,9 @@ describe('RelationshipModal Component', () => {
   describe('Edge Cases', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('handles empty project elements list', () => {
@@ -1052,7 +1074,9 @@ describe('RelationshipModal Component', () => {
   describe('Accessibility', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('has proper labels for all form fields', () => {
@@ -1139,7 +1163,9 @@ describe('RelationshipModal Component', () => {
   describe('Responsive Design', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('adapts layout for mobile viewports', () => {

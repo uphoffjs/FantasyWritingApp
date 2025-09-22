@@ -19,7 +19,9 @@ import { CreateElementModal, useWorldbuildingStore } from '../../support/compone
 describe('CreateElementModal Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   let mockCreateElement;

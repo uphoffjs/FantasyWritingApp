@@ -21,7 +21,9 @@ import { QuestionnaireTemplate, Question } from '../../../src/types/worldbuildin
 describe('TemplateEditor Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
   
   const defaultTemplate: QuestionnaireTemplate = {
@@ -75,7 +77,9 @@ describe('TemplateEditor Component', () => {
   describe('Rendering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('renders with all essential elements', () => {
       mountWithProviders(
@@ -166,7 +170,9 @@ describe('TemplateEditor Component', () => {
   describe('User Interactions - Template Details', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('updates template name', () => {
       mountWithProviders(
@@ -225,7 +231,9 @@ describe('TemplateEditor Component', () => {
   describe('User Interactions - Adding Questions', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('adds a new text question', () => {
       mountWithProviders(
@@ -335,7 +343,9 @@ describe('TemplateEditor Component', () => {
   describe('User Interactions - Editing Questions', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('edits an existing question', () => {
       mountWithProviders(
@@ -411,7 +421,9 @@ describe('TemplateEditor Component', () => {
   describe('User Interactions - Drag and Drop', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('reorders questions via drag and drop', () => {
       mountWithProviders(
@@ -458,7 +470,9 @@ describe('TemplateEditor Component', () => {
   describe('Conditional Logic Panel', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('adds conditional logic to a question', () => {
       mountWithProviders(
@@ -523,7 +537,9 @@ describe('TemplateEditor Component', () => {
   describe('Basic Mode Tab', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('switches to Basic Mode tab', () => {
       mountWithProviders(
@@ -585,7 +601,9 @@ describe('TemplateEditor Component', () => {
   describe('Preview Functionality', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('opens preview modal', () => {
       mountWithProviders(
@@ -625,7 +643,9 @@ describe('TemplateEditor Component', () => {
   describe('Save and Cancel Actions', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('saves template with all changes', () => {
       mountWithProviders(
@@ -730,7 +750,9 @@ describe('TemplateEditor Component', () => {
   describe('Edge Cases', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('handles empty question text', () => {
       mountWithProviders(
@@ -827,7 +849,9 @@ describe('TemplateEditor Component', () => {
   describe('Accessibility', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('supports keyboard navigation', () => {
       mountWithProviders(
@@ -905,7 +929,9 @@ describe('TemplateEditor Component', () => {
   describe('Responsive Design', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('adapts layout for mobile viewport', () => {
       cy.viewport(375, 667);

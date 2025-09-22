@@ -21,7 +21,9 @@ import { useWorldbuildingStore } from '../../../src/store/worldbuildingStore';
 describe('MobileNavigation Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
   let onMenuClickSpy: any;
   let navigateSpy: any;
@@ -52,7 +54,9 @@ describe('MobileNavigation Component', () => {
   describe('Rendering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('renders navigation bar with all items', () => {
       mountWithRouter(<MobileNavigation onMenuClick={onMenuClickSpy} />);
@@ -114,7 +118,9 @@ describe('MobileNavigation Component', () => {
   describe('Active States', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('highlights active route', () => {
       mountWithRouter(<MobileNavigation onMenuClick={onMenuClickSpy} />, '/');
@@ -168,7 +174,9 @@ describe('MobileNavigation Component', () => {
   describe('Disabled States', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('disables project-dependent items when no project selected', () => {
       cy.stub(useWorldbuildingStore, 'getState').returns({
@@ -222,7 +230,9 @@ describe('MobileNavigation Component', () => {
   describe('Navigation Actions', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('navigates to projects page when Projects clicked', () => {
       mountWithRouter(<MobileNavigation onMenuClick={onMenuClickSpy} />);
@@ -276,7 +286,9 @@ describe('MobileNavigation Component', () => {
   describe('Styling', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('applies hover effects to enabled buttons', () => {
       mountWithRouter(<MobileNavigation onMenuClick={onMenuClickSpy} />);
@@ -336,7 +348,9 @@ describe('MobileNavigation Component', () => {
   describe('Accessibility', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('has proper navigation role', () => {
       mountWithRouter(<MobileNavigation onMenuClick={onMenuClickSpy} />);
@@ -383,7 +397,9 @@ describe('MobileNavigation Component', () => {
   describe('Responsive Behavior', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('is visible on mobile viewport', () => {
       cy.viewport(375, 667);
@@ -416,7 +432,9 @@ describe('MobileNavigation Component', () => {
   describe('Edge Cases', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('handles missing onMenuClick callback', () => {
       mountWithRouter(<MobileNavigation />);
@@ -453,7 +471,9 @@ describe('MobileNavigation Component', () => {
   describe('Create Button Special Behavior', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('renders Create button with floating action button style', () => {
       cy.stub(useWorldbuildingStore, 'getState').returns({

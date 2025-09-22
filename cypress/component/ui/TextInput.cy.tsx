@@ -19,7 +19,9 @@ import { TextInput } from '../../../src/components/TextInput';
 describe('TextInput Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
   let mockOnChangeText;
 

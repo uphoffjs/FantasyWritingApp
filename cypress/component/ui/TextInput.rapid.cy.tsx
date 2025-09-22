@@ -34,7 +34,9 @@ describe('TextInput - Rapid Interactions', () => {
 
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   // * Test wrapper component with state management
@@ -88,7 +90,9 @@ describe('TextInput - Rapid Interactions', () => {
   describe('Rapid Typing', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('handles rapid typing without character loss', () => {
@@ -158,7 +162,9 @@ describe('TextInput - Rapid Interactions', () => {
   describe('Rapid Focus/Blur', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('handles rapid focus and blur events', () => {
@@ -198,7 +204,9 @@ describe('TextInput - Rapid Interactions', () => {
   describe('Debounced Input', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('handles rapid typing with debounce correctly', () => {
@@ -245,7 +253,9 @@ describe('TextInput - Rapid Interactions', () => {
   describe('Race Conditions', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('handles concurrent state updates correctly', () => {
@@ -310,7 +320,9 @@ describe('TextInput - Rapid Interactions', () => {
   describe('Performance', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('remains responsive during rapid input', () => {
@@ -355,7 +367,9 @@ describe('TextInput - Rapid Interactions', () => {
   describe('Stress Testing', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('handles rage clicking without breaking', () => {
@@ -411,7 +425,9 @@ describe('TextInput - Rapid Interactions', () => {
   describe('Assertions', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('verifies no character loss during rapid input', () => {

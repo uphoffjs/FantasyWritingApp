@@ -19,12 +19,14 @@ import { SpeciesSelector } from '../../../src/components/SpeciesSelector/Species
 import { SpeciesDropdown } from '../../../src/components/SpeciesSelector/SpeciesDropdown';
 import { QuickCreateForm } from '../../../src/components/SpeciesSelector/QuickCreateForm';
 import { WorldElement } from '../../../src/types/models';
-import { ElementFactory } from '../../fixtures/factories';
+import { elementFactory } from '../../fixtures/factories';
 
 describe('SpeciesSelector', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
   // * Use factory to create complete WorldElement objects
   const mockRaces: WorldElement[] = [
@@ -65,7 +67,9 @@ describe('SpeciesSelector', () => {
   describe('Rendering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('renders selector button with placeholder', () => {
       cy.mount(<SpeciesSelector {...defaultProps} />);
@@ -96,7 +100,9 @@ describe('SpeciesSelector', () => {
   describe('Dropdown Interaction', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('opens dropdown on click', () => {
       cy.mount(<SpeciesSelector {...defaultProps} />);
@@ -130,7 +136,9 @@ describe('SpeciesSelector', () => {
   describe('Search Functionality', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('shows search input in dropdown', () => {
       cy.mount(<SpeciesSelector {...defaultProps} />);
@@ -159,7 +167,9 @@ describe('SpeciesSelector', () => {
   describe('Race Selection', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('selects race on click', () => {
       const onChange = cy.stub();
@@ -210,7 +220,9 @@ describe('SpeciesSelector', () => {
   describe('Quick Create', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('shows create new race button', () => {
       cy.mount(<SpeciesSelector {...defaultProps} />);
@@ -266,7 +278,9 @@ describe('SpeciesSelector', () => {
   describe('Loading State', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('shows loading indicator', () => {
       cy.stub(window, 'useRaceElements').returns({
@@ -321,7 +335,9 @@ describe('SpeciesSelector', () => {
 describe('SpeciesDropdown', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
   
   const mockRaces: WorldElement[] = [
@@ -351,7 +367,9 @@ describe('SpeciesDropdown', () => {
   describe('Rendering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('renders race list', () => {
       cy.mount(<SpeciesDropdown {...defaultProps} />);
@@ -374,7 +392,9 @@ describe('SpeciesDropdown', () => {
   describe('Search', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('calls onSearchChange when typing', () => {
       const onSearchChange = cy.stub();
@@ -394,7 +414,9 @@ describe('SpeciesDropdown', () => {
   describe('Interactions', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('calls onSelect when race clicked', () => {
       const onSelect = cy.stub();
@@ -415,7 +437,9 @@ describe('SpeciesDropdown', () => {
 describe('QuickCreateForm', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
   let defaultProps: any;
   
@@ -434,7 +458,9 @@ describe('QuickCreateForm', () => {
   describe('Rendering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('renders form elements', () => {
       cy.mount(<QuickCreateForm {...defaultProps} />);
@@ -452,7 +478,9 @@ describe('QuickCreateForm', () => {
   describe('Form Submission', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('calls onCreate with name value', () => {
       const onCreate = cy.stub();
@@ -493,7 +521,9 @@ describe('QuickCreateForm', () => {
   describe('Cancellation', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('calls onCancel when cancel clicked', () => {
       const onCancel = cy.stub();
@@ -515,7 +545,9 @@ describe('QuickCreateForm', () => {
   describe('Loading State', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('disables form during creation', () => {
       const onCreate = cy.stub().returns(new Promise(() => {})); // Never resolves
@@ -532,7 +564,9 @@ describe('QuickCreateForm', () => {
   describe('Error Handling', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('shows error message on creation failure', () => {
       const onCreate = cy.stub().rejects(new Error('Creation failed'));

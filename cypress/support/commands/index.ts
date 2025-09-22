@@ -21,7 +21,8 @@ import './projects';
 import './responsive';
 
 // * Utility Commands
-import './utility';
+import './utility/index';
+import './utility'; // Stub and spy commands
 
 // * Performance Monitoring
 import './performance';

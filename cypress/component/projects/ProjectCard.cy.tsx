@@ -19,7 +19,9 @@ import { ProjectCard } from '../../support/component-test-helpers';
 describe('ProjectCard Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   // * Mock project data

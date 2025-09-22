@@ -10,7 +10,7 @@
  */
 
 import React from 'react';
-import { initializeStoresForTest } from '../component-wrapper';
+import { initializeStoresForTest } from '../../component-wrapper';
 
 // * Type definitions for session data
 interface TestSessionData {
@@ -77,10 +77,10 @@ Cypress.Commands.add('setupTestDataWithSession', (
 
         // * Store reference in window for validation
         if (!win.__zustand_worldbuilding_store) {
-          win.__zustand_worldbuilding_store = require('../../../src/store/rootStore').useWorldbuildingStore;
+          win.__zustand_worldbuilding_store = require('../../../../src/store/worldbuildingStore').useWorldbuildingStore;
         }
         if (!win.__zustand_auth_store) {
-          win.__zustand_auth_store = require('../../../src/store/authStore').useAuthStore;
+          win.__zustand_auth_store = require('../../../../src/store/authStore').useAuthStore;
         }
       });
 

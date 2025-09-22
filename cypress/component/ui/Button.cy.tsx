@@ -25,7 +25,9 @@ describe('Button Component', () => {
 
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   it('should render a button with React Native components', () => {

@@ -103,7 +103,7 @@ jest.mock('../../src/store/worldbuildingStore', () => ({
 jest.mock('../../src/components/TemplateEditor', () => ({
   TemplateEditor: ({ onSave, onCancel }: any) => (
     <div data-cy="template-editor-mock">
-      <button onClick={() => onSave({ name: 'New Template', questions: [] });}>Save</button>
+      <button onClick={() => onSave({ name: 'New Template', questions: [] })}>Save</button>
       <button onClick={onCancel}>Cancel</button>
     </div>
   )
@@ -112,7 +112,9 @@ jest.mock('../../src/components/TemplateEditor', () => ({
 describe('TemplateManager Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
   
   const defaultProps = {
@@ -247,7 +249,9 @@ describe('TemplateManager Component', () => {
 describe('TemplatePreview Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
   
   const mockTemplate: QuestionnaireTemplate = {
@@ -474,7 +478,9 @@ describe('TemplatePreview Component', () => {
 describe('TemplateSearch Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
   
   const defaultProps = {
@@ -568,7 +574,9 @@ describe('TemplateSearch Component', () => {
 describe('TemplateImporter Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
   
   const defaultProps = {
@@ -670,7 +678,9 @@ describe('TemplateImporter Component', () => {
 describe('TemplateMarketplace Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
   
   const defaultProps = {

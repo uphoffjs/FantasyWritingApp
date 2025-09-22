@@ -25,7 +25,9 @@ import { WorldElement, Relationship } from '../../../src/types/models';
 describe('ElementHeader', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   let defaultProps: any;
@@ -51,7 +53,9 @@ describe('ElementHeader', () => {
   describe('Rendering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('renders all header elements', () => {
@@ -94,7 +98,9 @@ describe('ElementHeader', () => {
   describe('User Interactions', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('handles name changes', () => {
@@ -125,7 +131,9 @@ describe('ElementHeader', () => {
   describe('Responsive Design', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('shows mobile-specific save indicator on small screens', () => {
@@ -151,7 +159,9 @@ describe('ElementHeader', () => {
   describe('Accessibility', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('has proper labels and ARIA attributes', () => {
@@ -180,7 +190,9 @@ describe('ElementHeader', () => {
 describe('ElementFooter', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   let defaultProps: any;
@@ -203,7 +215,9 @@ describe('ElementFooter', () => {
   describe('Rendering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('renders footer buttons', () => {
@@ -230,7 +244,9 @@ describe('ElementFooter', () => {
   describe('User Interactions', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('handles save action', () => {
@@ -262,7 +278,9 @@ describe('ElementFooter', () => {
   describe('Keyboard Shortcuts', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('saves on Cmd/Ctrl+S', () => {
@@ -286,7 +304,9 @@ describe('ElementFooter', () => {
 describe('ElementImages', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   
@@ -316,7 +336,9 @@ describe('ElementImages', () => {
   describe('Rendering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('renders image gallery', () => {
@@ -349,7 +371,9 @@ describe('ElementImages', () => {
   describe('User Interactions', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('handles image upload', () => {
@@ -393,7 +417,9 @@ describe('ElementImages', () => {
   describe('Image Preview', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('opens full-size preview on click', () => {
@@ -427,7 +453,9 @@ describe('ElementImages', () => {
 describe('ElementRelationships', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   
@@ -476,7 +504,9 @@ describe('ElementRelationships', () => {
   describe('Rendering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('renders relationship list', () => {
@@ -510,7 +540,9 @@ describe('ElementRelationships', () => {
   describe('Adding Relationships', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('opens add relationship modal', () => {
@@ -558,7 +590,9 @@ describe('ElementRelationships', () => {
   describe('Editing Relationships', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('edits existing relationship', () => {
@@ -595,7 +629,9 @@ describe('ElementRelationships', () => {
   describe('Relationship Visualization', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('shows relationship graph view', () => {
@@ -627,7 +663,9 @@ describe('ElementRelationships', () => {
 describe('ElementTags', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   
@@ -655,7 +693,9 @@ describe('ElementTags', () => {
   describe('Rendering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('renders tag list', () => {
@@ -694,7 +734,9 @@ describe('ElementTags', () => {
   describe('Adding Tags', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('adds tag via input field', () => {
@@ -739,7 +781,9 @@ describe('ElementTags', () => {
   describe('Removing Tags', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('removes tag on click', () => {
@@ -762,7 +806,9 @@ describe('ElementTags', () => {
   describe('Tag Reordering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('reorders tags via drag and drop', () => {
@@ -780,7 +826,9 @@ describe('ElementTags', () => {
   describe('Autocomplete', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('shows autocomplete suggestions while typing', () => {
@@ -817,7 +865,9 @@ describe('ElementTags', () => {
   describe('Accessibility', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('has proper ARIA labels', () => {

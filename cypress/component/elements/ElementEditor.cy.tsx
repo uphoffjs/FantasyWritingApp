@@ -21,7 +21,9 @@ import { BrowserRouter } from 'react-router-dom';
 describe('ElementEditor Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   // * Helper function to mount component with Router

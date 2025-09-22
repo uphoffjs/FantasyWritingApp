@@ -39,7 +39,9 @@ describe('TextInput - Performance & Memory', () => {
 
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   // ! PERFORMANCE: * Set up performance hooks for all tests
@@ -48,7 +50,9 @@ describe('TextInput - Performance & Memory', () => {
   describe('Memory Management', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('should not leak memory on mount/unmount cycles', () => {
@@ -145,7 +149,9 @@ describe('TextInput - Performance & Memory', () => {
   describe('Performance Benchmarks', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('should mount within performance budget', () => {
@@ -209,7 +215,9 @@ describe('TextInput - Performance & Memory', () => {
   describe('Benchmark Comparisons', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('should benchmark different input sizes', () => {
@@ -277,7 +285,9 @@ describe('TextInput - Performance & Memory', () => {
   describe('Resource Monitoring', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('should not cause frame drops during input', () => {
@@ -357,7 +367,9 @@ describe('TextInput - Performance & Memory', () => {
   describe('Anti-Flakiness Validation', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('should handle debounced input reliably', () => {
@@ -437,7 +449,9 @@ describe('TextInput - Performance & Memory', () => {
   describe('Performance Report', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     after(() => {

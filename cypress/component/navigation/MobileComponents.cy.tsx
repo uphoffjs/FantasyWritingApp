@@ -61,7 +61,9 @@ cy.stub(window, 'useAuthStore').returns(mockAuthStore);
 describe('MobileHeader Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   
@@ -91,7 +93,9 @@ describe('MobileHeader Component', () => {
   describe('Rendering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('renders header with project name when project exists', () => {
@@ -158,7 +162,9 @@ describe('MobileHeader Component', () => {
   describe('Menu Overlay', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('shows menu overlay when open', () => {
@@ -206,7 +212,9 @@ describe('MobileHeader Component', () => {
   describe('Interactions', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('toggles menu when hamburger clicked', () => {
@@ -295,7 +303,9 @@ describe('MobileHeader Component', () => {
   describe('Responsive Design', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('is hidden on desktop', () => {
@@ -322,7 +332,9 @@ describe('MobileHeader Component', () => {
   describe('Edge Cases', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('handles import file selection', () => {
@@ -358,7 +370,9 @@ describe('MobileHeader Component', () => {
 describe('MobileMenuDrawer Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   
@@ -390,7 +404,9 @@ describe('MobileMenuDrawer Component', () => {
   describe('Rendering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('renders nothing when closed', () => {
@@ -459,7 +475,9 @@ describe('MobileMenuDrawer Component', () => {
   describe('Animations', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('animates backdrop fade in', () => {
@@ -484,7 +502,9 @@ describe('MobileMenuDrawer Component', () => {
   describe('Interactions', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('closes when backdrop clicked', () => {
@@ -604,7 +624,9 @@ describe('MobileMenuDrawer Component', () => {
   describe('Responsive Design', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('is mobile-only component', () => {
@@ -621,7 +643,9 @@ describe('MobileMenuDrawer Component', () => {
   describe('Edge Cases', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('handles no user', () => {
@@ -649,7 +673,9 @@ describe('MobileMenuDrawer Component', () => {
 describe('MobileBreadcrumbs Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   beforeEach(function() {
@@ -675,7 +701,9 @@ describe('MobileBreadcrumbs Component', () => {
   describe('Rendering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('renders nothing on home page', () => {
@@ -761,7 +789,9 @@ describe('MobileBreadcrumbs Component', () => {
   describe('Interactions', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('navigates to projects when Projects clicked', () => {
@@ -817,7 +847,9 @@ describe('MobileBreadcrumbs Component', () => {
   describe('Responsive Design', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('is hidden on desktop', () => {
@@ -856,7 +888,9 @@ describe('MobileBreadcrumbs Component', () => {
   describe('Edge Cases', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('handles missing project', () => {
@@ -902,7 +936,9 @@ describe('MobileBreadcrumbs Component', () => {
 describe('MobileBackButton Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   beforeEach(function() {
@@ -921,7 +957,9 @@ describe('MobileBackButton Component', () => {
   describe('Rendering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('renders nothing on home page', () => {
@@ -989,7 +1027,9 @@ describe('MobileBackButton Component', () => {
   describe('Navigation Logic', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('navigates from element to project', () => {
@@ -1027,7 +1067,9 @@ describe('MobileBackButton Component', () => {
   describe('Responsive Design', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('is hidden on desktop', () => {
@@ -1054,7 +1096,9 @@ describe('MobileBackButton Component', () => {
   describe('Accessibility', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('has proper aria-label', () => {
@@ -1089,7 +1133,9 @@ describe('MobileBackButton Component', () => {
   describe('Edge Cases', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('handles missing currentProjectId', () => {

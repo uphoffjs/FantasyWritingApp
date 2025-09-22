@@ -26,7 +26,9 @@ describe('Breadcrumb Component', () => {
 
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   
@@ -41,7 +43,9 @@ describe('Breadcrumb Component', () => {
   describe('Rendering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('renders breadcrumb navigation', () => {
@@ -134,7 +138,9 @@ describe('Breadcrumb Component', () => {
   describe('Navigation', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('makes links clickable', () => {
@@ -170,7 +176,9 @@ describe('Breadcrumb Component', () => {
   describe('Styling', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('applies hover effect to links', () => {
@@ -236,7 +244,9 @@ describe('Breadcrumb Component', () => {
   describe('Data Attributes', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('applies data-cy attributes to items', () => {
@@ -267,7 +277,9 @@ describe('Breadcrumb Component', () => {
   describe('Edge Cases', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('handles empty items array', () => {
@@ -351,7 +363,9 @@ describe('Breadcrumb Component', () => {
   describe('Accessibility', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('uses semantic nav element', () => {
@@ -400,7 +414,9 @@ describe('Breadcrumb Component', () => {
   describe('Responsive Design', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('works on mobile viewport', () => {
@@ -458,7 +474,9 @@ describe('Breadcrumb Component', () => {
   describe('Complex Scenarios', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('handles mixed items with and without hrefs', () => {

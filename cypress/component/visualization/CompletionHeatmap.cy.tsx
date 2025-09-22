@@ -20,7 +20,9 @@ import { Project, WorldElement } from '../../../src/types/models';
 describe('CompletionHeatmap Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   
@@ -61,7 +63,9 @@ describe('CompletionHeatmap Component', () => {
   describe('Rendering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('renders heatmap with legend', () => {
@@ -153,7 +157,9 @@ describe('CompletionHeatmap Component', () => {
   describe('Color Coding', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('applies correct color for 100% completion', () => {
@@ -237,7 +243,9 @@ describe('CompletionHeatmap Component', () => {
   describe('Sorting', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('sorts elements by category first', () => {
@@ -276,7 +284,9 @@ describe('CompletionHeatmap Component', () => {
   describe('Grid Layout', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('calculates appropriate grid dimensions', () => {
@@ -320,7 +330,9 @@ describe('CompletionHeatmap Component', () => {
   describe('Interactions', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('calls onElementClick when element is clicked', () => {
@@ -380,7 +392,9 @@ describe('CompletionHeatmap Component', () => {
   describe('Statistics', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('calculates completed count correctly', () => {
@@ -447,7 +461,9 @@ describe('CompletionHeatmap Component', () => {
   describe('Category Icons', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('displays correct icon for each category', () => {
@@ -492,7 +508,9 @@ describe('CompletionHeatmap Component', () => {
   describe('Responsive Design', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('works on mobile viewport', () => {
@@ -581,7 +599,9 @@ describe('CompletionHeatmap Component', () => {
   describe('Edge Cases', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('handles single element', () => {
@@ -642,7 +662,9 @@ describe('CompletionHeatmap Component', () => {
   describe('Accessibility', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('provides title attributes for screen readers', () => {

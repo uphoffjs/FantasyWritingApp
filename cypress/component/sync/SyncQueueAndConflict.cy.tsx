@@ -81,7 +81,9 @@ jest.mock('date-fns', () => ({
 describe('SyncQueueStatus Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   beforeEach(function() {
@@ -225,7 +227,9 @@ describe('SyncQueueStatus Component', () => {
 describe('ConflictResolver Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   
@@ -462,7 +466,9 @@ describe('ConflictResolver Component', () => {
 describe('AutoSyncStatus Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   beforeEach(function() {

@@ -26,7 +26,9 @@ describe('BaseElementForm - Isolated Tests', () => {
 
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   it('mounts the component', () => {

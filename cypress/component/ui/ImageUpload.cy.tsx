@@ -19,7 +19,9 @@ import { ImageUpload } from '../../../src/components/ImageUpload';
 describe('ImageUpload Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
   let onImagesChangeSpy: any;
   
@@ -35,7 +37,9 @@ describe('ImageUpload Component', () => {
   describe('Rendering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('renders upload area with instructions', () => {
       cy.mount(
@@ -89,7 +93,9 @@ describe('ImageUpload Component', () => {
   describe('File Upload via Click', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('opens file dialog when upload area is clicked', () => {
       cy.mount(
@@ -154,7 +160,9 @@ describe('ImageUpload Component', () => {
   describe('Drag and Drop', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('shows drag state when dragging over', () => {
       cy.mount(
@@ -178,7 +186,7 @@ describe('ImageUpload Component', () => {
       );
 
       cy.get('[class*="border-dashed"]')
-        .trigger('dragover', { dataTransfer: { files: [] } });
+        .trigger('dragover', { dataTransfer: { files: [] } })
         .trigger('dragleave');
       
       cy.contains('Drop images or click to browse').should('be.visible');
@@ -209,7 +217,9 @@ describe('ImageUpload Component', () => {
   describe('Image Management', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('displays uploaded images', () => {
       const images = [
@@ -273,7 +283,9 @@ describe('ImageUpload Component', () => {
   describe('File Validation', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('rejects non-image files', () => {
       cy.mount(
@@ -314,7 +326,9 @@ describe('ImageUpload Component', () => {
   describe('Progress Indicators', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('shows upload progress', () => {
       cy.mount(
@@ -333,7 +347,7 @@ describe('ImageUpload Component', () => {
         mimeType: 'image/png'
       }, { force: true });
       // TODO: * Progress indicator should appear briefly
-      cy.get('[class*="animate-pulse"]', { timeout: 1000 });.should('exist');
+      cy.get('[class*="animate-pulse"]', { timeout: 1000 }).should('exist');
     });
     it('shows compression info', () => {
       cy.mount(
@@ -360,7 +374,9 @@ describe('ImageUpload Component', () => {
   describe('Accessibility', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('has accessible file input', () => {
       cy.mount(
@@ -426,7 +442,9 @@ describe('ImageUpload Component', () => {
   describe('Edge Cases', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('handles empty images array', () => {
       cy.mount(
@@ -488,7 +506,9 @@ describe('ImageUpload Component', () => {
   describe('Responsive Design', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('works on mobile viewport', () => {
       cy.viewport(375, 667);

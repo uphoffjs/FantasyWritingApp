@@ -21,7 +21,9 @@ import { ElementCategory } from '../../../src/types/models/ElementCategory';
 describe('ElementCard Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   // * Mock element data for testing

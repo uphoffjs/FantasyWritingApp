@@ -66,7 +66,9 @@ jest.mock('../../src/components/ProjectCard', () => ({
 describe('VirtualizedProjectList Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   
@@ -193,7 +195,9 @@ describe('VirtualizedProjectList Component', () => {
 describe('InfiniteScrollList Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   // * Mock intersection observer
@@ -349,7 +353,9 @@ describe('InfiniteScrollList Component', () => {
 describe('VirtualizedQuestionList Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   

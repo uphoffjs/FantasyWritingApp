@@ -14,7 +14,7 @@
  */
 
 import React from 'react';
-import { PerformanceMonitorComponent } from '../../../src/components/PerformanceMonitor';
+import { PerformanceMonitor } from '../../../src/components/PerformanceMonitor';
 import { PerformanceDashboard } from '../../../src/components/PerformanceDashboard';
 import { PerformanceProfiler, withPerformanceProfiler } from '../../../src/components/PerformanceProfiler';
 
@@ -40,7 +40,9 @@ const TestComponent: React.FC<{ text: string }> = ({ text }) => (
 describe('PerformanceMonitorComponent', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   
@@ -75,17 +77,19 @@ describe('PerformanceMonitorComponent', () => {
   describe('Rendering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('renders collapsed button by default', () => {
-      cy.mount(<PerformanceMonitorComponent />);
+      cy.mount(<PerformanceMonitor />);
       cy.get('button[title="Show Performance Monitor"]').should('be.visible');
       cy.get('.lucide-activity').should('be.visible');
     });
 
     it('renders expanded when defaultOpen is true', () => {
-      cy.mount(<PerformanceMonitorComponent defaultOpen={true} />);
+      cy.mount(<PerformanceMonitor defaultOpen={true} />);
       cy.contains('Performance Monitor').should('be.visible');
       cy.contains('FPS').should('be.visible');
     });
@@ -97,7 +101,7 @@ describe('PerformanceMonitorComponent', () => {
         writable: true
       });
       
-      cy.mount(<PerformanceMonitorComponent />);
+      cy.mount(<PerformanceMonitor />);
       cy.get('button[title="Show Performance Monitor"]').should('not.exist');
       
       Object.defineProperty(process.env, 'NODE_ENV', {
@@ -107,13 +111,13 @@ describe('PerformanceMonitorComponent', () => {
     });
 
     it('renders in different positions', () => {
-      cy.mount(<PerformanceMonitorComponent position="top-left" />);
+      cy.mount(<PerformanceMonitor position="top-left" />);
       cy.get('.top-4.left-4').should('exist');
 
-      cy.mount(<PerformanceMonitorComponent position="bottom-left" />);
+      cy.mount(<PerformanceMonitor position="bottom-left" />);
       cy.get('.bottom-4.left-4').should('exist');
 
-      cy.mount(<PerformanceMonitorComponent position="top-right" />);
+      cy.mount(<PerformanceMonitor position="top-right" />);
       cy.get('.top-4.right-4').should('exist');
     });
   });
@@ -121,23 +125,25 @@ describe('PerformanceMonitorComponent', () => {
   describe('Metrics Display', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('displays FPS metric', () => {
-      cy.mount(<PerformanceMonitorComponent defaultOpen={true} />);
+      cy.mount(<PerformanceMonitor defaultOpen={true} />);
       cy.contains('FPS').should('be.visible');
       cy.contains('60').should('be.visible');
     });
 
     it('displays average render time', () => {
-      cy.mount(<PerformanceMonitorComponent defaultOpen={true} />);
+      cy.mount(<PerformanceMonitor defaultOpen={true} />);
       cy.contains('Avg Render').should('be.visible');
       cy.contains('12.5ms').should('be.visible');
     });
 
     it('displays memory usage', () => {
-      cy.mount(<PerformanceMonitorComponent defaultOpen={true} />);
+      cy.mount(<PerformanceMonitor defaultOpen={true} />);
       cy.contains('Memory Usage').should('be.visible');
       cy.contains('Used:').should('be.visible');
       cy.contains('50.0 MB').should('be.visible');
@@ -146,12 +152,12 @@ describe('PerformanceMonitorComponent', () => {
     });
 
     it('shows memory usage progress bar', () => {
-      cy.mount(<PerformanceMonitorComponent defaultOpen={true} />);
+      cy.mount(<PerformanceMonitor defaultOpen={true} />);
       cy.get('[data-cy*="metals-gold"]').should('have.attr', 'style').and('include', 'width: 50%');
     });
 
     it('displays render statistics', () => {
-      cy.mount(<PerformanceMonitorComponent defaultOpen={true} />);
+      cy.mount(<PerformanceMonitor defaultOpen={true} />);
       cy.contains('Render Statistics').should('be.visible');
       cy.contains('Total Renders:').should('be.visible');
       cy.contains('150').should('be.visible');
@@ -160,12 +166,12 @@ describe('PerformanceMonitorComponent', () => {
     });
 
     it('highlights slow renders in red', () => {
-      cy.mount(<PerformanceMonitorComponent defaultOpen={true} />);
+      cy.mount(<PerformanceMonitor defaultOpen={true} />);
       cy.contains('5').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
     });
 
     it('displays slowest components', () => {
-      cy.mount(<PerformanceMonitorComponent defaultOpen={true} />);
+      cy.mount(<PerformanceMonitor defaultOpen={true} />);
       cy.contains('Slowest Components').should('be.visible');
       cy.contains('ElementBrowser').should('be.visible');
       cy.contains('25.3ms').should('be.visible');
@@ -174,7 +180,7 @@ describe('PerformanceMonitorComponent', () => {
     });
 
     it('highlights components over 16ms threshold', () => {
-      cy.mount(<PerformanceMonitorComponent defaultOpen={true} />);
+      cy.mount(<PerformanceMonitor defaultOpen={true} />);
       cy.contains('25.3ms').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
       cy.contains('18.7ms').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
       cy.contains('16.2ms').should('not.have.class', 'text-flame-400');
@@ -184,31 +190,33 @@ describe('PerformanceMonitorComponent', () => {
   describe('Interactions', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('toggles expanded state when button clicked', () => {
-      cy.mount(<PerformanceMonitorComponent />);
+      cy.mount(<PerformanceMonitor />);
       cy.get('button[title="Show Performance Monitor"]').click();
       cy.contains('Performance Monitor').should('be.visible');
     });
 
     it('closes when X button clicked', () => {
-      cy.mount(<PerformanceMonitorComponent defaultOpen={true} />);
+      cy.mount(<PerformanceMonitor defaultOpen={true} />);
       cy.get('button').contains('×').parent().click();
       cy.contains('Performance Monitor').should('not.exist');
       cy.get('button[title="Show Performance Monitor"]').should('be.visible');
     });
 
     it('clears metrics when Clear button clicked', () => {
-      cy.mount(<PerformanceMonitorComponent defaultOpen={true} />);
+      cy.mount(<PerformanceMonitor defaultOpen={true} />);
       cy.contains('Clear Metrics').click();
       expect(mockPerformanceMonitor.clear).to.have.been.called;
     });
 
     it('logs to console when Log button clicked', () => {
       cy.stub(console, 'log');
-      cy.mount(<PerformanceMonitorComponent defaultOpen={true} />);
+      cy.mount(<PerformanceMonitor defaultOpen={true} />);
       cy.contains('Log to Console').click();
       cy.wrap(console.log).should('have.been.calledWith', 'Full Report:', mockReport);
     });
@@ -217,12 +225,14 @@ describe('PerformanceMonitorComponent', () => {
   describe('Auto-update', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('updates report every 2 seconds when open', () => {
       cy.clock();
-      cy.mount(<PerformanceMonitorComponent defaultOpen={true} />);
+      cy.mount(<PerformanceMonitor defaultOpen={true} />);
       
       // * Initial call
       expect(mockPerformanceMonitor.getReport).to.have.been.calledOnce;
@@ -238,7 +248,7 @@ describe('PerformanceMonitorComponent', () => {
 
     it('does not update when collapsed', () => {
       cy.clock();
-      cy.mount(<PerformanceMonitorComponent />);
+      cy.mount(<PerformanceMonitor />);
       
       mockPerformanceMonitor.getReport.reset();
       cy.tick(2000);
@@ -247,7 +257,7 @@ describe('PerformanceMonitorComponent', () => {
 
     it('stops updating when closed', () => {
       cy.clock();
-      cy.mount(<PerformanceMonitorComponent defaultOpen={true} />);
+      cy.mount(<PerformanceMonitor defaultOpen={true} />);
       
       mockPerformanceMonitor.getReport.reset();
       cy.get('button').contains('×').parent().click();
@@ -260,7 +270,9 @@ describe('PerformanceMonitorComponent', () => {
   describe('Edge Cases', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('handles null memory usage', () => {
@@ -268,7 +280,7 @@ describe('PerformanceMonitorComponent', () => {
         ...mockReport,
         memoryUsage: null
       });
-      cy.mount(<PerformanceMonitorComponent defaultOpen={true} />);
+      cy.mount(<PerformanceMonitor defaultOpen={true} />);
       cy.contains('Memory Usage').should('not.exist');
     });
 
@@ -277,7 +289,7 @@ describe('PerformanceMonitorComponent', () => {
         ...mockReport,
         slowestComponents: []
       });
-      cy.mount(<PerformanceMonitorComponent defaultOpen={true} />);
+      cy.mount(<PerformanceMonitor defaultOpen={true} />);
       cy.contains('Slowest Components').should('not.exist');
     });
 
@@ -286,7 +298,7 @@ describe('PerformanceMonitorComponent', () => {
         ...mockReport,
         slowRenders: 0
       });
-      cy.mount(<PerformanceMonitorComponent defaultOpen={true} />);
+      cy.mount(<PerformanceMonitor defaultOpen={true} />);
       cy.contains('0').should('not.have.class', 'text-flame-400');
     });
 
@@ -298,7 +310,7 @@ describe('PerformanceMonitorComponent', () => {
           totalJSHeapSize: 2 * 1024 * 1024 * 1024 // 2GB
         }
       });
-      cy.mount(<PerformanceMonitorComponent defaultOpen={true} />);
+      cy.mount(<PerformanceMonitor defaultOpen={true} />);
       cy.contains('1024.0 MB').should('be.visible');
       cy.contains('2048.0 MB').should('be.visible');
     });
@@ -308,7 +320,9 @@ describe('PerformanceMonitorComponent', () => {
 describe('PerformanceDashboard Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   
@@ -347,7 +361,9 @@ describe('PerformanceDashboard Component', () => {
   describe('Rendering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('does not render when show is false', () => {
@@ -370,7 +386,9 @@ describe('PerformanceDashboard Component', () => {
   describe('Web Vitals Display', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('displays LCP metric', () => {
@@ -411,7 +429,9 @@ describe('PerformanceDashboard Component', () => {
   describe('Application Performance', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('displays render time P95', () => {
@@ -436,7 +456,9 @@ describe('PerformanceDashboard Component', () => {
   describe('Time Window Selection', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('shows time window buttons', () => {
@@ -471,7 +493,9 @@ describe('PerformanceDashboard Component', () => {
   describe('Performance Summary', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('displays total metrics count', () => {
@@ -490,7 +514,9 @@ describe('PerformanceDashboard Component', () => {
   describe('Recent Metrics', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('displays recent metrics list', () => {
@@ -522,7 +548,9 @@ describe('PerformanceDashboard Component', () => {
   describe('Interactions', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('closes when X button clicked', () => {
@@ -551,7 +579,9 @@ describe('PerformanceDashboard Component', () => {
   describe('Auto-update', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('updates summary every second', () => {
@@ -582,7 +612,9 @@ describe('PerformanceDashboard Component', () => {
   describe('Edge Cases', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('handles null metrics gracefully', () => {
@@ -609,7 +641,9 @@ describe('PerformanceDashboard Component', () => {
   describe('Responsive Design', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('adapts grid layout on mobile', () => {
@@ -629,7 +663,9 @@ describe('PerformanceDashboard Component', () => {
 describe('PerformanceProfiler Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   beforeEach(function() {
@@ -647,7 +683,9 @@ describe('PerformanceProfiler Component', () => {
   describe('Basic Profiling', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('renders children correctly', () => {
@@ -699,7 +737,9 @@ describe('PerformanceProfiler Component', () => {
   describe('Performance Warnings', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('warns when update render exceeds 16ms', () => {
@@ -724,7 +764,9 @@ describe('PerformanceProfiler Component', () => {
   describe('Wasted Render Detection', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('tracks wasted renders when ratio > 0.5', () => {
@@ -755,7 +797,9 @@ describe('PerformanceProfiler Component', () => {
   describe('HOC withPerformanceProfiler', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('wraps component with profiler', () => {
@@ -796,7 +840,9 @@ describe('PerformanceProfiler Component', () => {
   describe('Edge Cases', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('handles zero base duration', () => {

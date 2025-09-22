@@ -26,7 +26,9 @@ describe('BasicQuestionsSelector Simplified Tests', () => {
 
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   
@@ -39,7 +41,9 @@ describe('BasicQuestionsSelector Simplified Tests', () => {
   describe('Core Functionality', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('renders without crashing', () => {

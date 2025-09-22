@@ -84,7 +84,7 @@ write_memory("checkpoint", "current context and state")
 
 **Step 5: Restore your context**
 ```bash
-read_memory("checkpoint")
+read_memory("checkpoint") but do not start any work yet
 ```
 
 ### Load Specific Documentation

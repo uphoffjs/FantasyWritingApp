@@ -32,7 +32,7 @@ const ToastTestWrapper = () => {
           title: 'Success!',
           message: 'Operation completed successfully',
           duration: 0 // Prevent auto-dismiss for testing
-        });}
+        })}
       >
         Add Success Toast
       </button>
@@ -44,7 +44,7 @@ const ToastTestWrapper = () => {
           title: 'Error!',
           message: 'Something went wrong',
           duration: 0
-        });}
+        })}
       >
         Add Error Toast
       </button>
@@ -56,7 +56,7 @@ const ToastTestWrapper = () => {
           title: 'Information',
           message: 'Here is some information',
           duration: 0
-        });}
+        })}
       >
         Add Info Toast
       </button>
@@ -68,7 +68,7 @@ const ToastTestWrapper = () => {
           title: 'Warning!',
           message: 'Please be careful',
           duration: 0
-        });}
+        })}
       >
         Add Warning Toast
       </button>
@@ -81,9 +81,10 @@ const ToastTestWrapper = () => {
           message: 'Click the action button',
           action: {
             label: 'Undo',
-            onClick: () =>},
+            onClick: () => {}
+          },
           duration: 0
-        });}
+        })}
       >
         Add Toast with Action
       </button>
@@ -103,7 +104,9 @@ const ToastTestWrapper = () => {
 describe('Toast Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   beforeEach(function() {
@@ -124,7 +127,9 @@ describe('Toast Component', () => {
   describe('Rendering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('renders success toast correctly', () => {
@@ -193,7 +198,9 @@ describe('Toast Component', () => {
   describe('Toast Actions', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('renders action button when provided', () => {
@@ -244,7 +251,9 @@ describe('Toast Component', () => {
   describe('Error Toast Details', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('expands error details when Details button is clicked', () => {
@@ -276,7 +285,9 @@ describe('Toast Component', () => {
   describe('Multiple Toasts', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('displays multiple toasts simultaneously', () => {
@@ -320,7 +331,9 @@ describe('Toast Component', () => {
   describe('Auto-dismiss Behavior', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('auto-dismisses non-error toasts after duration', () => {
@@ -384,7 +397,9 @@ describe('Toast Component', () => {
   describe('Responsive Design', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('positions toasts at bottom on mobile', () => {
@@ -432,7 +447,9 @@ describe('Toast Component', () => {
   describe('Edge Cases', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('handles very long titles', () => {
@@ -488,7 +505,9 @@ describe('Toast Component', () => {
   describe('Accessibility', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('dismiss button is keyboard accessible', () => {

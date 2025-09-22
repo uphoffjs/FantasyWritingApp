@@ -23,7 +23,9 @@ let mockToPng: any;
 describe('ProgressReport Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   
@@ -85,7 +87,9 @@ describe('ProgressReport Component', () => {
   describe('Rendering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('renders modal with header', () => {
@@ -166,7 +170,9 @@ describe('ProgressReport Component', () => {
   describe('Statistics Calculation', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('calculates overall completion correctly', () => {
@@ -287,7 +293,9 @@ describe('ProgressReport Component', () => {
   describe('Export Formats', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('selects PDF format by default', () => {
@@ -340,7 +348,9 @@ describe('ProgressReport Component', () => {
   describe('Export Functionality', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('handles PDF export', () => {
@@ -410,7 +420,9 @@ describe('ProgressReport Component', () => {
   describe('Category Labels', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('displays correct labels for all categories', () => {
@@ -443,7 +455,9 @@ describe('ProgressReport Component', () => {
   describe('Progress Bars', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('shows overall completion progress bar', () => {
@@ -489,7 +503,9 @@ describe('ProgressReport Component', () => {
   describe('Modal Behavior', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('closes when close button clicked', () => {
@@ -534,7 +550,9 @@ describe('ProgressReport Component', () => {
   describe('Edge Cases', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('handles empty project', () => {
@@ -608,7 +626,9 @@ describe('ProgressReport Component', () => {
   describe('Responsive Design', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('works on mobile viewport', () => {
@@ -662,7 +682,9 @@ describe('ProgressReport Component', () => {
   describe('Accessibility', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('has accessible close button', () => {

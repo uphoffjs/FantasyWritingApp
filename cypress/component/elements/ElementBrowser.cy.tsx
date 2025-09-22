@@ -19,7 +19,9 @@ import { ElementBrowser, WorldElement } from '../../support/component-test-helpe
 describe('ElementBrowser Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   // * Mock elements data for testing

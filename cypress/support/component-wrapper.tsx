@@ -228,3 +228,11 @@ const styles = StyleSheet.create({
 
 // * Export default for easy imports
 export default TestWrapper;
+// Export mountWithProviders for use in tests
+export const mountWithProviders = (component: React.ReactElement, options = {}) => {
+  return cy.mount(
+    <TestWrapper {...options}>
+      {component}
+    </TestWrapper>
+  );
+};

@@ -38,7 +38,9 @@ const createMockElement = (id: string, overrides?: Partial<WorldElement>): World
 describe('RelationshipGraph Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   let onElementClickSpy: any;
@@ -57,7 +59,9 @@ describe('RelationshipGraph Component', () => {
   describe('Rendering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('renders graph container and svg', () => {
@@ -124,7 +128,9 @@ describe('RelationshipGraph Component', () => {
   describe('Zoom Controls', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('handles zoom in', () => {
@@ -177,7 +183,9 @@ describe('RelationshipGraph Component', () => {
   describe('Layout Controls', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('starts with force layout', () => {
@@ -230,7 +238,9 @@ describe('RelationshipGraph Component', () => {
   describe('Filters', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('toggles filter panel', () => {
@@ -288,7 +298,9 @@ describe('RelationshipGraph Component', () => {
   describe('Node Interaction', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it.skip('handles node click', () => {
@@ -330,7 +342,9 @@ describe('RelationshipGraph Component', () => {
   describe('Export Functions', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('shows export menu', () => {
@@ -365,7 +379,9 @@ describe('RelationshipGraph Component', () => {
   describe('Mobile Responsive', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     beforeEach(function() {
@@ -416,7 +432,9 @@ describe('RelationshipGraph Component', () => {
   describe('Legend', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('displays category colors', () => {
@@ -440,7 +458,9 @@ describe('RelationshipGraph Component', () => {
   describe('Edge Cases', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('handles empty elements array', () => {
@@ -487,7 +507,9 @@ describe('RelationshipGraph Component', () => {
   describe('Accessibility', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('has proper ARIA labels', () => {

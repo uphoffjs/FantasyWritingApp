@@ -67,7 +67,9 @@ const simpleAnswers: Record<string, Answer> = {
 describe('BaseElementForm (Simple Tests)', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   beforeEach(function() {

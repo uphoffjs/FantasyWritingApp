@@ -19,7 +19,9 @@ import { GlobalSearch } from '../../support/component-test-helpers';
 describe('GlobalSearch Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   let mockOnClose;

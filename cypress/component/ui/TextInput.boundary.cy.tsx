@@ -27,7 +27,9 @@ describe('TextInput - Boundary Conditions', () => {
 
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   // * Test wrapper component
@@ -51,7 +53,9 @@ describe('TextInput - Boundary Conditions', () => {
   describe('String Boundaries', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('handles empty string', () => {
@@ -115,7 +119,9 @@ describe('TextInput - Boundary Conditions', () => {
   describe('Input Constraints', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('respects maxLength constraint', () => {
@@ -162,7 +168,9 @@ describe('TextInput - Boundary Conditions', () => {
   describe('Null and Undefined Handling', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('handles null value', () => {
@@ -187,7 +195,9 @@ describe('TextInput - Boundary Conditions', () => {
   describe('Performance with Large Data', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('handles rapid typing of long strings', () => {
@@ -224,7 +234,9 @@ describe('TextInput - Boundary Conditions', () => {
   describe('Email Validation Boundaries', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     
@@ -251,7 +263,9 @@ describe('TextInput - Boundary Conditions', () => {
     describe('Valid emails', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
       testEmails(FormBoundaryData.emails.valid, true);
@@ -260,7 +274,9 @@ describe('TextInput - Boundary Conditions', () => {
     describe('Invalid emails', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
       testEmails(FormBoundaryData.emails.invalid, false);
@@ -269,7 +285,9 @@ describe('TextInput - Boundary Conditions', () => {
     describe('Edge case emails', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
       testEmails(FormBoundaryData.emails.edge, true);
@@ -279,7 +297,9 @@ describe('TextInput - Boundary Conditions', () => {
   describe('Pattern Validation Boundaries', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('handles complex regex patterns', () => {
@@ -313,7 +333,9 @@ describe('TextInput - Boundary Conditions', () => {
   describe('Placeholder and Label Boundaries', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('handles very long placeholder', () => {
@@ -338,7 +360,9 @@ describe('TextInput - Boundary Conditions', () => {
   describe('Error State Boundaries', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('handles error state with empty value', () => {
@@ -368,7 +392,9 @@ describe('TextInput - Boundary Conditions', () => {
   describe('Accessibility Boundaries', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('handles aria-label with special characters', () => {

@@ -34,7 +34,9 @@ import * as useAsyncStoreModule from '../../../src/hooks/useAsyncStore';
 describe('CreateProjectModal Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
   // We'll create stubs inside each test that needs them
   
@@ -50,7 +52,9 @@ describe('CreateProjectModal Component', () => {
   describe('Rendering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('renders without errors', () => {
       const onClose = cy.stub();
@@ -95,7 +99,9 @@ describe('CreateProjectModal Component', () => {
   describe('User Interactions', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('allows typing in project name field', () => {
       const onClose = cy.stub();
@@ -144,7 +150,9 @@ describe('CreateProjectModal Component', () => {
   describe('Form Validation', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('disables submit button when name is empty', () => {
       const onClose = cy.stub();
@@ -181,7 +189,9 @@ describe('CreateProjectModal Component', () => {
   describe('Form Submission', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     beforeEach(function() {
     // ! MANDATORY: Comprehensive debug setup
@@ -200,7 +210,7 @@ describe('CreateProjectModal Component', () => {
     });
     it('submits form with valid data', () => {
       // * Create stubs for the operations
-      const createProjectStub = cy.stub().resolves({ id: '123', name: 'Test Project', description: 'A test description' });.as('createProject');
+      const createProjectStub = cy.stub().resolves({ id: '123', name: 'Test Project', description: 'A test description' }).as('createProject');
       const updateProjectStub = cy.stub().resolves().as('updateProject');
       const onSuccess = cy.stub().as('onSuccess');
       const onClose = cy.stub().as('onClose');
@@ -243,7 +253,7 @@ describe('CreateProjectModal Component', () => {
       cy.wrap(null).then(() => {
         // * Use cy.wrap to wait for the next tick
         return new Promise(resolve => setTimeout(resolve, 0));
-      });.then(() => {
+      }).then(() => {
         // * Verify the operations were called
         expect(createProjectStub).to.have.been.calledWith('Test Project', 'A test description');
         expect(onSuccess).to.have.been.called;
@@ -325,7 +335,7 @@ describe('CreateProjectModal Component', () => {
       cy.get('@onSuccess').should('not.have.been.called');
     });
     it('trims whitespace from input values before submission', () => {
-      const createProjectStub = cy.stub().resolves({ id: '123', name: 'Test Project' });.as('createProject');
+      const createProjectStub = cy.stub().resolves({ id: '123', name: 'Test Project' }).as('createProject');
       const updateProjectStub = cy.stub().resolves().as('updateProject');
       const onSuccess = cy.stub().as('onSuccess');
       
@@ -363,7 +373,7 @@ describe('CreateProjectModal Component', () => {
       // * Wait for async operations
       cy.wrap(null).then(() => {
         return new Promise(resolve => setTimeout(resolve, 0));
-      });.then(() => {
+      }).then(() => {
         // * Verify trimmed values were passed
         expect(createProjectStub).to.have.been.calledWith('Test Project', 'A test description');
       });
@@ -438,7 +448,7 @@ describe('CreateProjectModal Component', () => {
       // * Verify onSuccess was not called due to error
       cy.wrap(null).then(() => {
         return new Promise(resolve => setTimeout(resolve, 0));
-      });.then(() => {
+      }).then(() => {
         expect(onSuccess).not.to.have.been.called;
       });
     });
@@ -446,7 +456,9 @@ describe('CreateProjectModal Component', () => {
   describe('Error Handling', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('handles error display structure', () => {
       // * This test verifies the component can handle errors structurally
@@ -463,7 +475,9 @@ describe('CreateProjectModal Component', () => {
   describe('Accessibility', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('has proper labels for all form fields', () => {
       const onClose = cy.stub();
@@ -510,7 +524,9 @@ describe('CreateProjectModal Component', () => {
   describe('Responsive Design', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('adapts to mobile viewport', () => {
       setMobileViewport();
@@ -556,7 +572,9 @@ describe('CreateProjectModal Component', () => {
   describe('Edge Cases', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('handles very long project names', () => {
       const onClose = cy.stub();

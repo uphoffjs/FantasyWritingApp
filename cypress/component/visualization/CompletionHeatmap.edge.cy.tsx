@@ -20,7 +20,9 @@ import { Project, WorldElement } from '../../../src/types/models';
 describe('CompletionHeatmap Edge Cases & Accessibility', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   
@@ -61,7 +63,9 @@ describe('CompletionHeatmap Edge Cases & Accessibility', () => {
   describe('Edge Cases', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('handles single element', () => {
@@ -112,7 +116,9 @@ describe('CompletionHeatmap Edge Cases & Accessibility', () => {
   describe('Accessibility', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('provides title attributes for screen readers', () => {
@@ -150,7 +156,9 @@ describe('CompletionHeatmap Edge Cases & Accessibility', () => {
   describe('Responsive Design', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it.skip('works on mobile viewport', () => {

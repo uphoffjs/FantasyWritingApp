@@ -19,7 +19,9 @@ import { TagInput } from '../../support/component-test-helpersTagInput';
 describe('TagInput Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   

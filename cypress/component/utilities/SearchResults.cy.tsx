@@ -28,7 +28,9 @@ import { WorldElement, ElementCategory } from '../../../src/types/models';
 describe('SearchResults Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   
@@ -77,7 +79,9 @@ describe('SearchResults Component', () => {
   describe('Rendering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('renders without errors', () => {
@@ -129,7 +133,9 @@ describe('SearchResults Component', () => {
   describe('Search Functionality', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('searches elements and displays results', () => {
@@ -223,7 +229,9 @@ describe('SearchResults Component', () => {
   describe('Search History', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('shows search history dropdown when input is empty', () => {
@@ -288,7 +296,9 @@ describe('SearchResults Component', () => {
   describe('Filtering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('toggles filter panel', () => {
@@ -415,7 +425,9 @@ describe('SearchResults Component', () => {
   describe('User Interactions', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('calls onElementClick when element is clicked', () => {
@@ -496,7 +508,9 @@ describe('SearchResults Component', () => {
   describe('Responsive Design', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('shows limited results on mobile', () => {
@@ -561,7 +575,9 @@ describe('SearchResults Component', () => {
   describe('Accessibility', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('auto-focuses search input on mount', () => {
@@ -620,7 +636,9 @@ describe('SearchResults Component', () => {
   describe('Edge Cases', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('handles elements with missing data', () => {

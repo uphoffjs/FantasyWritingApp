@@ -25,7 +25,9 @@ describe('AutoSaveIndicator Component', () => {
 
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   it('should render idle state by default', () => {

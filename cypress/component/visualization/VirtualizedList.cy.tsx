@@ -17,7 +17,7 @@ import React from 'react';
 import { VirtualizedList, useVirtualizedList } from '../../support/component-test-helpersVirtualizedList';
 
 // * Test component using the hook
-function TestComponentWithHook({ items }: { items: string[] }); {
+function TestComponentWithHook({ items }: { items: string[] }) {
   const { containerRef, virtualizedListProps } = useVirtualizedList(items, 50);
   
   return (
@@ -38,7 +38,9 @@ describe('VirtualizedList Component', () => {
   });
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
   // * Helper to create test items
   const createItems = (count: number) => 
@@ -47,7 +49,9 @@ describe('VirtualizedList Component', () => {
   describe('Rendering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('renders visible items only', () => {
       const items = createItems(100);
@@ -112,7 +116,9 @@ describe('VirtualizedList Component', () => {
   describe('Scrolling', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('updates visible items on scroll', () => {
       const items = createItems(100);
@@ -195,7 +201,9 @@ describe('VirtualizedList Component', () => {
   describe('Overscan', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('renders extra items with default overscan', () => {
       const items = createItems(100);
@@ -247,7 +255,9 @@ describe('VirtualizedList Component', () => {
   describe('Custom Key Function', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('uses default index-based keys', () => {
       const items = createItems(5);
@@ -291,7 +301,9 @@ describe('VirtualizedList Component', () => {
   describe('Edge Cases', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('handles empty items array', () => {
       cy.mount(
@@ -377,7 +389,9 @@ describe('VirtualizedList Component', () => {
   describe('useVirtualizedList Hook', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('provides container ref and height', () => {
       const items = createItems(10);
@@ -415,7 +429,9 @@ describe('VirtualizedList Component', () => {
   describe('Performance', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('only re-renders visible items on scroll', () => {
       const items = createItems(1000);
@@ -469,7 +485,9 @@ describe('VirtualizedList Component', () => {
   describe('Accessibility', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('maintains scroll position for keyboard navigation', () => {
       const items = createItems(50);
@@ -520,7 +538,9 @@ describe('VirtualizedList Component', () => {
   describe('Responsive Design', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('works on mobile viewport', () => {
       cy.viewport(375, 667);

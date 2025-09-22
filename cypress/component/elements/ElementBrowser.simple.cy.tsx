@@ -25,7 +25,9 @@ describe('ElementBrowser Component - Simplified', () => {
 
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   // * Mock a single simple element

@@ -20,7 +20,9 @@ import { Project, WorldElement } from '../../../src/types/models';
 describe('CompletionHeatmap Core Tests', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   
@@ -61,7 +63,9 @@ describe('CompletionHeatmap Core Tests', () => {
   describe('Rendering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('renders heatmap with legend', () => {
@@ -153,7 +157,9 @@ describe('CompletionHeatmap Core Tests', () => {
   describe('Color Coding', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('applies correct color for 100% completion', () => {

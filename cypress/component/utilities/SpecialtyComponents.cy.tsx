@@ -18,7 +18,7 @@ import { KeyboardShortcutsHelp } from '../../../src/components/KeyboardShortcuts
 import { EmailVerificationBanner } from '../../../src/components/EmailVerificationBanner';
 import { MigrationPrompt } from '../../../src/components/MigrationPrompt';
 import { AccountMenu } from '../../../src/components/AccountMenu';
-import { AuthGuard } from '../../../src/components/AuthGuard';
+import AuthGuard from '../../../src/components/AuthGuard';
 import { BrowserRouter, MemoryRouter } from 'react-router-dom';
 
 // * Mock stores
@@ -73,7 +73,9 @@ beforeEach(function() {
 describe('KeyboardShortcutsHelp Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   
@@ -95,7 +97,9 @@ describe('KeyboardShortcutsHelp Component', () => {
   describe('Rendering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('does not render when closed', () => {
@@ -151,7 +155,9 @@ describe('KeyboardShortcutsHelp Component', () => {
   describe('Platform Detection', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('shows Cmd instead of Ctrl on Mac', () => {
@@ -170,7 +176,9 @@ describe('KeyboardShortcutsHelp Component', () => {
   describe('Interactions', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('closes when X button clicked', () => {
@@ -188,7 +196,9 @@ describe('KeyboardShortcutsHelp Component', () => {
   describe('Accessibility', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('has proper aria-label on close button', () => {
@@ -206,7 +216,9 @@ describe('KeyboardShortcutsHelp Component', () => {
 describe('EmailVerificationBanner Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   beforeEach(function() {
@@ -225,7 +237,9 @@ describe('EmailVerificationBanner Component', () => {
   describe('Rendering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('does not render when user is null', () => {
@@ -267,7 +281,9 @@ describe('EmailVerificationBanner Component', () => {
   describe('Interactions', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('sends verification email when button clicked', () => {
@@ -327,7 +343,9 @@ describe('EmailVerificationBanner Component', () => {
   describe('Animation', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('animates entrance', () => {
@@ -339,7 +357,9 @@ describe('EmailVerificationBanner Component', () => {
   describe('Error Handling', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('handles network error', () => {
@@ -359,7 +379,9 @@ describe('EmailVerificationBanner Component', () => {
 describe('MigrationPrompt Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   
@@ -387,7 +409,9 @@ describe('MigrationPrompt Component', () => {
   describe('Rendering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('does not render when closed', () => {
@@ -424,7 +448,9 @@ describe('MigrationPrompt Component', () => {
   describe('Migration Process', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('starts migration when button clicked', () => {
@@ -504,7 +530,9 @@ describe('MigrationPrompt Component', () => {
   describe('Interactions', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('closes when Maybe Later clicked', () => {
@@ -582,7 +610,9 @@ describe('MigrationPrompt Component', () => {
 describe('AccountMenu Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   beforeEach(function() {
@@ -601,7 +631,9 @@ describe('AccountMenu Component', () => {
   describe('Rendering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('renders avatar button with user initial', () => {
@@ -661,7 +693,9 @@ describe('AccountMenu Component', () => {
   describe('Sync Status Display', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('shows syncing state', () => {
@@ -705,7 +739,9 @@ describe('AccountMenu Component', () => {
   describe('Interactions', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('navigates to profile when clicked', () => {
@@ -774,7 +810,9 @@ describe('AccountMenu Component', () => {
   describe('Animation', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('animates dropdown entrance', () => {
@@ -791,7 +829,9 @@ describe('AccountMenu Component', () => {
   describe('Edge Cases', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('handles missing profile name', () => {
@@ -840,7 +880,9 @@ describe('AccountMenu Component', () => {
 describe('AuthGuard Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   
@@ -863,7 +905,9 @@ describe('AuthGuard Component', () => {
   describe('Loading State', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('shows loading spinner while initializing', () => {
@@ -887,7 +931,9 @@ describe('AuthGuard Component', () => {
   describe('Authentication Flow', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('renders children when authenticated', () => {
@@ -952,7 +998,9 @@ describe('AuthGuard Component', () => {
   describe('Initialization', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('calls initialize on mount', () => {
@@ -991,7 +1039,9 @@ describe('AuthGuard Component', () => {
   describe('Navigation State', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('preserves location state when redirecting to login', () => {
@@ -1039,7 +1089,9 @@ describe('AuthGuard Component', () => {
   describe('Edge Cases', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('handles missing from state gracefully', () => {

@@ -21,7 +21,9 @@ import { exportGraphAsPNG, exportGraphAsSVG } from '../../../src/components/grap
 describe('GraphControls Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   let defaultProps: any;
@@ -148,7 +150,9 @@ describe('GraphControls Component', () => {
 describe('GraphFilters Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   let defaultProps: any;

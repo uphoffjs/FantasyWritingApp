@@ -86,7 +86,9 @@ describe('SyncQueueStatus Component', () => {
 
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   describe('Display Modes', () => {

@@ -19,7 +19,9 @@ import { TagMultiSelect } from '../../../src/components/TagMultiSelect';
 describe('TagMultiSelect Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
   
   const availableTags = ['Fantasy', 'Adventure', 'Magic', 'Dragons', 'Epic', 'Quest', 'Mystery', 'Romance'];
@@ -37,7 +39,9 @@ describe('TagMultiSelect Component', () => {
   describe('Rendering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('renders with placeholder when no tags selected', () => {
       cy.mount(
@@ -104,7 +108,9 @@ describe('TagMultiSelect Component', () => {
   describe('Dropdown Behavior', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('opens dropdown when clicked', () => {
       cy.mount(
@@ -173,7 +179,9 @@ describe('TagMultiSelect Component', () => {
   describe('Tag Selection', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('selects a tag when clicked', () => {
       cy.mount(
@@ -246,7 +254,9 @@ describe('TagMultiSelect Component', () => {
   describe('Tag Removal', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('removes tag when X button is clicked', () => {
       cy.mount(
@@ -296,7 +306,9 @@ describe('TagMultiSelect Component', () => {
   describe('Search Functionality', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     beforeEach(function() {
     // ! MANDATORY: Comprehensive debug setup
@@ -363,7 +375,9 @@ describe('TagMultiSelect Component', () => {
   describe('Focus Management', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('focuses search input when dropdown opens', () => {
       cy.mount(
@@ -399,7 +413,9 @@ describe('TagMultiSelect Component', () => {
   describe('Edge Cases', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('handles empty available tags', () => {
       cy.mount(
@@ -481,7 +497,9 @@ describe('TagMultiSelect Component', () => {
   describe('Accessibility', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('can be navigated with keyboard', () => {
       cy.mount(
@@ -535,7 +553,9 @@ describe('TagMultiSelect Component', () => {
   describe('Responsive Design', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('works on mobile viewport', () => {
       cy.viewport(375, 667);

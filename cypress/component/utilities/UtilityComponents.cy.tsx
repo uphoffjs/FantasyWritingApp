@@ -36,13 +36,17 @@ describe('ResourceHints', () => {
 
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   describe('Rendering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('renders without visible UI', () => {
@@ -99,7 +103,9 @@ describe('ResourceHints', () => {
   describe('Cleanup', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('component unmounts cleanly', () => {
@@ -116,7 +122,9 @@ describe('ResourceHints', () => {
 describe('ValidationPanel', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   
@@ -129,7 +137,9 @@ describe('ValidationPanel', () => {
   describe('Rendering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('renders validation panel', () => {
@@ -163,7 +173,9 @@ describe('ValidationPanel', () => {
   describe('Text Validation', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('handles min length changes', () => {
@@ -208,7 +220,9 @@ describe('ValidationPanel', () => {
   describe('Number Validation', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('handles min value changes', () => {
@@ -231,7 +245,9 @@ describe('ValidationPanel', () => {
   describe('Custom Error Message', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('handles custom error message', () => {
@@ -248,7 +264,9 @@ describe('ValidationPanel', () => {
   describe('Edge Cases', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('handles existing validation values', () => {
@@ -283,7 +301,9 @@ describe('ValidationPanel', () => {
 describe('LazyImage', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   
@@ -295,7 +315,9 @@ describe('LazyImage', () => {
   describe('Rendering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('renders with loading placeholder initially', () => {
@@ -329,7 +351,9 @@ describe('LazyImage', () => {
   describe('Intersection Observer', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('lazy loads when in viewport', () => {
@@ -354,7 +378,9 @@ describe('LazyImage', () => {
   describe('Error Handling', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('shows error state on load failure', () => {
@@ -381,7 +407,9 @@ describe('LazyImage', () => {
 describe('ProjectSearchBar', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   
@@ -394,7 +422,9 @@ describe('ProjectSearchBar', () => {
   describe('Rendering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('renders search input', () => {
@@ -419,7 +449,9 @@ describe('ProjectSearchBar', () => {
   describe('User Interactions', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('handles input changes', () => {
@@ -462,7 +494,9 @@ describe('ProjectSearchBar', () => {
   describe('Keyboard Navigation', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('submits on Enter key', () => {
@@ -486,7 +520,9 @@ describe('ProjectSearchBar', () => {
 describe('ProjectSortDropdown', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   
@@ -503,7 +539,9 @@ describe('ProjectSortDropdown', () => {
   describe('Rendering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('renders sort dropdown', () => {
@@ -522,7 +560,9 @@ describe('ProjectSortDropdown', () => {
   describe('Dropdown Interaction', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('opens dropdown on click', () => {
@@ -572,7 +612,9 @@ describe('ProjectSortDropdown', () => {
   describe('Sort Direction', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('shows sort direction indicator', () => {
@@ -609,7 +651,9 @@ describe('ProjectSortDropdown', () => {
 describe('TagManager', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   
@@ -624,7 +668,9 @@ describe('TagManager', () => {
   describe('Rendering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('renders tag list', () => {
@@ -651,7 +697,9 @@ describe('TagManager', () => {
   describe('Adding Tags', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('opens add tag modal', () => {
@@ -686,7 +734,9 @@ describe('TagManager', () => {
   describe('Removing Tags', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('removes tag on X click', () => {
@@ -709,7 +759,9 @@ describe('TagManager', () => {
   describe('Editing Tags', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('enables edit mode on tag click', () => {
@@ -734,7 +786,9 @@ describe('TagManager', () => {
   describe('Search and Filter', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('filters tags by search', () => {

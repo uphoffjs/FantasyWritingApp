@@ -22,7 +22,9 @@ import { waitForAnimation, setMobileViewport, setTabletViewport, setDesktopViewp
 describe('EditProjectModal Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   let onCloseSpy: any;
@@ -54,7 +56,9 @@ describe('EditProjectModal Component', () => {
   describe('Rendering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('renders with all form fields populated from project data', () => {
@@ -150,7 +154,9 @@ describe('EditProjectModal Component', () => {
   describe('Form Validation', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('shows error when name is empty', () => {
@@ -245,7 +251,9 @@ describe('EditProjectModal Component', () => {
   describe('Save Functionality', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('saves changes and closes modal', () => {
@@ -308,7 +316,9 @@ describe('EditProjectModal Component', () => {
   describe('Image Upload', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('handles valid image upload', () => {
@@ -384,7 +394,9 @@ describe('EditProjectModal Component', () => {
   describe('Project Actions', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('toggles archive status', () => {
@@ -523,7 +535,9 @@ describe('EditProjectModal Component', () => {
   describe('Modal Interactions', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('closes modal when close button is clicked', () => {
@@ -574,7 +588,9 @@ describe('EditProjectModal Component', () => {
   describe('Status Indicator', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('displays correct color for each status', () => {
@@ -603,7 +619,9 @@ describe('EditProjectModal Component', () => {
   describe('Edge Cases', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('handles extremely long project names', () => {
@@ -675,7 +693,9 @@ describe('EditProjectModal Component', () => {
   describe('Accessibility', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('has proper labels for form fields', () => {
@@ -721,7 +741,9 @@ describe('EditProjectModal Component', () => {
   describe('Responsive Design', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('adapts layout for mobile viewports', () => {

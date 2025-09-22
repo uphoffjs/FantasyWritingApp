@@ -23,7 +23,9 @@ import { WorldElement, Relationship } from '../../../src/types/models';
 describe('RelationshipList Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   let onDeleteSpy: any;
@@ -85,7 +87,9 @@ describe('RelationshipList Component', () => {
   describe('Rendering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('renders relationships with target element information', () => {
@@ -185,7 +189,9 @@ describe('RelationshipList Component', () => {
   describe('Search Functionality', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('filters relationships by target element name', () => {
@@ -300,7 +306,9 @@ describe('RelationshipList Component', () => {
   describe('Type Filtering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('shows all unique relationship types in filter dropdown', () => {
@@ -363,7 +371,9 @@ describe('RelationshipList Component', () => {
   describe('Sorting', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('sorts by target element name', () => {
@@ -442,7 +452,9 @@ describe('RelationshipList Component', () => {
   describe('Combined Filters', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('applies search and type filter together', () => {
@@ -506,7 +518,9 @@ describe('RelationshipList Component', () => {
   describe('User Interactions', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('calls onElementClick when element name is clicked', () => {
@@ -579,7 +593,9 @@ describe('RelationshipList Component', () => {
   describe('Edge Cases', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('handles relationships without descriptions', () => {
@@ -714,7 +730,9 @@ describe('RelationshipList Component', () => {
   describe('Accessibility', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('has proper labels for interactive elements', () => {
@@ -776,7 +794,9 @@ describe('RelationshipList Component', () => {
   describe('Responsive Design', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('adapts layout for mobile viewport', () => {

@@ -16,14 +16,27 @@
 import React from 'react';
 import { MarkdownExportModal } from '../../../src/components/MarkdownExportModal';
 import { mountWithProviders } from '../../support/mount-helpers';
-import { mockElement } from '../../support/test-data';
+// Mock element for testing
+const mockElement = {
+  id: 'test-element-1',
+  name: 'Test Element',
+  type: 'character',
+  category: 'Characters',
+  answers: {},
+  relationships: [],
+  completionPercentage: 0,
+  createdAt: new Date().toISOString(),
+  updatedAt: new Date().toISOString()
+};
 import { waitForAnimation, setMobileViewport, setTabletViewport, setDesktopViewport } from '../../support/test-utils';
 import { WorldElement } from '../../../src/types/models';
 
 describe('MarkdownExportModal Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
   let onCloseSpy: any;
   let onImportSpy: any;
@@ -78,7 +91,9 @@ describe('MarkdownExportModal Component', () => {
   describe('Rendering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('renders with export tab active by default', () => {
       mountWithProviders(
@@ -128,7 +143,9 @@ describe('MarkdownExportModal Component', () => {
   describe('Markdown Generation', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('generates markdown with element name as heading', () => {
       mountWithProviders(
@@ -270,12 +287,14 @@ describe('MarkdownExportModal Component', () => {
   describe('Export Actions', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('copies markdown to clipboard', () => {
       // * Mock clipboard API
       cy.window().then((win) => {
-        cy.stub(win[data-cy="navigation"]igator.clipboard, 'writeText').resolves();
+        cy.stub(win.navigator.clipboard, 'writeText').resolves();
       });
       mountWithProviders(
         <MarkdownExportModal 
@@ -356,7 +375,9 @@ describe('MarkdownExportModal Component', () => {
   describe('Tab Switching', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('switches to import tab when clicked', () => {
       mountWithProviders(
@@ -393,7 +414,9 @@ describe('MarkdownExportModal Component', () => {
   describe('Import Functionality', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('shows import textarea when on import tab', () => {
       mountWithProviders(
@@ -558,7 +581,9 @@ Line 3 of appearance`;
   describe('Modal Interactions', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('closes modal when close button clicked', () => {
       mountWithProviders(
@@ -587,7 +612,9 @@ Line 3 of appearance`;
   describe('Edge Cases', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('handles element with no questions', () => {
       const elementNoQuestions = {
@@ -691,7 +718,9 @@ Line 3 of appearance`;
   describe('Accessibility', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('has proper headings and labels', () => {
       mountWithProviders(
@@ -741,7 +770,9 @@ Line 3 of appearance`;
   describe('Responsive Design', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('adapts layout for mobile viewport', () => {
       setMobileViewport();

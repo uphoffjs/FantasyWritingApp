@@ -27,7 +27,9 @@ import {
 describe('ProjectList Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   
@@ -58,7 +60,9 @@ describe('ProjectList Component', () => {
   describe('Rendering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('renders without errors', () => {
@@ -128,7 +132,9 @@ describe('ProjectList Component', () => {
   describe('Search Functionality', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('filters projects by search query', () => {
@@ -206,7 +212,9 @@ describe('ProjectList Component', () => {
   describe('Sorting', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('sorts projects by modified date (default)', () => {
@@ -274,7 +282,9 @@ describe('ProjectList Component', () => {
   describe('Archive Toggle', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('shows active projects by default', () => {
@@ -324,7 +334,9 @@ describe('ProjectList Component', () => {
   describe('Project Actions', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('opens create project modal when clicking new project button', () => {
@@ -418,7 +430,9 @@ describe('ProjectList Component', () => {
   describe('Combined Features', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('searches within archived projects', () => {
@@ -470,7 +484,9 @@ describe('ProjectList Component', () => {
   describe('Responsive Design', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('adapts layout for mobile viewport', () => {
@@ -525,7 +541,9 @@ describe('ProjectList Component', () => {
   describe('Accessibility', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('has proper ARIA labels', () => {
@@ -573,7 +591,9 @@ describe('ProjectList Component', () => {
   describe('Performance', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('virtualizes large lists efficiently', () => {
@@ -613,7 +633,9 @@ describe('ProjectList Component', () => {
   describe('Edge Cases', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('handles projects with missing data gracefully', () => {

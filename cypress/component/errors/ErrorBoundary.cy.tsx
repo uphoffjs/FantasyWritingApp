@@ -18,7 +18,7 @@ import React from 'react';
 import { ErrorBoundary, useErrorHandler } from '../../../src/components/ErrorBoundary';
 
 // * Test component that throws an error
-const ThrowError = ({ shouldThrow = false, errorMessage = 'Test error' }); => {
+const ThrowError = ({ shouldThrow = false, errorMessage = 'Test error' }) => {
   if (shouldThrow) {
     throw new Error(errorMessage);
   }
@@ -26,7 +26,7 @@ const ThrowError = ({ shouldThrow = false, errorMessage = 'Test error' }); => {
 };
 
 // * Test component using useErrorHandler hook
-const ComponentWithErrorHandler = ({ triggerError = false }); => {
+const ComponentWithErrorHandler = ({ triggerError = false }) => {
   const throwError = useErrorHandler();
   
   React.useEffect(() => {
@@ -59,12 +59,16 @@ describe('ErrorBoundary', () => {
   });
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
   describe('Basic Functionality', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('renders children when there is no error', () => {
       cy.mount(
@@ -100,7 +104,9 @@ describe('ErrorBoundary', () => {
   describe('Error Boundary Levels', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('displays root level error UI', () => {
       cy.mount(
@@ -141,7 +147,9 @@ describe('ErrorBoundary', () => {
   describe('Custom Fallback Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('uses custom fallback when provided', () => {
       cy.mount(
@@ -169,7 +177,9 @@ describe('ErrorBoundary', () => {
   describe('Error Reset', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('resets error state when retry clicked', () => {
       let errorCount = 0;
@@ -217,7 +227,9 @@ describe('ErrorBoundary', () => {
   describe('Error Handler Callback', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('calls onError callback when error occurs', () => {
       const onError = cy.stub();
@@ -253,7 +265,9 @@ describe('ErrorBoundary', () => {
   describe('useErrorHandler Hook', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('triggers error boundary from hook', () => {
       cy.mount(
@@ -278,7 +292,9 @@ describe('ErrorBoundary', () => {
   describe('Navigation Actions', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('provides home navigation for root errors', () => {
       cy.mount(
@@ -311,7 +327,9 @@ describe('ErrorBoundary', () => {
   describe('Development vs Production', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('shows error details in development', () => {
       // * This test assumes we're in development mode
@@ -342,7 +360,9 @@ describe('ErrorBoundary', () => {
   describe('Multiple Error Boundaries', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('catches errors at different levels', () => {
       cy.mount(
@@ -365,7 +385,9 @@ describe('ErrorBoundary', () => {
   describe('Accessibility', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('has accessible buttons in error UI', () => {
       cy.mount(
@@ -391,7 +413,9 @@ describe('ErrorBoundary', () => {
   describe('Edge Cases', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('handles async errors', () => {
       const AsyncError = () => {

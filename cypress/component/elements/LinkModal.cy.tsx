@@ -21,7 +21,9 @@ import { waitForAnimation, setMobileViewport, setTabletViewport, setDesktopViewp
 describe('LinkModal Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
   let onCloseSpy: any;
   let onConfirmSpy: any;
@@ -39,7 +41,9 @@ describe('LinkModal Component', () => {
   describe('Rendering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('renders when isOpen is true', () => {
       mountWithProviders(
@@ -111,7 +115,9 @@ describe('LinkModal Component', () => {
   describe('URL Input', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('accepts valid URL input', () => {
       mountWithProviders(
@@ -182,7 +188,9 @@ describe('LinkModal Component', () => {
   describe('Focus Management', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('auto-focuses input when modal opens', () => {
       mountWithProviders(
@@ -239,7 +247,9 @@ describe('LinkModal Component', () => {
   describe('Form Submission', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('submits valid URL and closes modal', () => {
       mountWithProviders(
@@ -326,7 +336,9 @@ describe('LinkModal Component', () => {
   describe('Remove Link', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('shows remove button only in edit mode', () => {
       mountWithProviders(
@@ -370,7 +382,9 @@ describe('LinkModal Component', () => {
   describe('Cancel Action', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('closes modal without confirming when cancel clicked', () => {
       mountWithProviders(
@@ -406,7 +420,9 @@ describe('LinkModal Component', () => {
   describe('State Management', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('updates URL state when currentUrl prop changes', () => {
       mountWithProviders(
@@ -472,7 +488,9 @@ describe('LinkModal Component', () => {
   describe('Edge Cases', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('handles very long URLs', () => {
       const longUrl = `https://example.com/${'a'.repeat(500)}`;
@@ -577,7 +595,9 @@ describe('LinkModal Component', () => {
   describe('Accessibility', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('has proper ARIA attributes', () => {
       mountWithProviders(
@@ -647,7 +667,9 @@ describe('LinkModal Component', () => {
   describe('Responsive Design', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('adapts layout for mobile viewport', () => {
       setMobileViewport();
@@ -692,7 +714,9 @@ describe('LinkModal Component', () => {
   describe('Visual States', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('shows hover states on interactive elements', () => {
       mountWithProviders(

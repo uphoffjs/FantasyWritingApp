@@ -82,7 +82,9 @@ beforeEach(function() {
 describe('SyncIndicator Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
   beforeEach(function() {
     // ! MANDATORY: Comprehensive debug setup
@@ -154,7 +156,9 @@ describe('SyncIndicator Component', () => {
 describe('CloudSaveButton Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
   beforeEach(function() {
     // ! MANDATORY: Comprehensive debug setup
@@ -330,7 +334,9 @@ describe('CloudSaveButton Component', () => {
 describe('CloudSaveButtonMobile Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
   it('returns null (not implemented)', () => {
     cy.mount(<CloudSaveButtonMobile />);
@@ -340,7 +346,9 @@ describe('CloudSaveButtonMobile Component', () => {
 describe('OfflineBanner Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
   beforeEach(function() {
     // ! MANDATORY: Comprehensive debug setup
@@ -435,7 +443,9 @@ describe('OfflineBanner Component', () => {
 describe('OfflineBannerCompact Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
   beforeEach(function() {
     // ! MANDATORY: Comprehensive debug setup

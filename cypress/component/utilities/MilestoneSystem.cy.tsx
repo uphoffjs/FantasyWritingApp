@@ -53,7 +53,9 @@ const createMockProject = (elements: WorldElement[] = []): Project => ({
 describe('MilestoneSystem Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   beforeEach(function() {
@@ -74,7 +76,9 @@ describe('MilestoneSystem Component', () => {
   describe('Rendering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('renders achievement header', () => {
@@ -123,7 +127,9 @@ describe('MilestoneSystem Component', () => {
   describe('Milestone Achievement Detection', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('marks first element milestone as achieved', () => {
@@ -205,7 +211,9 @@ describe('MilestoneSystem Component', () => {
   describe('Progress Tracking', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('shows progress to next element milestone', () => {
@@ -273,7 +281,9 @@ describe('MilestoneSystem Component', () => {
   describe('New Achievement Animation', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('triggers confetti for newly achieved milestone', () => {
@@ -335,7 +345,9 @@ describe('MilestoneSystem Component', () => {
   describe('Mobile Responsive Design', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     beforeEach(function() {
@@ -384,7 +396,9 @@ describe('MilestoneSystem Component', () => {
   describe('Edge Cases', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('handles empty project gracefully', () => {
@@ -458,7 +472,9 @@ describe('MilestoneSystem Component', () => {
   describe('Accessibility', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('uses semantic HTML structure', () => {
@@ -509,7 +525,9 @@ describe('MilestoneSystem Component', () => {
   describe('Visual Styling', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('applies correct colors to milestone cards', () => {

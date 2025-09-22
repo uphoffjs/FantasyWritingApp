@@ -71,7 +71,9 @@ const createMockElement = (id: string, overrides?: Partial<WorldElement>): World
 describe('VirtualizedElementList Component', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   
@@ -91,7 +93,9 @@ describe('VirtualizedElementList Component', () => {
   describe('Rendering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('renders elements in virtualized list', () => {
@@ -147,7 +151,9 @@ describe('VirtualizedElementList Component', () => {
   describe('Empty States', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('shows empty state when no elements', () => {
@@ -201,7 +207,9 @@ describe('VirtualizedElementList Component', () => {
   describe('Element Interaction', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('calls onElementClick when element is clicked', () => {
@@ -241,7 +249,9 @@ describe('VirtualizedElementList Component', () => {
   describe('Grid Layout', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('calculates columns based on container width', () => {
@@ -300,7 +310,9 @@ describe('VirtualizedElementList Component', () => {
   describe('Performance', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('handles large number of elements', () => {
@@ -340,7 +352,9 @@ describe('VirtualizedElementList Component', () => {
   describe('Window Resize', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('recalculates columns on window resize', () => {
@@ -371,7 +385,9 @@ describe('VirtualizedElementList Component', () => {
   describe('Error Handling', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('falls back to non-virtualized rendering on error', () => {
@@ -412,7 +428,9 @@ describe('VirtualizedElementList Component', () => {
   describe('Element Display', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('displays element properties correctly', () => {
@@ -459,7 +477,9 @@ describe('VirtualizedElementList Component', () => {
   describe('Accessibility', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('maintains focus on clicked elements', () => {
@@ -501,7 +521,9 @@ describe('VirtualizedElementList Component', () => {
   describe('Responsive Design', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('works on mobile viewport', () => {

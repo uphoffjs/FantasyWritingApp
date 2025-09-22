@@ -24,7 +24,9 @@ describe('ErrorNotification Component', () => {
   });
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
   
   const mockError = new Error('Something went wrong!');
@@ -32,7 +34,9 @@ describe('ErrorNotification Component', () => {
   describe('Rendering', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('renders when error is provided', () => {
       cy.mount(<ErrorNotification error={mockError} />);
@@ -75,7 +79,9 @@ describe('ErrorNotification Component', () => {
   describe('Close Functionality', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('renders close button when onClose is provided', () => {
       const onCloseSpy = cy.spy().as('onClose');
@@ -116,7 +122,9 @@ describe('ErrorNotification Component', () => {
   describe('Auto-hide Behavior', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('auto-hides after default delay (5000ms)', () => {
       cy.clock();
@@ -216,7 +224,9 @@ describe('ErrorNotification Component', () => {
   describe('Error Updates', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('updates when error changes', () => {
       const TestComponent = () => {
@@ -281,7 +291,9 @@ describe('ErrorNotification Component', () => {
   describe('Animation', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('has slide-in animation', () => {
       cy.mount(<ErrorNotification error={mockError} />);
@@ -295,7 +307,9 @@ describe('ErrorNotification Component', () => {
   describe('useErrorNotification Hook', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('manages multiple error notifications', () => {
       const TestComponent = () => {
@@ -410,7 +424,9 @@ describe('ErrorNotification Component', () => {
   describe('Accessibility', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('has accessible close button', () => {
       cy.mount(<ErrorNotification error={mockError} onClose={cy.spy()} />);
@@ -450,7 +466,9 @@ describe('ErrorNotification Component', () => {
   describe('Edge Cases', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('handles very long error messages', () => {
       const longError = new Error('A'.repeat(500));
@@ -492,7 +510,9 @@ describe('ErrorNotification Component', () => {
   describe('Responsive Design', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
     it('renders correctly on mobile viewport', () => {
       cy.viewport(375, 667);

@@ -32,7 +32,9 @@ describe('TextInput - Special Characters', () => {
 
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
   // * Test wrapper with character counter and sanitization
@@ -81,7 +83,9 @@ describe('TextInput - Special Characters', () => {
   describe('Unicode Support', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('handles emoji characters correctly', () => {
@@ -125,7 +129,9 @@ describe('TextInput - Special Characters', () => {
   describe('Special Punctuation', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('handles all punctuation characters', () => {
@@ -155,7 +161,9 @@ describe('TextInput - Special Characters', () => {
   describe('XSS Prevention', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('prevents XSS attacks', () => {
@@ -206,7 +214,9 @@ describe('TextInput - Special Characters', () => {
   describe('SQL Injection Prevention', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('handles SQL injection attempts safely', () => {
@@ -225,7 +235,9 @@ describe('TextInput - Special Characters', () => {
   describe('Whitespace Handling', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('preserves various whitespace characters', () => {
@@ -259,7 +271,9 @@ describe('TextInput - Special Characters', () => {
   describe('Control Characters', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('handles tab characters', () => {
@@ -295,7 +309,9 @@ describe('TextInput - Special Characters', () => {
   describe('Max Length with Special Characters', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('respects maxLength with emoji', () => {
@@ -322,7 +338,9 @@ describe('TextInput - Special Characters', () => {
   describe('Homoglyphs and Confusing Characters', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('preserves visually similar characters', () => {
@@ -349,7 +367,9 @@ describe('TextInput - Special Characters', () => {
   describe('Comprehensive Special Character Sets', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('handles all special character types together', () => {
@@ -389,7 +409,9 @@ describe('TextInput - Special Characters', () => {
   describe('Copy/Paste with Special Characters', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('preserves special characters through copy/paste', () => {
@@ -427,7 +449,9 @@ describe('TextInput - Special Characters', () => {
   describe('Performance with Special Characters', () => {
   afterEach(function() {
     // ! Capture debug info if test failed
-    cy.captureFailureDebug();
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
   });
 
     it('handles large amounts of emoji efficiently', () => {
