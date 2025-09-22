@@ -79,39 +79,12 @@ write_memory("checkpoint", "current context and state")
 
 **Step 4: Reload Claude's configuration**
 ```bash
-/sc:load
+/sc:load but do not start any work yet
 ```
 
 **Step 5: Restore your context**
 ```bash
 read_memory("checkpoint")
-```
-
-### Alternative: Using New Memory System (IN YOUR REACT APP)
-
-**Step 1: Save Claude's configuration**
-```bash
-/sc:save
-```
-
-**Step 2: Create checkpoint in your app**
-```javascript
-memoryHelpers.checkpoint("Session checkpoint")
-```
-
-**Step 3: Clear the conversation**
-```bash
-/clear
-```
-
-**Step 4: Reload Claude's configuration**
-```bash
-/sc:load but do not start any work yet
-```
-
-**Step 5: Restore checkpoint in your app**
-```javascript
-memoryHelpers.restore(checkpointId)
 ```
 
 ### Load Specific Documentation
