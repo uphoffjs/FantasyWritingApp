@@ -10,7 +10,7 @@
  */
 
 // * Touch event types for React Native Web
-type TouchGesture = 'tap' | 'longPress' | 'doubleTap' | 'swipeLeft' | 'swipeRight' | 'swipeUp' | 'swipeDown' | 'pinch' | 'spread';
+type TouchGesture = 'tap' | 'longPress' | 'doubleTap' | 'swipeLeft' | 'swipeRight' | 'swipeUp' | 'swipeDown' | 'pinch' | 'spreadGesture';
 
 // * Options for touch gestures
 interface TouchOptions {
@@ -241,7 +241,7 @@ Cypress.Commands.add('pinch', (selector: string, options: TouchOptions = {}) => 
  * Simulate a spread gesture (zoom in)
  * Used for zooming and scaling interactions
  */
-Cypress.Commands.add('spread', (selector: string, options: TouchOptions = {}) => {
+Cypress.Commands.add('spreadGesture', (selector: string, options: TouchOptions = {}) => {
   const element = cy.get(selector);
   const distance = options.distance || 100;
 

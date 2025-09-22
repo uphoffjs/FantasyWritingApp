@@ -2,9 +2,9 @@ import { StateCreator } from 'zustand';
 import { v4 as uuidv4 } from 'uuid';
 import { Relationship } from '../../types/worldbuilding';
 import { ProjectSlice } from './projectStore';
-import { 
-  relationshipOptimizer, 
-  RelationshipMaps 
+import {
+  relationshipOptimizationService as relationshipOptimizer,
+  RelationshipMaps
 } from '../../services/core/RelationshipOptimizationService';
 
 export interface RelationshipSlice {

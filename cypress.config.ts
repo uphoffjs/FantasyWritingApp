@@ -65,16 +65,16 @@ export default defineConfig({
     viewportWidth: 375,  // Default to mobile viewport
     viewportHeight: 667,
     // Component testing timeouts optimized for RN Web
-    defaultCommandTimeout: 12000,  // Increased for RN animations
-    requestTimeout: 10000,
-    responseTimeout: 10000,
+    defaultCommandTimeout: 6000,  // Reduced from 12000 for faster failures
+    requestTimeout: 5000,
+    responseTimeout: 5000,
     // Animation handling for RN Web
     animationDistanceThreshold: 20,
     waitForAnimations: true,
     // Retry configuration for flaky RN Web tests
     retries: {
-      runMode: 3,  // More retries in CI
-      openMode: 1,  // Some retries in dev
+      runMode: 1,  // Reduced from 3 for faster test runs
+      openMode: 0,  // No retries in dev for immediate feedback
     },
     setupNodeEvents(on, config) {
       codeCoverageTask(on, config);
