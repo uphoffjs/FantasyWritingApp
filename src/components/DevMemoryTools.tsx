@@ -45,10 +45,69 @@ export const DevMemoryTools: React.FC = () => {
 
   const listCheckpoints = () => {
     const checkpoints = store.checkpoints;
-    const list = checkpoints.map(cp =>
-      `${cp.name} (${new Date(cp.timestamp).toLocaleTimeString()})`
-    ).join('\n');
-    Alert.alert('Checkpoints', list || 'No checkpoints yet');
+
+    if (checkpoints.length === 0) {
+      Alert.alert('Checkpoints', 'No checkpoints yet');
+      return;
+    }
+
+    // * Create list of checkpoints for display
+    const checkpointList = checkpoints.map((cp, index) =>
+      `${index + 1}. ${cp.name}\n   ${new Date(cp.timestamp).toLocaleString()}`
+    ).join('\n\n');
+
+    // * Show list with option to restore
+    Alert.alert(
+      '📋 Checkpoints',
+      checkpointList + '\n\nTap "Restore" to select a checkpoint',
+      [
+        {
+          text: 'Restore',
+          onPress: () => selectCheckpointToRestore()
+        },
+        {
+          text: 'Close',
+          style: 'cancel'
+        }
+      ],
+      { cancelable: true }
+    );
+  };
+
+  const selectCheckpointToRestore = () => {
+    const checkpoints = store.checkpoints;
+
+    if (checkpoints.length === 0) {
+      return;
+    }
+
+    // * For simplicity, restore the most recent checkpoint
+    // * In a production app, you'd want a proper picker UI
+    const mostRecent = checkpoints[checkpoints.length - 1];
+
+    Alert.alert(
+      'Restore Checkpoint',
+      `Restore "${mostRecent.name}"?\n${new Date(mostRecent.timestamp).toLocaleString()}`,
+      [
+        {
+          text: 'Restore',
+          onPress: () => restoreCheckpoint(mostRecent.id)
+        },
+        {
+          text: 'Cancel',
+          style: 'cancel'
+        }
+      ]
+    );
+  };
+
+  const restoreCheckpoint = (checkpointId: string) => {
+    try {
+      memoryHelpers.restore(checkpointId);
+      Alert.alert('Success', `Checkpoint restored: ${checkpointId}`);
+    } catch (error) {
+      Alert.alert('Error', `Failed to restore checkpoint: ${error.message}`);
+    }
   };
 
   if (__DEV__ === false) {
