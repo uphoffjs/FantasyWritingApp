@@ -1,7 +1,33 @@
+/**
+ * @fileoverview Button Component Tests
+ * Tests for US-X.X: [User Story Name]
+ *
+ * User Story:
+ * As a [user type]
+ * I want to [action]
+ * So that [benefit]
+ *
+ * Acceptance Criteria:
+ * - [Criterion 1]
+ * - [Criterion 2]
+ * - [Criterion 3]
+ */
+
 import React from 'react';
 import { Button } from '../../../src/components/Button';
 
 describe('Button Component', () => {
+  beforeEach(function() {
+    // ! Essential debug and state management
+    cy.comprehensiveDebug();
+    cy.cleanState();
+  });
+
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
   it('should render a button with React Native components', () => {
     cy.mount(
       <Button 
@@ -11,10 +37,10 @@ describe('Button Component', () => {
       />
     );
     
-    // * React Native Web converts testID to data-testid for web testing
-    cy.get('[data-testid="test-button"]').should('be.visible');
-    cy.get('[data-testid="test-button"]').should('contain', 'Click me');
-    cy.get('[data-testid="test-button"]').click();
+    // * React Native Web converts testID to data-cy for web testing
+    cy.get('[data-cy="test-button"]').should('be.visible');
+    cy.get('[data-cy="test-button"]').should('contain', 'Click me');
+    cy.get('[data-cy="test-button"]').click();
     cy.get('@onPress').should('have.been.called');
   });
 
@@ -28,8 +54,8 @@ describe('Button Component', () => {
       />
     );
     
-    cy.get('[data-testid="secondary-button"]').should('be.visible');
-    cy.get('[data-testid="secondary-button"]').should('contain', 'Secondary Button');
+    cy.get('[data-cy="secondary-button"]').should('be.visible');
+    cy.get('[data-cy="secondary-button"]').should('contain', 'Secondary Button');
   });
 
   it('should show loading state', () => {
@@ -42,9 +68,9 @@ describe('Button Component', () => {
       />
     );
     
-    cy.get('[data-testid="loading-button"]').should('be.visible');
+    cy.get('[data-cy="loading-button"]').should('be.visible');
     // ? TODO: ? TODO: Find better way to test ActivityIndicator content in React Native Web
-    cy.get('[data-testid="loading-button"]').should('exist');
+    cy.get('[data-cy="loading-button"]').should('exist');
   });
 
   it('should be disabled when disabled prop is true', () => {
@@ -57,8 +83,8 @@ describe('Button Component', () => {
       />
     );
     
-    cy.get('[data-testid="disabled-button"]').should('be.visible');
-    cy.get('[data-testid="disabled-button"]').click({ force: true });
+    cy.get('[data-cy="disabled-button"]').should('be.visible');
+    cy.get('[data-cy="disabled-button"]').click({ force: true });
     cy.get('@onPress').should('not.have.been.called');
   });
 });

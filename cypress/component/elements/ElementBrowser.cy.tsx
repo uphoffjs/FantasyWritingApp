@@ -1,7 +1,27 @@
+/**
+ * @fileoverview Element Browser Component Tests
+ * Tests for US-X.X: [User Story Name]
+ *
+ * User Story:
+ * As a [user type]
+ * I want to [action]
+ * So that [benefit]
+ *
+ * Acceptance Criteria:
+ * - [Criterion 1]
+ * - [Criterion 2]
+ * - [Criterion 3]
+ */
+
 import React from 'react';
 import { ElementBrowser, WorldElement } from '../../support/component-test-helpers';
 
 describe('ElementBrowser Component', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
   // * Mock elements data for testing
   const mockElements: WorldElement[] = [
     {
@@ -58,7 +78,13 @@ describe('ElementBrowser Component', () => {
   let mockOnCreateElement;
   let mockOnRefresh;
 
-  beforeEach(() => {
+  beforeEach(function() {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
+    // * Clean state before each test
+    cy.cleanState();
+
     mockOnElementPress = cy.stub().as('onElementPress');
     mockOnCreateElement = cy.stub().as('onCreateElement');
     mockOnRefresh = cy.stub().as('onRefresh');
@@ -147,7 +173,7 @@ describe('ElementBrowser Component', () => {
     cy.contains('Fireball').should('not.exist');
   });
 
-  it('should clear search when clear [data-cy*="button"] clicked', () => {
+  it('should clear search when clear button clicked', () => {
     cy.mount(
       <ElementBrowser 
         elements={mockElements} 
@@ -209,7 +235,7 @@ describe('ElementBrowser Component', () => {
     cy.contains('Fireball').should('not.exist');
   });
 
-  it('should reset to all elements when All filter [data-cy*="select"]ed', () => {
+  it('should reset to all elements when All filter selected', () => {
     cy.mount(
       <ElementBrowser 
         elements={mockElements} 
@@ -321,7 +347,7 @@ describe('ElementBrowser Component', () => {
     cy.contains('No elements found').should('be.visible');
     cy.contains('Try adjusting your filters').should('be.visible');
     
-    // TODO: Create [data-cy*="button"] should not be visible in filtered empty state
+    // TODO: Create button should not be visible in filtered empty state
     cy.contains('Create Element').should('not.exist');
   });
 
@@ -335,13 +361,13 @@ describe('ElementBrowser Component', () => {
       />
     );
 
-    // * Click create [data-cy*="button"] in empty state
+    // * Click create button in empty state
     cy.contains('Create Element').click();
     
     cy.get('@onCreateElement').should('have.been.called');
   });
 
-  it('should show floating action [data-cy*="button"] when elements exist', () => {
+  it('should show floating action button when elements exist', () => {
     cy.mount(
       <ElementBrowser 
         elements={mockElements} 
@@ -351,11 +377,11 @@ describe('ElementBrowser Component', () => {
       />
     );
 
-    // * Check for floating action [data-cy*="button"]
+    // * Check for floating action button
     cy.contains('+').should('be.visible');
   });
 
-  it('should handle floating action [data-cy*="button"] click', () => {
+  it('should handle floating action button click', () => {
     cy.mount(
       <ElementBrowser 
         elements={mockElements} 
@@ -365,7 +391,7 @@ describe('ElementBrowser Component', () => {
       />
     );
 
-    // * Click floating action [data-cy*="button"]
+    // * Click floating action button
     cy.contains('+').click();
     
     cy.get('@onCreateElement').should('have.been.called');
@@ -385,7 +411,7 @@ describe('ElementBrowser Component', () => {
     cy.contains('Loading elements...').should('be.visible');
     
     // ? TODO: * Should show activity indicator (appears as spinner in web)
-    cy.get('[data-testid="element-browser"]').should('exist');
+    cy.get('[data-cy="element-browser"]').should('exist');
   });
 
   it('should handle refresh functionality', () => {
@@ -401,7 +427,7 @@ describe('ElementBrowser Component', () => {
 
     // * Pull to refresh is difficult to test in component tests
     // * But we can verify the refresh control is set up
-    cy.get('[data-testid="element-browser"]').should('be.visible');
+    cy.get('[data-cy="element-browser"]').should('be.visible');
   });
 
   it('should handle combined search and filter', () => {
@@ -465,7 +491,7 @@ describe('ElementBrowser Component', () => {
     cy.contains('1 element').should('be.visible');
   });
 
-  it('should close sort dropdown when option [data-cy*="select"]ed', () => {
+  it('should close sort dropdown when option selected', () => {
     cy.mount(
       <ElementBrowser 
         elements={mockElements} 

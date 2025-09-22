@@ -1,3 +1,18 @@
+/**
+ * @fileoverview C O M P O N E N T- T E S T- T E M P L A T E Component Tests
+ * Tests for US-X.X: [User Story Name]
+ *
+ * User Story:
+ * As a [user type]
+ * I want to [action]
+ * So that [benefit]
+ *
+ * Acceptance Criteria:
+ * - [Criterion 1]
+ * - [Criterion 2]
+ * - [Criterion 3]
+ */
+
 /// <reference types="cypress" />
 /**
  * Component Test Template for Fantasy Element Builder
@@ -24,8 +39,21 @@ import React from 'react';
 // import { mountWithProviders } from '../../support/component-test-helpers';
 
 describe('ComponentName Component', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    if (this.currentTest.state === 'failed') {
+      cy.captureFailureDebug();
+    }
+  });
+
   // * Setup that runs before each test
-  beforeEach(() => {
+  beforeEach(function() {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
+    // * Clean state before each test
+    cy.cleanState();
+
     // * Reset factories if using them
     cy.task('factory:reset');
     
@@ -34,7 +62,7 @@ describe('ComponentName Component', () => {
   });
 
   // * Cleanup that runs after each test
-  afterEach(() => {
+  afterEach(function() {
     // * Clean up any test artifacts
     // * This helps prevent test pollution
   });
@@ -49,7 +77,7 @@ describe('ComponentName Component', () => {
       );
       
       // * Check that essential elements are present
-      cy.get('[data-testid="component-name"]').should('be.visible');
+      cy.get('[data-cy="component-name"]').should('be.visible');
     });
 
     it('renders with all props', () => {
@@ -63,7 +91,7 @@ describe('ComponentName Component', () => {
       );
       
       // * Verify all elements render correctly
-      cy.get('[data-testid="component-name"]').should('have.class', 'custom-class');
+      cy.get('[data-cy="component-name"]').should('have.class', 'custom-class');
     });
 
     it('displays correct initial state', () => {
@@ -71,7 +99,7 @@ describe('ComponentName Component', () => {
       cy.mount(<ComponentName />);
       
       // * Check initial values
-      cy.get('[data-testid="status"]').should('contain', 'idle');
+      cy.get('[data-cy="status"]').should('contain', 'idle');
     });
 
     it('applies custom className', () => {
@@ -80,7 +108,7 @@ describe('ComponentName Component', () => {
         <ComponentName className="test-class" />
       );
       
-      cy.get('[data-testid="component-name"]').should('have.class', 'test-class');
+      cy.get('[data-cy="component-name"]').should('have.class', 'test-class');
     });
   });
 
@@ -92,7 +120,7 @@ describe('ComponentName Component', () => {
         <ComponentName onClick={onClick} />
       );
       
-      cy.get('[data-testid="clickable-element"]').click();
+      cy.get('[data-cy="clickable-element"]').click();
       cy.wrap(onClick).should('have.been.called');
     });
 
@@ -103,7 +131,7 @@ describe('ComponentName Component', () => {
         <ComponentName onChange={onChange} />
       );
       
-      cy.get('[data-testid="input-field"]').type('test input');
+      cy.get('[data-cy="input-field"]').type('test input');
       cy.wrap(onChange).should('have.been.calledWith', 'test input');
     });
 
@@ -114,8 +142,8 @@ describe('ComponentName Component', () => {
         <ComponentName onSubmit={onSubmit} />
       );
       
-      cy.get('[data-testid="form-input"]').type('test');
-      cy.get('[data-testid="submit-button"]').click();
+      cy.get('[data-cy="form-input"]').type('test');
+      cy.get('[data-cy="submit-button"]').click();
       
       cy.wrap(onSubmit).should('have.been.calledWith', 
         Cypress.sinon.match({ value: 'test' })
@@ -127,8 +155,8 @@ describe('ComponentName Component', () => {
         <ComponentName disabled={true} />
       );
       
-      cy.get('[data-testid="button"]').should('be.disabled');
-      cy.get('[data-testid="input"]').should('be.disabled');
+      cy.get('[data-cy="button"]').should('be.disabled');
+      cy.get('[data-cy="input"]').should('be.disabled');
     });
   });
 
@@ -137,40 +165,40 @@ describe('ComponentName Component', () => {
       cy.mount(<ComponentName />);
       
       // * Initial state
-      cy.get('[data-testid="counter"]').should('contain', '0');
+      cy.get('[data-cy="counter"]').should('contain', '0');
       
       // * User action
-      cy.get('[data-testid="increment-button"]').click();
+      cy.get('[data-cy="increment-button"]').click();
       
       // * Updated state
-      cy.get('[data-testid="counter"]').should('contain', '1');
+      cy.get('[data-cy="counter"]').should('contain', '1');
     });
 
     it('maintains state across interactions', () => {
       cy.mount(<ComponentName />);
       
       // * Multiple interactions
-      cy.get('[data-testid="input"]').type('first');
-      cy.get('[data-testid="add-button"]').click();
-      cy.get('[data-testid="input"]').clear().type('second');
-      cy.get('[data-testid="add-button"]').click();
+      cy.get('[data-cy="input"]').type('first');
+      cy.get('[data-cy="add-button"]').click();
+      cy.get('[data-cy="input"]').clear().type('second');
+      cy.get('[data-cy="add-button"]').click();
       
       // * Check accumulated state
-      cy.get('[data-testid="list-item"]').should('have.length', 2);
+      cy.get('[data-cy="list-item"]').should('have.length', 2);
     });
 
     it('resets state when requested', () => {
       cy.mount(<ComponentName />);
       
       // * Build up some state
-      cy.get('[data-testid="input"]').type('test');
-      cy.get('[data-testid="submit"]').click();
+      cy.get('[data-cy="input"]').type('test');
+      cy.get('[data-cy="submit"]').click();
       
       // Reset
-      cy.get('[data-testid="reset-button"]').click();
+      cy.get('[data-cy="reset-button"]').click();
       
       // * Verify reset
-      cy.get('[data-testid="input"]').should('have.value', '');
+      cy.get('[data-cy="input"]').should('have.value', '');
     });
   });
 
@@ -180,7 +208,7 @@ describe('ComponentName Component', () => {
         <ComponentName data={[]} />
       );
       
-      cy.get('[data-testid="empty-state"]').should('be.visible');
+      cy.get('[data-cy="empty-state"]').should('be.visible');
       cy.contains('No data available').should('be.visible');
     });
 
@@ -190,7 +218,7 @@ describe('ComponentName Component', () => {
       );
       
       // TODO: * Should not crash
-      cy.get('[data-testid="component-name"]').should('be.visible');
+      cy.get('[data-cy="component-name"]').should('be.visible');
     });
 
     it('handles very long text', () => {
@@ -201,7 +229,7 @@ describe('ComponentName Component', () => {
       );
       
       // TODO: * Should truncate or wrap appropriately
-      cy.get('[data-testid="text-display"]').should('be.visible');
+      cy.get('[data-cy="text-display"]').should('be.visible');
     });
 
     it('handles rapid interactions', () => {
@@ -209,11 +237,11 @@ describe('ComponentName Component', () => {
       
       // TODO: * Rapid clicks shouldn't break the component
       for (let i = 0; i < 10; i++) {
-        cy.get('[data-testid="button"]').click();
+        cy.get('[data-cy="button"]').click();
       }
       
       // TODO: * Component should still be functional
-      cy.get('[data-testid="component-name"]').should('be.visible');
+      cy.get('[data-cy="component-name"]').should('be.visible');
     });
   });
 
@@ -222,8 +250,8 @@ describe('ComponentName Component', () => {
       cy.mount(<ComponentName />);
       
       // * Check for accessibility attributes
-      cy.get('[data-testid="button"]').should('have.attr', 'aria-label');
-      cy.get('[data-testid="input"]').should('have.attr', 'aria-describedby');
+      cy.get('[data-cy="button"]').should('have.attr', 'aria-label');
+      cy.get('[data-cy="input"]').should('have.attr', 'aria-describedby');
       cy.get('[role="navigation"]').should('exist');
     });
 
@@ -248,7 +276,7 @@ describe('ComponentName Component', () => {
       cy.get('[aria-live="polite"]').should('exist');
       
       // * Trigger a change
-      cy.get('[data-testid="action-button"]').click();
+      cy.get('[data-cy="action-button"]').click();
       
       // * Verify announcement
       cy.get('[aria-live="polite"]').should('contain', 'Action completed');
@@ -258,7 +286,7 @@ describe('ComponentName Component', () => {
       cy.mount(<ComponentName />);
       
       // * This is a basic check - use automated tools for comprehensive testing
-      cy.get('[data-testid="text"]')
+      cy.get('[data-cy="text"]')
         .should('have.css', 'color')
         .and('not.equal', 'rgb(255, 255, 255)'); // Not white on white
     });
@@ -271,8 +299,8 @@ describe('ComponentName Component', () => {
       cy.mount(<ComponentName />);
       
       // Mobile-specific checks
-      cy.get('[data-testid="mobile-menu"]').should('be.visible');
-      cy.get('[data-testid="desktop-menu"]').should('not.be.visible');
+      cy.get('[data-cy="mobile-menu"]').should('be.visible');
+      cy.get('[data-cy="desktop-menu"]').should('not.be.visible');
     });
 
     it('renders correctly on tablet', () => {
@@ -281,7 +309,7 @@ describe('ComponentName Component', () => {
       cy.mount(<ComponentName />);
       
       // Tablet-specific layout
-      cy.get('[data-testid="sidebar"]').should('be.visible');
+      cy.get('[data-cy="sidebar"]').should('be.visible');
     });
 
     it('renders correctly on desktop', () => {
@@ -290,18 +318,18 @@ describe('ComponentName Component', () => {
       cy.mount(<ComponentName />);
       
       // * Desktop layout
-      cy.get('[data-testid="full-navigation"]').should('be.visible');
+      cy.get('[data-cy="full-navigation"]').should('be.visible');
     });
 
     it('handles orientation changes', () => {
       // Portrait
       cy.viewport(375, 667);
       cy.mount(<ComponentName />);
-      cy.get('[data-testid="layout"]').should('have.class', 'portrait');
+      cy.get('[data-cy="layout"]').should('have.class', 'portrait');
       
       // Landscape
       cy.viewport(667, 375);
-      cy.get('[data-testid="layout"]').should('have.class', 'landscape');
+      cy.get('[data-cy="layout"]').should('have.class', 'landscape');
     });
   });
 
@@ -316,7 +344,7 @@ describe('ComponentName Component', () => {
       cy.window().its('store').invoke('setState', { user: 'test' });
       
       // * Verify component reflects store change
-      cy.get('[data-testid="user-display"]').should('contain', 'test');
+      cy.get('[data-cy="user-display"]').should('contain', 'test');
     });
 
     it('works within a form', () => {
@@ -328,7 +356,7 @@ describe('ComponentName Component', () => {
       );
       
       // TODO: * Component should integrate with form
-      cy.get('[data-testid="component-input"]').type('value');
+      cy.get('[data-cy="component-input"]').type('value');
       cy.get('button[type="submit"]').click();
     });
 
@@ -341,8 +369,8 @@ describe('ComponentName Component', () => {
       );
       
       // * Action on first affects second
-      cy.get('[data-testid="first-button"]').click();
-      cy.get('[data-testid="second-display"]').should('contain', 'updated');
+      cy.get('[data-cy="first-button"]').click();
+      cy.get('[data-cy="second-display"]').should('contain', 'updated');
     });
   });
 
@@ -354,7 +382,7 @@ describe('ComponentName Component', () => {
         <ComponentName data={Array(10).fill({})} />
       );
       
-      cy.get('[data-testid="component-name"]').should('be.visible').then(() => {
+      cy.get('[data-cy="component-name"]').should('be.visible').then(() => {
         const endTime = performance.now();
         expect(endTime - startTime).to.be.lessThan(100); // Under 100ms
       });
@@ -369,7 +397,7 @@ describe('ComponentName Component', () => {
       );
       
       // TODO: * Should use virtualization or pagination
-      cy.get('[data-testid="list-item"]').should('have.length.lessThan', 50);
+      cy.get('[data-cy="list-item"]').should('have.length.lessThan', 50);
     });
 
     it('debounces rapid input changes', () => {
@@ -380,7 +408,7 @@ describe('ComponentName Component', () => {
       );
       
       // * Type rapidly
-      cy.get('[data-testid="search-input"]').type('testing');
+      cy.get('[data-cy="search-input"]').type('testing');
       
       // TODO: * Should not call onChange for every character
       cy.wait(500);
@@ -394,7 +422,7 @@ describe('ComponentName Component', () => {
         <ComponentName error="Something went wrong" />
       );
       
-      cy.get('[data-testid="error-message"]').should('be.visible');
+      cy.get('[data-cy="error-message"]').should('be.visible');
       cy.contains('Something went wrong').should('be.visible');
     });
 
@@ -408,7 +436,7 @@ describe('ComponentName Component', () => {
         />
       );
       
-      cy.get('[data-testid="retry-button"]').click();
+      cy.get('[data-cy="retry-button"]').click();
       cy.wrap(onRetry).should('have.been.called');
     });
 
@@ -416,11 +444,11 @@ describe('ComponentName Component', () => {
       cy.mount(<ComponentName />);
       
       // * Submit invalid data
-      cy.get('[data-testid="email-input"]').type('invalid-email');
-      cy.get('[data-testid="submit"]').click();
+      cy.get('[data-cy="email-input"]').type('invalid-email');
+      cy.get('[data-cy="submit"]').click();
       
       // ? TODO: * Should show validation error
-      cy.get('[data-testid="email-error"]').should('contain', 'Invalid email');
+      cy.get('[data-cy="email-error"]').should('contain', 'Invalid email');
     });
   });
 });
@@ -433,19 +461,19 @@ describe('ComponentName Component', () => {
 describe.skip('Modal Behavior', () => {
   it('opens when triggered', () => {
     cy.mount(<ModalComponent />);
-    cy.get('[data-testid="open-modal"]').click();
-    cy.get('[data-testid="modal"]').should('be.visible');
+    cy.get('[data-cy="open-modal"]').click();
+    cy.get('[data-cy="modal"]').should('be.visible');
   });
 
   it('closes on escape key', () => {
     cy.mount(<ModalComponent isOpen={true} />);
     cy.get('body').type('{esc}');
-    cy.get('[data-testid="modal"]').should('not.exist');
+    cy.get('[data-cy="modal"]').should('not.exist');
   });
 
   it('traps focus within modal', () => {
     cy.mount(<ModalComponent isOpen={true} />);
-    cy.get('[data-testid="first-input"]').focus();
+    cy.get('[data-cy="first-input"]').focus();
     cy.focused().tab().tab().tab();
     cy.focused().should('have.attr', 'data-cy', 'first-input');
   });
@@ -455,22 +483,22 @@ describe.skip('Modal Behavior', () => {
 describe.skip('Form Behavior', () => {
   it('validates on blur', () => {
     cy.mount(<FormComponent />);
-    cy.get('[data-testid="required-field"]').focus().blur();
-    cy.get('[data-testid="required-error"]').should('be.visible');
+    cy.get('[data-cy="required-field"]').focus().blur();
+    cy.get('[data-cy="required-error"]').should('be.visible');
   });
 
   it('prevents submission with invalid data', () => {
     const onSubmit = cy.stub();
     cy.mount(<FormComponent onSubmit={onSubmit} />);
-    cy.get('[data-testid="submit"]').click();
+    cy.get('[data-cy="submit"]').click();
     cy.wrap(onSubmit).should('not.have.been.called');
   });
 
   it('clears form on successful submission', () => {
     cy.mount(<FormComponent />);
-    cy.get('[data-testid="field"]').type('value');
-    cy.get('[data-testid="submit"]').click();
-    cy.get('[data-testid="field"]').should('have.value', '');
+    cy.get('[data-cy="field"]').type('value');
+    cy.get('[data-cy="submit"]').click();
+    cy.get('[data-cy="field"]').should('have.value', '');
   });
 });
 
@@ -478,20 +506,20 @@ describe.skip('Form Behavior', () => {
 describe.skip('List Behavior', () => {
   it('sorts by column', () => {
     cy.mount(<TableComponent data={testData} />);
-    cy.get('[data-testid="sort-name"]').click();
-    cy.get('[data-testid="row-0"]').should('contain', 'Alice');
+    cy.get('[data-cy="sort-name"]').click();
+    cy.get('[data-cy="row-0"]').should('contain', 'Alice');
   });
 
   it('filters results', () => {
     cy.mount(<ListComponent items={items} />);
-    cy.get('[data-testid="filter-input"]').type('test');
-    cy.get('[data-testid="list-item"]').should('have.length', 2);
+    cy.get('[data-cy="filter-input"]').type('test');
+    cy.get('[data-cy="list-item"]').should('have.length', 2);
   });
 
   it('paginates large datasets', () => {
     cy.mount(<TableComponent data={largeDataset} />);
-    cy.get('[data-testid="page-2"]').click();
-    cy.get('[data-testid="row-0"]').should('contain', 'Item 11');
+    cy.get('[data-cy="page-2"]').click();
+    cy.get('[data-cy="row-0"]').should('contain', 'Item 11');
   });
 });
 

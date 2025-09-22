@@ -1,8 +1,23 @@
+/**
+ * @fileoverview Virtualized List Component Tests
+ * Tests for US-X.X: [User Story Name]
+ *
+ * User Story:
+ * As a [user type]
+ * I want to [action]
+ * So that [benefit]
+ *
+ * Acceptance Criteria:
+ * - [Criterion 1]
+ * - [Criterion 2]
+ * - [Criterion 3]
+ */
+
 import React from 'react';
 import { VirtualizedList, useVirtualizedList } from '../../support/component-test-helpersVirtualizedList';
 
 // * Test component using the hook
-function TestComponentWithHook({ items }: { items: string[] }) {
+function TestComponentWithHook({ items }: { items: string[] }); {
   const { containerRef, virtualizedListProps } = useVirtualizedList(items, 50);
   
   return (
@@ -16,11 +31,24 @@ function TestComponentWithHook({ items }: { items: string[] }) {
 }
 
 describe('VirtualizedList Component', () => {
+  beforeEach(function() {
+    // ! Essential debug and state management
+    cy.comprehensiveDebug();
+    cy.cleanState();
+  });
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
   // * Helper to create test items
   const createItems = (count: number) => 
     Array.from({ length: count }, (_, i) => `Item ${i + 1}`);
 
   describe('Rendering', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
     it('renders visible items only', () => {
       const items = createItems(100);
       cy.mount(
@@ -28,15 +56,14 @@ describe('VirtualizedList Component', () => {
           items={items}
           itemHeight={50}
           containerHeight={200}
-          renderItem={(item) => <div data-testid="list-item">{item}</div>}
+          renderItem={(item) => <div data-cy="list-item">{item}</div>}
         />
       );
       
       // ? TODO: * With containerHeight=200 and itemHeight=50, should show ~4 items + overscan
-      cy.get('[data-testid="list-item"]').should('have.length.lessThan', 15);
-      cy.get('[data-testid="list-item"]').first().should('contain', 'Item 1');
+      cy.get('[data-cy="list-item"]').should('have.length.lessThan', 15);
+      cy.get('[data-cy="list-item"]').first().should('contain', 'Item 1');
     });
-
     it('renders with custom className', () => {
       const items = createItems(10);
       cy.mount(
@@ -52,7 +79,6 @@ describe('VirtualizedList Component', () => {
       cy.get('.custom-class').should('exist');
       cy.get('.overflow-y-auto').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
     });
-
     it('sets correct container height', () => {
       const items = createItems(10);
       cy.mount(
@@ -66,7 +92,6 @@ describe('VirtualizedList Component', () => {
       
       cy.get('.overflow-y-auto').should('have.css', 'height', '300px') // CSS properties work in React Native Web;
     });
-
     it('calculates total height correctly', () => {
       const items = createItems(50);
       const itemHeight = 40;
@@ -84,8 +109,11 @@ describe('VirtualizedList Component', () => {
         .should('have.css', 'height', `${50 * itemHeight}px`);
     });
   });
-
   describe('Scrolling', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
     it('updates visible items on scroll', () => {
       const items = createItems(100);
       cy.mount(
@@ -93,21 +121,20 @@ describe('VirtualizedList Component', () => {
           items={items}
           itemHeight={50}
           containerHeight={200}
-          renderItem={(item) => <div data-testid="list-item">{item}</div>}
+          renderItem={(item) => <div data-cy="list-item">{item}</div>}
         />
       );
       
       // ? TODO: * Initially should show first items
-      cy.get('[data-testid="list-item"]').first().should('contain', 'Item 1');
+      cy.get('[data-cy="list-item"]').first().should('contain', 'Item 1');
       
       // * Scroll down
       cy.get('.overflow-y-auto').scrollTo(0, 500);
       
       // ? TODO: * Should now show different items
-      cy.get('[data-testid="list-item"]').first().should('not.contain', 'Item 1');
-      cy.get('[data-testid="list-item"]').should('contain', 'Item 10');
+      cy.get('[data-cy="list-item"]').first().should('not.contain', 'Item 1');
+      cy.get('[data-cy="list-item"]').should('contain', 'Item 10');
     });
-
     it('maintains correct number of rendered items during scroll', () => {
       const items = createItems(100);
       cy.mount(
@@ -116,20 +143,19 @@ describe('VirtualizedList Component', () => {
           itemHeight={50}
           containerHeight={200}
           overscan={2}
-          renderItem={(item) => <div data-testid="list-item">{item}</div>}
+          renderItem={(item) => <div data-cy="list-item">{item}</div>}
         />
       );
       
       // * Check initial render count
-      cy.get('[data-testid="list-item"]').then($items => {
+      cy.get('[data-cy="list-item"]').then($items => {
         const initialCount = $items.length;
         
         // * Scroll and check count remains reasonable
         cy.get('.overflow-y-auto').scrollTo(0, 1000);
-        cy.get('[data-testid="list-item"]').should('have.length.lessThan', initialCount + 5);
+        cy.get('[data-cy="list-item"]').should('have.length.lessThan', initialCount + 5);
       });
     });
-
     it('handles scroll to bottom', () => {
       const items = createItems(50);
       cy.mount(
@@ -137,7 +163,7 @@ describe('VirtualizedList Component', () => {
           items={items}
           itemHeight={50}
           containerHeight={200}
-          renderItem={(item) => <div data-testid="list-item">{item}</div>}
+          renderItem={(item) => <div data-cy="list-item">{item}</div>}
         />
       );
       
@@ -145,9 +171,8 @@ describe('VirtualizedList Component', () => {
       cy.get('.overflow-y-auto').scrollTo('bottom');
       
       // ? TODO: * Should show last items
-      cy.get('[data-testid="list-item"]').last().should('contain', 'Item 50');
+      cy.get('[data-cy="list-item"]').last().should('contain', 'Item 50');
     });
-
     it('handles scroll to top after scrolling down', () => {
       const items = createItems(50);
       cy.mount(
@@ -155,7 +180,7 @@ describe('VirtualizedList Component', () => {
           items={items}
           itemHeight={50}
           containerHeight={200}
-          renderItem={(item) => <div data-testid="list-item">{item}</div>}
+          renderItem={(item) => <div data-cy="list-item">{item}</div>}
         />
       );
       
@@ -164,11 +189,14 @@ describe('VirtualizedList Component', () => {
       cy.get('.overflow-y-auto').scrollTo('top');
       
       // ? TODO: * Should show first items again
-      cy.get('[data-testid="list-item"]').first().should('contain', 'Item 1');
+      cy.get('[data-cy="list-item"]').first().should('contain', 'Item 1');
     });
   });
-
   describe('Overscan', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
     it('renders extra items with default overscan', () => {
       const items = createItems(100);
       cy.mount(
@@ -176,15 +204,14 @@ describe('VirtualizedList Component', () => {
           items={items}
           itemHeight={50}
           containerHeight={200}
-          renderItem={(item) => <div data-testid="list-item">{item}</div>}
+          renderItem={(item) => <div data-cy="list-item">{item}</div>}
         />
       );
       
       // TODO: * Should render visible items (4) + overscan (3 above + 3 below)
-      cy.get('[data-testid="list-item"]').should('have.length.at.least', 4);
-      cy.get('[data-testid="list-item"]').should('have.length.at.most', 10);
+      cy.get('[data-cy="list-item"]').should('have.length.at.least', 4);
+      cy.get('[data-cy="list-item"]').should('have.length.at.most', 10);
     });
-
     it('respects custom overscan value', () => {
       const items = createItems(100);
       cy.mount(
@@ -193,15 +220,14 @@ describe('VirtualizedList Component', () => {
           itemHeight={50}
           containerHeight={100} // Shows 2 items
           overscan={5}
-          renderItem={(item) => <div data-testid="list-item">{item}</div>}
+          renderItem={(item) => <div data-cy="list-item">{item}</div>}
         />
       );
       
       // TODO: * Should render visible items (2) + overscan (5 above + 5 below, capped by bounds)
-      cy.get('[data-testid="list-item"]').should('have.length.at.least', 2);
-      cy.get('[data-testid="list-item"]').should('have.length.at.most', 12);
+      cy.get('[data-cy="list-item"]').should('have.length.at.least', 2);
+      cy.get('[data-cy="list-item"]').should('have.length.at.most', 12);
     });
-
     it('handles zero overscan', () => {
       const items = createItems(100);
       cy.mount(
@@ -210,16 +236,19 @@ describe('VirtualizedList Component', () => {
           itemHeight={50}
           containerHeight={150} // Shows exactly 3 items
           overscan={0}
-          renderItem={(item) => <div data-testid="list-item">{item}</div>}
+          renderItem={(item) => <div data-cy="list-item">{item}</div>}
         />
       );
       
       // TODO: * Should render exactly visible items with no overscan
-      cy.get('[data-testid="list-item"]').should('have.length', 3);
+      cy.get('[data-cy="list-item"]').should('have.length', 3);
     });
   });
-
   describe('Custom Key Function', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
     it('uses default index-based keys', () => {
       const items = createItems(5);
       cy.mount(
@@ -227,14 +256,13 @@ describe('VirtualizedList Component', () => {
           items={items}
           itemHeight={50}
           containerHeight={200}
-          renderItem={(item) => <div data-testid="list-item">{item}</div>}
+          renderItem={(item) => <div data-cy="list-item">{item}</div>}
         />
       );
       
       // TODO: * Items should render without key warnings (check console is clean)
-      cy.get('[data-testid="list-item"]').should('have.length.at.least', 4);
+      cy.get('[data-cy="list-item"]').should('have.length.at.least', 4);
     });
-
     it('uses custom key function', () => {
       interface TestItem {
         id: string;
@@ -252,16 +280,19 @@ describe('VirtualizedList Component', () => {
           itemHeight={50}
           containerHeight={200}
           getItemKey={(item) => item.id}
-          renderItem={(item) => <div data-testid="list-item">{item.name}</div>}
+          renderItem={(item) => <div data-cy="list-item">{item.name}</div>}
         />
       );
       
-      cy.get('[data-testid="list-item"]').should('exist');
-      cy.get('[data-testid="list-item"]').first().should('contain', 'Item 1');
+      cy.get('[data-cy="list-item"]').should('exist');
+      cy.get('[data-cy="list-item"]').first().should('contain', 'Item 1');
     });
   });
-
   describe('Edge Cases', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
     it('handles empty items array', () => {
       cy.mount(
         <VirtualizedList
@@ -275,7 +306,6 @@ describe('VirtualizedList Component', () => {
       cy.get('.overflow-y-auto').should('exist');
       cy.get('.overflow-y-auto > div').should('have.css', 'height', '0px') // CSS properties work in React Native Web;
     });
-
     it('handles single item', () => {
       const items = ['Single Item'];
       cy.mount(
@@ -283,14 +313,13 @@ describe('VirtualizedList Component', () => {
           items={items}
           itemHeight={50}
           containerHeight={200}
-          renderItem={(item) => <div data-testid="list-item">{item}</div>}
+          renderItem={(item) => <div data-cy="list-item">{item}</div>}
         />
       );
       
-      cy.get('[data-testid="list-item"]').should('have.length', 1);
-      cy.get('[data-testid="list-item"]').should('contain', 'Single Item');
+      cy.get('[data-cy="list-item"]').should('have.length', 1);
+      cy.get('[data-cy="list-item"]').should('contain', 'Single Item');
     });
-
     it('handles items shorter than container', () => {
       const items = createItems(3);
       cy.mount(
@@ -298,14 +327,13 @@ describe('VirtualizedList Component', () => {
           items={items}
           itemHeight={50}
           containerHeight={500} // Much taller than 3 items
-          renderItem={(item) => <div data-testid="list-item">{item}</div>}
+          renderItem={(item) => <div data-cy="list-item">{item}</div>}
         />
       );
       
       // TODO: * Should render all items
-      cy.get('[data-testid="list-item"]').should('have.length', 3);
+      cy.get('[data-cy="list-item"]').should('have.length', 3);
     });
-
     it('handles very large item count', () => {
       const items = createItems(10000);
       cy.mount(
@@ -313,18 +341,17 @@ describe('VirtualizedList Component', () => {
           items={items}
           itemHeight={50}
           containerHeight={400}
-          renderItem={(item) => <div data-testid="list-item">{item}</div>}
+          renderItem={(item) => <div data-cy="list-item">{item}</div>}
         />
       );
       
       // TODO: * Should still only render visible items
-      cy.get('[data-testid="list-item"]').should('have.length.lessThan', 20);
+      cy.get('[data-cy="list-item"]').should('have.length.lessThan', 20);
       
       // TODO: * Should be able to scroll to bottom
       cy.get('.overflow-y-auto').scrollTo('bottom');
-      cy.get('[data-testid="list-item"]').last().should('contain', 'Item 10000');
+      cy.get('[data-cy="list-item"]').last().should('contain', 'Item 10000');
     });
-
     it('handles rapid scrolling', () => {
       const items = createItems(100);
       cy.mount(
@@ -332,7 +359,7 @@ describe('VirtualizedList Component', () => {
           items={items}
           itemHeight={50}
           containerHeight={200}
-          renderItem={(item) => <div data-testid="list-item">{item}</div>}
+          renderItem={(item) => <div data-cy="list-item">{item}</div>}
         />
       );
       
@@ -343,12 +370,15 @@ describe('VirtualizedList Component', () => {
       cy.get('.overflow-y-auto').scrollTo(0, 1500);
       
       // TODO: * Should still render correctly
-      cy.get('[data-testid="list-item"]').should('exist');
-      cy.get('[data-testid="list-item"]').should('have.length.lessThan', 15);
+      cy.get('[data-cy="list-item"]').should('exist');
+      cy.get('[data-cy="list-item"]').should('have.length.lessThan', 15);
     });
   });
-
   describe('useVirtualizedList Hook', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
     it('provides container ref and height', () => {
       const items = createItems(10);
       cy.mount(<TestComponentWithHook items={items} />);
@@ -357,7 +387,6 @@ describe('VirtualizedList Component', () => {
       cy.get('.overflow-y-auto').should('exist');
       cy.get('.overflow-y-auto').should('have.css', 'height') // CSS properties work in React Native Web;
     });
-
     it('updates height on window resize', () => {
       const items = createItems(10);
       cy.mount(<TestComponentWithHook items={items} />);
@@ -374,7 +403,6 @@ describe('VirtualizedList Component', () => {
         cy.get('.overflow-y-auto').should('have.css', 'height') // CSS properties work in React Native Web;
       });
     });
-
     it('provides correct props to VirtualizedList', () => {
       const items = createItems(20);
       cy.mount(<TestComponentWithHook items={items} />);
@@ -384,8 +412,11 @@ describe('VirtualizedList Component', () => {
       cy.contains('Item 1').should('be.visible');
     });
   });
-
   describe('Performance', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
     it('only re-renders visible items on scroll', () => {
       const items = createItems(1000);
       let renderCount = 0;
@@ -397,7 +428,7 @@ describe('VirtualizedList Component', () => {
           containerHeight={200}
           renderItem={(item) => {
             renderCount++;
-            return <div data-testid="list-item">{item}</div>;
+            return <div data-cy="list-item">{item}</div>;
           }}
         />
       );
@@ -415,7 +446,6 @@ describe('VirtualizedList Component', () => {
         });
       });
     });
-
     it('maintains smooth scrolling with many items', () => {
       const items = createItems(5000);
       cy.mount(
@@ -423,7 +453,7 @@ describe('VirtualizedList Component', () => {
           items={items}
           itemHeight={50}
           containerHeight={400}
-          renderItem={(item) => <div data-testid="list-item">{item}</div>}
+          renderItem={(item) => <div data-cy="list-item">{item}</div>}
         />
       );
       
@@ -433,11 +463,14 @@ describe('VirtualizedList Component', () => {
       cy.get('.overflow-y-auto').scrollTo(0, 100000);
       
       // TODO: * Should maintain reasonable render count
-      cy.get('[data-testid="list-item"]').should('have.length.lessThan', 20);
+      cy.get('[data-cy="list-item"]').should('have.length.lessThan', 20);
     });
   });
-
   describe('Accessibility', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
     it('maintains scroll position for keyboard navigation', () => {
       const items = createItems(50);
       cy.mount(
@@ -446,18 +479,17 @@ describe('VirtualizedList Component', () => {
           itemHeight={50}
           containerHeight={200}
           renderItem={(item, index) => (
-            <[data-cy*="button"] data-testid="list-item" tabIndex={0}>
+            <button data-cy="list-item" tabIndex={0}>
               {item}
-            </[data-cy*="button"]>
+            </button>
           )}
         />
       );
       
       // TODO: * Should be able to tab through visible items
-      cy.get('[data-testid="list-item"]').first().focus();
-      cy.get('[data-testid="list-item"]').first().should('have.focus');
+      cy.get('[data-cy="list-item"]').first().focus();
+      cy.get('[data-cy="list-item"]').first().should('have.focus');
     });
-
     it('preserves ARIA attributes in rendered items', () => {
       const items = createItems(10);
       cy.mount(
@@ -467,7 +499,7 @@ describe('VirtualizedList Component', () => {
           containerHeight={200}
           renderItem={(item, index) => (
             <div 
-              data-testid="list-item"
+              data-cy="list-item"
               role="listitem"
               aria-label={item}
               aria-posinset={index + 1}
@@ -479,14 +511,17 @@ describe('VirtualizedList Component', () => {
         />
       );
       
-      cy.get('[data-testid="list-item"]').first()
+      cy.get('[data-cy="list-item"]').first()
         .should('have.attr', 'role', 'listitem')
         .and('have.attr', 'aria-label', 'Item 1')
         .and('have.attr', 'aria-posinset', '1');
     });
   });
-
   describe('Responsive Design', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
     it('works on mobile viewport', () => {
       cy.viewport(375, 667);
       const items = createItems(50);
@@ -496,15 +531,14 @@ describe('VirtualizedList Component', () => {
           items={items}
           itemHeight={50}
           containerHeight={400}
-          renderItem={(item) => <div data-testid="list-item">{item}</div>}
+          renderItem={(item) => <div data-cy="list-item">{item}</div>}
         />
       );
       
-      cy.get('[data-testid="list-item"]').should('exist');
+      cy.get('[data-cy="list-item"]').should('exist');
       cy.get('.overflow-y-auto').scrollTo(0, 500);
-      cy.get('[data-testid="list-item"]').should('contain', 'Item 10');
+      cy.get('[data-cy="list-item"]').should('contain', 'Item 10');
     });
-
     it('works on tablet viewport', () => {
       cy.viewport(768, 1024);
       const items = createItems(50);
@@ -514,11 +548,11 @@ describe('VirtualizedList Component', () => {
           items={items}
           itemHeight={50}
           containerHeight={600}
-          renderItem={(item) => <div data-testid="list-item">{item}</div>}
+          renderItem={(item) => <div data-cy="list-item">{item}</div>}
         />
       );
       
-      cy.get('[data-testid="list-item"]').should('exist');
+      cy.get('[data-cy="list-item"]').should('exist');
       cy.get('.overflow-y-auto').should('have.css', 'height', '600px') // CSS properties work in React Native Web;
     });
   });

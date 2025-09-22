@@ -1,3 +1,18 @@
+/**
+ * @fileoverview Mobile Components Component Tests
+ * Tests for US-X.X: [User Story Name]
+ *
+ * User Story:
+ * As a [user type]
+ * I want to [action]
+ * So that [benefit]
+ *
+ * Acceptance Criteria:
+ * - [Criterion 1]
+ * - [Criterion 2]
+ * - [Criterion 3]
+ */
+
 import React from 'react';
 import MobileHeader from '../../../src/components/MobileHeader';
 import MobileMenuDrawer from '../../../src/components/MobileMenuDrawer';
@@ -30,7 +45,13 @@ const RouterWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) =>
   <BrowserRouter>{children}</BrowserRouter>
 );
 
-beforeEach(() => {
+beforeEach(function() {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
+    // * Clean state before each test
+    cy.cleanState();
+
   mockNavigate = cy.stub();
   // * Mock modules
   cy.stub(window, 'useWorldbuildingStore').returns(mockWorldbuildingStore);
@@ -38,12 +59,24 @@ beforeEach(() => {
 cy.stub(window, 'useAuthStore').returns(mockAuthStore);
 
 describe('MobileHeader Component', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
+  
   const defaultProps = {
     mobileMenuOpen: false,
     setMobileMenuOpen: cy.stub()
   };
 
-  beforeEach(() => {
+  beforeEach(function() {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
+    // * Clean state before each test
+    cy.cleanState();
+
     cy.stub(React, 'useNavigate').returns(mockNavigate);
     cy.stub(React, 'useLocation').returns(mockLocation);
     mockWorldbuildingStore.getCurrentProject.returns({
@@ -56,6 +89,11 @@ describe('MobileHeader Component', () => {
   });
 
   describe('Rendering', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('renders header with project name when project exists', () => {
       cy.mount(
         <RouterWrapper>
@@ -75,23 +113,23 @@ describe('MobileHeader Component', () => {
       cy.contains('Worldbuilding Tool').should('be.visible');
     });
 
-    it('shows back [data-cy*="button"] on project page', () => {
+    it('shows back button on project page', () => {
       mockLocation.pathname = '/project/123';
       cy.mount(
         <RouterWrapper>
           <MobileHeader {...defaultProps} />
         </RouterWrapper>
       );
-      cy.get('[data-testid="mobile-back"]').should('be.visible');
+      cy.get('[data-cy="mobile-back"]').should('be.visible');
     });
 
-    it('shows hamburger menu [data-cy*="button"]', () => {
+    it('shows hamburger menu button', () => {
       cy.mount(
         <RouterWrapper>
           <MobileHeader {...defaultProps} />
         </RouterWrapper>
       );
-      cy.get('[data-testid="mobile-menu-toggle"]').should('be.visible');
+      cy.get('[data-cy="mobile-menu-toggle"]').should('be.visible');
     });
 
     it('shows menu icon when closed', () => {
@@ -100,7 +138,7 @@ describe('MobileHeader Component', () => {
           <MobileHeader {...defaultProps} />
         </RouterWrapper>
       );
-      cy.get('[data-testid="mobile-menu-toggle"]').within(() => {
+      cy.get('[data-cy="mobile-menu-toggle"]').within(() => {
         cy.get('svg').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
       });
     });
@@ -111,13 +149,18 @@ describe('MobileHeader Component', () => {
           <MobileHeader mobileMenuOpen={true} setMobileMenuOpen={defaultProps.setMobileMenuOpen} />
         </RouterWrapper>
       );
-      cy.get('[data-testid="mobile-menu-toggle"]').within(() => {
+      cy.get('[data-cy="mobile-menu-toggle"]').within(() => {
         cy.get('svg').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
       });
     });
   });
 
   describe('Menu Overlay', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('shows menu overlay when open', () => {
       cy.mount(
         <RouterWrapper>
@@ -161,13 +204,18 @@ describe('MobileHeader Component', () => {
   });
 
   describe('Interactions', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('toggles menu when hamburger clicked', () => {
       cy.mount(
         <RouterWrapper>
           <MobileHeader {...defaultProps} />
         </RouterWrapper>
       );
-      cy.get('[data-testid="mobile-menu-toggle"]').click();
+      cy.get('[data-cy="mobile-menu-toggle"]').click();
       expect(defaultProps.setMobileMenuOpen).to.have.been.calledWith(true);
     });
 
@@ -181,14 +229,14 @@ describe('MobileHeader Component', () => {
       expect(defaultProps.setMobileMenuOpen).to.have.been.calledWith(false);
     });
 
-    it('closes menu when X [data-cy*="button"] clicked', () => {
+    it('closes menu when X button clicked', () => {
       cy.mount(
         <RouterWrapper>
           <MobileHeader mobileMenuOpen={true} setMobileMenuOpen={defaultProps.setMobileMenuOpen} />
         </RouterWrapper>
       );
       cy.get('.fixed.right-0').within(() => {
-        cy.get('[data-cy*="button"]').contains('X').parent().click();
+        cy.get('button').contains('X').parent().click();
       });
       expect(defaultProps.setMobileMenuOpen).to.have.been.calledWith(false);
     });
@@ -204,14 +252,14 @@ describe('MobileHeader Component', () => {
       expect(defaultProps.setMobileMenuOpen).to.have.been.calledWith(false);
     });
 
-    it('navigates back when back [data-cy*="button"] clicked', () => {
+    it('navigates back when back button clicked', () => {
       mockLocation.pathname = '/project/123';
       cy.mount(
         <RouterWrapper>
           <MobileHeader {...defaultProps} />
         </RouterWrapper>
       );
-      cy.get('[data-testid="mobile-back"]').click();
+      cy.get('[data-cy="mobile-back"]').click();
       expect(mockNavigate).to.have.been.calledWith('/');
     });
 
@@ -245,6 +293,11 @@ describe('MobileHeader Component', () => {
   });
 
   describe('Responsive Design', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('is hidden on desktop', () => {
       cy.viewport(1024, 768);
       cy.mount(
@@ -267,7 +320,12 @@ describe('MobileHeader Component', () => {
   });
 
   describe('Edge Cases', () => {
-    it('handles import file [data-cy*="select"]ion', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
+    it('handles import file selection', () => {
       const importStub = cy.stub().resolves(true);
       mockWorldbuildingStore.importProject = importStub;
       
@@ -277,7 +335,7 @@ describe('MobileHeader Component', () => {
         </RouterWrapper>
       );
       
-      // * This would trigger file input, but we can't fully test file [data-cy*="select"]ion in component tests
+      // * This would trigger file input, but we can't fully test file selection in component tests
       cy.contains('Import Project').click();
     });
 
@@ -298,12 +356,24 @@ describe('MobileHeader Component', () => {
 });
 
 describe('MobileMenuDrawer Component', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
+  
   const defaultProps = {
     isOpen: false,
     onClose: cy.stub()
   };
 
-  beforeEach(() => {
+  beforeEach(function() {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
+    // * Clean state before each test
+    cy.cleanState();
+
     cy.stub(React, 'useNavigate').returns(mockNavigate);
     mockWorldbuildingStore.getCurrentProject.returns({
       id: 'test-project-id',
@@ -318,6 +388,11 @@ describe('MobileMenuDrawer Component', () => {
   });
 
   describe('Rendering', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('renders nothing when closed', () => {
       cy.mount(
         <RouterWrapper>
@@ -382,6 +457,11 @@ describe('MobileMenuDrawer Component', () => {
   });
 
   describe('Animations', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('animates backdrop fade in', () => {
       cy.mount(
         <RouterWrapper>
@@ -402,6 +482,11 @@ describe('MobileMenuDrawer Component', () => {
   });
 
   describe('Interactions', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('closes when backdrop clicked', () => {
       cy.mount(
         <RouterWrapper>
@@ -412,13 +497,13 @@ describe('MobileMenuDrawer Component', () => {
       expect(defaultProps.onClose).to.have.been.called;
     });
 
-    it('closes when X [data-cy*="button"] clicked', () => {
+    it('closes when X button clicked', () => {
       cy.mount(
         <RouterWrapper>
           <MobileMenuDrawer isOpen={true} onClose={defaultProps.onClose} />
         </RouterWrapper>
       );
-      cy.get('[data-cy*="button"][aria-label="Close menu"]').click();
+      cy.get('button[aria-label="Close menu"]').click();
       expect(defaultProps.onClose).to.have.been.called;
     });
 
@@ -517,6 +602,11 @@ describe('MobileMenuDrawer Component', () => {
   });
 
   describe('Responsive Design', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('is mobile-only component', () => {
       cy.viewport(1024, 768);
       cy.mount(
@@ -529,6 +619,11 @@ describe('MobileMenuDrawer Component', () => {
   });
 
   describe('Edge Cases', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('handles no user', () => {
       mockAuthStore.user = null;
       cy.mount(
@@ -552,7 +647,18 @@ describe('MobileMenuDrawer Component', () => {
 });
 
 describe('MobileBreadcrumbs Component', () => {
-  beforeEach(() => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
+  beforeEach(function() {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
+    // * Clean state before each test
+    cy.cleanState();
+
     cy.stub(React, 'useLocation').returns(mockLocation);
     cy.stub(React, 'useNavigate').returns(mockNavigate);
     cy.stub(React, 'useParams').returns(mockParams);
@@ -567,6 +673,11 @@ describe('MobileBreadcrumbs Component', () => {
   });
 
   describe('Rendering', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('renders nothing on home page', () => {
       cy.stub(React, 'useLocation').returns({ pathname: '/' });
       cy.mount(
@@ -648,6 +759,11 @@ describe('MobileBreadcrumbs Component', () => {
   });
 
   describe('Interactions', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('navigates to projects when Projects clicked', () => {
       cy.mount(
         <RouterWrapper>
@@ -699,6 +815,11 @@ describe('MobileBreadcrumbs Component', () => {
   });
 
   describe('Responsive Design', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('is hidden on desktop', () => {
       cy.viewport(1024, 768);
       cy.mount(
@@ -733,6 +854,11 @@ describe('MobileBreadcrumbs Component', () => {
   });
 
   describe('Edge Cases', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('handles missing project', () => {
       mockWorldbuildingStore.getCurrentProject.returns(null);
       cy.stub(React, 'useLocation').returns({ pathname: '/project/123' });
@@ -774,7 +900,18 @@ describe('MobileBreadcrumbs Component', () => {
 });
 
 describe('MobileBackButton Component', () => {
-  beforeEach(() => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
+  beforeEach(function() {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
+    // * Clean state before each test
+    cy.cleanState();
+
     cy.stub(React, 'useNavigate').returns(mockNavigate);
     cy.stub(React, 'useLocation').returns(mockLocation);
     mockWorldbuildingStore.currentProjectId = 'test-project-id';
@@ -782,6 +919,11 @@ describe('MobileBackButton Component', () => {
   });
 
   describe('Rendering', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('renders nothing on home page', () => {
       cy.stub(React, 'useLocation').returns({ pathname: '/' });
       cy.mount(
@@ -789,7 +931,7 @@ describe('MobileBackButton Component', () => {
           <MobileBackButton />
         </RouterWrapper>
       );
-      cy.get('[data-cy*="button"][aria-label="Go back"]').should('not.exist');
+      cy.get('button[aria-label="Go back"]').should('not.exist');
     });
 
     it('renders nothing on projects page', () => {
@@ -799,26 +941,26 @@ describe('MobileBackButton Component', () => {
           <MobileBackButton />
         </RouterWrapper>
       );
-      cy.get('[data-cy*="button"][aria-label="Go back"]').should('not.exist');
+      cy.get('button[aria-label="Go back"]').should('not.exist');
     });
 
-    it('renders back [data-cy*="button"] on element page', () => {
+    it('renders back button on element page', () => {
       cy.mount(
         <RouterWrapper>
           <MobileBackButton />
         </RouterWrapper>
       );
-      cy.get('[data-cy*="button"][aria-label="Go back"]').should('be.visible');
+      cy.get('button[aria-label="Go back"]').should('be.visible');
     });
 
-    it('renders back [data-cy*="button"] on project page', () => {
+    it('renders back button on project page', () => {
       cy.stub(React, 'useLocation').returns({ pathname: '/project/123' });
       cy.mount(
         <RouterWrapper>
           <MobileBackButton />
         </RouterWrapper>
       );
-      cy.get('[data-cy*="button"][aria-label="Go back"]').should('be.visible');
+      cy.get('button[aria-label="Go back"]').should('be.visible');
     });
 
     it('shows arrow left icon', () => {
@@ -836,7 +978,7 @@ describe('MobileBackButton Component', () => {
           <MobileBackButton />
         </RouterWrapper>
       );
-      cy.get('[data-cy*="button"][aria-label="Go back"]')
+      cy.get('button[aria-label="Go back"]')
         .should('be.visible') // React Native Web uses inline styles instead of CSS classes
         .and('have.class', 'top-4')
         .and('have.class', 'left-4')
@@ -845,13 +987,18 @@ describe('MobileBackButton Component', () => {
   });
 
   describe('Navigation Logic', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('navigates from element to project', () => {
       cy.mount(
         <RouterWrapper>
           <MobileBackButton />
         </RouterWrapper>
       );
-      cy.get('[data-cy*="button"][aria-label="Go back"]').click();
+      cy.get('button[aria-label="Go back"]').click();
       expect(mockNavigate).to.have.been.calledWith('/project/test-project-id');
     });
 
@@ -862,7 +1009,7 @@ describe('MobileBackButton Component', () => {
           <MobileBackButton />
         </RouterWrapper>
       );
-      cy.get('[data-cy*="button"][aria-label="Go back"]').click();
+      cy.get('button[aria-label="Go back"]').click();
       expect(mockNavigate).to.have.been.calledWith('/projects');
     });
 
@@ -873,11 +1020,16 @@ describe('MobileBackButton Component', () => {
           <MobileBackButton />
         </RouterWrapper>
       );
-      cy.get('[data-cy*="button"][aria-label="Go back"]').should('not.exist');
+      cy.get('button[aria-label="Go back"]').should('not.exist');
     });
   });
 
   describe('Responsive Design', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('is hidden on desktop', () => {
       cy.viewport(1024, 768);
       cy.mount(
@@ -895,18 +1047,23 @@ describe('MobileBackButton Component', () => {
           <MobileBackButton />
         </RouterWrapper>
       );
-      cy.get('[data-cy*="button"][aria-label="Go back"]').should('be.visible');
+      cy.get('button[aria-label="Go back"]').should('be.visible');
     });
   });
 
   describe('Accessibility', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('has proper aria-label', () => {
       cy.mount(
         <RouterWrapper>
           <MobileBackButton />
         </RouterWrapper>
       );
-      cy.get('[data-cy*="button"]').should('have.attr', 'aria-label', 'Go back');
+      cy.get('button').should('have.attr', 'aria-label', 'Go back');
     });
 
     it('is keyboard accessible', () => {
@@ -915,7 +1072,7 @@ describe('MobileBackButton Component', () => {
           <MobileBackButton />
         </RouterWrapper>
       );
-      cy.get('[data-cy*="button"][aria-label="Go back"]').focus();
+      cy.get('button[aria-label="Go back"]').focus();
       cy.focused().should('have.attr', 'aria-label', 'Go back');
     });
 
@@ -925,11 +1082,16 @@ describe('MobileBackButton Component', () => {
           <MobileBackButton />
         </RouterWrapper>
       );
-      cy.get('[data-cy*="button"][aria-label="Go back"]').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
+      cy.get('button[aria-label="Go back"]').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
     });
   });
 
   describe('Edge Cases', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('handles missing currentProjectId', () => {
       mockWorldbuildingStore.currentProjectId = null;
       cy.mount(
@@ -937,7 +1099,7 @@ describe('MobileBackButton Component', () => {
           <MobileBackButton />
         </RouterWrapper>
       );
-      cy.get('[data-cy*="button"][aria-label="Go back"]').click();
+      cy.get('button[aria-label="Go back"]').click();
       expect(mockNavigate).to.have.been.calledWith('/project/null');
     });
 
@@ -948,7 +1110,7 @@ describe('MobileBackButton Component', () => {
           <MobileBackButton />
         </RouterWrapper>
       );
-      cy.get('[data-cy*="button"][aria-label="Go back"]').click();
+      cy.get('button[aria-label="Go back"]').click();
       expect(mockNavigate).to.have.been.calledWith('/project/test-project-id');
     });
   });

@@ -1,17 +1,32 @@
+/**
+ * @fileoverview Error Boundary Component Tests
+ * Tests for US-X.X: [User Story Name]
+ *
+ * User Story:
+ * As a [user type]
+ * I want to [action]
+ * So that [benefit]
+ *
+ * Acceptance Criteria:
+ * - [Criterion 1]
+ * - [Criterion 2]
+ * - [Criterion 3]
+ */
+
 /// <reference types="cypress" />
 import React from 'react';
 import { ErrorBoundary, useErrorHandler } from '../../../src/components/ErrorBoundary';
 
 // * Test component that throws an error
-const ThrowError = ({ shouldThrow = false, errorMessage = 'Test error' }) => {
+const ThrowError = ({ shouldThrow = false, errorMessage = 'Test error' }); => {
   if (shouldThrow) {
     throw new Error(errorMessage);
   }
-  return <div data-testid="child-content">Child component rendered</div>;
+  return <div data-cy="child-content">Child component rendered</div>;
 };
 
 // * Test component using useErrorHandler hook
-const ComponentWithErrorHandler = ({ triggerError = false }) => {
+const ComponentWithErrorHandler = ({ triggerError = false }); => {
   const throwError = useErrorHandler();
   
   React.useEffect(() => {
@@ -20,24 +35,37 @@ const ComponentWithErrorHandler = ({ triggerError = false }) => {
     }
   }, [triggerError, throwError]);
   
-  return <div data-testid="hook-component">Component with error handler</div>;
+  return <div data-cy="hook-component">Component with error handler</div>;
 };
 
 // * Custom fallback component
 const CustomFallback = ({ error, resetError }: any) => {
   return (
-    <div data-testid="custom-fallback">
+    <div data-cy="custom-fallback">
       <h2>Custom Error UI</h2>
       <p>{error.message}</p>
-      <[data-cy*="button"] onClick={resetError} data-testid="custom-reset">
+      <button onClick={resetError} data-cy="custom-reset">
         Reset Custom
-      </[data-cy*="button"]>
+      </button>
     </div>
   );
 };
 
 describe('ErrorBoundary', () => {
+  beforeEach(function() {
+    // ! Essential debug and state management
+    cy.comprehensiveDebug();
+    cy.cleanState();
+  });
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
   describe('Basic Functionality', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
     it('renders children when there is no error', () => {
       cy.mount(
         <ErrorBoundary>
@@ -45,9 +73,8 @@ describe('ErrorBoundary', () => {
         </ErrorBoundary>
       );
       
-      cy.get('[data-testid="child-content"]').should('be.visible');
+      cy.get('[data-cy="child-content"]').should('be.visible');
     });
-    
     it('catches errors and displays fallback UI', () => {
       cy.mount(
         <ErrorBoundary>
@@ -58,7 +85,6 @@ describe('ErrorBoundary', () => {
       cy.contains('Component Error').should('be.visible');
       cy.contains('This component cannot be displayed').should('be.visible');
     });
-    
     it('generates unique error ID', () => {
       cy.mount(
         <ErrorBoundary>
@@ -67,14 +93,15 @@ describe('ErrorBoundary', () => {
       );
       
       // TODO: * In development mode, error ID should be visible
-      if (Cypress.env('NODE_ENV') !== 'production') {
-        cy.contains('Debug Info').click();
+      cy.contains('Debug Info').click();
         cy.contains('Test error').should('be.visible');
-      }
     });
   });
-  
   describe('Error Boundary Levels', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
     it('displays root level error UI', () => {
       cy.mount(
         <ErrorBoundary level="root">
@@ -87,7 +114,6 @@ describe('ErrorBoundary', () => {
       cy.contains('Go Home').should('be.visible');
       cy.contains('Reload App').should('be.visible');
     });
-    
     it('displays route level error UI', () => {
       cy.mount(
         <ErrorBoundary level="route">
@@ -100,7 +126,6 @@ describe('ErrorBoundary', () => {
       cy.contains('Go Back').should('be.visible');
       cy.contains('Try Again').should('be.visible');
     });
-    
     it('displays component level error UI', () => {
       cy.mount(
         <ErrorBoundary level="component">
@@ -113,8 +138,11 @@ describe('ErrorBoundary', () => {
       cy.contains('Retry').should('be.visible');
     });
   });
-  
   describe('Custom Fallback Component', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
     it('uses custom fallback when provided', () => {
       cy.mount(
         <ErrorBoundary fallbackComponent={CustomFallback}>
@@ -122,11 +150,10 @@ describe('ErrorBoundary', () => {
         </ErrorBoundary>
       );
       
-      cy.get('[data-testid="custom-fallback"]').should('be.visible');
+      cy.get('[data-cy="custom-fallback"]').should('be.visible');
       cy.contains('Custom Error UI').should('be.visible');
       cy.contains('Test error').should('be.visible');
     });
-    
     it('passes error info to custom fallback', () => {
       const customMessage = 'Custom error message';
       
@@ -139,8 +166,11 @@ describe('ErrorBoundary', () => {
       cy.contains(customMessage).should('be.visible');
     });
   });
-  
   describe('Error Reset', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
     it('resets error state when retry clicked', () => {
       let errorCount = 0;
       
@@ -149,7 +179,7 @@ describe('ErrorBoundary', () => {
         if (errorCount === 1) {
           throw new Error('First render error');
         }
-        return <div data-testid="success">Successfully rendered</div>;
+        return <div data-cy="success">Successfully rendered</div>;
       };
       
       cy.mount(
@@ -160,9 +190,8 @@ describe('ErrorBoundary', () => {
       
       cy.contains('Component Error').should('be.visible');
       cy.contains('Retry').click();
-      cy.get('[data-testid="success"]').should('be.visible');
+      cy.get('[data-cy="success"]').should('be.visible');
     });
-    
     it('resets custom fallback error state', () => {
       let shouldError = true;
       
@@ -171,7 +200,7 @@ describe('ErrorBoundary', () => {
           shouldError = false;
           throw new Error('Resettable error');
         }
-        return <div data-testid="recovered">Recovered from error</div>;
+        return <div data-cy="recovered">Recovered from error</div>;
       };
       
       cy.mount(
@@ -180,13 +209,16 @@ describe('ErrorBoundary', () => {
         </ErrorBoundary>
       );
       
-      cy.get('[data-testid="custom-fallback"]').should('be.visible');
-      cy.get('[data-testid="custom-reset"]').click();
-      cy.get('[data-testid="recovered"]').should('be.visible');
+      cy.get('[data-cy="custom-fallback"]').should('be.visible');
+      cy.get('[data-cy="custom-reset"]').click();
+      cy.get('[data-cy="recovered"]').should('be.visible');
     });
   });
-  
   describe('Error Handler Callback', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
     it('calls onError callback when error occurs', () => {
       const onError = cy.stub();
       
@@ -203,7 +235,6 @@ describe('ErrorBoundary', () => {
         Cypress.sinon.match.string
       );
     });
-    
     it('passes error ID to callback', () => {
       const onError = cy.stub();
       
@@ -219,8 +250,11 @@ describe('ErrorBoundary', () => {
       });
     });
   });
-  
   describe('useErrorHandler Hook', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
     it('triggers error boundary from hook', () => {
       cy.mount(
         <ErrorBoundary>
@@ -231,7 +265,6 @@ describe('ErrorBoundary', () => {
       cy.contains('Component Error').should('be.visible');
       cy.contains('Hook triggered error').should('be.visible');
     });
-    
     it('does not trigger error when false', () => {
       cy.mount(
         <ErrorBoundary>
@@ -239,11 +272,14 @@ describe('ErrorBoundary', () => {
         </ErrorBoundary>
       );
       
-      cy.get('[data-testid="hook-component"]').should('be.visible');
+      cy.get('[data-cy="hook-component"]').should('be.visible');
     });
   });
-  
   describe('Navigation Actions', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
     it('provides home navigation for root errors', () => {
       cy.mount(
         <ErrorBoundary level="root">
@@ -253,7 +289,6 @@ describe('ErrorBoundary', () => {
       
       cy.contains('Go Home').should('have.attr', 'onclick');
     });
-    
     it('provides reload action for root errors', () => {
       cy.mount(
         <ErrorBoundary level="root">
@@ -263,7 +298,6 @@ describe('ErrorBoundary', () => {
       
       cy.contains('Reload App').should('have.attr', 'onclick');
     });
-    
     it('provides back navigation for route errors', () => {
       cy.mount(
         <ErrorBoundary level="route">
@@ -274,8 +308,11 @@ describe('ErrorBoundary', () => {
       cy.contains('Go Back').should('have.attr', 'onclick');
     });
   });
-  
   describe('Development vs Production', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
     it('shows error details in development', () => {
       // * This test assumes we're in development mode
       if (process.env.NODE_ENV === 'development') {
@@ -289,7 +326,6 @@ describe('ErrorBoundary', () => {
         cy.contains('Dev error details').should('be.visible');
       }
     });
-    
     it('shows component stack in development for root errors', () => {
       if (process.env.NODE_ENV === 'development') {
         cy.mount(
@@ -303,8 +339,11 @@ describe('ErrorBoundary', () => {
       }
     });
   });
-  
   describe('Multiple Error Boundaries', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
     it('catches errors at different levels', () => {
       cy.mount(
         <ErrorBoundary level="root">
@@ -312,7 +351,7 @@ describe('ErrorBoundary', () => {
             <ErrorBoundary level="component">
               <ThrowError shouldThrow={true} />
             </ErrorBoundary>
-            <div data-testid="sibling">Sibling component</div>
+            <div data-cy="sibling">Sibling component</div>
           </div>
         </ErrorBoundary>
       );
@@ -320,12 +359,15 @@ describe('ErrorBoundary', () => {
       // TODO: * Component level error boundary should catch it
       cy.contains('Component Error').should('be.visible');
       // TODO: * Sibling should still render
-      cy.get('[data-testid="sibling"]').should('be.visible');
+      cy.get('[data-cy="sibling"]').should('be.visible');
     });
   });
-  
   describe('Accessibility', () => {
-    it('has accessible [data-cy*="button"]s in error UI', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+    it('has accessible buttons in error UI', () => {
       cy.mount(
         <ErrorBoundary level="root">
           <ThrowError shouldThrow={true} />
@@ -335,7 +377,6 @@ describe('ErrorBoundary', () => {
       cy.contains('Go Home').should('be.visible').and('have.attr', 'class').and('include', 'focus:');
       cy.contains('Reload App').should('be.visible').and('have.attr', 'class').and('include', 'focus:');
     });
-    
     it('supports keyboard navigation', () => {
       cy.mount(
         <ErrorBoundary level="component">
@@ -347,8 +388,11 @@ describe('ErrorBoundary', () => {
       cy.focused().should('contain', 'Retry');
     });
   });
-  
   describe('Edge Cases', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
     it('handles async errors', () => {
       const AsyncError = () => {
         React.useEffect(() => {
@@ -370,7 +414,6 @@ describe('ErrorBoundary', () => {
       
       cy.contains('Async component').should('be.visible');
     });
-    
     it('handles multiple consecutive errors', () => {
       let attemptCount = 0;
       
@@ -379,7 +422,7 @@ describe('ErrorBoundary', () => {
         if (attemptCount <= 2) {
           throw new Error(`Error attempt ${attemptCount}`);
         }
-        return <div data-testid="final-success">Finally succeeded</div>;
+        return <div data-cy="final-success">Finally succeeded</div>;
       };
       
       cy.mount(
@@ -392,7 +435,7 @@ describe('ErrorBoundary', () => {
       cy.contains('Retry').click();
       cy.contains('Component Error').should('be.visible');
       cy.contains('Retry').click();
-      cy.get('[data-testid="final-success"]').should('be.visible');
+      cy.get('[data-cy="final-success"]').should('be.visible');
     });
   });
 });

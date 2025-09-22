@@ -1,9 +1,29 @@
+/**
+ * @fileoverview Element Card Component Tests
+ * Tests for US-X.X: [User Story Name]
+ *
+ * User Story:
+ * As a [user type]
+ * I want to [action]
+ * So that [benefit]
+ *
+ * Acceptance Criteria:
+ * - [Criterion 1]
+ * - [Criterion 2]
+ * - [Criterion 3]
+ */
+
 import React from 'react';
 import { ElementCard } from '../../../src/components/ElementCard';
 import { WorldElement } from '../../../src/types/models/WorldElement';
 import { ElementCategory } from '../../../src/types/models/ElementCategory';
 
 describe('ElementCard Component', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
   // * Mock element data for testing
   const mockElement: WorldElement = {
     id: 'test-element-1',
@@ -31,7 +51,13 @@ describe('ElementCard Component', () => {
 
   let mockOnPress;
 
-  beforeEach(() => {
+  beforeEach(function() {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
+    // * Clean state before each test
+    cy.cleanState();
+
     mockOnPress = cy.stub().as('onPress');
   });
 
@@ -45,22 +71,22 @@ describe('ElementCard Component', () => {
     );
 
     // * Check that the card is visible
-    cy.get('[data-testid="element-card"]').should('be.visible');
+    cy.get('[data-cy="element-card"]').should('be.visible');
     
     // * Check element name
-    cy.get('[data-testid="element-name"]').should('contain.text', 'Test Character');
+    cy.get('[data-cy="element-name"]').should('contain.text', 'Test Character');
     
     // * Check category
-    cy.get('[data-testid="element-category"]').should('contain.text', 'character');
+    cy.get('[data-cy="element-category"]').should('contain.text', 'character');
     
     // * Check description
-    cy.get('[data-testid="element-description"]').should('contain.text', 'A brave warrior from the northern kingdoms');
+    cy.get('[data-cy="element-description"]').should('contain.text', 'A brave warrior from the northern kingdoms');
     
     // * Check completion percentage
-    cy.get('[data-testid="completion-text"]').should('contain.text', '75%');
+    cy.get('[data-cy="completion-text"]').should('contain.text', '75%');
     
     // * Check category icon is present
-    cy.get('[data-testid="category-icon"]').should('be.visible');
+    cy.get('[data-cy="category-icon"]').should('be.visible');
   });
 
   it('should handle click interaction', () => {
@@ -72,7 +98,7 @@ describe('ElementCard Component', () => {
       />
     );
 
-    cy.get('[data-testid="element-card"]').click();
+    cy.get('[data-cy="element-card"]').click();
     cy.get('@onPress').should('have.been.called');
   });
 
@@ -102,7 +128,7 @@ describe('ElementCard Component', () => {
       );
 
       // * Check badge text is present (note: checking for visible text, not exact match due to styling)
-      cy.get('[data-testid="element-card"]').should('contain.text', expectedText);
+      cy.get('[data-cy="element-card"]').should('contain.text', expectedText);
     });
   });
 
@@ -131,8 +157,8 @@ describe('ElementCard Component', () => {
       );
 
       // * Check that the card renders with category-specific styling
-      cy.get('[data-testid="element-card"]').should('be.visible');
-      cy.get('[data-testid="element-category"]').should('contain.text', category.replace('-', ' '));
+      cy.get('[data-cy="element-card"]').should('be.visible');
+      cy.get('[data-cy="element-category"]').should('contain.text', category.replace('-', ' '));
     });
   });
 
@@ -146,9 +172,9 @@ describe('ElementCard Component', () => {
     );
 
     // * Check tags are displayed
-    cy.get('[data-testid="element-tag"]').should('have.length', 2);
-    cy.get('[data-testid="element-tag"]').first().should('contain.text', 'hero');
-    cy.get('[data-testid="element-tag"]').last().should('contain.text', 'warrior');
+    cy.get('[data-cy="element-tag"]').should('have.length', 2);
+    cy.get('[data-cy="element-tag"]').first().should('contain.text', 'hero');
+    cy.get('[data-cy="element-tag"]').last().should('contain.text', 'warrior');
   });
 
   it('should show more tags indicator when there are many tags', () => {
@@ -166,10 +192,10 @@ describe('ElementCard Component', () => {
     );
 
     // ? TODO: * Should show only first 2 tags
-    cy.get('[data-testid="element-tag"]').should('have.length', 2);
+    cy.get('[data-cy="element-tag"]').should('have.length', 2);
     
     // ? TODO: * Should show more tags indicator
-    cy.get('[data-testid="element-card"]').should('contain.text', '+3');
+    cy.get('[data-cy="element-card"]').should('contain.text', '+3');
   });
 
   it('should display relationships count', () => {
@@ -182,7 +208,7 @@ describe('ElementCard Component', () => {
     );
 
     // * Check relationships count
-    cy.get('[data-testid="element-card"]').should('contain.text', '1 connection');
+    cy.get('[data-cy="element-card"]').should('contain.text', '1 connection');
   });
 
   it('should handle element without description', () => {
@@ -199,8 +225,8 @@ describe('ElementCard Component', () => {
       />
     );
 
-    cy.get('[data-testid="element-card"]').should('be.visible');
-    cy.get('[data-testid="element-description"]').should('not.exist');
+    cy.get('[data-cy="element-card"]').should('be.visible');
+    cy.get('[data-cy="element-description"]').should('not.exist');
   });
 
   it('should handle element without tags', () => {
@@ -217,8 +243,8 @@ describe('ElementCard Component', () => {
       />
     );
 
-    cy.get('[data-testid="element-card"]').should('be.visible');
-    cy.get('[data-testid="element-tag"]').should('not.exist');
+    cy.get('[data-cy="element-card"]').should('be.visible');
+    cy.get('[data-cy="element-tag"]').should('not.exist');
   });
 
   it('should have proper accessibility attributes', () => {
@@ -231,9 +257,9 @@ describe('ElementCard Component', () => {
     );
 
     // * Check that the card is accessible
-    cy.get('[data-testid="element-card"]')
+    cy.get('[data-cy="element-card"]')
       .should('be.visible')
-      .and('have.attr', 'role'); // React Native Web converts Pressable to [data-cy*="button"]-like element
+      .and('have.attr', 'role'); // React Native Web converts Pressable to button-like element
   });
 
   it('should format dates correctly', () => {
@@ -246,7 +272,7 @@ describe('ElementCard Component', () => {
     );
 
     // * Check that updated date is formatted and displayed
-    cy.get('[data-testid="element-card"]').should('contain.text', 'Updated Jan 15, 2024');
+    cy.get('[data-cy="element-card"]').should('contain.text', 'Updated Jan 15, 2024');
   });
 
   it('should handle custom icon prop', () => {
@@ -261,6 +287,6 @@ describe('ElementCard Component', () => {
       />
     );
 
-    cy.get('[data-testid="category-icon"]').should('contain.text', customIcon);
+    cy.get('[data-cy="category-icon"]').should('contain.text', customIcon);
   });
 });

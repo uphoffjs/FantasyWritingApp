@@ -1,3 +1,18 @@
+/**
+ * @fileoverview Sync Queue And Conflict Component Tests
+ * Tests for US-X.X: [User Story Name]
+ *
+ * User Story:
+ * As a [user type]
+ * I want to [action]
+ * So that [benefit]
+ *
+ * Acceptance Criteria:
+ * - [Criterion 1]
+ * - [Criterion 2]
+ * - [Criterion 3]
+ */
+
 import React from 'react';
 import { SyncQueueStatus } from '../../../src/components/SyncQueueStatus';
 import { ConflictResolver, SyncConflict } from '../../../src/components/ConflictResolver';
@@ -46,7 +61,13 @@ jest.mock('../../src/store/authStore', () => ({
 // * Mock toast store
 let mockAddToast: any;
 
-beforeEach(() => {
+beforeEach(function() {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
+    // * Clean state before each test
+    cy.cleanState();
+
   mockAddToast = cy.stub();
   // Note: jest.mock doesn't work in Cypress
   // TODO: You'll need to mock useToastStore differently
@@ -58,7 +79,18 @@ jest.mock('date-fns', () => ({
 }));
 
 describe('SyncQueueStatus Component', () => {
-  beforeEach(() => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
+  beforeEach(function() {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
+    // * Clean state before each test
+    cy.cleanState();
+
     mockSyncQueueManager.getQueueStatus.resetHistory();
     mockSyncQueueManager.clearQueue.resetHistory();
     
@@ -79,10 +111,10 @@ describe('SyncQueueStatus Component', () => {
     
     cy.mount(<SyncQueueStatus />);
     
-    cy.get('[data-cy*="button"]').should('not.exist');
+    cy.get('button').should('not.exist');
   });
 
-  it('shows pending count [data-cy*="button"] when items in queue', () => {
+  it('shows pending count button when items in queue', () => {
     cy.mount(<SyncQueueStatus />);
     
     cy.wrap(null).then(() => {
@@ -191,6 +223,12 @@ describe('SyncQueueStatus Component', () => {
 });
 
 describe('ConflictResolver Component', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
+  
   const mockConflict: SyncConflict = {
     projectId: 'proj-123',
     projectName: 'Fantasy World',
@@ -211,7 +249,13 @@ describe('ConflictResolver Component', () => {
   const onResolve = cy.stub();
   const onCancel = cy.stub();
 
-  beforeEach(() => {
+  beforeEach(function() {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
+    // * Clean state before each test
+    cy.cleanState();
+
     onResolve.resetHistory();
     onCancel.resetHistory();
   });
@@ -272,7 +316,7 @@ describe('ConflictResolver Component', () => {
     cy.contains('Attempt to merge both versions').should('be.visible');
   });
 
-  it('[data-cy*="select"]s local version on click', () => {
+  it('selects local version on click', () => {
     cy.mount(
       <ConflictResolver
         conflict={mockConflict}
@@ -286,7 +330,7 @@ describe('ConflictResolver Component', () => {
     cy.get('.border-metals-gold').should('have.length', 1);
   });
 
-  it('[data-cy*="select"]s cloud version on click', () => {
+  it('selects cloud version on click', () => {
     cy.mount(
       <ConflictResolver
         conflict={mockConflict}
@@ -300,7 +344,7 @@ describe('ConflictResolver Component', () => {
     cy.get('.border-metals-gold').should('have.length', 1);
   });
 
-  it('[data-cy*="select"]s merge option on click', () => {
+  it('selects merge option on click', () => {
     cy.mount(
       <ConflictResolver
         conflict={mockConflict}
@@ -314,7 +358,7 @@ describe('ConflictResolver Component', () => {
     cy.get('.border-metals-gold').should('have.length', 1);
   });
 
-  it('disables Apply [data-cy*="button"] when no [data-cy*="select"]ion', () => {
+  it('disables Apply button when no selection', () => {
     cy.mount(
       <ConflictResolver
         conflict={mockConflict}
@@ -326,7 +370,7 @@ describe('ConflictResolver Component', () => {
     cy.contains('Apply Resolution').should('be.disabled');
   });
 
-  it('enables Apply [data-cy*="button"] after [data-cy*="select"]ion', () => {
+  it('enables Apply button after selection', () => {
     cy.mount(
       <ConflictResolver
         conflict={mockConflict}
@@ -339,7 +383,7 @@ describe('ConflictResolver Component', () => {
     cy.contains('Apply Resolution').should('not.be.disabled');
   });
 
-  it('calls onResolve with [data-cy*="select"]ed resolution', () => {
+  it('calls onResolve with selected resolution', () => {
     cy.mount(
       <ConflictResolver
         conflict={mockConflict}
@@ -416,7 +460,18 @@ describe('ConflictResolver Component', () => {
 });
 
 describe('AutoSyncStatus Component', () => {
-  beforeEach(() => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
+  beforeEach(function() {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
+    // * Clean state before each test
+    cy.cleanState();
+
     mockAuthStore.isAuthenticated = true;
     mockAuthStore.isOfflineMode = false;
     mockAutoSyncService.getState.resetHistory();
@@ -499,7 +554,7 @@ describe('AutoSyncStatus Component', () => {
     cy.get('.text-flame-400').should('exist');
   });
 
-  it('shows error state with retry [data-cy*="button"]', () => {
+  it('shows error state with retry button', () => {
     mockAutoSyncService.getState.returns({
       status: 'error',
       pendingOperations: 0,
@@ -511,7 +566,7 @@ describe('AutoSyncStatus Component', () => {
     
     cy.contains('Sync error - click to retry').should('be.visible');
     cy.get('.text-blood-400').should('exist');
-    cy.get('[data-cy*="button"][title*="Network timeout"]').should('exist');
+    cy.get('button[title*="Network timeout"]').should('exist');
   });
 
   it('handles retry click in error state', () => {

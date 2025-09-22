@@ -1,3 +1,18 @@
+/**
+ * @fileoverview Markdown Export Modal Component Tests
+ * Tests for US-X.X: [User Story Name]
+ *
+ * User Story:
+ * As a [user type]
+ * I want to [action]
+ * So that [benefit]
+ *
+ * Acceptance Criteria:
+ * - [Criterion 1]
+ * - [Criterion 2]
+ * - [Criterion 3]
+ */
+
 import React from 'react';
 import { MarkdownExportModal } from '../../../src/components/MarkdownExportModal';
 import { mountWithProviders } from '../../support/mount-helpers';
@@ -6,6 +21,10 @@ import { waitForAnimation, setMobileViewport, setTabletViewport, setDesktopViewp
 import { WorldElement } from '../../../src/types/models';
 
 describe('MarkdownExportModal Component', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
   let onCloseSpy: any;
   let onImportSpy: any;
 
@@ -46,12 +65,21 @@ describe('MarkdownExportModal Component', () => {
     }
   };
 
-  beforeEach(() => {
+  beforeEach(function() {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
+    // * Clean state before each test
+    cy.cleanState();
+
     onCloseSpy = cy.spy();
     onImportSpy = cy.spy();
   });
-
   describe('Rendering', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
     it('renders with export tab active by default', () => {
       mountWithProviders(
         <MarkdownExportModal 
@@ -61,11 +89,10 @@ describe('MarkdownExportModal Component', () => {
       );
 
       cy.get('h2').should('contain', 'Markdown Import/Export');
-      cy.contains('[data-cy*="button"]', 'Export').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
+      cy.contains('button', 'Export').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
       cy.contains('Export your element content as Markdown').should('be.visible');
       cy.get('pre').should('be.visible');
     });
-
     it('shows import tab when onImport is provided', () => {
       mountWithProviders(
         <MarkdownExportModal 
@@ -75,9 +102,8 @@ describe('MarkdownExportModal Component', () => {
         />
       );
 
-      cy.contains('[data-cy*="button"]', 'Import').should('be.visible');
+      cy.contains('button', 'Import').should('be.visible');
     });
-
     it('does not show import tab when onImport is not provided', () => {
       mountWithProviders(
         <MarkdownExportModal 
@@ -86,10 +112,9 @@ describe('MarkdownExportModal Component', () => {
         />
       );
 
-      cy.contains('[data-cy*="button"]', 'Import').should('not.exist');
+      cy.contains('button', 'Import').should('not.exist');
     });
-
-    it('renders close [data-cy*="button"]', () => {
+    it('renders close button', () => {
       mountWithProviders(
         <MarkdownExportModal 
           element={testElement}
@@ -97,11 +122,14 @@ describe('MarkdownExportModal Component', () => {
         />
       );
 
-      cy.get('[data-cy*="button"]').find('svg.lucide-x').parent().should('be.visible');
+      cy.get('button').find('svg.lucide-x').parent().should('be.visible');
     });
   });
-
   describe('Markdown Generation', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
     it('generates markdown with element name as heading', () => {
       mountWithProviders(
         <MarkdownExportModal 
@@ -112,7 +140,6 @@ describe('MarkdownExportModal Component', () => {
 
       cy.get('pre').should('contain', '# Test Character');
     });
-
     it('includes category in markdown', () => {
       mountWithProviders(
         <MarkdownExportModal 
@@ -123,7 +150,6 @@ describe('MarkdownExportModal Component', () => {
 
       cy.get('pre').should('contain', '**Category:** character');
     });
-
     it('includes description when present', () => {
       mountWithProviders(
         <MarkdownExportModal 
@@ -134,7 +160,6 @@ describe('MarkdownExportModal Component', () => {
 
       cy.get('pre').should('contain', '**Description:** A test character for markdown export');
     });
-
     it('includes tags when present', () => {
       mountWithProviders(
         <MarkdownExportModal 
@@ -145,7 +170,6 @@ describe('MarkdownExportModal Component', () => {
 
       cy.get('pre').should('contain', '**Tags:** hero, wizard, mentor');
     });
-
     it('groups questions by category', () => {
       mountWithProviders(
         <MarkdownExportModal 
@@ -158,7 +182,6 @@ describe('MarkdownExportModal Component', () => {
       cy.get('pre').should('contain', '## Mental');
       cy.get('pre').should('contain', '## Abilities');
     });
-
     it('includes question text and answers', () => {
       mountWithProviders(
         <MarkdownExportModal 
@@ -173,7 +196,6 @@ describe('MarkdownExportModal Component', () => {
       cy.get('pre').should('contain', '### What is their personality?');
       cy.get('pre').should('contain', 'Kind but stern when necessary');
     });
-
     it('shows "No answer provided" for unanswered questions', () => {
       const elementWithMissingAnswer = {
         ...testElement,
@@ -192,7 +214,6 @@ describe('MarkdownExportModal Component', () => {
 
       cy.get('pre').should('contain', '*No answer provided*');
     });
-
     it('handles array values in answers', () => {
       const elementWithArrayAnswer = {
         ...testElement,
@@ -212,7 +233,6 @@ describe('MarkdownExportModal Component', () => {
       cy.get('pre').should('contain', '- Option 2');
       cy.get('pre').should('contain', '- Option 3');
     });
-
     it('handles elements without tags', () => {
       const elementWithoutTags = {
         ...testElement,
@@ -230,7 +250,6 @@ describe('MarkdownExportModal Component', () => {
       cy.get('pre').should('contain', '# Test Character');
       cy.get('pre').should('not.contain', '**Tags:**');
     });
-
     it('handles elements without description', () => {
       const elementWithoutDescription = {
         ...testElement,
@@ -248,14 +267,16 @@ describe('MarkdownExportModal Component', () => {
       cy.get('pre').should('not.contain', '**Description:**');
     });
   });
-
   describe('Export Actions', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
     it('copies markdown to clipboard', () => {
       // * Mock clipboard API
       cy.window().then((win) => {
-        cy.stub(win[data-testid="navigation"]igator.clipboard, 'writeText').resolves();
+        cy.stub(win[data-cy="navigation"]igator.clipboard, 'writeText').resolves();
       });
-
       mountWithProviders(
         <MarkdownExportModal 
           element={testElement}
@@ -263,18 +284,17 @@ describe('MarkdownExportModal Component', () => {
         />
       );
 
-      cy.contains('[data-cy*="button"]', 'Copy to Clipboard').click();
+      cy.contains('button', 'Copy to Clipboard').click();
       
       // ? TODO: * Button should change to show success
-      cy.contains('[data-cy*="button"]', 'Copied!').should('be.visible');
+      cy.contains('button', 'Copied!').should('be.visible');
       cy.get('svg.lucide-check').should('be.visible');
 
       // TODO: * Should revert after 2 seconds
       cy.wait(2100);
-      cy.contains('[data-cy*="button"]', 'Copy to Clipboard').should('be.visible');
+      cy.contains('button', 'Copy to Clipboard').should('be.visible');
       cy.get('svg.lucide-copy').should('be.visible');
     });
-
     it('downloads markdown as file', () => {
       // * Mock document methods
       const createElementStub = cy.stub();
@@ -296,7 +316,6 @@ describe('MarkdownExportModal Component', () => {
         cy.stub(win.URL, 'createObjectURL').returns('blob:mock-url');
         cy.stub(win.URL, 'revokeObjectURL');
       });
-
       mountWithProviders(
         <MarkdownExportModal 
           element={testElement}
@@ -304,14 +323,13 @@ describe('MarkdownExportModal Component', () => {
         />
       );
 
-      cy.contains('[data-cy*="button"]', 'Download as .md').click();
+      cy.contains('button', 'Download as .md').click();
 
       cy.wrap(createElementStub).should('have.been.calledWith', 'a');
       cy.wrap(clickStub).should('have.been.called');
       cy.wrap(appendChildStub).should('have.been.called');
       cy.wrap(removeChildStub).should('have.been.called');
     });
-
     it('generates correct filename from element name', () => {
       const mockAnchor = { href: '', download: '', click: cy.stub() };
       
@@ -322,7 +340,6 @@ describe('MarkdownExportModal Component', () => {
         cy.stub(win.URL, 'createObjectURL').returns('blob:mock-url');
         cy.stub(win.URL, 'revokeObjectURL');
       });
-
       mountWithProviders(
         <MarkdownExportModal 
           element={testElement}
@@ -330,14 +347,17 @@ describe('MarkdownExportModal Component', () => {
         />
       );
 
-      cy.contains('[data-cy*="button"]', 'Download as .md').click();
+      cy.contains('button', 'Download as .md').click();
       
       // TODO: * Filename should be element name in lowercase with hyphens
       expect(mockAnchor.download).to.equal('test-character.md');
     });
   });
-
   describe('Tab Switching', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
     it('switches to import tab when clicked', () => {
       mountWithProviders(
         <MarkdownExportModal 
@@ -347,14 +367,13 @@ describe('MarkdownExportModal Component', () => {
         />
       );
 
-      cy.contains('[data-cy*="button"]', 'Import').click();
+      cy.contains('button', 'Import').click();
       
-      cy.contains('[data-cy*="button"]', 'Import').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
-      cy.contains('[data-cy*="button"]', 'Export').should('not.have.class', 'text-metals-gold');
+      cy.contains('button', 'Import').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
+      cy.contains('button', 'Export').should('not.have.class', 'text-metals-gold');
       cy.contains('Import content from a Markdown file').should('be.visible');
       cy.get('textarea').should('be.visible');
     });
-
     it('switches back to export tab', () => {
       mountWithProviders(
         <MarkdownExportModal 
@@ -364,15 +383,18 @@ describe('MarkdownExportModal Component', () => {
         />
       );
 
-      cy.contains('[data-cy*="button"]', 'Import').click();
-      cy.contains('[data-cy*="button"]', 'Export').click();
+      cy.contains('button', 'Import').click();
+      cy.contains('button', 'Export').click();
       
-      cy.contains('[data-cy*="button"]', 'Export').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
+      cy.contains('button', 'Export').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
       cy.contains('Export your element content as Markdown').should('be.visible');
     });
   });
-
   describe('Import Functionality', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
     it('shows import textarea when on import tab', () => {
       mountWithProviders(
         <MarkdownExportModal 
@@ -382,13 +404,12 @@ describe('MarkdownExportModal Component', () => {
         />
       );
 
-      cy.contains('[data-cy*="button"]', 'Import').click();
+      cy.contains('button', 'Import').click();
       
       cy.get('textarea').should('be.visible');
       cy.get('textarea').should('have.attr', 'placeholder', 'Paste your markdown content here...');
     });
-
-    it('enables import [data-cy*="button"] when text is entered', () => {
+    it('enables import button when text is entered', () => {
       mountWithProviders(
         <MarkdownExportModal 
           element={testElement}
@@ -397,10 +418,10 @@ describe('MarkdownExportModal Component', () => {
         />
       );
 
-      cy.contains('[data-cy*="button"]', 'Import').click();
+      cy.contains('button', 'Import').click();
       
       // * Initially disabled
-      cy.contains('[data-cy*="button"]', 'Import Content')
+      cy.contains('button', 'Import Content')
         .should('be.visible') // React Native Web uses inline styles instead of CSS classes
         .and('be.disabled');
       
@@ -408,12 +429,11 @@ describe('MarkdownExportModal Component', () => {
       cy.get('textarea').type('# Test Import');
       
       // TODO: * Should be enabled
-      cy.contains('[data-cy*="button"]', 'Import Content')
+      cy.contains('button', 'Import Content')
         .should('not.have.class', 'cursor-not-allowed')
         .and('not.be.disabled');
     });
-
-    it('clears import text when clear [data-cy*="button"] clicked', () => {
+    it('clears import text when clear button clicked', () => {
       mountWithProviders(
         <MarkdownExportModal 
           element={testElement}
@@ -422,13 +442,12 @@ describe('MarkdownExportModal Component', () => {
         />
       );
 
-      cy.contains('[data-cy*="button"]', 'Import').click();
+      cy.contains('button', 'Import').click();
       cy.get('textarea').type('Some markdown content');
-      cy.contains('[data-cy*="button"]', 'Clear').click();
+      cy.contains('button', 'Clear').click();
       
       cy.get('textarea').should('have.value', '');
     });
-
     it('parses markdown and imports answers', () => {
       const markdownContent = `# Test Character
 
@@ -462,9 +481,9 @@ Updated abilities`;
         />
       );
 
-      cy.contains('[data-cy*="button"]', 'Import').click();
+      cy.contains('button', 'Import').click();
       cy.get('textarea').type(markdownContent);
-      cy.contains('[data-cy*="button"]', 'Import Content').click();
+      cy.contains('button', 'Import Content').click();
 
       // * Wait for async processing
       waitForAnimation();
@@ -474,12 +493,10 @@ Updated abilities`;
           'q1': 'Updated appearance description',
           'q2': 'Updated personality description',
           'q3': 'Updated abilities'
-        })
-      );
+        }));
       
       cy.wrap(onCloseSpy).should('have.been.called');
     });
-
     it('ignores "No answer provided" placeholders during import', () => {
       const markdownWithNoAnswer = `## Physical
 
@@ -499,9 +516,9 @@ Has a personality`;
         />
       );
 
-      cy.contains('[data-cy*="button"]', 'Import').click();
+      cy.contains('button', 'Import').click();
       cy.get('textarea').type(markdownWithNoAnswer);
-      cy.contains('[data-cy*="button"]', 'Import Content').click();
+      cy.contains('button', 'Import Content').click();
 
       waitForAnimation();
 
@@ -509,10 +526,8 @@ Has a personality`;
         Cypress.sinon.match((value: any) => {
           // TODO: q1 should not be included since it says "No answer provided"
           return !('q1' in value) && value['q2'] === 'Has a personality';
-        })
-      );
+        }));
     });
-
     it('handles multiline answers during import', () => {
       const multilineMarkdown = `### What is their appearance?
 
@@ -528,22 +543,24 @@ Line 3 of appearance`;
         />
       );
 
-      cy.contains('[data-cy*="button"]', 'Import').click();
+      cy.contains('button', 'Import').click();
       cy.get('textarea').type(multilineMarkdown);
-      cy.contains('[data-cy*="button"]', 'Import Content').click();
+      cy.contains('button', 'Import Content').click();
 
       waitForAnimation();
 
       cy.wrap(onImportSpy).should('have.been.calledWith', 
         Cypress.sinon.match({
           'q1': Cypress.sinon.match.string
-        })
-      );
+        }));
     });
   });
-
   describe('Modal Interactions', () => {
-    it('closes modal when close [data-cy*="button"] clicked', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+    it('closes modal when close button clicked', () => {
       mountWithProviders(
         <MarkdownExportModal 
           element={testElement}
@@ -551,10 +568,9 @@ Line 3 of appearance`;
         />
       );
 
-      cy.get('[data-cy*="button"]').find('svg.lucide-x').parent().click();
+      cy.get('button').find('svg.lucide-x').parent().click();
       cy.wrap(onCloseSpy).should('have.been.called');
     });
-
     it('does not close modal on background click', () => {
       mountWithProviders(
         <MarkdownExportModal 
@@ -568,8 +584,11 @@ Line 3 of appearance`;
       cy.wrap(onCloseSpy).should('not.have.been.called');
     });
   });
-
   describe('Edge Cases', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
     it('handles element with no questions', () => {
       const elementNoQuestions = {
         ...testElement,
@@ -587,7 +606,6 @@ Line 3 of appearance`;
       cy.get('pre').should('contain', '# Test Character');
       cy.get('pre').should('contain', '**Category:** character');
     });
-
     it('handles very long content', () => {
       const longAnswer = 'A'.repeat(1000);
       const elementWithLongAnswer = {
@@ -607,7 +625,6 @@ Line 3 of appearance`;
       cy.get('pre').should('contain', longAnswer);
       cy.get('.max-h-96.overflow-auto').should('exist');
     });
-
     it('handles special characters in element name', () => {
       const elementSpecialName = {
         ...testElement,
@@ -623,7 +640,6 @@ Line 3 of appearance`;
 
       cy.get('pre').should('contain', '# Test & Character <with> "Special" Characters');
     });
-
     it('handles questions without categories', () => {
       const elementNoCategoryQuestions = {
         ...testElement,
@@ -649,7 +665,6 @@ Line 3 of appearance`;
       cy.get('pre').should('contain', '## General');
       cy.get('pre').should('contain', '### Question without category');
     });
-
     it('handles HTML content in answers', () => {
       const elementWithHtml = {
         ...testElement,
@@ -673,8 +688,11 @@ Line 3 of appearance`;
       cy.get('pre').should('not.contain', '<strong>');
     });
   });
-
   describe('Accessibility', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
     it('has proper headings and labels', () => {
       mountWithProviders(
         <MarkdownExportModal 
@@ -687,10 +705,9 @@ Line 3 of appearance`;
       cy.get('h2').should('contain', 'Markdown Import/Export');
       cy.contains('label', 'Paste your Markdown content below:').should('not.be.visible'); // On import tab
       
-      cy.contains('[data-cy*="button"]', 'Import').click();
+      cy.contains('button', 'Import').click();
       cy.contains('label', 'Paste your Markdown content below:').should('be.visible');
     });
-
     it('supports keyboard navigation between tabs', () => {
       mountWithProviders(
         <MarkdownExportModal 
@@ -700,13 +717,12 @@ Line 3 of appearance`;
         />
       );
 
-      cy.contains('[data-cy*="button"]', 'Export').focus();
+      cy.contains('button', 'Export').focus();
       cy.focused().should('contain', 'Export');
       
       cy.focused().tab();
       cy.focused().should('contain', 'Import');
     });
-
     it('maintains focus within modal', () => {
       mountWithProviders(
         <MarkdownExportModal 
@@ -715,15 +731,18 @@ Line 3 of appearance`;
         />
       );
 
-      cy.contains('[data-cy*="button"]', 'Copy to Clipboard').focus();
+      cy.contains('button', 'Copy to Clipboard').focus();
       cy.focused().should('contain', 'Copy to Clipboard');
       
       cy.focused().tab();
       cy.focused().should('contain', 'Download as .md');
     });
   });
-
   describe('Responsive Design', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
     it('adapts layout for mobile viewport', () => {
       setMobileViewport();
       mountWithProviders(
@@ -736,7 +755,6 @@ Line 3 of appearance`;
       cy.get('.max-w-4xl').should('be.visible');
       cy.get('.p-4').should('be.visible');
     });
-
     it('adapts layout for tablet viewport', () => {
       setTabletViewport();
       mountWithProviders(
@@ -749,7 +767,6 @@ Line 3 of appearance`;
       cy.get('.max-w-4xl').should('be.visible');
       cy.get('.p-6').should('be.visible');
     });
-
     it('maintains max width on desktop', () => {
       setDesktopViewport();
       mountWithProviders(

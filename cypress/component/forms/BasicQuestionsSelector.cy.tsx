@@ -1,7 +1,28 @@
+/**
+ * @fileoverview Basic Questions Selector Component Tests
+ * Tests for US-X.X: [User Story Name]
+ *
+ * User Story:
+ * As a [user type]
+ * I want to [action]
+ * So that [benefit]
+ *
+ * Acceptance Criteria:
+ * - [Criterion 1]
+ * - [Criterion 2]
+ * - [Criterion 3]
+ */
+
 import React from 'react';
 import { BasicQuestionsSelector, Question } from '../../support/component-test-helpers';
 
 describe('BasicQuestionsSelector Component', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
+  
   const mockQuestions: Question[] = [
     { id: 'name', text: 'Name', type: 'text', required: true, category: 'Basic Info' },
     { id: 'age', text: 'Age', type: 'number', required: false, category: 'Basic Info', helpText: 'Character age' },
@@ -15,11 +36,22 @@ describe('BasicQuestionsSelector Component', () => {
 
   let onChangeSpy: any;
 
-  beforeEach(() => {
+  beforeEach(function() {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
+    // * Clean state before each test
+    cy.cleanState();
+
     onChangeSpy = cy.spy().as('onChange');
   });
 
   describe('Rendering', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('renders with title and description', () => {
       cy.mount(
         <BasicQuestionsSelector
@@ -134,6 +166,11 @@ describe('BasicQuestionsSelector Component', () => {
   });
 
   describe('Quick Actions', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('applies default suggestions when clicked', () => {
       cy.mount(
         <BasicQuestionsSelector
@@ -198,6 +235,11 @@ describe('BasicQuestionsSelector Component', () => {
   });
 
   describe('Question Selection', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it.skip('toggles question selection when checkbox is clicked', () => {
       cy.mount(
         <BasicQuestionsSelector
@@ -280,6 +322,11 @@ describe('BasicQuestionsSelector Component', () => {
   });
 
   describe('Visual Feedback', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('highlights selected questions', () => {
       cy.mount(
         <BasicQuestionsSelector
@@ -340,6 +387,11 @@ describe('BasicQuestionsSelector Component', () => {
   });
 
   describe('Initialization', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('uses provided basicQuestionIds on mount', () => {
       cy.mount(
         <BasicQuestionsSelector
@@ -402,6 +454,11 @@ describe('BasicQuestionsSelector Component', () => {
   });
 
   describe('Edge Cases', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('handles empty questions array', () => {
       cy.mount(
         <BasicQuestionsSelector
@@ -539,6 +596,11 @@ describe('BasicQuestionsSelector Component', () => {
   });
 
   describe('Accessibility', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('has accessible checkboxes', () => {
       cy.mount(
         <BasicQuestionsSelector
@@ -607,6 +669,11 @@ describe('BasicQuestionsSelector Component', () => {
   });
 
   describe('Responsive Design', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('works on mobile viewport', () => {
       cy.viewport(375, 667);
       
@@ -658,6 +725,11 @@ describe('BasicQuestionsSelector Component', () => {
   });
 
   describe('Time Calculations', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('calculates basic mode time correctly', () => {
       cy.mount(
         <BasicQuestionsSelector

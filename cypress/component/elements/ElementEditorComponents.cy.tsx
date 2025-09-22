@@ -1,3 +1,18 @@
+/**
+ * @fileoverview Element Editor Components Component Tests
+ * Tests for US-X.X: [User Story Name]
+ *
+ * User Story:
+ * As a [user type]
+ * I want to [action]
+ * So that [benefit]
+ *
+ * Acceptance Criteria:
+ * - [Criterion 1]
+ * - [Criterion 2]
+ * - [Criterion 3]
+ */
+
 /// <reference types="cypress" />
 import React from 'react';
 import { ElementHeader } from '../../../src/components/element-editor/ElementHeader';
@@ -8,9 +23,20 @@ import { ElementTags } from '../../../src/components/element-editor/ElementTags'
 import { WorldElement, Relationship } from '../../../src/types/models';
 
 describe('ElementHeader', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
   let defaultProps: any;
   
-  beforeEach(() => {
+  beforeEach(function() {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
+    // * Clean state before each test
+    cy.cleanState();
+
     defaultProps = {
       category: 'character',
       name: 'Test Character',
@@ -23,29 +49,34 @@ describe('ElementHeader', () => {
   });
   
   describe('Rendering', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('renders all header elements', () => {
       cy.mount(<ElementHeader {...defaultProps} />);
       
       // * Category display
-      cy.get('[data-testid="element-category"]').should('contain', 'character');
+      cy.get('[data-cy="element-category"]').should('contain', 'character');
       
       // * Name input
       cy.get('#element-name').should('have.value', 'Test Character');
       
       // * Completion percentage
-      cy.get('[data-testid="completion-percentage"]').should('contain', '75%');
+      cy.get('[data-cy="completion-percentage"]').should('contain', '75%');
       
       // * Progress bar
-      cy.get('[data-testid="completion-bar"]').should('have.attr', 'data-percentage', '75');
+      cy.get('[data-cy="completion-bar"]').should('have.attr', 'data-percentage', '75');
       
       // Buttons
-      cy.get('[data-testid="markdown-[data-cy*="button"]"]').should('be.visible');
-      cy.get('[data-testid="cancel-[data-cy*="button"]"]').should('be.visible');
+      cy.get('[data-cy="markdown-button"]').should('be.visible');
+      cy.get('[data-cy="cancel-button"]').should('be.visible');
     });
     
     it('formats category name properly', () => {
       cy.mount(<ElementHeader {...defaultProps} category="historical-event" />);
-      cy.get('[data-testid="element-category"]').should('contain', 'historical event');
+      cy.get('[data-cy="element-category"]').should('contain', 'historical event');
     });
     
     it('shows save status indicator', () => {
@@ -61,6 +92,11 @@ describe('ElementHeader', () => {
   });
   
   describe('User Interactions', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('handles name changes', () => {
       const onNameChange = cy.stub();
       cy.mount(<ElementHeader {...defaultProps} onNameChange={onNameChange} />);
@@ -73,7 +109,7 @@ describe('ElementHeader', () => {
       const onMarkdownExport = cy.stub();
       cy.mount(<ElementHeader {...defaultProps} onMarkdownExport={onMarkdownExport} />);
       
-      cy.get('[data-testid="markdown-[data-cy*="button"]"]').click();
+      cy.get('[data-cy="markdown-button"]').click();
       cy.wrap(onMarkdownExport).should('have.been.called');
     });
     
@@ -81,12 +117,17 @@ describe('ElementHeader', () => {
       const onCancel = cy.stub();
       cy.mount(<ElementHeader {...defaultProps} onCancel={onCancel} />);
       
-      cy.get('[data-testid="cancel-[data-cy*="button"]"]').click();
+      cy.get('[data-cy="cancel-button"]').click();
       cy.wrap(onCancel).should('have.been.called');
     });
   });
   
   describe('Responsive Design', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('shows mobile-specific save indicator on small screens', () => {
       cy.viewport(375, 667);
       cy.mount(<ElementHeader {...defaultProps} saveStatus="saved" lastSaved={new Date()} />);
@@ -108,11 +149,16 @@ describe('ElementHeader', () => {
   });
   
   describe('Accessibility', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('has proper labels and ARIA attributes', () => {
       cy.mount(<ElementHeader {...defaultProps} />);
       
       cy.get('#element-name').should('have.attr', 'placeholder');
-      cy.get('[data-testid="markdown-[data-cy*="button"]"]').should('have.attr', 'title', 'Import/Export Markdown');
+      cy.get('[data-cy="markdown-button"]').should('have.attr', 'title', 'Import/Export Markdown');
     });
     
     it('supports keyboard navigation', () => {
@@ -123,18 +169,29 @@ describe('ElementHeader', () => {
       
       // * Tab through interactive elements
       cy.get('body').tab();
-      cy.focused().should('have.attr', 'data-cy', 'markdown-[data-cy*="button"]');
+      cy.focused().should('have.attr', 'data-cy', 'markdown-button');
       
       cy.get('body').tab();
-      cy.focused().should('have.attr', 'data-cy', 'cancel-[data-cy*="button"]');
+      cy.focused().should('have.attr', 'data-cy', 'cancel-button');
     });
   });
 });
 
 describe('ElementFooter', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
   let defaultProps: any;
   
-  beforeEach(() => {
+  beforeEach(function() {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
+    // * Clean state before each test
+    cy.cleanState();
+
     defaultProps = {
       onSave: cy.stub(),
       onCancel: cy.stub(),
@@ -144,33 +201,43 @@ describe('ElementFooter', () => {
   });
   
   describe('Rendering', () => {
-    it('renders footer [data-cy*="button"]s', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
+    it('renders footer buttons', () => {
       cy.mount(<ElementFooter {...defaultProps} />);
       
-      cy.get('[data-testid="save-[data-cy*="button"]"]').should('be.visible');
-      cy.get('[data-testid="cancel-[data-cy*="button"]"]').should('be.visible');
+      cy.get('[data-cy="save-button"]').should('be.visible');
+      cy.get('[data-cy="cancel-button"]').should('be.visible');
     });
     
     it('shows saving state', () => {
       cy.mount(<ElementFooter {...defaultProps} isSaving={true} />);
       
-      cy.get('[data-testid="save-[data-cy*="button"]"]').should('be.disabled');
+      cy.get('[data-cy="save-button"]').should('be.disabled');
       cy.contains('Saving...').should('be.visible');
     });
     
     it('indicates unsaved changes', () => {
       cy.mount(<ElementFooter {...defaultProps} hasUnsavedChanges={true} />);
       
-      cy.get('[data-testid="unsaved-indicator"]').should('be.visible');
+      cy.get('[data-cy="unsaved-indicator"]').should('be.visible');
     });
   });
   
   describe('User Interactions', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('handles save action', () => {
       const onSave = cy.stub();
       cy.mount(<ElementFooter {...defaultProps} onSave={onSave} />);
       
-      cy.get('[data-testid="save-[data-cy*="button"]"]').click();
+      cy.get('[data-cy="save-button"]').click();
       cy.wrap(onSave).should('have.been.called');
     });
     
@@ -178,7 +245,7 @@ describe('ElementFooter', () => {
       const onCancel = cy.stub();
       cy.mount(<ElementFooter {...defaultProps} onCancel={onCancel} />);
       
-      cy.get('[data-testid="cancel-[data-cy*="button"]"]').click();
+      cy.get('[data-cy="cancel-button"]').click();
       cy.wrap(onCancel).should('have.been.called');
     });
     
@@ -186,13 +253,18 @@ describe('ElementFooter', () => {
       const onSave = cy.stub();
       cy.mount(<ElementFooter {...defaultProps} onSave={onSave} isSaving={true} />);
       
-      cy.get('[data-testid="save-[data-cy*="button"]"]').should('be.disabled');
-      cy.get('[data-testid="save-[data-cy*="button"]"]').click({ force: true });
+      cy.get('[data-cy="save-button"]').should('be.disabled');
+      cy.get('[data-cy="save-button"]').click({ force: true });
       cy.wrap(onSave).should('not.have.been.called');
     });
   });
   
   describe('Keyboard Shortcuts', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('saves on Cmd/Ctrl+S', () => {
       const onSave = cy.stub();
       cy.mount(<ElementFooter {...defaultProps} onSave={onSave} />);
@@ -212,6 +284,12 @@ describe('ElementFooter', () => {
 });
 
 describe('ElementImages', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
+  
   const mockImages = [
     { id: '1', url: 'https://example.com/image1.jpg', caption: 'Main image' },
     { id: '2', url: 'https://example.com/image2.jpg', caption: 'Secondary image' }
@@ -219,7 +297,13 @@ describe('ElementImages', () => {
   
   let defaultProps: any;
   
-  beforeEach(() => {
+  beforeEach(function() {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
+    // * Clean state before each test
+    cy.cleanState();
+
     defaultProps = {
       images: mockImages,
       onAddImage: cy.stub(),
@@ -230,11 +314,16 @@ describe('ElementImages', () => {
   });
   
   describe('Rendering', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('renders image gallery', () => {
       cy.mount(<ElementImages {...defaultProps} />);
       
-      cy.get('[data-testid="image-gallery"]').should('be.visible');
-      cy.get('[data-testid="image-item"]').should('have.length', 2);
+      cy.get('[data-cy="image-gallery"]').should('be.visible');
+      cy.get('[data-cy="image-item"]').should('have.length', 2);
     });
     
     it('shows image captions', () => {
@@ -244,10 +333,10 @@ describe('ElementImages', () => {
       cy.contains('Secondary image').should('be.visible');
     });
     
-    it('shows add image [data-cy*="button"]', () => {
+    it('shows add image button', () => {
       cy.mount(<ElementImages {...defaultProps} />);
       
-      cy.get('[data-testid="add-image-[data-cy*="button"]"]').should('be.visible');
+      cy.get('[data-cy="add-image-button"]').should('be.visible');
     });
     
     it('shows empty state', () => {
@@ -258,6 +347,11 @@ describe('ElementImages', () => {
   });
   
   describe('User Interactions', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('handles image upload', () => {
       const onAddImage = cy.stub();
       cy.mount(<ElementImages {...defaultProps} onAddImage={onAddImage} />);
@@ -272,7 +366,7 @@ describe('ElementImages', () => {
       const onRemoveImage = cy.stub();
       cy.mount(<ElementImages {...defaultProps} onRemoveImage={onRemoveImage} />);
       
-      cy.get('[data-testid="remove-image-1"]').click();
+      cy.get('[data-cy="remove-image-1"]').click();
       cy.wrap(onRemoveImage).should('have.been.calledWith', '1');
     });
     
@@ -280,7 +374,7 @@ describe('ElementImages', () => {
       const onUpdateCaption = cy.stub();
       cy.mount(<ElementImages {...defaultProps} onUpdateCaption={onUpdateCaption} />);
       
-      cy.get('[data-testid="caption-input-1"]').clear().type('New caption');
+      cy.get('[data-cy="caption-input-1"]').clear().type('New caption');
       cy.wrap(onUpdateCaption).should('have.been.calledWith', '1', 'New caption');
     });
     
@@ -289,43 +383,54 @@ describe('ElementImages', () => {
       cy.mount(<ElementImages {...defaultProps} onReorderImages={onReorderImages} />);
       
       // * Simulate drag and drop
-      cy.get('[data-testid="image-item-1"]').trigger('dragstart');
-      cy.get('[data-testid="image-item-2"]').trigger('drop');
+      cy.get('[data-cy="image-item-1"]').trigger('dragstart');
+      cy.get('[data-cy="image-item-2"]').trigger('drop');
       
       cy.wrap(onReorderImages).should('have.been.called');
     });
   });
   
   describe('Image Preview', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('opens full-size preview on click', () => {
       cy.mount(<ElementImages {...defaultProps} />);
       
-      cy.get('[data-testid="image-item-1"]').click();
-      cy.get('[data-testid="image-preview-modal"]').should('be.visible');
+      cy.get('[data-cy="image-item-1"]').click();
+      cy.get('[data-cy="image-preview-modal"]').should('be.visible');
     });
     
     it('navigates between images in preview', () => {
       cy.mount(<ElementImages {...defaultProps} />);
       
-      cy.get('[data-testid="image-item-1"]').click();
-      cy.get('[data-testid="next-image"]').click();
+      cy.get('[data-cy="image-item-1"]').click();
+      cy.get('[data-cy="next-image"]').click();
       cy.contains('Secondary image').should('be.visible');
       
-      cy.get('[data-testid="prev-image"]').click();
+      cy.get('[data-cy="prev-image"]').click();
       cy.contains('Main image').should('be.visible');
     });
     
-    it('closes preview on escape or close [data-cy*="button"]', () => {
+    it('closes preview on escape or close button', () => {
       cy.mount(<ElementImages {...defaultProps} />);
       
-      cy.get('[data-testid="image-item-1"]').click();
-      cy.get('[data-testid="close-preview"]').click();
-      cy.get('[data-testid="image-preview-modal"]').should('not.exist');
+      cy.get('[data-cy="image-item-1"]').click();
+      cy.get('[data-cy="close-preview"]').click();
+      cy.get('[data-cy="image-preview-modal"]').should('not.exist');
     });
   });
 });
 
 describe('ElementRelationships', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
+  
   const mockElements: WorldElement[] = [
     { id: '1', name: 'Location A', category: 'location', completion: 100 },
     { id: '2', name: 'Character B', category: 'character', completion: 80 },
@@ -351,7 +456,13 @@ describe('ElementRelationships', () => {
   
   let defaultProps: any;
   
-  beforeEach(() => {
+  beforeEach(function() {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
+    // * Clean state before each test
+    cy.cleanState();
+
     defaultProps = {
       currentElementId: 'current',
       relationships: mockRelationships,
@@ -363,11 +474,16 @@ describe('ElementRelationships', () => {
   });
   
   describe('Rendering', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('renders relationship list', () => {
       cy.mount(<ElementRelationships {...defaultProps} />);
       
-      cy.get('[data-testid="relationships-list"]').should('be.visible');
-      cy.get('[data-testid="relationship-item"]').should('have.length', 2);
+      cy.get('[data-cy="relationships-list"]').should('be.visible');
+      cy.get('[data-cy="relationship-item"]').should('have.length', 2);
     });
     
     it('shows relationship details', () => {
@@ -378,10 +494,10 @@ describe('ElementRelationships', () => {
       cy.contains('Lives in this location').should('be.visible');
     });
     
-    it('shows add relationship [data-cy*="button"]', () => {
+    it('shows add relationship button', () => {
       cy.mount(<ElementRelationships {...defaultProps} />);
       
-      cy.get('[data-testid="add-relationship-[data-cy*="button"]"]').should('be.visible');
+      cy.get('[data-cy="add-relationship-button"]').should('be.visible');
     });
     
     it('shows empty state', () => {
@@ -392,30 +508,35 @@ describe('ElementRelationships', () => {
   });
   
   describe('Adding Relationships', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('opens add relationship modal', () => {
       cy.mount(<ElementRelationships {...defaultProps} />);
       
-      cy.get('[data-testid="add-relationship-[data-cy*="button"]"]').click();
-      cy.get('[data-testid="relationship-modal"]').should('be.visible');
+      cy.get('[data-cy="add-relationship-button"]').click();
+      cy.get('[data-cy="relationship-modal"]').should('be.visible');
     });
     
     it('creates new relationship', () => {
       const onAddRelationship = cy.stub();
       cy.mount(<ElementRelationships {...defaultProps} onAddRelationship={onAddRelationship} />);
       
-      cy.get('[data-testid="add-relationship-[data-cy*="button"]"]').click();
+      cy.get('[data-cy="add-relationship-button"]').click();
       
       // * Select target element
-      cy.get('[data-testid="element-[data-cy*="select"]"]').select('3');
+      cy.get('[data-cy="element-select"]').select('3');
       
       // * Select relationship type
-      cy.get('[data-testid="relationship-type"]').select('employs');
+      cy.get('[data-cy="relationship-type"]').select('employs');
       
       // * Add description
-      cy.get('[data-testid="relationship-description"]').type('Works for this organization');
+      cy.get('[data-cy="relationship-description"]').type('Works for this organization');
       
       // Save
-      cy.get('[data-testid="save-relationship"]').click();
+      cy.get('[data-cy="save-relationship"]').click();
       
       cy.wrap(onAddRelationship).should('have.been.calledWith', {
         toId: '3',
@@ -427,25 +548,30 @@ describe('ElementRelationships', () => {
     it('validates required fields', () => {
       cy.mount(<ElementRelationships {...defaultProps} />);
       
-      cy.get('[data-testid="add-relationship-[data-cy*="button"]"]').click();
-      cy.get('[data-testid="save-relationship"]').click();
+      cy.get('[data-cy="add-relationship-button"]').click();
+      cy.get('[data-cy="save-relationship"]').click();
       
-      cy.contains('Please [data-cy*="select"] an element').should('be.visible');
+      cy.contains('Please select an element').should('be.visible');
     });
   });
   
   describe('Editing Relationships', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('edits existing relationship', () => {
       const onUpdateRelationship = cy.stub();
       cy.mount(<ElementRelationships {...defaultProps} onUpdateRelationship={onUpdateRelationship} />);
       
-      cy.get('[data-testid="edit-relationship-r1"]').click();
+      cy.get('[data-cy="edit-relationship-r1"]').click();
       
       // * Update description
-      cy.get('[data-testid="relationship-description"]').clear().type('New description');
+      cy.get('[data-cy="relationship-description"]').clear().type('New description');
       
       // Save
-      cy.get('[data-testid="save-relationship"]').click();
+      cy.get('[data-cy="save-relationship"]').click();
       
       cy.wrap(onUpdateRelationship).should('have.been.calledWith', 'r1', {
         description: 'New description'
@@ -456,50 +582,67 @@ describe('ElementRelationships', () => {
       const onRemoveRelationship = cy.stub();
       cy.mount(<ElementRelationships {...defaultProps} onRemoveRelationship={onRemoveRelationship} />);
       
-      cy.get('[data-testid="remove-relationship-r1"]').click();
+      cy.get('[data-cy="remove-relationship-r1"]').click();
       
       // * Confirm deletion
       cy.contains('Are you sure').should('be.visible');
-      cy.get('[data-testid="confirm-delete"]').click();
+      cy.get('[data-cy="confirm-delete"]').click();
       
       cy.wrap(onRemoveRelationship).should('have.been.calledWith', 'r1');
     });
   });
   
   describe('Relationship Visualization', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('shows relationship graph view', () => {
       cy.mount(<ElementRelationships {...defaultProps} />);
       
-      cy.get('[data-testid="view-graph"]').click();
-      cy.get('[data-testid="relationship-graph"]').should('be.visible');
+      cy.get('[data-cy="view-graph"]').click();
+      cy.get('[data-cy="relationship-graph"]').should('be.visible');
     });
     
     it('toggles between list and graph views', () => {
       cy.mount(<ElementRelationships {...defaultProps} />);
       
       // * Start in list view
-      cy.get('[data-testid="relationships-list"]').should('be.visible');
+      cy.get('[data-cy="relationships-list"]').should('be.visible');
       
       // * Switch to graph view
-      cy.get('[data-testid="view-graph"]').click();
-      cy.get('[data-testid="relationship-graph"]').should('be.visible');
-      cy.get('[data-testid="relationships-list"]').should('not.exist');
+      cy.get('[data-cy="view-graph"]').click();
+      cy.get('[data-cy="relationship-graph"]').should('be.visible');
+      cy.get('[data-cy="relationships-list"]').should('not.exist');
       
       // * Switch back to list view
-      cy.get('[data-testid="view-list"]').click();
-      cy.get('[data-testid="relationships-list"]').should('be.visible');
-      cy.get('[data-testid="relationship-graph"]').should('not.exist');
+      cy.get('[data-cy="view-list"]').click();
+      cy.get('[data-cy="relationships-list"]').should('be.visible');
+      cy.get('[data-cy="relationship-graph"]').should('not.exist');
     });
   });
 });
 
 describe('ElementTags', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
+  
   const mockTags = ['fantasy', 'magic', 'adventure', 'quest'];
   const mockSuggestedTags = ['epic', 'hero', 'dragon', 'sword'];
   
   let defaultProps: any;
   
-  beforeEach(() => {
+  beforeEach(function() {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
+    // * Clean state before each test
+    cy.cleanState();
+
     defaultProps = {
       tags: mockTags,
       suggestedTags: mockSuggestedTags,
@@ -510,27 +653,32 @@ describe('ElementTags', () => {
   });
   
   describe('Rendering', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('renders tag list', () => {
       cy.mount(<ElementTags {...defaultProps} />);
       
-      cy.get('[data-testid="tag-list"]').should('be.visible');
+      cy.get('[data-cy="tag-list"]').should('be.visible');
       cy.get('[data-cy^="tag-"]').should('have.length', 4);
     });
     
-    it('shows each tag with remove [data-cy*="button"]', () => {
+    it('shows each tag with remove button', () => {
       cy.mount(<ElementTags {...defaultProps} />);
       
       mockTags.forEach(tag => {
-        cy.get(`[data-testid="tag-${tag}"]`).should('contain', tag);
-        cy.get(`[data-testid="remove-tag-${tag}"]`).should('be.visible');
+        cy.get(`[data-cy="tag-${tag}"]`).should('contain', tag);
+        cy.get(`[data-cy="remove-tag-${tag}"]`).should('be.visible');
       });
     });
     
     it('shows tag input field', () => {
       cy.mount(<ElementTags {...defaultProps} />);
       
-      cy.get('[data-testid="tag-input"]').should('be.visible');
-      cy.get('[data-testid="tag-input"]').should('have.attr', 'placeholder', 'Add a tag...');
+      cy.get('[data-cy="tag-input"]').should('be.visible');
+      cy.get('[data-cy="tag-input"]').should('have.attr', 'placeholder', 'Add a tag...');
     });
     
     it('shows suggested tags', () => {
@@ -538,17 +686,22 @@ describe('ElementTags', () => {
       
       cy.contains('Suggested tags').should('be.visible');
       mockSuggestedTags.forEach(tag => {
-        cy.get(`[data-testid="suggested-tag-${tag}"]`).should('be.visible');
+        cy.get(`[data-cy="suggested-tag-${tag}"]`).should('be.visible');
       });
     });
   });
   
   describe('Adding Tags', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('adds tag via input field', () => {
       const onAddTag = cy.stub();
       cy.mount(<ElementTags {...defaultProps} onAddTag={onAddTag} />);
       
-      cy.get('[data-testid="tag-input"]').type('newTag{enter}');
+      cy.get('[data-cy="tag-input"]').type('newTag{enter}');
       cy.wrap(onAddTag).should('have.been.calledWith', 'newTag');
     });
     
@@ -556,7 +709,7 @@ describe('ElementTags', () => {
       const onAddTag = cy.stub();
       cy.mount(<ElementTags {...defaultProps} onAddTag={onAddTag} />);
       
-      cy.get('[data-testid="suggested-tag-epic"]').click();
+      cy.get('[data-cy="suggested-tag-epic"]').click();
       cy.wrap(onAddTag).should('have.been.calledWith', 'epic');
     });
     
@@ -564,7 +717,7 @@ describe('ElementTags', () => {
       const onAddTag = cy.stub();
       cy.mount(<ElementTags {...defaultProps} onAddTag={onAddTag} />);
       
-      cy.get('[data-testid="tag-input"]').type('fantasy{enter}');
+      cy.get('[data-cy="tag-input"]').type('fantasy{enter}');
       cy.wrap(onAddTag).should('not.have.been.called');
       cy.contains('Tag already exists').should('be.visible');
     });
@@ -574,21 +727,26 @@ describe('ElementTags', () => {
       cy.mount(<ElementTags {...defaultProps} onAddTag={onAddTag} />);
       
       // * Empty tag
-      cy.get('[data-testid="tag-input"]').type('{enter}');
+      cy.get('[data-cy="tag-input"]').type('{enter}');
       cy.wrap(onAddTag).should('not.have.been.called');
       
       // * Tag with special characters
-      cy.get('[data-testid="tag-input"]').type('tag@#${enter}');
+      cy.get('[data-cy="tag-input"]').type('tag@#${enter}');
       cy.contains('Invalid characters').should('be.visible');
     });
   });
   
   describe('Removing Tags', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('removes tag on click', () => {
       const onRemoveTag = cy.stub();
       cy.mount(<ElementTags {...defaultProps} onRemoveTag={onRemoveTag} />);
       
-      cy.get('[data-testid="remove-tag-fantasy"]').click();
+      cy.get('[data-cy="remove-tag-fantasy"]').click();
       cy.wrap(onRemoveTag).should('have.been.calledWith', 'fantasy');
     });
     
@@ -596,39 +754,49 @@ describe('ElementTags', () => {
       const onRemoveTag = cy.stub();
       cy.mount(<ElementTags {...defaultProps} onRemoveTag={onRemoveTag} />);
       
-      cy.get('[data-testid="tag-input"]').type('{backspace}');
+      cy.get('[data-cy="tag-input"]').type('{backspace}');
       cy.wrap(onRemoveTag).should('have.been.calledWith', 'quest');
     });
   });
   
   describe('Tag Reordering', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('reorders tags via drag and drop', () => {
       const onReorderTags = cy.stub();
       cy.mount(<ElementTags {...defaultProps} onReorderTags={onReorderTags} />);
       
       // * Simulate drag and drop
-      cy.get('[data-testid="tag-fantasy"]').trigger('dragstart');
-      cy.get('[data-testid="tag-adventure"]').trigger('drop');
+      cy.get('[data-cy="tag-fantasy"]').trigger('dragstart');
+      cy.get('[data-cy="tag-adventure"]').trigger('drop');
       
       cy.wrap(onReorderTags).should('have.been.called');
     });
   });
   
   describe('Autocomplete', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('shows autocomplete suggestions while typing', () => {
       cy.mount(<ElementTags {...defaultProps} />);
       
-      cy.get('[data-testid="tag-input"]').type('ep');
-      cy.get('[data-testid="autocomplete-suggestions"]').should('be.visible');
+      cy.get('[data-cy="tag-input"]').type('ep');
+      cy.get('[data-cy="autocomplete-suggestions"]').should('be.visible');
       cy.contains('epic').should('be.visible');
     });
     
-    it('[data-cy*="select"]s autocomplete suggestion', () => {
+    it('selects autocomplete suggestion', () => {
       const onAddTag = cy.stub();
       cy.mount(<ElementTags {...defaultProps} onAddTag={onAddTag} />);
       
-      cy.get('[data-testid="tag-input"]').type('ep');
-      cy.get('[data-testid="autocomplete-epic"]').click();
+      cy.get('[data-cy="tag-input"]').type('ep');
+      cy.get('[data-cy="autocomplete-epic"]').click();
       
       cy.wrap(onAddTag).should('have.been.calledWith', 'epic');
     });
@@ -637,21 +805,26 @@ describe('ElementTags', () => {
       const onAddTag = cy.stub();
       cy.mount(<ElementTags {...defaultProps} onAddTag={onAddTag} />);
       
-      cy.get('[data-testid="tag-input"]').type('e');
-      cy.get('[data-testid="tag-input"]').type('{downarrow}');
-      cy.get('[data-testid="autocomplete-epic"]').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
-      cy.get('[data-testid="tag-input"]').type('{enter}');
+      cy.get('[data-cy="tag-input"]').type('e');
+      cy.get('[data-cy="tag-input"]').type('{downarrow}');
+      cy.get('[data-cy="autocomplete-epic"]').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
+      cy.get('[data-cy="tag-input"]').type('{enter}');
       
       cy.wrap(onAddTag).should('have.been.calledWith', 'epic');
     });
   });
   
   describe('Accessibility', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('has proper ARIA labels', () => {
       cy.mount(<ElementTags {...defaultProps} />);
       
-      cy.get('[data-testid="tag-list"]').should('have.attr', 'role', 'list');
-      cy.get('[data-testid="tag-fantasy"]').should('have.attr', 'role', 'listitem');
+      cy.get('[data-cy="tag-list"]').should('have.attr', 'role', 'list');
+      cy.get('[data-cy="tag-fantasy"]').should('have.attr', 'role', 'listitem');
     });
     
     it('announces tag operations to screen readers', () => {

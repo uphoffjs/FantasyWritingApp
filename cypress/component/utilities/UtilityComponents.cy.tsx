@@ -1,3 +1,18 @@
+/**
+ * @fileoverview Utility Components Component Tests
+ * Tests for US-X.X: [User Story Name]
+ *
+ * User Story:
+ * As a [user type]
+ * I want to [action]
+ * So that [benefit]
+ *
+ * Acceptance Criteria:
+ * - [Criterion 1]
+ * - [Criterion 2]
+ * - [Criterion 3]
+ */
+
 /// <reference types="cypress" />
 import React from 'react';
 import { ResourceHints } from '../../../src/components/ResourceHints';
@@ -13,7 +28,23 @@ import { ProjectSortDropdown } from '../../../src/components/ProjectSortDropdown
 import { TagManager } from '../../../src/components/TagManager';
 
 describe('ResourceHints', () => {
+  beforeEach(function() {
+    // ! Essential debug and state management
+    cy.comprehensiveDebug();
+    cy.cleanState();
+  });
+
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
   describe('Rendering', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('renders without visible UI', () => {
       cy.mount(<ResourceHints />);
       
@@ -66,6 +97,11 @@ describe('ResourceHints', () => {
   });
   
   describe('Cleanup', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('component unmounts cleanly', () => {
       // * First mount the component
       cy.mount(<ResourceHints />);
@@ -78,6 +114,12 @@ describe('ResourceHints', () => {
 });
 
 describe('ValidationPanel', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
+  
   const defaultProps = {
     questionType: 'text' as const,
     validation: {},
@@ -85,6 +127,11 @@ describe('ValidationPanel', () => {
   };
   
   describe('Rendering', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('renders validation panel', () => {
       cy.mount(<ValidationPanel {...defaultProps} />);
       
@@ -114,6 +161,11 @@ describe('ValidationPanel', () => {
   });
   
   describe('Text Validation', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('handles min length changes', () => {
       const onChange = cy.stub();
       cy.mount(<ValidationPanel {...defaultProps} onChange={onChange} />);
@@ -154,6 +206,11 @@ describe('ValidationPanel', () => {
   });
   
   describe('Number Validation', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('handles min value changes', () => {
       const onChange = cy.stub();
       cy.mount(<ValidationPanel {...defaultProps} questionType="number" onChange={onChange} />);
@@ -172,6 +229,11 @@ describe('ValidationPanel', () => {
   });
   
   describe('Custom Error Message', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('handles custom error message', () => {
       const onChange = cy.stub();
       cy.mount(<ValidationPanel {...defaultProps} onChange={onChange} />);
@@ -184,6 +246,11 @@ describe('ValidationPanel', () => {
   });
   
   describe('Edge Cases', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('handles existing validation values', () => {
       const validation = { 
         minLength: 5, 
@@ -214,12 +281,23 @@ describe('ValidationPanel', () => {
 });
 
 describe('LazyImage', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
+  
   const defaultProps = {
     src: 'https://example.com/image.jpg',
     alt: 'Test image'
   };
   
   describe('Rendering', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('renders with loading placeholder initially', () => {
       cy.mount(<LazyImage {...defaultProps} />);
       
@@ -244,11 +322,16 @@ describe('LazyImage', () => {
       cy.mount(<LazyImage {...defaultProps} />);
       
       // * Check for loading indicator
-      cy.get('[data-testid="image-loading"]').should('exist');
+      cy.get('[data-cy="image-loading"]').should('exist');
     });
   });
   
   describe('Intersection Observer', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('lazy loads when in viewport', () => {
       cy.mount(
         <div style={{ height: '2000px' }}>
@@ -269,11 +352,16 @@ describe('LazyImage', () => {
   });
   
   describe('Error Handling', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('shows error state on load failure', () => {
       cy.mount(<LazyImage src="invalid-url" alt="Error test" />);
       
       // ? TODO: * Should show error state
-      cy.get('[data-testid="image-error"]').should('be.visible');
+      cy.get('[data-cy="image-error"]').should('be.visible');
     });
     
     it('shows fallback on error', () => {
@@ -281,16 +369,22 @@ describe('LazyImage', () => {
         <LazyImage 
           src="invalid-url" 
           alt="Error test"
-          fallback={<div data-testid="fallback">Image failed</div>}
+          fallback={<div data-cy="fallback">Image failed</div>}
         />
       );
       
-      cy.get('[data-testid="fallback"]').should('be.visible');
+      cy.get('[data-cy="fallback"]').should('be.visible');
     });
   });
 });
 
 describe('ProjectSearchBar', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
+  
   const defaultProps = {
     value: '',
     onChange: cy.stub(),
@@ -298,6 +392,11 @@ describe('ProjectSearchBar', () => {
   };
   
   describe('Rendering', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('renders search input', () => {
       cy.mount(<ProjectSearchBar {...defaultProps} />);
       
@@ -318,6 +417,11 @@ describe('ProjectSearchBar', () => {
   });
   
   describe('User Interactions', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('handles input changes', () => {
       const onChange = cy.stub();
       cy.mount(<ProjectSearchBar {...defaultProps} onChange={onChange} />);
@@ -326,17 +430,17 @@ describe('ProjectSearchBar', () => {
       cy.wrap(onChange).should('have.been.called');
     });
     
-    it('shows clear [data-cy*="button"] when has value', () => {
+    it('shows clear button when has value', () => {
       cy.mount(<ProjectSearchBar {...defaultProps} value="test" />);
       
-      cy.get('[data-testid="clear-search"]').should('be.visible');
+      cy.get('[data-cy="clear-search"]').should('be.visible');
     });
     
-    it('clears search on clear [data-cy*="button"] click', () => {
+    it('clears search on clear button click', () => {
       const onChange = cy.stub();
       cy.mount(<ProjectSearchBar {...defaultProps} value="test" onChange={onChange} />);
       
-      cy.get('[data-testid="clear-search"]').click();
+      cy.get('[data-cy="clear-search"]').click();
       cy.wrap(onChange).should('have.been.calledWith', '');
     });
     
@@ -356,6 +460,11 @@ describe('ProjectSearchBar', () => {
   });
   
   describe('Keyboard Navigation', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('submits on Enter key', () => {
       const onSubmit = cy.stub();
       cy.mount(<ProjectSearchBar {...defaultProps} onSubmit={onSubmit} />);
@@ -375,6 +484,12 @@ describe('ProjectSearchBar', () => {
 });
 
 describe('ProjectSortDropdown', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
+  
   const defaultProps = {
     value: 'name',
     onChange: cy.stub(),
@@ -386,6 +501,11 @@ describe('ProjectSortDropdown', () => {
   };
   
   describe('Rendering', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('renders sort dropdown', () => {
       cy.mount(<ProjectSortDropdown {...defaultProps} />);
       
@@ -400,6 +520,11 @@ describe('ProjectSortDropdown', () => {
   });
   
   describe('Dropdown Interaction', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('opens dropdown on click', () => {
       cy.mount(<ProjectSortDropdown {...defaultProps} />);
       
@@ -408,7 +533,7 @@ describe('ProjectSortDropdown', () => {
       cy.contains('Last Modified').should('be.visible');
     });
     
-    it('[data-cy*="select"]s option', () => {
+    it('selects option', () => {
       const onChange = cy.stub();
       cy.mount(<ProjectSortDropdown {...defaultProps} onChange={onChange} />);
       
@@ -418,7 +543,7 @@ describe('ProjectSortDropdown', () => {
       cy.wrap(onChange).should('have.been.calledWith', 'date');
     });
     
-    it('closes dropdown after [data-cy*="select"]ion', () => {
+    it('closes dropdown after selection', () => {
       cy.mount(<ProjectSortDropdown {...defaultProps} />);
       
       cy.contains('Name').click();
@@ -432,19 +557,24 @@ describe('ProjectSortDropdown', () => {
       cy.mount(
         <div>
           <ProjectSortDropdown {...defaultProps} />
-          <div data-testid="outside">Outside element</div>
+          <div data-cy="outside">Outside element</div>
         </div>
       );
       
       cy.contains('Name').click();
       cy.contains('Date Created').should('be.visible');
       
-      cy.get('[data-testid="outside"]').click();
+      cy.get('[data-cy="outside"]').click();
       cy.contains('Date Created').should('not.be.visible');
     });
   });
   
   describe('Sort Direction', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('shows sort direction indicator', () => {
       cy.mount(
         <ProjectSortDropdown 
@@ -454,7 +584,7 @@ describe('ProjectSortDropdown', () => {
         />
       );
       
-      cy.get('[data-testid="sort-asc"]').should('be.visible');
+      cy.get('[data-cy="sort-asc"]').should('be.visible');
     });
     
     it('toggles sort direction on same option click', () => {
@@ -477,6 +607,12 @@ describe('ProjectSortDropdown', () => {
 });
 
 describe('TagManager', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
+  
   const defaultProps = {
     tags: ['fantasy', 'magic', 'adventure'],
     availableTags: ['epic', 'quest', 'dragon', 'hero'],
@@ -486,6 +622,11 @@ describe('TagManager', () => {
   };
   
   describe('Rendering', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('renders tag list', () => {
       cy.mount(<TagManager {...defaultProps} />);
       
@@ -494,10 +635,10 @@ describe('TagManager', () => {
       cy.contains('adventure').should('be.visible');
     });
     
-    it('shows add tag [data-cy*="button"]', () => {
+    it('shows add tag button', () => {
       cy.mount(<TagManager {...defaultProps} />);
       
-      cy.get('[data-testid="add-tag-[data-cy*="button"]"]').should('be.visible');
+      cy.get('[data-cy="add-tag-button"]').should('be.visible');
     });
     
     it('shows tag count', () => {
@@ -508,20 +649,25 @@ describe('TagManager', () => {
   });
   
   describe('Adding Tags', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('opens add tag modal', () => {
       cy.mount(<TagManager {...defaultProps} />);
       
-      cy.get('[data-testid="add-tag-[data-cy*="button"]"]').click();
-      cy.get('[data-testid="tag-modal"]').should('be.visible');
+      cy.get('[data-cy="add-tag-button"]').click();
+      cy.get('[data-cy="tag-modal"]').should('be.visible');
     });
     
     it('adds new tag from input', () => {
       const onAdd = cy.stub();
       cy.mount(<TagManager {...defaultProps} onAdd={onAdd} />);
       
-      cy.get('[data-testid="add-tag-[data-cy*="button"]"]').click();
-      cy.get('[data-testid="tag-input"]').type('newTag');
-      cy.get('[data-testid="save-tag"]').click();
+      cy.get('[data-cy="add-tag-button"]').click();
+      cy.get('[data-cy="tag-input"]').type('newTag');
+      cy.get('[data-cy="save-tag"]').click();
       
       cy.wrap(onAdd).should('have.been.calledWith', 'newTag');
     });
@@ -530,56 +676,71 @@ describe('TagManager', () => {
       const onAdd = cy.stub();
       cy.mount(<TagManager {...defaultProps} onAdd={onAdd} />);
       
-      cy.get('[data-testid="add-tag-[data-cy*="button"]"]').click();
-      cy.get('[data-testid="suggested-tag-epic"]').click();
+      cy.get('[data-cy="add-tag-button"]').click();
+      cy.get('[data-cy="suggested-tag-epic"]').click();
       
       cy.wrap(onAdd).should('have.been.calledWith', 'epic');
     });
   });
   
   describe('Removing Tags', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('removes tag on X click', () => {
       const onRemove = cy.stub();
       cy.mount(<TagManager {...defaultProps} onRemove={onRemove} />);
       
-      cy.get('[data-testid="remove-tag-fantasy"]').click();
+      cy.get('[data-cy="remove-tag-fantasy"]').click();
       cy.wrap(onRemove).should('have.been.calledWith', 'fantasy');
     });
     
     it('confirms before removing', () => {
       cy.mount(<TagManager {...defaultProps} confirmRemove={true} />);
       
-      cy.get('[data-testid="remove-tag-fantasy"]').click();
+      cy.get('[data-cy="remove-tag-fantasy"]').click();
       cy.contains('Remove tag?').should('be.visible');
-      cy.get('[data-testid="confirm-remove"]').click();
+      cy.get('[data-cy="confirm-remove"]').click();
     });
   });
   
   describe('Editing Tags', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('enables edit mode on tag click', () => {
       cy.mount(<TagManager {...defaultProps} />);
       
-      cy.get('[data-testid="tag-fantasy"]').click();
-      cy.get('[data-testid="edit-tag-input"]').should('be.visible');
+      cy.get('[data-cy="tag-fantasy"]').click();
+      cy.get('[data-cy="edit-tag-input"]').should('be.visible');
     });
     
     it('saves edited tag', () => {
       const onEdit = cy.stub();
       cy.mount(<TagManager {...defaultProps} onEdit={onEdit} />);
       
-      cy.get('[data-testid="tag-fantasy"]').click();
-      cy.get('[data-testid="edit-tag-input"]').clear().type('epic-fantasy');
-      cy.get('[data-testid="save-edit"]').click();
+      cy.get('[data-cy="tag-fantasy"]').click();
+      cy.get('[data-cy="edit-tag-input"]').clear().type('epic-fantasy');
+      cy.get('[data-cy="save-edit"]').click();
       
       cy.wrap(onEdit).should('have.been.calledWith', 'fantasy', 'epic-fantasy');
     });
   });
   
   describe('Search and Filter', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('filters tags by search', () => {
       cy.mount(<TagManager {...defaultProps} />);
       
-      cy.get('[data-testid="tag-search"]').type('mag');
+      cy.get('[data-cy="tag-search"]').type('mag');
       cy.contains('magic').should('be.visible');
       cy.contains('fantasy').should('not.be.visible');
     });
@@ -587,7 +748,7 @@ describe('TagManager', () => {
     it('shows no results message', () => {
       cy.mount(<TagManager {...defaultProps} />);
       
-      cy.get('[data-testid="tag-search"]').type('xyz');
+      cy.get('[data-cy="tag-search"]').type('xyz');
       cy.contains('No tags found').should('be.visible');
     });
   });

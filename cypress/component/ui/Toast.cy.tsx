@@ -1,3 +1,18 @@
+/**
+ * @fileoverview Toast Component Tests
+ * Tests for US-X.X: [User Story Name]
+ *
+ * User Story:
+ * As a [user type]
+ * I want to [action]
+ * So that [benefit]
+ *
+ * Acceptance Criteria:
+ * - [Criterion 1]
+ * - [Criterion 2]
+ * - [Criterion 3]
+ */
+
 import React from 'react';
 import { ToastContainer } from '../../../src/components/Toast';
 import { useToastStore } from '../../../src/store/toastStore';
@@ -10,76 +25,75 @@ const ToastTestWrapper = () => {
 
   return (
     <div>
-      <[data-cy*="button"] 
-        data-testid="add-success-toast"
+      <button 
+        data-cy="add-success-toast"
         onClick={() => addToast({
           type: 'success',
           title: 'Success!',
           message: 'Operation completed successfully',
           duration: 0 // Prevent auto-dismiss for testing
-        })}
+        });}
       >
         Add Success Toast
-      </[data-cy*="button"]>
+      </button>
       
-      <[data-cy*="button"] 
-        data-testid="add-error-toast"
+      <button 
+        data-cy="add-error-toast"
         onClick={() => addToast({
           type: 'error',
           title: 'Error!',
           message: 'Something went wrong',
           duration: 0
-        })}
+        });}
       >
         Add Error Toast
-      </[data-cy*="button"]>
+      </button>
       
-      <[data-cy*="button"] 
-        data-testid="add-info-toast"
+      <button 
+        data-cy="add-info-toast"
         onClick={() => addToast({
           type: 'info',
           title: 'Information',
           message: 'Here is some information',
           duration: 0
-        })}
+        });}
       >
         Add Info Toast
-      </[data-cy*="button"]>
+      </button>
       
-      <[data-cy*="button"] 
-        data-testid="add-warning-toast"
+      <button 
+        data-cy="add-warning-toast"
         onClick={() => addToast({
           type: 'warning',
           title: 'Warning!',
           message: 'Please be careful',
           duration: 0
-        })}
+        });}
       >
         Add Warning Toast
-      </[data-cy*="button"]>
+      </button>
       
-      <[data-cy*="button"] 
-        data-testid="add-toast-with-action"
+      <button 
+        data-cy="add-toast-with-action"
         onClick={() => addToast({
           type: 'success',
           title: 'Action Required',
-          message: 'Click the action [data-cy*="button"]',
+          message: 'Click the action button',
           action: {
             label: 'Undo',
-            onClick: () => console.log('Action clicked')
-          },
+            onClick: () =>},
           duration: 0
-        })}
+        });}
       >
         Add Toast with Action
-      </[data-cy*="button"]>
+      </button>
       
-      <[data-cy*="button"] 
-        data-testid="clear-all-toasts"
+      <button 
+        data-cy="clear-all-toasts"
         onClick={() => clearAllToasts()}
       >
         Clear All Toasts
-      </[data-cy*="button"]>
+      </button>
       
       <ToastContainer />
     </div>
@@ -87,18 +101,34 @@ const ToastTestWrapper = () => {
 };
 
 describe('Toast Component', () => {
-  beforeEach(() => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
+  beforeEach(function() {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
+    // * Clean state before each test
+    cy.cleanState();
+
     // * Clear any existing toasts before each test
     cy.mount(<ToastTestWrapper />);
     // * Wait to let component initialize
     cy.wait(100);
-    // TODO: * Use should to ensure [data-cy*="button"] exists before clicking
-    cy.get('[data-testid="clear-all-toasts"]').should('exist').click();
+    // TODO: * Use should to ensure button exists before clicking
+    cy.get('[data-cy="clear-all-toasts"]').should('exist').click();
   });
 
   describe('Rendering', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('renders success toast correctly', () => {
-      cy.get('[data-testid="add-success-toast"]').click();
+      cy.get('[data-cy="add-success-toast"]').click();
       
       cy.contains('Success!').should('be.visible');
       cy.contains('Operation completed successfully').should('be.visible');
@@ -112,7 +142,7 @@ describe('Toast Component', () => {
     });
 
     it('renders error toast correctly', () => {
-      cy.get('[data-testid="add-error-toast"]').click();
+      cy.get('[data-cy="add-error-toast"]').click();
       
       cy.contains('Error!').should('be.visible');
       cy.contains('Something went wrong').should('be.visible');
@@ -121,13 +151,13 @@ describe('Toast Component', () => {
       cy.get('[class*="border-blood-500"]').should('exist');
       cy.get('[class*="text-blood-400"]').should('exist');
       
-      // TODO: * Error toasts should have Details [data-cy*="button"]
+      // TODO: * Error toasts should have Details button
       cy.contains('Details').should('be.visible');
       cy.contains('Dismiss').should('be.visible');
     });
 
     it('renders info toast correctly', () => {
-      cy.get('[data-testid="add-info-toast"]').click();
+      cy.get('[data-cy="add-info-toast"]').click();
       
       cy.contains('Information').should('be.visible');
       cy.contains('Here is some information').should('be.visible');
@@ -138,7 +168,7 @@ describe('Toast Component', () => {
     });
 
     it('renders warning toast correctly', () => {
-      cy.get('[data-testid="add-warning-toast"]').click();
+      cy.get('[data-cy="add-warning-toast"]').click();
       
       cy.contains('Warning!').should('be.visible');
       cy.contains('Please be careful').should('be.visible');
@@ -161,14 +191,19 @@ describe('Toast Component', () => {
   });
 
   describe('Toast Actions', () => {
-    it('renders action [data-cy*="button"] when provided', () => {
-      cy.get('[data-testid="add-toast-with-action"]').click();
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
+    it('renders action button when provided', () => {
+      cy.get('[data-cy="add-toast-with-action"]').click();
       
       cy.contains('Action Required').should('be.visible');
       cy.contains('Undo').should('be.visible');
     });
 
-    it('calls action onClick when action [data-cy*="button"] is clicked', () => {
+    it('calls action onClick when action button is clicked', () => {
       const actionSpy = cy.spy().as('actionClick');
       const addToast = useToastStore.getState().addToast;
       
@@ -186,29 +221,34 @@ describe('Toast Component', () => {
       cy.get('@actionClick').should('have.been.calledOnce');
     });
 
-    it('dismisses toast when dismiss [data-cy*="button"] is clicked', () => {
-      cy.get('[data-testid="add-error-toast"]').click();
+    it('dismisses toast when dismiss button is clicked', () => {
+      cy.get('[data-cy="add-error-toast"]').click();
       
       cy.contains('Error!').should('be.visible');
       cy.contains('Dismiss').click();
       cy.contains('Error!').should('not.exist');
     });
 
-    it('dismisses toast when X [data-cy*="button"] is clicked (non-error toasts)', () => {
-      cy.get('[data-testid="add-success-toast"]').click();
+    it('dismisses toast when X button is clicked (non-error toasts)', () => {
+      cy.get('[data-cy="add-success-toast"]').click();
       
       cy.contains('Success!').should('be.visible');
       
-      // * Find and click the X [data-cy*="button"]
-      cy.get('[data-cy*="button"]').find('svg').parent().last().click();
+      // * Find and click the X button
+      cy.get('button').find('svg').parent().last().click();
       
       cy.contains('Success!').should('not.exist');
     });
   });
 
   describe('Error Toast Details', () => {
-    it('expands error details when Details [data-cy*="button"] is clicked', () => {
-      cy.get('[data-testid="add-error-toast"]').click();
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
+    it('expands error details when Details button is clicked', () => {
+      cy.get('[data-cy="add-error-toast"]').click();
       
       // TODO: * Initially, the detailed view should not be visible
       cy.get('pre').should('not.exist');
@@ -222,8 +262,8 @@ describe('Toast Component', () => {
       cy.get('svg[class*="ChevronUp"]').should('exist');
     });
 
-    it('collapses error details when Details [data-cy*="button"] is clicked again', () => {
-      cy.get('[data-testid="add-error-toast"]').click();
+    it('collapses error details when Details button is clicked again', () => {
+      cy.get('[data-cy="add-error-toast"]').click();
       
       cy.contains('Details').click();
       cy.get('pre').should('be.visible');
@@ -234,10 +274,15 @@ describe('Toast Component', () => {
   });
 
   describe('Multiple Toasts', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('displays multiple toasts simultaneously', () => {
-      cy.get('[data-testid="add-success-toast"]').click();
-      cy.get('[data-testid="add-error-toast"]').click();
-      cy.get('[data-testid="add-info-toast"]').click();
+      cy.get('[data-cy="add-success-toast"]').click();
+      cy.get('[data-cy="add-error-toast"]').click();
+      cy.get('[data-cy="add-info-toast"]').click();
       
       cy.contains('Success!').should('be.visible');
       cy.contains('Error!').should('be.visible');
@@ -245,26 +290,26 @@ describe('Toast Component', () => {
     });
 
     it('removes specific toast without affecting others', () => {
-      cy.get('[data-testid="add-success-toast"]').click();
-      cy.get('[data-testid="add-error-toast"]').click();
+      cy.get('[data-cy="add-success-toast"]').click();
+      cy.get('[data-cy="add-error-toast"]').click();
       
       // * Dismiss the success toast
-      cy.contains('Success!').parent().parent().find('[data-cy*="button"]').last().click();
+      cy.contains('Success!').parent().parent().find('button').last().click();
       
       cy.contains('Success!').should('not.exist');
       cy.contains('Error!').should('be.visible');
     });
 
     it('clears all toasts when clearAllToasts is called', () => {
-      cy.get('[data-testid="add-success-toast"]').click();
-      cy.get('[data-testid="add-error-toast"]').click();
-      cy.get('[data-testid="add-info-toast"]').click();
+      cy.get('[data-cy="add-success-toast"]').click();
+      cy.get('[data-cy="add-error-toast"]').click();
+      cy.get('[data-cy="add-info-toast"]').click();
       
       cy.contains('Success!').should('be.visible');
       cy.contains('Error!').should('be.visible');
       cy.contains('Information').should('be.visible');
       
-      cy.get('[data-testid="clear-all-toasts"]').click();
+      cy.get('[data-cy="clear-all-toasts"]').click();
       
       cy.contains('Success!').should('not.exist');
       cy.contains('Error!').should('not.exist');
@@ -273,8 +318,13 @@ describe('Toast Component', () => {
   });
 
   describe('Auto-dismiss Behavior', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('auto-dismisses non-error toasts after duration', () => {
-      // * Add toast through [data-cy*="button"] to ensure proper state update
+      // * Add toast through button to ensure proper state update
       cy.window().then((win) => {
         const { addToast } = useToastStore.getState();
         addToast({
@@ -332,15 +382,20 @@ describe('Toast Component', () => {
   });
 
   describe('Responsive Design', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('positions toasts at bottom on mobile', () => {
       cy.viewport(375, 667);
       cy.mount(<ToastTestWrapper />);
       
       // * Wait for component to be ready
       cy.wait(100);
-      cy.get('[data-testid="clear-all-toasts"]').should('exist').click();
+      cy.get('[data-cy="clear-all-toasts"]').should('exist').click();
       
-      cy.get('[data-testid="add-success-toast"]').click();
+      cy.get('[data-cy="add-success-toast"]').click();
       
       // TODO: * On mobile, toasts should be positioned at the bottom
       cy.get('.fixed').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
@@ -352,9 +407,9 @@ describe('Toast Component', () => {
       
       // * Wait for component to be ready
       cy.wait(100);
-      cy.get('[data-testid="clear-all-toasts"]').should('exist').click();
+      cy.get('[data-cy="clear-all-toasts"]').should('exist').click();
       
-      cy.get('[data-testid="add-success-toast"]').click();
+      cy.get('[data-cy="add-success-toast"]').click();
       
       // TODO: * On desktop, toasts should be positioned at the top-right
       cy.get('.fixed').should('be.visible') // React Native Web uses inline styles instead of CSS classes.and('have.class', 'right-4');
@@ -366,15 +421,20 @@ describe('Toast Component', () => {
       
       // * Wait for component to be ready
       cy.wait(100);
-      cy.get('[data-testid="clear-all-toasts"]').should('exist').click();
+      cy.get('[data-cy="clear-all-toasts"]').should('exist').click();
       
-      cy.get('[data-testid="add-success-toast"]').click();
+      cy.get('[data-cy="add-success-toast"]').click();
       
       cy.contains('Success!').should('be.visible');
     });
   });
 
   describe('Edge Cases', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('handles very long titles', () => {
       const addToast = useToastStore.getState().addToast;
       const longTitle = 'A'.repeat(100);
@@ -404,7 +464,7 @@ describe('Toast Component', () => {
 
     it('handles rapid toast additions', () => {
       for (let i = 0; i < 5; i++) {
-        cy.get('[data-testid="add-success-toast"]').click();
+        cy.get('[data-cy="add-success-toast"]').click();
       }
       
       // TODO: * Should have 5 toasts visible
@@ -426,8 +486,13 @@ describe('Toast Component', () => {
   });
 
   describe('Accessibility', () => {
-    it('dismiss [data-cy*="button"] is keyboard accessible', () => {
-      cy.get('[data-testid="add-error-toast"]').click();
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
+    it('dismiss button is keyboard accessible', () => {
+      cy.get('[data-cy="add-error-toast"]').click();
       
       cy.contains('Dismiss').focus();
       cy.focused().should('contain', 'Dismiss');
@@ -436,7 +501,7 @@ describe('Toast Component', () => {
       cy.contains('Error!').should('not.exist');
     });
 
-    it('action [data-cy*="button"] is keyboard accessible', () => {
+    it('action button is keyboard accessible', () => {
       const actionSpy = cy.spy().as('actionClick');
       const addToast = useToastStore.getState().addToast;
       
@@ -456,8 +521,8 @@ describe('Toast Component', () => {
       cy.get('@actionClick').should('have.been.calledOnce');
     });
 
-    it('details [data-cy*="button"] is keyboard accessible', () => {
-      cy.get('[data-testid="add-error-toast"]').click();
+    it('details button is keyboard accessible', () => {
+      cy.get('[data-cy="add-error-toast"]').click();
       
       cy.contains('Details').focus();
       cy.focused().type('{enter}');

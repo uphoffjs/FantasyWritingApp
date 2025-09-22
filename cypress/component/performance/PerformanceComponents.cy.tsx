@@ -1,3 +1,18 @@
+/**
+ * @fileoverview Performance Components Component Tests
+ * Tests for US-X.X: [User Story Name]
+ *
+ * User Story:
+ * As a [user type]
+ * I want to [action]
+ * So that [benefit]
+ *
+ * Acceptance Criteria:
+ * - [Criterion 1]
+ * - [Criterion 2]
+ * - [Criterion 3]
+ */
+
 import React from 'react';
 import { PerformanceMonitorComponent } from '../../../src/components/PerformanceMonitor';
 import { PerformanceDashboard } from '../../../src/components/PerformanceDashboard';
@@ -19,10 +34,16 @@ const mockUsePerformanceMetrics = {
 
 // * Test component for profiler
 const TestComponent: React.FC<{ text: string }> = ({ text }) => (
-  <div data-testid="test-component">{text}</div>
+  <div data-cy="test-component">{text}</div>
 );
 
 describe('PerformanceMonitorComponent', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
+  
   const mockReport = {
     fps: 60,
     avgRenderTime: 12.5,
@@ -39,16 +60,27 @@ describe('PerformanceMonitorComponent', () => {
     ]
   };
 
-  beforeEach(() => {
+  beforeEach(function() {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
+    // * Clean state before each test
+    cy.cleanState();
+
     cy.stub(window, 'performanceMonitor').value(mockPerformanceMonitor);
     mockPerformanceMonitor.getReport.returns(mockReport);
     mockPerformanceMonitor.clear.reset();
   });
 
   describe('Rendering', () => {
-    it('renders collapsed [data-cy*="button"] by default', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
+    it('renders collapsed button by default', () => {
       cy.mount(<PerformanceMonitorComponent />);
-      cy.get('[data-cy*="button"][title="Show Performance Monitor"]').should('be.visible');
+      cy.get('button[title="Show Performance Monitor"]').should('be.visible');
       cy.get('.lucide-activity').should('be.visible');
     });
 
@@ -66,7 +98,7 @@ describe('PerformanceMonitorComponent', () => {
       });
       
       cy.mount(<PerformanceMonitorComponent />);
-      cy.get('[data-cy*="button"][title="Show Performance Monitor"]').should('not.exist');
+      cy.get('button[title="Show Performance Monitor"]').should('not.exist');
       
       Object.defineProperty(process.env, 'NODE_ENV', {
         value: originalEnv,
@@ -87,6 +119,11 @@ describe('PerformanceMonitorComponent', () => {
   });
 
   describe('Metrics Display', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('displays FPS metric', () => {
       cy.mount(<PerformanceMonitorComponent defaultOpen={true} />);
       cy.contains('FPS').should('be.visible');
@@ -145,26 +182,31 @@ describe('PerformanceMonitorComponent', () => {
   });
 
   describe('Interactions', () => {
-    it('toggles expanded state when [data-cy*="button"] clicked', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
+    it('toggles expanded state when button clicked', () => {
       cy.mount(<PerformanceMonitorComponent />);
-      cy.get('[data-cy*="button"][title="Show Performance Monitor"]').click();
+      cy.get('button[title="Show Performance Monitor"]').click();
       cy.contains('Performance Monitor').should('be.visible');
     });
 
-    it('closes when X [data-cy*="button"] clicked', () => {
+    it('closes when X button clicked', () => {
       cy.mount(<PerformanceMonitorComponent defaultOpen={true} />);
-      cy.get('[data-cy*="button"]').contains('×').parent().click();
+      cy.get('button').contains('×').parent().click();
       cy.contains('Performance Monitor').should('not.exist');
-      cy.get('[data-cy*="button"][title="Show Performance Monitor"]').should('be.visible');
+      cy.get('button[title="Show Performance Monitor"]').should('be.visible');
     });
 
-    it('clears metrics when Clear [data-cy*="button"] clicked', () => {
+    it('clears metrics when Clear button clicked', () => {
       cy.mount(<PerformanceMonitorComponent defaultOpen={true} />);
       cy.contains('Clear Metrics').click();
       expect(mockPerformanceMonitor.clear).to.have.been.called;
     });
 
-    it('logs to console when Log [data-cy*="button"] clicked', () => {
+    it('logs to console when Log button clicked', () => {
       cy.stub(console, 'log');
       cy.mount(<PerformanceMonitorComponent defaultOpen={true} />);
       cy.contains('Log to Console').click();
@@ -173,6 +215,11 @@ describe('PerformanceMonitorComponent', () => {
   });
 
   describe('Auto-update', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('updates report every 2 seconds when open', () => {
       cy.clock();
       cy.mount(<PerformanceMonitorComponent defaultOpen={true} />);
@@ -203,7 +250,7 @@ describe('PerformanceMonitorComponent', () => {
       cy.mount(<PerformanceMonitorComponent defaultOpen={true} />);
       
       mockPerformanceMonitor.getReport.reset();
-      cy.get('[data-cy*="button"]').contains('×').parent().click();
+      cy.get('button').contains('×').parent().click();
       
       cy.tick(2000);
       expect(mockPerformanceMonitor.getReport).not.to.have.been.called;
@@ -211,6 +258,11 @@ describe('PerformanceMonitorComponent', () => {
   });
 
   describe('Edge Cases', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('handles null memory usage', () => {
       mockPerformanceMonitor.getReport.returns({
         ...mockReport,
@@ -254,6 +306,12 @@ describe('PerformanceMonitorComponent', () => {
 });
 
 describe('PerformanceDashboard Component', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
+  
   const mockSummary = {
     totalMetrics: 500,
     budgetViolations: 3,
@@ -273,7 +331,13 @@ describe('PerformanceDashboard Component', () => {
     { name: 'store_update', value: 35, unit: 'ms', timestamp: Date.now() }
   ];
 
-  beforeEach(() => {
+  beforeEach(function() {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
+    // * Clean state before each test
+    cy.cleanState();
+
     cy.stub(window, 'performanceMonitor').value(mockPerformanceMonitor);
     cy.stub(window, 'usePerformanceMetrics').returns({ metrics: mockMetrics });
     mockPerformanceMonitor.getSummary.returns(mockSummary);
@@ -281,6 +345,11 @@ describe('PerformanceDashboard Component', () => {
   });
 
   describe('Rendering', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('does not render when show is false', () => {
       cy.mount(<PerformanceDashboard show={false} onClose={cy.stub()} />);
       cy.get('.fixed.inset-0').should('not.exist');
@@ -299,6 +368,11 @@ describe('PerformanceDashboard Component', () => {
   });
 
   describe('Web Vitals Display', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('displays LCP metric', () => {
       cy.mount(<PerformanceDashboard show={true} onClose={cy.stub()} />);
       cy.contains('Largest Contentful Paint').should('be.visible');
@@ -335,6 +409,11 @@ describe('PerformanceDashboard Component', () => {
   });
 
   describe('Application Performance', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('displays render time P95', () => {
       cy.mount(<PerformanceDashboard show={true} onClose={cy.stub()} />);
       cy.contains('Render Time (P95)').should('be.visible');
@@ -355,7 +434,12 @@ describe('PerformanceDashboard Component', () => {
   });
 
   describe('Time Window Selection', () => {
-    it('shows time window [data-cy*="button"]s', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
+    it('shows time window buttons', () => {
       cy.mount(<PerformanceDashboard show={true} onClose={cy.stub()} />);
       cy.contains('1m').should('be.visible');
       cy.contains('5m').should('be.visible');
@@ -375,7 +459,7 @@ describe('PerformanceDashboard Component', () => {
       cy.contains('5m').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
     });
 
-    it('displays [data-cy*="select"]ed time window in summary', () => {
+    it('displays selected time window in summary', () => {
       cy.mount(<PerformanceDashboard show={true} onClose={cy.stub()} />);
       cy.contains('Time Window:').parent().contains('5m').should('be.visible');
       
@@ -385,6 +469,11 @@ describe('PerformanceDashboard Component', () => {
   });
 
   describe('Performance Summary', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('displays total metrics count', () => {
       cy.mount(<PerformanceDashboard show={true} onClose={cy.stub()} />);
       cy.contains('Total Metrics:').should('be.visible');
@@ -399,6 +488,11 @@ describe('PerformanceDashboard Component', () => {
   });
 
   describe('Recent Metrics', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('displays recent metrics list', () => {
       cy.mount(<PerformanceDashboard show={true} onClose={cy.stub()} />);
       cy.contains('Recent Metrics').should('be.visible');
@@ -426,20 +520,25 @@ describe('PerformanceDashboard Component', () => {
   });
 
   describe('Interactions', () => {
-    it('closes when X [data-cy*="button"] clicked', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
+    it('closes when X button clicked', () => {
       const onClose = cy.stub();
       cy.mount(<PerformanceDashboard show={true} onClose={onClose} />);
-      cy.get('[data-cy*="button"]').contains('×').click();
+      cy.get('button').contains('×').click();
       expect(onClose).to.have.been.called;
     });
 
-    it('clears metrics when Clear [data-cy*="button"] clicked', () => {
+    it('clears metrics when Clear button clicked', () => {
       cy.mount(<PerformanceDashboard show={true} onClose={cy.stub()} />);
       cy.contains('Clear Metrics').click();
       expect(mockPerformanceMonitor.clearMetrics).to.have.been.called;
     });
 
-    it('exports to console when Export [data-cy*="button"] clicked', () => {
+    it('exports to console when Export button clicked', () => {
       cy.stub(console, 'log');
       cy.stub(console, 'table');
       cy.mount(<PerformanceDashboard show={true} onClose={cy.stub()} />);
@@ -450,6 +549,11 @@ describe('PerformanceDashboard Component', () => {
   });
 
   describe('Auto-update', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('updates summary every second', () => {
       cy.clock();
       cy.mount(<PerformanceDashboard show={true} onClose={cy.stub()} />);
@@ -468,7 +572,7 @@ describe('PerformanceDashboard Component', () => {
       cy.mount(<PerformanceDashboard show={true} onClose={onClose} />);
       
       mockPerformanceMonitor.getSummary.reset();
-      cy.get('[data-cy*="button"]').contains('×').click();
+      cy.get('button').contains('×').click();
       
       cy.tick(1000);
       expect(mockPerformanceMonitor.getSummary).not.to.have.been.called;
@@ -476,6 +580,11 @@ describe('PerformanceDashboard Component', () => {
   });
 
   describe('Edge Cases', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('handles null metrics gracefully', () => {
       mockPerformanceMonitor.getSummary.returns({
         ...mockSummary,
@@ -498,6 +607,11 @@ describe('PerformanceDashboard Component', () => {
   });
 
   describe('Responsive Design', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('adapts grid layout on mobile', () => {
       cy.viewport(375, 667);
       cy.mount(<PerformanceDashboard show={true} onClose={cy.stub()} />);
@@ -513,20 +627,36 @@ describe('PerformanceDashboard Component', () => {
 });
 
 describe('PerformanceProfiler Component', () => {
-  beforeEach(() => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
+  beforeEach(function() {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
+    // * Clean state before each test
+    cy.cleanState();
+
     cy.stub(window, 'performanceMonitor').value(mockPerformanceMonitor);
     mockPerformanceMonitor.recordMetric.reset();
     cy.stub(console, 'warn');
   });
 
   describe('Basic Profiling', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('renders children correctly', () => {
       cy.mount(
         <PerformanceProfiler id="test">
           <TestComponent text="Hello World" />
         </PerformanceProfiler>
       );
-      cy.get('[data-testid="test-component"]').should('contain', 'Hello World');
+      cy.get('[data-cy="test-component"]').should('contain', 'Hello World');
     });
 
     it('records mount metrics', () => {
@@ -567,6 +697,11 @@ describe('PerformanceProfiler Component', () => {
   });
 
   describe('Performance Warnings', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('warns when update render exceeds 16ms', () => {
       // * This test would need actual re-rendering to trigger update phase
       // * For component testing, we'll simulate the callback
@@ -587,6 +722,11 @@ describe('PerformanceProfiler Component', () => {
   });
 
   describe('Wasted Render Detection', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('tracks wasted renders when ratio > 0.5', () => {
       // * Simulate a wasted render scenario
       const onRender = (id, phase, actualDuration, baseDuration) => {
@@ -613,11 +753,16 @@ describe('PerformanceProfiler Component', () => {
   });
 
   describe('HOC withPerformanceProfiler', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('wraps component with profiler', () => {
       const WrappedComponent = withPerformanceProfiler(TestComponent, 'wrapped-test');
       
       cy.mount(<WrappedComponent text="Wrapped" />);
-      cy.get('[data-testid="test-component"]').should('contain', 'Wrapped');
+      cy.get('[data-cy="test-component"]').should('contain', 'Wrapped');
     });
 
     it('preserves display name', () => {
@@ -629,7 +774,7 @@ describe('PerformanceProfiler Component', () => {
       const WrappedComponent = withPerformanceProfiler(TestComponent, 'wrapped-test');
       
       cy.mount(<WrappedComponent text="Props Test" />);
-      cy.get('[data-testid="test-component"]').should('contain', 'Props Test');
+      cy.get('[data-cy="test-component"]').should('contain', 'Props Test');
     });
 
     it('profiles wrapped component', () => {
@@ -649,6 +794,11 @@ describe('PerformanceProfiler Component', () => {
   });
 
   describe('Edge Cases', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('handles zero base duration', () => {
       const onRender = (id, phase, actualDuration, baseDuration) => {
         const wastedRatio = baseDuration > 0 ? (baseDuration - actualDuration) / baseDuration : 0;
@@ -670,7 +820,7 @@ describe('PerformanceProfiler Component', () => {
         </PerformanceProfiler>
       );
       
-      cy.get('[data-testid="test-component"]').should('have.length', 3);
+      cy.get('[data-cy="test-component"]').should('have.length', 3);
     });
 
     it('handles nested profilers', () => {
@@ -684,7 +834,7 @@ describe('PerformanceProfiler Component', () => {
         </PerformanceProfiler>
       );
       
-      cy.get('[data-testid="test-component"]').should('contain', 'Nested');
+      cy.get('[data-cy="test-component"]').should('contain', 'Nested');
       
       cy.wait(10).then(() => {
         // TODO: * Both profilers should record metrics

@@ -1,8 +1,35 @@
+/**
+ * @fileoverview Breadcrumb Component Tests
+ * Tests for US-X.X: [User Story Name]
+ *
+ * User Story:
+ * As a [user type]
+ * I want to [action]
+ * So that [benefit]
+ *
+ * Acceptance Criteria:
+ * - [Criterion 1]
+ * - [Criterion 2]
+ * - [Criterion 3]
+ */
+
 import React from 'react';
 import { Breadcrumb } from '../../../src/components/Breadcrumb';
 import { MemoryRouter } from 'react-router-dom';
 
 describe('Breadcrumb Component', () => {
+  beforeEach(function() {
+    // ! Essential debug and state management
+    cy.comprehensiveDebug();
+    cy.cleanState();
+  });
+
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
+  
   const mountWithRouter = (component: React.ReactNode) => {
     return cy.mount(
       <MemoryRouter>
@@ -12,6 +39,11 @@ describe('Breadcrumb Component', () => {
   };
 
   describe('Rendering', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('renders breadcrumb navigation', () => {
       const items = [
         { label: 'Home', href: '/', dataCy: 'breadcrumb-home' },
@@ -21,7 +53,7 @@ describe('Breadcrumb Component', () => {
 
       mountWithRouter(<Breadcrumb items={items} />);
 
-      cy.get('[data-testid="breadcrumb"]').should('exist');
+      cy.get('[data-cy="breadcrumb"]').should('exist');
       cy.contains('Home').should('be.visible');
       cy.contains('Projects').should('be.visible');
       cy.contains('My Project').should('be.visible');
@@ -59,7 +91,7 @@ describe('Breadcrumb Component', () => {
 
       mountWithRouter(<Breadcrumb items={items} />);
 
-      cy.get('[data-testid="breadcrumb-current"]')
+      cy.get('[data-cy="breadcrumb-current"]')
         .should('have.prop', 'tagName', 'SPAN')
         .and('have.class', 'text-ink-black')
         .and('have.class', 'font-medium');
@@ -74,11 +106,11 @@ describe('Breadcrumb Component', () => {
 
       mountWithRouter(<Breadcrumb items={items} />);
 
-      cy.get('[data-testid="breadcrumb-home"]')
+      cy.get('[data-cy="breadcrumb-home"]')
         .should('have.prop', 'tagName', 'A')
         .and('have.attr', 'href', '/');
 
-      cy.get('[data-testid="breadcrumb-projects"]')
+      cy.get('[data-cy="breadcrumb-projects"]')
         .should('have.prop', 'tagName', 'A')
         .and('have.attr', 'href', '/projects');
     });
@@ -91,15 +123,20 @@ describe('Breadcrumb Component', () => {
 
       mountWithRouter(<Breadcrumb items={items} />);
 
-      cy.get('[data-testid="breadcrumb-static"]')
+      cy.get('[data-cy="breadcrumb-static"]')
         .should('have.prop', 'tagName', 'SPAN');
       
-      cy.get('[data-testid="breadcrumb-static2"]')
+      cy.get('[data-cy="breadcrumb-static2"]')
         .should('have.prop', 'tagName', 'SPAN');
     });
   });
 
   describe('Navigation', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('makes links clickable', () => {
       const items = [
         { label: 'Home', href: '/', dataCy: 'breadcrumb-home' },
@@ -109,10 +146,10 @@ describe('Breadcrumb Component', () => {
 
       mountWithRouter(<Breadcrumb items={items} />);
 
-      cy.get('[data-testid="breadcrumb-home"]').click();
+      cy.get('[data-cy="breadcrumb-home"]').click();
       // * In a real app, this would navigate to '/'
       
-      cy.get('[data-testid="breadcrumb-projects"]').click();
+      cy.get('[data-cy="breadcrumb-projects"]').click();
       // * In a real app, this would navigate to '/projects'
     });
 
@@ -124,13 +161,18 @@ describe('Breadcrumb Component', () => {
 
       mountWithRouter(<Breadcrumb items={items} />);
 
-      cy.get('[data-testid="breadcrumb-current"]')
+      cy.get('[data-cy="breadcrumb-current"]')
         .should('have.prop', 'tagName', 'SPAN')
         .and('not.have.attr', 'href');
     });
   });
 
   describe('Styling', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('applies hover effect to links', () => {
       const items = [
         { label: 'Home', href: '/', dataCy: 'breadcrumb-home' },
@@ -140,10 +182,10 @@ describe('Breadcrumb Component', () => {
 
       mountWithRouter(<Breadcrumb items={items} />);
 
-      cy.get('[data-testid="breadcrumb-home"]')
+      cy.get('[data-cy="breadcrumb-home"]')
         .should('be.visible') // React Native Web uses inline styles instead of CSS classes;
       
-      cy.get('[data-testid="breadcrumb-projects"]')
+      cy.get('[data-cy="breadcrumb-projects"]')
         .should('be.visible') // React Native Web uses inline styles instead of CSS classes;
     });
 
@@ -155,10 +197,10 @@ describe('Breadcrumb Component', () => {
 
       mountWithRouter(<Breadcrumb items={items} />);
 
-      cy.get('[data-testid="breadcrumb"]')
+      cy.get('[data-cy="breadcrumb"]')
         .should('be.visible') // React Native Web uses inline styles instead of CSS classes;
 
-      cy.get('[data-testid="breadcrumb-current"]')
+      cy.get('[data-cy="breadcrumb-current"]')
         .should('be.visible') // React Native Web uses inline styles instead of CSS classes;
     });
 
@@ -170,7 +212,7 @@ describe('Breadcrumb Component', () => {
 
       mountWithRouter(<Breadcrumb items={items} />);
 
-      cy.get('[data-testid="breadcrumb"]')
+      cy.get('[data-cy="breadcrumb"]')
         .should('be.visible') // React Native Web uses inline styles instead of CSS classes
         .and('have.class', 'mb-6');
     });
@@ -192,6 +234,11 @@ describe('Breadcrumb Component', () => {
   });
 
   describe('Data Attributes', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('applies data-cy attributes to items', () => {
       const items = [
         { label: 'Home', href: '/', dataCy: 'breadcrumb-home' },
@@ -201,9 +248,9 @@ describe('Breadcrumb Component', () => {
 
       mountWithRouter(<Breadcrumb items={items} />);
 
-      cy.get('[data-testid="breadcrumb-home"]').should('exist');
-      cy.get('[data-testid="breadcrumb-projects"]').should('exist');
-      cy.get('[data-testid="breadcrumb-current"]').should('exist');
+      cy.get('[data-cy="breadcrumb-home"]').should('exist');
+      cy.get('[data-cy="breadcrumb-projects"]').should('exist');
+      cy.get('[data-cy="breadcrumb-current"]').should('exist');
     });
 
     it('applies data-cy to nav element', () => {
@@ -213,16 +260,21 @@ describe('Breadcrumb Component', () => {
 
       mountWithRouter(<Breadcrumb items={items} />);
 
-      cy.get('nav[data-testid="breadcrumb"]').should('exist');
+      cy.get('nav[data-cy="breadcrumb"]').should('exist');
     });
   });
 
   describe('Edge Cases', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('handles empty items array', () => {
       mountWithRouter(<Breadcrumb items={[]} />);
 
-      cy.get('[data-testid="breadcrumb"]').should('exist');
-      cy.get('[data-testid="breadcrumb"]').children().should('have.length', 0);
+      cy.get('[data-cy="breadcrumb"]').should('exist');
+      cy.get('[data-cy="breadcrumb"]').children().should('have.length', 0);
     });
 
     it('handles very long labels', () => {
@@ -237,7 +289,7 @@ describe('Breadcrumb Component', () => {
 
       mountWithRouter(<Breadcrumb items={items} />);
 
-      cy.get('[data-testid="breadcrumb-long"]').should('be.visible');
+      cy.get('[data-cy="breadcrumb-long"]').should('be.visible');
       cy.contains('This is a very long breadcrumb label').should('be.visible');
     });
 
@@ -264,7 +316,7 @@ describe('Breadcrumb Component', () => {
 
       mountWithRouter(<Breadcrumb items={items} />);
 
-      cy.get('[data-testid="breadcrumb"]').children().should('have.length', 10);
+      cy.get('[data-cy="breadcrumb"]').children().should('have.length', 10);
       cy.get('svg').should('have.length', 9); // 9 chevrons for 10 items
     });
 
@@ -276,10 +328,10 @@ describe('Breadcrumb Component', () => {
 
       mountWithRouter(<Breadcrumb items={items} />);
 
-      cy.get('[data-testid="breadcrumb-home"]')
+      cy.get('[data-cy="breadcrumb-home"]')
         .should('have.prop', 'tagName', 'SPAN');
       
-      cy.get('[data-testid="breadcrumb-current"]')
+      cy.get('[data-cy="breadcrumb-current"]')
         .should('have.prop', 'tagName', 'SPAN');
     });
 
@@ -297,6 +349,11 @@ describe('Breadcrumb Component', () => {
   });
 
   describe('Accessibility', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('uses semantic nav element', () => {
       const items = [
         { label: 'Home', href: '/', dataCy: 'breadcrumb-home' }
@@ -316,7 +373,7 @@ describe('Breadcrumb Component', () => {
 
       mountWithRouter(<Breadcrumb items={items} />);
 
-      cy.get('[data-testid="breadcrumb-home"]').focus();
+      cy.get('[data-cy="breadcrumb-home"]').focus();
       cy.focused().should('have.attr', 'data-cy', 'breadcrumb-home');
 
       cy.focused().tab();
@@ -332,15 +389,20 @@ describe('Breadcrumb Component', () => {
       mountWithRouter(<Breadcrumb items={items} />);
 
       // * Links use text-ink-light
-      cy.get('[data-testid="breadcrumb-home"]').should('exist');
+      cy.get('[data-cy="breadcrumb-home"]').should('exist');
       
       // * Current item uses text-ink-black for better contrast
-      cy.get('[data-testid="breadcrumb-current"]')
+      cy.get('[data-cy="breadcrumb-current"]')
         .should('be.visible') // React Native Web uses inline styles instead of CSS classes;
     });
   });
 
   describe('Responsive Design', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('works on mobile viewport', () => {
       cy.viewport(375, 667);
       
@@ -352,7 +414,7 @@ describe('Breadcrumb Component', () => {
 
       mountWithRouter(<Breadcrumb items={items} />);
 
-      cy.get('[data-testid="breadcrumb"]').should('be.visible');
+      cy.get('[data-cy="breadcrumb"]').should('be.visible');
       cy.contains('Home').should('be.visible');
       cy.contains('Projects').should('be.visible');
       cy.contains('Current').should('be.visible');
@@ -370,7 +432,7 @@ describe('Breadcrumb Component', () => {
 
       mountWithRouter(<Breadcrumb items={items} />);
 
-      cy.get('[data-testid="breadcrumb"]').should('be.visible');
+      cy.get('[data-cy="breadcrumb"]').should('be.visible');
       cy.get('svg').should('have.length', 3); // Chevrons still visible
     });
 
@@ -386,7 +448,7 @@ describe('Breadcrumb Component', () => {
 
       mountWithRouter(<Breadcrumb items={items} />);
 
-      cy.get('[data-testid="breadcrumb"]').should('be.visible');
+      cy.get('[data-cy="breadcrumb"]').should('be.visible');
       cy.contains('Very Long Category Name').should('be.visible');
       cy.contains('Another Long Subcategory').should('be.visible');
       cy.contains('Final Item With Long Name').should('be.visible');
@@ -394,6 +456,11 @@ describe('Breadcrumb Component', () => {
   });
 
   describe('Complex Scenarios', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('handles mixed items with and without hrefs', () => {
       const items = [
         { label: 'Home', href: '/', dataCy: 'breadcrumb-home' },
@@ -404,10 +471,10 @@ describe('Breadcrumb Component', () => {
 
       mountWithRouter(<Breadcrumb items={items} />);
 
-      cy.get('[data-testid="breadcrumb-home"]').should('have.prop', 'tagName', 'A');
-      cy.get('[data-testid="breadcrumb-static"]').should('have.prop', 'tagName', 'SPAN');
-      cy.get('[data-testid="breadcrumb-projects"]').should('have.prop', 'tagName', 'SPAN'); // Not last, but no href
-      cy.get('[data-testid="breadcrumb-current"]').should('have.prop', 'tagName', 'SPAN');
+      cy.get('[data-cy="breadcrumb-home"]').should('have.prop', 'tagName', 'A');
+      cy.get('[data-cy="breadcrumb-static"]').should('have.prop', 'tagName', 'SPAN');
+      cy.get('[data-cy="breadcrumb-projects"]').should('have.prop', 'tagName', 'SPAN'); // Not last, but no href
+      cy.get('[data-cy="breadcrumb-current"]').should('have.prop', 'tagName', 'SPAN');
     });
 
     it('handles navigation hierarchy correctly', () => {
@@ -421,13 +488,13 @@ describe('Breadcrumb Component', () => {
       mountWithRouter(<Breadcrumb items={items} />);
 
       // * Verify hierarchical structure is maintained
-      cy.get('[data-testid="breadcrumb"] > div').should('have.length', 4);
+      cy.get('[data-cy="breadcrumb"] > div').should('have.length', 4);
       
       // * Verify correct number of separators
       cy.get('svg').should('have.length', 3);
       
       // * Verify last item is not a link
-      cy.get('[data-testid="breadcrumb-edit"]').should('have.prop', 'tagName', 'SPAN');
+      cy.get('[data-cy="breadcrumb-edit"]').should('have.prop', 'tagName', 'SPAN');
     });
   });
 });

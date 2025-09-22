@@ -1,3 +1,18 @@
+/**
+ * @fileoverview Sync Components Component Tests
+ * Tests for US-X.X: [User Story Name]
+ *
+ * User Story:
+ * As a [user type]
+ * I want to [action]
+ * So that [benefit]
+ *
+ * Acceptance Criteria:
+ * - [Criterion 1]
+ * - [Criterion 2]
+ * - [Criterion 3]
+ */
+
 import React from 'react';
 import { SyncIndicator } from '../../../src/components/SyncIndicator';
 import { CloudSaveButton, CloudSaveButtonMobile } from '../../../src/components/CloudSaveButton';
@@ -50,7 +65,13 @@ let mockShowSyncSuccessToast: any;
 let mockShowSyncErrorToast: any;
 let mockShowOfflineToast: any;
 
-beforeEach(() => {
+beforeEach(function() {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
+    // * Clean state before each test
+    cy.cleanState();
+
   mockShowSyncSuccessToast = cy.stub();
   mockShowSyncErrorToast = cy.stub();
   mockShowOfflineToast = cy.stub();
@@ -58,15 +79,23 @@ beforeEach(() => {
   // Note: jest.mock doesn't work in Cypress
   // TODO: You'll need to mock these functions differently, possibly through props or dependency injection
 });
-
 describe('SyncIndicator Component', () => {
-  beforeEach(() => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+  beforeEach(function() {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
+    // * Clean state before each test
+    cy.cleanState();
+
     // * Reset mocks
     mockAuthStore.syncStatus = 'synced';
     mockAuthStore.syncError = null;
     mockAuthStore.isOfflineMode = false;
   });
-
   it('renders offline mode indicator when in offline mode', () => {
     mockAuthStore.isOfflineMode = true;
     
@@ -75,7 +104,6 @@ describe('SyncIndicator Component', () => {
     cy.contains('Offline Mode').should('be.visible');
     cy.get('svg').should('exist'); // CloudOff icon
   });
-
   it('shows synced status with check icon', () => {
     mockAuthStore.syncStatus = 'synced';
     
@@ -84,7 +112,6 @@ describe('SyncIndicator Component', () => {
     cy.contains('All changes saved').should('be.visible');
     cy.get('.text-forest-400').should('exist');
   });
-
   it('shows syncing status with spinning loader', () => {
     mockAuthStore.syncStatus = 'syncing';
     
@@ -94,7 +121,6 @@ describe('SyncIndicator Component', () => {
     cy.get('.animate-spin').should('exist');
     cy.get('.text-flame-400').should('exist');
   });
-
   it('shows error status with alert icon', () => {
     mockAuthStore.syncStatus = 'error';
     mockAuthStore.syncError = 'Network timeout';
@@ -104,7 +130,6 @@ describe('SyncIndicator Component', () => {
     cy.contains('Network timeout').should('be.visible');
     cy.get('.text-blood-400').should('exist');
   });
-
   it('shows offline status when offline', () => {
     mockAuthStore.syncStatus = 'offline';
     
@@ -113,13 +138,11 @@ describe('SyncIndicator Component', () => {
     cy.contains('Working offline').should('be.visible');
     cy.get('.text-ink-light').should('exist');
   });
-
   it('animates in with motion', () => {
     cy.mount(<SyncIndicator />);
     
     cy.get('[style*="opacity"]').should('exist');
   });
-
   it('handles undefined sync status gracefully', () => {
     mockAuthStore.syncStatus = undefined as any;
     
@@ -128,9 +151,18 @@ describe('SyncIndicator Component', () => {
     cy.contains('Working offline').should('be.visible'); // Falls back to default
   });
 });
-
 describe('CloudSaveButton Component', () => {
-  beforeEach(() => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+  beforeEach(function() {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
+    // * Clean state before each test
+    cy.cleanState();
+
     // * Reset mocks
     mockAuthStore.isAuthenticated = true;
     mockAuthStore.isOfflineMode = false;
@@ -143,15 +175,13 @@ describe('CloudSaveButton Component', () => {
     mockShowSyncErrorToast.resetHistory();
     mockShowOfflineToast.resetHistory();
   });
-
   it('renders with idle state when no changes', () => {
     cy.mount(<CloudSaveButton />);
     
     cy.contains('Saved').should('be.visible');
-    cy.get('[data-cy*="button"]').should('be.disabled');
+    cy.get('button').should('be.disabled');
     cy.get('[data-cy*="parchment-shadow"]').should('exist');
   });
-
   it('shows modified state when there are unsaved changes', () => {
     mockWorldbuildingStore.projects = [
       { id: '1', name: 'Test Project', elements: [] } as any,
@@ -163,10 +193,9 @@ describe('CloudSaveButton Component', () => {
     cy.mount(<CloudSaveButton />);
     
     cy.contains('Save Changes').should('be.visible');
-    cy.get('[data-cy*="button"]').should('not.be.disabled');
+    cy.get('button').should('not.be.disabled');
     cy.get('.animate-pulse').should('exist');
   });
-
   it('handles save action successfully', () => {
     mockWorldbuildingStore.projects = [
       { id: '1', name: 'Test Project', elements: [] } as any,
@@ -177,7 +206,7 @@ describe('CloudSaveButton Component', () => {
     
     cy.mount(<CloudSaveButton />);
     
-    cy.get('[data-cy*="button"]').click();
+    cy.get('button').click();
     
     // ? * Shows saving state
     cy.contains('Saving...').should('be.visible');
@@ -189,7 +218,6 @@ describe('CloudSaveButton Component', () => {
       expect(mockShowSyncSuccessToast).to.have.been.called;
     });
   });
-
   it('handles save error gracefully', () => {
     mockSupabaseSyncService.updateProject.rejects(new Error('Network error'));
     mockWorldbuildingStore.projects = [
@@ -201,13 +229,12 @@ describe('CloudSaveButton Component', () => {
     
     cy.mount(<CloudSaveButton />);
     
-    cy.get('[data-cy*="button"]').click();
+    cy.get('button').click();
     
     cy.wrap(null).then(() => {
       expect(mockShowSyncErrorToast).to.have.been.called;
     });
   });
-
   it('shows offline toast when network is offline', () => {
     mockNetworkStatus.isOnline = false;
     mockWorldbuildingStore.projects = [
@@ -219,21 +246,19 @@ describe('CloudSaveButton Component', () => {
     
     cy.mount(<CloudSaveButton />);
     
-    cy.get('[data-cy*="button"]').click();
+    cy.get('button').click();
     
     cy.wrap(null).then(() => {
       expect(mockShowOfflineToast).to.have.been.called;
     });
   });
-
-  it('hides [data-cy*="button"] when not authenticated', () => {
+  it('hides button when not authenticated', () => {
     mockAuthStore.isAuthenticated = false;
     
     cy.mount(<CloudSaveButton />);
     
-    cy.get('[data-cy*="button"]').should('not.exist');
+    cy.get('button').should('not.exist');
   });
-
   it('shows error dropdown on hover when in error state', () => {
     const container = cy.mount(
       <div style={{ height: '200px', padding: '50px' }}>
@@ -242,22 +267,20 @@ describe('CloudSaveButton Component', () => {
     );
     
     // * Simulate error state manually
-    cy.get('[data-cy*="button"]').then($btn => {
+    cy.get('button').then($btn => {
       // * Force error state by manipulating DOM
       $btn.parent().append(
         '<div class="absolute top-full mt-2 right-0 bg-parchment-aged border border-red-900 rounded-lg p-3 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity">' +
         '<p class="text-sm text-blood-400">Test error message</p>' +
-        '<[data-cy*="button"] class="mt-2 text-sm font-medium text-metals-gold hover:text-metals-brass transition-colors">Retry</[data-cy*="button"]>' +
+        '<button class="mt-2 text-sm font-medium text-metals-gold hover:text-metals-brass transition-colors">Retry</button>' +
         '</div>'
       );
     });
-    
     cy.get('.group').trigger('mouseenter');
     cy.contains('Test error message').should('exist');
     cy.contains('Retry').should('be.visible');
   });
-
-  it('animates [data-cy*="button"] on hover and tap', () => {
+  it('animates button on hover and tap', () => {
     mockWorldbuildingStore.projects = [
       { id: '1', name: 'Test Project', elements: [] } as any,
     ];
@@ -267,13 +290,12 @@ describe('CloudSaveButton Component', () => {
     
     cy.mount(<CloudSaveButton />);
     
-    cy.get('[data-cy*="button"]')
+    cy.get('button')
       .should('have.css', 'transform', 'none')
       .trigger('mouseenter')
       .trigger('mousedown')
       .trigger('mouseup');
   });
-
   it('syncs elements and relationships', () => {
     mockWorldbuildingStore.projects = [
       {
@@ -295,7 +317,7 @@ describe('CloudSaveButton Component', () => {
     
     cy.mount(<CloudSaveButton />);
     
-    cy.get('[data-cy*="button"]').click();
+    cy.get('button').click();
     
     cy.wrap(null).then(() => {
       expect(mockSupabaseSyncService.createProject).to.have.been.called;
@@ -305,19 +327,30 @@ describe('CloudSaveButton Component', () => {
     });
   });
 });
-
 describe('CloudSaveButtonMobile Component', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
   it('returns null (not implemented)', () => {
     cy.mount(<CloudSaveButtonMobile />);
-    cy.get('[data-cy*="button"]').should('not.exist');
+    cy.get('button').should('not.exist');
   });
 });
-
 describe('OfflineBanner Component', () => {
-  beforeEach(() => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+  beforeEach(function() {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
+    // * Clean state before each test
+    cy.cleanState();
+
     mockNetworkStatus.isOnline = true;
   });
-
   it('shows banner when offline', () => {
     mockNetworkStatus.isOnline = false;
     
@@ -327,7 +360,6 @@ describe('OfflineBanner Component', () => {
     cy.contains('No internet connection detected').should('be.visible');
     cy.contains('Your changes are saved locally').should('be.visible');
   });
-
   it('hides banner when online', () => {
     mockNetworkStatus.isOnline = true;
     
@@ -335,7 +367,6 @@ describe('OfflineBanner Component', () => {
     
     cy.contains('Working Offline').should('not.exist');
   });
-
   it('dismisses banner on click', () => {
     mockNetworkStatus.isOnline = false;
     
@@ -343,11 +374,10 @@ describe('OfflineBanner Component', () => {
     
     cy.contains('Working Offline').should('be.visible');
     
-    // * Desktop dismiss [data-cy*="button"]
-    cy.get('[data-cy*="button"]').contains('Dismiss').click();
+    // * Desktop dismiss button
+    cy.get('button').contains('Dismiss').click();
     cy.contains('Working Offline').should('not.exist');
   });
-
   it('shows icon-only dismiss on mobile', () => {
     mockNetworkStatus.isOnline = false;
     cy.viewport(375, 667);
@@ -355,9 +385,8 @@ describe('OfflineBanner Component', () => {
     cy.mount(<OfflineBanner />);
     
     cy.get('[aria-label="Dismiss offline banner"]').should('be.visible');
-    cy.get('[data-cy*="button"]').contains('Dismiss').should('not.be.visible');
+    cy.get('button').contains('Dismiss').should('not.be.visible');
   });
-
   it('animates banner entrance and exit', () => {
     mockNetworkStatus.isOnline = false;
     
@@ -367,10 +396,9 @@ describe('OfflineBanner Component', () => {
     cy.get('.fixed').should('have.css', 'transform') // CSS properties work in React Native Web;
     
     // * Dismiss and check exit animation
-    cy.get('[data-cy*="button"]').contains('Dismiss').click();
+    cy.get('button').contains('Dismiss').click();
     cy.get('.fixed').should('not.exist');
   });
-
   it('resets dismissed state when going back online', () => {
     const TestWrapper = () => {
       const [online, setOnline] = React.useState(false);
@@ -378,9 +406,9 @@ describe('OfflineBanner Component', () => {
       
       return (
         <div>
-          <[data-cy*="button"] data-testid="toggle-online" onClick={() => setOnline(!online)}>
+          <button data-cy="toggle-online" onClick={() => setOnline(!online)}>
             Toggle Online
-          </[data-cy*="button"]>
+          </button>
           <OfflineBanner />
         </div>
       );
@@ -389,7 +417,7 @@ describe('OfflineBanner Component', () => {
     cy.mount(<TestWrapper />);
     
     // * Go offline
-    cy.get('[data-testid="toggle-online"]').click();
+    cy.get('[data-cy="toggle-online"]').click();
     cy.contains('Working Offline').should('be.visible');
     
     // Dismiss
@@ -397,19 +425,27 @@ describe('OfflineBanner Component', () => {
     cy.contains('Working Offline').should('not.exist');
     
     // * Go online then offline again
-    cy.get('[data-testid="toggle-online"]').click(); // online
-    cy.get('[data-testid="toggle-online"]').click(); // offline
+    cy.get('[data-cy="toggle-online"]').click(); // online
+    cy.get('[data-cy="toggle-online"]').click(); // offline
     
     // TODO: * Banner should reappear
     cy.contains('Working Offline').should('be.visible');
   });
 });
-
 describe('OfflineBannerCompact Component', () => {
-  beforeEach(() => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+  beforeEach(function() {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
+    // * Clean state before each test
+    cy.cleanState();
+
     mockNetworkStatus.isOnline = true;
   });
-
   it('shows compact banner at bottom on mobile', () => {
     mockNetworkStatus.isOnline = false;
     cy.viewport(375, 667);
@@ -419,17 +455,15 @@ describe('OfflineBannerCompact Component', () => {
     cy.contains('Offline Mode').should('be.visible');
     cy.get('.fixed.bottom-0').should('exist');
   });
-
   it('dismisses compact banner', () => {
     mockNetworkStatus.isOnline = false;
     
     cy.mount(<OfflineBannerCompact />);
     
     cy.contains('Offline Mode').should('be.visible');
-    cy.get('[data-cy*="button"]').click();
+    cy.get('button').click();
     cy.contains('Offline Mode').should('not.exist');
   });
-
   it('animates from bottom', () => {
     mockNetworkStatus.isOnline = false;
     
@@ -437,7 +471,6 @@ describe('OfflineBannerCompact Component', () => {
     
     cy.get('.fixed.bottom-0').should('have.css', 'transform') // CSS properties work in React Native Web;
   });
-
   it('only shows on mobile viewports', () => {
     mockNetworkStatus.isOnline = false;
     

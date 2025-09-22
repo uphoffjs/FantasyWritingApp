@@ -1,3 +1,18 @@
+/**
+ * @fileoverview Milestone System Component Tests
+ * Tests for US-X.X: [User Story Name]
+ *
+ * User Story:
+ * As a [user type]
+ * I want to [action]
+ * So that [benefit]
+ *
+ * Acceptance Criteria:
+ * - [Criterion 1]
+ * - [Criterion 2]
+ * - [Criterion 3]
+ */
+
 import React from 'react';
 import { MilestoneSystem } from '../../../src/components/MilestoneSystem';
 import { Project, WorldElement } from '../../../src/types/models';
@@ -36,7 +51,18 @@ const createMockProject = (elements: WorldElement[] = []): Project => ({
 });
 
 describe('MilestoneSystem Component', () => {
-  beforeEach(() => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
+  beforeEach(function() {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
+    // * Clean state before each test
+    cy.cleanState();
+
     cy.clock();
     mockConfetti = cy.stub();
     // * Mock canvas-confetti if it's used
@@ -46,6 +72,11 @@ describe('MilestoneSystem Component', () => {
   });
 
   describe('Rendering', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('renders achievement header', () => {
       const project = createMockProject();
       cy.mount(<MilestoneSystem project={project} />);
@@ -90,6 +121,11 @@ describe('MilestoneSystem Component', () => {
   });
 
   describe('Milestone Achievement Detection', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('marks first element milestone as achieved', () => {
       const elements = [createMockElement()];
       const project = createMockProject(elements);
@@ -167,6 +203,11 @@ describe('MilestoneSystem Component', () => {
   });
 
   describe('Progress Tracking', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('shows progress to next element milestone', () => {
       const elements = Array.from({ length: 3 }, (_, i) => 
         createMockElement({ id: `element-${i}` })
@@ -230,6 +271,11 @@ describe('MilestoneSystem Component', () => {
   });
 
   describe('New Achievement Animation', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('triggers confetti for newly achieved milestone', () => {
       // * Start with no elements
       cy.mount(<MilestoneSystem project={createMockProject()} />);
@@ -287,7 +333,18 @@ describe('MilestoneSystem Component', () => {
   });
 
   describe('Mobile Responsive Design', () => {
-    beforeEach(() => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
+    beforeEach(function() {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
+    // * Clean state before each test
+    cy.cleanState();
+
       cy.viewport(375, 667); // iPhone 6/7/8 size
     });
 
@@ -325,6 +382,11 @@ describe('MilestoneSystem Component', () => {
   });
 
   describe('Edge Cases', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('handles empty project gracefully', () => {
       const project = createMockProject([]);
       cy.mount(<MilestoneSystem project={project} />);
@@ -394,6 +456,11 @@ describe('MilestoneSystem Component', () => {
   });
 
   describe('Accessibility', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('uses semantic HTML structure', () => {
       const project = createMockProject();
       cy.mount(<MilestoneSystem project={project} />);
@@ -440,6 +507,11 @@ describe('MilestoneSystem Component', () => {
   });
 
   describe('Visual Styling', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('applies correct colors to milestone cards', () => {
       const elements = [createMockElement()];
       const project = createMockProject(elements);

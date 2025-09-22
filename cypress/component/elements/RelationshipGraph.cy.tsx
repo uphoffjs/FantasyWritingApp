@@ -1,3 +1,18 @@
+/**
+ * @fileoverview Relationship Graph Component Tests
+ * Tests for US-X.X: [User Story Name]
+ *
+ * User Story:
+ * As a [user type]
+ * I want to [action]
+ * So that [benefit]
+ *
+ * Acceptance Criteria:
+ * - [Criterion 1]
+ * - [Criterion 2]
+ * - [Criterion 3]
+ */
+
 import React from 'react';
 import { RelationshipGraph } from '../../../src/components/RelationshipGraph';
 import { WorldElement } from '../../../src/types/models';
@@ -21,14 +36,30 @@ const createMockElement = (id: string, overrides?: Partial<WorldElement>): World
 });
 
 describe('RelationshipGraph Component', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
   let onElementClickSpy: any;
 
-  beforeEach(() => {
+  beforeEach(function() {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
+    // * Clean state before each test
+    cy.cleanState();
+
     onElementClickSpy = cy.spy().as('onElementClick');
     cy.viewport(1200, 800);
   });
 
   describe('Rendering', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('renders graph container and svg', () => {
       const elements = [createMockElement('1'), createMockElement('2')];
       
@@ -40,7 +71,7 @@ describe('RelationshipGraph Component', () => {
       );
       
       cy.get('svg').should('exist');
-      cy.get('[data-testid="graph-container"]').should('exist');
+      cy.get('[data-cy="graph-container"]').should('exist');
     });
 
     it('renders with custom height', () => {
@@ -55,7 +86,7 @@ describe('RelationshipGraph Component', () => {
       );
       
       // * Check if the container has the expected height
-      cy.get('[data-testid="graph-container"]').should('exist');
+      cy.get('[data-cy="graph-container"]').should('exist');
       cy.get('svg').should('exist');
     });
 
@@ -69,10 +100,10 @@ describe('RelationshipGraph Component', () => {
         />
       );
       
-      // * Check for control [data-cy*="button"]s
-      cy.get('[data-testid="zoom-in-btn"]').should('be.visible');
-      cy.get('[data-testid="zoom-out-btn"]').should('be.visible');
-      cy.get('[data-testid="zoom-reset-btn"]').should('be.visible');
+      // * Check for control buttons
+      cy.get('[data-cy="zoom-in-btn"]').should('be.visible');
+      cy.get('[data-cy="zoom-out-btn"]').should('be.visible');
+      cy.get('[data-cy="zoom-reset-btn"]').should('be.visible');
     });
 
     it('shows legend on desktop by default', () => {
@@ -91,6 +122,11 @@ describe('RelationshipGraph Component', () => {
   });
 
   describe('Zoom Controls', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('handles zoom in', () => {
       const elements = [createMockElement('1')];
       
@@ -101,7 +137,7 @@ describe('RelationshipGraph Component', () => {
         />
       );
       
-      cy.get('[data-testid="zoom-in-btn"]').click();
+      cy.get('[data-cy="zoom-in-btn"]').click();
       // TODO: * The zoom level should change - check for any visual feedback
       cy.get('svg').should('exist');
     });
@@ -116,7 +152,7 @@ describe('RelationshipGraph Component', () => {
         />
       );
       
-      cy.get('[data-testid="zoom-out-btn"]').click();
+      cy.get('[data-cy="zoom-out-btn"]').click();
       // TODO: * The zoom level should change
       cy.get('svg').should('exist');
     });
@@ -131,14 +167,19 @@ describe('RelationshipGraph Component', () => {
         />
       );
       
-      cy.get('[data-testid="zoom-in-btn"]').click();
-      cy.get('[data-testid="zoom-reset-btn"]').click();
+      cy.get('[data-cy="zoom-in-btn"]').click();
+      cy.get('[data-cy="zoom-reset-btn"]').click();
       // TODO: * Should reset to default zoom
       cy.get('svg').should('exist');
     });
   });
 
   describe('Layout Controls', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('starts with force layout', () => {
       const elements = [createMockElement('1')];
       
@@ -149,8 +190,8 @@ describe('RelationshipGraph Component', () => {
         />
       );
       
-      // * Check if layout [data-cy*="select"]or exists
-      cy.get('[data-testid="layout-[data-cy*="select"]or"]').should('exist');
+      // * Check if layout selector exists
+      cy.get('[data-cy="layout-selector"]').should('exist');
     });
 
     it('changes to circular layout', () => {
@@ -163,7 +204,7 @@ describe('RelationshipGraph Component', () => {
         />
       );
       
-      cy.get('[data-testid="layout-[data-cy*="select"]or"]').click();
+      cy.get('[data-cy="layout-selector"]').click();
       cy.contains('Circular Layout').click();
       // TODO: * Layout should change
       cy.get('svg').should('exist');
@@ -179,7 +220,7 @@ describe('RelationshipGraph Component', () => {
         />
       );
       
-      cy.get('[data-testid="layout-[data-cy*="select"]or"]').click();
+      cy.get('[data-cy="layout-selector"]').click();
       cy.contains('Hierarchical Layout').click();
       // TODO: * Layout should change
       cy.get('svg').should('exist');
@@ -187,6 +228,11 @@ describe('RelationshipGraph Component', () => {
   });
 
   describe('Filters', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('toggles filter panel', () => {
       const elements = [createMockElement('1')];
       
@@ -197,9 +243,9 @@ describe('RelationshipGraph Component', () => {
         />
       );
       
-      cy.get('[data-testid="filters-panel"]').should('not.exist');
-      cy.get('[data-testid="filter-toggle-btn"]').click();
-      cy.get('[data-testid="filters-panel"]').should('be.visible');
+      cy.get('[data-cy="filters-panel"]').should('not.exist');
+      cy.get('[data-cy="filter-toggle-btn"]').click();
+      cy.get('[data-cy="filters-panel"]').should('be.visible');
     });
 
     it('closes filter panel', () => {
@@ -212,10 +258,10 @@ describe('RelationshipGraph Component', () => {
         />
       );
       
-      cy.get('[data-testid="filter-toggle-btn"]').click();
-      cy.get('[data-testid="filters-panel"]').should('be.visible');
-      cy.get('[data-testid="close-filters-btn"]').click();
-      cy.get('[data-testid="filters-panel"]').should('not.exist');
+      cy.get('[data-cy="filter-toggle-btn"]').click();
+      cy.get('[data-cy="filters-panel"]').should('be.visible');
+      cy.get('[data-cy="close-filters-btn"]').click();
+      cy.get('[data-cy="filters-panel"]').should('not.exist');
     });
 
     it('applies filters', () => {
@@ -231,15 +277,20 @@ describe('RelationshipGraph Component', () => {
         />
       );
       
-      cy.get('[data-testid="filter-toggle-btn"]').click();
-      cy.get('[data-testid="element-type-character"]').click();
-      cy.get('[data-testid="apply-filters-btn"]').click();
+      cy.get('[data-cy="filter-toggle-btn"]').click();
+      cy.get('[data-cy="element-type-character"]').click();
+      cy.get('[data-cy="apply-filters-btn"]').click();
       // TODO: * Filter should be applied to the graph
       cy.get('svg').should('exist');
     });
   });
 
   describe('Node Interaction', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it.skip('handles node click', () => {
       const elements = [createMockElement('1'), createMockElement('2')];
       
@@ -255,7 +306,7 @@ describe('RelationshipGraph Component', () => {
       
       // Note: D3 nodes are rendered asynchronously and may not be available immediately
       // * This test is skipped as it requires the D3 simulation to complete
-      cy.get('[data-testid="node-1"]').should('exist').click();
+      cy.get('[data-cy="node-1"]').should('exist').click();
       cy.get('@onElementClick').should('have.been.calledWith', '1');
     });
 
@@ -272,11 +323,16 @@ describe('RelationshipGraph Component', () => {
       
       // Note: D3 nodes are rendered asynchronously and may not be available immediately
       // * This test is skipped as it requires the D3 simulation to complete
-      cy.get('[data-testid="node-1"]').should('exist');
+      cy.get('[data-cy="node-1"]').should('exist');
     });
   });
 
   describe('Export Functions', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('shows export menu', () => {
       const elements = [createMockElement('1')];
       
@@ -287,7 +343,7 @@ describe('RelationshipGraph Component', () => {
         />
       );
       
-      cy.get('[data-testid="export-menu-btn"]').should('exist');
+      cy.get('[data-cy="export-menu-btn"]').should('exist');
     });
 
     it('has export options', () => {
@@ -300,14 +356,25 @@ describe('RelationshipGraph Component', () => {
         />
       );
       
-      cy.get('[data-testid="export-menu-btn"]').click();
+      cy.get('[data-cy="export-menu-btn"]').click();
       cy.contains('Export as PNG').should('be.visible');
       cy.contains('Export as SVG').should('be.visible');
     });
   });
 
   describe('Mobile Responsive', () => {
-    beforeEach(() => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
+    beforeEach(function() {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
+    // * Clean state before each test
+    cy.cleanState();
+
       cy.viewport(375, 667);
     });
 
@@ -325,7 +392,7 @@ describe('RelationshipGraph Component', () => {
       cy.get('svg').should('exist');
     });
 
-    it('shows control toggle [data-cy*="button"] on mobile', () => {
+    it('shows control toggle button on mobile', () => {
       const elements = [createMockElement('1')];
       
       cy.mount(
@@ -335,18 +402,23 @@ describe('RelationshipGraph Component', () => {
         />
       );
       
-      // TODO: * On mobile, there should be a toggle [data-cy*="button"] for controls
+      // TODO: * On mobile, there should be a toggle button for controls
       cy.get('[aria-label="Toggle controls"]').should('exist');
       
       // ? * Click the toggle to show controls
       cy.get('[aria-label="Toggle controls"]').click();
       
       // TODO: * Now the controls should be visible
-      cy.get('[data-testid="zoom-in-btn"]').should('be.visible');
+      cy.get('[data-cy="zoom-in-btn"]').should('be.visible');
     });
   });
 
   describe('Legend', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('displays category colors', () => {
       const elements = [
         createMockElement('1', { category: 'character' }),
@@ -366,6 +438,11 @@ describe('RelationshipGraph Component', () => {
   });
 
   describe('Edge Cases', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('handles empty elements array', () => {
       cy.mount(
         <RelationshipGraph
@@ -408,6 +485,11 @@ describe('RelationshipGraph Component', () => {
   });
 
   describe('Accessibility', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('has proper ARIA labels', () => {
       const elements = [createMockElement('1')];
       
@@ -419,9 +501,9 @@ describe('RelationshipGraph Component', () => {
       );
       
       // * Check for accessibility attributes
-      cy.get('[data-testid="zoom-in-btn"]').should('have.attr', 'title');
-      cy.get('[data-testid="zoom-out-btn"]').should('have.attr', 'title');
-      cy.get('[data-testid="zoom-reset-btn"]').should('have.attr', 'title');
+      cy.get('[data-cy="zoom-in-btn"]').should('have.attr', 'title');
+      cy.get('[data-cy="zoom-out-btn"]').should('have.attr', 'title');
+      cy.get('[data-cy="zoom-reset-btn"]').should('have.attr', 'title');
     });
   });
 });

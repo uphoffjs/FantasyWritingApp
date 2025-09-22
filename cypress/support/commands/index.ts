@@ -1,30 +1,37 @@
 // * Index file for all custom Cypress commands
 // * This file exports all command modules for easy import
+// * Commands are organized by category for maintainability
 
-// * Import all command modules
+// * Authentication & Session Management
 import './auth';
-import './navigation';
-import './story';
-import './character';
-import './utility';
+
+// * Debug Utilities (root level as per TODO)
 import './debug';
-import './setup';
-import './seeding';
-import './responsive';
+
+// * Navigation (cross-cutting concern, stays at root)
+import './navigation';
+
+// * Element Management
 import './elements';
+
+// * Project Management
 import './projects';
-import './react-native-commands';
+
+// * Responsive & Mobile Testing
+import './responsive';
+
+// * Utility Commands
+import './utility';
+
+// * Performance Monitoring
+import './performance';
 
 // * Export for TypeScript reference
 export * from './auth';
-export * from './navigation';
-export * from './story';
-export * from './character';
-export * from './utility';
 export * from './debug';
-export * from './setup';
-export * from './seeding';
-export * from './responsive';
+export * from './navigation';
 export * from './elements';
 export * from './projects';
-export * from './react-native-commands';
+export * from './responsive';
+export * from './utility';
+export * from './performance';

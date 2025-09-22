@@ -1,9 +1,35 @@
+/**
+ * @fileoverview Base Element Form.stateless Component Tests
+ * Tests for US-X.X: [User Story Name]
+ *
+ * User Story:
+ * As a [user type]
+ * I want to [action]
+ * So that [benefit]
+ *
+ * Acceptance Criteria:
+ * - [Criterion 1]
+ * - [Criterion 2]
+ * - [Criterion 3]
+ */
+
 /// <reference types="cypress" />
 import React from 'react';
 import { BaseElementForm } from '../../support/component-test-helpers';
 import { Question, Answer } from '../../../src/types/worldbuilding';
 
 describe('BaseElementForm - Stateless Tests', () => {
+  beforeEach(function() {
+    // ! Essential debug and state management
+    cy.comprehensiveDebug();
+    cy.cleanState();
+  });
+
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
   // * Test with minimal React - no providers, no store
   const basicQuestions: Question[] = [
     {
@@ -54,8 +80,8 @@ describe('BaseElementForm - Stateless Tests', () => {
       />
     );
     
-    // TODO: * Category should be visible as a [data-cy*="button"]
-    cy.get('[data-testid="category-toggle-basic"]').should('be.visible');
+    // TODO: * Category should be visible as a button
+    cy.get('[data-cy="category-toggle-basic"]').should('be.visible');
     cy.contains('Basic').should('be.visible');
   });
 
@@ -74,7 +100,7 @@ describe('BaseElementForm - Stateless Tests', () => {
     cy.contains('Name').should('not.be.visible');
     
     // * Click to expand
-    cy.get('[data-testid="category-toggle-basic"]').click();
+    cy.get('[data-cy="category-toggle-basic"]').click();
     
     // TODO: * Questions should now be visible
     cy.contains('Name').should('be.visible');
@@ -93,11 +119,11 @@ describe('BaseElementForm - Stateless Tests', () => {
     );
     
     // * Expand category
-    cy.get('[data-testid="category-toggle-basic"]').click();
+    cy.get('[data-cy="category-toggle-basic"]').click();
     
     // * Check values are displayed
-    cy.get('[data-testid="question-name-input"]').should('have.value', 'Test Name');
-    cy.get('[data-testid="question-description-input"]').should('have.value', 'Test Description');
+    cy.get('[data-cy="question-name-input"]').should('have.value', 'Test Name');
+    cy.get('[data-cy="question-description-input"]').should('have.value', 'Test Description');
   });
 
   it('calls onChange when typing', () => {
@@ -114,10 +140,10 @@ describe('BaseElementForm - Stateless Tests', () => {
     );
     
     // * Expand category
-    cy.get('[data-testid="category-toggle-basic"]').click();
+    cy.get('[data-cy="category-toggle-basic"]').click();
     
     // * Type in name field
-    cy.get('[data-testid="question-name-input"]').type('New Name');
+    cy.get('[data-cy="question-name-input"]').type('New Name');
     
     // * Verify onChange was called with correct arguments
     cy.wrap(onChange).should('have.been.called');
@@ -135,7 +161,7 @@ describe('BaseElementForm - Stateless Tests', () => {
       />
     );
     
-    cy.get('[data-testid="category-toggle-basic"]').click();
+    cy.get('[data-cy="category-toggle-basic"]').click();
     
     // ? TODO: * Name field should show required indicator
     cy.contains('Name').parent().should('contain', '*');
@@ -155,16 +181,16 @@ describe('BaseElementForm - Stateless Tests', () => {
       />
     );
     
-    cy.get('[data-testid="category-toggle-basic"]').click();
+    cy.get('[data-cy="category-toggle-basic"]').click();
     
     // TODO: * Help text should be hidden initially
-    cy.get('[data-testid="question-description-help"]').should('not.exist');
+    cy.get('[data-cy="question-description-help"]').should('not.exist');
     
-    // * Click help [data-cy*="button"]
-    cy.get('[data-testid="question-description-help-[data-cy*="button"]"]').click();
+    // * Click help button
+    cy.get('[data-cy="question-description-help-button"]').click();
     
     // TODO: * Help text should appear
-    cy.get('[data-testid="question-description-help"]')
+    cy.get('[data-cy="question-description-help"]')
       .should('be.visible')
       .and('contain', 'Brief description');
   });
@@ -184,7 +210,7 @@ describe('BaseElementForm - Stateless Tests', () => {
     cy.contains('Quick Mode').should('be.visible');
     
     // * Toggle to detailed mode
-    cy.get('[data-testid="mode-toggle"]').click();
+    cy.get('[data-cy="mode-toggle"]').click();
     
     // TODO: * Basic mode message should disappear
     cy.contains('Quick Mode').should('not.exist');
@@ -208,7 +234,7 @@ describe('BaseElementForm - Stateless Tests', () => {
       {
         id: 'type',
         text: 'Type',
-        type: '[data-cy*="select"]',
+        type: 'select',
         category: 'Info',
         options: [
           { value: 'hero', label: 'Hero' },
@@ -233,13 +259,13 @@ describe('BaseElementForm - Stateless Tests', () => {
       />
     );
     
-    cy.get('[data-testid="category-toggle-info"]').click();
+    cy.get('[data-cy="category-toggle-info"]').click();
     
     // * Check all input types are rendered
-    cy.get('[data-testid="question-name-input"]').should('have.attr', 'type', 'text');
-    cy.get('[data-testid="question-age-input"]').should('have.attr', 'type', 'number');
-    cy.get('[data-testid="question-type-input"]').should('be.visible'); // [data-cy*="select"]
-    cy.get('[data-testid="question-active-toggle"]').should('be.visible'); // boolean radio [data-cy*="button"]s
+    cy.get('[data-cy="question-name-input"]').should('have.attr', 'type', 'text');
+    cy.get('[data-cy="question-age-input"]').should('have.attr', 'type', 'number');
+    cy.get('[data-cy="question-type-input"]').should('be.visible'); // select
+    cy.get('[data-cy="question-active-toggle"]').should('be.visible'); // boolean radio buttons
   });
 
   it('shows error for required fields without values', () => {
@@ -253,10 +279,10 @@ describe('BaseElementForm - Stateless Tests', () => {
       />
     );
     
-    cy.get('[data-testid="category-toggle-basic"]').click();
+    cy.get('[data-cy="category-toggle-basic"]').click();
     
     // ? TODO: * Required field without value should show error
-    cy.get('[data-testid="question-name-error"]')
+    cy.get('[data-cy="question-name-error"]')
       .should('be.visible')
       .and('contain', 'This field is required');
   });

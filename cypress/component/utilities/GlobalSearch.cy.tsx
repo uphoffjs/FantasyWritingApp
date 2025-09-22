@@ -1,10 +1,36 @@
+/**
+ * @fileoverview Global Search Component Tests
+ * Tests for US-X.X: [User Story Name]
+ *
+ * User Story:
+ * As a [user type]
+ * I want to [action]
+ * So that [benefit]
+ *
+ * Acceptance Criteria:
+ * - [Criterion 1]
+ * - [Criterion 2]
+ * - [Criterion 3]
+ */
+
 import React from 'react';
 import { GlobalSearch } from '../../support/component-test-helpers';
 
 describe('GlobalSearch Component', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
   let mockOnClose;
 
-  beforeEach(() => {
+  beforeEach(function() {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
+    // * Clean state before each test
+    cy.cleanState();
+
     mockOnClose = cy.stub().as('onClose');
   });
 
@@ -128,7 +154,7 @@ describe('GlobalSearch Component', () => {
     cy.get('@onClose').should('have.been.called');
   });
 
-  it('should clear search when clear [data-cy*="button"] clicked', () => {
+  it('should clear search when clear button clicked', () => {
     cy.mount(
       <GlobalSearch 
         visible={true} 
@@ -140,17 +166,17 @@ describe('GlobalSearch Component', () => {
     // * Type search query
     cy.get('input[placeholder="Search projects and elements..."]').type('test');
     
-    // TODO: Clear [data-cy*="button"] should appear
+    // TODO: Clear button should appear
     cy.contains('✕').should('be.visible');
     
-    // * Click clear [data-cy*="button"]
+    // * Click clear button
     cy.contains('✕').click();
     
     // TODO: * Input should be cleared
     cy.get('input[placeholder="Search projects and elements..."]').should('have.value', '');
   });
 
-  it('should handle cancel [data-cy*="button"]', () => {
+  it('should handle cancel button', () => {
     cy.mount(
       <GlobalSearch 
         visible={true} 

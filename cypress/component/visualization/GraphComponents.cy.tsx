@@ -1,12 +1,38 @@
+/**
+ * @fileoverview Graph Components Component Tests
+ * Tests for US-X.X: [User Story Name]
+ *
+ * User Story:
+ * As a [user type]
+ * I want to [action]
+ * So that [benefit]
+ *
+ * Acceptance Criteria:
+ * - [Criterion 1]
+ * - [Criterion 2]
+ * - [Criterion 3]
+ */
+
 import React from 'react';
 import { GraphControls } from '../../../src/components/graph/GraphControls';
 import { GraphFilters, FilterOptions } from '../../../src/components/graph/GraphFilters';
 import { exportGraphAsPNG, exportGraphAsSVG } from '../../../src/components/graph/GraphExport';
 
 describe('GraphControls Component', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
   let defaultProps: any;
 
-  beforeEach(() => {
+  beforeEach(function() {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
+    // * Clean state before each test
+    cy.cleanState();
+
     defaultProps = {
       zoom: 1,
       layout: 'force' as const,
@@ -22,15 +48,15 @@ describe('GraphControls Component', () => {
     };
   });
 
-  it('renders all control [data-cy*="button"]s', () => {
+  it('renders all control buttons', () => {
     cy.mount(<GraphControls {...defaultProps} />);
     
-    cy.get('[data-testid="zoom-in-btn"]').should('exist');
-    cy.get('[data-testid="zoom-out-btn"]').should('exist');
-    cy.get('[data-testid="zoom-reset-btn"]').should('exist');
-    cy.get('[data-testid="layout-[data-cy*="select"]or"]').should('exist');
-    cy.get('[data-testid="filter-toggle-btn"]').should('exist');
-    cy.get('[data-testid="export-menu-btn"]').should('exist');
+    cy.get('[data-cy="zoom-in-btn"]').should('exist');
+    cy.get('[data-cy="zoom-out-btn"]').should('exist');
+    cy.get('[data-cy="zoom-reset-btn"]').should('exist');
+    cy.get('[data-cy="layout-selector"]').should('exist');
+    cy.get('[data-cy="filter-toggle-btn"]').should('exist');
+    cy.get('[data-cy="export-menu-btn"]').should('exist');
   });
 
   it('displays current zoom level', () => {
@@ -42,20 +68,20 @@ describe('GraphControls Component', () => {
   it('calls zoom handlers', () => {
     cy.mount(<GraphControls {...defaultProps} />);
     
-    cy.get('[data-testid="zoom-in-btn"]').click();
+    cy.get('[data-cy="zoom-in-btn"]').click();
     cy.get('@onZoomIn').should('have.been.called');
     
-    cy.get('[data-testid="zoom-out-btn"]').click();
+    cy.get('[data-cy="zoom-out-btn"]').click();
     cy.get('@onZoomOut').should('have.been.called');
     
-    cy.get('[data-testid="zoom-reset-btn"]').click();
+    cy.get('[data-cy="zoom-reset-btn"]').click();
     cy.get('@onZoomReset').should('have.been.called');
   });
 
   it('shows layout options', () => {
     cy.mount(<GraphControls {...defaultProps} />);
     
-    cy.get('[data-testid="layout-[data-cy*="select"]or"]').click();
+    cy.get('[data-cy="layout-selector"]').click();
     cy.contains('Force Layout').should('be.visible');
     cy.contains('Circular Layout').should('be.visible');
     cy.contains('Hierarchical Layout').should('be.visible');
@@ -64,7 +90,7 @@ describe('GraphControls Component', () => {
   it('changes layout', () => {
     cy.mount(<GraphControls {...defaultProps} />);
     
-    cy.get('[data-testid="layout-[data-cy*="select"]or"]').click();
+    cy.get('[data-cy="layout-selector"]').click();
     cy.contains('Circular Layout').click();
     cy.get('@onLayoutChange').should('have.been.calledWith', 'circular');
   });
@@ -72,14 +98,14 @@ describe('GraphControls Component', () => {
   it('toggles filters', () => {
     cy.mount(<GraphControls {...defaultProps} />);
     
-    cy.get('[data-testid="filter-toggle-btn"]').click();
+    cy.get('[data-cy="filter-toggle-btn"]').click();
     cy.get('@onToggleFilters').should('have.been.called');
   });
 
   it('shows export menu', () => {
     cy.mount(<GraphControls {...defaultProps} />);
     
-    cy.get('[data-testid="export-menu-btn"]').click();
+    cy.get('[data-cy="export-menu-btn"]').click();
     cy.contains('Export as PNG').should('be.visible');
     cy.contains('Export as SVG').should('be.visible');
   });
@@ -87,11 +113,11 @@ describe('GraphControls Component', () => {
   it('handles export actions', () => {
     cy.mount(<GraphControls {...defaultProps} />);
     
-    cy.get('[data-testid="export-menu-btn"]').click();
+    cy.get('[data-cy="export-menu-btn"]').click();
     cy.contains('Export as PNG').click();
     cy.get('@onExportPNG').should('have.been.called');
     
-    cy.get('[data-testid="export-menu-btn"]').click();
+    cy.get('[data-cy="export-menu-btn"]').click();
     cy.contains('Export as SVG').click();
     cy.get('@onExportSVG').should('have.been.called');
   });
@@ -100,29 +126,40 @@ describe('GraphControls Component', () => {
     cy.mount(<GraphControls {...defaultProps} isMobile={true} />);
     
     // * Mobile view might have different styling or condensed controls
-    cy.get('[data-testid="zoom-in-btn"]').should('exist');
-    cy.get('[data-testid="controls-container"]').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
+    cy.get('[data-cy="zoom-in-btn"]').should('exist');
+    cy.get('[data-cy="controls-container"]').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
   });
 
   it('indicates active filter state', () => {
     cy.mount(<GraphControls {...defaultProps} showFilters={true} />);
     
-    cy.get('[data-testid="filter-toggle-btn"]').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
+    cy.get('[data-cy="filter-toggle-btn"]').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
   });
 
   it('disables zoom at limits', () => {
     cy.mount(<GraphControls {...defaultProps} zoom={0.1} />);
-    cy.get('[data-testid="zoom-out-btn"]').should('be.disabled');
+    cy.get('[data-cy="zoom-out-btn"]').should('be.disabled');
     
     cy.mount(<GraphControls {...defaultProps} zoom={5} />);
-    cy.get('[data-testid="zoom-in-btn"]').should('be.disabled');
+    cy.get('[data-cy="zoom-in-btn"]').should('be.disabled');
   });
 });
 
 describe('GraphFilters Component', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
   let defaultProps: any;
 
-  beforeEach(() => {
+  beforeEach(function() {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
+    // * Clean state before each test
+    cy.cleanState();
+
     defaultProps = {
       filters: {
         elementTypes: [],
@@ -139,7 +176,7 @@ describe('GraphFilters Component', () => {
   it('renders filter panel', () => {
     cy.mount(<GraphFilters {...defaultProps} />);
     
-    cy.get('[data-testid="filters-panel"]').should('be.visible');
+    cy.get('[data-cy="filters-panel"]').should('be.visible');
     cy.contains('Filter Graph').should('be.visible');
   });
 
@@ -167,27 +204,27 @@ describe('GraphFilters Component', () => {
     cy.mount(<GraphFilters {...defaultProps} />);
     
     cy.contains('Completion Range').should('be.visible');
-    cy.get('[data-testid="completion-range-min"]').should('have.value', '0');
-    cy.get('[data-testid="completion-range-max"]').should('have.value', '100');
+    cy.get('[data-cy="completion-range-min"]').should('have.value', '0');
+    cy.get('[data-cy="completion-range-max"]').should('have.value', '100');
   });
 
-  it('[data-cy*="select"]s element types', () => {
+  it('selects element types', () => {
     cy.mount(<GraphFilters {...defaultProps} />);
     
     // * Click character and location checkboxes
-    cy.get('[data-testid="element-type-character"]').click();
-    cy.get('[data-testid="element-type-location"]').click();
+    cy.get('[data-cy="element-type-character"]').click();
+    cy.get('[data-cy="element-type-location"]').click();
     
     // * Verify the onChange was called multiple times (once per click)
     cy.get('@onFiltersChange').should('have.been.calledTwice');
   });
 
-  it('[data-cy*="select"]s relationship types', () => {
+  it('selects relationship types', () => {
     cy.mount(<GraphFilters {...defaultProps} />);
     
     // * Click knows and owns checkboxes
-    cy.get('[data-testid="relationship-type-knows"]').click();
-    cy.get('[data-testid="relationship-type-owns"]').click();
+    cy.get('[data-cy="relationship-type-knows"]').click();
+    cy.get('[data-cy="relationship-type-owns"]').click();
     
     // * Verify the onChange was called multiple times (once per click)
     cy.get('@onFiltersChange').should('have.been.calledTwice');
@@ -197,8 +234,8 @@ describe('GraphFilters Component', () => {
     cy.mount(<GraphFilters {...defaultProps} />);
     
     // * Type new values in the range inputs
-    cy.get('[data-testid="completion-range-min"]').clear().type('25');
-    cy.get('[data-testid="completion-range-max"]').clear().type('75');
+    cy.get('[data-cy="completion-range-min"]').clear().type('25');
+    cy.get('[data-cy="completion-range-max"]').clear().type('75');
     
     // * The filter change happens on input change
     cy.get('@onFiltersChange').should('have.been.called');
@@ -216,9 +253,9 @@ describe('GraphFilters Component', () => {
     
     cy.mount(<GraphFilters {...defaultProps} filters={activeFilters} />);
     
-    cy.get('[data-testid="element-type-character"]').should('be.checked');
-    cy.get('[data-testid="relationship-type-knows"]').should('be.checked');
-    cy.get('[data-testid="completion-range-min"]').should('have.value', '50');
+    cy.get('[data-cy="element-type-character"]').should('be.checked');
+    cy.get('[data-cy="relationship-type-knows"]').should('be.checked');
+    cy.get('[data-cy="completion-range-min"]').should('have.value', '50');
   });
 
   it('clears all filters', () => {
@@ -230,7 +267,7 @@ describe('GraphFilters Component', () => {
     
     cy.mount(<GraphFilters {...defaultProps} filters={activeFilters} />);
     
-    cy.get('[data-testid="clear-filters-btn"]').click();
+    cy.get('[data-cy="clear-filters-btn"]').click();
     cy.get('@onFiltersChange').should('have.been.calledWith', {
       elementTypes: [],
       relationshipTypes: [],
@@ -241,15 +278,15 @@ describe('GraphFilters Component', () => {
   it('closes filter panel', () => {
     cy.mount(<GraphFilters {...defaultProps} />);
     
-    cy.get('[data-testid="close-filters-btn"]').click();
+    cy.get('[data-cy="close-filters-btn"]').click();
     cy.get('@onClose').should('have.been.called');
   });
 
-  it('handles [data-cy*="select"] all element types', () => {
+  it('handles select all element types', () => {
     cy.mount(<GraphFilters {...defaultProps} />);
     
-    cy.get('[data-testid="select"]-all-elements"]').click();
-    cy.get('[data-testid="apply-filters-btn"]').click();
+    cy.get('[data-cy="select"]-all-elements"]').click();
+    cy.get('[data-cy="apply-filters-btn"]').click();
     
     cy.get('@onFiltersChange').should('have.been.calledWith',
       Cypress.sinon.match({
@@ -258,11 +295,11 @@ describe('GraphFilters Component', () => {
     );
   });
 
-  it('handles [data-cy*="select"] all relationship types', () => {
+  it('handles select all relationship types', () => {
     cy.mount(<GraphFilters {...defaultProps} />);
     
-    cy.get('[data-testid="select"]-all-relationships"]').click();
-    cy.get('[data-testid="apply-filters-btn"]').click();
+    cy.get('[data-cy="select"]-all-relationships"]').click();
+    cy.get('[data-cy="apply-filters-btn"]').click();
     
     cy.get('@onFiltersChange').should('have.been.calledWith',
       Cypress.sinon.match({
@@ -278,7 +315,13 @@ describe.skip('GraphExport Functions', () => {
   
   let mockSvg: SVGSVGElement;
 
-  beforeEach(() => {
+  beforeEach(function() {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
+    // * Clean state before each test
+    cy.cleanState();
+
     // * Create mock SVG element
     mockSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     mockSvg.setAttribute('width', '800');

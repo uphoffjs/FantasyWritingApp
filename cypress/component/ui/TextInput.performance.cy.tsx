@@ -1,3 +1,18 @@
+/**
+ * @fileoverview Text Input.performance Component Tests
+ * Tests for US-X.X: [User Story Name]
+ *
+ * User Story:
+ * As a [user type]
+ * I want to [action]
+ * So that [benefit]
+ *
+ * Acceptance Criteria:
+ * - [Criterion 1]
+ * - [Criterion 2]
+ * - [Criterion 3]
+ */
+
 /// <reference types="cypress" />
 import React, { useState } from 'react';
 import { TextInput } from '../../../src/components/TextInput';
@@ -16,10 +31,26 @@ import {
 } from '../../support/test-optimization-config';
 
 describe('TextInput - Performance & Memory', () => {
+  beforeEach(function() {
+    // ! Essential debug and state management
+    cy.comprehensiveDebug();
+    cy.cleanState();
+  });
+
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
   // ! PERFORMANCE: * Set up performance hooks for all tests
   setupPerformanceHooks();
 
   describe('Memory Management', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('should not leak memory on mount/unmount cycles', () => {
       const MountUnmountTest = () => {
         const [mounted, setMounted] = useState(true);
@@ -27,12 +58,12 @@ describe('TextInput - Performance & Memory', () => {
         return (
           <div>
             <button 
-              data-testid="toggle-mount"
+              data-cy="toggle-mount"
               onClick={() => setMounted(!mounted)}
             >
               Toggle
             </button>
-            {mounted && <TextInput data-testid="test-input" />}
+            {mounted && <TextInput data-cy="test-input" />}
           </div>
         );
       };
@@ -44,9 +75,9 @@ describe('TextInput - Performance & Memory', () => {
       
       // * Perform multiple mount/unmount cycles
       for (let i = 0; i < 10; i++) {
-        cy.get('[data-testid="toggle-mount"]').click();
+        cy.get('[data-cy="toggle-mount"]').click();
         cy.wait(50);
-        cy.get('[data-testid="toggle-mount"]').click();
+        cy.get('[data-cy="toggle-mount"]').click();
         cy.wait(50);
       }
       
@@ -61,10 +92,10 @@ describe('TextInput - Performance & Memory', () => {
     });
 
     it('should clean up event listeners properly', () => {
-      cy.mount(<TextInput data-testid="test-input" />);
+      cy.mount(<TextInput data-cy="test-input" />);
       
       // * Add multiple event listeners
-      cy.get('[data-testid="test-input"]').then($input => {
+      cy.get('[data-cy="test-input"]').then($input => {
         const element = $input[0];
         let listenerCount = 0;
         
@@ -77,7 +108,7 @@ describe('TextInput - Performance & Memory', () => {
         
         // * Simulate heavy interaction
         for (let i = 0; i < 20; i++) {
-          cy.get('[data-testid="test-input"]')
+          cy.get('[data-cy="test-input"]')
             .focus()
             .type('test')
             .blur();
@@ -96,8 +127,8 @@ describe('TextInput - Performance & Memory', () => {
       
       MemoryManagement.takeSnapshot('before-large-text');
       
-      cy.mount(<TextInput data-testid="test-input" maxLength={10000} />);
-      cy.get('[data-testid="test-input"]').type(largeText, { delay: 0 });
+      cy.mount(<TextInput data-cy="test-input" maxLength={10000} />);
+      cy.get('[data-cy="test-input"]').type(largeText, { delay: 0 });
       
       MemoryManagement.takeSnapshot('after-large-text');
       
@@ -112,11 +143,16 @@ describe('TextInput - Performance & Memory', () => {
   });
 
   describe('Performance Benchmarks', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('should mount within performance budget', () => {
       const start = PerformanceMonitoring.startTiming('mount');
       
       OptimizedHelpers.mountWithPerformance(
-        <TextInput data-testid="test-input" />
+        <TextInput data-cy="test-input" />
       );
       
       const duration = PerformanceMonitoring.endTiming('mount', start);
@@ -129,7 +165,7 @@ describe('TextInput - Performance & Memory', () => {
         const [value, setValue] = useState('');
         return (
           <TextInput
-            data-testid="test-input"
+            data-cy="test-input"
             value={value}
             onChange={(e: any) => setValue(e.target.value)}
           />
@@ -141,7 +177,7 @@ describe('TextInput - Performance & Memory', () => {
       const start = PerformanceMonitoring.startTiming('render-updates');
       
       // * Type rapidly to trigger multiple renders
-      cy.get('[data-testid="test-input"]').type('Performance test text', { delay: 0 });
+      cy.get('[data-cy="test-input"]').type('Performance test text', { delay: 0 });
       
       const duration = PerformanceMonitoring.endTiming('render-updates', start);
       const averageRenderTime = duration / 20; // Approximate number of renders
@@ -150,13 +186,13 @@ describe('TextInput - Performance & Memory', () => {
     });
 
     it('should handle rapid interactions efficiently', () => {
-      cy.mount(<TextInput data-testid="test-input" />);
+      cy.mount(<TextInput data-cy="test-input" />);
       
       const start = PerformanceMonitoring.startTiming('rapid-interaction');
       
       // * Simulate rapid user input
       for (let i = 0; i < 50; i++) {
-        cy.get('[data-testid="test-input"]')
+        cy.get('[data-cy="test-input"]')
           .type('a', { delay: 0 })
           .type('{backspace}', { delay: 0 });
       }
@@ -171,10 +207,15 @@ describe('TextInput - Performance & Memory', () => {
   });
 
   describe('Benchmark Comparisons', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('should benchmark different input sizes', () => {
       BenchmarkHelpers.benchmarkRender(
         'Small Input',
-        () => <TextInput data-testid="small" placeholder="Small" />,
+        () => <TextInput data-cy="small" placeholder="Small" />,
         5
       );
       
@@ -182,7 +223,7 @@ describe('TextInput - Performance & Memory', () => {
         'Large Input with Validation',
         () => (
           <TextInput
-            data-testid="large"
+            data-cy="large"
             placeholder="Large"
             maxLength={1000}
             pattern="[A-Za-z0-9]*"
@@ -204,8 +245,8 @@ describe('TextInput - Performance & Memory', () => {
         {
           name: 'Uncontrolled',
           fn: () => {
-            cy.mount(<TextInput data-testid="uncontrolled" />);
-            cy.get('[data-testid="uncontrolled"]').type('test');
+            cy.mount(<TextInput data-cy="uncontrolled" />);
+            cy.get('[data-cy="uncontrolled"]').type('test');
           }
         },
         {
@@ -215,14 +256,14 @@ describe('TextInput - Performance & Memory', () => {
               const [value, setValue] = useState('');
               return (
                 <TextInput
-                  data-testid="controlled"
+                  data-cy="controlled"
                   value={value}
                   onChange={(e: any) => setValue(e.target.value)}
                 />
               );
             };
             cy.mount(<ControlledWrapper />);
-            cy.get('[data-testid="controlled"]').type('test');
+            cy.get('[data-cy="controlled"]').type('test');
           }
         }
       ], 5);
@@ -234,8 +275,13 @@ describe('TextInput - Performance & Memory', () => {
   });
 
   describe('Resource Monitoring', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('should not cause frame drops during input', () => {
-      cy.mount(<TextInput data-testid="test-input" />);
+      cy.mount(<TextInput data-cy="test-input" />);
       
       // * Monitor frame rate during interaction
       if ('requestAnimationFrame' in window) {
@@ -252,7 +298,7 @@ describe('TextInput - Performance & Memory', () => {
         requestAnimationFrame(measureFrames);
         
         // * Type while monitoring frames
-        cy.get('[data-testid="test-input"]').type('Frame rate test input text');
+        cy.get('[data-cy="test-input"]').type('Frame rate test input text');
         
         cy.wait(1000).then(() => {
           // TODO: * Should maintain close to 60 FPS
@@ -270,7 +316,7 @@ describe('TextInput - Performance & Memory', () => {
             {values.map((value, index) => (
               <TextInput
                 key={index}
-                data-testid={`input-${index}`}
+                data-cy={`input-${index}`}
                 value={value}
                 onChange={(e: any) => {
                   const newValues = [...values];
@@ -297,9 +343,9 @@ describe('TextInput - Performance & Memory', () => {
       const updateStart = PerformanceMonitoring.startTiming('batch-update');
       
       TestOptimization.batchDOMOperations([
-        () => cy.get('[data-testid="input-0"]').type('a'),
-        () => cy.get('[data-testid="input-1"]').type('b'),
-        () => cy.get('[data-testid="input-2"]').type('c'),
+        () => cy.get('[data-cy="input-0"]').type('a'),
+        () => cy.get('[data-cy="input-1"]').type('b'),
+        () => cy.get('[data-cy="input-2"]').type('c'),
       ]);
       
       const updateDuration = PerformanceMonitoring.endTiming('batch-update', updateStart);
@@ -309,6 +355,11 @@ describe('TextInput - Performance & Memory', () => {
   });
 
   describe('Anti-Flakiness Validation', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('should handle debounced input reliably', () => {
       const DebouncedInput = () => {
         const [value, setValue] = useState('');
@@ -325,11 +376,11 @@ describe('TextInput - Performance & Memory', () => {
         return (
           <div>
             <TextInput
-              data-testid="debounced-input"
+              data-cy="debounced-input"
               value={value}
               onChange={(e: any) => setValue(e.target.value)}
             />
-            <div data-testid="debounced-output">{debouncedValue}</div>
+            <div data-cy="debounced-output">{debouncedValue}</div>
           </div>
         );
       };
@@ -342,7 +393,7 @@ describe('TextInput - Performance & Memory', () => {
       // ! PERFORMANCE: * Wait for debounce with stable state
       OptimizedHelpers.waitForStableState();
       
-      cy.get('[data-testid="debounced-output"]').should('have.text', 'test');
+      cy.get('[data-cy="debounced-output"]').should('have.text', 'test');
     });
 
     it('should handle throttled input reliably', () => {
@@ -357,10 +408,10 @@ describe('TextInput - Performance & Memory', () => {
         return (
           <div>
             <TextInput
-              data-testid="throttled-input"
+              data-cy="throttled-input"
               onChange={(e: any) => throttledUpdate(e.target.value)}
             />
-            <div data-testid="update-count">{updateCount}</div>
+            <div data-cy="update-count">{updateCount}</div>
           </div>
         );
       };
@@ -369,13 +420,13 @@ describe('TextInput - Performance & Memory', () => {
       
       // * Type rapidly
       for (let i = 0; i < 10; i++) {
-        cy.get('[data-testid="throttled-input"]').type('a', { delay: 10 });
+        cy.get('[data-cy="throttled-input"]').type('a', { delay: 10 });
       }
       
       cy.wait(500);
       
       // TODO: ! PERFORMANCE: * Updates should be throttled (less than 10)
-      cy.get('[data-testid="update-count"]').then($el => {
+      cy.get('[data-cy="update-count"]').then($el => {
         const count = parseInt($el.text());
         expect(count).to.be.lessThan(10);
         expect(count).to.be.greaterThan(0);
@@ -384,6 +435,11 @@ describe('TextInput - Performance & Memory', () => {
   });
 
   describe('Performance Report', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     after(() => {
       // ! PERFORMANCE: * Generate comprehensive performance report
       cy.wrap(null).then(() => {

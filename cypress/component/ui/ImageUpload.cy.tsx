@@ -1,14 +1,42 @@
+/**
+ * @fileoverview Image Upload Component Tests
+ * Tests for US-X.X: [User Story Name]
+ *
+ * User Story:
+ * As a [user type]
+ * I want to [action]
+ * So that [benefit]
+ *
+ * Acceptance Criteria:
+ * - [Criterion 1]
+ * - [Criterion 2]
+ * - [Criterion 3]
+ */
+
 import React from 'react';
 import { ImageUpload } from '../../../src/components/ImageUpload';
 
 describe('ImageUpload Component', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
   let onImagesChangeSpy: any;
   
-  beforeEach(() => {
+  beforeEach(function() {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
+    // * Clean state before each test
+    cy.cleanState();
+
     onImagesChangeSpy = cy.spy().as('onImagesChange');
   });
-
   describe('Rendering', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
     it('renders upload area with instructions', () => {
       cy.mount(
         <ImageUpload 
@@ -21,7 +49,6 @@ describe('ImageUpload Component', () => {
       cy.get('svg').should('be.visible'); // Upload icon
       cy.get('input[type="file"]').should('exist').and('not.be.visible');
     });
-
     it('renders with existing images', () => {
       const existingImages = [
         'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=='
@@ -36,7 +63,6 @@ describe('ImageUpload Component', () => {
 
       cy.get('img').should('have.length', 1);
     });
-
     it('shows image count and limit', () => {
       cy.mount(
         <ImageUpload 
@@ -48,7 +74,6 @@ describe('ImageUpload Component', () => {
 
       cy.contains('0 / 5 images').should('be.visible');
     });
-
     it('displays file size limit', () => {
       cy.mount(
         <ImageUpload 
@@ -61,8 +86,11 @@ describe('ImageUpload Component', () => {
       cy.contains('10MB').should('be.visible');
     });
   });
-
   describe('File Upload via Click', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
     it('opens file dialog when upload area is clicked', () => {
       cy.mount(
         <ImageUpload 
@@ -80,7 +108,6 @@ describe('ImageUpload Component', () => {
         .should('have.attr', 'accept', 'image/*')
         .and('have.attr', 'multiple');
     });
-
     it('accepts multiple files', () => {
       cy.mount(
         <ImageUpload 
@@ -91,7 +118,6 @@ describe('ImageUpload Component', () => {
 
       cy.get('input[type="file"]').should('have.attr', 'multiple');
     });
-
     it('restricts to image files only', () => {
       cy.mount(
         <ImageUpload 
@@ -102,7 +128,6 @@ describe('ImageUpload Component', () => {
 
       cy.get('input[type="file"]').should('have.attr', 'accept', 'image/*');
     });
-
     it('processes uploaded file', () => {
       cy.mount(
         <ImageUpload 
@@ -120,15 +145,17 @@ describe('ImageUpload Component', () => {
         fileName,
         mimeType: 'image/png'
       }, { force: true });
-
       // * Wait for processing
       cy.wait(1000);
       
       cy.get('@onImagesChange').should('have.been.called');
     });
   });
-
   describe('Drag and Drop', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
     it('shows drag state when dragging over', () => {
       cy.mount(
         <ImageUpload 
@@ -139,11 +166,9 @@ describe('ImageUpload Component', () => {
 
       cy.get('[class*="border-dashed"]')
         .trigger('dragover', { dataTransfer: { files: [] } });
-      
       cy.contains('Drop your images here').should('be.visible');
       cy.get('[class*="border-sapphire-400"]').should('exist');
     });
-
     it('removes drag state when dragging leaves', () => {
       cy.mount(
         <ImageUpload 
@@ -153,13 +178,12 @@ describe('ImageUpload Component', () => {
       );
 
       cy.get('[class*="border-dashed"]')
-        .trigger('dragover', { dataTransfer: { files: [] } })
+        .trigger('dragover', { dataTransfer: { files: [] } });
         .trigger('dragleave');
       
       cy.contains('Drop images or click to browse').should('be.visible');
       cy.get('[class*="border-sapphire-400"]').should('not.exist');
     });
-
     it('handles file drop', () => {
       cy.mount(
         <ImageUpload 
@@ -178,13 +202,15 @@ describe('ImageUpload Component', () => {
       
       cy.get('[class*="border-dashed"]')
         .trigger('drop', { dataTransfer });
-
       cy.wait(1000);
       cy.get('@onImagesChange').should('have.been.called');
     });
   });
-
   describe('Image Management', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
     it('displays uploaded images', () => {
       const images = [
         'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==',
@@ -200,8 +226,7 @@ describe('ImageUpload Component', () => {
 
       cy.get('img').should('have.length', 2);
     });
-
-    it('removes image when delete [data-cy*="button"] is clicked', () => {
+    it('removes image when delete button is clicked', () => {
       const images = [
         'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=='
       ];
@@ -213,11 +238,10 @@ describe('ImageUpload Component', () => {
         />
       );
 
-      cy.get('[data-cy*="button"][aria-label*="Remove"]').click();
+      cy.get('button[aria-label*="Remove"]').click();
       
       cy.get('@onImagesChange').should('have.been.calledWith', []);
     });
-
     it('respects maximum image limit', () => {
       const images = ['image1', 'image2', 'image3'];
       
@@ -240,15 +264,17 @@ describe('ImageUpload Component', () => {
         fileName,
         mimeType: 'image/png'
       }, { force: true });
-
       // ? TODO: * Should show alert or not add image
       cy.on('window:alert', (text) => {
         expect(text).to.contains('Maximum 3 images allowed');
       });
     });
   });
-
   describe('File Validation', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
     it('rejects non-image files', () => {
       cy.mount(
         <ImageUpload 
@@ -263,10 +289,8 @@ describe('ImageUpload Component', () => {
         fileName: 'document.txt',
         mimeType: 'text/plain'
       }, { force: true });
-
       cy.get('@onImagesChange').should('not.have.been.called');
     });
-
     it('rejects files exceeding size limit', () => {
       cy.mount(
         <ImageUpload 
@@ -284,12 +308,14 @@ describe('ImageUpload Component', () => {
         fileName: 'large-image.png',
         mimeType: 'image/png'
       }, { force: true });
-
       cy.get('@onImagesChange').should('not.have.been.called');
     });
   });
-
   describe('Progress Indicators', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
     it('shows upload progress', () => {
       cy.mount(
         <ImageUpload 
@@ -306,11 +332,9 @@ describe('ImageUpload Component', () => {
         fileName,
         mimeType: 'image/png'
       }, { force: true });
-
       // TODO: * Progress indicator should appear briefly
-      cy.get('[class*="animate-pulse"]', { timeout: 1000 }).should('exist');
+      cy.get('[class*="animate-pulse"]', { timeout: 1000 });.should('exist');
     });
-
     it('shows compression info', () => {
       cy.mount(
         <ImageUpload 
@@ -327,17 +351,17 @@ describe('ImageUpload Component', () => {
         fileName,
         mimeType: 'image/png'
       }, { force: true });
-
       // * Compression info might appear
       cy.get('body').then($body => {
-        if ($body.find('[class*="Compressed"]').length > 0) {
-          cy.contains('Compressed').should('be.visible');
-        }
+        cy.contains('Compressed').should('be.visible');
       });
     });
   });
-
   describe('Accessibility', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
     it('has accessible file input', () => {
       cy.mount(
         <ImageUpload 
@@ -349,8 +373,7 @@ describe('ImageUpload Component', () => {
       cy.get('input[type="file"]')
         .should('have.attr', 'id', 'image-upload-input');
     });
-
-    it('has accessible remove [data-cy*="button"]s', () => {
+    it('has accessible remove buttons', () => {
       const images = [
         'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=='
       ];
@@ -362,9 +385,8 @@ describe('ImageUpload Component', () => {
         />
       );
 
-      cy.get('[data-cy*="button"][aria-label*="Remove"]').should('exist');
+      cy.get('button[aria-label*="Remove"]').should('exist');
     });
-
     it('is keyboard navigable', () => {
       const images = [
         'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=='
@@ -372,21 +394,20 @@ describe('ImageUpload Component', () => {
       
       cy.mount(
         <div>
-          <[data-cy*="button"]>Before</[data-cy*="button"]>
+          <button>Before</button>
           <ImageUpload 
             images={images} 
             onImagesChange={onImagesChangeSpy} 
           />
-          <[data-cy*="button"]>After</[data-cy*="button"]>
+          <button>After</button>
         </div>
       );
 
-      cy.get('[data-cy*="button"]').first().focus();
+      cy.get('button').first().focus();
       cy.focused().tab();
-      // TODO: * Should focus on the remove [data-cy*="button"] or upload area
+      // TODO: * Should focus on the remove button or upload area
       cy.focused().should('exist');
     });
-
     it('can trigger upload with keyboard', () => {
       cy.mount(
         <ImageUpload 
@@ -402,8 +423,11 @@ describe('ImageUpload Component', () => {
       cy.get('input[type="file"]').should('exist');
     });
   });
-
   describe('Edge Cases', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
     it('handles empty images array', () => {
       cy.mount(
         <ImageUpload 
@@ -414,7 +438,6 @@ describe('ImageUpload Component', () => {
 
       cy.get('[class*="border-dashed"]').should('be.visible');
     });
-
     it('handles null images gracefully', () => {
       cy.mount(
         <ImageUpload 
@@ -426,7 +449,6 @@ describe('ImageUpload Component', () => {
       // TODO: * Should not crash
       cy.get('[class*="border-dashed"]').should('be.visible');
     });
-
     it('handles very long image URLs', () => {
       const longImage = 'data:image/png;base64,' + 'A'.repeat(1000);
       
@@ -439,7 +461,6 @@ describe('ImageUpload Component', () => {
 
       cy.get('img').should('exist');
     });
-
     it('handles rapid file uploads', () => {
       cy.mount(
         <ImageUpload 
@@ -464,8 +485,11 @@ describe('ImageUpload Component', () => {
       cy.get('@onImagesChange').should('have.been.called');
     });
   });
-
   describe('Responsive Design', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
     it('works on mobile viewport', () => {
       cy.viewport(375, 667);
       
@@ -479,7 +503,6 @@ describe('ImageUpload Component', () => {
       cy.get('[class*="border-dashed"]').should('be.visible');
       cy.contains('Drop images or click to browse').should('be.visible');
     });
-
     it('displays images grid on tablet', () => {
       cy.viewport(768, 1024);
       
@@ -497,7 +520,6 @@ describe('ImageUpload Component', () => {
 
       cy.get('img').should('have.length', 2);
     });
-
     it('works on desktop viewport', () => {
       cy.viewport(1920, 1080);
       

@@ -1,9 +1,36 @@
+/**
+ * @fileoverview Base Element Form.incremental Component Tests
+ * Tests for US-X.X: [User Story Name]
+ *
+ * User Story:
+ * As a [user type]
+ * I want to [action]
+ * So that [benefit]
+ *
+ * Acceptance Criteria:
+ * - [Criterion 1]
+ * - [Criterion 2]
+ * - [Criterion 3]
+ */
+
 /// <reference types="cypress" />
 import React from 'react';
 import { BaseElementForm } from '../../support/component-test-helpers';
 import { Answer } from '../../../src/types/worldbuilding';
 
 describe('BaseElementForm - Incremental Tests', () => {
+  beforeEach(function() {
+    // ! Essential debug and state management
+    cy.comprehensiveDebug();
+    cy.cleanState();
+  });
+
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
+  
   const simpleQuestions = [
     {
       id: 'name',
@@ -38,7 +65,7 @@ describe('BaseElementForm - Incremental Tests', () => {
     );
     
     // * First switch to detailed mode to bypass basic filtering
-    cy.get('[data-testid="mode-toggle"]').click();
+    cy.get('[data-cy="mode-toggle"]').click();
     
     // TODO: * Now categories should be visible
     cy.contains('General').should('be.visible');

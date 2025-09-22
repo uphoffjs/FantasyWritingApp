@@ -1,8 +1,29 @@
+/**
+ * @fileoverview Completion Heatmap.core Component Tests
+ * Tests for US-X.X: [User Story Name]
+ *
+ * User Story:
+ * As a [user type]
+ * I want to [action]
+ * So that [benefit]
+ *
+ * Acceptance Criteria:
+ * - [Criterion 1]
+ * - [Criterion 2]
+ * - [Criterion 3]
+ */
+
 import React from 'react';
 import { CompletionHeatmap } from '../../../src/components/CompletionHeatmap';
 import { Project, WorldElement } from '../../../src/types/models';
 
 describe('CompletionHeatmap Core Tests', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
+  
   const createMockElement = (overrides?: Partial<WorldElement>): WorldElement => ({
     id: 'element-1',
     name: 'Test Element',
@@ -27,11 +48,22 @@ describe('CompletionHeatmap Core Tests', () => {
 
   let onElementClickSpy: any;
 
-  beforeEach(() => {
+  beforeEach(function() {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
+    // * Clean state before each test
+    cy.cleanState();
+
     onElementClickSpy = cy.spy().as('onElementClick');
   });
 
   describe('Rendering', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('renders heatmap with legend', () => {
       const elements = [
         createMockElement({ id: '1', completionPercentage: 0 }),
@@ -82,7 +114,7 @@ describe('CompletionHeatmap Core Tests', () => {
       cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       // TODO: * Should render all elements in grid
-      cy.get('[data-testid="heatmap-grid"] [data-cy^="element-cell"]').should('have.length.at.least', 3);
+      cy.get('[data-cy="heatmap-grid"] [data-cy^="element-cell"]').should('have.length.at.least', 3);
     });
 
     it('displays category icons', () => {
@@ -119,6 +151,11 @@ describe('CompletionHeatmap Core Tests', () => {
   });
 
   describe('Color Coding', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('applies correct color for 100% completion', () => {
       const elements = [
         createMockElement({ id: '1', completionPercentage: 100 })

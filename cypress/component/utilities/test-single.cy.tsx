@@ -1,3 +1,18 @@
+/**
+ * @fileoverview test-single Component Tests
+ * Tests for US-X.X: [User Story Name]
+ *
+ * User Story:
+ * As a [user type]
+ * I want to [action]
+ * So that [benefit]
+ *
+ * Acceptance Criteria:
+ * - [Criterion 1]
+ * - [Criterion 2]
+ * - [Criterion 3]
+ */
+
 import React from 'react';
 import { ElementBrowser } from '../../../src/components/ElementBrowser';
 import { BrowserRouter, MemoryRouter } from 'react-router-dom';
@@ -5,6 +20,17 @@ import { ProjectFactory } from '../../fixtures/factories';
 import { mountWithProviders } from '../_helpers/mount-helpers';
 
 describe('Single Test - ElementBrowser', () => {
+  beforeEach(function() {
+    // ! Essential debug and state management
+    cy.comprehensiveDebug();
+    cy.cleanState();
+  });
+
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
   it('should mount without crashing', () => {
     // * Most basic test possible
     const mockProject = ProjectFactory.createFantasyProject();
@@ -47,6 +73,6 @@ describe('Single Test - ElementBrowser', () => {
     });
     
     // * Check if create button exists
-    cy.get('[data-testid="create-element-button"]').should('exist');
+    cy.get('[data-cy="create-element-button"]').should('exist');
   });
 });

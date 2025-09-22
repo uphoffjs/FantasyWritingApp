@@ -1,8 +1,35 @@
+/**
+ * @fileoverview Basic Questions Selector.simple Component Tests
+ * Tests for US-X.X: [User Story Name]
+ *
+ * User Story:
+ * As a [user type]
+ * I want to [action]
+ * So that [benefit]
+ *
+ * Acceptance Criteria:
+ * - [Criterion 1]
+ * - [Criterion 2]
+ * - [Criterion 3]
+ */
+
 import React from 'react';
 import { BasicQuestionsSelector } from '../../../src/components/BasicQuestionsSelector';
 import { Question } from '../../../src/types/models';
 
 describe('BasicQuestionsSelector Simplified Tests', () => {
+  beforeEach(function() {
+    // ! Essential debug and state management
+    cy.comprehensiveDebug();
+    cy.cleanState();
+  });
+
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
+  
   const mockQuestions: Question[] = [
     { id: 'name', text: 'Name', type: 'text', required: true, category: 'Basic Info' },
     { id: 'age', text: 'Age', type: 'number', required: false, category: 'Basic Info' },
@@ -10,6 +37,11 @@ describe('BasicQuestionsSelector Simplified Tests', () => {
   ];
 
   describe('Core Functionality', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('renders without crashing', () => {
       const onChange = cy.spy();
       
@@ -36,11 +68,11 @@ describe('BasicQuestionsSelector Simplified Tests', () => {
         />
       );
       
-      cy.contains('1').should('be.visible'); // 1 basic question [data-cy*="select"]ed
+      cy.contains('1').should('be.visible'); // 1 basic question selected
       cy.contains('3').should('be.visible'); // 3 total questions
     });
 
-    it('toggles question [data-cy*="select"]ion', () => {
+    it('toggles question selection', () => {
       const onChange = cy.spy().as('onChange');
       
       cy.mount(
@@ -59,7 +91,7 @@ describe('BasicQuestionsSelector Simplified Tests', () => {
       cy.get('@onChange').should('have.been.called');
     });
 
-    it('[data-cy*="select"]s all questions', () => {
+    it('selects all questions', () => {
       const onChange = cy.spy().as('onChange');
       
       cy.mount(
@@ -76,7 +108,7 @@ describe('BasicQuestionsSelector Simplified Tests', () => {
       cy.get('@onChange').should('have.been.calledWith', ['name', 'age', 'species']);
     });
 
-    it('clears all [data-cy*="select"]ions', () => {
+    it('clears all selections', () => {
       const onChange = cy.spy().as('onChange');
       
       cy.mount(
@@ -93,7 +125,7 @@ describe('BasicQuestionsSelector Simplified Tests', () => {
       cy.get('@onChange').should('have.been.calledWith', []);
     });
 
-    it('maintains [data-cy*="select"]ed state', () => {
+    it('maintains selected state', () => {
       const onChange = cy.spy();
       
       cy.mount(

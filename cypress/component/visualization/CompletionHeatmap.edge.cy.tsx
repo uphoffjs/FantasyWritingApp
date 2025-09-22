@@ -1,8 +1,29 @@
+/**
+ * @fileoverview Completion Heatmap.edge Component Tests
+ * Tests for US-X.X: [User Story Name]
+ *
+ * User Story:
+ * As a [user type]
+ * I want to [action]
+ * So that [benefit]
+ *
+ * Acceptance Criteria:
+ * - [Criterion 1]
+ * - [Criterion 2]
+ * - [Criterion 3]
+ */
+
 import React from 'react';
 import { CompletionHeatmap } from '../../../src/components/CompletionHeatmap';
 import { Project, WorldElement } from '../../../src/types/models';
 
 describe('CompletionHeatmap Edge Cases & Accessibility', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
+  
   const createMockElement = (overrides?: Partial<WorldElement>): WorldElement => ({
     id: 'element-1',
     name: 'Test Element',
@@ -27,18 +48,29 @@ describe('CompletionHeatmap Edge Cases & Accessibility', () => {
 
   let onElementClickSpy: any;
 
-  beforeEach(() => {
+  beforeEach(function() {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
+    // * Clean state before each test
+    cy.cleanState();
+
     onElementClickSpy = cy.spy().as('onElementClick');
   });
 
   describe('Edge Cases', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('handles single element', () => {
       const element = createMockElement();
       const project = createMockProject([element]);
 
       cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
-      cy.get('[data-testid="heatmap-grid"] [data-cy^="element-cell"]').should('have.length.at.least', 1);
+      cy.get('[data-cy="heatmap-grid"] [data-cy^="element-cell"]').should('have.length.at.least', 1);
     });
 
     it('handles elements with long names', () => {
@@ -78,6 +110,11 @@ describe('CompletionHeatmap Edge Cases & Accessibility', () => {
   });
 
   describe('Accessibility', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('provides title attributes for screen readers', () => {
       const element = createMockElement({ 
         name: 'Character Name',
@@ -111,6 +148,11 @@ describe('CompletionHeatmap Edge Cases & Accessibility', () => {
   });
 
   describe('Responsive Design', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it.skip('works on mobile viewport', () => {
       cy.viewport(375, 667);
       
@@ -123,7 +165,7 @@ describe('CompletionHeatmap Edge Cases & Accessibility', () => {
 
       cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
-      cy.get('[data-testid="heatmap-grid"]').should('be.visible');
+      cy.get('[data-cy="heatmap-grid"]').should('be.visible');
       cy.contains('Completion:').should('be.visible');
       
       // Mobile-specific sizing - React Native Web handles responsive sizing with inline styles
@@ -139,7 +181,7 @@ describe('CompletionHeatmap Edge Cases & Accessibility', () => {
       cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       // TODO: * Tooltip should be hidden on mobile - React Native Web uses conditional rendering
-      cy.get('[data-testid="tooltip"]').should('not.exist');
+      cy.get('[data-cy="tooltip"]').should('not.exist');
     });
 
     it('works on tablet viewport', () => {
@@ -153,7 +195,7 @@ describe('CompletionHeatmap Edge Cases & Accessibility', () => {
 
       cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
-      cy.get('[data-testid="heatmap-grid"]').should('be.visible');
+      cy.get('[data-cy="heatmap-grid"]').should('be.visible');
       // React Native Web handles responsive sizing with inline styles
       cy.get('[data-cy^="element-cell"]').should('be.visible');
     });
@@ -168,7 +210,7 @@ describe('CompletionHeatmap Edge Cases & Accessibility', () => {
 
       cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
-      cy.get('[data-testid="heatmap-grid"]').should('be.visible');
+      cy.get('[data-cy="heatmap-grid"]').should('be.visible');
       // React Native Web handles hover states with inline styles
       cy.get('[data-cy^="element-cell"]').should('have.css', 'cursor', 'pointer');
     });

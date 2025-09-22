@@ -1,3 +1,18 @@
+/**
+ * @fileoverview Progress Report Component Tests
+ * Tests for US-X.X: [User Story Name]
+ *
+ * User Story:
+ * As a [user type]
+ * I want to [action]
+ * So that [benefit]
+ *
+ * Acceptance Criteria:
+ * - [Criterion 1]
+ * - [Criterion 2]
+ * - [Criterion 3]
+ */
+
 import React from 'react';
 import { ProgressReport } from '../../../src/components/ProgressReport';
 import { Project, WorldElement, ElementCategory } from '../../../src/types/models';
@@ -6,6 +21,12 @@ import { Project, WorldElement, ElementCategory } from '../../../src/types/model
 let mockToPng: any;
 
 describe('ProgressReport Component', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
+  
   const createMockElement = (overrides?: Partial<WorldElement>): WorldElement => ({
     id: 'element-1',
     name: 'Test Element',
@@ -36,7 +57,13 @@ describe('ProgressReport Component', () => {
 
   let onCloseSpy: any;
 
-  beforeEach(() => {
+  beforeEach(function() {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
+    // * Clean state before each test
+    cy.cleanState();
+
     onCloseSpy = cy.spy().as('onClose');
     mockToPng = cy.stub().resolves('data:image/png;base64,test');
     
@@ -56,13 +83,18 @@ describe('ProgressReport Component', () => {
   });
 
   describe('Rendering', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('renders modal with header', () => {
       const project = createMockProject([createMockElement()]);
 
       cy.mount(<ProgressReport project={project} onClose={onCloseSpy} />);
 
       cy.contains('Progress Report').should('be.visible');
-      cy.get('[data-testid="close-[data-cy*="button"]"]').should('be.visible');
+      cy.get('[data-cy="close-button"]').should('be.visible');
     });
 
     it('displays project information', () => {
@@ -120,18 +152,23 @@ describe('ProgressReport Component', () => {
       cy.contains('Recent Element 2').should('be.visible');
     });
 
-    it('displays export format [data-cy*="button"]s', () => {
+    it('displays export format buttons', () => {
       const project = createMockProject([createMockElement()]);
 
       cy.mount(<ProgressReport project={project} onClose={onCloseSpy} />);
 
-      cy.contains('[data-cy*="button"]', 'PDF').should('be.visible');
-      cy.contains('[data-cy*="button"]', 'Email').should('be.visible');
-      cy.contains('[data-cy*="button"]', 'Image').should('be.visible');
+      cy.contains('button', 'PDF').should('be.visible');
+      cy.contains('button', 'Email').should('be.visible');
+      cy.contains('button', 'Image').should('be.visible');
     });
   });
 
   describe('Statistics Calculation', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('calculates overall completion correctly', () => {
       const elements = [
         createMockElement({
@@ -248,26 +285,31 @@ describe('ProgressReport Component', () => {
   });
 
   describe('Export Formats', () => {
-    it('[data-cy*="select"]s PDF format by default', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
+    it('selects PDF format by default', () => {
       const project = createMockProject([createMockElement()]);
 
       cy.mount(<ProgressReport project={project} onClose={onCloseSpy} />);
 
-      cy.contains('[data-cy*="button"]', 'PDF').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
+      cy.contains('button', 'PDF').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
     });
 
-    it('switches export format when [data-cy*="button"] clicked', () => {
+    it('switches export format when button clicked', () => {
       const project = createMockProject([createMockElement()]);
 
       cy.mount(<ProgressReport project={project} onClose={onCloseSpy} />);
 
-      cy.contains('[data-cy*="button"]', 'Email').click();
-      cy.contains('[data-cy*="button"]', 'Email').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
-      cy.contains('[data-cy*="button"]', 'PDF').should('not.have.class', 'bg-metals-gold');
+      cy.contains('button', 'Email').click();
+      cy.contains('button', 'Email').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
+      cy.contains('button', 'PDF').should('not.have.class', 'bg-metals-gold');
 
-      cy.contains('[data-cy*="button"]', 'Image').click();
-      cy.contains('[data-cy*="button"]', 'Image').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
-      cy.contains('[data-cy*="button"]', 'Email').should('not.have.class', 'bg-metals-gold');
+      cy.contains('button', 'Image').click();
+      cy.contains('button', 'Image').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
+      cy.contains('button', 'Email').should('not.have.class', 'bg-metals-gold');
     });
 
     it('shows correct icon for each export format', () => {
@@ -276,33 +318,38 @@ describe('ProgressReport Component', () => {
       cy.mount(<ProgressReport project={project} onClose={onCloseSpy} />);
 
       // Select PDF and check for Download icon
-      cy.contains('[data-cy*="button"]', 'PDF').click();
-      cy.contains('[data-cy*="button"]', 'Export').within(() => {
+      cy.contains('button', 'PDF').click();
+      cy.contains('button', 'Export').within(() => {
         cy.get('svg').should('exist'); // Download icon
       });
 
       // Select Email and check for Mail icon
-      cy.contains('[data-cy*="button"]', 'Email').click();
-      cy.contains('[data-cy*="button"]', 'Export').within(() => {
+      cy.contains('button', 'Email').click();
+      cy.contains('button', 'Export').within(() => {
         cy.get('svg').should('exist'); // Mail icon
       });
 
       // Select Image and check for Image icon
-      cy.contains('[data-cy*="button"]', 'Image').click();
-      cy.contains('[data-cy*="button"]', 'Export').within(() => {
+      cy.contains('button', 'Image').click();
+      cy.contains('button', 'Export').within(() => {
         cy.get('svg').should('exist'); // Image icon
       });
     });
   });
 
   describe('Export Functionality', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('handles PDF export', () => {
       const project = createMockProject([createMockElement()]);
 
       cy.mount(<ProgressReport project={project} onClose={onCloseSpy} />);
 
-      cy.contains('[data-cy*="button"]', 'PDF').click();
-      cy.contains('[data-cy*="button"]', 'Export').click();
+      cy.contains('button', 'PDF').click();
+      cy.contains('button', 'Export').click();
 
       // TODO: * Should open a new window and call print
       cy.window().its('open').should('have.been.called');
@@ -313,7 +360,7 @@ describe('ProgressReport Component', () => {
 
       cy.mount(<ProgressReport project={project} onClose={onCloseSpy} />);
 
-      cy.contains('[data-cy*="button"]', 'Email').click();
+      cy.contains('button', 'Email').click();
       
       cy.window().then((win) => {
         cy.stub(win, 'location', {
@@ -321,7 +368,7 @@ describe('ProgressReport Component', () => {
         });
       });
 
-      cy.contains('[data-cy*="button"]', 'Export').click();
+      cy.contains('button', 'Export').click();
 
       // TODO: * Should set location.href with mailto link
       // Note: Can't fully test mailto in Cypress
@@ -332,7 +379,7 @@ describe('ProgressReport Component', () => {
 
       cy.mount(<ProgressReport project={project} onClose={onCloseSpy} />);
 
-      cy.contains('[data-cy*="button"]', 'Image').click();
+      cy.contains('button', 'Image').click();
       
       // * Create a stub for createElement and click
       const linkElement = {
@@ -344,23 +391,28 @@ describe('ProgressReport Component', () => {
         cy.stub(doc, 'createElement').returns(linkElement);
       });
 
-      cy.contains('[data-cy*="button"]', 'Export').click();
+      cy.contains('button', 'Export').click();
 
       // TODO: * Should create and click a download link
       cy.wrap(linkElement.click).should('have.been.called');
     });
 
-    it('disables export [data-cy*="button"] while generating', () => {
+    it('disables export button while generating', () => {
       const project = createMockProject([createMockElement()]);
 
       cy.mount(<ProgressReport project={project} onClose={onCloseSpy} />);
 
-      // Can't easily test the actual generation state, but verify [data-cy*="button"] structure
-      cy.contains('[data-cy*="button"]', 'Export').should('not.be.disabled');
+      // Can't easily test the actual generation state, but verify button structure
+      cy.contains('button', 'Export').should('not.be.disabled');
     });
   });
 
   describe('Category Labels', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('displays correct labels for all categories', () => {
       const categories: ElementCategory[] = [
         'character', 'location', 'magic-system', 'culture-society',
@@ -389,6 +441,11 @@ describe('ProgressReport Component', () => {
   });
 
   describe('Progress Bars', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('shows overall completion progress bar', () => {
       const elements = [
         createMockElement({
@@ -430,21 +487,26 @@ describe('ProgressReport Component', () => {
   });
 
   describe('Modal Behavior', () => {
-    it('closes when close [data-cy*="button"] clicked', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
+    it('closes when close button clicked', () => {
       const project = createMockProject([createMockElement()]);
 
       cy.mount(<ProgressReport project={project} onClose={onCloseSpy} />);
 
-      cy.get('[data-cy*="button"]').first().click(); // X [data-cy*="button"]
+      cy.get('button').first().click(); // X button
       cy.get('@onClose').should('have.been.calledOnce');
     });
 
-    it('closes when Close [data-cy*="button"] clicked', () => {
+    it('closes when Close button clicked', () => {
       const project = createMockProject([createMockElement()]);
 
       cy.mount(<ProgressReport project={project} onClose={onCloseSpy} />);
 
-      cy.contains('[data-cy*="button"]', 'Close').click();
+      cy.contains('button', 'Close').click();
       cy.get('@onClose').should('have.been.calledOnce');
     });
 
@@ -470,6 +532,11 @@ describe('ProgressReport Component', () => {
   });
 
   describe('Edge Cases', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('handles empty project', () => {
       const project = createMockProject([]);
 
@@ -539,6 +606,11 @@ describe('ProgressReport Component', () => {
   });
 
   describe('Responsive Design', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('works on mobile viewport', () => {
       cy.viewport(375, 667);
       
@@ -553,7 +625,7 @@ describe('ProgressReport Component', () => {
       cy.get('.rounded-t-2xl').should('exist');
     });
 
-    it('adapts [data-cy*="button"] text on mobile', () => {
+    it('adapts button text on mobile', () => {
       cy.viewport(375, 667);
       
       const project = createMockProject([createMockElement()]);
@@ -561,7 +633,7 @@ describe('ProgressReport Component', () => {
       cy.mount(<ProgressReport project={project} onClose={onCloseSpy} />);
 
       // ? TODO: * Should show abbreviated text on mobile
-      cy.contains('[data-cy*="button"]', 'Export').should('be.visible');
+      cy.contains('button', 'Export').should('be.visible');
     });
 
     it('works on tablet viewport', () => {
@@ -588,12 +660,17 @@ describe('ProgressReport Component', () => {
   });
 
   describe('Accessibility', () => {
-    it('has accessible close [data-cy*="button"]', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
+    it('has accessible close button', () => {
       const project = createMockProject([createMockElement()]);
 
       cy.mount(<ProgressReport project={project} onClose={onCloseSpy} />);
 
-      cy.get('[data-cy*="button"]').first().should('be.visible'); // X [data-cy*="button"]
+      cy.get('button').first().should('be.visible'); // X button
     });
 
     it('uses semantic headings', () => {
@@ -609,7 +686,7 @@ describe('ProgressReport Component', () => {
 
       cy.mount(<ProgressReport project={project} onClose={onCloseSpy} />);
 
-      cy.contains('[data-cy*="button"]', 'PDF').focus();
+      cy.contains('button', 'PDF').focus();
       cy.focused().should('contain', 'PDF');
 
       cy.focused().tab();

@@ -1,7 +1,33 @@
+/**
+ * @fileoverview Element Browser.simple Component Tests
+ * Tests for US-X.X: [User Story Name]
+ *
+ * User Story:
+ * As a [user type]
+ * I want to [action]
+ * So that [benefit]
+ *
+ * Acceptance Criteria:
+ * - [Criterion 1]
+ * - [Criterion 2]
+ * - [Criterion 3]
+ */
+
 import React from 'react';
 import { ElementBrowser, WorldElement } from '../../support/component-test-helpers';
 
 describe('ElementBrowser Component - Simplified', () => {
+  beforeEach(function() {
+    // ! Essential debug and state management
+    cy.comprehensiveDebug();
+    cy.cleanState();
+  });
+
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
   // * Mock a single simple element
   const mockElement: WorldElement = {
     id: 'element-1',

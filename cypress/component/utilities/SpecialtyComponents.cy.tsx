@@ -1,3 +1,18 @@
+/**
+ * @fileoverview Specialty Components Component Tests
+ * Tests for US-X.X: [User Story Name]
+ *
+ * User Story:
+ * As a [user type]
+ * I want to [action]
+ * So that [benefit]
+ *
+ * Acceptance Criteria:
+ * - [Criterion 1]
+ * - [Criterion 2]
+ * - [Criterion 3]
+ */
+
 import React from 'react';
 import { KeyboardShortcutsHelp } from '../../../src/components/KeyboardShortcutsHelp';
 import { EmailVerificationBanner } from '../../../src/components/EmailVerificationBanner';
@@ -45,21 +60,44 @@ const RouterWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) =>
   <BrowserRouter>{children}</BrowserRouter>
 );
 
-beforeEach(() => {
+beforeEach(function() {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
+    // * Clean state before each test
+    cy.cleanState();
+
   mockNavigate = cy.stub();
 });
 
 describe('KeyboardShortcutsHelp Component', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
+  
   const defaultProps = {
     isOpen: false,
     onClose: cy.stub()
   };
 
-  beforeEach(() => {
+  beforeEach(function() {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
+    // * Clean state before each test
+    cy.cleanState();
+
     defaultProps.onClose.reset();
   });
 
   describe('Rendering', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('does not render when closed', () => {
       cy.mount(<KeyboardShortcutsHelp {...defaultProps} />);
       cy.get('.fixed.inset-0').should('not.exist');
@@ -111,6 +149,11 @@ describe('KeyboardShortcutsHelp Component', () => {
   });
 
   describe('Platform Detection', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('shows Cmd instead of Ctrl on Mac', () => {
       cy.stub(navigator, 'platform').value('MacIntel');
       cy.mount(<KeyboardShortcutsHelp isOpen={true} onClose={defaultProps.onClose} />);
@@ -125,9 +168,14 @@ describe('KeyboardShortcutsHelp Component', () => {
   });
 
   describe('Interactions', () => {
-    it('closes when X [data-cy*="button"] clicked', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
+    it('closes when X button clicked', () => {
       cy.mount(<KeyboardShortcutsHelp isOpen={true} onClose={defaultProps.onClose} />);
-      cy.get('[data-cy*="button"][aria-label="Close"]').click();
+      cy.get('button[aria-label="Close"]').click();
       expect(defaultProps.onClose).to.have.been.called;
     });
 
@@ -138,9 +186,14 @@ describe('KeyboardShortcutsHelp Component', () => {
   });
 
   describe('Accessibility', () => {
-    it('has proper aria-label on close [data-cy*="button"]', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
+    it('has proper aria-label on close button', () => {
       cy.mount(<KeyboardShortcutsHelp isOpen={true} onClose={defaultProps.onClose} />);
-      cy.get('[data-cy*="button"][aria-label="Close"]').should('exist');
+      cy.get('button[aria-label="Close"]').should('exist');
     });
 
     it('uses semantic HTML for keyboard keys', () => {
@@ -151,7 +204,18 @@ describe('KeyboardShortcutsHelp Component', () => {
 });
 
 describe('EmailVerificationBanner Component', () => {
-  beforeEach(() => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
+  beforeEach(function() {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
+    // * Clean state before each test
+    cy.cleanState();
+
     cy.stub(window, 'useAuthStore').returns(mockAuthStore);
     cy.stub(window, 'useToastStore').returns(mockToastStore);
     mockAuthStore.resendVerificationEmail.reset();
@@ -159,6 +223,11 @@ describe('EmailVerificationBanner Component', () => {
   });
 
   describe('Rendering', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('does not render when user is null', () => {
       cy.stub(window, 'useAuthStore').returns({ ...mockAuthStore, user: null });
       cy.mount(<EmailVerificationBanner />);
@@ -177,7 +246,7 @@ describe('EmailVerificationBanner Component', () => {
       cy.get('.lucide-alert-circle').should('be.visible');
     });
 
-    it('shows resend [data-cy*="button"]', () => {
+    it('shows resend button', () => {
       cy.mount(<EmailVerificationBanner />);
       cy.contains('Resend verification email').should('be.visible');
       cy.get('.lucide-send').should('be.visible');
@@ -196,7 +265,12 @@ describe('EmailVerificationBanner Component', () => {
   });
 
   describe('Interactions', () => {
-    it('sends verification email when [data-cy*="button"] clicked', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
+    it('sends verification email when button clicked', () => {
       mockAuthStore.resendVerificationEmail.resolves({ success: true });
       cy.mount(<EmailVerificationBanner />);
       cy.contains('Resend verification email').click();
@@ -236,11 +310,11 @@ describe('EmailVerificationBanner Component', () => {
 
     it('dismisses banner when X clicked', () => {
       cy.mount(<EmailVerificationBanner />);
-      cy.get('[data-cy*="button"][aria-label="Dismiss banner"]').click();
+      cy.get('button[aria-label="Dismiss banner"]').click();
       cy.get('[data-cy*="flame-light"]').should('not.exist');
     });
 
-    it('disables [data-cy*="button"] when already sent', () => {
+    it('disables button when already sent', () => {
       mockAuthStore.resendVerificationEmail.resolves({ success: true });
       cy.mount(<EmailVerificationBanner />);
       cy.contains('Resend verification email').click();
@@ -251,6 +325,11 @@ describe('EmailVerificationBanner Component', () => {
   });
 
   describe('Animation', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('animates entrance', () => {
       cy.mount(<EmailVerificationBanner />);
       cy.get('motion.div').should('exist');
@@ -258,6 +337,11 @@ describe('EmailVerificationBanner Component', () => {
   });
 
   describe('Error Handling', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('handles network error', () => {
       mockAuthStore.resendVerificationEmail.rejects(new Error('Network error'));
       cy.mount(<EmailVerificationBanner />);
@@ -273,13 +357,25 @@ describe('EmailVerificationBanner Component', () => {
 });
 
 describe('MigrationPrompt Component', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
+  
   const defaultProps = {
     isOpen: false,
     onClose: cy.stub(),
     onComplete: cy.stub()
   };
 
-  beforeEach(() => {
+  beforeEach(function() {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
+    // * Clean state before each test
+    cy.cleanState();
+
     cy.stub(window, 'useWorldbuildingStore').returns(mockWorldbuildingStore);
     cy.stub(window, 'migrationService').value(mockMigrationService);
     defaultProps.onClose.reset();
@@ -289,6 +385,11 @@ describe('MigrationPrompt Component', () => {
   });
 
   describe('Rendering', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('does not render when closed', () => {
       cy.mount(<MigrationPrompt {...defaultProps} />);
       cy.get('.fixed.inset-0').should('not.exist');
@@ -313,7 +414,7 @@ describe('MigrationPrompt Component', () => {
       cy.contains('Keep local copy').should('be.visible');
     });
 
-    it('displays action [data-cy*="button"]s', () => {
+    it('displays action buttons', () => {
       cy.mount(<MigrationPrompt isOpen={true} onClose={defaultProps.onClose} onComplete={defaultProps.onComplete} />);
       cy.contains('Start Upload').should('be.visible');
       cy.contains('Maybe Later').should('be.visible');
@@ -321,7 +422,12 @@ describe('MigrationPrompt Component', () => {
   });
 
   describe('Migration Process', () => {
-    it('starts migration when [data-cy*="button"] clicked', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
+    it('starts migration when button clicked', () => {
       mockMigrationService.onProgress.returns(() => {});
       mockMigrationService.migrateAllProjects.resolves({
         success: true,
@@ -396,6 +502,11 @@ describe('MigrationPrompt Component', () => {
   });
 
   describe('Interactions', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('closes when Maybe Later clicked', () => {
       cy.mount(<MigrationPrompt isOpen={true} onClose={defaultProps.onClose} onComplete={defaultProps.onComplete} />);
       cy.contains('Maybe Later').click();
@@ -417,8 +528,8 @@ describe('MigrationPrompt Component', () => {
       cy.mount(<MigrationPrompt isOpen={true} onClose={defaultProps.onClose} onComplete={defaultProps.onComplete} />);
       cy.contains('Start Upload').click();
       
-      // TODO: X [data-cy*="button"] should not be visible during migration
-      cy.get('[data-cy*="button"]').contains('×').should('not.exist');
+      // TODO: X button should not be visible during migration
+      cy.get('button').contains('×').should('not.exist');
     });
 
     it('calls onComplete when migration succeeds', () => {
@@ -469,7 +580,18 @@ describe('MigrationPrompt Component', () => {
 });
 
 describe('AccountMenu Component', () => {
-  beforeEach(() => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
+  beforeEach(function() {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
+    // * Clean state before each test
+    cy.cleanState();
+
     cy.stub(window, 'useAuthStore').returns(mockAuthStore);
     cy.stub(React, 'useNavigate').returns(mockNavigate);
     mockAuthStore.signOut.reset();
@@ -477,7 +599,12 @@ describe('AccountMenu Component', () => {
   });
 
   describe('Rendering', () => {
-    it('renders avatar [data-cy*="button"] with user initial', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
+    it('renders avatar button with user initial', () => {
       cy.mount(
         <RouterWrapper>
           <AccountMenu />
@@ -532,6 +659,11 @@ describe('AccountMenu Component', () => {
   });
 
   describe('Sync Status Display', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('shows syncing state', () => {
       cy.stub(window, 'useAuthStore').returns({ ...mockAuthStore, syncStatus: 'syncing' });
       cy.mount(
@@ -571,6 +703,11 @@ describe('AccountMenu Component', () => {
   });
 
   describe('Interactions', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('navigates to profile when clicked', () => {
       cy.mount(
         <RouterWrapper>
@@ -610,7 +747,7 @@ describe('AccountMenu Component', () => {
         <RouterWrapper>
           <div>
             <AccountMenu />
-            <div data-testid="outside">Outside element</div>
+            <div data-cy="outside">Outside element</div>
           </div>
         </RouterWrapper>
       );
@@ -618,7 +755,7 @@ describe('AccountMenu Component', () => {
       cy.contains('Test User').should('be.visible');
       
       // * Simulate clicking outside
-      cy.get('[data-testid="outside"]').click();
+      cy.get('[data-cy="outside"]').click();
       cy.contains('Test User').should('not.exist');
     });
 
@@ -635,6 +772,11 @@ describe('AccountMenu Component', () => {
   });
 
   describe('Animation', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('animates dropdown entrance', () => {
       cy.mount(
         <RouterWrapper>
@@ -647,6 +789,11 @@ describe('AccountMenu Component', () => {
   });
 
   describe('Edge Cases', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('handles missing profile name', () => {
       cy.stub(window, 'useAuthStore').returns({ 
         ...mockAuthStore, 
@@ -691,9 +838,21 @@ describe('AccountMenu Component', () => {
 });
 
 describe('AuthGuard Component', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
+  
   const mockLocation = { pathname: '/projects', state: null };
 
-  beforeEach(() => {
+  beforeEach(function() {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
+    // * Clean state before each test
+    cy.cleanState();
+
     cy.stub(window, 'useAuthStore').returns(mockAuthStore);
     cy.stub(React, 'useNavigate').returns(mockNavigate);
     cy.stub(React, 'useLocation').returns(mockLocation);
@@ -702,6 +861,11 @@ describe('AuthGuard Component', () => {
   });
 
   describe('Loading State', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('shows loading spinner while initializing', () => {
       cy.stub(window, 'useAuthStore').returns({ 
         ...mockAuthStore, 
@@ -721,6 +885,11 @@ describe('AuthGuard Component', () => {
   });
 
   describe('Authentication Flow', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('renders children when authenticated', () => {
       cy.mount(
         <MemoryRouter>
@@ -781,6 +950,11 @@ describe('AuthGuard Component', () => {
   });
 
   describe('Initialization', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('calls initialize on mount', () => {
       cy.mount(
         <MemoryRouter>
@@ -815,6 +989,11 @@ describe('AuthGuard Component', () => {
   });
 
   describe('Navigation State', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('preserves location state when redirecting to login', () => {
       cy.stub(window, 'useAuthStore').returns({ 
         ...mockAuthStore, 
@@ -858,6 +1037,11 @@ describe('AuthGuard Component', () => {
   });
 
   describe('Edge Cases', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('handles missing from state gracefully', () => {
       cy.clock();
       cy.stub(React, 'useLocation').returns({ 

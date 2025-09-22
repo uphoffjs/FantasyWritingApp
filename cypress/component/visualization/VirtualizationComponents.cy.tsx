@@ -1,3 +1,18 @@
+/**
+ * @fileoverview Virtualization Components Component Tests
+ * Tests for US-X.X: [User Story Name]
+ *
+ * User Story:
+ * As a [user type]
+ * I want to [action]
+ * So that [benefit]
+ *
+ * Acceptance Criteria:
+ * - [Criterion 1]
+ * - [Criterion 2]
+ * - [Criterion 3]
+ */
+
 import React from 'react';
 import { VirtualizedProjectList } from '../../../src/components/VirtualizedProjectList';
 import { VirtualizedQuestionList } from '../../../src/components/VirtualizedQuestionList';
@@ -38,17 +53,23 @@ jest.mock('react-window', () => ({
 jest.mock('../../src/components/ProjectCard', () => ({
   ProjectCard: ({ project, onDelete, isDeleting }: any) => (
     <div 
-      data-testid="project-card"
+      data-cy="project-card"
       data-project-id={project.id}
       onClick={() => onDelete(project.id)}
     >
-      <div data-testid="project-name">{project.name}</div>
-      {isDeleting && <div data-testid="deleting">Deleting...</div>}
+      <div data-cy="project-name">{project.name}</div>
+      {isDeleting && <div data-cy="deleting">Deleting...</div>}
     </div>
   )
 }));
 
 describe('VirtualizedProjectList Component', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
+  
   const mockProject = (id: string): Project => ({
     id,
     name: `Project ${id}`,
@@ -62,7 +83,13 @@ describe('VirtualizedProjectList Component', () => {
 
   const onDeleteSpy = cy.stub().as('onDelete');
 
-  beforeEach(() => {
+  beforeEach(function() {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
+    // * Clean state before each test
+    cy.cleanState();
+
     onDeleteSpy.reset();
     onDeleteSpy.resolves();
   });
@@ -78,8 +105,8 @@ describe('VirtualizedProjectList Component', () => {
       />
     );
     
-    cy.get('[data-testid="project-card"]').should('exist');
-    cy.get('[data-testid="project-name"]').first().should('contain', 'Project 1');
+    cy.get('[data-cy="project-card"]').should('exist');
+    cy.get('[data-cy="project-name"]').first().should('contain', 'Project 1');
   });
 
   it('handles empty projects array', () => {
@@ -92,7 +119,7 @@ describe('VirtualizedProjectList Component', () => {
     );
     
     // TODO: * Should return null for empty array
-    cy.get('[data-testid="project-card"]').should('not.exist');
+    cy.get('[data-cy="project-card"]').should('not.exist');
   });
 
   it('shows deleting state for specific project', () => {
@@ -106,8 +133,8 @@ describe('VirtualizedProjectList Component', () => {
       />
     );
     
-    cy.get('[data-project-id="1"]').find('[data-testid="deleting"]').should('exist');
-    cy.get('[data-project-id="2"]').find('[data-testid="deleting"]').should('not.exist');
+    cy.get('[data-project-id="1"]').find('[data-cy="deleting"]').should('exist');
+    cy.get('[data-project-id="2"]').find('[data-cy="deleting"]').should('not.exist');
   });
 
   it('calls onDeleteProject when project is deleted', () => {
@@ -121,7 +148,7 @@ describe('VirtualizedProjectList Component', () => {
       />
     );
     
-    cy.get('[data-testid="project-card"]').first().click();
+    cy.get('[data-cy="project-card"]').first().click();
     cy.get('@onDelete').should('have.been.calledWith', '1');
   });
 
@@ -137,7 +164,7 @@ describe('VirtualizedProjectList Component', () => {
         deletingProjectId={null}
       />
     );
-    cy.get('[data-testid="project-card"]').should('exist');
+    cy.get('[data-cy="project-card"]').should('exist');
     
     // * Test tablet viewport (2 columns)
     cy.viewport(768, 1024);
@@ -148,7 +175,7 @@ describe('VirtualizedProjectList Component', () => {
         deletingProjectId={null}
       />
     );
-    cy.get('[data-testid="project-card"]').should('exist');
+    cy.get('[data-cy="project-card"]').should('exist');
     
     // * Test desktop viewport (3 columns)
     cy.viewport(1920, 1080);
@@ -159,13 +186,24 @@ describe('VirtualizedProjectList Component', () => {
         deletingProjectId={null}
       />
     );
-    cy.get('[data-testid="project-card"]').should('exist');
+    cy.get('[data-cy="project-card"]').should('exist');
   });
 });
 
 describe('InfiniteScrollList Component', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
   // * Mock intersection observer
-  beforeEach(() => {
+  beforeEach(function() {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
+    // * Clean state before each test
+    cy.cleanState();
+
     cy.window().then((win) => {
       const mockIntersectionObserver = cy.stub();
       mockIntersectionObserver.returns({
@@ -178,7 +216,7 @@ describe('InfiniteScrollList Component', () => {
   });
 
   const renderItem = (item: any, index: number) => (
-    <div data-testid="list-item" key={index}>{item}</div>
+    <div data-cy="list-item" key={index}>{item}</div>
   );
 
   it('renders initial items', () => {
@@ -195,8 +233,8 @@ describe('InfiniteScrollList Component', () => {
       />
     );
     
-    cy.get('[data-testid="list-item"]').should('have.length', 10);
-    cy.get('[data-testid="list-item"]').first().should('contain', 'Item 1');
+    cy.get('[data-cy="list-item"]').should('have.length', 10);
+    cy.get('[data-cy="list-item"]').first().should('contain', 'Item 1');
   });
 
   it('shows loading indicator when loading', () => {
@@ -213,7 +251,7 @@ describe('InfiniteScrollList Component', () => {
       />
     );
     
-    cy.get('[data-testid="loading-spinner"]').should('exist');
+    cy.get('[data-cy="loading-spinner"]').should('exist');
   });
 
   it('shows no more items message when hasMore is false', () => {
@@ -284,10 +322,10 @@ describe('InfiniteScrollList Component', () => {
     );
     
     cy.contains('Failed to load items').should('be.visible');
-    cy.get('[data-testid="retry-[data-cy*="button"]"]').should('exist');
+    cy.get('[data-cy="retry-button"]').should('exist');
   });
 
-  it('calls loadMore on retry [data-cy*="button"] click', () => {
+  it('calls loadMore on retry button click', () => {
     const items = ['Item 1'];
     const loadMore = cy.stub().as('loadMore');
     
@@ -302,13 +340,19 @@ describe('InfiniteScrollList Component', () => {
       />
     );
     
-    cy.get('[data-testid="retry-[data-cy*="button"]"]').click();
+    cy.get('[data-cy="retry-button"]').click();
     cy.get('@loadMore').should('have.been.called');
   });
 });
 
 // * Simplified tests for VirtualizedQuestionList since it follows similar patterns
 describe('VirtualizedQuestionList Component', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
+  
   const mockQuestion = (id: string) => ({
     id,
     text: `Question ${id}`,
@@ -317,7 +361,7 @@ describe('VirtualizedQuestionList Component', () => {
     required: false
   });
 
-  const renderQuestion = cy.stub().returns(<div data-testid="question">Question</div>);
+  const renderQuestion = cy.stub().returns(<div data-cy="question">Question</div>);
   const onReorder = cy.stub();
 
   it('renders questions in virtualized list', () => {
@@ -332,7 +376,7 @@ describe('VirtualizedQuestionList Component', () => {
       />
     );
     
-    cy.get('[data-testid="question"]').should('exist');
+    cy.get('[data-cy="question"]').should('exist');
   });
 
   it('handles empty questions array', () => {
@@ -360,7 +404,7 @@ describe('VirtualizedQuestionList Component', () => {
     );
     
     // TODO: * Drag handles should be visible
-    cy.get('[data-testid="drag-handle"]').should('exist');
+    cy.get('[data-cy="drag-handle"]').should('exist');
   });
 
   it('disables reordering when enableReorder is false', () => {
@@ -376,6 +420,6 @@ describe('VirtualizedQuestionList Component', () => {
     );
     
     // TODO: * Drag handles should not be visible
-    cy.get('[data-testid="drag-handle"]').should('not.exist');
+    cy.get('[data-cy="drag-handle"]').should('not.exist');
   });
 });

@@ -1,8 +1,34 @@
+/**
+ * @fileoverview Completion Heatmap.simple Component Tests
+ * Tests for US-X.X: [User Story Name]
+ *
+ * User Story:
+ * As a [user type]
+ * I want to [action]
+ * So that [benefit]
+ *
+ * Acceptance Criteria:
+ * - [Criterion 1]
+ * - [Criterion 2]
+ * - [Criterion 3]
+ */
+
 import React from 'react';
 import { CompletionHeatmap } from '../../../src/components/CompletionHeatmap';
 import { Project, WorldElement } from '../../../src/types/models';
 
 describe('CompletionHeatmap Simple Test', () => {
+  beforeEach(function() {
+    // ! Essential debug and state management
+    cy.comprehensiveDebug();
+    cy.cleanState();
+  });
+
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
   it('renders without error', () => {
     const element: WorldElement = {
       id: 'element-1',

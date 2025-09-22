@@ -1,3 +1,18 @@
+/**
+ * @fileoverview Project List Component Tests
+ * Tests for US-X.X: [User Story Name]
+ *
+ * User Story:
+ * As a [user type]
+ * I want to [action]
+ * So that [benefit]
+ *
+ * Acceptance Criteria:
+ * - [Criterion 1]
+ * - [Criterion 2]
+ * - [Criterion 3]
+ */
+
 import React from 'react';
 import { ProjectList } from '../../../src/components/ProjectList';
 import { mountWithProviders } from '../../support/mount-helpers';
@@ -10,6 +25,12 @@ import {
 } from '../../support/test-utils';
 
 describe('ProjectList Component', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
+  
   const createMockProjects = (count: number, archived = false) => {
     return Array.from({ length: count }, (_, i) => ({
       ...mockProject,
@@ -23,15 +44,26 @@ describe('ProjectList Component', () => {
     }));
   };
 
-  beforeEach(() => {
+  beforeEach(function() {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
+    // * Clean state before each test
+    cy.cleanState();
+
     // * Clear localStorage before each test
     cy.clearLocalStorage();
   });
 
   describe('Rendering', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('renders without errors', () => {
       mountWithProviders(<ProjectList />);
-      cy.get('[data-testid="create-project"]').should('exist');
+      cy.get('[data-cy="create-project"]').should('exist');
     });
 
     it('displays title and controls', () => {
@@ -41,8 +73,8 @@ describe('ProjectList Component', () => {
       cy.contains('Your Worldbuilding Projects').should('be.visible');
       
       // * Check main controls
-      cy.get('[data-testid="create-project"]').should('be.visible');
-      cy.get('[data-testid="toggle-archived"]').should('be.visible');
+      cy.get('[data-cy="create-project"]').should('be.visible');
+      cy.get('[data-cy="toggle-archived"]').should('be.visible');
     });
 
     it('displays empty state when no projects', () => {
@@ -50,7 +82,7 @@ describe('ProjectList Component', () => {
       
       cy.contains('No projects yet').should('be.visible');
       cy.contains('Create your first worldbuilding project to get started').should('be.visible');
-      cy.get('[data-testid="create-first-project"]').should('be.visible');
+      cy.get('[data-cy="create-first-project"]').should('be.visible');
     });
 
     it('displays project cards when projects exist', () => {
@@ -60,7 +92,7 @@ describe('ProjectList Component', () => {
       });
       
       // ? TODO: * Should show 3 project cards
-      cy.get('[data-testid="project-card"]').should('have.length', 3);
+      cy.get('[data-cy="project-card"]').should('have.length', 3);
       
       // * Verify project names
       projects.forEach(project => {
@@ -78,22 +110,27 @@ describe('ProjectList Component', () => {
       cy.get('.react-window').should('exist');
     });
 
-    it('displays floating action [data-cy*="button"] on mobile', () => {
+    it('displays floating action button on mobile', () => {
       setMobileViewport();
       mountWithProviders(<ProjectList />);
       
-      cy.get('[data-testid="fab-create-project"]').should('be.visible');
+      cy.get('[data-cy="fab-create-project"]').should('be.visible');
     });
 
-    it('hides floating action [data-cy*="button"] on desktop', () => {
+    it('hides floating action button on desktop', () => {
       setDesktopViewport();
       mountWithProviders(<ProjectList />);
       
-      cy.get('[data-testid="fab-create-project"]').should('not.be.visible');
+      cy.get('[data-cy="fab-create-project"]').should('not.be.visible');
     });
   });
 
   describe('Search Functionality', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('filters projects by search query', () => {
       const projects = createMockProjects(5);
       projects[2].name = 'Unique Test Project';
@@ -103,11 +140,11 @@ describe('ProjectList Component', () => {
       });
       
       // * Search for specific project
-      cy.get('[data-testid="project-search"]').type('Unique');
+      cy.get('[data-cy="project-search"]').type('Unique');
       waitForAnimation(); // Wait for debounce
       
       // ? TODO: * Should show only matching project
-      cy.get('[data-testid="project-card"]').should('have.length', 1);
+      cy.get('[data-cy="project-card"]').should('have.length', 1);
       cy.contains('Unique Test Project').should('be.visible');
       cy.contains('Showing 1 project matching "Unique"').should('be.visible');
     });
@@ -122,15 +159,15 @@ describe('ProjectList Component', () => {
       });
       
       // * Search by description
-      cy.get('[data-testid="project-search"]').type('Magic');
+      cy.get('[data-cy="project-search"]').type('Magic');
       waitForAnimation();
-      cy.get('[data-testid="project-card"]').should('have.length', 1);
+      cy.get('[data-cy="project-card"]').should('have.length', 1);
       
       // * Clear and search by genre
-      cy.get('[data-testid="clear-search"]').click();
-      cy.get('[data-testid="project-search"]').type('Cyberpunk');
+      cy.get('[data-cy="clear-search"]').click();
+      cy.get('[data-cy="project-search"]').type('Cyberpunk');
       waitForAnimation();
-      cy.get('[data-testid="project-card"]').should('have.length', 1);
+      cy.get('[data-cy="project-card"]').should('have.length', 1);
     });
 
     it('shows no results message when search has no matches', () => {
@@ -139,7 +176,7 @@ describe('ProjectList Component', () => {
         initialState: { projects }
       });
       
-      cy.get('[data-testid="project-search"]').type('NonExistentProject');
+      cy.get('[data-cy="project-search"]').type('NonExistentProject');
       waitForAnimation();
       
       cy.contains('No projects found').should('be.visible');
@@ -153,20 +190,25 @@ describe('ProjectList Component', () => {
       });
       
       // * Type quickly
-      cy.get('[data-testid="project-search"]').type('Pro');
+      cy.get('[data-cy="project-search"]').type('Pro');
       
       // ? TODO: * Should still show all projects immediately
-      cy.get('[data-testid="project-card"]').should('have.length', 3);
+      cy.get('[data-cy="project-card"]').should('have.length', 3);
       
       // ! PERFORMANCE: * Wait for debounce
       waitForAnimation();
       
       // ? TODO: * Now should show filtered results
-      cy.get('[data-testid="project-card"]').should('have.length', 3); // All match "Pro"
+      cy.get('[data-cy="project-card"]').should('have.length', 3); // All match "Pro"
     });
   });
 
   describe('Sorting', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('sorts projects by modified date (default)', () => {
       const projects = createMockProjects(3);
       mountWithProviders(<ProjectList />, {
@@ -174,8 +216,8 @@ describe('ProjectList Component', () => {
       });
       
       // TODO: * Default sort should be modified-desc
-      cy.get('[data-testid="project-card"]').first().should('contain', 'Project 3');
-      cy.get('[data-testid="project-card"]').last().should('contain', 'Project 1');
+      cy.get('[data-cy="project-card"]').first().should('contain', 'Project 3');
+      cy.get('[data-cy="project-card"]').last().should('contain', 'Project 1');
     });
 
     it('sorts projects by name ascending', () => {
@@ -190,10 +232,10 @@ describe('ProjectList Component', () => {
       });
       
       // * Change sort to name-asc
-      cy.get('[data-testid="sort-dropdown"]').select('name-asc');
+      cy.get('[data-cy="sort-dropdown"]').select('name-asc');
       
-      cy.get('[data-testid="project-card"]').first().should('contain', 'Alpha Project');
-      cy.get('[data-testid="project-card"]').last().should('contain', 'Zebra World');
+      cy.get('[data-cy="project-card"]').first().should('contain', 'Alpha Project');
+      cy.get('[data-cy="project-card"]').last().should('contain', 'Zebra World');
     });
 
     it('sorts projects by created date', () => {
@@ -203,17 +245,17 @@ describe('ProjectList Component', () => {
       });
       
       // * Change sort to created-asc
-      cy.get('[data-testid="sort-dropdown"]').select('created-asc');
+      cy.get('[data-cy="sort-dropdown"]').select('created-asc');
       
-      cy.get('[data-testid="project-card"]').first().should('contain', 'Project 1');
-      cy.get('[data-testid="project-card"]').last().should('contain', 'Project 3');
+      cy.get('[data-cy="project-card"]').first().should('contain', 'Project 1');
+      cy.get('[data-cy="project-card"]').last().should('contain', 'Project 3');
     });
 
     it('persists sort preference in localStorage', () => {
       mountWithProviders(<ProjectList />);
       
       // * Change sort preference
-      cy.get('[data-testid="sort-dropdown"]').select('name-desc');
+      cy.get('[data-cy="sort-dropdown"]').select('name-desc');
       
       // * Check localStorage
       cy.window().then((win) => {
@@ -225,11 +267,16 @@ describe('ProjectList Component', () => {
       cy.mount(<ProjectList />);
       
       // TODO: * Should retain sort preference
-      cy.get('[data-testid="sort-dropdown"]').should('have.value', 'name-desc');
+      cy.get('[data-cy="sort-dropdown"]').should('have.value', 'name-desc');
     });
   });
 
   describe('Archive Toggle', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('shows active projects by default', () => {
       const activeProjects = createMockProjects(2, false);
       const archivedProjects = createMockProjects(2, true);
@@ -239,7 +286,7 @@ describe('ProjectList Component', () => {
       });
       
       // ? TODO: * Should only show active projects
-      cy.get('[data-testid="project-card"]').should('have.length', 2);
+      cy.get('[data-cy="project-card"]').should('have.length', 2);
       cy.contains('(2 archived)').should('be.visible');
     });
 
@@ -252,11 +299,11 @@ describe('ProjectList Component', () => {
       });
       
       // * Toggle to archived
-      cy.get('[data-testid="toggle-archived"]').click();
+      cy.get('[data-cy="toggle-archived"]').click();
       
       // ? TODO: * Should show archived projects
-      cy.get('[data-testid="project-card"]').should('have.length', 2);
-      cy.get('[data-testid="toggle-archived"]').should('contain', 'Showing Archived');
+      cy.get('[data-cy="project-card"]').should('have.length', 2);
+      cy.get('[data-cy="toggle-archived"]').should('contain', 'Showing Archived');
     });
 
     it('shows appropriate empty state for archived view', () => {
@@ -267,7 +314,7 @@ describe('ProjectList Component', () => {
       });
       
       // * Toggle to archived (which has none)
-      cy.get('[data-testid="toggle-archived"]').click();
+      cy.get('[data-cy="toggle-archived"]').click();
       
       cy.contains('No archived projects').should('be.visible');
       cy.contains('Your archived projects will appear here').should('be.visible');
@@ -275,26 +322,31 @@ describe('ProjectList Component', () => {
   });
 
   describe('Project Actions', () => {
-    it('opens create project modal when clicking new project [data-cy*="button"]', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
+    it('opens create project modal when clicking new project button', () => {
       mountWithProviders(<ProjectList />);
       
-      cy.get('[data-testid="create-project"]').click();
-      cy.get('[data-testid="create-project-modal"]').should('be.visible');
+      cy.get('[data-cy="create-project"]').click();
+      cy.get('[data-cy="create-project-modal"]').should('be.visible');
     });
 
     it('opens create project modal from empty state', () => {
       mountWithProviders(<ProjectList />);
       
-      cy.get('[data-testid="create-first-project"]').click();
-      cy.get('[data-testid="create-project-modal"]').should('be.visible');
+      cy.get('[data-cy="create-first-project"]').click();
+      cy.get('[data-cy="create-project-modal"]').should('be.visible');
     });
 
     it('opens create project modal from FAB on mobile', () => {
       setMobileViewport();
       mountWithProviders(<ProjectList />);
       
-      cy.get('[data-testid="fab-create-project"]').click();
-      cy.get('[data-testid="create-project-modal"]').should('be.visible');
+      cy.get('[data-cy="fab-create-project"]').click();
+      cy.get('[data-cy="create-project-modal"]').should('be.visible');
     });
 
     it('deletes project with confirmation', () => {
@@ -310,7 +362,7 @@ describe('ProjectList Component', () => {
       });
       
       // * Open action menu on first project
-      cy.get('[data-testid="project-card"]').first().find('[aria-label="Project actions"]').click();
+      cy.get('[data-cy="project-card"]').first().find('[aria-label="Project actions"]').click();
       
       // * Click delete option
       cy.contains('Delete Project').click();
@@ -332,13 +384,13 @@ describe('ProjectList Component', () => {
       });
       
       // * Open action menu on first project
-      cy.get('[data-testid="project-card"]').first().find('[aria-label="Project actions"]').click();
+      cy.get('[data-cy="project-card"]').first().find('[aria-label="Project actions"]').click();
       
       // * Click delete option
       cy.contains('Delete Project').click();
       
       // * Verify projects still exist
-      cy.get('[data-testid="project-card"]').should('have.length', 2);
+      cy.get('[data-cy="project-card"]').should('have.length', 2);
     });
 
     it('shows loading state during deletion', () => {
@@ -353,7 +405,7 @@ describe('ProjectList Component', () => {
       });
       
       // * Open action menu on first project
-      cy.get('[data-testid="project-card"]').first().find('[aria-label="Project actions"]').click();
+      cy.get('[data-cy="project-card"]').first().find('[aria-label="Project actions"]').click();
       
       // * Click delete option
       cy.contains('Delete Project').click();
@@ -364,6 +416,11 @@ describe('ProjectList Component', () => {
   });
 
   describe('Combined Features', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('searches within archived projects', () => {
       const activeProjects = createMockProjects(2, false);
       const archivedProjects = createMockProjects(2, true);
@@ -374,14 +431,14 @@ describe('ProjectList Component', () => {
       });
       
       // * Switch to archived
-      cy.get('[data-testid="toggle-archived"]').click();
+      cy.get('[data-cy="toggle-archived"]').click();
       
       // Search
-      cy.get('[data-testid="project-search"]').type('Special');
+      cy.get('[data-cy="project-search"]').type('Special');
       waitForAnimation();
       
       // TODO: * Should find the archived project
-      cy.get('[data-testid="project-card"]').should('have.length', 1);
+      cy.get('[data-cy="project-card"]').should('have.length', 1);
       cy.contains('Archived Special').should('be.visible');
     });
 
@@ -396,21 +453,26 @@ describe('ProjectList Component', () => {
         initialState: { projects }
       });
       
-      // * Open sort dropdown and [data-cy*="select"] name-desc
-      cy.get('[data-testid="sort-dropdown"]').click();
-      cy.get('[data-testid="sort-option-name-desc"]').click();
+      // * Open sort dropdown and select name-desc
+      cy.get('[data-cy="sort-dropdown"]').click();
+      cy.get('[data-cy="sort-option-name-desc"]').click();
       
       // * Search for "Test"
-      cy.get('[data-testid="project-search"]').type('Test');
+      cy.get('[data-cy="project-search"]').type('Test');
       waitForAnimation();
       
       // TODO: * Should maintain desc order by name
-      cy.get('[data-testid="project-card"]').first().should('contain', 'Gamma Test');
-      cy.get('[data-testid="project-card"]').last().should('contain', 'Alpha Test');
+      cy.get('[data-cy="project-card"]').first().should('contain', 'Gamma Test');
+      cy.get('[data-cy="project-card"]').last().should('contain', 'Alpha Test');
     });
   });
 
   describe('Responsive Design', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('adapts layout for mobile viewport', () => {
       setMobileViewport();
       const projects = createMockProjects(3);
@@ -420,12 +482,12 @@ describe('ProjectList Component', () => {
       });
       
       // * Check mobile-specific elements
-      cy.get('[data-testid="fab-create-project"]').should('be.visible');
+      cy.get('[data-cy="fab-create-project"]').should('be.visible');
       
       // * Check responsive grid
       // React Native Web uses flexbox instead of CSS Grid
 
-      cy.get('[data-testid="grid"]').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
+      cy.get('[data-cy="grid"]').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
     });
 
     it('adapts layout for tablet viewport', () => {
@@ -437,12 +499,12 @@ describe('ProjectList Component', () => {
       });
       
       // TODO: FAB should be hidden
-      cy.get('[data-testid="fab-create-project"]').should('not.be.visible');
+      cy.get('[data-cy="fab-create-project"]').should('not.be.visible');
       
       // * Check responsive grid
       // React Native Web uses flexbox instead of CSS Grid
 
-      cy.get('[data-testid="grid"]').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
+      cy.get('[data-cy="grid"]').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
     });
 
     it('adapts layout for desktop viewport', () => {
@@ -456,15 +518,20 @@ describe('ProjectList Component', () => {
       // * Check desktop layout
       // React Native Web uses flexbox instead of CSS Grid
 
-      cy.get('[data-testid="grid"]').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
+      cy.get('[data-cy="grid"]').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
     });
   });
 
   describe('Accessibility', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('has proper ARIA labels', () => {
       mountWithProviders(<ProjectList />);
       
-      cy.get('[data-testid="fab-create-project"]')
+      cy.get('[data-cy="fab-create-project"]')
         .should('have.attr', 'aria-label', 'Create new project');
     });
 
@@ -475,16 +542,16 @@ describe('ProjectList Component', () => {
       });
       
       // * Focus and verify interactive elements are keyboard accessible
-      cy.get('[data-testid="toggle-archived"]').focus();
+      cy.get('[data-cy="toggle-archived"]').focus();
       cy.focused().should('have.attr', 'data-cy', 'toggle-archived');
       
-      cy.get('[data-testid="create-project"]').focus();
+      cy.get('[data-cy="create-project"]').focus();
       cy.focused().should('have.attr', 'data-cy', 'create-project');
       
-      cy.get('[data-testid="project-search"]').focus();
+      cy.get('[data-cy="project-search"]').focus();
       cy.focused().should('have.attr', 'data-cy', 'project-search');
       
-      cy.get('[data-testid="sort-dropdown"]').focus();
+      cy.get('[data-cy="sort-dropdown"]').focus();
       cy.focused().should('have.attr', 'data-cy', 'sort-dropdown');
     });
 
@@ -494,7 +561,7 @@ describe('ProjectList Component', () => {
         initialState: { projects }
       });
       
-      cy.get('[data-testid="project-search"]').type('Project');
+      cy.get('[data-cy="project-search"]').type('Project');
       waitForAnimation();
       
       // TODO: * Results count should be visible and readable
@@ -504,6 +571,11 @@ describe('ProjectList Component', () => {
   });
 
   describe('Performance', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('virtualizes large lists efficiently', () => {
       const projects = createMockProjects(100);
       mountWithProviders(<ProjectList />, {
@@ -514,7 +586,7 @@ describe('ProjectList Component', () => {
       cy.get('.react-window').should('exist');
       
       // TODO: * Should not render all 100 items at once
-      cy.get('[data-testid="project-card"]').should('have.length.lessThan', 30);
+      cy.get('[data-cy="project-card"]').should('have.length.lessThan', 30);
     });
 
     it('handles search efficiently with large datasets', () => {
@@ -525,7 +597,7 @@ describe('ProjectList Component', () => {
       });
       
       // * Type a search query
-      cy.get('[data-testid="project-search"]').type('Project 25');
+      cy.get('[data-cy="project-search"]').type('Project 25');
       
       // ! PERFORMANCE: * Wait for debounce
       waitForAnimation();
@@ -534,11 +606,16 @@ describe('ProjectList Component', () => {
       cy.contains('Project 25').should('be.visible');
       
       // * Verify search is working with large dataset
-      cy.get('[data-testid="project-card"]').should('have.length', 1);
+      cy.get('[data-cy="project-card"]').should('have.length', 1);
     });
   });
 
   describe('Edge Cases', () => {
+  afterEach(function() {
+    // ! Capture debug info if test failed
+    cy.captureFailureDebug();
+  });
+
     it('handles projects with missing data gracefully', () => {
       const projects = [
         { ...mockProject, description: undefined },
@@ -550,7 +627,7 @@ describe('ProjectList Component', () => {
       });
       
       // TODO: * Should render without errors
-      cy.get('[data-testid="project-card"]').should('have.length', 2);
+      cy.get('[data-cy="project-card"]').should('have.length', 2);
     });
 
     it('handles search with special characters', () => {
@@ -561,10 +638,10 @@ describe('ProjectList Component', () => {
         initialState: { projects }
       });
       
-      cy.get('[data-testid="project-search"]').type('(Special)');
+      cy.get('[data-cy="project-search"]').type('(Special)');
       waitForAnimation();
       
-      cy.get('[data-testid="project-card"]').should('have.length', 1);
+      cy.get('[data-cy="project-card"]').should('have.length', 1);
       cy.contains('Project (Special) [Characters]').should('be.visible');
     });
 
@@ -577,13 +654,13 @@ describe('ProjectList Component', () => {
       });
       
       // * Rapidly toggle
-      cy.get('[data-testid="toggle-archived"]').click();
-      cy.get('[data-testid="toggle-archived"]').click();
-      cy.get('[data-testid="toggle-archived"]').click();
+      cy.get('[data-cy="toggle-archived"]').click();
+      cy.get('[data-cy="toggle-archived"]').click();
+      cy.get('[data-cy="toggle-archived"]').click();
       
       // ? TODO: * Should end up showing archived
-      cy.get('[data-testid="project-card"]').should('have.length', 2);
-      cy.get('[data-testid="toggle-archived"]').should('contain', 'Showing Archived');
+      cy.get('[data-cy="project-card"]').should('have.length', 2);
+      cy.get('[data-cy="toggle-archived"]').should('contain', 'Showing Archived');
     });
 
     it('handles empty search query correctly', () => {
@@ -593,12 +670,12 @@ describe('ProjectList Component', () => {
       });
       
       // * Type and then clear
-      cy.get('[data-testid="project-search"]').type('Test');
-      cy.get('[data-testid="clear-search"]').click();
+      cy.get('[data-cy="project-search"]').type('Test');
+      cy.get('[data-cy="clear-search"]').click();
       waitForAnimation();
       
       // ? TODO: * Should show all projects
-      cy.get('[data-testid="project-card"]').should('have.length', 3);
+      cy.get('[data-cy="project-card"]').should('have.length', 3);
       
       // ? TODO: * Should not show search message
       cy.contains('matching ""').should('not.exist');
