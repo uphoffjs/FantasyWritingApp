@@ -135,7 +135,9 @@ Cypress.Commands.add('captureFailureDebug', () => {
     
     // ! Fixed: Store errors for logging outside the callback
     if (errors.length > 0) {
-      (win as any).__cypressErrorBoundaries = errors;
+      cy.window().then((w) => {
+        (w as any).__cypressErrorBoundaries = errors;
+      });
     }
   });
   
@@ -194,7 +196,9 @@ Cypress.Commands.add('captureFailureDebug', () => {
     });
     // ! Fixed: Store loaders for logging outside the callback
     if (foundLoaders.length > 0) {
-      (win as any).__cypressLoadingIndicators = foundLoaders;
+      cy.window().then((w) => {
+        (w as any).__cypressLoadingIndicators = foundLoaders;
+      });
     }
   });
   
@@ -241,6 +245,346 @@ Cypress.Commands.add('verifyNoConsoleErrors', () => {
     const logs = extendedWin.__cypressLogs || [];
     const errors = logs.filter(log => log.includes('[CONSOLE ERROR]'));
     expect(errors, 'Console errors found').to.be.empty;
+  });
+});
+
+/**
+ * Capture network failures and log them
+ * @param options - Options for network capture
+ */
+Cypress.Commands.add('captureNetworkFailures', (options?: {
+  logOnly?: number[]; // Only log specific status codes
+  ignoreUrls?: string[]; // URLs to ignore
+}) => {
+  const failedRequests: any[] = [];
+  const opts = {
+    logOnly: options?.logOnly || [],
+    ignoreUrls: options?.ignoreUrls || []
+  };
+
+  // * Set up network interception
+  cy.intercept('**/*', (req) => {
+    req.on('response', (res) => {
+      // * Check if URL should be ignored
+      const shouldIgnore = opts.ignoreUrls.some(pattern =>
+        req.url.includes(pattern)
+      );
+
+      if (shouldIgnore) return;
+
+      // * Check for failures (4xx or 5xx status codes)
+      const isFailure = res.statusCode >= 400;
+      const shouldLog = opts.logOnly.length === 0 ||
+                       opts.logOnly.includes(res.statusCode);
+
+      if (isFailure && shouldLog) {
+        const failure = {
+          url: req.url,
+          method: req.method,
+          statusCode: res.statusCode,
+          statusMessage: res.statusMessage,
+          duration: Date.now() - (req as any).startTime,
+          timestamp: new Date().toISOString()
+        };
+
+        failedRequests.push(failure);
+
+        // * Log immediately
+        cy.task('log', `[NETWORK FAILURE] ${req.method} ${req.url} - ${res.statusCode} ${res.statusMessage}`);
+      }
+    });
+
+    // * Track request start time
+    (req as any).startTime = Date.now();
+  }).as('networkCapture');
+
+  // * Store failed requests on window for later access
+  cy.window().then((win) => {
+    (win as any).__cypressNetworkFailures = failedRequests;
+  });
+
+  cy.task('log', 'Network failure capture enabled');
+});
+
+/**
+ * Log performance metrics
+ * @param label - Optional label for the metrics
+ */
+Cypress.Commands.add('logPerformanceMetrics', (label?: string) => {
+  cy.window().then((win) => {
+    const perf = win.performance;
+
+    if (!perf || !perf.timing) {
+      cy.task('log', 'Performance API not available');
+      return;
+    }
+
+    const timing = perf.timing;
+    const metrics = {
+      label: label || 'Performance Metrics',
+      timestamp: new Date().toISOString(),
+
+      // * Navigation timing
+      navigationStart: 0,
+      domainLookup: timing.domainLookupEnd - timing.domainLookupStart,
+      tcpConnection: timing.connectEnd - timing.connectStart,
+      serverResponse: timing.responseEnd - timing.requestStart,
+      domParsing: timing.domInteractive - timing.domLoading,
+      domContentLoaded: timing.domContentLoadedEventEnd - timing.navigationStart,
+      pageLoadComplete: timing.loadEventEnd - timing.navigationStart,
+
+      // * Resource timing summary
+      resourceCount: perf.getEntriesByType('resource').length,
+      avgResourceDuration: 0,
+      slowestResource: null as any,
+
+      // * Memory usage (if available)
+      memory: null as any
+    };
+
+    // * Calculate resource metrics
+    const resources = perf.getEntriesByType('resource') as PerformanceResourceTiming[];
+    if (resources.length > 0) {
+      const totalDuration = resources.reduce((sum, r) => sum + r.duration, 0);
+      metrics.avgResourceDuration = Math.round(totalDuration / resources.length);
+
+      // * Find slowest resource
+      const slowest = resources.reduce((slow, r) =>
+        r.duration > (slow?.duration || 0) ? r : slow
+      );
+
+      metrics.slowestResource = {
+        name: slowest.name,
+        duration: Math.round(slowest.duration),
+        type: slowest.initiatorType
+      };
+    }
+
+    // * Add memory metrics if available
+    if ('memory' in perf) {
+      const mem = (perf as any).memory;
+      metrics.memory = {
+        usedJSHeapSize: Math.round(mem.usedJSHeapSize / 1048576), // MB
+        totalJSHeapSize: Math.round(mem.totalJSHeapSize / 1048576), // MB
+        limit: Math.round(mem.jsHeapSizeLimit / 1048576) // MB
+      };
+    }
+
+    // * Log metrics
+    cy.task('log', `[PERFORMANCE] ${JSON.stringify(metrics, null, 2)}`);
+
+    // * Store metrics for export
+    const stored = (win as any).__cypressPerformanceMetrics || [];
+    stored.push(metrics);
+    (win as any).__cypressPerformanceMetrics = stored;
+  });
+});
+
+/**
+ * Track memory usage over time
+ * @param intervalMs - Sampling interval in milliseconds
+ * @param duration - Total duration to track in milliseconds
+ */
+Cypress.Commands.add('trackMemoryUsage', (
+  intervalMs: number = 1000,
+  duration: number = 10000
+) => {
+  cy.window().then((win) => {
+    const perf = win.performance as any;
+
+    if (!perf || !perf.memory) {
+      cy.task('log', 'Memory API not available');
+      return;
+    }
+
+    const samples: any[] = [];
+    let sampleCount = 0;
+    const maxSamples = Math.floor(duration / intervalMs);
+
+    // * Create sampling function
+    const sampleMemory = () => {
+      const mem = perf.memory;
+      const sample = {
+        timestamp: Date.now(),
+        usedJSHeapSize: Math.round(mem.usedJSHeapSize / 1048576), // MB
+        totalJSHeapSize: Math.round(mem.totalJSHeapSize / 1048576), // MB
+        limit: Math.round(mem.jsHeapSizeLimit / 1048576), // MB
+        percentUsed: Math.round((mem.usedJSHeapSize / mem.jsHeapSizeLimit) * 100)
+      };
+
+      samples.push(sample);
+      sampleCount++;
+
+      // * Log if memory usage is high
+      if (sample.percentUsed > 80) {
+        cy.task('log', `[MEMORY WARNING] High memory usage: ${sample.percentUsed}% (${sample.usedJSHeapSize}MB / ${sample.limit}MB)`);
+      }
+
+      if (sampleCount >= maxSamples) {
+        // * Calculate statistics
+        const stats = {
+          samples: samples.length,
+          duration: duration,
+          avgUsed: Math.round(samples.reduce((sum, s) => sum + s.usedJSHeapSize, 0) / samples.length),
+          maxUsed: Math.max(...samples.map(s => s.usedJSHeapSize)),
+          minUsed: Math.min(...samples.map(s => s.usedJSHeapSize)),
+          avgPercent: Math.round(samples.reduce((sum, s) => sum + s.percentUsed, 0) / samples.length)
+        };
+
+        cy.task('log', `[MEMORY STATS] ${JSON.stringify(stats)}`);
+
+        // * Store for export
+        (win as any).__cypressMemoryTracking = {
+          stats,
+          samples
+        };
+
+        clearInterval(intervalId);
+      }
+    };
+
+    // * Start sampling
+    const intervalId = setInterval(sampleMemory, intervalMs);
+
+    // * Sample immediately
+    sampleMemory();
+  });
+
+  cy.task('log', `Memory tracking started: ${intervalMs}ms interval for ${duration}ms`);
+});
+
+/**
+ * Export all debug data to JSON
+ * @param filename - Optional filename for the export
+ */
+Cypress.Commands.add('exportDebugData', (filename?: string) => {
+  cy.window().then((win) => {
+    const debugData = {
+      test: {
+        title: Cypress.currentTest.title,
+        state: Cypress.currentTest.state,
+        timestamp: new Date().toISOString()
+      },
+
+      // * Browser info
+      browser: {
+        userAgent: win.navigator.userAgent,
+        viewport: `${win.innerWidth}x${win.innerHeight}`,
+        url: win.location.href,
+        title: win.document.title
+      },
+
+      // * Console logs
+      consoleLogs: (win as any).__cypressLogs || [],
+
+      // * Network failures
+      networkFailures: (win as any).__cypressNetworkFailures || [],
+
+      // * Performance metrics
+      performanceMetrics: (win as any).__cypressPerformanceMetrics || [],
+
+      // * Memory tracking
+      memoryTracking: (win as any).__cypressMemoryTracking || null,
+
+      // * Error boundaries
+      errorBoundaries: (win as any).__cypressErrorBoundaries || [],
+
+      // * Loading indicators
+      loadingIndicators: (win as any).__cypressLoadingIndicators || [],
+
+      // * Custom data
+      customData: (win as any).__cypressCustomDebugData || {}
+    };
+
+    // * Create filename
+    const exportFilename = filename ||
+      `debug-${Cypress.currentTest.title.replace(/[^a-z0-9]/gi, '-')}-${Date.now()}.json`;
+
+    // * Save to fixture (for local access)
+    const jsonString = JSON.stringify(debugData, null, 2);
+
+    // * Log export summary
+    cy.task('log', `[DEBUG EXPORT] Exporting debug data to ${exportFilename}`);
+    cy.task('log', `[DEBUG EXPORT] Data size: ${(jsonString.length / 1024).toFixed(2)}KB`);
+
+    // * Write file using cy.writeFile
+    cy.writeFile(`cypress/downloads/${exportFilename}`, debugData);
+
+    // * Also store on window for immediate access
+    (win as any).__cypressDebugExport = debugData;
+  });
+});
+
+/**
+ * Add custom debug data
+ * @param key - Key for the custom data
+ * @param value - Value to store
+ */
+Cypress.Commands.add('addCustomDebugData', (key: string, value: any) => {
+  cy.window().then((win) => {
+    const customData = (win as any).__cypressCustomDebugData || {};
+    customData[key] = value;
+    (win as any).__cypressCustomDebugData = customData;
+
+    cy.task('log', `[CUSTOM DEBUG] Added: ${key}`);
+  });
+});
+
+/**
+ * Monitor and log long-running operations
+ * @param label - Label for the operation
+ * @param warningThreshold - Warning threshold in ms (default 3000)
+ */
+Cypress.Commands.add('startOperationTimer', (
+  label: string,
+  warningThreshold: number = 3000
+) => {
+  const startTime = Date.now();
+
+  cy.window().then((win) => {
+    const timers = (win as any).__cypressOperationTimers || {};
+    timers[label] = {
+      startTime,
+      warningThreshold,
+      warned: false
+    };
+    (win as any).__cypressOperationTimers = timers;
+  });
+
+  cy.task('log', `[TIMER START] ${label}`);
+});
+
+/**
+ * Stop and log operation timer
+ * @param label - Label for the operation
+ */
+Cypress.Commands.add('stopOperationTimer', (label: string) => {
+  cy.window().then((win) => {
+    const timers = (win as any).__cypressOperationTimers || {};
+    const timer = timers[label];
+
+    if (!timer) {
+      cy.task('log', `[TIMER ERROR] No timer found for: ${label}`);
+      return;
+    }
+
+    const duration = Date.now() - timer.startTime;
+    const status = duration > timer.warningThreshold ? 'SLOW' : 'OK';
+
+    cy.task('log', `[TIMER END] ${label}: ${duration}ms [${status}]`);
+
+    // * Store timing data
+    const timingData = (win as any).__cypressTimingData || [];
+    timingData.push({
+      label,
+      duration,
+      status,
+      timestamp: new Date().toISOString()
+    });
+    (win as any).__cypressTimingData = timingData;
+
+    // * Clean up timer
+    delete timers[label];
   });
 });
 
