@@ -5,7 +5,7 @@
  * ! IMPORTANT: Uses fantasy theme colors for categories
  */
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, memo } from 'react';
 import { View, Text, StyleSheet, Animated, TouchableOpacity, Platform } from 'react-native';
 import { useTheme } from '../providers/ThemeProvider';
 
@@ -40,7 +40,7 @@ interface StatsCardProps {
   testID?: string;
 }
 
-export const StatsCard: React.FC<StatsCardProps> = ({
+export const StatsCard: React.FC<StatsCardProps> = memo(({
   value,
   previousValue,
   label,
@@ -218,7 +218,7 @@ export const StatsCard: React.FC<StatsCardProps> = ({
       <CardContent />
     </View>
   );
-};
+});
 
 // * Animated number component for smooth transitions
 const AnimatedNumber: React.FC<{ value: Animated.Value }> = ({ value }) => {
@@ -354,4 +354,4 @@ const createStyles = (
   });
 };
 
-export default StatsCard;
+export default memo(StatsCard);

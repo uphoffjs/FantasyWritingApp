@@ -4,7 +4,7 @@
  * ! IMPORTANT: Entry point for the entire application
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import { Platform, StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -16,13 +16,15 @@ import linking from './src/navigation/linking';
 import type { RootStackParamList } from './src/navigation/types';
 
 // * Screen components
-import { LoadingScreen } from './src/screens/LoadingScreen';
-import LoginScreen from './src/screens/LoginScreen';
-import { ProjectListScreen } from './src/screens/ProjectListScreen';
-import { ProjectScreen } from './src/screens/ProjectScreen';
-import { ElementScreen } from './src/screens/ElementScreen';
-import { SettingsScreen } from './src/screens/SettingsScreen';
-import { NotFoundScreen } from './src/screens/NotFoundScreen';
+import { LoadingScreen } from './src/screens/LoadingScreen'; // * Keep LoadingScreen for immediate use
+
+// * Lazy load screen components for code splitting
+const LoginScreen = React.lazy(() => import('./src/screens/LoginScreen'));
+const ProjectListScreen = React.lazy(() => import('./src/screens/ProjectListScreen').then(module => ({ default: module.ProjectListScreen })));
+const ProjectScreen = React.lazy(() => import('./src/screens/ProjectScreen').then(module => ({ default: module.ProjectScreen })));
+const ElementScreen = React.lazy(() => import('./src/screens/ElementScreen').then(module => ({ default: module.ElementScreen })));
+const SettingsScreen = React.lazy(() => import('./src/screens/SettingsScreen').then(module => ({ default: module.SettingsScreen })));
+const NotFoundScreen = React.lazy(() => import('./src/screens/NotFoundScreen').then(module => ({ default: module.NotFoundScreen })));
 
 // * Global state and context providers
 import { useAuthStore } from './src/store/authStore';
@@ -125,7 +127,9 @@ function App() {
               >
                 {(props) => (
                   <AuthGuard requireAuth={false}>
-                    <LoginScreen {...props} />
+                    <Suspense fallback={<LoadingScreen message="Loading login..." />}>
+                      <LoginScreen {...props} />
+                    </Suspense>
                   </AuthGuard>
                 )}
               </Stack.Screen>
@@ -140,7 +144,9 @@ function App() {
               >
                 {(props) => (
                   <AuthGuard requireAuth={true}>
-                    <ProjectListScreen {...props} />
+                    <Suspense fallback={<LoadingScreen message="Loading projects..." />}>
+                      <ProjectListScreen {...props} />
+                    </Suspense>
                   </AuthGuard>
                 )}
               </Stack.Screen>
@@ -154,7 +160,9 @@ function App() {
               >
                 {(props) => (
                   <AuthGuard requireAuth={true}>
-                    <ProjectScreen {...props} />
+                    <Suspense fallback={<LoadingScreen message="Loading project..." />}>
+                      <ProjectScreen {...props} />
+                    </Suspense>
                   </AuthGuard>
                 )}
               </Stack.Screen>
@@ -168,7 +176,9 @@ function App() {
               >
                 {(props) => (
                   <AuthGuard requireAuth={true}>
-                    <ElementScreen {...props} />
+                    <Suspense fallback={<LoadingScreen message="Loading element..." />}>
+                      <ElementScreen {...props} />
+                    </Suspense>
                   </AuthGuard>
                 )}
               </Stack.Screen>
@@ -183,20 +193,27 @@ function App() {
               >
                 {(props) => (
                   <AuthGuard requireAuth={true}>
-                    <SettingsScreen {...props} />
+                    <Suspense fallback={<LoadingScreen message="Loading settings..." />}>
+                      <SettingsScreen {...props} />
+                    </Suspense>
                   </AuthGuard>
                 )}
               </Stack.Screen>
               
               {/* * Error/Not Found */}
-              <Stack.Screen 
-                name="NotFound" 
-                component={NotFoundScreen}
-                options={{ 
+              <Stack.Screen
+                name="NotFound"
+                options={{
                   title: '404 - Not Found',
                   headerShown: Platform.OS !== 'web',
-                }} 
-              />
+                }}
+              >
+                {(props) => (
+                  <Suspense fallback={<LoadingScreen message="Loading..." />}>
+                    <NotFoundScreen {...props} />
+                  </Suspense>
+                )}
+              </Stack.Screen>
             </Stack.Navigator>
           </NavigationContainer>
 

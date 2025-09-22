@@ -18,6 +18,7 @@ import { useSearch } from './SearchProvider';
 import { WorldElement, Project } from '../types/models';
 import { getCategoryIcon } from '../utils/categoryMapping';
 import { useTheme } from '../providers/ThemeProvider';
+import { useSearchDebounce } from '../hooks/useDebounce';
 
 interface GlobalSearchProps {
   visible: boolean;
@@ -36,7 +37,12 @@ export function GlobalSearch({ visible, onClose }: GlobalSearchProps) {
   const navigation = useNavigation<NavigationProp>();
   const { theme } = useTheme();
   const { searchQuery, setSearchQuery, searchAll } = useSearch();
-  const [localQuery, setLocalQuery] = useState(searchQuery);
+  const {
+    searchTerm,
+    debouncedSearchTerm,
+    setSearchTerm,
+    isSearching: isDebouncing
+  } = useSearchDebounce(searchQuery, 300);
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
@@ -73,20 +79,16 @@ export function GlobalSearch({ visible, onClose }: GlobalSearchProps) {
     }
   }, [visible, onClose]);
 
-  // ! PERFORMANCE: * Debounce search
+  // * Perform search when debounced search term changes
   useEffect(() => {
-    const timer = setTimeout(() => {
-      if (localQuery.trim()) {
-        performSearch();
-        setShowRecent(false);
-      } else {
-        setSearchResults([]);
-        setShowRecent(true);
-      }
-    }, 300);
-
-    return () => clearTimeout(timer);
-  }, [localQuery]);
+    if (debouncedSearchTerm.trim()) {
+      performSearch();
+      setShowRecent(false);
+    } else {
+      setSearchResults([]);
+      setShowRecent(true);
+    }
+  }, [debouncedSearchTerm]);
 
   // * Load recent searches from AsyncStorage
   const loadRecentSearches = async () => {
@@ -128,7 +130,7 @@ export function GlobalSearch({ visible, onClose }: GlobalSearchProps) {
 
   const performSearch = useCallback(() => {
     setIsSearching(true);
-    setSearchQuery(localQuery);
+    setSearchQuery(debouncedSearchTerm);
     
     const { elements, projects } = searchAll();
     
@@ -141,10 +143,10 @@ export function GlobalSearch({ visible, onClose }: GlobalSearchProps) {
     setIsSearching(false);
     
     // * Save to recent searches
-    if (localQuery.trim() && results.length > 0) {
-      saveRecentSearch(localQuery.trim());
+    if (debouncedSearchTerm.trim() && results.length > 0) {
+      saveRecentSearch(debouncedSearchTerm.trim());
     }
-  }, [localQuery, searchAll, setSearchQuery]);
+  }, [debouncedSearchTerm, searchAll, setSearchQuery]);
 
   const handleResultPress = (result: SearchResult) => {
     onClose();
@@ -298,7 +300,7 @@ export function GlobalSearch({ visible, onClose }: GlobalSearchProps) {
         <Text style={styles.emptyIcon}>🔎</Text>
         <Text style={styles.emptyTitle}>No Results</Text>
         <Text style={styles.emptyText}>
-          No projects or elements match "{localQuery}"
+          No projects or elements match "{searchTerm}"
         </Text>
       </View>
     );
@@ -335,16 +337,16 @@ export function GlobalSearch({ visible, onClose }: GlobalSearchProps) {
                 style={styles.searchInput}
                 placeholder="Search projects and elements..."
                 placeholderTextColor={theme.colors.text.tertiary}
-                value={localQuery}
-                onChangeText={setLocalQuery}
+                value={searchTerm}
+                onChangeText={setSearchTerm}
                 autoFocus
                 autoCorrect={false}
                 autoCapitalize="none"
                 testID="global-search-input"
               />
-              {localQuery.length > 0 && (
+              {searchTerm.length > 0 && (
                 <Pressable
-                  onPress={() => setLocalQuery('')}
+                  onPress={() => setSearchTerm('')}
                   style={styles.clearButton}
                   testID="global-search-clear-button"
                 >

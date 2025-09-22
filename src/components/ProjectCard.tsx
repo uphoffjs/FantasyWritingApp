@@ -4,7 +4,6 @@ import {
   Text,
   Pressable,
   StyleSheet,
-  Image,
   ActivityIndicator,
   Alert,
   Platform,
@@ -16,6 +15,7 @@ import { RootStackParamList } from '../navigation/types';
 import { Project } from '../types/models';
 import { useWorldbuildingStore } from '../store/worldbuildingStore';
 import { ProgressRing } from './ProgressRing';
+import { LazyImage } from './LazyImage';
 
 // * Helper to safely use theme context
 const useOptionalTheme = () => {
@@ -364,12 +364,15 @@ export const ProjectCard = memo(function ProjectCard({
         {/* Cover Image or Default Header with Progress Ring Overlay */}
         <View style={styles.header}>
         {project.coverImage && !imageError ? (
-          <Image
+          <LazyImage
             source={{ uri: project.coverImage }}
             style={styles.coverImage}
             resizeMode="cover"
             onError={() => setImageError(true)}
             testID="project-card-cover-image"
+            fadeIn={true}
+            showLoadingIndicator={true}
+            threshold={0.5}
           />
         ) : (
           <View style={styles.defaultHeader}>

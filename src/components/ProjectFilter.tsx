@@ -15,6 +15,7 @@ import {
 } from 'react-native';
 import { useTheme } from '../providers/ThemeProvider';
 import { Project } from '../types/models';
+import { useFilterDebounce } from '../hooks/useDebounce';
 
 // * Filter options
 export interface ProjectFilterOptions {
@@ -71,13 +72,21 @@ export function ProjectFilter({
   initialFilters = {},
 }: ProjectFilterProps) {
   const { theme } = useTheme();
-  const [filters, setFilters] = useState<ProjectFilterOptions>({
+
+  // * Use debounced filters for better performance
+  const {
+    filters,
+    debouncedFilters,
+    updateFilter,
+    resetFilters,
+    isPending
+  } = useFilterDebounce<ProjectFilterOptions>({
     genres: initialFilters.genres || [],
     status: initialFilters.status || [],
     lastModified: initialFilters.lastModified || 'all',
     sortBy: initialFilters.sortBy || 'modified',
     sortOrder: initialFilters.sortOrder || 'desc',
-  });
+  }, 300);
   const [isExpanded, setIsExpanded] = useState(false);
 
   // * Apply filters to projects
@@ -85,25 +94,25 @@ export function ProjectFilter({
     let filtered = [...projects];
 
     // * Filter by genre
-    if (filters.genres.length > 0) {
+    if (debouncedFilters.genres.length > 0) {
       filtered = filtered.filter(project =>
-        filters.genres.includes(project.genre || 'Fantasy')
+        debouncedFilters.genres.includes(project.genre || 'Fantasy')
       );
     }
 
     // * Filter by status
-    if (filters.status.length > 0) {
+    if (debouncedFilters.status.length > 0) {
       filtered = filtered.filter(project =>
-        filters.status.includes(project.status || 'active')
+        debouncedFilters.status.includes(project.status || 'active')
       );
     }
 
     // * Filter by last modified
-    if (filters.lastModified !== 'all') {
+    if (debouncedFilters.lastModified !== 'all') {
       const now = new Date();
       const cutoffDate = new Date();
       
-      switch (filters.lastModified) {
+      switch (debouncedFilters.lastModified) {
         case 'today':
           cutoffDate.setHours(0, 0, 0, 0);
           break;
@@ -125,7 +134,7 @@ export function ProjectFilter({
     filtered.sort((a, b) => {
       let compareValue = 0;
       
-      switch (filters.sortBy) {
+      switch (debouncedFilters.sortBy) {
         case 'name':
           compareValue = (a.name || '').localeCompare(b.name || '');
           break;
@@ -140,11 +149,11 @@ export function ProjectFilter({
           break;
       }
 
-      return filters.sortOrder === 'asc' ? compareValue : -compareValue;
+      return debouncedFilters.sortOrder === 'asc' ? compareValue : -compareValue;
     });
 
     return filtered;
-  }, [projects, filters]);
+  }, [projects, debouncedFilters]);
 
   // * Notify parent of filter changes
   useEffect(() => {

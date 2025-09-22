@@ -1,0 +1,159 @@
+/**
+ * Developer Memory Tools
+ *
+ * Quick access component for memory system operations
+ * Add this to your app during development for easy checkpoint management
+ */
+
+import React from 'react';
+import { View, TouchableOpacity, Text, StyleSheet, Alert } from 'react-native';
+import { memoryHelpers } from '../store/memoryStore';
+import { useMemoryStore } from '../store/memoryStore';
+
+export const DevMemoryTools: React.FC = () => {
+  const store = useMemoryStore();
+
+  const createCheckpoint = () => {
+    const checkpointId = memoryHelpers.checkpoint("Session checkpoint");
+    Alert.alert('Success', `Checkpoint created: ${checkpointId}`);
+  };
+
+  const showSummary = () => {
+    const summary = memoryHelpers.summary();
+    Alert.alert('Memory Summary', summary);
+  };
+
+  const showProgress = () => {
+    const progress = memoryHelpers.progress();
+    Alert.alert(
+      'Progress',
+      `Completion: ${progress.completionRate.toFixed(1)}%\n` +
+      `Blocked: ${progress.blockedCount}\n` +
+      `Current: ${progress.currentFocus || 'None'}`
+    );
+  };
+
+  const quickSave = (key: string, value: any) => {
+    memoryHelpers.remember(key, value);
+    Alert.alert('Saved', `Memory saved: ${key}`);
+  };
+
+  const quickLoad = (key: string) => {
+    const value = memoryHelpers.recall(key);
+    Alert.alert('Memory', JSON.stringify(value, null, 2));
+  };
+
+  const listCheckpoints = () => {
+    const checkpoints = store.checkpoints;
+    const list = checkpoints.map(cp =>
+      `${cp.name} (${new Date(cp.timestamp).toLocaleTimeString()})`
+    ).join('\n');
+    Alert.alert('Checkpoints', list || 'No checkpoints yet');
+  };
+
+  if (__DEV__ === false) {
+    // Only show in development
+    return null;
+  }
+
+  return (
+    <View style={styles.container} testID="dev-memory-tools">
+      <View style={styles.buttonRow}>
+        <TouchableOpacity
+          style={[styles.button, styles.primaryButton]}
+          onPress={createCheckpoint}
+          testID="create-checkpoint-quick"
+        >
+          <Text style={styles.buttonText}>📸 Checkpoint</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.button, styles.infoButton]}
+          onPress={showSummary}
+          testID="show-summary-quick"
+        >
+          <Text style={styles.buttonText}>📊 Summary</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.button, styles.successButton]}
+          onPress={showProgress}
+          testID="show-progress-quick"
+        >
+          <Text style={styles.buttonText}>📈 Progress</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.button, styles.warningButton]}
+          onPress={listCheckpoints}
+          testID="list-checkpoints-quick"
+        >
+          <Text style={styles.buttonText}>📋 List</Text>
+        </TouchableOpacity>
+      </View>
+
+      <View style={styles.buttonRow}>
+        <TouchableOpacity
+          style={[styles.button, styles.secondaryButton]}
+          onPress={() => quickSave('quick_note', {
+            timestamp: new Date().toISOString(),
+            note: 'Quick save from dev tools'
+          })}
+          testID="quick-save"
+        >
+          <Text style={styles.buttonText}>💾 Quick Save</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.button, styles.secondaryButton]}
+          onPress={() => quickLoad('quick_note')}
+          testID="quick-load"
+        >
+          <Text style={styles.buttonText}>📂 Quick Load</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    position: 'absolute',
+    bottom: 50,
+    right: 10,
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    borderRadius: 10,
+    padding: 10,
+    zIndex: 9999,
+  },
+  buttonRow: {
+    flexDirection: 'row',
+    marginBottom: 5,
+  },
+  button: {
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 5,
+    marginHorizontal: 2,
+  },
+  primaryButton: {
+    backgroundColor: '#3498db',
+  },
+  successButton: {
+    backgroundColor: '#27ae60',
+  },
+  infoButton: {
+    backgroundColor: '#9b59b6',
+  },
+  warningButton: {
+    backgroundColor: '#f39c12',
+  },
+  secondaryButton: {
+    backgroundColor: '#34495e',
+  },
+  buttonText: {
+    color: '#ffffff',
+    fontSize: 12,
+    fontWeight: '600',
+  },
+});
