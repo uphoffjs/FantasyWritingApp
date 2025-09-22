@@ -458,10 +458,12 @@ export const AppNavigator = () => {
 ### Cypress Testing Rules
 
 #### Mandatory in EVERY Test
-- **`cy.comprehensiveDebug()`** in every `beforeEach` hook
+- **`cy.comprehensiveDebug()`** in every `beforeEach` hook - THIS IS MANDATORY
+- **`cy.cleanState()`** to reset application state before each test
 - Use `function()` syntax (not arrow functions) for hooks to access `this.currentTest`
 - Single flat describe blocks (never nest)
 - Clear test naming that describes expected behavior
+- NEVER use conditional logic (if/else statements) in tests
 
 #### Test File Structure
 ```javascript
@@ -509,7 +511,7 @@ describe('Feature Name', () => {
 ```javascript
 // cypress/support/commands.ts
 
-// * Comprehensive debugging command (MANDATORY in all tests)
+// * Comprehensive debugging command (MANDATORY in all tests - NO EXCEPTIONS)
 Cypress.Commands.add('comprehensiveDebug', () => {
   const timestamp = new Date().toISOString();
   cy.task('log', `[${timestamp}] Test started: ${Cypress.currentTest.title}`);
@@ -692,10 +694,11 @@ describe('Story Creation - React Native Web', () => {
 ```
 
 ### Testing Coverage Requirements
-- **Minimum Coverage**:
-  - 80% unit tests (Jest + React Native Testing Library)
-  - 70% integration tests
-  - 100% critical user paths E2E tests
+- **Test Pyramid Distribution**:
+  - 50-60% Unit tests (Jest + React Native Testing Library)
+  - 25-35% Component tests (React Native Testing Library)
+  - 15-20% E2E tests (Cypress for Web, Detox for Mobile)
+  - 100% critical user paths must have E2E coverage
   
 - **ALL new features must include**:
   - Comprehensive E2E tests covering happy path and edge cases
@@ -1193,10 +1196,13 @@ git commit -m "test: add Cypress tests for character creation"
 
 ## Testing Strategy
 
-### Test Pyramid for React Native
-1. **Unit Tests (Jest)**: 60% - Business logic, utilities, stores
-2. **Component Tests (React Native Testing Library)**: 25% - Component behavior
-3. **E2E Tests (Cypress for Web, Detox for Mobile)**: 15% - Critical user flows
+### Test File Naming Convention
+- **E2E Tests**: `[feature]-[action].cy.ts`
+  - Example: `element-creation.cy.ts`, `project-management.cy.ts`
+- **Component Tests**: `[ComponentName].cy.tsx`
+  - Example: `ElementCard.cy.tsx`, `ProjectList.cy.tsx`
+- **Unit Tests**: `[module].test.ts`
+  - Example: `storyStore.test.ts`, `validation.test.ts`
 
 ### Testing Checklist
 - [ ] All interactive elements have `testID` (mobile) or `data-cy` (web)

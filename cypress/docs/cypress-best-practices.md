@@ -2,7 +2,10 @@
 
 This document outlines essential best practices for writing effective, maintainable, and reliable Cypress tests for the FantasyWritingApp project.
 
-> **⚠️ CRITICAL RULE**: NEVER use conditional statements (if/else) in Cypress tests. Tests must be deterministic. See [Avoiding Conditional Testing](#avoiding-conditional-testing) section.
+> **⚠️ CRITICAL RULES**:
+> 1. NEVER use conditional statements (if/else) in Cypress tests. Tests must be deterministic.
+> 2. ALWAYS use `cy.comprehensiveDebug()` in every `beforeEach` hook - THIS IS MANDATORY.
+> 3. ALWAYS use `cy.cleanState()` to reset application state before each test.
 
 ## Table of Contents
 1. [Organizing Tests](#organizing-tests)
@@ -26,8 +29,13 @@ This document outlines essential best practices for writing effective, maintaina
 ```javascript
 // Good - Clear, descriptive test structure
 describe('Element Creation', () => {
-  beforeEach(() => {
-    // Reset state before each test
+  beforeEach(function() {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
+    // * Reset state before each test
+    cy.cleanState();
+
     cy.visit('/elements')
   })
 
@@ -116,10 +124,13 @@ Tests should not depend on the execution order or results of other tests:
 ```javascript
 // ✅ GOOD - Independent tests
 describe('Project Management', () => {
-  beforeEach(() => {
+  beforeEach(function() {
+    // ! MANDATORY: Debug and clean state
+    cy.comprehensiveDebug();
+    cy.cleanState();
+
     // Create fresh state for each test
-    cy.task('db:seed')
-    cy.login()
+    cy.setupTestUser();
     cy.visit('/projects')
   })
 
@@ -156,9 +167,13 @@ it('edits the project created above', () => {
 
 ```javascript
 // ✅ GOOD - Clean state in beforeEach
-beforeEach(() => {
-  cy.task('db:reset')
-  cy.task('db:seed', { projects: 2, elements: 5 })
+beforeEach(function() {
+  // ! MANDATORY: Always include these
+  cy.comprehensiveDebug();
+  cy.cleanState();
+
+  // For React Native Web with Zustand
+  cy.setupTestData({ projects: 2, elements: 5 });
 })
 
 // ❌ BAD - Don't clean in afterEach
@@ -240,21 +255,37 @@ before(() => {
 
 ## Authentication & Login
 
-### Programmatic Login
+### Authentication for React Native Web
 
 ```javascript
 // cypress/support/commands.js
-Cypress.Commands.add('login', (email = 'test@example.com', password = 'password') => {
-  // Programmatic login - faster than UI login
-  cy.request('POST', '/api/auth/login', { email, password })
-    .then((response) => {
-      window.localStorage.setItem('authToken', response.body.token)
-    })
+// For React Native Web with Zustand store
+Cypress.Commands.add('setupTestUser', (options = {}) => {
+  const userData = {
+    username: 'test_user_' + Date.now(),
+    email: `test_${Date.now()}@example.com`,
+    projects: [],
+    elements: [],
+    ...options
+  };
+
+  cy.window().then((win) => {
+    const storeData = {
+      auth: { user: userData, isAuthenticated: true },
+      projects: userData.projects,
+      elements: userData.elements
+    };
+    win.localStorage.setItem('fantasy-writing-app-store', JSON.stringify(storeData));
+  });
+
+  return cy.wrap(userData);
 })
 
 // In tests
-beforeEach(() => {
-  cy.login()
+beforeEach(function() {
+  cy.comprehensiveDebug();
+  cy.cleanState();
+  cy.setupTestUser();
   cy.visit('/dashboard')
 })
 ```
@@ -437,29 +468,35 @@ declare global {
 
 ```javascript
 describe('Responsive Design', () => {
+  // Use Cypress device presets for consistency
   const viewports = [
-    { device: 'iphone-x', width: 375, height: 812 },
-    { device: 'ipad-2', width: 768, height: 1024 },
-    { device: 'desktop', width: 1920, height: 1080 }
+    'iphone-x',     // 375x812
+    'ipad-2',       // 768x1024
+    'macbook-15'    // 1440x900
   ]
 
-  viewports.forEach(({ device, width, height }) => {
+  viewports.forEach((device) => {
     context(`${device} viewport`, () => {
-      beforeEach(() => {
-        cy.viewport(width, height)
+      beforeEach(function() {
+        cy.comprehensiveDebug();
+        cy.cleanState();
+        cy.viewport(device); // Use preset
         cy.visit('/elements')
       })
 
       it('displays properly on ' + device, () => {
-        if (width < 768) {
-          // Mobile specific assertions
-          cy.get('[data-cy="mobile-menu"]').should('be.visible')
-          cy.get('[data-cy="desktop-sidebar"]').should('not.exist')
-        } else {
-          // Desktop assertions
-          cy.get('[data-cy="desktop-sidebar"]').should('be.visible')
-          cy.get('[data-cy="mobile-menu"]').should('not.exist')
-        }
+        // Check viewport-specific elements
+        cy.window().then((win) => {
+          if (win.innerWidth < 768) {
+            // Mobile specific assertions
+            cy.get('[data-cy="mobile-menu"]').should('be.visible')
+            cy.get('[data-cy="desktop-sidebar"]').should('not.exist')
+          } else {
+            // Desktop assertions
+            cy.get('[data-cy="desktop-sidebar"]').should('be.visible')
+            cy.get('[data-cy="mobile-menu"]').should('not.exist')
+          }
+        })
       })
     })
   })

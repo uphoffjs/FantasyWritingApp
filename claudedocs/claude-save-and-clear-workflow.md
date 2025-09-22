@@ -108,21 +108,19 @@ memoryHelpers.checkpoint("Session checkpoint")
 
 **Step 4: Reload Claude's configuration**
 ```bash
-/sc:load
+/sc:load but do not start any work yet
 ```
 
 **Step 5: Restore checkpoint in your app**
 ```javascript
-// Click the "📋 List" button, then restore
-// OR call this in your code:
 memoryHelpers.restore(checkpointId)
 ```
 
 ### Load Specific Documentation
 
-**Load all project docs at once:**
+**Load important cypress project docs at once:**
 ```bash
-/sc:load @/Users/jacobuphoff/Desktop/FantasyWritingApp/cypress/docs/cypress-best-practices.md @cypress/docs/ADVANCED-TESTING-STRATEGY.md @/Users/jacobuphoff/Desktop/FantasyWritingApp/CLAUDE.md
+/sc:load @/Users/jacobuphoff/Desktop/FantasyWritingApp/cypress/docs/cypress-best-practices.md @cypress/docs/ADVANCED-TESTING-STRATEGY.md @/Users/jacobuphoff/Desktop/FantasyWritingApp/CLAUDE.md but do not start any work yet
 ```
 
 **Or load individually:**
@@ -139,7 +137,7 @@ Advanced Testing Strategy:
 
 Project CLAUDE.md:
 ```bash
-/sc:load @/Users/jacobuphoff/Desktop/FantasyWritingApp/CLAUDE.md
+/sc:load @/Users/jacobuphoff/Desktop/FantasyWritingApp/CLAUDE.md but do not start any work yet
 ```
 
 ## 📋 Detailed Step-by-Step Workflow
