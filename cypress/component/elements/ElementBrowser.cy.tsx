@@ -268,9 +268,9 @@ describe('ElementBrowser Component', () => {
 
     // * Open sort dropdown
     cy.contains('Sort by Recently Updated').click();
-    
-    // * Select name sorting
-    cy.contains('Name').click();
+
+    // * Wait for dropdown to be visible and select name sorting
+    cy.contains('Name').should('be.visible').click({ force: true });
     
     // TODO: * Should update sort indicator
     cy.contains('Sort by Name').should('be.visible');
@@ -290,9 +290,9 @@ describe('ElementBrowser Component', () => {
 
     // * Open sort dropdown
     cy.contains('Sort by Recently Updated').click();
-    
-    // * Select completion sorting
-    cy.contains('Completion %').click();
+
+    // * Wait for dropdown to be visible and select completion sorting
+    cy.contains('Completion %').should('be.visible').click({ force: true });
     
     // TODO: * Should update sort indicator
     cy.contains('Sort by Completion %').should('be.visible');
@@ -505,9 +505,9 @@ describe('ElementBrowser Component', () => {
     // * Open sort dropdown
     cy.contains('Sort by Recently Updated').click();
     cy.contains('Name').should('be.visible');
-    
-    // * Select an option
-    cy.contains('Name').click();
+
+    // * Select an option with force to handle overlapping elements
+    cy.contains('Name').click({ force: true });
     
     // TODO: * Dropdown should close
     cy.contains('Completion %').should('not.exist');

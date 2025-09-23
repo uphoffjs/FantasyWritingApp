@@ -45,6 +45,24 @@ cypress/            # E2E tests
 ├── support/       # Commands & utilities
 ```
 
+## Better Comments Syntax
+Use these prefixes for clear, categorized comments throughout the codebase:
+
+```javascript
+// * Highlights - Important information
+// ! Alerts - Warnings, deprecated code, or critical issues
+// ? Questions - Queries or areas needing clarification
+// TODO: Tasks - Items to complete or improve
+// // Strikethrough - Commented out code (double slash)
+
+// Examples:
+// * This component handles user authentication
+// ! DEPRECATED: Use useAuthStore() instead of this function
+// ? Should we add rate limiting to this endpoint?
+// TODO: Add error boundary to this component
+// // const oldImplementation = legacy();
+```
+
 ## Critical Development Rules
 
 ### NEVER Do

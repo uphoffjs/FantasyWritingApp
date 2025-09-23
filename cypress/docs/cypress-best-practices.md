@@ -285,6 +285,43 @@ before(() => {
 }
 ```
 
+### Server Management Best Practices
+
+#### Automatic Process Cleanup
+To prevent port conflicts and orphaned processes:
+
+```json
+// package.json
+{
+  "scripts": {
+    "pre-test:cleanup": "pkill -f webpack || true && pkill -f 'react-scripts' || true && sleep 2",
+    "cypress:open": "npm run pre-test:cleanup && cypress open --browser chrome",
+    "test:e2e": "npm run pre-test:cleanup && start-server-and-test web http://localhost:3002 cypress:run"
+  }
+}
+```
+
+#### Key Points:
+- **Always clean before tests**: Kill existing processes before starting new ones
+- **Use `|| true`**: Prevents script failure if no processes found
+- **Add sleep delay**: Ensures ports are fully released before starting new server
+- **Chain commands**: Use `&&` to ensure cleanup runs before tests
+
+#### Manual Server Management:
+```bash
+# Check for running processes on port 3002
+lsof -i :3002
+
+# Kill specific process by PID
+kill -9 <PID>
+
+# Kill all webpack processes
+pkill -f webpack
+
+# Kill all node processes (use carefully)
+killall node
+```
+
 ---
 
 ## Authentication & Login

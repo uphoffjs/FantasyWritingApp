@@ -11,6 +11,9 @@ import './debug';
 // * Navigation (cross-cutting concern, stays at root)
 import './navigation';
 
+// * Selectors (handles testID → data-testid conversion)
+import './selectors';
+
 // * Element Management
 import './elements';
 
@@ -31,6 +34,7 @@ import './performance';
 export * from './auth';
 export * from './debug';
 export * from './navigation';
+export * from './selectors';
 export * from './elements';
 export * from './projects';
 export * from './responsive';
