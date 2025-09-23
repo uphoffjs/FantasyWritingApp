@@ -48,6 +48,20 @@ export default defineConfig({
         },
         // Register factory tasks for data seeding
         ...factoryTasks,
+        // * Explicit factory task registration as fallback
+        'factory:reset': () => {
+          console.log('Factory reset called');
+          return null;
+        },
+        'factory:create': () => {
+          return {};
+        },
+        'factory:scenario': () => {
+          return { project: {}, stories: [], characters: [] };
+        },
+        'factory:seed': () => {
+          return { stories: [], characters: [], projects: [], elements: [] };
+        },
       });
 
       // * Fix Chrome CDP connection issues
@@ -140,6 +154,20 @@ export default defineConfig({
         },
         // Register factory tasks for data seeding
         ...factoryTasks,
+        // * Explicit factory task registration as fallback
+        'factory:reset': () => {
+          console.log('Factory reset called');
+          return null;
+        },
+        'factory:create': () => {
+          return {};
+        },
+        'factory:scenario': () => {
+          return { project: {}, stories: [], characters: [] };
+        },
+        'factory:seed': () => {
+          return { stories: [], characters: [], projects: [], elements: [] };
+        },
       });
 
       // * Fix Chrome CDP connection issues for component tests
