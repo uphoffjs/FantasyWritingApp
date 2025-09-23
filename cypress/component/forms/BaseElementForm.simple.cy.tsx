@@ -83,7 +83,7 @@ describe('BaseElementForm (Simple Tests)', () => {
   });
   
   it('renders form header and basic structure', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <MockWorldbuildingStoreProvider>
         <BaseElementForm
           questions={simpleQuestions}
@@ -107,7 +107,7 @@ describe('BaseElementForm (Simple Tests)', () => {
   });
   
   it('shows categories that can be expanded', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <MockWorldbuildingStoreProvider>
         <BaseElementForm
           questions={simpleQuestions}
@@ -132,7 +132,7 @@ describe('BaseElementForm (Simple Tests)', () => {
   });
   
   it('displays answers correctly', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <MockWorldbuildingStoreProvider>
         <BaseElementForm
           questions={simpleQuestions}
@@ -164,7 +164,7 @@ describe('BaseElementForm (Simple Tests)', () => {
   it('handles basic interactions', () => {
     const onChange = cy.stub();
     
-    cy.mount(
+    cy.mountWithProviders(
       <MockWorldbuildingStoreProvider>
         <BaseElementForm
           questions={simpleQuestions}
@@ -187,7 +187,7 @@ describe('BaseElementForm (Simple Tests)', () => {
   });
   
   it('shows required field indicators', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <MockWorldbuildingStoreProvider>
         <BaseElementForm
           questions={simpleQuestions}
@@ -209,7 +209,7 @@ describe('BaseElementForm (Simple Tests)', () => {
   });
   
   it('displays help text when clicked', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <MockWorldbuildingStoreProvider>
         <BaseElementForm
           questions={simpleQuestions}
@@ -231,7 +231,7 @@ describe('BaseElementForm (Simple Tests)', () => {
   });
   
   it('handles mode switching', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <MockWorldbuildingStoreProvider>
         <BaseElementForm
           questions={simpleQuestions}
@@ -254,7 +254,7 @@ describe('BaseElementForm (Simple Tests)', () => {
   });
   
   it('handles empty questions gracefully', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <MockWorldbuildingStoreProvider>
         <BaseElementForm
           questions={[]}
@@ -277,7 +277,7 @@ describe('BaseElementForm (Simple Tests)', () => {
   it('handles number input changes', () => {
     const onChange = cy.stub();
     
-    cy.mount(
+    cy.mountWithProviders(
       <MockWorldbuildingStoreProvider>
         <BaseElementForm
           questions={simpleQuestions}
@@ -302,7 +302,7 @@ describe('BaseElementForm (Simple Tests)', () => {
   it('handles select changes', () => {
     const onChange = cy.stub();
     
-    cy.mount(
+    cy.mountWithProviders(
       <MockWorldbuildingStoreProvider>
         <BaseElementForm
           questions={simpleQuestions}
@@ -325,7 +325,7 @@ describe('BaseElementForm (Simple Tests)', () => {
   });
 
   it('respects number input validation attributes', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <MockWorldbuildingStoreProvider>
         <BaseElementForm
           questions={simpleQuestions}

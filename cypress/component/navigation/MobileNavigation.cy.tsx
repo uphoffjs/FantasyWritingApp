@@ -42,7 +42,7 @@ describe('MobileNavigation Component', () => {
     cy.viewport(375, 667);
   });
   const mountWithRouter = (component: React.ReactNode, initialPath = '/') => {
-    return cy.mount(
+    return cy.mountWithProviders(
       <MemoryRouter initialEntries={[initialPath]}>
         <Routes>
           <Route path="*" element={component} />

@@ -37,7 +37,7 @@ describe('GlobalSearch Component', () => {
   });
 
   it('should render when visible', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <GlobalSearch 
         visible={true} 
         onClose={mockOnClose}
@@ -52,7 +52,7 @@ describe('GlobalSearch Component', () => {
   });
 
   it('should not render when not visible', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <GlobalSearch 
         visible={false} 
         onClose={mockOnClose}
@@ -64,7 +64,7 @@ describe('GlobalSearch Component', () => {
   });
 
   it('should show initial empty state', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <GlobalSearch 
         visible={true} 
         onClose={mockOnClose}
@@ -79,7 +79,7 @@ describe('GlobalSearch Component', () => {
   });
 
   it('should handle search input and trigger search', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <GlobalSearch 
         visible={true} 
         onClose={mockOnClose}
@@ -96,7 +96,7 @@ describe('GlobalSearch Component', () => {
   });
 
   it('should display search results for projects and elements', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <GlobalSearch 
         visible={true} 
         onClose={mockOnClose}
@@ -119,7 +119,7 @@ describe('GlobalSearch Component', () => {
   });
 
   it('should handle project result click', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <GlobalSearch 
         visible={true} 
         onClose={mockOnClose}
@@ -138,7 +138,7 @@ describe('GlobalSearch Component', () => {
   });
 
   it('should handle element result click', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <GlobalSearch 
         visible={true} 
         onClose={mockOnClose}
@@ -157,7 +157,7 @@ describe('GlobalSearch Component', () => {
   });
 
   it('should clear search when clear button clicked', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <GlobalSearch 
         visible={true} 
         onClose={mockOnClose}
@@ -179,7 +179,7 @@ describe('GlobalSearch Component', () => {
   });
 
   it('should handle cancel button', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <GlobalSearch 
         visible={true} 
         onClose={mockOnClose}
@@ -192,7 +192,7 @@ describe('GlobalSearch Component', () => {
   });
 
   it('should handle backdrop click to close', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <GlobalSearch 
         visible={true} 
         onClose={mockOnClose}
@@ -206,7 +206,7 @@ describe('GlobalSearch Component', () => {
   });
 
   it('should show no results state when search returns empty', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <GlobalSearch 
         visible={true} 
         onClose={mockOnClose}
@@ -224,7 +224,7 @@ describe('GlobalSearch Component', () => {
   });
 
   it('should show searching state briefly', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <GlobalSearch 
         visible={true} 
         onClose={mockOnClose}
@@ -241,7 +241,7 @@ describe('GlobalSearch Component', () => {
   });
 
   it('should display proper icons for different result types', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <GlobalSearch 
         visible={true} 
         onClose={mockOnClose}
@@ -260,7 +260,7 @@ describe('GlobalSearch Component', () => {
   });
 
   it('should handle auto-focus on search input', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <GlobalSearch 
         visible={true} 
         onClose={mockOnClose}
@@ -273,7 +273,7 @@ describe('GlobalSearch Component', () => {
   });
 
   it('should display descriptions when available', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <GlobalSearch 
         visible={true} 
         onClose={mockOnClose}
@@ -292,7 +292,7 @@ describe('GlobalSearch Component', () => {
   });
 
   it('should handle results without descriptions', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <GlobalSearch 
         visible={true} 
         onClose={mockOnClose}
@@ -310,7 +310,7 @@ describe('GlobalSearch Component', () => {
   });
 
   it('should handle singular vs plural result count', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <GlobalSearch 
         visible={true} 
         onClose={mockOnClose}
@@ -326,7 +326,7 @@ describe('GlobalSearch Component', () => {
   });
 
   it('should debounce search input to avoid excessive API calls', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <GlobalSearch 
         visible={true} 
         onClose={mockOnClose}
@@ -344,7 +344,7 @@ describe('GlobalSearch Component', () => {
   });
 
   it('should maintain search state across re-renders', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <GlobalSearch 
         visible={true} 
         onClose={mockOnClose}
@@ -362,7 +362,7 @@ describe('GlobalSearch Component', () => {
   });
 
   it('should handle keyboard navigation', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <GlobalSearch 
         visible={true} 
         onClose={mockOnClose}
@@ -376,7 +376,7 @@ describe('GlobalSearch Component', () => {
   });
 
   it('should display element completion percentage', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <GlobalSearch 
         visible={true} 
         onClose={mockOnClose}
@@ -392,7 +392,7 @@ describe('GlobalSearch Component', () => {
   });
 
   it('should display project element count', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <GlobalSearch 
         visible={true} 
         onClose={mockOnClose}
@@ -408,7 +408,7 @@ describe('GlobalSearch Component', () => {
   });
 
   it('should handle mixed search results properly', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <GlobalSearch 
         visible={true} 
         onClose={mockOnClose}

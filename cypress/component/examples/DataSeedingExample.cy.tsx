@@ -32,7 +32,7 @@ describe('Data Seeding Strategies Examples', () => {
       // * Load static data from fixture file
       cy.seedFromFixture('scenarios/minimal.json');
 
-      cy.mount(
+      cy.mountWithProviders(
         <TestWrapper>
           <CreateElementModal
             visible={true}
@@ -57,7 +57,7 @@ describe('Data Seeding Strategies Examples', () => {
       // * Load comprehensive test data
       cy.seedFromFixture('scenarios/complete.json');
 
-      cy.mount(
+      cy.mountWithProviders(
         <TestWrapper>
           <ElementBrowser projectId="project-fantasy" />
         </TestWrapper>
@@ -89,7 +89,7 @@ describe('Data Seeding Strategies Examples', () => {
     it('creates dynamic element data with factories', () => {
       // * Generate fresh data for element tests
       cy.seedWithFactory('element-creation').then((data) => {
-        cy.mount(
+        cy.mountWithProviders(
           <TestWrapper>
             <CreateElementModal
               visible={true}
@@ -153,7 +153,7 @@ describe('Data Seeding Strategies Examples', () => {
         expect(scenario.stories).to.have.length(2);
         expect(scenario.characters).to.have.length(3);
 
-        cy.mount(
+        cy.mountWithProviders(
           <TestWrapper>
             <ElementBrowser projectId={scenario.project.id} />
           </TestWrapper>
@@ -204,7 +204,7 @@ describe('Data Seeding Strategies Examples', () => {
       ]);
 
       // * Mount component that makes API calls
-      cy.mount(
+      cy.mountWithProviders(
         <TestWrapper>
           <ElementBrowser projectId="test-project" />
         </TestWrapper>
@@ -240,7 +240,7 @@ describe('Data Seeding Strategies Examples', () => {
         expect(data.elements).to.have.length(50);
 
         // Test pagination with bulk data
-        cy.mount(
+        cy.mountWithProviders(
           <TestWrapper>
             <ElementBrowser projectId={data.projects[0].id} />
           </TestWrapper>
@@ -276,7 +276,7 @@ describe('Data Seeding Strategies Examples', () => {
 
     it('first test creates and caches data', () => {
       // * First run executes the expensive setup
-      cy.mount(
+      cy.mountWithProviders(
         <TestWrapper>
           <ElementBrowser projectId="project-fantasy" />
         </TestWrapper>
@@ -287,7 +287,7 @@ describe('Data Seeding Strategies Examples', () => {
 
     it('second test reuses cached data (much faster)', () => {
       // * Subsequent tests reuse the cached session
-      cy.mount(
+      cy.mountWithProviders(
         <TestWrapper>
           <ElementBrowser projectId="project-fantasy" />
         </TestWrapper>
@@ -313,7 +313,7 @@ describe('Data Seeding Strategies Examples', () => {
       // * Automatic data setup for element browser
       cy.seedForTest('element-browser');
 
-      cy.mount(
+      cy.mountWithProviders(
         <TestWrapper>
           <ElementBrowser projectId="test-project" />
         </TestWrapper>
@@ -339,7 +339,7 @@ describe('Data Seeding Strategies Examples', () => {
       // * Cleans all data for empty state testing
       cy.seedForTest('empty-states');
 
-      cy.mount(
+      cy.mountWithProviders(
         <TestWrapper>
           <ElementBrowser projectId="non-existent" />
         </TestWrapper>
@@ -385,7 +385,7 @@ describe('Data Seeding Strategies Examples', () => {
         },
       ]);
 
-      cy.mount(
+      cy.mountWithProviders(
         <TestWrapper>
           <CreateElementModal
             visible={true}

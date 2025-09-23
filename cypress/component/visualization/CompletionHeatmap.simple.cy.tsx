@@ -53,7 +53,7 @@ describe('CompletionHeatmap Simple Test', () => {
       updatedAt: Date.now()
     };
 
-    cy.mount(<CompletionHeatmap project={project} />);
+    cy.mountWithProviders(<CompletionHeatmap project={project} />);
     
     // * Test using semantic content rather than CSS classes
     cy.contains('Completion:').should('be.visible');

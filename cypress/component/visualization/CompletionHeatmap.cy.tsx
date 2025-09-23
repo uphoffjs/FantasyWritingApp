@@ -76,7 +76,7 @@ describe('CompletionHeatmap Component', () => {
       ];
       const project = createMockProject(elements);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       // TODO: * Legend should be visible
       cy.contains('Completion:').should('be.visible');
@@ -87,7 +87,7 @@ describe('CompletionHeatmap Component', () => {
     it('displays legend color boxes', () => {
       const project = createMockProject([createMockElement()]);
 
-      cy.mount(<CompletionHeatmap project={project} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} />);
 
       // TODO: * Should have 7 legend color boxes
       cy.get('[title="0%"]').should('exist');
@@ -102,7 +102,7 @@ describe('CompletionHeatmap Component', () => {
     it('renders empty state when no elements', () => {
       const project = createMockProject([]);
 
-      cy.mount(<CompletionHeatmap project={project} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} />);
 
       cy.contains('No elements to display in heatmap').should('be.visible');
     });
@@ -115,7 +115,7 @@ describe('CompletionHeatmap Component', () => {
       ];
       const project = createMockProject(elements);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       // TODO: * Should render all elements in grid
       cy.get('[data-cy="grid"] > div').should('have.length.at.least', 3);
@@ -129,7 +129,7 @@ describe('CompletionHeatmap Component', () => {
       ];
       const project = createMockProject(elements);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       cy.contains('👤').should('be.visible'); // Character icon
       cy.contains('📍').should('be.visible'); // Location icon
@@ -145,7 +145,7 @@ describe('CompletionHeatmap Component', () => {
       ];
       const project = createMockProject(elements);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       cy.contains('Completed').should('be.visible');
       cy.contains('Half Done').should('be.visible');
@@ -168,7 +168,7 @@ describe('CompletionHeatmap Component', () => {
       ];
       const project = createMockProject(elements);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       cy.get('[data-cy*="forest-"]500').should('exist');
     });
@@ -179,7 +179,7 @@ describe('CompletionHeatmap Component', () => {
       ];
       const project = createMockProject(elements);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       cy.get('[data-cy*="emerald-"]500').should('exist');
     });
@@ -190,7 +190,7 @@ describe('CompletionHeatmap Component', () => {
       ];
       const project = createMockProject(elements);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       cy.get('[data-cy*="flame-"]500').should('exist');
     });
@@ -201,7 +201,7 @@ describe('CompletionHeatmap Component', () => {
       ];
       const project = createMockProject(elements);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       cy.get('[data-cy*="orange-"]500').should('exist');
     });
@@ -212,7 +212,7 @@ describe('CompletionHeatmap Component', () => {
       ];
       const project = createMockProject(elements);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       cy.get('[data-cy*="blood-"]500').should('exist');
     });
@@ -223,7 +223,7 @@ describe('CompletionHeatmap Component', () => {
       ];
       const project = createMockProject(elements);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       cy.get('[data-cy*="blood-"]600').should('exist');
     });
@@ -234,7 +234,7 @@ describe('CompletionHeatmap Component', () => {
       ];
       const project = createMockProject(elements);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       cy.get('[data-cy*="parchment-dark"]').should('exist');
     });
@@ -256,7 +256,7 @@ describe('CompletionHeatmap Component', () => {
       ];
       const project = createMockProject(elements);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       // TODO: * Character elements should appear before location
       cy.get('[data-cy="grid"] > div').first().should('contain', '👤');
@@ -270,7 +270,7 @@ describe('CompletionHeatmap Component', () => {
       ];
       const project = createMockProject(elements);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       // TODO: * Should be sorted by completion percentage descending within category
       cy.get('[data-cy="grid"] > div:not([class*="bg-parchment-aged"])').then($cells => {
@@ -295,7 +295,7 @@ describe('CompletionHeatmap Component', () => {
       );
       const project = createMockProject(elements);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       // TODO: * Grid should have appropriate columns for 10 elements
       // React Native Web uses flexbox instead of CSS Grid
@@ -311,7 +311,7 @@ describe('CompletionHeatmap Component', () => {
       ];
       const project = createMockProject(elements);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       // TODO: * Should have empty cells to fill the grid
       cy.get('[data-cy*="parchment-aged"].border-parchment-border').should('exist');
@@ -321,7 +321,7 @@ describe('CompletionHeatmap Component', () => {
       const elements = [createMockElement()];
       const project = createMockProject(elements);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       cy.get('[data-cy="square-element"]').should('exist');
     });
@@ -339,7 +339,7 @@ describe('CompletionHeatmap Component', () => {
       const element = createMockElement({ id: '1', name: 'Test Element' });
       const project = createMockProject([element]);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       cy.get('[data-cy="grid"] > div').first().click();
       cy.get('@onElementClick').should('have.been.calledWith', element);
@@ -350,7 +350,7 @@ describe('CompletionHeatmap Component', () => {
       const elements = [createMockElement()];
       const project = createMockProject(elements);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       cy.get('[data-cy="grid"] > div').first()
         .should('be.visible') // React Native Web uses inline styles instead of CSS classes
@@ -366,7 +366,7 @@ describe('CompletionHeatmap Component', () => {
       });
       const project = createMockProject([element]);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       cy.get('[data-cy="grid"] > div').first().trigger('mouseenter');
       
@@ -382,7 +382,7 @@ describe('CompletionHeatmap Component', () => {
       });
       const project = createMockProject([element]);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       cy.get('[data-cy="grid"] > div').first()
         .should('have.attr', 'title', 'Test Element - 50% complete');
@@ -405,7 +405,7 @@ describe('CompletionHeatmap Component', () => {
       ];
       const project = createMockProject(elements);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       cy.contains('Completed').parent().within(() => {
         cy.contains('2').should('be.visible');
@@ -420,7 +420,7 @@ describe('CompletionHeatmap Component', () => {
       ];
       const project = createMockProject(elements);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       cy.contains('Half Done').parent().within(() => {
         cy.contains('2').should('be.visible');
@@ -435,7 +435,7 @@ describe('CompletionHeatmap Component', () => {
       ];
       const project = createMockProject(elements);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       cy.contains('Started').parent().within(() => {
         cy.contains('3').should('be.visible');
@@ -450,7 +450,7 @@ describe('CompletionHeatmap Component', () => {
       ];
       const project = createMockProject(elements);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       cy.contains('Not Started').parent().within(() => {
         cy.contains('2').should('be.visible');
@@ -488,7 +488,7 @@ describe('CompletionHeatmap Component', () => {
       const project = createMockProject(elements);
 
       // * Mount once with all elements
-      cy.mount(<CompletionHeatmap project={project} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} />);
 
       // * Verify all icons are visible
       categories.forEach(({ icon }) => {
@@ -500,7 +500,7 @@ describe('CompletionHeatmap Component', () => {
       const element = createMockElement({ category: 'unknown-category' as any });
       const project = createMockProject([element]);
 
-      cy.mount(<CompletionHeatmap project={project} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} />);
       cy.contains('📋').should('be.visible'); // Default icon
     });
   });
@@ -523,7 +523,7 @@ describe('CompletionHeatmap Component', () => {
       ];
       const project = createMockProject(elements);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       // React Native Web uses flexbox instead of CSS Grid
 
@@ -543,7 +543,7 @@ describe('CompletionHeatmap Component', () => {
       );
       const project = createMockProject(elements);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       cy.get('.overflow-x-auto').should('exist');
     });
@@ -554,7 +554,7 @@ describe('CompletionHeatmap Component', () => {
       const element = createMockElement({ name: 'Test' });
       const project = createMockProject([element]);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       // TODO: * Tooltip should be hidden on mobile
       cy.get('.hidden.sm\\:block').should('exist');
@@ -569,7 +569,7 @@ describe('CompletionHeatmap Component', () => {
       ];
       const project = createMockProject(elements);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       // React Native Web uses flexbox instead of CSS Grid
 
@@ -586,7 +586,7 @@ describe('CompletionHeatmap Component', () => {
       );
       const project = createMockProject(elements);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       // React Native Web uses flexbox instead of CSS Grid
 
@@ -608,7 +608,7 @@ describe('CompletionHeatmap Component', () => {
       const element = createMockElement();
       const project = createMockProject([element]);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       cy.get('[data-cy="grid"] > div').should('have.length.at.least', 1);
     });
@@ -619,7 +619,7 @@ describe('CompletionHeatmap Component', () => {
       );
       const project = createMockProject(elements);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       cy.get('[data-cy="grid"] > div').should('have.length.at.least', 100);
     });
@@ -630,7 +630,7 @@ describe('CompletionHeatmap Component', () => {
       });
       const project = createMockProject([element]);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       cy.get('[data-cy="grid"] > div').first().should('be.visible');
     });
@@ -639,7 +639,7 @@ describe('CompletionHeatmap Component', () => {
       const element = createMockElement();
       const project = createMockProject([element]);
 
-      cy.mount(<CompletionHeatmap project={project} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} />);
 
       cy.get('[data-cy="grid"] > div').first().click();
       // TODO: * Should not throw error
@@ -653,7 +653,7 @@ describe('CompletionHeatmap Component', () => {
       ];
       const project = createMockProject(elements);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       cy.get('[data-cy*="orange-"]500').should('have.length', 3);
     });
@@ -674,7 +674,7 @@ describe('CompletionHeatmap Component', () => {
       });
       const project = createMockProject([element]);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       cy.get('[title="Character Name - 65% complete"]').should('exist');
     });
@@ -683,7 +683,7 @@ describe('CompletionHeatmap Component', () => {
       const element = createMockElement();
       const project = createMockProject([element]);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       cy.get('[data-cy*="clickable"]').should('exist');
     });
@@ -691,7 +691,7 @@ describe('CompletionHeatmap Component', () => {
     it('provides legend for color meaning', () => {
       const project = createMockProject([createMockElement()]);
 
-      cy.mount(<CompletionHeatmap project={project} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} />);
 
       cy.get('[title="0%"]').should('exist');
       cy.get('[title="100%"]').should('exist');

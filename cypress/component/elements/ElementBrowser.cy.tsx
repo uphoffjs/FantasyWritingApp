@@ -93,7 +93,7 @@ describe('ElementBrowser Component', () => {
   });
 
   it('should render list of elements', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <ElementBrowser 
         elements={mockElements} 
         onElementPress={mockOnElementPress}
@@ -113,7 +113,7 @@ describe('ElementBrowser Component', () => {
   });
 
   it('should handle search functionality', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <ElementBrowser 
         elements={mockElements} 
         onElementPress={mockOnElementPress}
@@ -136,7 +136,7 @@ describe('ElementBrowser Component', () => {
   });
 
   it('should handle search by description', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <ElementBrowser 
         elements={mockElements} 
         onElementPress={mockOnElementPress}
@@ -157,7 +157,7 @@ describe('ElementBrowser Component', () => {
   });
 
   it('should handle search by tags', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <ElementBrowser 
         elements={mockElements} 
         onElementPress={mockOnElementPress}
@@ -176,7 +176,7 @@ describe('ElementBrowser Component', () => {
   });
 
   it('should clear search when clear button clicked', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <ElementBrowser 
         elements={mockElements} 
         onElementPress={mockOnElementPress}
@@ -198,7 +198,7 @@ describe('ElementBrowser Component', () => {
   });
 
   it('should handle category filtering', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <ElementBrowser 
         elements={mockElements} 
         onElementPress={mockOnElementPress}
@@ -219,7 +219,7 @@ describe('ElementBrowser Component', () => {
   });
 
   it('should handle location category filtering', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <ElementBrowser 
         elements={mockElements} 
         onElementPress={mockOnElementPress}
@@ -238,7 +238,7 @@ describe('ElementBrowser Component', () => {
   });
 
   it('should reset to all elements when All filter selected', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <ElementBrowser 
         elements={mockElements} 
         onElementPress={mockOnElementPress}
@@ -258,7 +258,7 @@ describe('ElementBrowser Component', () => {
   });
 
   it('should handle sorting by name', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <ElementBrowser 
         elements={mockElements} 
         onElementPress={mockOnElementPress}
@@ -280,7 +280,7 @@ describe('ElementBrowser Component', () => {
   });
 
   it('should handle sorting by completion percentage', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <ElementBrowser 
         elements={mockElements} 
         onElementPress={mockOnElementPress}
@@ -299,7 +299,7 @@ describe('ElementBrowser Component', () => {
   });
 
   it('should handle element click navigation', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <ElementBrowser 
         elements={mockElements} 
         onElementPress={mockOnElementPress}
@@ -315,7 +315,7 @@ describe('ElementBrowser Component', () => {
   });
 
   it('should show empty state when no elements', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <ElementBrowser 
         elements={[]} 
         onElementPress={mockOnElementPress}
@@ -334,7 +334,7 @@ describe('ElementBrowser Component', () => {
   });
 
   it('should show filtered empty state when search has no results', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <ElementBrowser 
         elements={mockElements} 
         onElementPress={mockOnElementPress}
@@ -354,7 +354,7 @@ describe('ElementBrowser Component', () => {
   });
 
   it('should handle create element from empty state', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <ElementBrowser 
         elements={[]} 
         onElementPress={mockOnElementPress}
@@ -370,7 +370,7 @@ describe('ElementBrowser Component', () => {
   });
 
   it('should show floating action button when elements exist', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <ElementBrowser 
         elements={mockElements} 
         onElementPress={mockOnElementPress}
@@ -384,7 +384,7 @@ describe('ElementBrowser Component', () => {
   });
 
   it('should handle floating action button click', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <ElementBrowser 
         elements={mockElements} 
         onElementPress={mockOnElementPress}
@@ -400,7 +400,7 @@ describe('ElementBrowser Component', () => {
   });
 
   it('should show loading state', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <ElementBrowser 
         elements={[]} 
         onElementPress={mockOnElementPress}
@@ -417,7 +417,7 @@ describe('ElementBrowser Component', () => {
   });
 
   it('should handle refresh functionality', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <ElementBrowser 
         elements={mockElements} 
         onElementPress={mockOnElementPress}
@@ -433,7 +433,7 @@ describe('ElementBrowser Component', () => {
   });
 
   it('should handle combined search and filter', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <ElementBrowser 
         elements={mockElements} 
         onElementPress={mockOnElementPress}
@@ -454,7 +454,7 @@ describe('ElementBrowser Component', () => {
   });
 
   it('should handle case-insensitive search', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <ElementBrowser 
         elements={mockElements} 
         onElementPress={mockOnElementPress}
@@ -473,7 +473,7 @@ describe('ElementBrowser Component', () => {
   });
 
   it('should maintain filter state during search', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <ElementBrowser 
         elements={mockElements} 
         onElementPress={mockOnElementPress}
@@ -494,7 +494,7 @@ describe('ElementBrowser Component', () => {
   });
 
   it('should close sort dropdown when option selected', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <ElementBrowser 
         elements={mockElements} 
         onElementPress={mockOnElementPress}
@@ -514,7 +514,7 @@ describe('ElementBrowser Component', () => {
   });
 
   it('should show correct category icons', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <ElementBrowser 
         elements={mockElements} 
         onElementPress={mockOnElementPress}

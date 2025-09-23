@@ -56,7 +56,7 @@ describe('BaseElementForm - Incremental Tests', () => {
 
   it('renders with questions - starting in detailed mode', () => {
     // * Start with detailed mode to see all questions
-    cy.mount(
+    cy.mountWithProviders(
       <BaseElementForm
         questions={simpleQuestions}
         answers={{}}
@@ -74,7 +74,7 @@ describe('BaseElementForm - Incremental Tests', () => {
   });
   
   it.skip('renders with questions - old test', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <BaseElementForm
         questions={simpleQuestions}
         answers={{}}
@@ -89,7 +89,7 @@ describe('BaseElementForm - Incremental Tests', () => {
   });
   
   it('renders with answers', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <BaseElementForm
         questions={simpleQuestions}
         answers={simpleAnswers}
@@ -103,7 +103,7 @@ describe('BaseElementForm - Incremental Tests', () => {
   });
   
   it('expands category when clicked', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <BaseElementForm
         questions={simpleQuestions}
         answers={simpleAnswers}
@@ -128,7 +128,7 @@ describe('BaseElementForm - Incremental Tests', () => {
   });
   
   it('shows input values', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <BaseElementForm
         questions={simpleQuestions}
         answers={simpleAnswers}
@@ -150,7 +150,7 @@ describe('BaseElementForm - Incremental Tests', () => {
   it('calls onChange when input changes', () => {
     const onChange = cy.stub();
     
-    cy.mount(
+    cy.mountWithProviders(
       <BaseElementForm
         questions={simpleQuestions}
         answers={{}}

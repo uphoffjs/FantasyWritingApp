@@ -67,7 +67,7 @@ describe('RelationshipGraph Component', () => {
     it('renders graph container and svg', () => {
       const elements = [createMockElement('1'), createMockElement('2')];
       
-      cy.mount(
+      cy.mountWithProviders(
         <RelationshipGraph
           elements={elements}
           onElementClick={onElementClickSpy}
@@ -81,7 +81,7 @@ describe('RelationshipGraph Component', () => {
     it('renders with custom height', () => {
       const elements = [createMockElement('1')];
       
-      cy.mount(
+      cy.mountWithProviders(
         <RelationshipGraph
           elements={elements}
           onElementClick={onElementClickSpy}
@@ -97,7 +97,7 @@ describe('RelationshipGraph Component', () => {
     it('renders graph controls on desktop', () => {
       const elements = [createMockElement('1')];
       
-      cy.mount(
+      cy.mountWithProviders(
         <RelationshipGraph
           elements={elements}
           onElementClick={onElementClickSpy}
@@ -113,7 +113,7 @@ describe('RelationshipGraph Component', () => {
     it('shows legend on desktop by default', () => {
       const elements = [createMockElement('1')];
       
-      cy.mount(
+      cy.mountWithProviders(
         <RelationshipGraph
           elements={elements}
           onElementClick={onElementClickSpy}
@@ -136,7 +136,7 @@ describe('RelationshipGraph Component', () => {
     it('handles zoom in', () => {
       const elements = [createMockElement('1')];
       
-      cy.mount(
+      cy.mountWithProviders(
         <RelationshipGraph
           elements={elements}
           onElementClick={onElementClickSpy}
@@ -151,7 +151,7 @@ describe('RelationshipGraph Component', () => {
     it('handles zoom out', () => {
       const elements = [createMockElement('1')];
       
-      cy.mount(
+      cy.mountWithProviders(
         <RelationshipGraph
           elements={elements}
           onElementClick={onElementClickSpy}
@@ -166,7 +166,7 @@ describe('RelationshipGraph Component', () => {
     it('handles zoom reset', () => {
       const elements = [createMockElement('1')];
       
-      cy.mount(
+      cy.mountWithProviders(
         <RelationshipGraph
           elements={elements}
           onElementClick={onElementClickSpy}
@@ -191,7 +191,7 @@ describe('RelationshipGraph Component', () => {
     it('starts with force layout', () => {
       const elements = [createMockElement('1')];
       
-      cy.mount(
+      cy.mountWithProviders(
         <RelationshipGraph
           elements={elements}
           onElementClick={onElementClickSpy}
@@ -205,7 +205,7 @@ describe('RelationshipGraph Component', () => {
     it('changes to circular layout', () => {
       const elements = [createMockElement('1')];
       
-      cy.mount(
+      cy.mountWithProviders(
         <RelationshipGraph
           elements={elements}
           onElementClick={onElementClickSpy}
@@ -221,7 +221,7 @@ describe('RelationshipGraph Component', () => {
     it('changes to hierarchical layout', () => {
       const elements = [createMockElement('1')];
       
-      cy.mount(
+      cy.mountWithProviders(
         <RelationshipGraph
           elements={elements}
           onElementClick={onElementClickSpy}
@@ -246,7 +246,7 @@ describe('RelationshipGraph Component', () => {
     it('toggles filter panel', () => {
       const elements = [createMockElement('1')];
       
-      cy.mount(
+      cy.mountWithProviders(
         <RelationshipGraph
           elements={elements}
           onElementClick={onElementClickSpy}
@@ -261,7 +261,7 @@ describe('RelationshipGraph Component', () => {
     it('closes filter panel', () => {
       const elements = [createMockElement('1')];
       
-      cy.mount(
+      cy.mountWithProviders(
         <RelationshipGraph
           elements={elements}
           onElementClick={onElementClickSpy}
@@ -280,7 +280,7 @@ describe('RelationshipGraph Component', () => {
         createMockElement('2', { category: 'location' })
       ];
       
-      cy.mount(
+      cy.mountWithProviders(
         <RelationshipGraph
           elements={elements}
           onElementClick={onElementClickSpy}
@@ -306,7 +306,7 @@ describe('RelationshipGraph Component', () => {
     it.skip('handles node click', () => {
       const elements = [createMockElement('1'), createMockElement('2')];
       
-      cy.mount(
+      cy.mountWithProviders(
         <RelationshipGraph
           elements={elements}
           onElementClick={onElementClickSpy}
@@ -325,7 +325,7 @@ describe('RelationshipGraph Component', () => {
     it.skip('highlights current element', () => {
       const elements = [createMockElement('1')];
       
-      cy.mount(
+      cy.mountWithProviders(
         <RelationshipGraph
           elements={elements}
           onElementClick={onElementClickSpy}
@@ -350,7 +350,7 @@ describe('RelationshipGraph Component', () => {
     it('shows export menu', () => {
       const elements = [createMockElement('1')];
       
-      cy.mount(
+      cy.mountWithProviders(
         <RelationshipGraph
           elements={elements}
           onElementClick={onElementClickSpy}
@@ -363,7 +363,7 @@ describe('RelationshipGraph Component', () => {
     it('has export options', () => {
       const elements = [createMockElement('1')];
       
-      cy.mount(
+      cy.mountWithProviders(
         <RelationshipGraph
           elements={elements}
           onElementClick={onElementClickSpy}
@@ -397,7 +397,7 @@ describe('RelationshipGraph Component', () => {
     it('shows mobile instructions', () => {
       const elements = [createMockElement('1')];
       
-      cy.mount(
+      cy.mountWithProviders(
         <RelationshipGraph
           elements={elements}
           onElementClick={onElementClickSpy}
@@ -411,7 +411,7 @@ describe('RelationshipGraph Component', () => {
     it('shows control toggle button on mobile', () => {
       const elements = [createMockElement('1')];
       
-      cy.mount(
+      cy.mountWithProviders(
         <RelationshipGraph
           elements={elements}
           onElementClick={onElementClickSpy}
@@ -443,7 +443,7 @@ describe('RelationshipGraph Component', () => {
         createMockElement('2', { category: 'location' })
       ];
       
-      cy.mount(
+      cy.mountWithProviders(
         <RelationshipGraph
           elements={elements}
           onElementClick={onElementClickSpy}
@@ -464,7 +464,7 @@ describe('RelationshipGraph Component', () => {
   });
 
     it('handles empty elements array', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RelationshipGraph
           elements={[]}
           onElementClick={onElementClickSpy}
@@ -478,7 +478,7 @@ describe('RelationshipGraph Component', () => {
     it('handles single element', () => {
       const elements = [createMockElement('1')];
       
-      cy.mount(
+      cy.mountWithProviders(
         <RelationshipGraph
           elements={elements}
           onElementClick={onElementClickSpy}
@@ -492,7 +492,7 @@ describe('RelationshipGraph Component', () => {
     it('handles many elements', () => {
       const elements = Array.from({ length: 50 }, (_, i) => createMockElement(`${i + 1}`));
       
-      cy.mount(
+      cy.mountWithProviders(
         <RelationshipGraph
           elements={elements}
           onElementClick={onElementClickSpy}
@@ -515,7 +515,7 @@ describe('RelationshipGraph Component', () => {
     it('has proper ARIA labels', () => {
       const elements = [createMockElement('1')];
       
-      cy.mount(
+      cy.mountWithProviders(
         <RelationshipGraph
           elements={elements}
           onElementClick={onElementClickSpy}

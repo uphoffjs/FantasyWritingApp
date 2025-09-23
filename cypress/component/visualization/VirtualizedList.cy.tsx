@@ -55,7 +55,7 @@ describe('VirtualizedList Component', () => {
   });
     it('renders visible items only', () => {
       const items = createItems(100);
-      cy.mount(
+      cy.mountWithProviders(
         <VirtualizedList
           items={items}
           itemHeight={50}
@@ -70,7 +70,7 @@ describe('VirtualizedList Component', () => {
     });
     it('renders with custom className', () => {
       const items = createItems(10);
-      cy.mount(
+      cy.mountWithProviders(
         <VirtualizedList
           items={items}
           itemHeight={50}
@@ -85,7 +85,7 @@ describe('VirtualizedList Component', () => {
     });
     it('sets correct container height', () => {
       const items = createItems(10);
-      cy.mount(
+      cy.mountWithProviders(
         <VirtualizedList
           items={items}
           itemHeight={50}
@@ -99,7 +99,7 @@ describe('VirtualizedList Component', () => {
     it('calculates total height correctly', () => {
       const items = createItems(50);
       const itemHeight = 40;
-      cy.mount(
+      cy.mountWithProviders(
         <VirtualizedList
           items={items}
           itemHeight={itemHeight}
@@ -122,7 +122,7 @@ describe('VirtualizedList Component', () => {
   });
     it('updates visible items on scroll', () => {
       const items = createItems(100);
-      cy.mount(
+      cy.mountWithProviders(
         <VirtualizedList
           items={items}
           itemHeight={50}
@@ -143,7 +143,7 @@ describe('VirtualizedList Component', () => {
     });
     it('maintains correct number of rendered items during scroll', () => {
       const items = createItems(100);
-      cy.mount(
+      cy.mountWithProviders(
         <VirtualizedList
           items={items}
           itemHeight={50}
@@ -164,7 +164,7 @@ describe('VirtualizedList Component', () => {
     });
     it('handles scroll to bottom', () => {
       const items = createItems(50);
-      cy.mount(
+      cy.mountWithProviders(
         <VirtualizedList
           items={items}
           itemHeight={50}
@@ -181,7 +181,7 @@ describe('VirtualizedList Component', () => {
     });
     it('handles scroll to top after scrolling down', () => {
       const items = createItems(50);
-      cy.mount(
+      cy.mountWithProviders(
         <VirtualizedList
           items={items}
           itemHeight={50}
@@ -207,7 +207,7 @@ describe('VirtualizedList Component', () => {
   });
     it('renders extra items with default overscan', () => {
       const items = createItems(100);
-      cy.mount(
+      cy.mountWithProviders(
         <VirtualizedList
           items={items}
           itemHeight={50}
@@ -222,7 +222,7 @@ describe('VirtualizedList Component', () => {
     });
     it('respects custom overscan value', () => {
       const items = createItems(100);
-      cy.mount(
+      cy.mountWithProviders(
         <VirtualizedList
           items={items}
           itemHeight={50}
@@ -238,7 +238,7 @@ describe('VirtualizedList Component', () => {
     });
     it('handles zero overscan', () => {
       const items = createItems(100);
-      cy.mount(
+      cy.mountWithProviders(
         <VirtualizedList
           items={items}
           itemHeight={50}
@@ -261,7 +261,7 @@ describe('VirtualizedList Component', () => {
   });
     it('uses default index-based keys', () => {
       const items = createItems(5);
-      cy.mount(
+      cy.mountWithProviders(
         <VirtualizedList
           items={items}
           itemHeight={50}
@@ -284,7 +284,7 @@ describe('VirtualizedList Component', () => {
         name: `Item ${i + 1}`
       }));
       
-      cy.mount(
+      cy.mountWithProviders(
         <VirtualizedList
           items={items}
           itemHeight={50}
@@ -306,7 +306,7 @@ describe('VirtualizedList Component', () => {
     }
   });
     it('handles empty items array', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <VirtualizedList
           items={[]}
           itemHeight={50}
@@ -320,7 +320,7 @@ describe('VirtualizedList Component', () => {
     });
     it('handles single item', () => {
       const items = ['Single Item'];
-      cy.mount(
+      cy.mountWithProviders(
         <VirtualizedList
           items={items}
           itemHeight={50}
@@ -334,7 +334,7 @@ describe('VirtualizedList Component', () => {
     });
     it('handles items shorter than container', () => {
       const items = createItems(3);
-      cy.mount(
+      cy.mountWithProviders(
         <VirtualizedList
           items={items}
           itemHeight={50}
@@ -348,7 +348,7 @@ describe('VirtualizedList Component', () => {
     });
     it('handles very large item count', () => {
       const items = createItems(10000);
-      cy.mount(
+      cy.mountWithProviders(
         <VirtualizedList
           items={items}
           itemHeight={50}
@@ -366,7 +366,7 @@ describe('VirtualizedList Component', () => {
     });
     it('handles rapid scrolling', () => {
       const items = createItems(100);
-      cy.mount(
+      cy.mountWithProviders(
         <VirtualizedList
           items={items}
           itemHeight={50}
@@ -395,7 +395,7 @@ describe('VirtualizedList Component', () => {
   });
     it('provides container ref and height', () => {
       const items = createItems(10);
-      cy.mount(<TestComponentWithHook items={items} />);
+      cy.mountWithProviders(<TestComponentWithHook items={items} />);
       
       // TODO: * Component should render with hook
       cy.get('.overflow-y-auto').should('exist');
@@ -403,7 +403,7 @@ describe('VirtualizedList Component', () => {
     });
     it('updates height on window resize', () => {
       const items = createItems(10);
-      cy.mount(<TestComponentWithHook items={items} />);
+      cy.mountWithProviders(<TestComponentWithHook items={items} />);
       
       // * Get initial height
       cy.get('.overflow-y-auto').then($el => {
@@ -419,7 +419,7 @@ describe('VirtualizedList Component', () => {
     });
     it('provides correct props to VirtualizedList', () => {
       const items = createItems(20);
-      cy.mount(<TestComponentWithHook items={items} />);
+      cy.mountWithProviders(<TestComponentWithHook items={items} />);
       
       // TODO: * Should render items
       cy.get('.overflow-y-auto').should('exist');
@@ -437,7 +437,7 @@ describe('VirtualizedList Component', () => {
       const items = createItems(1000);
       let renderCount = 0;
       
-      cy.mount(
+      cy.mountWithProviders(
         <VirtualizedList
           items={items}
           itemHeight={50}
@@ -464,7 +464,7 @@ describe('VirtualizedList Component', () => {
     });
     it('maintains smooth scrolling with many items', () => {
       const items = createItems(5000);
-      cy.mount(
+      cy.mountWithProviders(
         <VirtualizedList
           items={items}
           itemHeight={50}
@@ -491,7 +491,7 @@ describe('VirtualizedList Component', () => {
   });
     it('maintains scroll position for keyboard navigation', () => {
       const items = createItems(50);
-      cy.mount(
+      cy.mountWithProviders(
         <VirtualizedList
           items={items}
           itemHeight={50}
@@ -510,7 +510,7 @@ describe('VirtualizedList Component', () => {
     });
     it('preserves ARIA attributes in rendered items', () => {
       const items = createItems(10);
-      cy.mount(
+      cy.mountWithProviders(
         <VirtualizedList
           items={items}
           itemHeight={50}
@@ -546,7 +546,7 @@ describe('VirtualizedList Component', () => {
       cy.viewport(375, 667);
       const items = createItems(50);
       
-      cy.mount(
+      cy.mountWithProviders(
         <VirtualizedList
           items={items}
           itemHeight={50}
@@ -563,7 +563,7 @@ describe('VirtualizedList Component', () => {
       cy.viewport(768, 1024);
       const items = createItems(50);
       
-      cy.mount(
+      cy.mountWithProviders(
         <VirtualizedList
           items={items}
           itemHeight={50}

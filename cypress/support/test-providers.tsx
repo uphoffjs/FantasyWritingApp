@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
+import { ThemeProvider } from '../../src/providers/ThemeProvider';
 
 // * Since this app uses Zustand instead of Redux, we don't need Redux providers
 // * Zustand stores work independently without a provider wrapper
@@ -50,9 +51,11 @@ export const TestProviders: React.FC<TestProvidersProps> = ({
 }) => {
   return (
     <TestErrorBoundary>
-      <NavigationContainer {...navigationOptions}>
-        {children}
-      </NavigationContainer>
+      <ThemeProvider>
+        <NavigationContainer {...navigationOptions}>
+          {children}
+        </NavigationContainer>
+      </ThemeProvider>
     </TestErrorBoundary>
   );
 };

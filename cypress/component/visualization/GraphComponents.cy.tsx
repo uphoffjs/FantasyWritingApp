@@ -51,7 +51,7 @@ describe('GraphControls Component', () => {
   });
 
   it('renders all control buttons', () => {
-    cy.mount(<GraphControls {...defaultProps} />);
+    cy.mountWithProviders(<GraphControls {...defaultProps} />);
     
     cy.get('[data-cy="zoom-in-btn"]').should('exist');
     cy.get('[data-cy="zoom-out-btn"]').should('exist');
@@ -62,13 +62,13 @@ describe('GraphControls Component', () => {
   });
 
   it('displays current zoom level', () => {
-    cy.mount(<GraphControls {...defaultProps} zoom={1.5} />);
+    cy.mountWithProviders(<GraphControls {...defaultProps} zoom={1.5} />);
     
     cy.contains('150%').should('be.visible');
   });
 
   it('calls zoom handlers', () => {
-    cy.mount(<GraphControls {...defaultProps} />);
+    cy.mountWithProviders(<GraphControls {...defaultProps} />);
     
     cy.get('[data-cy="zoom-in-btn"]').click();
     cy.get('@onZoomIn').should('have.been.called');
@@ -81,7 +81,7 @@ describe('GraphControls Component', () => {
   });
 
   it('shows layout options', () => {
-    cy.mount(<GraphControls {...defaultProps} />);
+    cy.mountWithProviders(<GraphControls {...defaultProps} />);
     
     cy.get('[data-cy="layout-selector"]').click();
     cy.contains('Force Layout').should('be.visible');
@@ -90,7 +90,7 @@ describe('GraphControls Component', () => {
   });
 
   it('changes layout', () => {
-    cy.mount(<GraphControls {...defaultProps} />);
+    cy.mountWithProviders(<GraphControls {...defaultProps} />);
     
     cy.get('[data-cy="layout-selector"]').click();
     cy.contains('Circular Layout').click();
@@ -98,14 +98,14 @@ describe('GraphControls Component', () => {
   });
 
   it('toggles filters', () => {
-    cy.mount(<GraphControls {...defaultProps} />);
+    cy.mountWithProviders(<GraphControls {...defaultProps} />);
     
     cy.get('[data-cy="filter-toggle-btn"]').click();
     cy.get('@onToggleFilters').should('have.been.called');
   });
 
   it('shows export menu', () => {
-    cy.mount(<GraphControls {...defaultProps} />);
+    cy.mountWithProviders(<GraphControls {...defaultProps} />);
     
     cy.get('[data-cy="export-menu-btn"]').click();
     cy.contains('Export as PNG').should('be.visible');
@@ -113,7 +113,7 @@ describe('GraphControls Component', () => {
   });
 
   it('handles export actions', () => {
-    cy.mount(<GraphControls {...defaultProps} />);
+    cy.mountWithProviders(<GraphControls {...defaultProps} />);
     
     cy.get('[data-cy="export-menu-btn"]').click();
     cy.contains('Export as PNG').click();
@@ -125,7 +125,7 @@ describe('GraphControls Component', () => {
   });
 
   it('adapts for mobile view', () => {
-    cy.mount(<GraphControls {...defaultProps} isMobile={true} />);
+    cy.mountWithProviders(<GraphControls {...defaultProps} isMobile={true} />);
     
     // * Mobile view might have different styling or condensed controls
     cy.get('[data-cy="zoom-in-btn"]').should('exist');
@@ -133,16 +133,16 @@ describe('GraphControls Component', () => {
   });
 
   it('indicates active filter state', () => {
-    cy.mount(<GraphControls {...defaultProps} showFilters={true} />);
+    cy.mountWithProviders(<GraphControls {...defaultProps} showFilters={true} />);
     
     cy.get('[data-cy="filter-toggle-btn"]').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
   });
 
   it('disables zoom at limits', () => {
-    cy.mount(<GraphControls {...defaultProps} zoom={0.1} />);
+    cy.mountWithProviders(<GraphControls {...defaultProps} zoom={0.1} />);
     cy.get('[data-cy="zoom-out-btn"]').should('be.disabled');
     
-    cy.mount(<GraphControls {...defaultProps} zoom={5} />);
+    cy.mountWithProviders(<GraphControls {...defaultProps} zoom={5} />);
     cy.get('[data-cy="zoom-in-btn"]').should('be.disabled');
   });
 });
@@ -178,14 +178,14 @@ describe('GraphFilters Component', () => {
   });
 
   it('renders filter panel', () => {
-    cy.mount(<GraphFilters {...defaultProps} />);
+    cy.mountWithProviders(<GraphFilters {...defaultProps} />);
     
     cy.get('[data-cy="filters-panel"]').should('be.visible');
     cy.contains('Filter Graph').should('be.visible');
   });
 
   it('displays element type filters', () => {
-    cy.mount(<GraphFilters {...defaultProps} />);
+    cy.mountWithProviders(<GraphFilters {...defaultProps} />);
     
     cy.contains('Element Types').should('be.visible');
     defaultProps.allElementTypes.forEach(type => {
@@ -196,7 +196,7 @@ describe('GraphFilters Component', () => {
   });
 
   it('displays relationship type filters', () => {
-    cy.mount(<GraphFilters {...defaultProps} />);
+    cy.mountWithProviders(<GraphFilters {...defaultProps} />);
     
     cy.contains('Relationship Types').should('be.visible');
     defaultProps.allRelationshipTypes.forEach(type => {
@@ -205,7 +205,7 @@ describe('GraphFilters Component', () => {
   });
 
   it('displays completion range slider', () => {
-    cy.mount(<GraphFilters {...defaultProps} />);
+    cy.mountWithProviders(<GraphFilters {...defaultProps} />);
     
     cy.contains('Completion Range').should('be.visible');
     cy.get('[data-cy="completion-range-min"]').should('have.value', '0');
@@ -213,7 +213,7 @@ describe('GraphFilters Component', () => {
   });
 
   it('selects element types', () => {
-    cy.mount(<GraphFilters {...defaultProps} />);
+    cy.mountWithProviders(<GraphFilters {...defaultProps} />);
     
     // * Click character and location checkboxes
     cy.get('[data-cy="element-type-character"]').click();
@@ -224,7 +224,7 @@ describe('GraphFilters Component', () => {
   });
 
   it('selects relationship types', () => {
-    cy.mount(<GraphFilters {...defaultProps} />);
+    cy.mountWithProviders(<GraphFilters {...defaultProps} />);
     
     // * Click knows and owns checkboxes
     cy.get('[data-cy="relationship-type-knows"]').click();
@@ -235,7 +235,7 @@ describe('GraphFilters Component', () => {
   });
 
   it('adjusts completion range', () => {
-    cy.mount(<GraphFilters {...defaultProps} />);
+    cy.mountWithProviders(<GraphFilters {...defaultProps} />);
     
     // * Type new values in the range inputs
     cy.get('[data-cy="completion-range-min"]').clear().type('25');
@@ -255,7 +255,7 @@ describe('GraphFilters Component', () => {
       completionRange: [50, 100] as [number, number]
     };
     
-    cy.mount(<GraphFilters {...defaultProps} filters={activeFilters} />);
+    cy.mountWithProviders(<GraphFilters {...defaultProps} filters={activeFilters} />);
     
     cy.get('[data-cy="element-type-character"]').should('be.checked');
     cy.get('[data-cy="relationship-type-knows"]').should('be.checked');
@@ -269,7 +269,7 @@ describe('GraphFilters Component', () => {
       completionRange: [25, 75] as [number, number]
     };
     
-    cy.mount(<GraphFilters {...defaultProps} filters={activeFilters} />);
+    cy.mountWithProviders(<GraphFilters {...defaultProps} filters={activeFilters} />);
     
     cy.get('[data-cy="clear-filters-btn"]').click();
     cy.get('@onFiltersChange').should('have.been.calledWith', {
@@ -280,14 +280,14 @@ describe('GraphFilters Component', () => {
   });
 
   it('closes filter panel', () => {
-    cy.mount(<GraphFilters {...defaultProps} />);
+    cy.mountWithProviders(<GraphFilters {...defaultProps} />);
     
     cy.get('[data-cy="close-filters-btn"]').click();
     cy.get('@onClose').should('have.been.called');
   });
 
   it('handles select all element types', () => {
-    cy.mount(<GraphFilters {...defaultProps} />);
+    cy.mountWithProviders(<GraphFilters {...defaultProps} />);
     
     cy.get('[data-cy="select"]-all-elements"]').click();
     cy.get('[data-cy="apply-filters-btn"]').click();
@@ -300,7 +300,7 @@ describe('GraphFilters Component', () => {
   });
 
   it('handles select all relationship types', () => {
-    cy.mount(<GraphFilters {...defaultProps} />);
+    cy.mountWithProviders(<GraphFilters {...defaultProps} />);
     
     cy.get('[data-cy="select"]-all-relationships"]').click();
     cy.get('[data-cy="apply-filters-btn"]').click();

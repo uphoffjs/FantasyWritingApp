@@ -31,13 +31,13 @@ describe('AutoSaveIndicator Component', () => {
   });
 
   it('should render idle state by default', () => {
-    cy.mount(<AutoSaveIndicator />);
+    cy.mountWithProviders(<AutoSaveIndicator />);
     
     cy.get('[data-cy="autosave-indicator"]').should('not.exist');
   });
 
   it('should show saving state', () => {
-    cy.mount(<AutoSaveIndicator status="saving" />);
+    cy.mountWithProviders(<AutoSaveIndicator status="saving" />);
     
     cy.get('[data-cy="autosave-indicator"]').should('exist');
     cy.get('[data-cy="autosave-status"]').should('contain', 'Saving...');
@@ -45,7 +45,7 @@ describe('AutoSaveIndicator Component', () => {
   });
 
   it('should show saved state', () => {
-    cy.mount(<AutoSaveIndicator status="saved" />);
+    cy.mountWithProviders(<AutoSaveIndicator status="saved" />);
     
     cy.get('[data-cy="autosave-indicator"]').should('exist');
     cy.get('[data-cy="autosave-status"]').should('contain', 'Saved');
@@ -54,7 +54,7 @@ describe('AutoSaveIndicator Component', () => {
   });
 
   it('should show error state', () => {
-    cy.mount(<AutoSaveIndicator status="error" />);
+    cy.mountWithProviders(<AutoSaveIndicator status="error" />);
     
     cy.get('[data-cy="autosave-indicator"]').should('exist');
     cy.get('[data-cy="autosave-status"]').should('contain', 'Save failed');
@@ -62,14 +62,14 @@ describe('AutoSaveIndicator Component', () => {
   });
 
   it('should show custom error message', () => {
-    cy.mount(<AutoSaveIndicator status="error" errorMessage="Network error" />);
+    cy.mountWithProviders(<AutoSaveIndicator status="error" errorMessage="Network error" />);
     
     cy.get('[data-cy="autosave-status"]').should('contain', 'Network error');
   });
 
   it('should show timestamp for saved state', () => {
     const timestamp = new Date();
-    cy.mount(<AutoSaveIndicator status="saved" timestamp={timestamp} />);
+    cy.mountWithProviders(<AutoSaveIndicator status="saved" timestamp={timestamp} />);
     
     cy.get('[data-cy="autosave-timestamp"]').should('exist');
     cy.get('[data-cy="autosave-timestamp"]').should('contain', 'Just now');
@@ -77,14 +77,14 @@ describe('AutoSaveIndicator Component', () => {
 
   it('should update timestamp text over time', () => {
     const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000);
-    cy.mount(<AutoSaveIndicator status="saved" timestamp={fiveMinutesAgo} />);
+    cy.mountWithProviders(<AutoSaveIndicator status="saved" timestamp={fiveMinutesAgo} />);
     
     cy.get('[data-cy="autosave-timestamp"]').should('contain', '5 minutes ago');
   });
 
   it('should handle click on retry for error state', () => {
     const onRetry = cy.stub();
-    cy.mount(<AutoSaveIndicator status="error" onRetry={onRetry} />);
+    cy.mountWithProviders(<AutoSaveIndicator status="error" onRetry={onRetry} />);
     
     cy.get('[data-cy="autosave-retry"]').should('exist');
     cy.get('[data-cy="autosave-retry"]').click();
@@ -92,34 +92,34 @@ describe('AutoSaveIndicator Component', () => {
   });
 
   it('should apply custom className', () => {
-    cy.mount(<AutoSaveIndicator status="saving" className="custom-class" />);
+    cy.mountWithProviders(<AutoSaveIndicator status="saving" className="custom-class" />);
     
     cy.get('[data-cy="autosave-indicator"]').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
   });
 
   it('should transition between states smoothly', () => {
     // * Start with idle state
-    cy.mount(<AutoSaveIndicator status="idle" />);
+    cy.mountWithProviders(<AutoSaveIndicator status="idle" />);
     
     // TODO: * Should not be visible when idle
     cy.get('[data-cy="autosave-indicator"]').should('not.exist');
     
     // * Change to saving
-    cy.mount(<AutoSaveIndicator status="saving" />);
+    cy.mountWithProviders(<AutoSaveIndicator status="saving" />);
     cy.get('[data-cy="autosave-status"]').should('contain', 'Saving...');
     
     // * Change to saved
-    cy.mount(<AutoSaveIndicator status="saved" />);
+    cy.mountWithProviders(<AutoSaveIndicator status="saved" />);
     cy.get('[data-cy="autosave-status"]').should('contain', 'Saved');
     
     // * Change to error
-    cy.mount(<AutoSaveIndicator status="error" />);
+    cy.mountWithProviders(<AutoSaveIndicator status="error" />);
     cy.get('[data-cy="autosave-status"]').should('contain', 'Save failed');
   });
 
   it('should auto-hide saved state after delay', () => {
     cy.clock();
-    cy.mount(<AutoSaveIndicator status="saved" autoHideDelay={2000} />);
+    cy.mountWithProviders(<AutoSaveIndicator status="saved" autoHideDelay={2000} />);
     
     // TODO: * Should be visible initially
     cy.get('[data-cy="autosave-indicator"]').should('exist');
@@ -134,7 +134,7 @@ describe('AutoSaveIndicator Component', () => {
   });
 
   it('should be accessible', () => {
-    cy.mount(<AutoSaveIndicator status="saving" />);
+    cy.mountWithProviders(<AutoSaveIndicator status="saving" />);
     
     cy.get('[data-cy="autosave-indicator"]').should('have.attr', 'role', 'status');
     cy.get('[data-cy="autosave-indicator"]').should('have.attr', 'aria-live', 'polite');

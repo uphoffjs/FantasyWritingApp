@@ -44,7 +44,7 @@ describe('TagMultiSelect Component', () => {
     }
   });
     it('renders with placeholder when no tags selected', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <TagMultiSelect
           availableTags={availableTags}
           selectedTags={[]}
@@ -57,7 +57,7 @@ describe('TagMultiSelect Component', () => {
       cy.get('svg').should('be.visible'); // ChevronDown icon
     });
     it('renders with default placeholder', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <TagMultiSelect
           availableTags={availableTags}
           selectedTags={[]}
@@ -70,7 +70,7 @@ describe('TagMultiSelect Component', () => {
     it('displays selected tags', () => {
       const selectedTags = ['Fantasy', 'Adventure'];
       
-      cy.mount(
+      cy.mountWithProviders(
         <TagMultiSelect
           availableTags={availableTags}
           selectedTags={selectedTags}
@@ -82,7 +82,7 @@ describe('TagMultiSelect Component', () => {
       cy.contains('Adventure').should('be.visible');
     });
     it('shows clear button when tags are selected', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <TagMultiSelect
           availableTags={availableTags}
           selectedTags={['Fantasy']}
@@ -93,7 +93,7 @@ describe('TagMultiSelect Component', () => {
       cy.contains('Clear').should('be.visible');
     });
     it('applies custom className', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <TagMultiSelect
           availableTags={availableTags}
           selectedTags={[]}
@@ -113,7 +113,7 @@ describe('TagMultiSelect Component', () => {
     }
   });
     it('opens dropdown when clicked', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <TagMultiSelect
           availableTags={availableTags}
           selectedTags={[]}
@@ -129,7 +129,7 @@ describe('TagMultiSelect Component', () => {
       });
     });
     it('closes dropdown when clicked again', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <TagMultiSelect
           availableTags={availableTags}
           selectedTags={[]}
@@ -144,7 +144,7 @@ describe('TagMultiSelect Component', () => {
       cy.get('input[placeholder="Search tags..."]').should('not.exist');
     });
     it('closes dropdown when clicking outside', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <div>
           <TagMultiSelect
             availableTags={availableTags}
@@ -162,7 +162,7 @@ describe('TagMultiSelect Component', () => {
       cy.get('input[placeholder="Search tags..."]').should('not.exist');
     });
     it('rotates chevron icon when dropdown is open', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <TagMultiSelect
           availableTags={availableTags}
           selectedTags={[]}
@@ -184,7 +184,7 @@ describe('TagMultiSelect Component', () => {
     }
   });
     it('selects a tag when clicked', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <TagMultiSelect
           availableTags={availableTags}
           selectedTags={[]}
@@ -198,7 +198,7 @@ describe('TagMultiSelect Component', () => {
       cy.get('@onChange').should('have.been.calledWith', ['Fantasy']);
     });
     it('deselects a tag when clicked again', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <TagMultiSelect
           availableTags={availableTags}
           selectedTags={['Fantasy']}
@@ -212,7 +212,7 @@ describe('TagMultiSelect Component', () => {
       cy.get('@onChange').should('have.been.calledWith', []);
     });
     it('shows check mark for selected tags', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <TagMultiSelect
           availableTags={availableTags}
           selectedTags={['Fantasy', 'Adventure']}
@@ -233,7 +233,7 @@ describe('TagMultiSelect Component', () => {
       });
     });
     it('selects multiple tags', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <TagMultiSelect
           availableTags={availableTags}
           selectedTags={[]}
@@ -259,7 +259,7 @@ describe('TagMultiSelect Component', () => {
     }
   });
     it('removes tag when X button is clicked', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <TagMultiSelect
           availableTags={availableTags}
           selectedTags={['Fantasy', 'Adventure']}
@@ -273,7 +273,7 @@ describe('TagMultiSelect Component', () => {
       cy.get('@onChange').should('have.been.calledWith', ['Adventure']);
     });
     it('clears all tags when Clear button is clicked', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <TagMultiSelect
           availableTags={availableTags}
           selectedTags={['Fantasy', 'Adventure', 'Magic']}
@@ -285,7 +285,7 @@ describe('TagMultiSelect Component', () => {
       cy.get('@onChange').should('have.been.calledWith', []);
     });
     it('does not close dropdown when removing tag', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <TagMultiSelect
           availableTags={availableTags}
           selectedTags={['Fantasy']}
@@ -317,7 +317,7 @@ describe('TagMultiSelect Component', () => {
     // * Clean state before each test
     cy.cleanState();
 
-      cy.mount(
+      cy.mountWithProviders(
         <TagMultiSelect
           availableTags={availableTags}
           selectedTags={[]}
@@ -380,7 +380,7 @@ describe('TagMultiSelect Component', () => {
     }
   });
     it('focuses search input when dropdown opens', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <TagMultiSelect
           availableTags={availableTags}
           selectedTags={[]}
@@ -395,7 +395,7 @@ describe('TagMultiSelect Component', () => {
       cy.get('input[placeholder="Search tags..."]').should('have.focus');
     });
     it('stops propagation when clicking inside dropdown', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <TagMultiSelect
           availableTags={availableTags}
           selectedTags={[]}
@@ -418,7 +418,7 @@ describe('TagMultiSelect Component', () => {
     }
   });
     it('handles empty available tags', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <TagMultiSelect
           availableTags={[]}
           selectedTags={[]}
@@ -432,7 +432,7 @@ describe('TagMultiSelect Component', () => {
     it('handles very long tag names', () => {
       const longTags = ['A'.repeat(50), 'B'.repeat(50)];
       
-      cy.mount(
+      cy.mountWithProviders(
         <TagMultiSelect
           availableTags={longTags}
           selectedTags={longTags}
@@ -445,7 +445,7 @@ describe('TagMultiSelect Component', () => {
     it('handles many tags', () => {
       const manyTags = Array.from({ length: 50 }, (_, i) => `Tag ${i}`);
       
-      cy.mount(
+      cy.mountWithProviders(
         <TagMultiSelect
           availableTags={manyTags}
           selectedTags={[]}
@@ -459,7 +459,7 @@ describe('TagMultiSelect Component', () => {
       cy.get('[class*="overflow-y-auto"]').should('exist');
     });
     it('handles rapid selection/deselection', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <TagMultiSelect
           availableTags={availableTags}
           selectedTags={[]}
@@ -479,7 +479,7 @@ describe('TagMultiSelect Component', () => {
     it('handles special characters in tags', () => {
       const specialTags = ['Tag & More', 'Tag <with> HTML', 'Tag "quoted"', "Tag's apostrophe"];
       
-      cy.mount(
+      cy.mountWithProviders(
         <TagMultiSelect
           availableTags={specialTags}
           selectedTags={[]}
@@ -502,7 +502,7 @@ describe('TagMultiSelect Component', () => {
     }
   });
     it('can be navigated with keyboard', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <div>
           <button>Before</button>
           <TagMultiSelect
@@ -521,7 +521,7 @@ describe('TagMultiSelect Component', () => {
       cy.focused().should('exist');
     });
     it('remove buttons are keyboard accessible', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <TagMultiSelect
           availableTags={availableTags}
           selectedTags={['Fantasy']}
@@ -536,7 +536,7 @@ describe('TagMultiSelect Component', () => {
       cy.get('@onChange').should('have.been.calledWith', []);
     });
     it('clear button is keyboard accessible', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <TagMultiSelect
           availableTags={availableTags}
           selectedTags={['Fantasy', 'Adventure']}
@@ -560,7 +560,7 @@ describe('TagMultiSelect Component', () => {
     it('works on mobile viewport', () => {
       cy.viewport(375, 667);
       
-      cy.mount(
+      cy.mountWithProviders(
         <TagMultiSelect
           availableTags={availableTags}
           selectedTags={['Fantasy', 'Adventure']}
@@ -577,7 +577,7 @@ describe('TagMultiSelect Component', () => {
     it('works on tablet viewport', () => {
       cy.viewport(768, 1024);
       
-      cy.mount(
+      cy.mountWithProviders(
         <TagMultiSelect
           availableTags={availableTags}
           selectedTags={[]}
@@ -593,7 +593,7 @@ describe('TagMultiSelect Component', () => {
     it('works on desktop viewport', () => {
       cy.viewport(1920, 1080);
       
-      cy.mount(
+      cy.mountWithProviders(
         <TagMultiSelect
           availableTags={availableTags}
           selectedTags={[]}

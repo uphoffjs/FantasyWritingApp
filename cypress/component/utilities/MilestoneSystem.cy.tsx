@@ -83,7 +83,7 @@ describe('MilestoneSystem Component', () => {
 
     it('renders achievement header', () => {
       const project = createMockProject();
-      cy.mount(<MilestoneSystem project={project} />);
+      cy.mountWithProviders(<MilestoneSystem project={project} />);
       
       cy.contains('Achievements').should('be.visible');
       cy.get('.lucide-trophy').should('exist');
@@ -91,7 +91,7 @@ describe('MilestoneSystem Component', () => {
 
     it('renders all milestone cards', () => {
       const project = createMockProject();
-      cy.mount(<MilestoneSystem project={project} />);
+      cy.mountWithProviders(<MilestoneSystem project={project} />);
       
       // TODO: * Should render 8 milestones
       cy.get('[class*="rounded-lg border"]').should('have.length', 8);
@@ -99,7 +99,7 @@ describe('MilestoneSystem Component', () => {
 
     it('displays milestone names and descriptions', () => {
       const project = createMockProject();
-      cy.mount(<MilestoneSystem project={project} />);
+      cy.mountWithProviders(<MilestoneSystem project={project} />);
       
       // * Check creation milestones
       cy.contains('World Builder').should('be.visible');
@@ -116,7 +116,7 @@ describe('MilestoneSystem Component', () => {
 
     it('renders achievement stats section', () => {
       const project = createMockProject();
-      cy.mount(<MilestoneSystem project={project} />);
+      cy.mountWithProviders(<MilestoneSystem project={project} />);
       
       cy.contains('Achievement Progress').should('be.visible');
       cy.contains('Achievements Unlocked').should('be.visible');
@@ -135,7 +135,7 @@ describe('MilestoneSystem Component', () => {
     it('marks first element milestone as achieved', () => {
       const elements = [createMockElement()];
       const project = createMockProject(elements);
-      cy.mount(<MilestoneSystem project={project} />);
+      cy.mountWithProviders(<MilestoneSystem project={project} />);
       
       cy.contains('World Builder')
         .parent()
@@ -149,7 +149,7 @@ describe('MilestoneSystem Component', () => {
         createMockElement({ id: `element-${i}` })
       );
       const project = createMockProject(elements);
-      cy.mount(<MilestoneSystem project={project} />);
+      cy.mountWithProviders(<MilestoneSystem project={project} />);
       
       // TODO: * Should have achieved: World Builder (1), Storyteller (5), and Lorekeeper (10)
       cy.contains('World Builder').parent().parent().should('not.have.class', 'opacity-50');
@@ -168,7 +168,7 @@ describe('MilestoneSystem Component', () => {
         })
       );
       const project = createMockProject(elements);
-      cy.mount(<MilestoneSystem project={project} />);
+      cy.mountWithProviders(<MilestoneSystem project={project} />);
       
       // TODO: * Should have achieved: Perfectionist (1 complete) and Detail Oriented (5 complete)
       cy.contains('Perfectionist').parent().parent().should('not.have.class', 'opacity-50');
@@ -191,7 +191,7 @@ describe('MilestoneSystem Component', () => {
         )
       ];
       const project = createMockProject(elements);
-      cy.mount(<MilestoneSystem project={project} />);
+      cy.mountWithProviders(<MilestoneSystem project={project} />);
       
       // TODO: * Should have 6 achievements: 
       // World Builder, Storyteller, Lorekeeper, Master Chronicler (creation)
@@ -221,7 +221,7 @@ describe('MilestoneSystem Component', () => {
         createMockElement({ id: `element-${i}` })
       );
       const project = createMockProject(elements);
-      cy.mount(<MilestoneSystem project={project} />);
+      cy.mountWithProviders(<MilestoneSystem project={project} />);
       
       // * Next milestone is Storyteller (5 elements)
       cy.contains('Next: Storyteller').should('be.visible');
@@ -244,7 +244,7 @@ describe('MilestoneSystem Component', () => {
         })
       );
       const project = createMockProject(elements);
-      cy.mount(<MilestoneSystem project={project} />);
+      cy.mountWithProviders(<MilestoneSystem project={project} />);
       
       // * Next milestone is Detail Oriented (5 complete)
       cy.contains('Next: Detail Oriented').should('be.visible');
@@ -267,7 +267,7 @@ describe('MilestoneSystem Component', () => {
         })
       );
       const project = createMockProject(elements);
-      cy.mount(<MilestoneSystem project={project} />);
+      cy.mountWithProviders(<MilestoneSystem project={project} />);
       
       // * All element creation milestones achieved, but not all completion milestones
       cy.contains('Next: World Builder').should('not.exist');
@@ -288,14 +288,14 @@ describe('MilestoneSystem Component', () => {
 
     it('triggers confetti for newly achieved milestone', () => {
       // * Start with no elements
-      cy.mount(<MilestoneSystem project={createMockProject()} />);
+      cy.mountWithProviders(<MilestoneSystem project={createMockProject()} />);
       
       // * Add an element to trigger first milestone
       const elements = [createMockElement()];
       const updatedProject = createMockProject(elements);
       
       // * Remount with updated project
-      cy.mount(<MilestoneSystem project={updatedProject} />);
+      cy.mountWithProviders(<MilestoneSystem project={updatedProject} />);
       
       // TODO: * Confetti should be triggered
       cy.wrap(mockConfetti).should('have.been.called');
@@ -303,7 +303,7 @@ describe('MilestoneSystem Component', () => {
 
     it('shows NEW badge on recently achieved milestone', () => {
       // * Start with no elements
-      cy.mount(<MilestoneSystem project={createMockProject()} />);
+      cy.mountWithProviders(<MilestoneSystem project={createMockProject()} />);
       
       // * Add elements to trigger milestones
       const elements = Array.from({ length: 5 }, (_, i) => 
@@ -312,7 +312,7 @@ describe('MilestoneSystem Component', () => {
       const updatedProject = createMockProject(elements);
       
       // * Remount with updated project
-      cy.mount(<MilestoneSystem project={updatedProject} />);
+      cy.mountWithProviders(<MilestoneSystem project={updatedProject} />);
       
       // ? TODO: * Should show NEW badges
       cy.contains('NEW!').should('exist');
@@ -322,14 +322,14 @@ describe('MilestoneSystem Component', () => {
 
     it('removes NEW badge after 5 seconds', () => {
       // * Start with no elements
-      cy.mount(<MilestoneSystem project={createMockProject()} />);
+      cy.mountWithProviders(<MilestoneSystem project={createMockProject()} />);
       
       // * Add an element to trigger milestone
       const elements = [createMockElement()];
       const updatedProject = createMockProject(elements);
       
       // * Remount with updated project
-      cy.mount(<MilestoneSystem project={updatedProject} />);
+      cy.mountWithProviders(<MilestoneSystem project={updatedProject} />);
       
       // TODO: NEW badge should be visible
       cy.contains('NEW!').should('exist');
@@ -363,7 +363,7 @@ describe('MilestoneSystem Component', () => {
     it('shows compact descriptions on mobile', () => {
       const elements = [createMockElement()];
       const project = createMockProject(elements);
-      cy.mount(<MilestoneSystem project={project} />);
+      cy.mountWithProviders(<MilestoneSystem project={project} />);
       
       // // DEPRECATED: ? * Mobile shows threshold count instead of full description
       cy.contains('1 elements').should('be.visible');
@@ -372,7 +372,7 @@ describe('MilestoneSystem Component', () => {
 
     it('uses smaller text and spacing on mobile', () => {
       const project = createMockProject();
-      cy.mount(<MilestoneSystem project={project} />);
+      cy.mountWithProviders(<MilestoneSystem project={project} />);
       
       // * Check for mobile-specific classes
       cy.get('.text-xs').should('exist');
@@ -385,7 +385,7 @@ describe('MilestoneSystem Component', () => {
         createMockElement({ id: `element-${i}` })
       );
       const project = createMockProject(elements);
-      cy.mount(<MilestoneSystem project={project} />);
+      cy.mountWithProviders(<MilestoneSystem project={project} />);
       
       // TODO: * Progress bars should be visible and functional
       cy.contains('Next: Storyteller').should('be.visible');
@@ -403,7 +403,7 @@ describe('MilestoneSystem Component', () => {
 
     it('handles empty project gracefully', () => {
       const project = createMockProject([]);
-      cy.mount(<MilestoneSystem project={project} />);
+      cy.mountWithProviders(<MilestoneSystem project={project} />);
       
       // ? TODO: * Should show 0 achievements
       cy.contains('Achievements Unlocked')
@@ -423,7 +423,7 @@ describe('MilestoneSystem Component', () => {
         })
       );
       const project = createMockProject(elements);
-      cy.mount(<MilestoneSystem project={project} />);
+      cy.mountWithProviders(<MilestoneSystem project={project} />);
       
       // TODO: * All milestones should be achieved
       cy.contains('Achievements Unlocked')
@@ -442,7 +442,7 @@ describe('MilestoneSystem Component', () => {
         createMockElement({ id: 'e3', completionPercentage: 0 })
       ];
       const project = createMockProject(elements);
-      cy.mount(<MilestoneSystem project={project} />);
+      cy.mountWithProviders(<MilestoneSystem project={project} />);
       
       // Only 1 element is 100% complete
       cy.contains('Perfectionist').parent().parent().should('not.have.class', 'opacity-50');
@@ -451,7 +451,7 @@ describe('MilestoneSystem Component', () => {
 
     it('handles rapid state changes', () => {
       // * Start with no elements
-      cy.mount(<MilestoneSystem project={createMockProject()} />);
+      cy.mountWithProviders(<MilestoneSystem project={createMockProject()} />);
       
       // * Rapidly add elements
       for (let i = 1; i <= 5; i++) {
@@ -461,7 +461,7 @@ describe('MilestoneSystem Component', () => {
         const project = createMockProject(elements);
         
         // * Remount with updated project
-        cy.mount(<MilestoneSystem project={project} />);
+        cy.mountWithProviders(<MilestoneSystem project={project} />);
       }
       
       // TODO: * Should handle all updates correctly
@@ -479,7 +479,7 @@ describe('MilestoneSystem Component', () => {
 
     it('uses semantic HTML structure', () => {
       const project = createMockProject();
-      cy.mount(<MilestoneSystem project={project} />);
+      cy.mountWithProviders(<MilestoneSystem project={project} />);
       
       // * Check for proper heading hierarchy
       cy.get('h2').contains('Achievements').should('exist');
@@ -489,7 +489,7 @@ describe('MilestoneSystem Component', () => {
     it('has proper color contrast', () => {
       const elements = [createMockElement()];
       const project = createMockProject(elements);
-      cy.mount(<MilestoneSystem project={project} />);
+      cy.mountWithProviders(<MilestoneSystem project={project} />);
       
       // TODO: * Active milestone should have good contrast
       cy.contains('World Builder')
@@ -507,7 +507,7 @@ describe('MilestoneSystem Component', () => {
         createMockElement({ id: `element-${i}` })
       );
       const project = createMockProject(elements);
-      cy.mount(<MilestoneSystem project={project} />);
+      cy.mountWithProviders(<MilestoneSystem project={project} />);
       
       // TODO: * Achieved milestones should have distinct styling
       cy.contains('Storyteller')
@@ -533,7 +533,7 @@ describe('MilestoneSystem Component', () => {
     it('applies correct colors to milestone cards', () => {
       const elements = [createMockElement()];
       const project = createMockProject(elements);
-      cy.mount(<MilestoneSystem project={project} />);
+      cy.mountWithProviders(<MilestoneSystem project={project} />);
       
       // TODO: World Builder should have sapphire styling
       cy.contains('World Builder')
@@ -555,7 +555,7 @@ describe('MilestoneSystem Component', () => {
         })
       );
       const project = createMockProject(elements);
-      cy.mount(<MilestoneSystem project={project} />);
+      cy.mountWithProviders(<MilestoneSystem project={project} />);
       
       // // DEPRECATED: TODO: * Element progress should use gold
       cy.get('[data-cy*="metals-gold"]').should('exist');
@@ -566,14 +566,14 @@ describe('MilestoneSystem Component', () => {
 
     it('animates milestone achievement', () => {
       // * Start with no elements
-      cy.mount(<MilestoneSystem project={createMockProject()} />);
+      cy.mountWithProviders(<MilestoneSystem project={createMockProject()} />);
       
       // * Add element to trigger animation
       const elements = [createMockElement()];
       const updatedProject = createMockProject(elements);
       
       // * Remount with updated project
-      cy.mount(<MilestoneSystem project={updatedProject} />);
+      cy.mountWithProviders(<MilestoneSystem project={updatedProject} />);
       
       // * Check for animation classes
       cy.get('.animate-pulse').should('exist');

@@ -89,7 +89,7 @@ describe('TextInput - Special Characters', () => {
   });
 
     it('handles emoji characters correctly', () => {
-      cy.mount(<TestWrapper />);
+      cy.mountWithProviders(<TestWrapper />);
       
       const emojiText = '😀 Hello 🌍 World 🚀';
       cy.typeSpecialChars('[data-cy="text-input"]', emojiText);
@@ -99,13 +99,13 @@ describe('TextInput - Special Characters', () => {
     });
 
     it('handles various unicode scripts', () => {
-      cy.mount(<TestWrapper />);
+      cy.mountWithProviders(<TestWrapper />);
       
       SpecialCharacterAssertions.assertUnicodeSupport('[data-cy="text-input"]');
     });
 
     it('handles mixed unicode and ASCII', () => {
-      cy.mount(<TestWrapper />);
+      cy.mountWithProviders(<TestWrapper />);
       
       const mixedText = 'Hello 你好 مرحبا שלום Привет こんにちは 😀';
       cy.pasteSpecialChars('[data-cy="text-input"]', mixedText);
@@ -114,7 +114,7 @@ describe('TextInput - Special Characters', () => {
     });
 
     it('correctly counts unicode characters', () => {
-      cy.mount(<TestWrapper />);
+      cy.mountWithProviders(<TestWrapper />);
       
       // TODO: * Test emoji (should count as single characters)
       cy.get('[data-cy="text-input"]').clear().type('😀😃😄');
@@ -135,14 +135,14 @@ describe('TextInput - Special Characters', () => {
   });
 
     it('handles all punctuation characters', () => {
-      cy.mount(<TestWrapper />);
+      cy.mountWithProviders(<TestWrapper />);
       
       cy.typeSpecialChars('[data-cy="text-input"]', SpecialCharacters.punctuation);
       cy.get('[data-cy="text-input"]').should('have.value', SpecialCharacters.punctuation);
     });
 
     it('handles curly braces correctly', () => {
-      cy.mount(<TestWrapper />);
+      cy.mountWithProviders(<TestWrapper />);
       
       const textWithBraces = 'function() { return { value: "test" }; }';
       cy.typeSpecialChars('[data-cy="text-input"]', textWithBraces);
@@ -150,7 +150,7 @@ describe('TextInput - Special Characters', () => {
     });
 
     it('handles quotes and apostrophes', () => {
-      cy.mount(<TestWrapper />);
+      cy.mountWithProviders(<TestWrapper />);
       
       const quotesText = `"Double" 'Single' \`Backtick\` It's can't won't`;
       cy.typeSpecialChars('[data-cy="text-input"]', quotesText);
@@ -167,13 +167,13 @@ describe('TextInput - Special Characters', () => {
   });
 
     it('prevents XSS attacks', () => {
-      cy.mount(<TestWrapper />);
+      cy.mountWithProviders(<TestWrapper />);
       
       SpecialCharacterAssertions.assertXSSPrevention('[data-cy="text-input"]');
     });
 
     it('marks dangerous input as unsafe', () => {
-      cy.mount(<TestWrapper />);
+      cy.mountWithProviders(<TestWrapper />);
       
       // * Safe input
       cy.get('[data-cy="text-input"]').type('Normal safe text');
@@ -185,7 +185,7 @@ describe('TextInput - Special Characters', () => {
     });
 
     it('sanitizes HTML when enabled', () => {
-      cy.mount(<TestWrapper sanitize={true} />);
+      cy.mountWithProviders(<TestWrapper sanitize={true} />);
       
       const xssPayload = '<script>alert("XSS")</script>Normal text';
       cy.pasteSpecialChars('[data-cy="text-input"]', xssPayload);
@@ -196,7 +196,7 @@ describe('TextInput - Special Characters', () => {
     });
 
     it('escapes special characters for display', () => {
-      cy.mount(<TestWrapper />);
+      cy.mountWithProviders(<TestWrapper />);
       
       const htmlChars = '<div>Hello & "World"</div>';
       cy.pasteSpecialChars('[data-cy="text-input"]', htmlChars);
@@ -220,7 +220,7 @@ describe('TextInput - Special Characters', () => {
   });
 
     it('handles SQL injection attempts safely', () => {
-      cy.mount(<TestWrapper />);
+      cy.mountWithProviders(<TestWrapper />);
       
       SpecialCharacters.securityThreats.sqlInjection.forEach(sqlPayload => {
         cy.get('[data-cy="text-input"]').clear().invoke('val', sqlPayload).trigger('input');
@@ -241,7 +241,7 @@ describe('TextInput - Special Characters', () => {
   });
 
     it('preserves various whitespace characters', () => {
-      cy.mount(<TestWrapper />);
+      cy.mountWithProviders(<TestWrapper />);
       
       const whitespaceText = '  Leading  spaces  \n\nNewlines\t\tTabs  Trailing  ';
       cy.pasteSpecialChars('[data-cy="text-input"]', whitespaceText);
@@ -250,7 +250,7 @@ describe('TextInput - Special Characters', () => {
     });
 
     it('handles zero-width characters', () => {
-      cy.mount(<TestWrapper />);
+      cy.mountWithProviders(<TestWrapper />);
       
       const zeroWidth = 'Hello\u200BWorld'; // Zero-width space
       cy.pasteSpecialChars('[data-cy="text-input"]', zeroWidth);
@@ -259,7 +259,7 @@ describe('TextInput - Special Characters', () => {
     });
 
     it('handles non-breaking spaces', () => {
-      cy.mount(<TestWrapper />);
+      cy.mountWithProviders(<TestWrapper />);
       
       const nbspText = 'Non\u00A0breaking\u00A0spaces';
       cy.pasteSpecialChars('[data-cy="text-input"]', nbspText);
@@ -277,7 +277,7 @@ describe('TextInput - Special Characters', () => {
   });
 
     it('handles tab characters', () => {
-      cy.mount(<TestWrapper />);
+      cy.mountWithProviders(<TestWrapper />);
       
       const tabText = 'Column1\tColumn2\tColumn3';
       cy.pasteSpecialChars('[data-cy="text-input"]', tabText);
@@ -286,7 +286,7 @@ describe('TextInput - Special Characters', () => {
     });
 
     it('handles newline characters', () => {
-      cy.mount(<TestWrapper multiline={true} />);
+      cy.mountWithProviders(<TestWrapper multiline={true} />);
       
       const multilineText = 'Line 1\nLine 2\nLine 3';
       cy.pasteSpecialChars('[data-cy="text-input"]', multilineText);
@@ -295,7 +295,7 @@ describe('TextInput - Special Characters', () => {
     });
 
     it('removes control characters when sanitizing', () => {
-      cy.mount(<TestWrapper sanitize={true} />);
+      cy.mountWithProviders(<TestWrapper sanitize={true} />);
       
       const controlText = 'Text\x00with\x01control\x02chars';
       cy.pasteSpecialChars('[data-cy="text-input"]', controlText);
@@ -315,7 +315,7 @@ describe('TextInput - Special Characters', () => {
   });
 
     it('respects maxLength with emoji', () => {
-      cy.mount(<TestWrapper maxLength={10} />);
+      cy.mountWithProviders(<TestWrapper maxLength={10} />);
       
       // Type 8 regular chars + 2 emoji
       cy.get('[data-cy="text-input"]').type('12345678😀😃');
@@ -325,7 +325,7 @@ describe('TextInput - Special Characters', () => {
     });
 
     it('respects maxLength with unicode', () => {
-      cy.mount(<TestWrapper maxLength={5} />);
+      cy.mountWithProviders(<TestWrapper maxLength={5} />);
       
       cy.get('[data-cy="text-input"]').type('你好世界测试');
       
@@ -344,7 +344,7 @@ describe('TextInput - Special Characters', () => {
   });
 
     it('preserves visually similar characters', () => {
-      cy.mount(<TestWrapper />);
+      cy.mountWithProviders(<TestWrapper />);
       
       // Latin O vs Cyrillic О
       const homoglyphs = 'Hello НЕLLО'; // Second one uses Cyrillic
@@ -354,7 +354,7 @@ describe('TextInput - Special Characters', () => {
     });
 
     it('distinguishes between similar characters', () => {
-      cy.mount(<TestWrapper />);
+      cy.mountWithProviders(<TestWrapper />);
       
       // * Zero vs O, one vs l
       const similar = '0O 1l Il';
@@ -373,7 +373,7 @@ describe('TextInput - Special Characters', () => {
   });
 
     it('handles all special character types together', () => {
-      cy.mount(<TestWrapper />);
+      cy.mountWithProviders(<TestWrapper />);
       
       cy.testWithSpecialCharSets('[data-cy="text-input"]', (value) => {
         cy.get('[data-cy="raw-value"]').should('contain', value);
@@ -381,13 +381,13 @@ describe('TextInput - Special Characters', () => {
     });
 
     it('handles security threats safely', () => {
-      cy.mount(<TestWrapper sanitize={true} />);
+      cy.mountWithProviders(<TestWrapper sanitize={true} />);
       
       cy.testSecurityThreats('[data-cy="text-input"]');
     });
 
     it('handles randomly generated special strings', () => {
-      cy.mount(<TestWrapper />);
+      cy.mountWithProviders(<TestWrapper />);
       
       const randomString = SpecialCharacterGenerators.randomSpecialString(50);
       cy.pasteSpecialChars('[data-cy="text-input"]', randomString);
@@ -396,7 +396,7 @@ describe('TextInput - Special Characters', () => {
     });
 
     it('handles comprehensive payload', () => {
-      cy.mount(<TestWrapper />);
+      cy.mountWithProviders(<TestWrapper />);
       
       const payload = SpecialCharacterGenerators.comprehensivePayload();
       cy.pasteSpecialChars('[data-cy="text-input"]', payload);
@@ -415,7 +415,7 @@ describe('TextInput - Special Characters', () => {
   });
 
     it('preserves special characters through copy/paste', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <div>
           <TestWrapper data-cy="input1" />
           <TestWrapper data-cy="input2" />
@@ -455,7 +455,7 @@ describe('TextInput - Special Characters', () => {
   });
 
     it('handles large amounts of emoji efficiently', () => {
-      cy.mount(<TestWrapper />);
+      cy.mountWithProviders(<TestWrapper />);
       
       const manyEmoji = '😀'.repeat(100);
       const startTime = Date.now();
@@ -471,7 +471,7 @@ describe('TextInput - Special Characters', () => {
     });
 
     it('handles rapid special character input', () => {
-      cy.mount(<TestWrapper />);
+      cy.mountWithProviders(<TestWrapper />);
       
       // * Rapidly type special characters
       '!@#$%^&*()'.split('').forEach(char => {

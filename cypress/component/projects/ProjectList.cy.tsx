@@ -272,7 +272,7 @@ describe('ProjectList Component', () => {
       });
       
       // * Remount component
-      cy.mount(<ProjectList />);
+      cy.mountWithProviders(<ProjectList />);
       
       // TODO: * Should retain sort preference
       cy.get('[data-cy="sort-dropdown"]').should('have.value', 'name-desc');

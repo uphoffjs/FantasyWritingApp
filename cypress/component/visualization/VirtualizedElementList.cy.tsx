@@ -103,7 +103,7 @@ describe('VirtualizedElementList Component', () => {
         createMockElement(`${i + 1}`)
       );
       
-      cy.mount(
+      cy.mountWithProviders(
         <VirtualizedElementList
           elements={elements}
           onElementClick={onElementClickSpy}
@@ -119,7 +119,7 @@ describe('VirtualizedElementList Component', () => {
         createMockElement(`${i + 1}`)
       );
       
-      cy.mount(
+      cy.mountWithProviders(
         <VirtualizedElementList
           elements={elements}
           onElementClick={onElementClickSpy}
@@ -135,7 +135,7 @@ describe('VirtualizedElementList Component', () => {
         createMockElement(`${i + 1}`)
       );
       
-      cy.mount(
+      cy.mountWithProviders(
         <VirtualizedElementList
           elements={elements}
           onElementClick={onElementClickSpy}
@@ -157,7 +157,7 @@ describe('VirtualizedElementList Component', () => {
   });
 
     it('shows empty state when no elements', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <VirtualizedElementList
           elements={[]}
           onElementClick={onElementClickSpy}
@@ -169,7 +169,7 @@ describe('VirtualizedElementList Component', () => {
     });
 
     it('shows search empty state with query', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <VirtualizedElementList
           elements={[]}
           onElementClick={onElementClickSpy}
@@ -182,7 +182,7 @@ describe('VirtualizedElementList Component', () => {
     });
 
     it('handles null elements array', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <VirtualizedElementList
           elements={null as any}
           onElementClick={onElementClickSpy}
@@ -193,7 +193,7 @@ describe('VirtualizedElementList Component', () => {
     });
 
     it('handles undefined elements array', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <VirtualizedElementList
           elements={undefined as any}
           onElementClick={onElementClickSpy}
@@ -215,7 +215,7 @@ describe('VirtualizedElementList Component', () => {
     it('calls onElementClick when element is clicked', () => {
       const elements = [createMockElement('1')];
       
-      cy.mount(
+      cy.mountWithProviders(
         <VirtualizedElementList
           elements={elements}
           onElementClick={onElementClickSpy}
@@ -231,7 +231,7 @@ describe('VirtualizedElementList Component', () => {
         createMockElement(`${i + 1}`)
       );
       
-      cy.mount(
+      cy.mountWithProviders(
         <VirtualizedElementList
           elements={elements}
           onElementClick={onElementClickSpy}
@@ -261,7 +261,7 @@ describe('VirtualizedElementList Component', () => {
       
       // ? TODO: * Wide viewport should show multiple columns
       cy.viewport(1400, 800);
-      cy.mount(
+      cy.mountWithProviders(
         <VirtualizedElementList
           elements={elements}
           onElementClick={onElementClickSpy}
@@ -279,7 +279,7 @@ describe('VirtualizedElementList Component', () => {
       
       // ? TODO: * Narrow viewport should show fewer columns
       cy.viewport(400, 800);
-      cy.mount(
+      cy.mountWithProviders(
         <VirtualizedElementList
           elements={elements}
           onElementClick={onElementClickSpy}
@@ -295,7 +295,7 @@ describe('VirtualizedElementList Component', () => {
       );
       
       cy.viewport(1200, 800);
-      cy.mount(
+      cy.mountWithProviders(
         <VirtualizedElementList
           elements={elements}
           onElementClick={onElementClickSpy}
@@ -320,7 +320,7 @@ describe('VirtualizedElementList Component', () => {
         createMockElement(`${i + 1}`)
       );
       
-      cy.mount(
+      cy.mountWithProviders(
         <VirtualizedElementList
           elements={elements}
           onElementClick={onElementClickSpy}
@@ -336,7 +336,7 @@ describe('VirtualizedElementList Component', () => {
         createMockElement(`${i + 1}`)
       );
       
-      cy.mount(
+      cy.mountWithProviders(
         <VirtualizedElementList
           elements={elements}
           onElementClick={onElementClickSpy}
@@ -363,7 +363,7 @@ describe('VirtualizedElementList Component', () => {
       );
       
       cy.viewport(1200, 800);
-      cy.mount(
+      cy.mountWithProviders(
         <VirtualizedElementList
           elements={elements}
           onElementClick={onElementClickSpy}
@@ -395,7 +395,7 @@ describe('VirtualizedElementList Component', () => {
       const elements = [createMockElement('1')];
       
       // TODO: * This should trigger the try-catch fallback
-      cy.mount(
+      cy.mountWithProviders(
         <VirtualizedElementList
           elements={elements}
           onElementClick={onElementClickSpy}
@@ -413,7 +413,7 @@ describe('VirtualizedElementList Component', () => {
         createMockElement('2')
       ];
       
-      cy.mount(
+      cy.mountWithProviders(
         <VirtualizedElementList
           elements={elements}
           onElementClick={onElementClickSpy}
@@ -442,7 +442,7 @@ describe('VirtualizedElementList Component', () => {
         })
       ];
       
-      cy.mount(
+      cy.mountWithProviders(
         <VirtualizedElementList
           elements={elements}
           onElementClick={onElementClickSpy}
@@ -461,7 +461,7 @@ describe('VirtualizedElementList Component', () => {
         createMockElement('3', { category: 'item-object' })
       ];
       
-      cy.mount(
+      cy.mountWithProviders(
         <VirtualizedElementList
           elements={elements}
           onElementClick={onElementClickSpy}
@@ -487,7 +487,7 @@ describe('VirtualizedElementList Component', () => {
         createMockElement(`${i + 1}`)
       );
       
-      cy.mount(
+      cy.mountWithProviders(
         <VirtualizedElementList
           elements={elements}
           onElementClick={onElementClickSpy}
@@ -504,7 +504,7 @@ describe('VirtualizedElementList Component', () => {
         createMockElement(`${i + 1}`)
       );
       
-      cy.mount(
+      cy.mountWithProviders(
         <VirtualizedElementList
           elements={elements}
           onElementClick={onElementClickSpy}
@@ -532,7 +532,7 @@ describe('VirtualizedElementList Component', () => {
         createMockElement(`${i + 1}`)
       );
       
-      cy.mount(
+      cy.mountWithProviders(
         <VirtualizedElementList
           elements={elements}
           onElementClick={onElementClickSpy}
@@ -550,7 +550,7 @@ describe('VirtualizedElementList Component', () => {
         createMockElement(`${i + 1}`)
       );
       
-      cy.mount(
+      cy.mountWithProviders(
         <VirtualizedElementList
           elements={elements}
           onElementClick={onElementClickSpy}
@@ -567,7 +567,7 @@ describe('VirtualizedElementList Component', () => {
         createMockElement(`${i + 1}`)
       );
       
-      cy.mount(
+      cy.mountWithProviders(
         <VirtualizedElementList
           elements={elements}
           onElementClick={onElementClickSpy}

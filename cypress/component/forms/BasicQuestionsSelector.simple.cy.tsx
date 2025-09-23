@@ -49,7 +49,7 @@ describe('BasicQuestionsSelector Simplified Tests', () => {
     it('renders without crashing', () => {
       const onChange = cy.spy();
       
-      cy.mount(
+      cy.mountWithProviders(
         <BasicQuestionsSelector
           questions={mockQuestions}
           category="character"
@@ -63,7 +63,7 @@ describe('BasicQuestionsSelector Simplified Tests', () => {
     it('displays question count', () => {
       const onChange = cy.spy();
       
-      cy.mount(
+      cy.mountWithProviders(
         <BasicQuestionsSelector
           questions={mockQuestions}
           basicQuestionIds={['name']}
@@ -79,7 +79,7 @@ describe('BasicQuestionsSelector Simplified Tests', () => {
     it('toggles question selection', () => {
       const onChange = cy.spy().as('onChange');
       
-      cy.mount(
+      cy.mountWithProviders(
         <BasicQuestionsSelector
           questions={mockQuestions}
           basicQuestionIds={[]}
@@ -98,7 +98,7 @@ describe('BasicQuestionsSelector Simplified Tests', () => {
     it('selects all questions', () => {
       const onChange = cy.spy().as('onChange');
       
-      cy.mount(
+      cy.mountWithProviders(
         <BasicQuestionsSelector
           questions={mockQuestions}
           basicQuestionIds={[]}
@@ -115,7 +115,7 @@ describe('BasicQuestionsSelector Simplified Tests', () => {
     it('clears all selections', () => {
       const onChange = cy.spy().as('onChange');
       
-      cy.mount(
+      cy.mountWithProviders(
         <BasicQuestionsSelector
           questions={mockQuestions}
           basicQuestionIds={['name', 'age']}
@@ -132,7 +132,7 @@ describe('BasicQuestionsSelector Simplified Tests', () => {
     it('maintains selected state', () => {
       const onChange = cy.spy();
       
-      cy.mount(
+      cy.mountWithProviders(
         <BasicQuestionsSelector
           questions={mockQuestions}
           basicQuestionIds={['name', 'species']}

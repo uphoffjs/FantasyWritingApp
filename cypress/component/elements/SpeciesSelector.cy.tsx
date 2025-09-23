@@ -72,7 +72,7 @@ describe('SpeciesSelector', () => {
     }
   });
     it('renders selector button with placeholder', () => {
-      cy.mount(<SpeciesSelector {...defaultProps} />);
+      cy.mountWithProviders(<SpeciesSelector {...defaultProps} />);
       
       cy.get('button[type="button"]').should('contain', 'Select a race/species');
     });
@@ -87,12 +87,12 @@ describe('SpeciesSelector', () => {
         createRace: cy.stub(),
         incrementUsage: cy.stub()
       });
-      cy.mount(<SpeciesSelector {...defaultProps} value="race1" />);
+      cy.mountWithProviders(<SpeciesSelector {...defaultProps} value="race1" />);
       
       cy.get('button[type="button"]').should('contain', 'Elf');
     });
     it('uses custom placeholder', () => {
-      cy.mount(<SpeciesSelector {...defaultProps} placeholder="Choose a species" />);
+      cy.mountWithProviders(<SpeciesSelector {...defaultProps} placeholder="Choose a species" />);
       
       cy.get('button[type="button"]').should('contain', 'Choose a species');
     });
@@ -105,13 +105,13 @@ describe('SpeciesSelector', () => {
     }
   });
     it('opens dropdown on click', () => {
-      cy.mount(<SpeciesSelector {...defaultProps} />);
+      cy.mountWithProviders(<SpeciesSelector {...defaultProps} />);
       
       cy.get('button[type="button"]').click();
       cy.get('.absolute.z-50').should('be.visible');
     });
     it('closes dropdown on outside click', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <div>
           <SpeciesSelector {...defaultProps} />
           <div data-cy="outside">Outside element</div>
@@ -125,7 +125,7 @@ describe('SpeciesSelector', () => {
       cy.get('.absolute.z-50').should('not.exist');
     });
     it('rotates chevron icon when open', () => {
-      cy.mount(<SpeciesSelector {...defaultProps} />);
+      cy.mountWithProviders(<SpeciesSelector {...defaultProps} />);
       
       cy.get('.transition-transform').should('not.have.class', 'rotate-180');
       
@@ -141,13 +141,13 @@ describe('SpeciesSelector', () => {
     }
   });
     it('shows search input in dropdown', () => {
-      cy.mount(<SpeciesSelector {...defaultProps} />);
+      cy.mountWithProviders(<SpeciesSelector {...defaultProps} />);
       
       cy.get('button[type="button"]').click();
       cy.get('input[placeholder*="Search"]').should('be.visible');
     });
     it('filters races based on search query', () => {
-      cy.mount(<SpeciesSelector {...defaultProps} />);
+      cy.mountWithProviders(<SpeciesSelector {...defaultProps} />);
       
       cy.get('button[type="button"]').click();
       cy.get('input[placeholder*="Search"]').type('elf');
@@ -156,7 +156,7 @@ describe('SpeciesSelector', () => {
       cy.contains('Dwarf').should('not.exist');
     });
     it('shows no results message', () => {
-      cy.mount(<SpeciesSelector {...defaultProps} />);
+      cy.mountWithProviders(<SpeciesSelector {...defaultProps} />);
       
       cy.get('button[type="button"]').click();
       cy.get('input[placeholder*="Search"]').type('xyz');
@@ -173,7 +173,7 @@ describe('SpeciesSelector', () => {
   });
     it('selects race on click', () => {
       const onChange = cy.stub();
-      cy.mount(<SpeciesSelector {...defaultProps} onChange={onChange} />);
+      cy.mountWithProviders(<SpeciesSelector {...defaultProps} onChange={onChange} />);
       
       cy.get('button[type="button"]').click();
       cy.contains('Elf').click();
@@ -191,7 +191,7 @@ describe('SpeciesSelector', () => {
         createRace: cy.stub(),
         incrementUsage
       });
-      cy.mount(<SpeciesSelector {...defaultProps} />);
+      cy.mountWithProviders(<SpeciesSelector {...defaultProps} />);
       
       cy.get('button[type="button"]').click();
       cy.contains('Elf').click();
@@ -199,7 +199,7 @@ describe('SpeciesSelector', () => {
       cy.wrap(incrementUsage).should('have.been.calledWith', 'race1');
     });
     it('closes dropdown after selection', () => {
-      cy.mount(<SpeciesSelector {...defaultProps} />);
+      cy.mountWithProviders(<SpeciesSelector {...defaultProps} />);
       
       cy.get('button[type="button"]').click();
       cy.contains('Elf').click();
@@ -207,7 +207,7 @@ describe('SpeciesSelector', () => {
       cy.get('.absolute.z-50').should('not.exist');
     });
     it('clears search query after selection', () => {
-      cy.mount(<SpeciesSelector {...defaultProps} />);
+      cy.mountWithProviders(<SpeciesSelector {...defaultProps} />);
       
       cy.get('button[type="button"]').click();
       cy.get('input[placeholder*="Search"]').type('elf');
@@ -225,13 +225,13 @@ describe('SpeciesSelector', () => {
     }
   });
     it('shows create new race button', () => {
-      cy.mount(<SpeciesSelector {...defaultProps} />);
+      cy.mountWithProviders(<SpeciesSelector {...defaultProps} />);
       
       cy.get('button[type="button"]').click();
       cy.contains('Create new race').should('be.visible');
     });
     it('opens create form on button click', () => {
-      cy.mount(<SpeciesSelector {...defaultProps} />);
+      cy.mountWithProviders(<SpeciesSelector {...defaultProps} />);
       
       cy.get('button[type="button"]').click();
       cy.contains('Create new race').click();
@@ -255,7 +255,7 @@ describe('SpeciesSelector', () => {
         createRace,
         incrementUsage: cy.stub()
       });
-      cy.mount(<SpeciesSelector {...defaultProps} onChange={onChange} />);
+      cy.mountWithProviders(<SpeciesSelector {...defaultProps} onChange={onChange} />);
       
       cy.get('button[type="button"]').click();
       cy.contains('Create new race').click();
@@ -266,7 +266,7 @@ describe('SpeciesSelector', () => {
       cy.wrap(onChange).should('have.been.calledWith', 'newRace');
     });
     it('cancels create form', () => {
-      cy.mount(<SpeciesSelector {...defaultProps} />);
+      cy.mountWithProviders(<SpeciesSelector {...defaultProps} />);
       
       cy.get('button[type="button"]').click();
       cy.contains('Create new race').click();
@@ -292,7 +292,7 @@ describe('SpeciesSelector', () => {
         createRace: cy.stub(),
         incrementUsage: cy.stub()
       });
-      cy.mount(<SpeciesSelector {...defaultProps} />);
+      cy.mountWithProviders(<SpeciesSelector {...defaultProps} />);
       
       cy.get('button[type="button"]').click();
       cy.contains('Loading races...').should('be.visible');
@@ -307,7 +307,7 @@ describe('SpeciesSelector', () => {
         createRace: cy.stub(),
         incrementUsage: cy.stub()
       });
-      cy.mount(<SpeciesSelector {...defaultProps} />);
+      cy.mountWithProviders(<SpeciesSelector {...defaultProps} />);
       
       cy.get('button[type="button"]').click();
       cy.contains('Load more').should('be.visible');
@@ -323,7 +323,7 @@ describe('SpeciesSelector', () => {
         createRace: cy.stub(),
         incrementUsage: cy.stub()
       });
-      cy.mount(<SpeciesSelector {...defaultProps} />);
+      cy.mountWithProviders(<SpeciesSelector {...defaultProps} />);
       
       cy.get('button[type="button"]').click();
       cy.contains('Load more').click();
@@ -372,19 +372,19 @@ describe('SpeciesDropdown', () => {
     }
   });
     it('renders race list', () => {
-      cy.mount(<SpeciesDropdown {...defaultProps} />);
+      cy.mountWithProviders(<SpeciesDropdown {...defaultProps} />);
       
       cy.contains('Elf').should('be.visible');
       cy.contains('Dwarf').should('be.visible');
     });
     it('shows completion percentage', () => {
-      cy.mount(<SpeciesDropdown {...defaultProps} />);
+      cy.mountWithProviders(<SpeciesDropdown {...defaultProps} />);
       
       cy.contains('100%').should('be.visible');
       cy.contains('80%').should('be.visible');
     });
     it('highlights selected race', () => {
-      cy.mount(<SpeciesDropdown {...defaultProps} selectedId="race1" />);
+      cy.mountWithProviders(<SpeciesDropdown {...defaultProps} selectedId="race1" />);
       
       cy.contains('Elf').parent().should('be.visible') // React Native Web uses inline styles instead of CSS classes;
     });
@@ -398,14 +398,14 @@ describe('SpeciesDropdown', () => {
   });
     it('calls onSearchChange when typing', () => {
       const onSearchChange = cy.stub();
-      cy.mount(<SpeciesDropdown {...defaultProps} onSearchChange={onSearchChange} />);
+      cy.mountWithProviders(<SpeciesDropdown {...defaultProps} onSearchChange={onSearchChange} />);
       
       cy.get('input[placeholder*="Search"]').type('test');
       cy.wrap(onSearchChange).should('have.been.calledWith', 'test');
     });
     it('shows filtered results', () => {
       const filteredRaces = [mockRaces[0]];
-      cy.mount(<SpeciesDropdown {...defaultProps} races={filteredRaces} searchQuery="elf" />);
+      cy.mountWithProviders(<SpeciesDropdown {...defaultProps} races={filteredRaces} searchQuery="elf" />);
       
       cy.contains('Elf').should('be.visible');
       cy.contains('Dwarf').should('not.exist');
@@ -420,14 +420,14 @@ describe('SpeciesDropdown', () => {
   });
     it('calls onSelect when race clicked', () => {
       const onSelect = cy.stub();
-      cy.mount(<SpeciesDropdown {...defaultProps} onSelect={onSelect} />);
+      cy.mountWithProviders(<SpeciesDropdown {...defaultProps} onSelect={onSelect} />);
       
       cy.contains('Elf').click();
       cy.wrap(onSelect).should('have.been.calledWith', mockRaces[0]);
     });
     it('calls onCreateNew when create button clicked', () => {
       const onCreateNew = cy.stub();
-      cy.mount(<SpeciesDropdown {...defaultProps} onCreateNew={onCreateNew} />);
+      cy.mountWithProviders(<SpeciesDropdown {...defaultProps} onCreateNew={onCreateNew} />);
       
       cy.contains('Create new race').click();
       cy.wrap(onCreateNew).should('have.been.called');
@@ -463,14 +463,14 @@ describe('QuickCreateForm', () => {
     }
   });
     it('renders form elements', () => {
-      cy.mount(<QuickCreateForm {...defaultProps} />);
+      cy.mountWithProviders(<QuickCreateForm {...defaultProps} />);
       
       cy.get('input[placeholder*="race name"]').should('be.visible');
       cy.contains('Create').should('be.visible');
       cy.contains('Cancel').should('be.visible');
     });
     it('focuses input on mount', () => {
-      cy.mount(<QuickCreateForm {...defaultProps} />);
+      cy.mountWithProviders(<QuickCreateForm {...defaultProps} />);
       
       cy.focused().should('have.attr', 'placeholder').and('include', 'race name');
     });
@@ -484,7 +484,7 @@ describe('QuickCreateForm', () => {
   });
     it('calls onCreate with name value', () => {
       const onCreate = cy.stub();
-      cy.mount(<QuickCreateForm {...defaultProps} onCreate={onCreate} />);
+      cy.mountWithProviders(<QuickCreateForm {...defaultProps} onCreate={onCreate} />);
       
       cy.get('input[placeholder*="race name"]').type('Goblin');
       cy.contains('Create').click();
@@ -493,7 +493,7 @@ describe('QuickCreateForm', () => {
     });
     it('submits on Enter key', () => {
       const onCreate = cy.stub();
-      cy.mount(<QuickCreateForm {...defaultProps} onCreate={onCreate} />);
+      cy.mountWithProviders(<QuickCreateForm {...defaultProps} onCreate={onCreate} />);
       
       cy.get('input[placeholder*="race name"]').type('Goblin{enter}');
       
@@ -501,7 +501,7 @@ describe('QuickCreateForm', () => {
     });
     it('validates empty input', () => {
       const onCreate = cy.stub();
-      cy.mount(<QuickCreateForm {...defaultProps} onCreate={onCreate} />);
+      cy.mountWithProviders(<QuickCreateForm {...defaultProps} onCreate={onCreate} />);
       
       cy.contains('Create').click();
       
@@ -510,7 +510,7 @@ describe('QuickCreateForm', () => {
     });
     it('trims whitespace from input', () => {
       const onCreate = cy.stub();
-      cy.mount(<QuickCreateForm {...defaultProps} onCreate={onCreate} />);
+      cy.mountWithProviders(<QuickCreateForm {...defaultProps} onCreate={onCreate} />);
       
       cy.get('input[placeholder*="race name"]').type('  Goblin  ');
       cy.contains('Create').click();
@@ -527,7 +527,7 @@ describe('QuickCreateForm', () => {
   });
     it('calls onCancel when cancel clicked', () => {
       const onCancel = cy.stub();
-      cy.mount(<QuickCreateForm {...defaultProps} onCancel={onCancel} />);
+      cy.mountWithProviders(<QuickCreateForm {...defaultProps} onCancel={onCancel} />);
       
       cy.contains('Cancel').click();
       
@@ -535,7 +535,7 @@ describe('QuickCreateForm', () => {
     });
     it('cancels on Escape key', () => {
       const onCancel = cy.stub();
-      cy.mount(<QuickCreateForm {...defaultProps} onCancel={onCancel} />);
+      cy.mountWithProviders(<QuickCreateForm {...defaultProps} onCancel={onCancel} />);
       
       cy.get('input[placeholder*="race name"]').type('{esc}');
       
@@ -551,7 +551,7 @@ describe('QuickCreateForm', () => {
   });
     it('disables form during creation', () => {
       const onCreate = cy.stub().returns(new Promise(() => {})); // Never resolves
-      cy.mount(<QuickCreateForm {...defaultProps} onCreate={onCreate} />);
+      cy.mountWithProviders(<QuickCreateForm {...defaultProps} onCreate={onCreate} />);
       
       cy.get('input[placeholder*="race name"]').type('Goblin');
       cy.contains('Create').click();
@@ -570,7 +570,7 @@ describe('QuickCreateForm', () => {
   });
     it('shows error message on creation failure', () => {
       const onCreate = cy.stub().rejects(new Error('Creation failed'));
-      cy.mount(<QuickCreateForm {...defaultProps} onCreate={onCreate} />);
+      cy.mountWithProviders(<QuickCreateForm {...defaultProps} onCreate={onCreate} />);
       
       cy.get('input[placeholder*="race name"]').type('Goblin');
       cy.contains('Create').click();
@@ -582,7 +582,7 @@ describe('QuickCreateForm', () => {
         .onFirstCall().rejects(new Error('Creation failed'))
         .onSecondCall().resolves();
       
-      cy.mount(<QuickCreateForm {...defaultProps} onCreate={onCreate} />);
+      cy.mountWithProviders(<QuickCreateForm {...defaultProps} onCreate={onCreate} />);
       
       cy.get('input[placeholder*="race name"]').type('Invalid');
       cy.contains('Create').click();

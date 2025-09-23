@@ -52,7 +52,7 @@ describe('CreateElementModal Component', () => {
   });
 
   it('should render when visible', () => {
-    cy.mount(<CreateElementModal {...defaultProps} />);
+    cy.mountWithProviders(<CreateElementModal {...defaultProps} />);
 
     // * Check modal title
     cy.contains('Create New Element').should('be.visible');
@@ -69,13 +69,13 @@ describe('CreateElementModal Component', () => {
   });
 
   it('should not render when not visible', () => {
-    cy.mount(<CreateElementModal {...defaultProps} visible={false} />);
+    cy.mountWithProviders(<CreateElementModal {...defaultProps} visible={false} />);
 
     cy.contains('Create New Element').should('not.exist');
   });
 
   it('should display all category options', () => {
-    cy.mount(<CreateElementModal {...defaultProps} />);
+    cy.mountWithProviders(<CreateElementModal {...defaultProps} />);
 
     // * Check that all expected categories are present - use data-testid
     const expectedCategories = [
@@ -99,7 +99,7 @@ describe('CreateElementModal Component', () => {
   });
 
   it('should handle category selection', () => {
-    cy.mount(<CreateElementModal {...defaultProps} />);
+    cy.mountWithProviders(<CreateElementModal {...defaultProps} />);
 
     // * Select a character category
     cy.get('[data-testid="category-character"]').click();
@@ -112,7 +112,7 @@ describe('CreateElementModal Component', () => {
   });
 
   it('should handle close functionality', () => {
-    cy.mount(<CreateElementModal {...defaultProps} />);
+    cy.mountWithProviders(<CreateElementModal {...defaultProps} />);
 
     // * Test close button - find the button that contains ✕
     cy.get('button').contains('✕').should('be.visible');
@@ -120,13 +120,13 @@ describe('CreateElementModal Component', () => {
     cy.get('@onClose').should('have.been.called');
 
     // * Test cancel button
-    cy.mount(<CreateElementModal {...defaultProps} />);
+    cy.mountWithProviders(<CreateElementModal {...defaultProps} />);
     cy.contains('Cancel').click();
     cy.get('@onClose').should('have.been.called');
   });
 
   it('should create element when category selected and create button clicked', () => {
-    cy.mount(<CreateElementModal {...defaultProps} />);
+    cy.mountWithProviders(<CreateElementModal {...defaultProps} />);
 
     // * Select character category
     cy.get('[data-testid="category-character"]').click();
@@ -142,7 +142,7 @@ describe('CreateElementModal Component', () => {
   });
 
   it('should show loading state during creation', () => {
-    cy.mount(<CreateElementModal {...defaultProps} />);
+    cy.mountWithProviders(<CreateElementModal {...defaultProps} />);
 
     // * Select category and click create
     cy.get('[data-testid="category-character"]').click();
@@ -154,7 +154,7 @@ describe('CreateElementModal Component', () => {
   });
 
   it('should call onSuccess after successful creation', () => {
-    cy.mount(<CreateElementModal {...defaultProps} />);
+    cy.mountWithProviders(<CreateElementModal {...defaultProps} />);
 
     cy.get('[data-testid="category-character"]').click();
     cy.contains('Create Element').click();
@@ -169,7 +169,7 @@ describe('CreateElementModal Component', () => {
 
   it('should handle creation errors gracefully', () => {
     // * Note: The mock component doesn't handle errors, so we just verify it doesn't crash
-    cy.mount(<CreateElementModal {...defaultProps} />);
+    cy.mountWithProviders(<CreateElementModal {...defaultProps} />);
 
     cy.get('[data-testid="category-character"]').click();
     cy.contains('Create Element').click();
@@ -179,7 +179,7 @@ describe('CreateElementModal Component', () => {
   });
 
   it('should disable create button when no category selected', () => {
-    cy.mount(<CreateElementModal {...defaultProps} />);
+    cy.mountWithProviders(<CreateElementModal {...defaultProps} />);
 
     // * Initially should show "Select a Category" and be disabled
     const button = cy.contains('Select a Category');
@@ -192,7 +192,7 @@ describe('CreateElementModal Component', () => {
   });
 
   it('should show different categories with proper icons and descriptions', () => {
-    cy.mount(<CreateElementModal {...defaultProps} />);
+    cy.mountWithProviders(<CreateElementModal {...defaultProps} />);
 
     // * Test a few specific categories
     const categoryTests = [
@@ -226,7 +226,7 @@ describe('CreateElementModal Component', () => {
   });
 
   it('should handle multiple category selections (only latest should be selected)', () => {
-    cy.mount(<CreateElementModal {...defaultProps} />);
+    cy.mountWithProviders(<CreateElementModal {...defaultProps} />);
 
     // * Select character first
     cy.get('[data-testid="category-character"]').click();
@@ -241,7 +241,7 @@ describe('CreateElementModal Component', () => {
   });
 
   it('should be accessible', () => {
-    cy.mount(<CreateElementModal {...defaultProps} />);
+    cy.mountWithProviders(<CreateElementModal {...defaultProps} />);
 
     // * Check that interactive elements have proper accessibility
     cy.get('[data-testid^="category-"]').each(($el) => {
@@ -254,7 +254,7 @@ describe('CreateElementModal Component', () => {
   });
 
   it('should handle keyboard navigation and interaction', () => {
-    cy.mount(<CreateElementModal {...defaultProps} />);
+    cy.mountWithProviders(<CreateElementModal {...defaultProps} />);
 
     // * Test that categories can be accessed with keyboard
     cy.get('[data-testid="category-character"]').focus().type('{enter}');
@@ -271,7 +271,7 @@ describe('CreateElementModal Component', () => {
   });
 
   it('should generate unique element names for same category', () => {
-    cy.mount(<CreateElementModal {...defaultProps} />);
+    cy.mountWithProviders(<CreateElementModal {...defaultProps} />);
 
     cy.get('[data-testid="category-character"]').click();
     cy.contains('Create Element').click();

@@ -57,7 +57,7 @@ describe('BasicQuestionsSelector Component', () => {
   });
 
     it('renders with title and description', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <BasicQuestionsSelector
           questions={mockQuestions}
           category="character"
@@ -70,7 +70,7 @@ describe('BasicQuestionsSelector Component', () => {
     });
 
     it('displays question statistics', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <BasicQuestionsSelector
           questions={mockQuestions}
           category="character"
@@ -85,7 +85,7 @@ describe('BasicQuestionsSelector Component', () => {
     });
 
     it('shows estimated completion times', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <BasicQuestionsSelector
           questions={mockQuestions}
           basicQuestionIds={['name', 'age']}  
@@ -99,7 +99,7 @@ describe('BasicQuestionsSelector Component', () => {
     });
 
     it('displays tip info box', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <BasicQuestionsSelector
           questions={mockQuestions}
           category="character"
@@ -112,7 +112,7 @@ describe('BasicQuestionsSelector Component', () => {
     });
 
     it('groups questions by category', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <BasicQuestionsSelector
           questions={mockQuestions}
           category="character"
@@ -128,7 +128,7 @@ describe('BasicQuestionsSelector Component', () => {
     });
 
     it('shows required badge for required questions', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <BasicQuestionsSelector
           questions={mockQuestions}
           category="character"
@@ -142,7 +142,7 @@ describe('BasicQuestionsSelector Component', () => {
     });
 
     it('shows help text when available', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <BasicQuestionsSelector
           questions={mockQuestions}
           category="character"
@@ -154,7 +154,7 @@ describe('BasicQuestionsSelector Component', () => {
     });
 
     it('shows star icon for suggested questions', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <BasicQuestionsSelector
           questions={mockQuestions}
           category="character"
@@ -178,7 +178,7 @@ describe('BasicQuestionsSelector Component', () => {
   });
 
     it('applies default suggestions when clicked', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <BasicQuestionsSelector
           questions={mockQuestions}
           category="character"
@@ -198,7 +198,7 @@ describe('BasicQuestionsSelector Component', () => {
     });
 
     it('selects all questions when Select All is clicked', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <BasicQuestionsSelector
           questions={mockQuestions}
           category="character"
@@ -214,7 +214,7 @@ describe('BasicQuestionsSelector Component', () => {
     });
 
     it('deselects all questions when Select None is clicked', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <BasicQuestionsSelector
           questions={mockQuestions}
           category="character"
@@ -228,7 +228,7 @@ describe('BasicQuestionsSelector Component', () => {
     });
 
     it('disables Apply Defaults when no suggestions exist', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <BasicQuestionsSelector
           questions={mockQuestions}
           category="unknown_category"
@@ -249,7 +249,7 @@ describe('BasicQuestionsSelector Component', () => {
   });
 
     it.skip('toggles question selection when checkbox is clicked', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <BasicQuestionsSelector
           questions={mockQuestions}
           category="character"
@@ -274,7 +274,7 @@ describe('BasicQuestionsSelector Component', () => {
     });
 
     it('deselects question when already selected', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <BasicQuestionsSelector
           questions={mockQuestions}
           basicQuestionIds={['name']}
@@ -291,7 +291,7 @@ describe('BasicQuestionsSelector Component', () => {
     });
 
     it.skip('toggles question when label is clicked', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <BasicQuestionsSelector
           questions={mockQuestions}
           category="character"
@@ -305,7 +305,7 @@ describe('BasicQuestionsSelector Component', () => {
     });
 
     it('maintains selection state across categories', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <BasicQuestionsSelector
           questions={mockQuestions}
           basicQuestionIds={['name', 'occupation', 'backstory']}
@@ -338,7 +338,7 @@ describe('BasicQuestionsSelector Component', () => {
   });
 
     it('highlights selected questions', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <BasicQuestionsSelector
           questions={mockQuestions}
           basicQuestionIds={['name']}
@@ -356,7 +356,7 @@ describe('BasicQuestionsSelector Component', () => {
     });
 
     it.skip('shows hover effect on unselected questions', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <BasicQuestionsSelector
           questions={mockQuestions}
           category="character"
@@ -369,7 +369,7 @@ describe('BasicQuestionsSelector Component', () => {
     });
 
     it('shows summary when questions are selected', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <BasicQuestionsSelector
           questions={mockQuestions}
           basicQuestionIds={['name', 'age']}
@@ -383,7 +383,7 @@ describe('BasicQuestionsSelector Component', () => {
     });
 
     it.skip('hides summary when no questions are selected', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <BasicQuestionsSelector
           questions={mockQuestions}
           basicQuestionIds={[]}
@@ -405,7 +405,7 @@ describe('BasicQuestionsSelector Component', () => {
   });
 
     it('uses provided basicQuestionIds on mount', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <BasicQuestionsSelector
           questions={mockQuestions}
           basicQuestionIds={['name', 'age', 'species']}
@@ -429,7 +429,7 @@ describe('BasicQuestionsSelector Component', () => {
 
     // * Skip auto-select tests as they rely on useEffect timing which can be flaky
     it.skip('auto-selects suggestions when no basicQuestionIds provided', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <BasicQuestionsSelector
           questions={mockQuestions}
           category="character"
@@ -446,7 +446,7 @@ describe('BasicQuestionsSelector Component', () => {
     });
 
     it.skip('does not auto-select when basicQuestionIds are already set', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <BasicQuestionsSelector
           questions={mockQuestions}
           basicQuestionIds={['backstory']}
@@ -474,7 +474,7 @@ describe('BasicQuestionsSelector Component', () => {
   });
 
     it('handles empty questions array', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <BasicQuestionsSelector
           questions={[]}
           category="character"
@@ -492,7 +492,7 @@ describe('BasicQuestionsSelector Component', () => {
         { id: 'q2', text: 'Question 2', type: 'text', required: false }
       ];
 
-      cy.mount(
+      cy.mountWithProviders(
         <BasicQuestionsSelector
           questions={questionsWithoutCategory}
           category="character"
@@ -516,7 +516,7 @@ describe('BasicQuestionsSelector Component', () => {
         }
       ];
 
-      cy.mount(
+      cy.mountWithProviders(
         <BasicQuestionsSelector
           questions={longQuestions}
           category="character"
@@ -536,7 +536,7 @@ describe('BasicQuestionsSelector Component', () => {
         category: `Category ${Math.floor(i / 10)}`
       }));
 
-      cy.mount(
+      cy.mountWithProviders(
         <BasicQuestionsSelector
           questions={manyQuestions}
           category="character"
@@ -554,7 +554,7 @@ describe('BasicQuestionsSelector Component', () => {
         { id: 'name', text: 'Name', type: 'text', required: true, category: 'Basic' }
       ];
 
-      cy.mount(
+      cy.mountWithProviders(
         <BasicQuestionsSelector
           questions={limitedQuestions}
           basicQuestionIds={[]}
@@ -570,7 +570,7 @@ describe('BasicQuestionsSelector Component', () => {
     });
 
     it.skip('handles rapid selection changes', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <BasicQuestionsSelector
           questions={mockQuestions}
           category="character"
@@ -595,7 +595,7 @@ describe('BasicQuestionsSelector Component', () => {
         { id: 'q3', text: "Question's apostrophe", type: 'text', required: false, category: 'Test' }
       ];
 
-      cy.mount(
+      cy.mountWithProviders(
         <BasicQuestionsSelector
           questions={specialQuestions}
           category="character"
@@ -618,7 +618,7 @@ describe('BasicQuestionsSelector Component', () => {
   });
 
     it('has accessible checkboxes', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <BasicQuestionsSelector
           questions={mockQuestions}
           category="character"
@@ -632,7 +632,7 @@ describe('BasicQuestionsSelector Component', () => {
     });
 
     it.skip('supports keyboard navigation', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <div>
           <button>Before</button>
           <BasicQuestionsSelector
@@ -652,7 +652,7 @@ describe('BasicQuestionsSelector Component', () => {
     });
 
     it.skip('allows space/enter to toggle checkboxes', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <BasicQuestionsSelector
           questions={mockQuestions}
           category="character"
@@ -669,7 +669,7 @@ describe('BasicQuestionsSelector Component', () => {
     });
 
     it('buttons are keyboard accessible', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <BasicQuestionsSelector
           questions={mockQuestions}
           category="character"
@@ -695,7 +695,7 @@ describe('BasicQuestionsSelector Component', () => {
     it('works on mobile viewport', () => {
       cy.viewport(375, 667);
       
-      cy.mount(
+      cy.mountWithProviders(
         <BasicQuestionsSelector
           questions={mockQuestions}
           basicQuestionIds={['name', 'age']}
@@ -712,7 +712,7 @@ describe('BasicQuestionsSelector Component', () => {
     it('maintains layout on tablet viewport', () => {
       cy.viewport(768, 1024);
       
-      cy.mount(
+      cy.mountWithProviders(
         <BasicQuestionsSelector
           questions={mockQuestions}
           basicQuestionIds={['name', 'age']}
@@ -728,7 +728,7 @@ describe('BasicQuestionsSelector Component', () => {
     it('works on desktop viewport', () => {
       cy.viewport(1920, 1080);
       
-      cy.mount(
+      cy.mountWithProviders(
         <BasicQuestionsSelector
           questions={mockQuestions}
           basicQuestionIds={['name', 'age']}
@@ -751,7 +751,7 @@ describe('BasicQuestionsSelector Component', () => {
   });
 
     it('calculates basic mode time correctly', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <BasicQuestionsSelector
           questions={mockQuestions}
           basicQuestionIds={['name', 'age']} // 2 questions * 30 seconds = 60 seconds = 1 min
@@ -766,7 +766,7 @@ describe('BasicQuestionsSelector Component', () => {
     });
 
     it('calculates detailed mode time correctly', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <BasicQuestionsSelector
           questions={mockQuestions} // 8 questions * 45 seconds = 360 seconds = 6 min
           category="character"
@@ -780,7 +780,7 @@ describe('BasicQuestionsSelector Component', () => {
     });
 
     it.skip('updates time estimates when selection changes', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <BasicQuestionsSelector
           questions={mockQuestions}
           basicQuestionIds={[]}

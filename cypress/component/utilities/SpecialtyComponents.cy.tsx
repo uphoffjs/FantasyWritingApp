@@ -103,51 +103,51 @@ describe('KeyboardShortcutsHelp Component', () => {
   });
 
     it('does not render when closed', () => {
-      cy.mount(<KeyboardShortcutsHelp {...defaultProps} />);
+      cy.mountWithProviders(<KeyboardShortcutsHelp {...defaultProps} />);
       cy.get('.fixed.inset-0').should('not.exist');
     });
 
     it('renders modal when open', () => {
-      cy.mount(<KeyboardShortcutsHelp isOpen={true} onClose={defaultProps.onClose} />);
+      cy.mountWithProviders(<KeyboardShortcutsHelp isOpen={true} onClose={defaultProps.onClose} />);
       cy.contains('Keyboard Shortcuts').should('be.visible');
       cy.get('.lucide-keyboard').should('be.visible');
     });
 
     it('displays all shortcut sections', () => {
-      cy.mount(<KeyboardShortcutsHelp isOpen={true} onClose={defaultProps.onClose} />);
+      cy.mountWithProviders(<KeyboardShortcutsHelp isOpen={true} onClose={defaultProps.onClose} />);
       cy.contains('Navigation').should('be.visible');
       cy.contains('Element Operations').should('be.visible');
       cy.contains('General').should('be.visible');
     });
 
     it('shows individual shortcuts', () => {
-      cy.mount(<KeyboardShortcutsHelp isOpen={true} onClose={defaultProps.onClose} />);
+      cy.mountWithProviders(<KeyboardShortcutsHelp isOpen={true} onClose={defaultProps.onClose} />);
       cy.contains('Go to home').should('be.visible');
       cy.contains('New element').should('be.visible');
       cy.contains('Save').should('be.visible');
     });
 
     it('displays keyboard keys properly', () => {
-      cy.mount(<KeyboardShortcutsHelp isOpen={true} onClose={defaultProps.onClose} />);
+      cy.mountWithProviders(<KeyboardShortcutsHelp isOpen={true} onClose={defaultProps.onClose} />);
       cy.get('kbd').contains('H').should('be.visible');
       cy.get('kbd').contains('Esc').should('be.visible');
       cy.get('kbd').contains('Ctrl').should('be.visible');
     });
 
     it('shows context hints for shortcuts', () => {
-      cy.mount(<KeyboardShortcutsHelp isOpen={true} onClose={defaultProps.onClose} />);
+      cy.mountWithProviders(<KeyboardShortcutsHelp isOpen={true} onClose={defaultProps.onClose} />);
       cy.contains('(On project page)').should('be.visible');
       cy.contains('(On element page)').should('be.visible');
       cy.contains('(Anywhere)').should('be.visible');
     });
 
     it('displays tip at the bottom', () => {
-      cy.mount(<KeyboardShortcutsHelp isOpen={true} onClose={defaultProps.onClose} />);
+      cy.mountWithProviders(<KeyboardShortcutsHelp isOpen={true} onClose={defaultProps.onClose} />);
       cy.contains('Keyboard shortcuts are disabled when typing in input fields').should('be.visible');
     });
 
     it('shows + between key combinations', () => {
-      cy.mount(<KeyboardShortcutsHelp isOpen={true} onClose={defaultProps.onClose} />);
+      cy.mountWithProviders(<KeyboardShortcutsHelp isOpen={true} onClose={defaultProps.onClose} />);
       cy.get('.mx-1').contains('+').should('be.visible');
     });
   });
@@ -162,13 +162,13 @@ describe('KeyboardShortcutsHelp Component', () => {
 
     it('shows Cmd instead of Ctrl on Mac', () => {
       cy.stub(navigator, 'platform').value('MacIntel');
-      cy.mount(<KeyboardShortcutsHelp isOpen={true} onClose={defaultProps.onClose} />);
+      cy.mountWithProviders(<KeyboardShortcutsHelp isOpen={true} onClose={defaultProps.onClose} />);
       cy.get('kbd').contains('Cmd').should('be.visible');
     });
 
     it('shows Ctrl on Windows/Linux', () => {
       cy.stub(navigator, 'platform').value('Win32');
-      cy.mount(<KeyboardShortcutsHelp isOpen={true} onClose={defaultProps.onClose} />);
+      cy.mountWithProviders(<KeyboardShortcutsHelp isOpen={true} onClose={defaultProps.onClose} />);
       cy.get('kbd').contains('Ctrl').should('be.visible');
     });
   });
@@ -182,13 +182,13 @@ describe('KeyboardShortcutsHelp Component', () => {
   });
 
     it('closes when X button clicked', () => {
-      cy.mount(<KeyboardShortcutsHelp isOpen={true} onClose={defaultProps.onClose} />);
+      cy.mountWithProviders(<KeyboardShortcutsHelp isOpen={true} onClose={defaultProps.onClose} />);
       cy.get('button[aria-label="Close"]').click();
       expect(defaultProps.onClose).to.have.been.called;
     });
 
     it('has scrollable content area', () => {
-      cy.mount(<KeyboardShortcutsHelp isOpen={true} onClose={defaultProps.onClose} />);
+      cy.mountWithProviders(<KeyboardShortcutsHelp isOpen={true} onClose={defaultProps.onClose} />);
       cy.get('.overflow-y-auto').should('exist');
     });
   });
@@ -202,12 +202,12 @@ describe('KeyboardShortcutsHelp Component', () => {
   });
 
     it('has proper aria-label on close button', () => {
-      cy.mount(<KeyboardShortcutsHelp isOpen={true} onClose={defaultProps.onClose} />);
+      cy.mountWithProviders(<KeyboardShortcutsHelp isOpen={true} onClose={defaultProps.onClose} />);
       cy.get('button[aria-label="Close"]').should('exist');
     });
 
     it('uses semantic HTML for keyboard keys', () => {
-      cy.mount(<KeyboardShortcutsHelp isOpen={true} onClose={defaultProps.onClose} />);
+      cy.mountWithProviders(<KeyboardShortcutsHelp isOpen={true} onClose={defaultProps.onClose} />);
       cy.get('kbd').should('have.length.greaterThan', 0);
     });
   });
@@ -244,31 +244,31 @@ describe('EmailVerificationBanner Component', () => {
 
     it('does not render when user is null', () => {
       cy.stub(window, 'useAuthStore').returns({ ...mockAuthStore, user: null });
-      cy.mount(<EmailVerificationBanner />);
+      cy.mountWithProviders(<EmailVerificationBanner />);
       cy.get('[data-cy*="flame-light"]').should('not.exist');
     });
 
     it('does not render when email is verified', () => {
       cy.stub(window, 'useAuthStore').returns({ ...mockAuthStore, isEmailVerified: true });
-      cy.mount(<EmailVerificationBanner />);
+      cy.mountWithProviders(<EmailVerificationBanner />);
       cy.get('[data-cy*="flame-light"]').should('not.exist');
     });
 
     it('renders banner when email is unverified', () => {
-      cy.mount(<EmailVerificationBanner />);
+      cy.mountWithProviders(<EmailVerificationBanner />);
       cy.contains('Please verify your email address').should('be.visible');
       cy.get('.lucide-alert-circle').should('be.visible');
     });
 
     it('shows resend button', () => {
-      cy.mount(<EmailVerificationBanner />);
+      cy.mountWithProviders(<EmailVerificationBanner />);
       cy.contains('Resend verification email').should('be.visible');
       cy.get('.lucide-send').should('be.visible');
     });
 
     it('displays user email in success message', () => {
       mockAuthStore.resendVerificationEmail.resolves({ success: true });
-      cy.mount(<EmailVerificationBanner />);
+      cy.mountWithProviders(<EmailVerificationBanner />);
       cy.contains('Resend verification email').click();
       cy.wrap(mockToastStore.addToast).should('have.been.calledWith', 
         Cypress.sinon.match({
@@ -288,14 +288,14 @@ describe('EmailVerificationBanner Component', () => {
 
     it('sends verification email when button clicked', () => {
       mockAuthStore.resendVerificationEmail.resolves({ success: true });
-      cy.mount(<EmailVerificationBanner />);
+      cy.mountWithProviders(<EmailVerificationBanner />);
       cy.contains('Resend verification email').click();
       expect(mockAuthStore.resendVerificationEmail).to.have.been.called;
     });
 
     it('shows loading state while sending', () => {
       mockAuthStore.resendVerificationEmail.returns(new Promise(() => {}));
-      cy.mount(<EmailVerificationBanner />);
+      cy.mountWithProviders(<EmailVerificationBanner />);
       cy.contains('Resend verification email').click();
       cy.contains('Sending...').should('be.visible');
       cy.get('.animate-spin').should('be.visible');
@@ -303,7 +303,7 @@ describe('EmailVerificationBanner Component', () => {
 
     it('shows success state after sending', () => {
       mockAuthStore.resendVerificationEmail.resolves({ success: true });
-      cy.mount(<EmailVerificationBanner />);
+      cy.mountWithProviders(<EmailVerificationBanner />);
       cy.contains('Resend verification email').click();
       cy.contains('Email sent! Check your inbox.').should('be.visible');
       cy.get('.lucide-check-circle').should('be.visible');
@@ -314,7 +314,7 @@ describe('EmailVerificationBanner Component', () => {
         success: false, 
         error: 'Rate limit exceeded' 
       });
-      cy.mount(<EmailVerificationBanner />);
+      cy.mountWithProviders(<EmailVerificationBanner />);
       cy.contains('Resend verification email').click();
       cy.wrap(mockToastStore.addToast).should('have.been.calledWith',
         Cypress.sinon.match({
@@ -325,14 +325,14 @@ describe('EmailVerificationBanner Component', () => {
     });
 
     it('dismisses banner when X clicked', () => {
-      cy.mount(<EmailVerificationBanner />);
+      cy.mountWithProviders(<EmailVerificationBanner />);
       cy.get('button[aria-label="Dismiss banner"]').click();
       cy.get('[data-cy*="flame-light"]').should('not.exist');
     });
 
     it('disables button when already sent', () => {
       mockAuthStore.resendVerificationEmail.resolves({ success: true });
-      cy.mount(<EmailVerificationBanner />);
+      cy.mountWithProviders(<EmailVerificationBanner />);
       cy.contains('Resend verification email').click();
       cy.contains('Email sent!').should('be.visible');
       // TODO: * Button should be replaced with success message
@@ -349,7 +349,7 @@ describe('EmailVerificationBanner Component', () => {
   });
 
     it('animates entrance', () => {
-      cy.mount(<EmailVerificationBanner />);
+      cy.mountWithProviders(<EmailVerificationBanner />);
       cy.get('motion.div').should('exist');
     });
   });
@@ -364,7 +364,7 @@ describe('EmailVerificationBanner Component', () => {
 
     it('handles network error', () => {
       mockAuthStore.resendVerificationEmail.rejects(new Error('Network error'));
-      cy.mount(<EmailVerificationBanner />);
+      cy.mountWithProviders(<EmailVerificationBanner />);
       cy.contains('Resend verification email').click();
       cy.wrap(mockToastStore.addToast).should('have.been.calledWith',
         Cypress.sinon.match({
@@ -415,31 +415,31 @@ describe('MigrationPrompt Component', () => {
   });
 
     it('does not render when closed', () => {
-      cy.mount(<MigrationPrompt {...defaultProps} />);
+      cy.mountWithProviders(<MigrationPrompt {...defaultProps} />);
       cy.get('.fixed.inset-0').should('not.exist');
     });
 
     it('renders modal when open', () => {
-      cy.mount(<MigrationPrompt isOpen={true} onClose={defaultProps.onClose} onComplete={defaultProps.onComplete} />);
+      cy.mountWithProviders(<MigrationPrompt isOpen={true} onClose={defaultProps.onClose} onComplete={defaultProps.onComplete} />);
       cy.contains('Sync Your Local Projects').should('be.visible');
       cy.contains('Upload your worldbuilding data to the cloud').should('be.visible');
     });
 
     it('displays project and element counts', () => {
-      cy.mount(<MigrationPrompt isOpen={true} onClose={defaultProps.onClose} onComplete={defaultProps.onComplete} />);
+      cy.mountWithProviders(<MigrationPrompt isOpen={true} onClose={defaultProps.onClose} onComplete={defaultProps.onComplete} />);
       cy.contains('Projects').parent().contains('2').should('be.visible');
       cy.contains('Elements').parent().contains('3').should('be.visible');
     });
 
     it('shows benefits list', () => {
-      cy.mount(<MigrationPrompt isOpen={true} onClose={defaultProps.onClose} onComplete={defaultProps.onComplete} />);
+      cy.mountWithProviders(<MigrationPrompt isOpen={true} onClose={defaultProps.onClose} onComplete={defaultProps.onComplete} />);
       cy.contains('Access from any device').should('be.visible');
       cy.contains('Automatic backups').should('be.visible');
       cy.contains('Keep local copy').should('be.visible');
     });
 
     it('displays action buttons', () => {
-      cy.mount(<MigrationPrompt isOpen={true} onClose={defaultProps.onClose} onComplete={defaultProps.onComplete} />);
+      cy.mountWithProviders(<MigrationPrompt isOpen={true} onClose={defaultProps.onClose} onComplete={defaultProps.onComplete} />);
       cy.contains('Start Upload').should('be.visible');
       cy.contains('Maybe Later').should('be.visible');
     });
@@ -463,7 +463,7 @@ describe('MigrationPrompt Component', () => {
         templatesMigrated: 1
       });
       
-      cy.mount(<MigrationPrompt isOpen={true} onClose={defaultProps.onClose} onComplete={defaultProps.onComplete} />);
+      cy.mountWithProviders(<MigrationPrompt isOpen={true} onClose={defaultProps.onClose} onComplete={defaultProps.onComplete} />);
       cy.contains('Start Upload').click();
       expect(mockMigrationService.migrateAllProjects).to.have.been.called;
     });
@@ -481,7 +481,7 @@ describe('MigrationPrompt Component', () => {
         return () => {};
       });
       
-      cy.mount(<MigrationPrompt isOpen={true} onClose={defaultProps.onClose} onComplete={defaultProps.onComplete} />);
+      cy.mountWithProviders(<MigrationPrompt isOpen={true} onClose={defaultProps.onClose} onComplete={defaultProps.onComplete} />);
       cy.contains('Start Upload').click();
       cy.contains('Uploading your projects...').should('be.visible');
       cy.contains('Project 1').should('be.visible');
@@ -498,7 +498,7 @@ describe('MigrationPrompt Component', () => {
         templatesMigrated: 1
       });
       
-      cy.mount(<MigrationPrompt isOpen={true} onClose={defaultProps.onClose} onComplete={defaultProps.onComplete} />);
+      cy.mountWithProviders(<MigrationPrompt isOpen={true} onClose={defaultProps.onClose} onComplete={defaultProps.onComplete} />);
       cy.contains('Start Upload').click();
       
       cy.contains('Upload Complete!').should('be.visible');
@@ -518,7 +518,7 @@ describe('MigrationPrompt Component', () => {
         return () => {};
       });
       
-      cy.mount(<MigrationPrompt isOpen={true} onClose={defaultProps.onClose} onComplete={defaultProps.onComplete} />);
+      cy.mountWithProviders(<MigrationPrompt isOpen={true} onClose={defaultProps.onClose} onComplete={defaultProps.onComplete} />);
       cy.contains('Start Upload').click();
       
       cy.contains('Upload Failed').should('be.visible');
@@ -536,7 +536,7 @@ describe('MigrationPrompt Component', () => {
   });
 
     it('closes when Maybe Later clicked', () => {
-      cy.mount(<MigrationPrompt isOpen={true} onClose={defaultProps.onClose} onComplete={defaultProps.onComplete} />);
+      cy.mountWithProviders(<MigrationPrompt isOpen={true} onClose={defaultProps.onClose} onComplete={defaultProps.onComplete} />);
       cy.contains('Maybe Later').click();
       expect(defaultProps.onClose).to.have.been.called;
     });
@@ -553,7 +553,7 @@ describe('MigrationPrompt Component', () => {
         return () => {};
       });
       
-      cy.mount(<MigrationPrompt isOpen={true} onClose={defaultProps.onClose} onComplete={defaultProps.onComplete} />);
+      cy.mountWithProviders(<MigrationPrompt isOpen={true} onClose={defaultProps.onClose} onComplete={defaultProps.onComplete} />);
       cy.contains('Start Upload').click();
       
       // TODO: X button should not be visible during migration
@@ -579,7 +579,7 @@ describe('MigrationPrompt Component', () => {
         templatesMigrated: 1
       });
       
-      cy.mount(<MigrationPrompt isOpen={true} onClose={defaultProps.onClose} onComplete={defaultProps.onComplete} />);
+      cy.mountWithProviders(<MigrationPrompt isOpen={true} onClose={defaultProps.onClose} onComplete={defaultProps.onComplete} />);
       cy.contains('Start Upload').click();
       cy.contains('Continue').click();
       expect(defaultProps.onComplete).to.have.been.called;
@@ -597,7 +597,7 @@ describe('MigrationPrompt Component', () => {
         return () => {};
       });
       
-      cy.mount(<MigrationPrompt isOpen={true} onClose={defaultProps.onClose} onComplete={defaultProps.onComplete} />);
+      cy.mountWithProviders(<MigrationPrompt isOpen={true} onClose={defaultProps.onClose} onComplete={defaultProps.onComplete} />);
       cy.contains('Start Upload').click();
       cy.contains('Try Again').click();
       
@@ -637,7 +637,7 @@ describe('AccountMenu Component', () => {
   });
 
     it('renders avatar button with user initial', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <AccountMenu />
         </RouterWrapper>
@@ -646,7 +646,7 @@ describe('AccountMenu Component', () => {
     });
 
     it('shows sync status badge', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <AccountMenu />
         </RouterWrapper>
@@ -655,7 +655,7 @@ describe('AccountMenu Component', () => {
     });
 
     it('renders dropdown when clicked', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <AccountMenu />
         </RouterWrapper>
@@ -666,7 +666,7 @@ describe('AccountMenu Component', () => {
     });
 
     it('displays sync status in dropdown', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <AccountMenu />
         </RouterWrapper>
@@ -677,7 +677,7 @@ describe('AccountMenu Component', () => {
     });
 
     it('shows menu items', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <AccountMenu />
         </RouterWrapper>
@@ -700,7 +700,7 @@ describe('AccountMenu Component', () => {
 
     it('shows syncing state', () => {
       cy.stub(window, 'useAuthStore').returns({ ...mockAuthStore, syncStatus: 'syncing' });
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <AccountMenu />
         </RouterWrapper>
@@ -712,7 +712,7 @@ describe('AccountMenu Component', () => {
 
     it('shows error state', () => {
       cy.stub(window, 'useAuthStore').returns({ ...mockAuthStore, syncStatus: 'error' });
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <AccountMenu />
         </RouterWrapper>
@@ -724,7 +724,7 @@ describe('AccountMenu Component', () => {
 
     it('shows offline mode', () => {
       cy.stub(window, 'useAuthStore').returns({ ...mockAuthStore, isOfflineMode: true });
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <AccountMenu />
         </RouterWrapper>
@@ -745,7 +745,7 @@ describe('AccountMenu Component', () => {
   });
 
     it('navigates to profile when clicked', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <AccountMenu />
         </RouterWrapper>
@@ -756,7 +756,7 @@ describe('AccountMenu Component', () => {
     });
 
     it('navigates to settings when clicked', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <AccountMenu />
         </RouterWrapper>
@@ -767,7 +767,7 @@ describe('AccountMenu Component', () => {
     });
 
     it('signs out when clicked', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <AccountMenu />
         </RouterWrapper>
@@ -779,7 +779,7 @@ describe('AccountMenu Component', () => {
     });
 
     it('closes dropdown when clicking outside', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <div>
             <AccountMenu />
@@ -797,7 +797,7 @@ describe('AccountMenu Component', () => {
 
     it('hides sign out in offline mode', () => {
       cy.stub(window, 'useAuthStore').returns({ ...mockAuthStore, isOfflineMode: true });
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <AccountMenu />
         </RouterWrapper>
@@ -816,7 +816,7 @@ describe('AccountMenu Component', () => {
   });
 
     it('animates dropdown entrance', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <AccountMenu />
         </RouterWrapper>
@@ -839,7 +839,7 @@ describe('AccountMenu Component', () => {
         ...mockAuthStore, 
         profile: { display_name: null } 
       });
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <AccountMenu />
         </RouterWrapper>
@@ -853,7 +853,7 @@ describe('AccountMenu Component', () => {
         ...mockAuthStore, 
         profile: null 
       });
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <AccountMenu />
         </RouterWrapper>
@@ -867,7 +867,7 @@ describe('AccountMenu Component', () => {
         user: null,
         profile: null 
       });
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <AccountMenu />
         </RouterWrapper>
@@ -915,7 +915,7 @@ describe('AuthGuard Component', () => {
         ...mockAuthStore, 
         isLoading: true 
       });
-      cy.mount(
+      cy.mountWithProviders(
         <MemoryRouter>
           <AuthGuard>
             <div>Protected Content</div>
@@ -937,7 +937,7 @@ describe('AuthGuard Component', () => {
   });
 
     it('renders children when authenticated', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <MemoryRouter>
           <AuthGuard>
             <div>Protected Content</div>
@@ -953,7 +953,7 @@ describe('AuthGuard Component', () => {
         isAuthenticated: false,
         isOfflineMode: false
       });
-      cy.mount(
+      cy.mountWithProviders(
         <MemoryRouter initialEntries={['/projects']}>
           <AuthGuard>
             <div>Protected Content</div>
@@ -969,7 +969,7 @@ describe('AuthGuard Component', () => {
         isAuthenticated: false,
         isOfflineMode: true
       });
-      cy.mount(
+      cy.mountWithProviders(
         <MemoryRouter>
           <AuthGuard>
             <div>Protected Content</div>
@@ -981,7 +981,7 @@ describe('AuthGuard Component', () => {
 
     it('redirects from login when already authenticated', () => {
       cy.clock();
-      cy.mount(
+      cy.mountWithProviders(
         <MemoryRouter initialEntries={['/login']}>
           <AuthGuard requireAuth={false}>
             <div>Login Page</div>
@@ -1004,7 +1004,7 @@ describe('AuthGuard Component', () => {
   });
 
     it('calls initialize on mount', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <MemoryRouter>
           <AuthGuard>
             <div>Content</div>
@@ -1020,7 +1020,7 @@ describe('AuthGuard Component', () => {
       });
       mockAuthStore.initialize.returns(initPromise);
       
-      cy.mount(
+      cy.mountWithProviders(
         <MemoryRouter>
           <AuthGuard>
             <div>Content</div>
@@ -1054,7 +1054,7 @@ describe('AuthGuard Component', () => {
         state: null
       });
       
-      cy.mount(
+      cy.mountWithProviders(
         <MemoryRouter initialEntries={['/projects/123']}>
           <AuthGuard>
             <div>Protected</div>
@@ -1073,7 +1073,7 @@ describe('AuthGuard Component', () => {
         state: { from: { pathname: '/projects/123' } }
       });
       
-      cy.mount(
+      cy.mountWithProviders(
         <MemoryRouter initialEntries={['/login']}>
           <AuthGuard requireAuth={false}>
             <div>Login</div>
@@ -1101,7 +1101,7 @@ describe('AuthGuard Component', () => {
         state: null
       });
       
-      cy.mount(
+      cy.mountWithProviders(
         <MemoryRouter initialEntries={['/login']}>
           <AuthGuard requireAuth={false}>
             <div>Login</div>
@@ -1120,7 +1120,7 @@ describe('AuthGuard Component', () => {
       };
       cy.stub(window, 'useAuthStore').returns(authStore);
       
-      cy.mount(
+      cy.mountWithProviders(
         <MemoryRouter>
           <AuthGuard>
             <div>Protected</div>
@@ -1132,7 +1132,7 @@ describe('AuthGuard Component', () => {
       
       // ! SECURITY: * Simulate auth state change
       authStore.isAuthenticated = true;
-      cy.mount(
+      cy.mountWithProviders(
         <MemoryRouter>
           <AuthGuard>
             <div>Protected</div>

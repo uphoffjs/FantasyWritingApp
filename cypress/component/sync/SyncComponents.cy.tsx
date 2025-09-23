@@ -101,7 +101,7 @@ describe('SyncIndicator Component', () => {
   it('renders offline mode indicator when in offline mode', () => {
     mockAuthStore.isOfflineMode = true;
     
-    cy.mount(<SyncIndicator />);
+    cy.mountWithProviders(<SyncIndicator />);
     
     cy.contains('Offline Mode').should('be.visible');
     cy.get('svg').should('exist'); // CloudOff icon
@@ -109,7 +109,7 @@ describe('SyncIndicator Component', () => {
   it('shows synced status with check icon', () => {
     mockAuthStore.syncStatus = 'synced';
     
-    cy.mount(<SyncIndicator />);
+    cy.mountWithProviders(<SyncIndicator />);
     
     cy.contains('All changes saved').should('be.visible');
     cy.get('.text-forest-400').should('exist');
@@ -117,7 +117,7 @@ describe('SyncIndicator Component', () => {
   it('shows syncing status with spinning loader', () => {
     mockAuthStore.syncStatus = 'syncing';
     
-    cy.mount(<SyncIndicator />);
+    cy.mountWithProviders(<SyncIndicator />);
     
     cy.contains('Saving changes...').should('be.visible');
     cy.get('.animate-spin').should('exist');
@@ -127,7 +127,7 @@ describe('SyncIndicator Component', () => {
     mockAuthStore.syncStatus = 'error';
     mockAuthStore.syncError = 'Network timeout';
     
-    cy.mount(<SyncIndicator />);
+    cy.mountWithProviders(<SyncIndicator />);
     
     cy.contains('Network timeout').should('be.visible');
     cy.get('.text-blood-400').should('exist');
@@ -135,20 +135,20 @@ describe('SyncIndicator Component', () => {
   it('shows offline status when offline', () => {
     mockAuthStore.syncStatus = 'offline';
     
-    cy.mount(<SyncIndicator />);
+    cy.mountWithProviders(<SyncIndicator />);
     
     cy.contains('Working offline').should('be.visible');
     cy.get('.text-ink-light').should('exist');
   });
   it('animates in with motion', () => {
-    cy.mount(<SyncIndicator />);
+    cy.mountWithProviders(<SyncIndicator />);
     
     cy.get('[style*="opacity"]').should('exist');
   });
   it('handles undefined sync status gracefully', () => {
     mockAuthStore.syncStatus = undefined as any;
     
-    cy.mount(<SyncIndicator />);
+    cy.mountWithProviders(<SyncIndicator />);
     
     cy.contains('Working offline').should('be.visible'); // Falls back to default
   });
@@ -180,7 +180,7 @@ describe('CloudSaveButton Component', () => {
     mockShowOfflineToast.resetHistory();
   });
   it('renders with idle state when no changes', () => {
-    cy.mount(<CloudSaveButton />);
+    cy.mountWithProviders(<CloudSaveButton />);
     
     cy.contains('Saved').should('be.visible');
     cy.get('button').should('be.disabled');
@@ -194,7 +194,7 @@ describe('CloudSaveButton Component', () => {
       '1': { syncStatus: 'offline', cloudId: null } as any,
     };
     
-    cy.mount(<CloudSaveButton />);
+    cy.mountWithProviders(<CloudSaveButton />);
     
     cy.contains('Save Changes').should('be.visible');
     cy.get('button').should('not.be.disabled');
@@ -208,7 +208,7 @@ describe('CloudSaveButton Component', () => {
       '1': { syncStatus: 'offline', cloudId: 'cloud-123' } as any,
     };
     
-    cy.mount(<CloudSaveButton />);
+    cy.mountWithProviders(<CloudSaveButton />);
     
     cy.get('button').click();
     
@@ -231,7 +231,7 @@ describe('CloudSaveButton Component', () => {
       '1': { syncStatus: 'error', cloudId: 'cloud-123' } as any,
     };
     
-    cy.mount(<CloudSaveButton />);
+    cy.mountWithProviders(<CloudSaveButton />);
     
     cy.get('button').click();
     
@@ -248,7 +248,7 @@ describe('CloudSaveButton Component', () => {
       '1': { syncStatus: 'offline', cloudId: null } as any,
     };
     
-    cy.mount(<CloudSaveButton />);
+    cy.mountWithProviders(<CloudSaveButton />);
     
     cy.get('button').click();
     
@@ -259,12 +259,12 @@ describe('CloudSaveButton Component', () => {
   it('hides button when not authenticated', () => {
     mockAuthStore.isAuthenticated = false;
     
-    cy.mount(<CloudSaveButton />);
+    cy.mountWithProviders(<CloudSaveButton />);
     
     cy.get('button').should('not.exist');
   });
   it('shows error dropdown on hover when in error state', () => {
-    const container = cy.mount(
+    const container = cy.mountWithProviders(
       <div style={{ height: '200px', padding: '50px' }}>
         <CloudSaveButton />
       </div>
@@ -292,7 +292,7 @@ describe('CloudSaveButton Component', () => {
       '1': { syncStatus: 'offline', cloudId: null } as any,
     };
     
-    cy.mount(<CloudSaveButton />);
+    cy.mountWithProviders(<CloudSaveButton />);
     
     cy.get('button')
       .should('have.css', 'transform', 'none')
@@ -319,7 +319,7 @@ describe('CloudSaveButton Component', () => {
       '1': { syncStatus: 'offline', cloudId: null } as any,
     };
     
-    cy.mount(<CloudSaveButton />);
+    cy.mountWithProviders(<CloudSaveButton />);
     
     cy.get('button').click();
     
@@ -339,7 +339,7 @@ describe('CloudSaveButtonMobile Component', () => {
     }
   });
   it('returns null (not implemented)', () => {
-    cy.mount(<CloudSaveButtonMobile />);
+    cy.mountWithProviders(<CloudSaveButtonMobile />);
     cy.get('button').should('not.exist');
   });
 });
@@ -362,7 +362,7 @@ describe('OfflineBanner Component', () => {
   it('shows banner when offline', () => {
     mockNetworkStatus.isOnline = false;
     
-    cy.mount(<OfflineBanner />);
+    cy.mountWithProviders(<OfflineBanner />);
     
     cy.contains('Working Offline').should('be.visible');
     cy.contains('No internet connection detected').should('be.visible');
@@ -371,14 +371,14 @@ describe('OfflineBanner Component', () => {
   it('hides banner when online', () => {
     mockNetworkStatus.isOnline = true;
     
-    cy.mount(<OfflineBanner />);
+    cy.mountWithProviders(<OfflineBanner />);
     
     cy.contains('Working Offline').should('not.exist');
   });
   it('dismisses banner on click', () => {
     mockNetworkStatus.isOnline = false;
     
-    cy.mount(<OfflineBanner />);
+    cy.mountWithProviders(<OfflineBanner />);
     
     cy.contains('Working Offline').should('be.visible');
     
@@ -390,7 +390,7 @@ describe('OfflineBanner Component', () => {
     mockNetworkStatus.isOnline = false;
     cy.viewport(375, 667);
     
-    cy.mount(<OfflineBanner />);
+    cy.mountWithProviders(<OfflineBanner />);
     
     cy.get('[aria-label="Dismiss offline banner"]').should('be.visible');
     cy.get('button').contains('Dismiss').should('not.be.visible');
@@ -398,7 +398,7 @@ describe('OfflineBanner Component', () => {
   it('animates banner entrance and exit', () => {
     mockNetworkStatus.isOnline = false;
     
-    cy.mount(<OfflineBanner />);
+    cy.mountWithProviders(<OfflineBanner />);
     
     // * Check for animation classes
     cy.get('.fixed').should('have.css', 'transform') // CSS properties work in React Native Web;
@@ -422,7 +422,7 @@ describe('OfflineBanner Component', () => {
       );
     };
     
-    cy.mount(<TestWrapper />);
+    cy.mountWithProviders(<TestWrapper />);
     
     // * Go offline
     cy.get('[data-cy="toggle-online"]').click();
@@ -460,7 +460,7 @@ describe('OfflineBannerCompact Component', () => {
     mockNetworkStatus.isOnline = false;
     cy.viewport(375, 667);
     
-    cy.mount(<OfflineBannerCompact />);
+    cy.mountWithProviders(<OfflineBannerCompact />);
     
     cy.contains('Offline Mode').should('be.visible');
     cy.get('.fixed.bottom-0').should('exist');
@@ -468,7 +468,7 @@ describe('OfflineBannerCompact Component', () => {
   it('dismisses compact banner', () => {
     mockNetworkStatus.isOnline = false;
     
-    cy.mount(<OfflineBannerCompact />);
+    cy.mountWithProviders(<OfflineBannerCompact />);
     
     cy.contains('Offline Mode').should('be.visible');
     cy.get('button').click();
@@ -477,14 +477,14 @@ describe('OfflineBannerCompact Component', () => {
   it('animates from bottom', () => {
     mockNetworkStatus.isOnline = false;
     
-    cy.mount(<OfflineBannerCompact />);
+    cy.mountWithProviders(<OfflineBannerCompact />);
     
     cy.get('.fixed.bottom-0').should('have.css', 'transform') // CSS properties work in React Native Web;
   });
   it('only shows on mobile viewports', () => {
     mockNetworkStatus.isOnline = false;
     
-    cy.mount(<OfflineBannerCompact />);
+    cy.mountWithProviders(<OfflineBannerCompact />);
     
     cy.get('.sm\\:hidden').should('exist');
   });

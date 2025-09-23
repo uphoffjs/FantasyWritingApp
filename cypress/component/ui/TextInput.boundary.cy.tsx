@@ -59,48 +59,48 @@ describe('TextInput - Boundary Conditions', () => {
   });
 
     it('handles empty string', () => {
-      cy.mount(<TestWrapper value="" placeholder="Enter text" />);
+      cy.mountWithProviders(<TestWrapper value="" placeholder="Enter text" />);
       cy.get('[data-cy="text-input"]').should('have.value', '');
     });
 
     it('handles very long string', () => {
       const longString = 'a'.repeat(1000);
-      cy.mount(<TestWrapper value={longString} />);
+      cy.mountWithProviders(<TestWrapper value={longString} />);
       cy.get('[data-cy="text-input"]').should('have.value', longString);
     });
 
     it('handles string with spaces', () => {
-      cy.mount(<TestWrapper value="   spaced text   " />);
+      cy.mountWithProviders(<TestWrapper value="   spaced text   " />);
       cy.get('[data-cy="text-input"]').should('have.value', '   spaced text   ');
     });
 
     it('handles string with newlines', () => {
       const multiline = 'line1\nline2\nline3';
-      cy.mount(<TestWrapper value={multiline} multiline={true} />);
+      cy.mountWithProviders(<TestWrapper value={multiline} multiline={true} />);
       cy.get('[data-cy="text-input"]').should('contain.value', multiline);
     });
 
     it('handles string with special characters', () => {
       const special = '!@#$%^&*()_+-=[]{}|;\':",./<>?';
-      cy.mount(<TestWrapper value={special} />);
+      cy.mountWithProviders(<TestWrapper value={special} />);
       cy.get('[data-cy="text-input"]').should('have.value', special);
     });
 
     it('handles string with emoji', () => {
       const emoji = '😀 Hello 🎉 World 🚀';
-      cy.mount(<TestWrapper value={emoji} />);
+      cy.mountWithProviders(<TestWrapper value={emoji} />);
       cy.get('[data-cy="text-input"]').should('have.value', emoji);
     });
 
     it('handles string with unicode characters', () => {
       const unicode = '你好世界 مرحبا بالعالم हैलो वर्ल्ड';
-      cy.mount(<TestWrapper value={unicode} />);
+      cy.mountWithProviders(<TestWrapper value={unicode} />);
       cy.get('[data-cy="text-input"]').should('have.value', unicode);
     });
 
     it('handles potential XSS attack strings', () => {
       const xss = '<script>alert("xss")</script>';
-      cy.mount(<TestWrapper value={xss} />);
+      cy.mountWithProviders(<TestWrapper value={xss} />);
       cy.get('[data-cy="text-input"]').should('have.value', xss);
       // * Verify script is not executed
       cy.window().then((win) => {
@@ -111,7 +111,7 @@ describe('TextInput - Boundary Conditions', () => {
 
     it('handles SQL injection strings', () => {
       const sql = "'; DROP TABLE users; --";
-      cy.mount(<TestWrapper value={sql} />);
+      cy.mountWithProviders(<TestWrapper value={sql} />);
       cy.get('[data-cy="text-input"]').should('have.value', sql);
     });
   });
@@ -125,14 +125,14 @@ describe('TextInput - Boundary Conditions', () => {
   });
 
     it('respects maxLength constraint', () => {
-      cy.mount(<TestWrapper value="" maxLength={10} />);
+      cy.mountWithProviders(<TestWrapper value="" maxLength={10} />);
       cy.get('[data-cy="text-input"]').type('This is a very long string');
       cy.get('[data-cy="text-input"]').should('have.value', 'This is a ');
     });
 
     it('respects minLength validation', () => {
       const onChange = cy.stub();
-      cy.mount(
+      cy.mountWithProviders(
         <TestWrapper 
           value="" 
           minLength={5} 
@@ -151,7 +151,7 @@ describe('TextInput - Boundary Conditions', () => {
 
     it('handles readonly state with boundary values', () => {
       const longString = 'x'.repeat(500);
-      cy.mount(<TestWrapper value={longString} readOnly={true} />);
+      cy.mountWithProviders(<TestWrapper value={longString} readOnly={true} />);
       cy.get('[data-cy="text-input"]').should('have.attr', 'readonly');
       cy.get('[data-cy="text-input"]').type('should not change');
       cy.get('[data-cy="text-input"]').should('have.value', longString);
@@ -159,7 +159,7 @@ describe('TextInput - Boundary Conditions', () => {
 
     it('handles disabled state with boundary values', () => {
       const special = '!@#$%^&*()';
-      cy.mount(<TestWrapper value={special} disabled={true} />);
+      cy.mountWithProviders(<TestWrapper value={special} disabled={true} />);
       cy.get('[data-cy="text-input"]').should('be.disabled');
       cy.get('[data-cy="text-input"]').should('have.value', special);
     });
@@ -174,18 +174,18 @@ describe('TextInput - Boundary Conditions', () => {
   });
 
     it('handles null value', () => {
-      cy.mount(<TestWrapper value={null} placeholder="Enter text" />);
+      cy.mountWithProviders(<TestWrapper value={null} placeholder="Enter text" />);
       cy.get('[data-cy="text-input"]').should('have.value', '');
       cy.get('[data-cy="text-input"]').should('have.attr', 'placeholder', 'Enter text');
     });
 
     it('handles undefined value', () => {
-      cy.mount(<TestWrapper value={undefined} placeholder="Enter text" />);
+      cy.mountWithProviders(<TestWrapper value={undefined} placeholder="Enter text" />);
       cy.get('[data-cy="text-input"]').should('have.value', '');
     });
 
     it('handles null onChange', () => {
-      cy.mount(<TestWrapper value="test" onChange={null} />);
+      cy.mountWithProviders(<TestWrapper value="test" onChange={null} />);
       cy.get('[data-cy="text-input"]').type(' more text');
       // TODO: * Should not throw error
       cy.get('[data-cy="text-input"]').should('have.value', 'test more text');
@@ -202,7 +202,7 @@ describe('TextInput - Boundary Conditions', () => {
 
     it('handles rapid typing of long strings', () => {
       const onChange = cy.stub();
-      cy.mount(<TestWrapper value="" onChange={onChange} />);
+      cy.mountWithProviders(<TestWrapper value="" onChange={onChange} />);
       
       const longText = 'a'.repeat(100);
       cy.get('[data-cy="text-input"]').type(longText, { delay: 0 });
@@ -213,7 +213,7 @@ describe('TextInput - Boundary Conditions', () => {
 
     it('handles paste of very long string', () => {
       const veryLongString = 'x'.repeat(10000);
-      cy.mount(<TestWrapper value="" />);
+      cy.mountWithProviders(<TestWrapper value="" />);
       
       cy.get('[data-cy="text-input"]').focus();
       cy.get('[data-cy="text-input"]').invoke('val', veryLongString).trigger('input');
@@ -221,7 +221,7 @@ describe('TextInput - Boundary Conditions', () => {
     });
 
     it('handles rapid clear and type cycles', () => {
-      cy.mount(<TestWrapper value="initial" />);
+      cy.mountWithProviders(<TestWrapper value="initial" />);
       
       for (let i = 0; i < 10; i++) {
         cy.get('[data-cy="text-input"]').clear().type(`cycle ${i}`);
@@ -243,7 +243,7 @@ describe('TextInput - Boundary Conditions', () => {
   const testEmails = (emails: string[], shouldBeValid: boolean) => {
       emails.forEach(email => {
         it(`${shouldBeValid ? 'accepts' : 'rejects'} email: ${email}`, () => {
-          cy.mount(
+          cy.mountWithProviders(
             <TestWrapper 
               value={email} 
               type="email"
@@ -304,7 +304,7 @@ describe('TextInput - Boundary Conditions', () => {
 
     it('handles complex regex patterns', () => {
       const pattern = '^[A-Z][a-z]+\\s[A-Z][a-z]+$'; // Name pattern
-      cy.mount(
+      cy.mountWithProviders(
         <TestWrapper 
           value="" 
           pattern={pattern}
@@ -340,19 +340,19 @@ describe('TextInput - Boundary Conditions', () => {
 
     it('handles very long placeholder', () => {
       const longPlaceholder = 'This is a very long placeholder that might cause layout issues ' + 'x'.repeat(100);
-      cy.mount(<TestWrapper value="" placeholder={longPlaceholder} />);
+      cy.mountWithProviders(<TestWrapper value="" placeholder={longPlaceholder} />);
       cy.get('[data-cy="text-input"]').should('have.attr', 'placeholder', longPlaceholder);
     });
 
     it('handles placeholder with special characters', () => {
       const specialPlaceholder = 'Enter <your> "name" & \'email\'';
-      cy.mount(<TestWrapper value="" placeholder={specialPlaceholder} />);
+      cy.mountWithProviders(<TestWrapper value="" placeholder={specialPlaceholder} />);
       cy.get('[data-cy="text-input"]').should('have.attr', 'placeholder', specialPlaceholder);
     });
 
     it('handles placeholder with unicode', () => {
       const unicodePlaceholder = '请输入您的名字 📝';
-      cy.mount(<TestWrapper value="" placeholder={unicodePlaceholder} />);
+      cy.mountWithProviders(<TestWrapper value="" placeholder={unicodePlaceholder} />);
       cy.get('[data-cy="text-input"]').should('have.attr', 'placeholder', unicodePlaceholder);
     });
   });
@@ -366,20 +366,20 @@ describe('TextInput - Boundary Conditions', () => {
   });
 
     it('handles error state with empty value', () => {
-      cy.mount(<TestWrapper value="" error={true} errorText="Required field" />);
+      cy.mountWithProviders(<TestWrapper value="" error={true} errorText="Required field" />);
       cy.get('[data-cy="text-input"]').should('have.attr', 'aria-invalid', 'true');
       cy.get('[data-cy="error-text"]').should('contain', 'Required field');
     });
 
     it('handles error state with very long error message', () => {
       const longError = 'This is a very long error message that explains in great detail what went wrong ' + 'x'.repeat(200);
-      cy.mount(<TestWrapper value="invalid" error={true} errorText={longError} />);
+      cy.mountWithProviders(<TestWrapper value="invalid" error={true} errorText={longError} />);
       cy.get('[data-cy="error-text"]').should('contain', longError);
     });
 
     it('handles error state with special characters in message', () => {
       const specialError = 'Error: <script>alert("xss")</script> & "quotes"';
-      cy.mount(<TestWrapper value="invalid" error={true} errorText={specialError} />);
+      cy.mountWithProviders(<TestWrapper value="invalid" error={true} errorText={specialError} />);
       cy.get('[data-cy="error-text"]').should('contain.text', specialError);
       // * Verify no script execution
       cy.window().then((win) => {
@@ -399,13 +399,13 @@ describe('TextInput - Boundary Conditions', () => {
 
     it('handles aria-label with special characters', () => {
       const specialLabel = 'User\'s "Special" <Field> & More';
-      cy.mount(<TestWrapper value="" aria-label={specialLabel} />);
+      cy.mountWithProviders(<TestWrapper value="" aria-label={specialLabel} />);
       cy.get('[data-cy="text-input"]').should('have.attr', 'aria-label', specialLabel);
     });
 
     it('handles very long aria-describedby', () => {
       const longDescription = 'This field requires ' + 'very specific input '.repeat(20);
-      cy.mount(
+      cy.mountWithProviders(
         <div>
           <span id="description">{longDescription}</span>
           <TestWrapper value="" aria-describedby="description" />

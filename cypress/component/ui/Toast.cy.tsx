@@ -117,7 +117,7 @@ describe('Toast Component', () => {
     cy.cleanState();
 
     // * Clear any existing toasts before each test
-    cy.mount(<ToastTestWrapper />);
+    cy.mountWithProviders(<ToastTestWrapper />);
     // * Wait to let component initialize
     cy.wait(100);
     // TODO: * Use should to ensure button exists before clicking
@@ -404,7 +404,7 @@ describe('Toast Component', () => {
 
     it('positions toasts at bottom on mobile', () => {
       cy.viewport(375, 667);
-      cy.mount(<ToastTestWrapper />);
+      cy.mountWithProviders(<ToastTestWrapper />);
       
       // * Wait for component to be ready
       cy.wait(100);
@@ -418,7 +418,7 @@ describe('Toast Component', () => {
 
     it('positions toasts at top-right on desktop', () => {
       cy.viewport(1920, 1080);
-      cy.mount(<ToastTestWrapper />);
+      cy.mountWithProviders(<ToastTestWrapper />);
       
       // * Wait for component to be ready
       cy.wait(100);
@@ -432,7 +432,7 @@ describe('Toast Component', () => {
 
     it('adapts layout for tablet viewport', () => {
       cy.viewport(768, 1024);
-      cy.mount(<ToastTestWrapper />);
+      cy.mountWithProviders(<ToastTestWrapper />);
       
       // * Wait for component to be ready
       cy.wait(100);

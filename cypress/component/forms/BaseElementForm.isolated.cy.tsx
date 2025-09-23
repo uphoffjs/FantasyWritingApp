@@ -32,7 +32,7 @@ describe('BaseElementForm - Isolated Tests', () => {
   });
 
   it('mounts the component', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <BaseElementForm
         questions={[]}
         answers={{}}
@@ -47,7 +47,7 @@ describe('BaseElementForm - Isolated Tests', () => {
   });
 
   it('shows the mode toggle', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <BaseElementForm
         questions={[]}
         answers={{}}
@@ -69,7 +69,7 @@ describe('BaseElementForm - Isolated Tests', () => {
       category: 'Test Category'
     };
 
-    cy.mount(
+    cy.mountWithProviders(
       <BaseElementForm
         questions={[question]}
         answers={{}}

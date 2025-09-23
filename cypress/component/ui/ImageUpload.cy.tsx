@@ -42,7 +42,7 @@ describe('ImageUpload Component', () => {
     }
   });
     it('renders upload area with instructions', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <ImageUpload 
           images={[]} 
           onImagesChange={onImagesChangeSpy} 
@@ -58,7 +58,7 @@ describe('ImageUpload Component', () => {
         'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=='
       ];
       
-      cy.mount(
+      cy.mountWithProviders(
         <ImageUpload 
           images={existingImages} 
           onImagesChange={onImagesChangeSpy} 
@@ -68,7 +68,7 @@ describe('ImageUpload Component', () => {
       cy.get('img').should('have.length', 1);
     });
     it('shows image count and limit', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <ImageUpload 
           images={[]} 
           onImagesChange={onImagesChangeSpy}
@@ -79,7 +79,7 @@ describe('ImageUpload Component', () => {
       cy.contains('0 / 5 images').should('be.visible');
     });
     it('displays file size limit', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <ImageUpload 
           images={[]} 
           onImagesChange={onImagesChangeSpy}
@@ -98,7 +98,7 @@ describe('ImageUpload Component', () => {
     }
   });
     it('opens file dialog when upload area is clicked', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <ImageUpload 
           images={[]} 
           onImagesChange={onImagesChangeSpy} 
@@ -115,7 +115,7 @@ describe('ImageUpload Component', () => {
         .and('have.attr', 'multiple');
     });
     it('accepts multiple files', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <ImageUpload 
           images={[]} 
           onImagesChange={onImagesChangeSpy} 
@@ -125,7 +125,7 @@ describe('ImageUpload Component', () => {
       cy.get('input[type="file"]').should('have.attr', 'multiple');
     });
     it('restricts to image files only', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <ImageUpload 
           images={[]} 
           onImagesChange={onImagesChangeSpy} 
@@ -135,7 +135,7 @@ describe('ImageUpload Component', () => {
       cy.get('input[type="file"]').should('have.attr', 'accept', 'image/*');
     });
     it('processes uploaded file', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <ImageUpload 
           images={[]} 
           onImagesChange={onImagesChangeSpy} 
@@ -165,7 +165,7 @@ describe('ImageUpload Component', () => {
     }
   });
     it('shows drag state when dragging over', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <ImageUpload 
           images={[]} 
           onImagesChange={onImagesChangeSpy} 
@@ -178,7 +178,7 @@ describe('ImageUpload Component', () => {
       cy.get('[class*="border-sapphire-400"]').should('exist');
     });
     it('removes drag state when dragging leaves', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <ImageUpload 
           images={[]} 
           onImagesChange={onImagesChangeSpy} 
@@ -193,7 +193,7 @@ describe('ImageUpload Component', () => {
       cy.get('[class*="border-sapphire-400"]').should('not.exist');
     });
     it('handles file drop', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <ImageUpload 
           images={[]} 
           onImagesChange={onImagesChangeSpy} 
@@ -227,7 +227,7 @@ describe('ImageUpload Component', () => {
         'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg=='
       ];
       
-      cy.mount(
+      cy.mountWithProviders(
         <ImageUpload 
           images={images} 
           onImagesChange={onImagesChangeSpy} 
@@ -241,7 +241,7 @@ describe('ImageUpload Component', () => {
         'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=='
       ];
       
-      cy.mount(
+      cy.mountWithProviders(
         <ImageUpload 
           images={images} 
           onImagesChange={onImagesChangeSpy} 
@@ -255,7 +255,7 @@ describe('ImageUpload Component', () => {
     it('respects maximum image limit', () => {
       const images = ['image1', 'image2', 'image3'];
       
-      cy.mount(
+      cy.mountWithProviders(
         <ImageUpload 
           images={images} 
           onImagesChange={onImagesChangeSpy}
@@ -288,7 +288,7 @@ describe('ImageUpload Component', () => {
     }
   });
     it('rejects non-image files', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <ImageUpload 
           images={[]} 
           onImagesChange={onImagesChangeSpy} 
@@ -304,7 +304,7 @@ describe('ImageUpload Component', () => {
       cy.get('@onImagesChange').should('not.have.been.called');
     });
     it('rejects files exceeding size limit', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <ImageUpload 
           images={[]} 
           onImagesChange={onImagesChangeSpy}
@@ -331,7 +331,7 @@ describe('ImageUpload Component', () => {
     }
   });
     it('shows upload progress', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <ImageUpload 
           images={[]} 
           onImagesChange={onImagesChangeSpy} 
@@ -350,7 +350,7 @@ describe('ImageUpload Component', () => {
       cy.get('[class*="animate-pulse"]', { timeout: 1000 }).should('exist');
     });
     it('shows compression info', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <ImageUpload 
           images={[]} 
           onImagesChange={onImagesChangeSpy} 
@@ -379,7 +379,7 @@ describe('ImageUpload Component', () => {
     }
   });
     it('has accessible file input', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <ImageUpload 
           images={[]} 
           onImagesChange={onImagesChangeSpy} 
@@ -394,7 +394,7 @@ describe('ImageUpload Component', () => {
         'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=='
       ];
       
-      cy.mount(
+      cy.mountWithProviders(
         <ImageUpload 
           images={images} 
           onImagesChange={onImagesChangeSpy} 
@@ -408,7 +408,7 @@ describe('ImageUpload Component', () => {
         'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=='
       ];
       
-      cy.mount(
+      cy.mountWithProviders(
         <div>
           <button>Before</button>
           <ImageUpload 
@@ -425,7 +425,7 @@ describe('ImageUpload Component', () => {
       cy.focused().should('exist');
     });
     it('can trigger upload with keyboard', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <ImageUpload 
           images={[]} 
           onImagesChange={onImagesChangeSpy} 
@@ -447,7 +447,7 @@ describe('ImageUpload Component', () => {
     }
   });
     it('handles empty images array', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <ImageUpload 
           images={[]} 
           onImagesChange={onImagesChangeSpy} 
@@ -457,7 +457,7 @@ describe('ImageUpload Component', () => {
       cy.get('[class*="border-dashed"]').should('be.visible');
     });
     it('handles null images gracefully', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <ImageUpload 
           images={null as any} 
           onImagesChange={onImagesChangeSpy} 
@@ -470,7 +470,7 @@ describe('ImageUpload Component', () => {
     it('handles very long image URLs', () => {
       const longImage = 'data:image/png;base64,' + 'A'.repeat(1000);
       
-      cy.mount(
+      cy.mountWithProviders(
         <ImageUpload 
           images={[longImage]} 
           onImagesChange={onImagesChangeSpy} 
@@ -480,7 +480,7 @@ describe('ImageUpload Component', () => {
       cy.get('img').should('exist');
     });
     it('handles rapid file uploads', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <ImageUpload 
           images={[]} 
           onImagesChange={onImagesChangeSpy} 
@@ -513,7 +513,7 @@ describe('ImageUpload Component', () => {
     it('works on mobile viewport', () => {
       cy.viewport(375, 667);
       
-      cy.mount(
+      cy.mountWithProviders(
         <ImageUpload 
           images={[]} 
           onImagesChange={onImagesChangeSpy} 
@@ -531,7 +531,7 @@ describe('ImageUpload Component', () => {
         'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg=='
       ];
       
-      cy.mount(
+      cy.mountWithProviders(
         <ImageUpload 
           images={images} 
           onImagesChange={onImagesChangeSpy} 
@@ -543,7 +543,7 @@ describe('ImageUpload Component', () => {
     it('works on desktop viewport', () => {
       cy.viewport(1920, 1080);
       
-      cy.mount(
+      cy.mountWithProviders(
         <ImageUpload 
           images={[]} 
           onImagesChange={onImagesChangeSpy} 

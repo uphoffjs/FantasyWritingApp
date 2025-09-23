@@ -31,8 +31,8 @@ describe('Button Component', () => {
   });
 
   it('should render a button with React Native components', () => {
-    cy.mount(
-      <Button 
+    cy.mountWithProviders(
+      <Button
         title="Click me"
         onPress={cy.stub().as('onPress')}
         testID="test-button"
@@ -47,8 +47,8 @@ describe('Button Component', () => {
   });
 
   it('should handle different variants', () => {
-    cy.mount(
-      <Button 
+    cy.mountWithProviders(
+      <Button
         title="Secondary Button"
         onPress={() => {}}
         variant="secondary"
@@ -61,8 +61,8 @@ describe('Button Component', () => {
   });
 
   it('should show loading state', () => {
-    cy.mount(
-      <Button 
+    cy.mountWithProviders(
+      <Button
         title="Loading Button"
         onPress={() => {}}
         loading={true}
@@ -76,8 +76,8 @@ describe('Button Component', () => {
   });
 
   it('should be disabled when disabled prop is true', () => {
-    cy.mount(
-      <Button 
+    cy.mountWithProviders(
+      <Button
         title="Disabled Button"
         onPress={cy.stub().as('onPress')}
         disabled={true}

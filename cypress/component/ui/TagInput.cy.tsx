@@ -39,7 +39,7 @@ describe('TagInput Component', () => {
   });
 
   it('should render with initial tags', () => {
-    cy.mount(<TagInput tags={defaultTags} onChange={onChange} />);
+    cy.mountWithProviders(<TagInput tags={defaultTags} onChange={onChange} />);
     
     cy.get('[data-cy="tag-input"]').should('exist');
     cy.get('[data-cy="tag"]').should('have.length', 3);
@@ -49,7 +49,7 @@ describe('TagInput Component', () => {
   });
 
   it('should add a tag on Enter key', () => {
-    cy.mount(<TagInput tags={defaultTags} onChange={onChange} />);
+    cy.mountWithProviders(<TagInput tags={defaultTags} onChange={onChange} />);
     
     cy.get('[data-cy="tag-input-field"]').type('dragon{enter}');
     
@@ -59,7 +59,7 @@ describe('TagInput Component', () => {
   });
 
   it('should add a tag on comma key', () => {
-    cy.mount(<TagInput tags={defaultTags} onChange={onChange} />);
+    cy.mountWithProviders(<TagInput tags={defaultTags} onChange={onChange} />);
     
     cy.get('[data-cy="tag-input-field"]').type('dragon,');
     
@@ -69,7 +69,7 @@ describe('TagInput Component', () => {
   });
 
   it('should add a tag on blur', () => {
-    cy.mount(<TagInput tags={defaultTags} onChange={onChange} />);
+    cy.mountWithProviders(<TagInput tags={defaultTags} onChange={onChange} />);
     
     cy.get('[data-cy="tag-input-field"]').type('dragon');
     cy.get('[data-cy="tag-input-field"]').blur();
@@ -80,7 +80,7 @@ describe('TagInput Component', () => {
   });
 
   it('should not add empty tags', () => {
-    cy.mount(<TagInput tags={defaultTags} onChange={onChange} />);
+    cy.mountWithProviders(<TagInput tags={defaultTags} onChange={onChange} />);
     
     cy.get('[data-cy="tag-input-field"]').type('{enter}');
     cy.wrap(onChange).should('not.have.been.called');
@@ -90,7 +90,7 @@ describe('TagInput Component', () => {
   });
 
   it('should not add duplicate tags', () => {
-    cy.mount(<TagInput tags={defaultTags} onChange={onChange} />);
+    cy.mountWithProviders(<TagInput tags={defaultTags} onChange={onChange} />);
     
     cy.get('[data-cy="tag-input-field"]').type('fantasy{enter}');
     cy.wrap(onChange).should('not.have.been.called');
@@ -98,7 +98,7 @@ describe('TagInput Component', () => {
   });
 
   it('should remove a tag when clicking the remove button', () => {
-    cy.mount(<TagInput tags={defaultTags} onChange={onChange} />);
+    cy.mountWithProviders(<TagInput tags={defaultTags} onChange={onChange} />);
     
     cy.get('[data-cy="tag-remove"]').eq(1).click(); // Remove "magic"
     
@@ -108,7 +108,7 @@ describe('TagInput Component', () => {
   });
 
   it('should remove the last tag on backspace when input is empty', () => {
-    cy.mount(<TagInput tags={defaultTags} onChange={onChange} />);
+    cy.mountWithProviders(<TagInput tags={defaultTags} onChange={onChange} />);
     
     cy.get('[data-cy="tag-input-field"]').type('{backspace}');
     
@@ -118,13 +118,13 @@ describe('TagInput Component', () => {
   });
 
   it('should show placeholder when no tags', () => {
-    cy.mount(<TagInput tags={[]} onChange={onChange} placeholder="Add tags..." />);
+    cy.mountWithProviders(<TagInput tags={[]} onChange={onChange} placeholder="Add tags..." />);
     
     cy.get('[data-cy="tag-input-field"]').should('have.attr', 'placeholder', 'Add tags...');
   });
 
   it('should limit tags to maxTags', () => {
-    cy.mount(<TagInput tags={defaultTags} onChange={onChange} maxTags={3} />);
+    cy.mountWithProviders(<TagInput tags={defaultTags} onChange={onChange} maxTags={3} />);
     
     cy.get('[data-cy="tag-input-field"]').should('be.disabled');
     cy.get('[data-cy="tag-input-field"]').should('have.attr', 'placeholder', 'Maximum tags reached');
@@ -132,7 +132,7 @@ describe('TagInput Component', () => {
 
   it('should validate tags with custom validator', () => {
     const validator = (tag: string) => tag.length >= 3;
-    cy.mount(
+    cy.mountWithProviders(
       <TagInput 
         tags={defaultTags} 
         onChange={onChange} 
@@ -151,7 +151,7 @@ describe('TagInput Component', () => {
 
   it('should support tag suggestions', () => {
     const suggestions = ['dragon', 'dwarf', 'elf', 'goblin', 'wizard'];
-    cy.mount(
+    cy.mountWithProviders(
       <TagInput 
         tags={defaultTags} 
         onChange={onChange} 
@@ -171,7 +171,7 @@ describe('TagInput Component', () => {
 
   it('should navigate suggestions with keyboard', () => {
     const suggestions = ['dragon', 'dwarf', 'elf'];
-    cy.mount(
+    cy.mountWithProviders(
       <TagInput 
         tags={[]} 
         onChange={onChange} 
@@ -196,28 +196,28 @@ describe('TagInput Component', () => {
   });
 
   it('should be disabled when disabled prop is true', () => {
-    cy.mount(<TagInput tags={defaultTags} onChange={onChange} disabled />);
+    cy.mountWithProviders(<TagInput tags={defaultTags} onChange={onChange} disabled />);
     
     cy.get('[data-cy="tag-input-field"]').should('be.disabled');
     cy.get('[data-cy="tag-remove"]').should('not.exist');
   });
 
   it('should apply custom className', () => {
-    cy.mount(<TagInput tags={defaultTags} onChange={onChange} className="custom-class" />);
+    cy.mountWithProviders(<TagInput tags={defaultTags} onChange={onChange} className="custom-class" />);
     
     cy.get('[data-cy="tag-input"]').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
   });
 
   it('should handle tag click event', () => {
     const onTagClick = cy.stub();
-    cy.mount(<TagInput tags={defaultTags} onChange={onChange} onTagClick={onTagClick} />);
+    cy.mountWithProviders(<TagInput tags={defaultTags} onChange={onChange} onTagClick={onTagClick} />);
     
     cy.get('[data-cy="tag"]').first().click();
     cy.wrap(onTagClick).should('have.been.calledWith', 'fantasy');
   });
 
   it('should be accessible', () => {
-    cy.mount(<TagInput tags={defaultTags} onChange={onChange} label="Story Tags" />);
+    cy.mountWithProviders(<TagInput tags={defaultTags} onChange={onChange} label="Story Tags" />);
     
     cy.get('label').should('contain', 'Story Tags');
     cy.get('[data-cy="tag-input-field"]').should('have.attr', 'aria-label', 'Add tag');

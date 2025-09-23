@@ -28,7 +28,7 @@ describe('ElementEditor Component', () => {
 
   // * Helper function to mount component with Router
   const mountWithRouter = (component: React.ReactElement) => {
-    return cy.mount(<BrowserRouter>{component}</BrowserRouter>);
+    return cy.mountWithProviders(<BrowserRouter>{component}</BrowserRouter>);
   };
   
   // * Mock project ID

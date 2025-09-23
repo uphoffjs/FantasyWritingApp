@@ -126,7 +126,7 @@ describe('BaseElementForm', () => {
     it('renders all question types correctly', () => {
       const onChange = cy.stub();
       
-      cy.mount(
+      cy.mountWithProviders(
         <MockWorldbuildingStoreProvider>
           <BaseElementForm
             questions={mockQuestions}
@@ -174,7 +174,7 @@ describe('BaseElementForm', () => {
       cy.get('input[type="date"]').should('have.value', '2023-01-15');
     });
     it('shows required field indicators', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <MockWorldbuildingStoreProvider>
           <BaseElementForm
             questions={mockQuestions}
@@ -190,7 +190,7 @@ describe('BaseElementForm', () => {
       cy.contains('Name').parent().should('contain', '*');
     });
     it('displays help text when available', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <MockWorldbuildingStoreProvider>
           <BaseElementForm
             questions={mockQuestions}
@@ -215,7 +215,7 @@ describe('BaseElementForm', () => {
     }
   });
     it('switches between basic and detailed modes', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <MockWorldbuildingStoreProvider>
           <BaseElementForm
             questions={mockQuestions}
@@ -241,7 +241,7 @@ describe('BaseElementForm', () => {
     it('filters questions based on mode', () => {
       const detailedQuestions = mockQuestions;
       
-      cy.mount(
+      cy.mountWithProviders(
         <MockWorldbuildingStoreProvider>
           <BaseElementForm
             questions={detailedQuestions}
@@ -275,7 +275,7 @@ describe('BaseElementForm', () => {
     }
   });
     it('expands and collapses categories', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <MockWorldbuildingStoreProvider>
           <BaseElementForm
             questions={mockQuestions}
@@ -299,7 +299,7 @@ describe('BaseElementForm', () => {
       cy.contains('Name').should('not.be.visible');
     });
     it('shows question count per category', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <MockWorldbuildingStoreProvider>
           <BaseElementForm
             questions={mockQuestions}
@@ -326,7 +326,7 @@ describe('BaseElementForm', () => {
     it('handles text input changes', () => {
       const onChange = cy.stub();
       
-      cy.mount(
+      cy.mountWithProviders(
         <MockWorldbuildingStoreProvider>
           <BaseElementForm
             questions={mockQuestions}
@@ -345,7 +345,7 @@ describe('BaseElementForm', () => {
     it('handles number input changes', () => {
       const onChange = cy.stub();
       
-      cy.mount(
+      cy.mountWithProviders(
         <MockWorldbuildingStoreProvider>
           <BaseElementForm
             questions={mockQuestions}
@@ -364,7 +364,7 @@ describe('BaseElementForm', () => {
     it('handles select changes', () => {
       const onChange = cy.stub();
       
-      cy.mount(
+      cy.mountWithProviders(
         <MockWorldbuildingStoreProvider>
           <BaseElementForm
             questions={mockQuestions}
@@ -383,7 +383,7 @@ describe('BaseElementForm', () => {
     it('handles multiselect changes', () => {
       const onChange = cy.stub();
       
-      cy.mount(
+      cy.mountWithProviders(
         <MockWorldbuildingStoreProvider>
           <BaseElementForm
             questions={mockQuestions}
@@ -405,7 +405,7 @@ describe('BaseElementForm', () => {
     it('handles boolean changes', () => {
       const onChange = cy.stub();
       
-      cy.mount(
+      cy.mountWithProviders(
         <MockWorldbuildingStoreProvider>
           <BaseElementForm
             questions={mockQuestions}
@@ -427,7 +427,7 @@ describe('BaseElementForm', () => {
     it('handles date changes', () => {
       const onChange = cy.stub();
       
-      cy.mount(
+      cy.mountWithProviders(
         <MockWorldbuildingStoreProvider>
           <BaseElementForm
             questions={mockQuestions}
@@ -452,7 +452,7 @@ describe('BaseElementForm', () => {
     }
   });
     it('respects number input validation', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <MockWorldbuildingStoreProvider>
           <BaseElementForm
             questions={mockQuestions}
@@ -470,7 +470,7 @@ describe('BaseElementForm', () => {
         .should('have.attr', 'max', '1000');
     });
     it('marks required fields', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <MockWorldbuildingStoreProvider>
           <BaseElementForm
             questions={mockQuestions}
@@ -494,7 +494,7 @@ describe('BaseElementForm', () => {
     }
   });
     it('handles empty questions array', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <MockWorldbuildingStoreProvider>
           <BaseElementForm
             questions={[]}
@@ -513,7 +513,7 @@ describe('BaseElementForm', () => {
         { id: 'q1', text: 'Name', type: 'text' as const }
       ];
       
-      cy.mount(
+      cy.mountWithProviders(
         <MockWorldbuildingStoreProvider>
           <BaseElementForm
             questions={questionsWithoutCategory}
@@ -528,7 +528,7 @@ describe('BaseElementForm', () => {
       cy.contains('General').should('be.visible');
     });
     it('handles missing answer values gracefully', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <MockWorldbuildingStoreProvider>
           <BaseElementForm
             questions={mockQuestions}
@@ -552,7 +552,7 @@ describe('BaseElementForm', () => {
     }
   });
     it('has proper ARIA labels', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <MockWorldbuildingStoreProvider>
           <BaseElementForm
             questions={mockQuestions}
@@ -568,7 +568,7 @@ describe('BaseElementForm', () => {
       cy.get('[data-cy="text-input"]').first().should('have.attr', 'placeholder');
     });
     it('supports keyboard navigation', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <MockWorldbuildingStoreProvider>
           <BaseElementForm
             questions={mockQuestions}
@@ -627,7 +627,7 @@ describe('CharacterForm', () => {
     it('renders base form with species selector', () => {
       const onChange = cy.stub();
       
-      cy.mount(
+      cy.mountWithProviders(
         <MockWorldbuildingStoreProvider 
           initialState={{
             projects: [mockProject],
@@ -654,7 +654,7 @@ describe('CharacterForm', () => {
         species: { questionId: 'species', value: 'race1' }
       };
       
-      cy.mount(
+      cy.mountWithProviders(
         <MockWorldbuildingStoreProvider 
           initialState={{
             projects: [mockProject],
@@ -707,7 +707,7 @@ describe('Other Element Forms', () => {
       it('renders and handles changes', () => {
         const onChange = cy.stub();
         
-        cy.mount(
+        cy.mountWithProviders(
           <MockWorldbuildingStoreProvider>
             <Component
               answers={{}}

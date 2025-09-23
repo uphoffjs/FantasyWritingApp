@@ -70,7 +70,7 @@ describe('ComponentName Component', () => {
   describe('Rendering', () => {
     it('renders with required props', () => {
       // * Test the most basic rendering scenario
-      cy.mount(
+      cy.mountWithProviders(
         <ComponentName
           requiredProp="value"
         />
@@ -82,7 +82,7 @@ describe('ComponentName Component', () => {
 
     it('renders with all props', () => {
       // * Test with all possible props
-      cy.mount(
+      cy.mountWithProviders(
         <ComponentName
           requiredProp="value"
           optionalProp="optional"
@@ -96,7 +96,7 @@ describe('ComponentName Component', () => {
 
     it('displays correct initial state', () => {
       // * Test that initial state is correct
-      cy.mount(<ComponentName />);
+      cy.mountWithProviders(<ComponentName />);
       
       // * Check initial values
       cy.get('[data-cy="status"]').should('contain', 'idle');
@@ -104,7 +104,7 @@ describe('ComponentName Component', () => {
 
     it('applies custom className', () => {
       // * Test that custom classes are applied
-      cy.mount(
+      cy.mountWithProviders(
         <ComponentName className="test-class" />
       );
       
@@ -116,7 +116,7 @@ describe('ComponentName Component', () => {
     it('handles click events', () => {
       const onClick = cy.stub();
       
-      cy.mount(
+      cy.mountWithProviders(
         <ComponentName onClick={onClick} />
       );
       
@@ -127,7 +127,7 @@ describe('ComponentName Component', () => {
     it('handles input changes', () => {
       const onChange = cy.stub();
       
-      cy.mount(
+      cy.mountWithProviders(
         <ComponentName onChange={onChange} />
       );
       
@@ -138,7 +138,7 @@ describe('ComponentName Component', () => {
     it('handles form submission', () => {
       const onSubmit = cy.stub();
       
-      cy.mount(
+      cy.mountWithProviders(
         <ComponentName onSubmit={onSubmit} />
       );
       
@@ -151,7 +151,7 @@ describe('ComponentName Component', () => {
     });
 
     it('disables interactions when disabled', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <ComponentName disabled={true} />
       );
       
@@ -162,7 +162,7 @@ describe('ComponentName Component', () => {
 
   describe('State Management', () => {
     it('updates state on user action', () => {
-      cy.mount(<ComponentName />);
+      cy.mountWithProviders(<ComponentName />);
       
       // * Initial state
       cy.get('[data-cy="counter"]').should('contain', '0');
@@ -175,7 +175,7 @@ describe('ComponentName Component', () => {
     });
 
     it('maintains state across interactions', () => {
-      cy.mount(<ComponentName />);
+      cy.mountWithProviders(<ComponentName />);
       
       // * Multiple interactions
       cy.get('[data-cy="input"]').type('first');
@@ -188,7 +188,7 @@ describe('ComponentName Component', () => {
     });
 
     it('resets state when requested', () => {
-      cy.mount(<ComponentName />);
+      cy.mountWithProviders(<ComponentName />);
       
       // * Build up some state
       cy.get('[data-cy="input"]').type('test');
@@ -204,7 +204,7 @@ describe('ComponentName Component', () => {
 
   describe('Edge Cases', () => {
     it('handles empty data gracefully', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <ComponentName data={[]} />
       );
       
@@ -213,7 +213,7 @@ describe('ComponentName Component', () => {
     });
 
     it('handles null/undefined props', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <ComponentName optionalProp={null} />
       );
       
@@ -224,7 +224,7 @@ describe('ComponentName Component', () => {
     it('handles very long text', () => {
       const longText = 'a'.repeat(1000);
       
-      cy.mount(
+      cy.mountWithProviders(
         <ComponentName text={longText} />
       );
       
@@ -233,7 +233,7 @@ describe('ComponentName Component', () => {
     });
 
     it('handles rapid interactions', () => {
-      cy.mount(<ComponentName />);
+      cy.mountWithProviders(<ComponentName />);
       
       // TODO: * Rapid clicks shouldn't break the component
       for (let i = 0; i < 10; i++) {
@@ -247,7 +247,7 @@ describe('ComponentName Component', () => {
 
   describe('Accessibility', () => {
     it('has proper ARIA attributes', () => {
-      cy.mount(<ComponentName />);
+      cy.mountWithProviders(<ComponentName />);
       
       // * Check for accessibility attributes
       cy.get('[data-cy="button"]').should('have.attr', 'aria-label');
@@ -256,7 +256,7 @@ describe('ComponentName Component', () => {
     });
 
     it('supports keyboard navigation', () => {
-      cy.mount(<ComponentName />);
+      cy.mountWithProviders(<ComponentName />);
       
       // * Tab through interactive elements
       cy.get('body').tab();
@@ -270,7 +270,7 @@ describe('ComponentName Component', () => {
     });
 
     it('announces changes to screen readers', () => {
-      cy.mount(<ComponentName />);
+      cy.mountWithProviders(<ComponentName />);
       
       // * Check for live regions
       cy.get('[aria-live="polite"]').should('exist');
@@ -283,7 +283,7 @@ describe('ComponentName Component', () => {
     });
 
     it('has sufficient color contrast', () => {
-      cy.mount(<ComponentName />);
+      cy.mountWithProviders(<ComponentName />);
       
       // * This is a basic check - use automated tools for comprehensive testing
       cy.get('[data-cy="text"]')
@@ -296,7 +296,7 @@ describe('ComponentName Component', () => {
     it('renders correctly on mobile', () => {
       cy.viewport(375, 667); // iPhone 6/7/8 size
       
-      cy.mount(<ComponentName />);
+      cy.mountWithProviders(<ComponentName />);
       
       // Mobile-specific checks
       cy.get('[data-cy="mobile-menu"]').should('be.visible');
@@ -306,7 +306,7 @@ describe('ComponentName Component', () => {
     it('renders correctly on tablet', () => {
       cy.viewport(768, 1024); // iPad size
       
-      cy.mount(<ComponentName />);
+      cy.mountWithProviders(<ComponentName />);
       
       // Tablet-specific layout
       cy.get('[data-cy="sidebar"]').should('be.visible');
@@ -315,7 +315,7 @@ describe('ComponentName Component', () => {
     it('renders correctly on desktop', () => {
       cy.viewport(1920, 1080); // Full HD
       
-      cy.mount(<ComponentName />);
+      cy.mountWithProviders(<ComponentName />);
       
       // * Desktop layout
       cy.get('[data-cy="full-navigation"]').should('be.visible');
@@ -324,7 +324,7 @@ describe('ComponentName Component', () => {
     it('handles orientation changes', () => {
       // Portrait
       cy.viewport(375, 667);
-      cy.mount(<ComponentName />);
+      cy.mountWithProviders(<ComponentName />);
       cy.get('[data-cy="layout"]').should('have.class', 'portrait');
       
       // Landscape
@@ -336,7 +336,7 @@ describe('ComponentName Component', () => {
   describe('Integration', () => {
     it('works with Zustand store', () => {
       // * Only if component uses store
-      cy.mount(
+      cy.mountWithProviders(
         <ComponentName />
       );
       
@@ -348,7 +348,7 @@ describe('ComponentName Component', () => {
     });
 
     it('works within a form', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <form>
           <ComponentName name="field" />
           <button type="submit">Submit</button>
@@ -361,7 +361,7 @@ describe('ComponentName Component', () => {
     });
 
     it('communicates with sibling components', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <div>
           <ComponentName id="first" />
           <ComponentName id="second" />
@@ -378,7 +378,7 @@ describe('ComponentName Component', () => {
     it('renders quickly with minimal data', () => {
       const startTime = performance.now();
       
-      cy.mount(
+      cy.mountWithProviders(
         <ComponentName data={Array(10).fill({})} />
       );
       
@@ -392,7 +392,7 @@ describe('ComponentName Component', () => {
       // * Only test if component handles lists
       const largeData = Array(1000).fill({}).map((_, i) => ({ id: i }));
       
-      cy.mount(
+      cy.mountWithProviders(
         <ComponentName data={largeData} />
       );
       
@@ -403,7 +403,7 @@ describe('ComponentName Component', () => {
     it('debounces rapid input changes', () => {
       const onChange = cy.stub();
       
-      cy.mount(
+      cy.mountWithProviders(
         <ComponentName onChange={onChange} />
       );
       
@@ -418,7 +418,7 @@ describe('ComponentName Component', () => {
 
   describe('Error Handling', () => {
     it('displays error state appropriately', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <ComponentName error="Something went wrong" />
       );
       
@@ -429,7 +429,7 @@ describe('ComponentName Component', () => {
     it('recovers from errors gracefully', () => {
       const onRetry = cy.stub();
       
-      cy.mount(
+      cy.mountWithProviders(
         <ComponentName 
           error="Network error" 
           onRetry={onRetry}
@@ -441,7 +441,7 @@ describe('ComponentName Component', () => {
     });
 
     it('validates input and shows validation errors', () => {
-      cy.mount(<ComponentName />);
+      cy.mountWithProviders(<ComponentName />);
       
       // * Submit invalid data
       cy.get('[data-cy="email-input"]').type('invalid-email');
@@ -460,19 +460,19 @@ describe('ComponentName Component', () => {
 // For Modal/Dialog Components
 describe.skip('Modal Behavior', () => {
   it('opens when triggered', () => {
-    cy.mount(<ModalComponent />);
+    cy.mountWithProviders(<ModalComponent />);
     cy.get('[data-cy="open-modal"]').click();
     cy.get('[data-cy="modal"]').should('be.visible');
   });
 
   it('closes on escape key', () => {
-    cy.mount(<ModalComponent isOpen={true} />);
+    cy.mountWithProviders(<ModalComponent isOpen={true} />);
     cy.get('body').type('{esc}');
     cy.get('[data-cy="modal"]').should('not.exist');
   });
 
   it('traps focus within modal', () => {
-    cy.mount(<ModalComponent isOpen={true} />);
+    cy.mountWithProviders(<ModalComponent isOpen={true} />);
     cy.get('[data-cy="first-input"]').focus();
     cy.focused().tab().tab().tab();
     cy.focused().should('have.attr', 'data-cy', 'first-input');
@@ -482,20 +482,20 @@ describe.skip('Modal Behavior', () => {
 // For Form Components
 describe.skip('Form Behavior', () => {
   it('validates on blur', () => {
-    cy.mount(<FormComponent />);
+    cy.mountWithProviders(<FormComponent />);
     cy.get('[data-cy="required-field"]').focus().blur();
     cy.get('[data-cy="required-error"]').should('be.visible');
   });
 
   it('prevents submission with invalid data', () => {
     const onSubmit = cy.stub();
-    cy.mount(<FormComponent onSubmit={onSubmit} />);
+    cy.mountWithProviders(<FormComponent onSubmit={onSubmit} />);
     cy.get('[data-cy="submit"]').click();
     cy.wrap(onSubmit).should('not.have.been.called');
   });
 
   it('clears form on successful submission', () => {
-    cy.mount(<FormComponent />);
+    cy.mountWithProviders(<FormComponent />);
     cy.get('[data-cy="field"]').type('value');
     cy.get('[data-cy="submit"]').click();
     cy.get('[data-cy="field"]').should('have.value', '');
@@ -505,19 +505,19 @@ describe.skip('Form Behavior', () => {
 // For List/Table Components
 describe.skip('List Behavior', () => {
   it('sorts by column', () => {
-    cy.mount(<TableComponent data={testData} />);
+    cy.mountWithProviders(<TableComponent data={testData} />);
     cy.get('[data-cy="sort-name"]').click();
     cy.get('[data-cy="row-0"]').should('contain', 'Alice');
   });
 
   it('filters results', () => {
-    cy.mount(<ListComponent items={items} />);
+    cy.mountWithProviders(<ListComponent items={items} />);
     cy.get('[data-cy="filter-input"]').type('test');
     cy.get('[data-cy="list-item"]').should('have.length', 2);
   });
 
   it('paginates large datasets', () => {
-    cy.mount(<TableComponent data={largeDataset} />);
+    cy.mountWithProviders(<TableComponent data={largeDataset} />);
     cy.get('[data-cy="page-2"]').click();
     cy.get('[data-cy="row-0"]').should('contain', 'Item 11');
   });

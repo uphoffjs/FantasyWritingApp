@@ -78,7 +78,7 @@ describe('ProjectCard Component', () => {
   });
 
   it('should render project information correctly', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <ProjectCard 
         project={mockProject} 
         onPress={mockOnPress}
@@ -109,7 +109,7 @@ describe('ProjectCard Component', () => {
   });
 
   it('should handle click to open project', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <ProjectCard 
         project={mockProject} 
         onPress={mockOnPress}
@@ -132,7 +132,7 @@ describe('ProjectCard Component', () => {
       coverImage: 'https://example.com/cover.jpg',
     };
 
-    cy.mount(
+    cy.mountWithProviders(
       <ProjectCard 
         project={projectWithImage} 
         onPress={mockOnPress}
@@ -150,7 +150,7 @@ describe('ProjectCard Component', () => {
   });
 
   it('should display default folder icon when no cover image', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <ProjectCard 
         project={mockProject} 
         onPress={mockOnPress}
@@ -166,7 +166,7 @@ describe('ProjectCard Component', () => {
   });
 
   it('should show action menu when action button clicked', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <ProjectCard 
         project={mockProject} 
         onPress={mockOnPress}
@@ -188,7 +188,7 @@ describe('ProjectCard Component', () => {
   });
 
   it('should close action menu when overlay clicked', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <ProjectCard 
         project={mockProject} 
         onPress={mockOnPress}
@@ -222,7 +222,7 @@ describe('ProjectCard Component', () => {
     statuses.forEach(({ status, expectedText, expectedColor }) => {
       const testProject = { ...mockProject, status, name: `Project ${status}` };
       
-      cy.mount(
+      cy.mountWithProviders(
         <ProjectCard 
           project={testProject} 
           onPress={mockOnPress}
@@ -242,7 +242,7 @@ describe('ProjectCard Component', () => {
   });
 
   it('should display last updated date', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <ProjectCard 
         project={mockProject} 
         onPress={mockOnPress}
@@ -264,7 +264,7 @@ describe('ProjectCard Component', () => {
       description: undefined,
     };
 
-    cy.mount(
+    cy.mountWithProviders(
       <ProjectCard 
         project={projectWithoutDescription} 
         onDelete={mockOnDelete}
@@ -282,7 +282,7 @@ describe('ProjectCard Component', () => {
       genre: undefined,
     };
 
-    cy.mount(
+    cy.mountWithProviders(
       <ProjectCard 
         project={projectWithoutGenre} 
         onDelete={mockOnDelete}
@@ -300,7 +300,7 @@ describe('ProjectCard Component', () => {
       status: undefined,
     };
 
-    cy.mount(
+    cy.mountWithProviders(
       <ProjectCard 
         project={projectWithoutStatus} 
         onDelete={mockOnDelete}
@@ -319,7 +319,7 @@ describe('ProjectCard Component', () => {
       cy.stub(win, 'confirm').returns(true).as('confirm');
     });
 
-    cy.mount(
+    cy.mountWithProviders(
       <ProjectCard 
         project={mockProject} 
         onPress={mockOnPress}
@@ -349,7 +349,7 @@ describe('ProjectCard Component', () => {
       cy.stub(win, 'confirm').returns(false).as('confirm');
     });
 
-    cy.mount(
+    cy.mountWithProviders(
       <ProjectCard 
         project={mockProject} 
         onPress={mockOnPress}
@@ -370,7 +370,7 @@ describe('ProjectCard Component', () => {
   });
 
   it('should show loading state when deleting', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <ProjectCard 
         project={mockProject} 
         onDelete={mockOnDelete}
@@ -390,7 +390,7 @@ describe('ProjectCard Component', () => {
   });
 
   it('should handle duplicate action', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <ProjectCard 
         project={mockProject} 
         onPress={mockOnPress}
@@ -410,7 +410,7 @@ describe('ProjectCard Component', () => {
   });
 
   it('should handle edit action', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <ProjectCard 
         project={mockProject} 
         onPress={mockOnPress}
@@ -430,7 +430,7 @@ describe('ProjectCard Component', () => {
   });
 
   it('should be accessible', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <ProjectCard 
         project={mockProject} 
         onPress={mockOnPress}
@@ -453,7 +453,7 @@ describe('ProjectCard Component', () => {
       name: 'This is a very long project name that should be truncated properly to fit within the card layout without breaking the design',
     };
 
-    cy.mount(
+    cy.mountWithProviders(
       <ProjectCard 
         project={projectWithLongName} 
         onDelete={mockOnDelete}
@@ -472,7 +472,7 @@ describe('ProjectCard Component', () => {
       elements: [],
     };
 
-    cy.mount(
+    cy.mountWithProviders(
       <ProjectCard 
         project={emptyProject} 
         onDelete={mockOnDelete}
@@ -484,7 +484,7 @@ describe('ProjectCard Component', () => {
   });
 
   it('should handle long press to show actions on mobile', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <ProjectCard 
         project={mockProject} 
         onPress={mockOnPress}
@@ -518,7 +518,7 @@ describe('ProjectCard Component', () => {
     ];
 
     projectVariations.forEach((project, index) => {
-      cy.mount(
+      cy.mountWithProviders(
         <ProjectCard 
           project={project} 
           onDelete={mockOnDelete}

@@ -54,7 +54,7 @@ describe('BaseElementForm - Debug Tests', () => {
   };
 
   it('debug: shows category initially', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <BaseElementForm
         questions={simpleQuestions}
         answers={simpleAnswers}
@@ -75,7 +75,7 @@ describe('BaseElementForm - Debug Tests', () => {
   });
 
   it('debug: category expands on click', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <BaseElementForm
         questions={simpleQuestions}
         answers={simpleAnswers}
@@ -99,7 +99,7 @@ describe('BaseElementForm - Debug Tests', () => {
   });
   
   it('debug: question labels appear when expanded', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <BaseElementForm
         questions={simpleQuestions}
         answers={simpleAnswers}
@@ -123,7 +123,7 @@ describe('BaseElementForm - Debug Tests', () => {
   });
 
   it('debug: inputs appear when expanded', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <BaseElementForm
         questions={simpleQuestions}
         answers={simpleAnswers}

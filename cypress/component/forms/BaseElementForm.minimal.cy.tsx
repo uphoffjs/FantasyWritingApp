@@ -42,7 +42,7 @@ describe('BaseElementForm - Minimal Test', () => {
       }
     ];
     
-    cy.mount(
+    cy.mountWithProviders(
       <BaseElementForm
         questions={minimalQuestions}
         answers={{}}
@@ -58,7 +58,7 @@ describe('BaseElementForm - Minimal Test', () => {
   
   it('renders with mock div instead of component', () => {
     // * Test if mounting works at all
-    cy.mount(<div data-cy="test">Hello World</div>);
+    cy.mountWithProviders(<div data-cy="test">Hello World</div>);
     cy.get('[data-cy="test"]').should('contain', 'Hello World');
   });
 });

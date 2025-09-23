@@ -81,7 +81,7 @@ describe('Header Component', () => {
     });
   });
   const mountWithRouter = (component: React.ReactNode, initialPath = '/') => {
-    return cy.mount(
+    return cy.mountWithProviders(
       <MemoryRouter initialEntries={[initialPath]}>
         <Routes>
           <Route path="*" element={component} />

@@ -45,18 +45,18 @@ describe('ElementBrowser Component - Simplified', () => {
   };
 
   it('should mount component without errors', () => {
-    cy.mount(<ElementBrowser elements={[]} />);
+    cy.mountWithProviders(<ElementBrowser elements={[]} />);
     // * Just check that component mounts
     cy.wait(100); // Brief wait to ensure render
   });
 
   it('should show empty state with no elements', () => {
-    cy.mount(<ElementBrowser elements={[]} />);
+    cy.mountWithProviders(<ElementBrowser elements={[]} />);
     cy.contains('No elements yet').should('be.visible');
   });
 
   it('should display single element', () => {
-    cy.mount(<ElementBrowser elements={[mockElement]} />);
+    cy.mountWithProviders(<ElementBrowser elements={[mockElement]} />);
     cy.contains('Test Element').should('be.visible');
     cy.contains('1 element').should('be.visible');
   });

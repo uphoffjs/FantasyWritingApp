@@ -59,7 +59,7 @@ describe('ElementHeader', () => {
   });
 
     it('renders all header elements', () => {
-      cy.mount(<ElementHeader {...defaultProps} />);
+      cy.mountWithProviders(<ElementHeader {...defaultProps} />);
       
       // * Category display
       cy.get('[data-cy="element-category"]').should('contain', 'character');
@@ -79,18 +79,18 @@ describe('ElementHeader', () => {
     });
     
     it('formats category name properly', () => {
-      cy.mount(<ElementHeader {...defaultProps} category="historical-event" />);
+      cy.mountWithProviders(<ElementHeader {...defaultProps} category="historical-event" />);
       cy.get('[data-cy="element-category"]').should('contain', 'historical event');
     });
     
     it('shows save status indicator', () => {
-      cy.mount(<ElementHeader {...defaultProps} saveStatus="saving" />);
+      cy.mountWithProviders(<ElementHeader {...defaultProps} saveStatus="saving" />);
       cy.contains('Saving').should('be.visible');
       
-      cy.mount(<ElementHeader {...defaultProps} saveStatus="saved" lastSaved={new Date()} />);
+      cy.mountWithProviders(<ElementHeader {...defaultProps} saveStatus="saved" lastSaved={new Date()} />);
       cy.contains('Saved').should('be.visible');
       
-      cy.mount(<ElementHeader {...defaultProps} saveStatus="error" />);
+      cy.mountWithProviders(<ElementHeader {...defaultProps} saveStatus="error" />);
       cy.contains('Error').should('be.visible');
     });
   });
@@ -105,7 +105,7 @@ describe('ElementHeader', () => {
 
     it('handles name changes', () => {
       const onNameChange = cy.stub();
-      cy.mount(<ElementHeader {...defaultProps} onNameChange={onNameChange} />);
+      cy.mountWithProviders(<ElementHeader {...defaultProps} onNameChange={onNameChange} />);
       
       cy.get('#element-name').clear().type('New Name');
       cy.wrap(onNameChange).should('have.been.calledWith', 'New Name');
@@ -113,7 +113,7 @@ describe('ElementHeader', () => {
     
     it('triggers markdown export', () => {
       const onMarkdownExport = cy.stub();
-      cy.mount(<ElementHeader {...defaultProps} onMarkdownExport={onMarkdownExport} />);
+      cy.mountWithProviders(<ElementHeader {...defaultProps} onMarkdownExport={onMarkdownExport} />);
       
       cy.get('[data-cy="markdown-button"]').click();
       cy.wrap(onMarkdownExport).should('have.been.called');
@@ -121,7 +121,7 @@ describe('ElementHeader', () => {
     
     it('triggers cancel action', () => {
       const onCancel = cy.stub();
-      cy.mount(<ElementHeader {...defaultProps} onCancel={onCancel} />);
+      cy.mountWithProviders(<ElementHeader {...defaultProps} onCancel={onCancel} />);
       
       cy.get('[data-cy="cancel-button"]').click();
       cy.wrap(onCancel).should('have.been.called');
@@ -138,7 +138,7 @@ describe('ElementHeader', () => {
 
     it('shows mobile-specific save indicator on small screens', () => {
       cy.viewport(375, 667);
-      cy.mount(<ElementHeader {...defaultProps} saveStatus="saved" lastSaved={new Date()} />);
+      cy.mountWithProviders(<ElementHeader {...defaultProps} saveStatus="saved" lastSaved={new Date()} />);
       
       // TODO: * Mobile save indicator should be visible
       cy.get('.sm\\:hidden').contains('Saved').should('be.visible');
@@ -149,7 +149,7 @@ describe('ElementHeader', () => {
     
     it('adjusts layout for mobile', () => {
       cy.viewport(375, 667);
-      cy.mount(<ElementHeader {...defaultProps} />);
+      cy.mountWithProviders(<ElementHeader {...defaultProps} />);
       
       // * Check responsive classes are applied
       cy.get('.flex-col.sm\\:flex-row').should('exist');
@@ -165,14 +165,14 @@ describe('ElementHeader', () => {
   });
 
     it('has proper labels and ARIA attributes', () => {
-      cy.mount(<ElementHeader {...defaultProps} />);
+      cy.mountWithProviders(<ElementHeader {...defaultProps} />);
       
       cy.get('#element-name').should('have.attr', 'placeholder');
       cy.get('[data-cy="markdown-button"]').should('have.attr', 'title', 'Import/Export Markdown');
     });
     
     it('supports keyboard navigation', () => {
-      cy.mount(<ElementHeader {...defaultProps} />);
+      cy.mountWithProviders(<ElementHeader {...defaultProps} />);
       
       // TODO: * Name input should be auto-focused
       cy.focused().should('have.id', 'element-name');
@@ -221,21 +221,21 @@ describe('ElementFooter', () => {
   });
 
     it('renders footer buttons', () => {
-      cy.mount(<ElementFooter {...defaultProps} />);
+      cy.mountWithProviders(<ElementFooter {...defaultProps} />);
       
       cy.get('[data-cy="save-button"]').should('be.visible');
       cy.get('[data-cy="cancel-button"]').should('be.visible');
     });
     
     it('shows saving state', () => {
-      cy.mount(<ElementFooter {...defaultProps} isSaving={true} />);
+      cy.mountWithProviders(<ElementFooter {...defaultProps} isSaving={true} />);
       
       cy.get('[data-cy="save-button"]').should('be.disabled');
       cy.contains('Saving...').should('be.visible');
     });
     
     it('indicates unsaved changes', () => {
-      cy.mount(<ElementFooter {...defaultProps} hasUnsavedChanges={true} />);
+      cy.mountWithProviders(<ElementFooter {...defaultProps} hasUnsavedChanges={true} />);
       
       cy.get('[data-cy="unsaved-indicator"]').should('be.visible');
     });
@@ -251,7 +251,7 @@ describe('ElementFooter', () => {
 
     it('handles save action', () => {
       const onSave = cy.stub();
-      cy.mount(<ElementFooter {...defaultProps} onSave={onSave} />);
+      cy.mountWithProviders(<ElementFooter {...defaultProps} onSave={onSave} />);
       
       cy.get('[data-cy="save-button"]').click();
       cy.wrap(onSave).should('have.been.called');
@@ -259,7 +259,7 @@ describe('ElementFooter', () => {
     
     it('handles cancel action', () => {
       const onCancel = cy.stub();
-      cy.mount(<ElementFooter {...defaultProps} onCancel={onCancel} />);
+      cy.mountWithProviders(<ElementFooter {...defaultProps} onCancel={onCancel} />);
       
       cy.get('[data-cy="cancel-button"]').click();
       cy.wrap(onCancel).should('have.been.called');
@@ -267,7 +267,7 @@ describe('ElementFooter', () => {
     
     it('disables save when saving', () => {
       const onSave = cy.stub();
-      cy.mount(<ElementFooter {...defaultProps} onSave={onSave} isSaving={true} />);
+      cy.mountWithProviders(<ElementFooter {...defaultProps} onSave={onSave} isSaving={true} />);
       
       cy.get('[data-cy="save-button"]').should('be.disabled');
       cy.get('[data-cy="save-button"]').click({ force: true });
@@ -285,7 +285,7 @@ describe('ElementFooter', () => {
 
     it('saves on Cmd/Ctrl+S', () => {
       const onSave = cy.stub();
-      cy.mount(<ElementFooter {...defaultProps} onSave={onSave} />);
+      cy.mountWithProviders(<ElementFooter {...defaultProps} onSave={onSave} />);
       
       cy.get('body').type('{cmd}s');
       cy.wrap(onSave).should('have.been.called');
@@ -293,7 +293,7 @@ describe('ElementFooter', () => {
     
     it('cancels on Escape', () => {
       const onCancel = cy.stub();
-      cy.mount(<ElementFooter {...defaultProps} onCancel={onCancel} />);
+      cy.mountWithProviders(<ElementFooter {...defaultProps} onCancel={onCancel} />);
       
       cy.get('body').type('{esc}');
       cy.wrap(onCancel).should('have.been.called');
@@ -342,27 +342,27 @@ describe('ElementImages', () => {
   });
 
     it('renders image gallery', () => {
-      cy.mount(<ElementImages {...defaultProps} />);
+      cy.mountWithProviders(<ElementImages {...defaultProps} />);
       
       cy.get('[data-cy="image-gallery"]').should('be.visible');
       cy.get('[data-cy="image-item"]').should('have.length', 2);
     });
     
     it('shows image captions', () => {
-      cy.mount(<ElementImages {...defaultProps} />);
+      cy.mountWithProviders(<ElementImages {...defaultProps} />);
       
       cy.contains('Main image').should('be.visible');
       cy.contains('Secondary image').should('be.visible');
     });
     
     it('shows add image button', () => {
-      cy.mount(<ElementImages {...defaultProps} />);
+      cy.mountWithProviders(<ElementImages {...defaultProps} />);
       
       cy.get('[data-cy="add-image-button"]').should('be.visible');
     });
     
     it('shows empty state', () => {
-      cy.mount(<ElementImages {...defaultProps} images={[]} />);
+      cy.mountWithProviders(<ElementImages {...defaultProps} images={[]} />);
       
       cy.contains('No images added').should('be.visible');
     });
@@ -378,7 +378,7 @@ describe('ElementImages', () => {
 
     it('handles image upload', () => {
       const onAddImage = cy.stub();
-      cy.mount(<ElementImages {...defaultProps} onAddImage={onAddImage} />);
+      cy.mountWithProviders(<ElementImages {...defaultProps} onAddImage={onAddImage} />);
       
       const file = new File(['test'], 'test.jpg', { type: 'image/jpeg' });
       cy.get('input[type="file"]').selectFile(file, { force: true });
@@ -388,7 +388,7 @@ describe('ElementImages', () => {
     
     it('handles image removal', () => {
       const onRemoveImage = cy.stub();
-      cy.mount(<ElementImages {...defaultProps} onRemoveImage={onRemoveImage} />);
+      cy.mountWithProviders(<ElementImages {...defaultProps} onRemoveImage={onRemoveImage} />);
       
       cy.get('[data-cy="remove-image-1"]').click();
       cy.wrap(onRemoveImage).should('have.been.calledWith', '1');
@@ -396,7 +396,7 @@ describe('ElementImages', () => {
     
     it('handles caption editing', () => {
       const onUpdateCaption = cy.stub();
-      cy.mount(<ElementImages {...defaultProps} onUpdateCaption={onUpdateCaption} />);
+      cy.mountWithProviders(<ElementImages {...defaultProps} onUpdateCaption={onUpdateCaption} />);
       
       cy.get('[data-cy="caption-input-1"]').clear().type('New caption');
       cy.wrap(onUpdateCaption).should('have.been.calledWith', '1', 'New caption');
@@ -404,7 +404,7 @@ describe('ElementImages', () => {
     
     it('handles drag and drop reordering', () => {
       const onReorderImages = cy.stub();
-      cy.mount(<ElementImages {...defaultProps} onReorderImages={onReorderImages} />);
+      cy.mountWithProviders(<ElementImages {...defaultProps} onReorderImages={onReorderImages} />);
       
       // * Simulate drag and drop
       cy.get('[data-cy="image-item-1"]').trigger('dragstart');
@@ -423,14 +423,14 @@ describe('ElementImages', () => {
   });
 
     it('opens full-size preview on click', () => {
-      cy.mount(<ElementImages {...defaultProps} />);
+      cy.mountWithProviders(<ElementImages {...defaultProps} />);
       
       cy.get('[data-cy="image-item-1"]').click();
       cy.get('[data-cy="image-preview-modal"]').should('be.visible');
     });
     
     it('navigates between images in preview', () => {
-      cy.mount(<ElementImages {...defaultProps} />);
+      cy.mountWithProviders(<ElementImages {...defaultProps} />);
       
       cy.get('[data-cy="image-item-1"]').click();
       cy.get('[data-cy="next-image"]').click();
@@ -441,7 +441,7 @@ describe('ElementImages', () => {
     });
     
     it('closes preview on escape or close button', () => {
-      cy.mount(<ElementImages {...defaultProps} />);
+      cy.mountWithProviders(<ElementImages {...defaultProps} />);
       
       cy.get('[data-cy="image-item-1"]').click();
       cy.get('[data-cy="close-preview"]').click();
@@ -510,14 +510,14 @@ describe('ElementRelationships', () => {
   });
 
     it('renders relationship list', () => {
-      cy.mount(<ElementRelationships {...defaultProps} />);
+      cy.mountWithProviders(<ElementRelationships {...defaultProps} />);
       
       cy.get('[data-cy="relationships-list"]').should('be.visible');
       cy.get('[data-cy="relationship-item"]').should('have.length', 2);
     });
     
     it('shows relationship details', () => {
-      cy.mount(<ElementRelationships {...defaultProps} />);
+      cy.mountWithProviders(<ElementRelationships {...defaultProps} />);
       
       cy.contains('Location A').should('be.visible');
       cy.contains('located_in').should('be.visible');
@@ -525,13 +525,13 @@ describe('ElementRelationships', () => {
     });
     
     it('shows add relationship button', () => {
-      cy.mount(<ElementRelationships {...defaultProps} />);
+      cy.mountWithProviders(<ElementRelationships {...defaultProps} />);
       
       cy.get('[data-cy="add-relationship-button"]').should('be.visible');
     });
     
     it('shows empty state', () => {
-      cy.mount(<ElementRelationships {...defaultProps} relationships={[]} />);
+      cy.mountWithProviders(<ElementRelationships {...defaultProps} relationships={[]} />);
       
       cy.contains('No relationships defined').should('be.visible');
     });
@@ -546,7 +546,7 @@ describe('ElementRelationships', () => {
   });
 
     it('opens add relationship modal', () => {
-      cy.mount(<ElementRelationships {...defaultProps} />);
+      cy.mountWithProviders(<ElementRelationships {...defaultProps} />);
       
       cy.get('[data-cy="add-relationship-button"]').click();
       cy.get('[data-cy="relationship-modal"]').should('be.visible');
@@ -554,7 +554,7 @@ describe('ElementRelationships', () => {
     
     it('creates new relationship', () => {
       const onAddRelationship = cy.stub();
-      cy.mount(<ElementRelationships {...defaultProps} onAddRelationship={onAddRelationship} />);
+      cy.mountWithProviders(<ElementRelationships {...defaultProps} onAddRelationship={onAddRelationship} />);
       
       cy.get('[data-cy="add-relationship-button"]').click();
       
@@ -578,7 +578,7 @@ describe('ElementRelationships', () => {
     });
     
     it('validates required fields', () => {
-      cy.mount(<ElementRelationships {...defaultProps} />);
+      cy.mountWithProviders(<ElementRelationships {...defaultProps} />);
       
       cy.get('[data-cy="add-relationship-button"]').click();
       cy.get('[data-cy="save-relationship"]').click();
@@ -597,7 +597,7 @@ describe('ElementRelationships', () => {
 
     it('edits existing relationship', () => {
       const onUpdateRelationship = cy.stub();
-      cy.mount(<ElementRelationships {...defaultProps} onUpdateRelationship={onUpdateRelationship} />);
+      cy.mountWithProviders(<ElementRelationships {...defaultProps} onUpdateRelationship={onUpdateRelationship} />);
       
       cy.get('[data-cy="edit-relationship-r1"]').click();
       
@@ -614,7 +614,7 @@ describe('ElementRelationships', () => {
     
     it('removes relationship', () => {
       const onRemoveRelationship = cy.stub();
-      cy.mount(<ElementRelationships {...defaultProps} onRemoveRelationship={onRemoveRelationship} />);
+      cy.mountWithProviders(<ElementRelationships {...defaultProps} onRemoveRelationship={onRemoveRelationship} />);
       
       cy.get('[data-cy="remove-relationship-r1"]').click();
       
@@ -635,14 +635,14 @@ describe('ElementRelationships', () => {
   });
 
     it('shows relationship graph view', () => {
-      cy.mount(<ElementRelationships {...defaultProps} />);
+      cy.mountWithProviders(<ElementRelationships {...defaultProps} />);
       
       cy.get('[data-cy="view-graph"]').click();
       cy.get('[data-cy="relationship-graph"]').should('be.visible');
     });
     
     it('toggles between list and graph views', () => {
-      cy.mount(<ElementRelationships {...defaultProps} />);
+      cy.mountWithProviders(<ElementRelationships {...defaultProps} />);
       
       // * Start in list view
       cy.get('[data-cy="relationships-list"]').should('be.visible');
@@ -699,14 +699,14 @@ describe('ElementTags', () => {
   });
 
     it('renders tag list', () => {
-      cy.mount(<ElementTags {...defaultProps} />);
+      cy.mountWithProviders(<ElementTags {...defaultProps} />);
       
       cy.get('[data-cy="tag-list"]').should('be.visible');
       cy.get('[data-cy^="tag-"]').should('have.length', 4);
     });
     
     it('shows each tag with remove button', () => {
-      cy.mount(<ElementTags {...defaultProps} />);
+      cy.mountWithProviders(<ElementTags {...defaultProps} />);
       
       mockTags.forEach(tag => {
         cy.get(`[data-cy="tag-${tag}"]`).should('contain', tag);
@@ -715,14 +715,14 @@ describe('ElementTags', () => {
     });
     
     it('shows tag input field', () => {
-      cy.mount(<ElementTags {...defaultProps} />);
+      cy.mountWithProviders(<ElementTags {...defaultProps} />);
       
       cy.get('[data-cy="tag-input"]').should('be.visible');
       cy.get('[data-cy="tag-input"]').should('have.attr', 'placeholder', 'Add a tag...');
     });
     
     it('shows suggested tags', () => {
-      cy.mount(<ElementTags {...defaultProps} />);
+      cy.mountWithProviders(<ElementTags {...defaultProps} />);
       
       cy.contains('Suggested tags').should('be.visible');
       mockSuggestedTags.forEach(tag => {
@@ -741,7 +741,7 @@ describe('ElementTags', () => {
 
     it('adds tag via input field', () => {
       const onAddTag = cy.stub();
-      cy.mount(<ElementTags {...defaultProps} onAddTag={onAddTag} />);
+      cy.mountWithProviders(<ElementTags {...defaultProps} onAddTag={onAddTag} />);
       
       cy.get('[data-cy="tag-input"]').type('newTag{enter}');
       cy.wrap(onAddTag).should('have.been.calledWith', 'newTag');
@@ -749,7 +749,7 @@ describe('ElementTags', () => {
     
     it('adds tag from suggestions', () => {
       const onAddTag = cy.stub();
-      cy.mount(<ElementTags {...defaultProps} onAddTag={onAddTag} />);
+      cy.mountWithProviders(<ElementTags {...defaultProps} onAddTag={onAddTag} />);
       
       cy.get('[data-cy="suggested-tag-epic"]').click();
       cy.wrap(onAddTag).should('have.been.calledWith', 'epic');
@@ -757,7 +757,7 @@ describe('ElementTags', () => {
     
     it('prevents duplicate tags', () => {
       const onAddTag = cy.stub();
-      cy.mount(<ElementTags {...defaultProps} onAddTag={onAddTag} />);
+      cy.mountWithProviders(<ElementTags {...defaultProps} onAddTag={onAddTag} />);
       
       cy.get('[data-cy="tag-input"]').type('fantasy{enter}');
       cy.wrap(onAddTag).should('not.have.been.called');
@@ -766,7 +766,7 @@ describe('ElementTags', () => {
     
     it('validates tag format', () => {
       const onAddTag = cy.stub();
-      cy.mount(<ElementTags {...defaultProps} onAddTag={onAddTag} />);
+      cy.mountWithProviders(<ElementTags {...defaultProps} onAddTag={onAddTag} />);
       
       // * Empty tag
       cy.get('[data-cy="tag-input"]').type('{enter}');
@@ -788,7 +788,7 @@ describe('ElementTags', () => {
 
     it('removes tag on click', () => {
       const onRemoveTag = cy.stub();
-      cy.mount(<ElementTags {...defaultProps} onRemoveTag={onRemoveTag} />);
+      cy.mountWithProviders(<ElementTags {...defaultProps} onRemoveTag={onRemoveTag} />);
       
       cy.get('[data-cy="remove-tag-fantasy"]').click();
       cy.wrap(onRemoveTag).should('have.been.calledWith', 'fantasy');
@@ -796,7 +796,7 @@ describe('ElementTags', () => {
     
     it('removes last tag with backspace', () => {
       const onRemoveTag = cy.stub();
-      cy.mount(<ElementTags {...defaultProps} onRemoveTag={onRemoveTag} />);
+      cy.mountWithProviders(<ElementTags {...defaultProps} onRemoveTag={onRemoveTag} />);
       
       cy.get('[data-cy="tag-input"]').type('{backspace}');
       cy.wrap(onRemoveTag).should('have.been.calledWith', 'quest');
@@ -813,7 +813,7 @@ describe('ElementTags', () => {
 
     it('reorders tags via drag and drop', () => {
       const onReorderTags = cy.stub();
-      cy.mount(<ElementTags {...defaultProps} onReorderTags={onReorderTags} />);
+      cy.mountWithProviders(<ElementTags {...defaultProps} onReorderTags={onReorderTags} />);
       
       // * Simulate drag and drop
       cy.get('[data-cy="tag-fantasy"]').trigger('dragstart');
@@ -832,7 +832,7 @@ describe('ElementTags', () => {
   });
 
     it('shows autocomplete suggestions while typing', () => {
-      cy.mount(<ElementTags {...defaultProps} />);
+      cy.mountWithProviders(<ElementTags {...defaultProps} />);
       
       cy.get('[data-cy="tag-input"]').type('ep');
       cy.get('[data-cy="autocomplete-suggestions"]').should('be.visible');
@@ -841,7 +841,7 @@ describe('ElementTags', () => {
     
     it('selects autocomplete suggestion', () => {
       const onAddTag = cy.stub();
-      cy.mount(<ElementTags {...defaultProps} onAddTag={onAddTag} />);
+      cy.mountWithProviders(<ElementTags {...defaultProps} onAddTag={onAddTag} />);
       
       cy.get('[data-cy="tag-input"]').type('ep');
       cy.get('[data-cy="autocomplete-epic"]').click();
@@ -851,7 +851,7 @@ describe('ElementTags', () => {
     
     it('navigates autocomplete with keyboard', () => {
       const onAddTag = cy.stub();
-      cy.mount(<ElementTags {...defaultProps} onAddTag={onAddTag} />);
+      cy.mountWithProviders(<ElementTags {...defaultProps} onAddTag={onAddTag} />);
       
       cy.get('[data-cy="tag-input"]').type('e');
       cy.get('[data-cy="tag-input"]').type('{downarrow}');
@@ -871,14 +871,14 @@ describe('ElementTags', () => {
   });
 
     it('has proper ARIA labels', () => {
-      cy.mount(<ElementTags {...defaultProps} />);
+      cy.mountWithProviders(<ElementTags {...defaultProps} />);
       
       cy.get('[data-cy="tag-list"]').should('have.attr', 'role', 'list');
       cy.get('[data-cy="tag-fantasy"]').should('have.attr', 'role', 'listitem');
     });
     
     it('announces tag operations to screen readers', () => {
-      cy.mount(<ElementTags {...defaultProps} />);
+      cy.mountWithProviders(<ElementTags {...defaultProps} />);
       
       // * Check for live region
       cy.get('[aria-live="polite"]').should('exist');

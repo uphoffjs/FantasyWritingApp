@@ -31,7 +31,7 @@ describe('LoadingScreen Component', () => {
   });
 
   it('should render with default loading message', () => {
-    cy.mount(<LoadingScreen testID="loading-screen" />);
+    cy.mountWithProviders(<LoadingScreen testID="loading-screen" />);
 
     // * Check that the loading screen is visible
     cy.get('[data-cy="loading-screen"]').should('be.visible');
@@ -46,7 +46,7 @@ describe('LoadingScreen Component', () => {
   it('should render with custom loading message', () => {
     const customMessage = 'Please wait while we set up your world...';
     
-    cy.mount(<LoadingScreen message={customMessage} testID="loading-screen" />);
+    cy.mountWithProviders(<LoadingScreen message={customMessage} testID="loading-screen" />);
 
     // * Check custom message is displayed
     cy.contains(customMessage).should('be.visible');
@@ -56,7 +56,7 @@ describe('LoadingScreen Component', () => {
   });
 
   it('should display spinner animation', () => {
-    cy.mount(<LoadingScreen testID="loading-screen" />);
+    cy.mountWithProviders(<LoadingScreen testID="loading-screen" />);
 
     // * Check that ActivityIndicator (spinner) is present
     // In React Native Web, ActivityIndicator typically renders as an SVG with animation
@@ -67,7 +67,7 @@ describe('LoadingScreen Component', () => {
   });
 
   it('should have proper styling and layout', () => {
-    cy.mount(<LoadingScreen testID="loading-screen" />);
+    cy.mountWithProviders(<LoadingScreen testID="loading-screen" />);
 
     // * Check that the container has flex layout (centered content)
     cy.get('[data-cy="loading-screen"]')
@@ -82,7 +82,7 @@ describe('LoadingScreen Component', () => {
   });
 
   it('should have proper accessibility attributes', () => {
-    cy.mount(<LoadingScreen testID="loading-screen" />);
+    cy.mountWithProviders(<LoadingScreen testID="loading-screen" />);
 
     // * Check that the loading screen has appropriate accessibility
     cy.get('[data-cy="loading-screen"]').should('be.visible');
@@ -94,7 +94,7 @@ describe('LoadingScreen Component', () => {
   it('should handle long loading messages properly', () => {
     const longMessage = 'This is a very long loading message that should wrap properly and not break the layout of the loading screen component even when it contains many words and characters.';
     
-    cy.mount(<LoadingScreen message={longMessage} testID="loading-screen" />);
+    cy.mountWithProviders(<LoadingScreen message={longMessage} testID="loading-screen" />);
 
     // * Check that long message is displayed
     cy.contains(longMessage).should('be.visible');
@@ -104,7 +104,7 @@ describe('LoadingScreen Component', () => {
   });
 
   it('should handle empty message gracefully', () => {
-    cy.mount(<LoadingScreen message="" testID="loading-screen" />);
+    cy.mountWithProviders(<LoadingScreen message="" testID="loading-screen" />);
 
     // TODO: * Even with empty message, component should render
     cy.get('[data-cy="loading-screen"]').should('be.visible');
@@ -116,28 +116,28 @@ describe('LoadingScreen Component', () => {
   it('should be responsive to different screen sizes', () => {
     // * Test on mobile viewport
     cy.viewport('iphone-x');
-    cy.mount(<LoadingScreen testID="loading-screen" />);
+    cy.mountWithProviders(<LoadingScreen testID="loading-screen" />);
     
     cy.get('[data-cy="loading-screen"]').should('be.visible');
     cy.contains('Loading...').should('be.visible');
     
     // * Test on tablet viewport
     cy.viewport('ipad-2');
-    cy.mount(<LoadingScreen testID="loading-screen" />);
+    cy.mountWithProviders(<LoadingScreen testID="loading-screen" />);
     
     cy.get('[data-cy="loading-screen"]').should('be.visible');
     cy.contains('Loading...').should('be.visible');
     
     // * Test on desktop viewport
     cy.viewport('macbook-15');
-    cy.mount(<LoadingScreen testID="loading-screen" />);
+    cy.mountWithProviders(<LoadingScreen testID="loading-screen" />);
     
     cy.get('[data-cy="loading-screen"]').should('be.visible');
     cy.contains('Loading...').should('be.visible');
   });
 
   it('should have consistent font styling', () => {
-    cy.mount(<LoadingScreen testID="loading-screen" />);
+    cy.mountWithProviders(<LoadingScreen testID="loading-screen" />);
 
     // * Check text styling
     cy.contains('Loading...').should('have.css', 'color', 'rgb(249, 250, 251)'); // #F9FAFB
@@ -146,7 +146,7 @@ describe('LoadingScreen Component', () => {
   });
 
   it('should maintain proper spacing between spinner and text', () => {
-    cy.mount(<LoadingScreen testID="loading-screen" />);
+    cy.mountWithProviders(<LoadingScreen testID="loading-screen" />);
 
     // * Check that there's proper spacing in the layout
     cy.get('[data-cy="loading-screen"]').within(() => {
@@ -158,7 +158,7 @@ describe('LoadingScreen Component', () => {
   it('should handle special characters in message', () => {
     const messageWithSpecialChars = 'Loading... 🏰⚔️🐉 Setting up your fantasy world! ✨';
     
-    cy.mount(<LoadingScreen message={messageWithSpecialChars} testID="loading-screen" />);
+    cy.mountWithProviders(<LoadingScreen message={messageWithSpecialChars} testID="loading-screen" />);
 
     // * Check that special characters are displayed correctly
     cy.contains(messageWithSpecialChars).should('be.visible');
@@ -166,7 +166,7 @@ describe('LoadingScreen Component', () => {
   });
 
   it('should provide consistent user experience across platforms', () => {
-    cy.mount(<LoadingScreen testID="loading-screen" />);
+    cy.mountWithProviders(<LoadingScreen testID="loading-screen" />);
 
     // * Check core functionality works regardless of platform
     cy.get('[data-cy="loading-screen"]')
@@ -181,13 +181,13 @@ describe('LoadingScreen Component', () => {
 
   it('should handle rapid re-mounting without issues', () => {
     // * Mount and unmount rapidly to test stability
-    cy.mount(<LoadingScreen testID="loading-screen" />);
+    cy.mountWithProviders(<LoadingScreen testID="loading-screen" />);
     cy.get('[data-cy="loading-screen"]').should('be.visible');
     
-    cy.mount(<LoadingScreen message="Reloading..." testID="loading-screen" />);
+    cy.mountWithProviders(<LoadingScreen message="Reloading..." testID="loading-screen" />);
     cy.contains('Reloading...').should('be.visible');
     
-    cy.mount(<LoadingScreen testID="loading-screen" />);
+    cy.mountWithProviders(<LoadingScreen testID="loading-screen" />);
     cy.contains('Loading...').should('be.visible');
   });
 });

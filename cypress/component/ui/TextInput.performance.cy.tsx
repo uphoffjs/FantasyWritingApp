@@ -72,7 +72,7 @@ describe('TextInput - Performance & Memory', () => {
         );
       };
 
-      cy.mount(<MountUnmountTest />);
+      cy.mountWithProviders(<MountUnmountTest />);
       
       // * Take initial snapshot
       MemoryManagement.takeSnapshot('initial');
@@ -96,7 +96,7 @@ describe('TextInput - Performance & Memory', () => {
     });
 
     it('should clean up event listeners properly', () => {
-      cy.mount(<TextInput data-cy="test-input" />);
+      cy.mountWithProviders(<TextInput data-cy="test-input" />);
       
       // * Add multiple event listeners
       cy.get('[data-cy="test-input"]').then($input => {
@@ -119,7 +119,7 @@ describe('TextInput - Performance & Memory', () => {
         }
         
         // * Unmount and check cleanup
-        cy.mount(<div>Empty</div>);
+        cy.mountWithProviders(<div>Empty</div>);
         
         // TODO: * Verify listeners were removed (count should be 0 or very low)
         expect(listenerCount).to.be.lessThan(5);
@@ -131,7 +131,7 @@ describe('TextInput - Performance & Memory', () => {
       
       MemoryManagement.takeSnapshot('before-large-text');
       
-      cy.mount(<TextInput data-cy="test-input" maxLength={10000} />);
+      cy.mountWithProviders(<TextInput data-cy="test-input" maxLength={10000} />);
       cy.get('[data-cy="test-input"]').type(largeText, { delay: 0 });
       
       MemoryManagement.takeSnapshot('after-large-text');
@@ -178,7 +178,7 @@ describe('TextInput - Performance & Memory', () => {
         );
       };
 
-      cy.mount(<ControlledInput />);
+      cy.mountWithProviders(<ControlledInput />);
       
       const start = PerformanceMonitoring.startTiming('render-updates');
       
@@ -192,7 +192,7 @@ describe('TextInput - Performance & Memory', () => {
     });
 
     it('should handle rapid interactions efficiently', () => {
-      cy.mount(<TextInput data-cy="test-input" />);
+      cy.mountWithProviders(<TextInput data-cy="test-input" />);
       
       const start = PerformanceMonitoring.startTiming('rapid-interaction');
       
@@ -253,7 +253,7 @@ describe('TextInput - Performance & Memory', () => {
         {
           name: 'Uncontrolled',
           fn: () => {
-            cy.mount(<TextInput data-cy="uncontrolled" />);
+            cy.mountWithProviders(<TextInput data-cy="uncontrolled" />);
             cy.get('[data-cy="uncontrolled"]').type('test');
           }
         },
@@ -270,7 +270,7 @@ describe('TextInput - Performance & Memory', () => {
                 />
               );
             };
-            cy.mount(<ControlledWrapper />);
+            cy.mountWithProviders(<ControlledWrapper />);
             cy.get('[data-cy="controlled"]').type('test');
           }
         }
@@ -291,7 +291,7 @@ describe('TextInput - Performance & Memory', () => {
   });
 
     it('should not cause frame drops during input', () => {
-      cy.mount(<TextInput data-cy="test-input" />);
+      cy.mountWithProviders(<TextInput data-cy="test-input" />);
       
       // * Monitor frame rate during interaction
       if ('requestAnimationFrame' in window) {
@@ -341,7 +341,7 @@ describe('TextInput - Performance & Memory', () => {
 
       const start = PerformanceMonitoring.startTiming('batch-mount');
       
-      cy.mount(<MultiInputTest />);
+      cy.mountWithProviders(<MultiInputTest />);
       
       const mountDuration = PerformanceMonitoring.endTiming('batch-mount', start);
       
@@ -397,7 +397,7 @@ describe('TextInput - Performance & Memory', () => {
         );
       };
 
-      cy.mount(<DebouncedInput />);
+      cy.mountWithProviders(<DebouncedInput />);
       
       // * Use optimized helper for stable interaction
       OptimizedHelpers.interactWithRetry('debounced-input', 'type', 'test');
@@ -428,7 +428,7 @@ describe('TextInput - Performance & Memory', () => {
         );
       };
 
-      cy.mount(<ThrottledInput />);
+      cy.mountWithProviders(<ThrottledInput />);
       
       // * Type rapidly
       for (let i = 0; i < 10; i++) {

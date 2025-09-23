@@ -1,0 +1,337 @@
+
+DevTools listening on ws://127.0.0.1:57134/devtools/browser/2e0fa56c-4257-4a19-ae6d-d246ac6f41b9
+Missing baseUrl in compilerOptions. tsconfig-paths will be skipped
+
+🚀 Fantasy Element Builder is running on port 3003
+📱 Open http://localhost:3003 in your browser
+
+
+Opening `/dev/tty` failed (6): Device not configured
+================================================================================
+
+  (Run Starting)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Cypress:        14.5.4                                                                         │
+  │ Browser:        Electron 130 (headless)                                                        │
+  │ Node Version:   v22.19.0 (/usr/local/bin/node)                                                 │
+  │ Specs:          73 found (errors/ErrorBoundary.cy.tsx, errors/ErrorMessage.cy.tsx, errors/Erro │
+  │                 rNotification.cy.tsx, elements/CreateElementModal.cy.tsx, elements/ElementBrow │
+  │                 ser.cy.tsx, elements/ElementBrowser.simple.cy.tsx, elements/ElementCard.cy.tsx │
+  │                 , elements/ElementEdito...)                                                    │
+  │ Searched:       cypress/component/**/*.cy.{js,jsx,ts,tsx}                                      │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  errors/ErrorBoundary.cy.tsx                                                    (1 of 73)
+11 assets
+461 modules
+webpack 5.101.3 compiled [1m[32msuccessfully[39m[22m in 3066 ms
+14 assets
+471 modules
+webpack 5.101.3 compiled [1m[32msuccessfully[39m[22m in 286 ms
+Factory reset called
+[2025-09-23T18:18:13.688Z] Test started: renders children when there is no error
+Browser: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Cypress/14.5.4 Chrome/130.0.6723.137 Electron/33.2.1 Safari/537.36
+Viewport: 1280x720
+URL: http://localhost:3003/__cypress/iframes/index.html?specPath=/Users/jacobuphoff/Desktop/FantasyWritingApp/cypress/component/errors/ErrorBoundary.cy.tsx
+State cleaned - localStorage, sessionStorage, cookies, and IndexedDB cleared
+Factory reset called
+[2025-09-23T18:18:13.792Z] Test started: catches errors and displays fallback UI
+Browser: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Cypress/14.5.4 Chrome/130.0.6723.137 Electron/33.2.1 Safari/537.36
+Viewport: 375x812
+URL: http://localhost:3003/__cypress/iframes/index.html?specPath=/Users/jacobuphoff/Desktop/FantasyWritingApp/cypress/component/errors/ErrorBoundary.cy.tsx
+State cleaned - localStorage, sessionStorage, cookies, and IndexedDB cleared
+Factory reset called
+[2025-09-23T18:18:13.883Z] Test started: generates unique error ID
+Browser: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Cypress/14.5.4 Chrome/130.0.6723.137 Electron/33.2.1 Safari/537.36
+Viewport: 375x812
+URL: http://localhost:3003/__cypress/iframes/index.html?specPath=/Users/jacobuphoff/Desktop/FantasyWritingApp/cypress/component/errors/ErrorBoundary.cy.tsx
+State cleaned - localStorage, sessionStorage, cookies, and IndexedDB cleared
+Factory reset called
+[2025-09-23T18:18:14.057Z] Test started: displays root level error UI
+Browser: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Cypress/14.5.4 Chrome/130.0.6723.137 Electron/33.2.1 Safari/537.36
+Viewport: 375x812
+URL: http://localhost:3003/__cypress/iframes/index.html?specPath=/Users/jacobuphoff/Desktop/FantasyWritingApp/cypress/component/errors/ErrorBoundary.cy.tsx
+State cleaned - localStorage, sessionStorage, cookies, and IndexedDB cleared
+Factory reset called
+[2025-09-23T18:18:14.147Z] Test started: displays route level error UI
+Browser: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Cypress/14.5.4 Chrome/130.0.6723.137 Electron/33.2.1 Safari/537.36
+Viewport: 375x812
+URL: http://localhost:3003/__cypress/iframes/index.html?specPath=/Users/jacobuphoff/Desktop/FantasyWritingApp/cypress/component/errors/ErrorBoundary.cy.tsx
+State cleaned - localStorage, sessionStorage, cookies, and IndexedDB cleared
+Factory reset called
+[2025-09-23T18:18:14.230Z] Test started: displays component level error UI
+Browser: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Cypress/14.5.4 Chrome/130.0.6723.137 Electron/33.2.1 Safari/537.36
+Viewport: 375x812
+URL: http://localhost:3003/__cypress/iframes/index.html?specPath=/Users/jacobuphoff/Desktop/FantasyWritingApp/cypress/component/errors/ErrorBoundary.cy.tsx
+State cleaned - localStorage, sessionStorage, cookies, and IndexedDB cleared
+Factory reset called
+[2025-09-23T18:18:14.315Z] Test started: uses custom fallback when provided
+Browser: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Cypress/14.5.4 Chrome/130.0.6723.137 Electron/33.2.1 Safari/537.36
+Viewport: 375x812
+URL: http://localhost:3003/__cypress/iframes/index.html?specPath=/Users/jacobuphoff/Desktop/FantasyWritingApp/cypress/component/errors/ErrorBoundary.cy.tsx
+State cleaned - localStorage, sessionStorage, cookies, and IndexedDB cleared
+Factory reset called
+[2025-09-23T18:18:14.399Z] Test started: passes error info to custom fallback
+Browser: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Cypress/14.5.4 Chrome/130.0.6723.137 Electron/33.2.1 Safari/537.36
+Viewport: 375x812
+URL: http://localhost:3003/__cypress/iframes/index.html?specPath=/Users/jacobuphoff/Desktop/FantasyWritingApp/cypress/component/errors/ErrorBoundary.cy.tsx
+State cleaned - localStorage, sessionStorage, cookies, and IndexedDB cleared
+Factory reset called
+[2025-09-23T18:18:14.482Z] Test started: resets error state when retry clicked
+Browser: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Cypress/14.5.4 Chrome/130.0.6723.137 Electron/33.2.1 Safari/537.36
+Viewport: 375x812
+URL: http://localhost:3003/__cypress/iframes/index.html?specPath=/Users/jacobuphoff/Desktop/FantasyWritingApp/cypress/component/errors/ErrorBoundary.cy.tsx
+State cleaned - localStorage, sessionStorage, cookies, and IndexedDB cleared
+Screenshot taken: failed-resets-error-state-when-retry-clicked-1758651494836
+Failed at URL: http://localhost:3003/__cypress/iframes/index.html?specPath=/Users/jacobuphoff/Desktop/FantasyWritingApp/cypress/component/errors/ErrorBoundary.cy.tsx
+Page title: FantasyWritingApp Component Tests
+Visible page text (first 1000 chars): 
+    Successfully rendered
+  
+
+Found 1 testable elements: [{"data-cy":"success","data-testid":null,"tagName":"DIV","text":"Successfully rendered"}]
+[CONSOLE ERROR] React does not recognize the `%s` prop on a DOM element. If you intentionally want it to appear in the DOM as a custom attribute, spell it as lowercase `%s` instead. If you accidentally passed it from a parent component, remove it from the DOM element. testID testid
+[CONSOLE ERROR] React does not recognize the `%s` prop on a DOM element. If you intentionally want it to appear in the DOM as a custom attribute, spell it as lowercase `%s` instead. If you accidentally passed it from a parent component, remove it from the DOM element. testID testid
+[CONSOLE ERROR] React does not recognize the `%s` prop on a DOM element. If you intentionally want it to appear in the DOM as a custom attribute, spell it as lowercase `%s` instead. If you accidentally passed it from a parent component, remove it from the DOM element. accessibilityTestID accessibilitytestid
+[CONSOLE ERROR] React does not recognize the `%s` prop on a DOM element. If you intentionally want it to appear in the DOM as a custom attribute, spell it as lowercase `%s` instead. If you accidentally passed it from a parent component, remove it from the DOM element. accessibilityTestID accessibilitytestid
+[CONSOLE ERROR] Received `%s` for a non-boolean attribute `%s`.
+
+If you want to write it to the DOM, pass a string instead: %s="%s" or %s={value.toString()}. true accessible accessible true accessible
+[CONSOLE ERROR] Received `%s` for a non-boolean attribute `%s`.
+
+If you want to write it to the DOM, pass a string instead: %s="%s" or %s={value.toString()}. true accessible accessible true accessible
+[CONSOLE ERROR] %o
+
+%s
+
+%s
+ {} The above error occurred in the <ThrowError> component. React will try to recreate this component tree from scratch using the error boundary you provided, ErrorBoundary.
+[CONSOLE ERROR] %o
+
+%s
+
+%s
+ {} The above error occurred in the <ThrowError> component. React will try to recreate this component tree from scratch using the error boundary you provided, ErrorBoundary.
+[CONSOLE ERROR] ErrorBoundary caught error: {} {"componentStack":"\n    at ThrowError (http://localhost:3003/__cypress/src/spec-0.js:37:31)\n    at ErrorBoundary (http://localhost:3003/__cypress/src/spec-0.js:545:86)"}
+[CONSOLE ERROR] ErrorBoundary caught error: {} {"componentStack":"\n    at ThrowError (http://localhost:3003/__cypress/src/spec-0.js:37:31)\n    at ErrorBoundary (http://localhost:3003/__cypress/src/spec-0.js:545:86)"}
+[CONSOLE ERROR] %o
+
+%s
+
+%s
+ {} The above error occurred in the <ThrowError> component. React will try to recreate this component tree from scratch using the error boundary you provided, ErrorBoundary.
+[CONSOLE ERROR] %o
+
+%s
+
+%s
+ {} The above error occurred in the <ThrowError> component. React will try to recreate this component tree from scratch using the error boundary you provided, ErrorBoundary.
+[CONSOLE ERROR] %o
+
+%s
+
+%s
+ {} The above error occurred in the <ThrowError> component. React will try to recreate this component tree from scratch using the error boundary you provided, ErrorBoundary.
+[CONSOLE ERROR] ErrorBoundary caught error: {} {"componentStack":"\n    at ThrowError (http://localhost:3003/__cypress/src/spec-0.js:37:31)\n    at ErrorBoundary (http://localhost:3003/__cypress/src/spec-0.js:545:86)"}
+[CONSOLE ERROR] ErrorBoundary caught error: {} {"componentStack":"\n    at ThrowError (http://localhost:3003/__cypress/src/spec-0.js:37:31)\n    at ErrorBoundary (http://localhost:3003/__cypress/src/spec-0.js:545:86)"}
+[CONSOLE ERROR] ErrorBoundary caught error: {} {"componentStack":"\n    at ThrowError (http://localhost:3003/__cypress/src/spec-0.js:37:31)\n    at ErrorBoundary (http://localhost:3003/__cypress/src/spec-0.js:545:86)"}
+[CONSOLE ERROR] %o
+
+%s
+
+%s
+ {} The above error occurred in the <ThrowError> component. React will try to recreate this component tree from scratch using the error boundary you provided, ErrorBoundary.
+[CONSOLE ERROR] %o
+
+%s
+
+%s
+ {} The above error occurred in the <ThrowError> component. React will try to recreate this component tree from scratch using the error boundary you provided, ErrorBoundary.
+[CONSOLE ERROR] %o
+
+%s
+
+%s
+ {} The above error occurred in the <ThrowError> component. React will try to recreate this component tree from scratch using the error boundary you provided, ErrorBoundary.
+[CONSOLE ERROR] %o
+
+%s
+
+%s
+ {} The above error occurred in the <ThrowError> component. React will try to recreate this component tree from scratch using the error boundary you provided, ErrorBoundary.
+[CONSOLE ERROR] ErrorBoundary caught error: {} {"componentStack":"\n    at ThrowError (http://localhost:3003/__cypress/src/spec-0.js:37:31)\n    at ErrorBoundary (http://localhost:3003/__cypress/src/spec-0.js:545:86)"}
+[CONSOLE ERROR] ErrorBoundary caught error: {} {"componentStack":"\n    at ThrowError (http://localhost:3003/__cypress/src/spec-0.js:37:31)\n    at ErrorBoundary (http://localhost:3003/__cypress/src/spec-0.js:545:86)"}
+[CONSOLE ERROR] ErrorBoundary caught error: {} {"componentStack":"\n    at ThrowError (http://localhost:3003/__cypress/src/spec-0.js:37:31)\n    at ErrorBoundary (http://localhost:3003/__cypress/src/spec-0.js:545:86)"}
+[CONSOLE ERROR] ErrorBoundary caught error: {} {"componentStack":"\n    at ThrowError (http://localhost:3003/__cypress/src/spec-0.js:37:31)\n    at ErrorBoundary (http://localhost:3003/__cypress/src/spec-0.js:545:86)"}
+[CONSOLE ERROR] %o
+
+%s
+
+%s
+ {} The above error occurred in the <ThrowError> component. React will try to recreate this component tree from scratch using the error boundary you provided, ErrorBoundary.
+[CONSOLE ERROR] %o
+
+%s
+
+%s
+ {} The above error occurred in the <ThrowError> component. React will try to recreate this component tree from scratch using the error boundary you provided, ErrorBoundary.
+[CONSOLE ERROR] %o
+
+%s
+
+%s
+ {} The above error occurred in the <ThrowError> component. React will try to recreate this component tree from scratch using the error boundary you provided, ErrorBoundary.
+[CONSOLE ERROR] %o
+
+%s
+
+%s
+ {} The above error occurred in the <ThrowError> component. React will try to recreate this component tree from scratch using the error boundary you provided, ErrorBoundary.
+[CONSOLE ERROR] %o
+
+%s
+
+%s
+ {} The above error occurred in the <ThrowError> component. React will try to recreate this component tree from scratch using the error boundary you provided, ErrorBoundary.
+[CONSOLE ERROR] ErrorBoundary caught error: {} {"componentStack":"\n    at ThrowError (http://localhost:3003/__cypress/src/spec-0.js:37:31)\n    at ErrorBoundary (http://localhost:3003/__cypress/src/spec-0.js:545:86)"}
+[CONSOLE ERROR] ErrorBoundary caught error: {} {"componentStack":"\n    at ThrowError (http://localhost:3003/__cypress/src/spec-0.js:37:31)\n    at ErrorBoundary (http://localhost:3003/__cypress/src/spec-0.js:545:86)"}
+[CONSOLE ERROR] ErrorBoundary caught error: {} {"componentStack":"\n    at ThrowError (http://localhost:3003/__cypress/src/spec-0.js:37:31)\n    at ErrorBoundary (http://localhost:3003/__cypress/src/spec-0.js:545:86)"}
+[CONSOLE ERROR] ErrorBoundary caught error: {} {"componentStack":"\n    at ThrowError (http://localhost:3003/__cypress/src/spec-0.js:37:31)\n    at ErrorBoundary (http://localhost:3003/__cypress/src/spec-0.js:545:86)"}
+[CONSOLE ERROR] ErrorBoundary caught error: {} {"componentStack":"\n    at ThrowError (http://localhost:3003/__cypress/src/spec-0.js:37:31)\n    at ErrorBoundary (http://localhost:3003/__cypress/src/spec-0.js:545:86)"}
+[CONSOLE ERROR] %o
+
+%s
+
+%s
+ {} The above error occurred in the <ThrowError> component. React will try to recreate this component tree from scratch using the error boundary you provided, ErrorBoundary.
+[CONSOLE ERROR] %o
+
+%s
+
+%s
+ {} The above error occurred in the <ThrowError> component. React will try to recreate this component tree from scratch using the error boundary you provided, ErrorBoundary.
+[CONSOLE ERROR] %o
+
+%s
+
+%s
+ {} The above error occurred in the <ThrowError> component. React will try to recreate this component tree from scratch using the error boundary you provided, ErrorBoundary.
+[CONSOLE ERROR] %o
+
+%s
+
+%s
+ {} The above error occurred in the <ThrowError> component. React will try to recreate this component tree from scratch using the error boundary you provided, ErrorBoundary.
+[CONSOLE ERROR] %o
+
+%s
+
+%s
+ {} The above error occurred in the <ThrowError> component. React will try to recreate this component tree from scratch using the error boundary you provided, ErrorBoundary.
+[CONSOLE ERROR] %o
+
+%s
+
+%s
+ {} The above error occurred in the <ThrowError> component. React will try to recreate this component tree from scratch using the error boundary you provided, ErrorBoundary.
+[CONSOLE ERROR] ErrorBoundary caught error: {} {"componentStack":"\n    at ThrowError (http://localhost:3003/__cypress/src/spec-0.js:37:31)\n    at ErrorBoundary (http://localhost:3003/__cypress/src/spec-0.js:545:86)"}
+[CONSOLE ERROR] ErrorBoundary caught error: {} {"componentStack":"\n    at ThrowError (http://localhost:3003/__cypress/src/spec-0.js:37:31)\n    at ErrorBoundary (http://localhost:3003/__cypress/src/spec-0.js:545:86)"}
+[CONSOLE ERROR] ErrorBoundary caught error: {} {"componentStack":"\n    at ThrowError (http://localhost:3003/__cypress/src/spec-0.js:37:31)\n    at ErrorBoundary (http://localhost:3003/__cypress/src/spec-0.js:545:86)"}
+[CONSOLE ERROR] ErrorBoundary caught error: {} {"componentStack":"\n    at ThrowError (http://localhost:3003/__cypress/src/spec-0.js:37:31)\n    at ErrorBoundary (http://localhost:3003/__cypress/src/spec-0.js:545:86)"}
+[CONSOLE ERROR] ErrorBoundary caught error: {} {"componentStack":"\n    at ThrowError (http://localhost:3003/__cypress/src/spec-0.js:37:31)\n    at ErrorBoundary (http://localhost:3003/__cypress/src/spec-0.js:545:86)"}
+[CONSOLE ERROR] ErrorBoundary caught error: {} {"componentStack":"\n    at ThrowError (http://localhost:3003/__cypress/src/spec-0.js:37:31)\n    at ErrorBoundary (http://localhost:3003/__cypress/src/spec-0.js:545:86)"}
+[CONSOLE ERROR] %o
+
+%s
+
+%s
+ {} The above error occurred in the <ThrowError> component. React will try to recreate this component tree from scratch using the error boundary you provided, ErrorBoundary.
+[CONSOLE ERROR] %o
+
+%s
+
+%s
+ {} The above error occurred in the <ThrowError> component. React will try to recreate this component tree from scratch using the error boundary you provided, ErrorBoundary.
+[CONSOLE ERROR] %o
+
+%s
+
+%s
+ {} The above error occurred in the <ThrowError> component. React will try to recreate this component tree from scratch using the error boundary you provided, ErrorBoundary.
+[CONSOLE ERROR] %o
+
+%s
+
+%s
+ {} The above error occurred in the <ThrowError> component. React will try to recreate this component tree from scratch using the error boundary you provided, ErrorBoundary.
+[CONSOLE ERROR] %o
+
+%s
+
+%s
+ {} The above error occurred in the <ThrowError> component. React will try to recreate this component tree from scratch using the error boundary you provided, ErrorBoundary.
+[CONSOLE ERROR] %o
+
+%s
+
+%s
+ {} The above error occurred in the <ThrowError> component. React will try to recreate this component tree from scratch using the error boundary you provided, ErrorBoundary.
+[CONSOLE ERROR] %o
+
+%s
+
+%s
+ {} The above error occurred in the <ThrowError> component. React will try to recreate this component tree from scratch using the error boundary you provided, ErrorBoundary.
+[CONSOLE ERROR] ErrorBoundary caught error: {} {"componentStack":"\n    at ThrowError (http://localhost:3003/__cypress/src/spec-0.js:37:31)\n    at ErrorBoundary (http://localhost:3003/__cypress/src/spec-0.js:545:86)"}
+[CONSOLE ERROR] ErrorBoundary caught error: {} {"componentStack":"\n    at ThrowError (http://localhost:3003/__cypress/src/spec-0.js:37:31)\n    at ErrorBoundary (http://localhost:3003/__cypress/src/spec-0.js:545:86)"}
+[CONSOLE ERROR] ErrorBoundary caught error: {} {"componentStack":"\n    at ThrowError (http://localhost:3003/__cypress/src/spec-0.js:37:31)\n    at ErrorBoundary (http://localhost:3003/__cypress/src/spec-0.js:545:86)"}
+[CONSOLE ERROR] ErrorBoundary caught error: {} {"componentStack":"\n    at ThrowError (http://localhost:3003/__cypress/src/spec-0.js:37:31)\n    at ErrorBoundary (http://localhost:3003/__cypress/src/spec-0.js:545:86)"}
+[CONSOLE ERROR] ErrorBoundary caught error: {} {"componentStack":"\n    at ThrowError (http://localhost:3003/__cypress/src/spec-0.js:37:31)\n    at ErrorBoundary (http://localhost:3003/__cypress/src/spec-0.js:545:86)"}
+[CONSOLE ERROR] ErrorBoundary caught error: {} {"componentStack":"\n    at ThrowError (http://localhost:3003/__cypress/src/spec-0.js:37:31)\n    at ErrorBoundary (http://localhost:3003/__cypress/src/spec-0.js:545:86)"}
+[CONSOLE ERROR] ErrorBoundary caught error: {} {"componentStack":"\n    at ThrowError (http://localhost:3003/__cypress/src/spec-0.js:37:31)\n    at ErrorBoundary (http://localhost:3003/__cypress/src/spec-0.js:545:86)"}
+[CONSOLE ERROR] %o
+
+%s
+
+%s
+ {} The above error occurred in the <ThrowError> component. React will try to recreate this component tree from scratch using the error boundary you provided, ErrorBoundary.
+[CONSOLE ERROR] %o
+
+%s
+
+%s
+ {} The above error occurred in the <ThrowError> component. React will try to recreate this component tree from scratch using the error boundary you provided, ErrorBoundary.
+[CONSOLE ERROR] %o
+
+%s
+
+%s
+ {} The above error occurred in the <ThrowError> component. React will try to recreate this component tree from scratch using the error boundary you provided, ErrorBoundary.
+[CONSOLE ERROR] %o
+
+%s
+
+%s
+ {} The above error occurred in the <ThrowError> component. React will try to recreate this component tree from scratch using the error boundary you provided, ErrorBoundary.
+[CONSOLE ERROR] %o
+
+%s
+
+%s
+ {} The above error occurred in the <ThrowError> component. React will try to recreate this component tree from scratch using the error boundary you provided, ErrorBoundary.
+[CONSOLE ERROR] %o
+
+%s
+
+%s
+ {} The above error occurred in the <ThrowError> component. React will try to recreate this component tree from scratch using the error boundary you provided, ErrorBoundary.
+[CONSOLE ERROR] %o
+
+%s
+
+%s
+ {} The above error occurred in the <ThrowError> component. React will try to recreate this component tree from scratch using the error boundary you provided, ErrorBoundary.

@@ -76,7 +76,7 @@ describe('CompletionHeatmap Interaction Tests', () => {
       ];
       const project = createMockProject(elements);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       // TODO: * Character elements should appear before location
       // Note: React Native Web converts layout to flexbox, test semantic content
@@ -91,7 +91,7 @@ describe('CompletionHeatmap Interaction Tests', () => {
       ];
       const project = createMockProject(elements);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       // TODO: * Should be sorted by completion percentage descending within category
       // Note: React Native Web uses inline styles, not CSS classes for colors
@@ -118,7 +118,7 @@ describe('CompletionHeatmap Interaction Tests', () => {
       );
       const project = createMockProject(elements);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       // TODO: * Grid should have appropriate layout for 10 elements
       // React Native Web uses flexbox instead of CSS Grid
@@ -134,7 +134,7 @@ describe('CompletionHeatmap Interaction Tests', () => {
       ];
       const project = createMockProject(elements);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       // TODO: * Should have empty cells to fill the grid
       // * Test for empty cells using data-cy attributes
@@ -145,7 +145,7 @@ describe('CompletionHeatmap Interaction Tests', () => {
       const elements = [createMockElement()];
       const project = createMockProject(elements);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       // React Native Web maintains aspect ratio through inline styles
       cy.get('[data-cy^="element-cell"]').should('be.visible');
@@ -164,7 +164,7 @@ describe('CompletionHeatmap Interaction Tests', () => {
       const element = createMockElement({ id: '1', name: 'Test Element' });
       const project = createMockProject([element]);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       cy.get('[data-cy^="element-cell"]').first().click();
       cy.get('@onElementClick').should('have.been.calledWith', element);
@@ -175,7 +175,7 @@ describe('CompletionHeatmap Interaction Tests', () => {
       const elements = [createMockElement()];
       const project = createMockProject(elements);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       // React Native Web uses inline styles for hover effects
       cy.get('[data-cy^="element-cell"]').first()
@@ -192,7 +192,7 @@ describe('CompletionHeatmap Interaction Tests', () => {
       });
       const project = createMockProject([element]);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       cy.get('[data-cy^="element-cell"]').first().trigger('mouseenter');
       
@@ -208,7 +208,7 @@ describe('CompletionHeatmap Interaction Tests', () => {
       });
       const project = createMockProject([element]);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       cy.get('[data-cy^="element-cell"]').first()
         .should('have.attr', 'title', 'Test Element - 50% complete');
@@ -231,7 +231,7 @@ describe('CompletionHeatmap Interaction Tests', () => {
       ];
       const project = createMockProject(elements);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       cy.contains('Completed').parent().within(() => {
         cy.contains('2').should('be.visible');
@@ -246,7 +246,7 @@ describe('CompletionHeatmap Interaction Tests', () => {
       ];
       const project = createMockProject(elements);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       cy.contains('Half Done').parent().within(() => {
         cy.contains('2').should('be.visible');
@@ -261,7 +261,7 @@ describe('CompletionHeatmap Interaction Tests', () => {
       ];
       const project = createMockProject(elements);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       cy.contains('Started').parent().within(() => {
         cy.contains('3').should('be.visible');
@@ -276,7 +276,7 @@ describe('CompletionHeatmap Interaction Tests', () => {
       ];
       const project = createMockProject(elements);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       cy.contains('Not Started').parent().within(() => {
         cy.contains('2').should('be.visible');
@@ -308,7 +308,7 @@ describe('CompletionHeatmap Interaction Tests', () => {
       const project = createMockProject(elements);
 
       // * Mount once with all elements
-      cy.mount(<CompletionHeatmap project={project} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} />);
 
       // * Verify all icons are visible
       categories.forEach(({ icon }) => {
@@ -320,7 +320,7 @@ describe('CompletionHeatmap Interaction Tests', () => {
       const element = createMockElement({ category: 'unknown-category' as any });
       const project = createMockProject([element]);
 
-      cy.mount(<CompletionHeatmap project={project} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} />);
       cy.contains('📋').should('be.visible'); // Default icon
     });
   });

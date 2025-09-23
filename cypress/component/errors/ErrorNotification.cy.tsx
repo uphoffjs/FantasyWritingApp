@@ -39,19 +39,19 @@ describe('ErrorNotification Component', () => {
     }
   });
     it('renders when error is provided', () => {
-      cy.mount(<ErrorNotification error={mockError} />);
+      cy.mountWithProviders(<ErrorNotification error={mockError} />);
       
       cy.get('[data-cy="error-message"]').should('be.visible');
       cy.contains('Error').should('be.visible');
       cy.contains(mockError.message).should('be.visible');
     });
     it('does not render when error is null', () => {
-      cy.mount(<ErrorNotification error={null} />);
+      cy.mountWithProviders(<ErrorNotification error={null} />);
       
       cy.get('[data-cy="error-message"]').should('not.exist');
     });
     it('displays error icon', () => {
-      cy.mount(<ErrorNotification error={mockError} />);
+      cy.mountWithProviders(<ErrorNotification error={mockError} />);
       
       // TODO: AlertCircle icon should be visible
       cy.get('svg').first()
@@ -61,7 +61,7 @@ describe('ErrorNotification Component', () => {
         .and('have.class', 'text-red-600');
     });
     it('has correct positioning and styling', () => {
-      cy.mount(<ErrorNotification error={mockError} />);
+      cy.mountWithProviders(<ErrorNotification error={mockError} />);
       
       cy.get('[data-cy="error-message"]')
         .should('be.visible') // React Native Web uses inline styles instead of CSS classes
@@ -85,7 +85,7 @@ describe('ErrorNotification Component', () => {
   });
     it('renders close button when onClose is provided', () => {
       const onCloseSpy = cy.spy().as('onClose');
-      cy.mount(<ErrorNotification error={mockError} onClose={onCloseSpy} />);
+      cy.mountWithProviders(<ErrorNotification error={mockError} onClose={onCloseSpy} />);
       
       cy.get('button[aria-label="Close error notification"]')
         .should('be.visible');
@@ -96,13 +96,13 @@ describe('ErrorNotification Component', () => {
         .and('have.class', 'h-4');
     });
     it('does not render close button when onClose is not provided', () => {
-      cy.mount(<ErrorNotification error={mockError} />);
+      cy.mountWithProviders(<ErrorNotification error={mockError} />);
       
       cy.get('button[aria-label="Close error notification"]').should('not.exist');
     });
     it('calls onClose and hides notification when close button is clicked', () => {
       const onCloseSpy = cy.spy().as('onClose');
-      cy.mount(<ErrorNotification error={mockError} onClose={onCloseSpy} />);
+      cy.mountWithProviders(<ErrorNotification error={mockError} onClose={onCloseSpy} />);
       
       cy.get('[data-cy="error-message"]').should('be.visible');
       
@@ -112,7 +112,7 @@ describe('ErrorNotification Component', () => {
       cy.get('[data-cy="error-message"]').should('not.exist');
     });
     it('has hover effect on close button', () => {
-      cy.mount(<ErrorNotification error={mockError} onClose={cy.spy()} />);
+      cy.mountWithProviders(<ErrorNotification error={mockError} onClose={cy.spy()} />);
       
       cy.get('button[aria-label="Close error notification"]')
         .should('be.visible') // React Native Web uses inline styles instead of CSS classes
@@ -130,7 +130,7 @@ describe('ErrorNotification Component', () => {
       cy.clock();
       const onCloseSpy = cy.spy().as('onClose');
       
-      cy.mount(
+      cy.mountWithProviders(
         <ErrorNotification 
           error={mockError} 
           onClose={onCloseSpy}
@@ -152,7 +152,7 @@ describe('ErrorNotification Component', () => {
       cy.clock();
       const onCloseSpy = cy.spy().as('onClose');
       
-      cy.mount(
+      cy.mountWithProviders(
         <ErrorNotification 
           error={mockError} 
           onClose={onCloseSpy}
@@ -174,7 +174,7 @@ describe('ErrorNotification Component', () => {
       cy.clock();
       const onCloseSpy = cy.spy().as('onClose');
       
-      cy.mount(
+      cy.mountWithProviders(
         <ErrorNotification 
           error={mockError} 
           onClose={onCloseSpy}
@@ -208,7 +208,7 @@ describe('ErrorNotification Component', () => {
         );
       };
       
-      cy.mount(<TestComponent />);
+      cy.mountWithProviders(<TestComponent />);
       
       cy.get('[data-cy="error-message"]').should('be.visible');
       
@@ -245,7 +245,7 @@ describe('ErrorNotification Component', () => {
         );
       };
       
-      cy.mount(<TestComponent />);
+      cy.mountWithProviders(<TestComponent />);
       
       cy.contains(mockError.message).should('be.visible');
       
@@ -271,7 +271,7 @@ describe('ErrorNotification Component', () => {
         );
       };
       
-      cy.mount(<TestComponent />);
+      cy.mountWithProviders(<TestComponent />);
       
       cy.get('[data-cy="error-message"]').should('be.visible');
       
@@ -296,7 +296,7 @@ describe('ErrorNotification Component', () => {
     }
   });
     it('has slide-in animation', () => {
-      cy.mount(<ErrorNotification error={mockError} />);
+      cy.mountWithProviders(<ErrorNotification error={mockError} />);
       
       cy.get('[data-cy="error-message"]')
         .should('be.visible') // React Native Web uses inline styles instead of CSS classes
@@ -331,7 +331,7 @@ describe('ErrorNotification Component', () => {
         );
       };
       
-      cy.mount(<TestComponent />);
+      cy.mountWithProviders(<TestComponent />);
       
       cy.get('[data-cy="error-message"]').should('not.exist');
       
@@ -363,7 +363,7 @@ describe('ErrorNotification Component', () => {
         return <ErrorNotifications />;
       };
       
-      cy.mount(<TestComponent />);
+      cy.mountWithProviders(<TestComponent />);
       
       // * Wait for notifications to appear
       cy.get('[data-cy="error-message"]').should('have.length', 2);
@@ -396,7 +396,7 @@ describe('ErrorNotification Component', () => {
         return <ErrorNotifications />;
       };
       
-      cy.mount(<TestComponent />);
+      cy.mountWithProviders(<TestComponent />);
       
       cy.get('[data-cy="error-message"]').should('have.length', 3);
       
@@ -429,7 +429,7 @@ describe('ErrorNotification Component', () => {
     }
   });
     it('has accessible close button', () => {
-      cy.mount(<ErrorNotification error={mockError} onClose={cy.spy()} />);
+      cy.mountWithProviders(<ErrorNotification error={mockError} onClose={cy.spy()} />);
       
       cy.get('button[aria-label="Close error notification"]')
         .should('exist')
@@ -437,7 +437,7 @@ describe('ErrorNotification Component', () => {
     });
     it('is keyboard navigable', () => {
       const onCloseSpy = cy.spy().as('onClose');
-      cy.mount(
+      cy.mountWithProviders(
         <div>
           <button>Focus Start</button>
           <ErrorNotification error={mockError} onClose={onCloseSpy} />
@@ -455,7 +455,7 @@ describe('ErrorNotification Component', () => {
     });
     it('close button can be activated with Enter key', () => {
       const onCloseSpy = cy.spy().as('onClose');
-      cy.mount(<ErrorNotification error={mockError} onClose={onCloseSpy} />);
+      cy.mountWithProviders(<ErrorNotification error={mockError} onClose={onCloseSpy} />);
       
       cy.get('button[aria-label="Close error notification"]').focus();
       cy.focused().type('{enter}');
@@ -472,14 +472,14 @@ describe('ErrorNotification Component', () => {
   });
     it('handles very long error messages', () => {
       const longError = new Error('A'.repeat(500));
-      cy.mount(<ErrorNotification error={longError} />);
+      cy.mountWithProviders(<ErrorNotification error={longError} />);
       
       cy.get('[data-cy="error-message"]').should('be.visible');
       cy.get('.max-w-md').should('exist'); // Max width constraint
     });
     it('handles error with empty message', () => {
       const emptyError = new Error('');
-      cy.mount(<ErrorNotification error={emptyError} />);
+      cy.mountWithProviders(<ErrorNotification error={emptyError} />);
       
       cy.get('[data-cy="error-message"]').should('be.visible');
       cy.contains('Error').should('be.visible');
@@ -496,7 +496,7 @@ describe('ErrorNotification Component', () => {
         );
       };
       
-      cy.mount(<TestComponent />);
+      cy.mountWithProviders(<TestComponent />);
       
       cy.contains('Error 0').should('be.visible');
       
@@ -516,20 +516,20 @@ describe('ErrorNotification Component', () => {
   });
     it('renders correctly on mobile viewport', () => {
       cy.viewport(375, 667);
-      cy.mount(<ErrorNotification error={mockError} onClose={cy.spy()} />);
+      cy.mountWithProviders(<ErrorNotification error={mockError} onClose={cy.spy()} />);
       
       cy.get('[data-cy="error-message"]').should('be.visible');
       cy.get('.max-w-md').should('exist');
     });
     it('renders correctly on tablet viewport', () => {
       cy.viewport(768, 1024);
-      cy.mount(<ErrorNotification error={mockError} onClose={cy.spy()} />);
+      cy.mountWithProviders(<ErrorNotification error={mockError} onClose={cy.spy()} />);
       
       cy.get('[data-cy="error-message"]').should('be.visible');
     });
     it('renders correctly on desktop viewport', () => {
       cy.viewport(1920, 1080);
-      cy.mount(<ErrorNotification error={mockError} onClose={cy.spy()} />);
+      cy.mountWithProviders(<ErrorNotification error={mockError} onClose={cy.spy()} />);
       
       cy.get('[data-cy="error-message"]').should('be.visible');
     });

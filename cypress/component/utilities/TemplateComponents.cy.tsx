@@ -136,7 +136,7 @@ describe('TemplateManager Component', () => {
     mockStore.deleteTemplate.resetHistory();
   });
   it('renders template manager with header', () => {
-    cy.mount(<TemplateManager {...defaultProps} />);
+    cy.mountWithProviders(<TemplateManager {...defaultProps} />);
     
     cy.contains('Template Manager').should('be.visible');
     cy.get('[data-cy="create-template-button"]').should('exist');
@@ -144,14 +144,14 @@ describe('TemplateManager Component', () => {
     cy.get('[data-cy="marketplace-button"]').should('exist');
   });
   it('displays template categories', () => {
-    cy.mount(<TemplateManager {...defaultProps} />);
+    cy.mountWithProviders(<TemplateManager {...defaultProps} />);
     
     cy.get('[data-cy="category-character"]').should('exist');
     cy.get('[data-cy="category-location"]').should('exist');
     cy.get('[data-cy="category-custom"]').should('exist');
   });
   it('expands and collapses categories', () => {
-    cy.mount(<TemplateManager {...defaultProps} />);
+    cy.mountWithProviders(<TemplateManager {...defaultProps} />);
     
     cy.get('[data-cy="category-character"]').click();
     cy.get('[data-cy="template-template-1"]').should('be.visible');
@@ -160,7 +160,7 @@ describe('TemplateManager Component', () => {
     cy.get('[data-cy="template-template-1"]').should('not.exist');
   });
   it('displays template details when expanded', () => {
-    cy.mount(<TemplateManager {...defaultProps} />);
+    cy.mountWithProviders(<TemplateManager {...defaultProps} />);
     
     cy.get('[data-cy="category-character"]').click();
     cy.contains('Character Template').should('be.visible');
@@ -170,20 +170,20 @@ describe('TemplateManager Component', () => {
     cy.contains('Basic mode').should('be.visible');
   });
   it('shows template tags', () => {
-    cy.mount(<TemplateManager {...defaultProps} />);
+    cy.mountWithProviders(<TemplateManager {...defaultProps} />);
     
     cy.get('[data-cy="category-character"]').click();
     cy.contains('fantasy').should('be.visible');
     cy.contains('rpg').should('be.visible');
   });
   it('opens create template form', () => {
-    cy.mount(<TemplateManager {...defaultProps} />);
+    cy.mountWithProviders(<TemplateManager {...defaultProps} />);
     
     cy.get('[data-cy="create-template-button"]').click();
     cy.get('[data-cy="template-editor-mock"]').should('be.visible');
   });
   it('handles template selection', () => {
-    cy.mount(<TemplateManager {...defaultProps} />);
+    cy.mountWithProviders(<TemplateManager {...defaultProps} />);
     
     cy.get('[data-cy="category-character"]').click();
     cy.get('[data-cy="template-template-1"]').within(() => {
@@ -194,7 +194,7 @@ describe('TemplateManager Component', () => {
   it('handles template deletion with confirmation', () => {
     cy.stub(window, 'confirm').returns(true);
     
-    cy.mount(<TemplateManager {...defaultProps} />);
+    cy.mountWithProviders(<TemplateManager {...defaultProps} />);
     
     cy.get('[data-cy="category-character"]').click();
     cy.get('[data-cy="template-template-1"]').within(() => {
@@ -208,7 +208,7 @@ describe('TemplateManager Component', () => {
   it('cancels deletion when user declines', () => {
     cy.stub(window, 'confirm').returns(false);
     
-    cy.mount(<TemplateManager {...defaultProps} />);
+    cy.mountWithProviders(<TemplateManager {...defaultProps} />);
     
     cy.get('[data-cy="category-character"]').click();
     cy.get('[data-cy="template-template-1"]').within(() => {
@@ -219,14 +219,14 @@ describe('TemplateManager Component', () => {
     });
   });
   it('closes modal on close button click', () => {
-    cy.mount(<TemplateManager {...defaultProps} />);
+    cy.mountWithProviders(<TemplateManager {...defaultProps} />);
     
     cy.get('[data-cy="close-template-manager-desktop"]').click();
     cy.get('@onClose').should('have.been.called');
   });
   it('shows mobile close button on mobile', () => {
     cy.viewport(375, 667);
-    cy.mount(<TemplateManager {...defaultProps} />);
+    cy.mountWithProviders(<TemplateManager {...defaultProps} />);
     
     cy.get('[data-cy="close-template-manager"]').should('be.visible');
     cy.get('[data-cy="close-template-manager-desktop"]').should('not.be.visible');
@@ -234,13 +234,13 @@ describe('TemplateManager Component', () => {
   it('handles empty templates gracefully', () => {
     mockStore.projects[0].templates = [];
     
-    cy.mount(<TemplateManager {...defaultProps} />);
+    cy.mountWithProviders(<TemplateManager {...defaultProps} />);
     
     cy.get('[data-cy="category-character"]').click();
     cy.contains('No custom templates yet').should('be.visible');
   });
   it('shows template count per category', () => {
-    cy.mount(<TemplateManager {...defaultProps} />);
+    cy.mountWithProviders(<TemplateManager {...defaultProps} />);
     
     cy.get('[data-cy="category-character"]').contains('1');
     cy.get('[data-cy="category-location"]').contains('1');
@@ -341,41 +341,41 @@ describe('TemplatePreview Component', () => {
     defaultProps.onClose.resetHistory();
   });
   it('renders template preview with header', () => {
-    cy.mount(<TemplatePreview {...defaultProps} />);
+    cy.mountWithProviders(<TemplatePreview {...defaultProps} />);
     
     cy.contains('Template Preview: Test Template').should('be.visible');
     cy.contains('A test template for preview').should('be.visible');
   });
   it('displays question statistics', () => {
-    cy.mount(<TemplatePreview {...defaultProps} />);
+    cy.mountWithProviders(<TemplatePreview {...defaultProps} />);
     
     cy.contains('7 questions').should('be.visible'); // 6 visible initially (q7 is conditional)
     cy.contains('0 answered').should('be.visible');
     cy.contains('0/2 required').should('be.visible');
   });
   it('renders text input questions', () => {
-    cy.mount(<TemplatePreview {...defaultProps} />);
+    cy.mountWithProviders(<TemplatePreview {...defaultProps} />);
     
     cy.contains('Name').should('be.visible');
     cy.get('input[placeholder="Enter name"]').type('Test Character');
     cy.get('input[placeholder="Enter name"]').should('have.value', 'Test Character');
   });
   it('renders textarea questions', () => {
-    cy.mount(<TemplatePreview {...defaultProps} />);
+    cy.mountWithProviders(<TemplatePreview {...defaultProps} />);
     
     cy.contains('Description').should('be.visible');
     cy.get('textarea').first().type('A detailed description');
     cy.get('textarea').first().should('have.value', 'A detailed description');
   });
   it('renders select questions', () => {
-    cy.mount(<TemplatePreview {...defaultProps} />);
+    cy.mountWithProviders(<TemplatePreview {...defaultProps} />);
     
     cy.contains('Type').should('be.visible');
     cy.get('select').select('hero');
     cy.get('select').should('have.value', 'hero');
   });
   it('renders multiselect questions', () => {
-    cy.mount(<TemplatePreview {...defaultProps} />);
+    cy.mountWithProviders(<TemplatePreview {...defaultProps} />);
     
     cy.contains('Skills').should('be.visible');
     cy.contains('Magic').parent().find('input[type="checkbox"]').check();
@@ -385,21 +385,21 @@ describe('TemplatePreview Component', () => {
     cy.contains('Combat').parent().find('input[type="checkbox"]').should('be.checked');
   });
   it('renders number input questions', () => {
-    cy.mount(<TemplatePreview {...defaultProps} />);
+    cy.mountWithProviders(<TemplatePreview {...defaultProps} />);
     
     cy.contains('Level').should('be.visible');
     cy.get('input[type="number"]').type('10');
     cy.get('input[type="number"]').should('have.value', '10');
   });
   it('renders boolean questions', () => {
-    cy.mount(<TemplatePreview {...defaultProps} />);
+    cy.mountWithProviders(<TemplatePreview {...defaultProps} />);
     
     cy.contains('Is Main Character').should('be.visible');
     cy.contains('No').click();
     cy.contains('Yes').should('be.visible');
   });
   it('handles conditional questions', () => {
-    cy.mount(<TemplatePreview {...defaultProps} />);
+    cy.mountWithProviders(<TemplatePreview {...defaultProps} />);
     
     // TODO: * Backstory should not be visible initially
     cy.contains('Backstory').should('not.exist');
@@ -411,7 +411,7 @@ describe('TemplatePreview Component', () => {
     cy.contains('Backstory').should('be.visible');
   });
   it('updates completion percentage', () => {
-    cy.mount(<TemplatePreview {...defaultProps} />);
+    cy.mountWithProviders(<TemplatePreview {...defaultProps} />);
     
     cy.contains('0% complete').should('be.visible');
     
@@ -423,7 +423,7 @@ describe('TemplatePreview Component', () => {
     cy.contains('29% complete').should('be.visible'); // 2 out of 7 questions
   });
   it('tracks required questions', () => {
-    cy.mount(<TemplatePreview {...defaultProps} />);
+    cy.mountWithProviders(<TemplatePreview {...defaultProps} />);
     
     cy.contains('0/2 required').should('be.visible');
     
@@ -435,20 +435,20 @@ describe('TemplatePreview Component', () => {
     cy.contains('2/2 required').should('be.visible');
   });
   it('groups questions by category', () => {
-    cy.mount(<TemplatePreview {...defaultProps} />);
+    cy.mountWithProviders(<TemplatePreview {...defaultProps} />);
     
     cy.contains('h3', 'general').should('be.visible');
     cy.contains('h3', 'abilities').should('be.visible');
     cy.contains('h3', 'stats').should('be.visible');
   });
   it('shows required field indicators', () => {
-    cy.mount(<TemplatePreview {...defaultProps} />);
+    cy.mountWithProviders(<TemplatePreview {...defaultProps} />);
     
     cy.contains('Name').parent().contains('*').should('be.visible');
     cy.contains('Type').parent().contains('*').should('be.visible');
   });
   it('closes preview on close button click', () => {
-    cy.mount(<TemplatePreview {...defaultProps} />);
+    cy.mountWithProviders(<TemplatePreview {...defaultProps} />);
     
     cy.get('button').contains('svg').parent().click(); // X button
     cy.get('@onClose').should('have.been.called');
@@ -464,12 +464,12 @@ describe('TemplatePreview Component', () => {
       ]
     };
     
-    cy.mount(<TemplatePreview template={templateWithHelp} onClose={defaultProps.onClose} />);
+    cy.mountWithProviders(<TemplatePreview template={templateWithHelp} onClose={defaultProps.onClose} />);
     
     cy.contains('Enter the character\'s full name').should('be.visible');
   });
   it('shows footer disclaimer', () => {
-    cy.mount(<TemplatePreview {...defaultProps} />);
+    cy.mountWithProviders(<TemplatePreview {...defaultProps} />);
     
     cy.contains('This is a preview').should('be.visible');
     cy.contains('Your test answers will not be saved').should('be.visible');
@@ -499,24 +499,24 @@ describe('TemplateSearch Component', () => {
     defaultProps.onFiltersChange.resetHistory();
   });
   it('renders search input', () => {
-    cy.mount(<TemplateSearch {...defaultProps} />);
+    cy.mountWithProviders(<TemplateSearch {...defaultProps} />);
     
     cy.get('input[placeholder*="Search"]').should('be.visible');
   });
   it('handles search input changes', () => {
-    cy.mount(<TemplateSearch {...defaultProps} />);
+    cy.mountWithProviders(<TemplateSearch {...defaultProps} />);
     
     cy.get('input[placeholder*="Search"]').type('character');
     
     cy.get('@onSearchChange').should('have.been.calledWith', 'character');
   });
   it('shows filter button', () => {
-    cy.mount(<TemplateSearch {...defaultProps} />);
+    cy.mountWithProviders(<TemplateSearch {...defaultProps} />);
     
     cy.get('button').contains('Filter').should('be.visible');
   });
   it('toggles filter dropdown', () => {
-    cy.mount(<TemplateSearch {...defaultProps} />);
+    cy.mountWithProviders(<TemplateSearch {...defaultProps} />);
     
     cy.get('button').contains('Filter').click();
     cy.contains('Basic Mode Support').should('be.visible');
@@ -525,7 +525,7 @@ describe('TemplateSearch Component', () => {
     cy.contains('Basic Mode Support').should('not.exist');
   });
   it('handles basic mode filter', () => {
-    cy.mount(<TemplateSearch {...defaultProps} />);
+    cy.mountWithProviders(<TemplateSearch {...defaultProps} />);
     
     cy.get('button').contains('Filter').click();
     cy.get('input[type="checkbox"]').first().check();
@@ -534,7 +534,7 @@ describe('TemplateSearch Component', () => {
       Cypress.sinon.match({ hasBasicMode: true }));
   });
   it('handles question count filters', () => {
-    cy.mount(<TemplateSearch {...defaultProps} />);
+    cy.mountWithProviders(<TemplateSearch {...defaultProps} />);
     
     cy.get('button').contains('Filter').click();
     cy.get('input[type="number"]').first().type('5');
@@ -544,7 +544,7 @@ describe('TemplateSearch Component', () => {
       Cypress.sinon.match({ minQuestions: 5, maxQuestions: 20 }));
   });
   it('handles date range filter', () => {
-    cy.mount(<TemplateSearch {...defaultProps} />);
+    cy.mountWithProviders(<TemplateSearch {...defaultProps} />);
     
     cy.get('button').contains('Filter').click();
     cy.get('select').select('week');
@@ -553,7 +553,7 @@ describe('TemplateSearch Component', () => {
       Cypress.sinon.match({ dateRange: 'week' }));
   });
   it('clears filters', () => {
-    cy.mount(<TemplateSearch {...defaultProps} />);
+    cy.mountWithProviders(<TemplateSearch {...defaultProps} />);
     
     cy.get('button').contains('Filter').click();
     cy.get('input[type="checkbox"]').first().check();
@@ -562,7 +562,7 @@ describe('TemplateSearch Component', () => {
     cy.get('@onFiltersChange').should('have.been.calledWith', {});
   });
   it('shows active filter count', () => {
-    cy.mount(<TemplateSearch {...defaultProps} />);
+    cy.mountWithProviders(<TemplateSearch {...defaultProps} />);
     
     cy.get('button').contains('Filter').click();
     cy.get('input[type="checkbox"]').first().check();
@@ -597,27 +597,27 @@ describe('TemplateImporter Component', () => {
     mockStore.importTemplates.resetHistory();
   });
   it('renders import modal', () => {
-    cy.mount(<TemplateImporter {...defaultProps} />);
+    cy.mountWithProviders(<TemplateImporter {...defaultProps} />);
     
     cy.contains('Import Templates').should('be.visible');
     cy.contains('Select a JSON file').should('be.visible');
   });
   it('handles file selection', () => {
-    cy.mount(<TemplateImporter {...defaultProps} />);
+    cy.mountWithProviders(<TemplateImporter {...defaultProps} />);
     
     const file = new File(['{"templates": []}'], 'templates.json', { type: 'application/json' });
     cy.get('input[type="file"]').selectFile(file, { force: true });
     cy.contains('templates.json').should('be.visible');
   });
   it('validates file type', () => {
-    cy.mount(<TemplateImporter {...defaultProps} />);
+    cy.mountWithProviders(<TemplateImporter {...defaultProps} />);
     
     const file = new File(['test'], 'test.txt', { type: 'text/plain' });
     cy.get('input[type="file"]').selectFile(file, { force: true });
     cy.contains('Please select a JSON file').should('be.visible');
   });
   it('parses and displays template preview', () => {
-    cy.mount(<TemplateImporter {...defaultProps} />);
+    cy.mountWithProviders(<TemplateImporter {...defaultProps} />);
     
     const templateData = {
       templates: [
@@ -632,7 +632,7 @@ describe('TemplateImporter Component', () => {
     cy.contains('Template 2').should('be.visible');
   });
   it('imports templates successfully', () => {
-    cy.mount(<TemplateImporter {...defaultProps} />);
+    cy.mountWithProviders(<TemplateImporter {...defaultProps} />);
     
     const templateData = { templates: [{ name: 'Test', category: 'character', questions: [] }] };
     const file = new File([JSON.stringify(templateData)], 'templates.json', { type: 'application/json' });
@@ -647,7 +647,7 @@ describe('TemplateImporter Component', () => {
   it('handles import errors', () => {
     mockStore.importTemplates.rejects(new Error('Import failed'));
     
-    cy.mount(<TemplateImporter {...defaultProps} />);
+    cy.mountWithProviders(<TemplateImporter {...defaultProps} />);
     
     const templateData = { templates: [] };
     const file = new File([JSON.stringify(templateData)], 'templates.json', { type: 'application/json' });
@@ -657,13 +657,13 @@ describe('TemplateImporter Component', () => {
     cy.contains('Failed to import templates').should('be.visible');
   });
   it('closes modal on cancel', () => {
-    cy.mount(<TemplateImporter {...defaultProps} />);
+    cy.mountWithProviders(<TemplateImporter {...defaultProps} />);
     
     cy.contains('Cancel').click();
     cy.get('@onClose').should('have.been.called');
   });
   it('handles drag and drop', () => {
-    cy.mount(<TemplateImporter {...defaultProps} />);
+    cy.mountWithProviders(<TemplateImporter {...defaultProps} />);
     
     const file = new File(['{"templates": []}'], 'templates.json', { type: 'application/json' });
     cy.get('[data-cy="drop-zone"]').trigger('dragenter');
@@ -698,51 +698,51 @@ describe('TemplateMarketplace Component', () => {
     defaultProps.onClose.resetHistory();
   });
   it('renders marketplace modal', () => {
-    cy.mount(<TemplateMarketplace {...defaultProps} />);
+    cy.mountWithProviders(<TemplateMarketplace {...defaultProps} />);
     
     cy.contains('Template Marketplace').should('be.visible');
     cy.contains('Browse community templates').should('be.visible');
   });
   it('displays featured templates', () => {
-    cy.mount(<TemplateMarketplace {...defaultProps} />);
+    cy.mountWithProviders(<TemplateMarketplace {...defaultProps} />);
     
     cy.contains('Featured Templates').should('be.visible');
     cy.get('[data-cy="featured-template"]').should('have.length.at.least', 1);
   });
   it('shows template categories', () => {
-    cy.mount(<TemplateMarketplace {...defaultProps} />);
+    cy.mountWithProviders(<TemplateMarketplace {...defaultProps} />);
     
     cy.contains('Character Templates').should('be.visible');
     cy.contains('Location Templates').should('be.visible');
     cy.contains('Magic System Templates').should('be.visible');
   });
   it('handles template search', () => {
-    cy.mount(<TemplateMarketplace {...defaultProps} />);
+    cy.mountWithProviders(<TemplateMarketplace {...defaultProps} />);
     
     cy.get('input[placeholder*="Search marketplace"]').type('fantasy');
     cy.contains('Searching for "fantasy"').should('be.visible');
   });
   it('filters by category', () => {
-    cy.mount(<TemplateMarketplace {...defaultProps} />);
+    cy.mountWithProviders(<TemplateMarketplace {...defaultProps} />);
     
     cy.get('[data-cy="category-filter"]').select('character');
     cy.contains('Character Templates').should('be.visible');
   });
   it('sorts templates', () => {
-    cy.mount(<TemplateMarketplace {...defaultProps} />);
+    cy.mountWithProviders(<TemplateMarketplace {...defaultProps} />);
     
     cy.get('[data-cy="sort-select"]').select('downloads');
     cy.contains('Most Downloaded').should('be.visible');
   });
   it('shows template details on hover', () => {
-    cy.mount(<TemplateMarketplace {...defaultProps} />);
+    cy.mountWithProviders(<TemplateMarketplace {...defaultProps} />);
     
     cy.get('[data-cy="marketplace-template"]').first().trigger('mouseenter');
     cy.contains('Preview').should('be.visible');
     cy.contains('Install').should('be.visible');
   });
   it('installs template', () => {
-    cy.mount(<TemplateMarketplace {...defaultProps} />);
+    cy.mountWithProviders(<TemplateMarketplace {...defaultProps} />);
     
     cy.get('[data-cy="install-template"]').first().click();
     cy.contains('Installing...').should('be.visible');
@@ -751,24 +751,24 @@ describe('TemplateMarketplace Component', () => {
     cy.contains('Installed').should('be.visible');
   });
   it('shows template rating', () => {
-    cy.mount(<TemplateMarketplace {...defaultProps} />);
+    cy.mountWithProviders(<TemplateMarketplace {...defaultProps} />);
     
     cy.get('[data-cy="template-rating"]').should('be.visible');
     cy.get('.star-icon').should('have.length', 5);
   });
   it('displays download count', () => {
-    cy.mount(<TemplateMarketplace {...defaultProps} />);
+    cy.mountWithProviders(<TemplateMarketplace {...defaultProps} />);
     
     cy.contains('downloads').should('be.visible');
   });
   it('shows author information', () => {
-    cy.mount(<TemplateMarketplace {...defaultProps} />);
+    cy.mountWithProviders(<TemplateMarketplace {...defaultProps} />);
     
     cy.contains('by').should('be.visible');
     cy.get('[data-cy="author-name"]').should('be.visible');
   });
   it('handles pagination', () => {
-    cy.mount(<TemplateMarketplace {...defaultProps} />);
+    cy.mountWithProviders(<TemplateMarketplace {...defaultProps} />);
     
     cy.get('[data-cy="next-page"]').click();
     cy.contains('Page 2').should('be.visible');
@@ -777,13 +777,13 @@ describe('TemplateMarketplace Component', () => {
     cy.contains('Page 1').should('be.visible');
   });
   it('closes marketplace modal', () => {
-    cy.mount(<TemplateMarketplace {...defaultProps} />);
+    cy.mountWithProviders(<TemplateMarketplace {...defaultProps} />);
     
     cy.get('[data-cy="close-marketplace"]').click();
     cy.get('@onClose').should('have.been.called');
   });
   it('shows loading state', () => {
-    cy.mount(<TemplateMarketplace {...defaultProps} />);
+    cy.mountWithProviders(<TemplateMarketplace {...defaultProps} />);
     
     // ? * Trigger a search to show loading
     cy.get('input[placeholder*="Search marketplace"]').type('test');
@@ -792,7 +792,7 @@ describe('TemplateMarketplace Component', () => {
   it('handles network errors gracefully', () => {
     // * Simulate network error
     cy.intercept('GET', '/api/marketplace/templates', { statusCode: 500 });
-    cy.mount(<TemplateMarketplace {...defaultProps} />);
+    cy.mountWithProviders(<TemplateMarketplace {...defaultProps} />);
     
     cy.contains('Failed to load templates').should('be.visible');
     cy.contains('Retry').should('be.visible');

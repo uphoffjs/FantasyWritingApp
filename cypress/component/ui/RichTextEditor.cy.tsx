@@ -42,7 +42,7 @@ describe('RichTextEditor Component', () => {
     }
   });
     it('renders the editor with toolbar', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RichTextEditor 
           content="" 
           onChange={onChangeSpy} 
@@ -68,7 +68,7 @@ describe('RichTextEditor Component', () => {
     it('renders with initial content', () => {
       const initialContent = '<p>Hello World!</p>';
       
-      cy.mount(
+      cy.mountWithProviders(
         <RichTextEditor 
           content={initialContent} 
           onChange={onChangeSpy} 
@@ -78,7 +78,7 @@ describe('RichTextEditor Component', () => {
       cy.get('.ProseMirror').should('contain', 'Hello World!');
     });
     it('renders with custom placeholder', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RichTextEditor 
           content="" 
           onChange={onChangeSpy}
@@ -89,7 +89,7 @@ describe('RichTextEditor Component', () => {
       cy.get('.ProseMirror').should('have.attr', 'data-placeholder', 'Enter your story here...');
     });
     it('renders with custom minHeight', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RichTextEditor 
           content="" 
           onChange={onChangeSpy}
@@ -100,7 +100,7 @@ describe('RichTextEditor Component', () => {
       cy.get('.ProseMirror').should('have.attr', 'style').and('include', 'min-height: 300px');
     });
     it('renders with label for accessibility', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RichTextEditor 
           content="" 
           onChange={onChangeSpy}
@@ -113,7 +113,7 @@ describe('RichTextEditor Component', () => {
       cy.get('[role="toolbar"]').should('have.attr', 'id', 'description-editor-toolbar');
     });
     it('applies custom className', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RichTextEditor 
           content="" 
           onChange={onChangeSpy}
@@ -138,7 +138,7 @@ describe('RichTextEditor Component', () => {
     // * Clean state before each test
     cy.cleanState();
 
-      cy.mount(
+      cy.mountWithProviders(
         <RichTextEditor 
           content="<p>Test content for formatting</p>" 
           onChange={onChangeSpy} 
@@ -192,7 +192,7 @@ describe('RichTextEditor Component', () => {
     // * Clean state before each test
     cy.cleanState();
 
-      cy.mount(
+      cy.mountWithProviders(
         <RichTextEditor 
           content="<p>Test heading</p>" 
           onChange={onChangeSpy} 
@@ -242,7 +242,7 @@ describe('RichTextEditor Component', () => {
     // * Clean state before each test
     cy.cleanState();
 
-      cy.mount(
+      cy.mountWithProviders(
         <RichTextEditor 
           content="<p>Item 1</p><p>Item 2</p><p>Item 3</p>" 
           onChange={onChangeSpy} 
@@ -287,7 +287,7 @@ describe('RichTextEditor Component', () => {
     }
   });
     it('opens link modal when link button is clicked', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RichTextEditor 
           content="<p>Click here</p>" 
           onChange={onChangeSpy} 
@@ -301,7 +301,7 @@ describe('RichTextEditor Component', () => {
       cy.get('[data-cy="link-modal"]').should('be.visible');
     });
     it('adds a link to selected text', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RichTextEditor 
           content="<p>Click here</p>" 
           onChange={onChangeSpy} 
@@ -318,7 +318,7 @@ describe('RichTextEditor Component', () => {
         .and('have.attr', 'href', 'https://example.com');
     });
     it('removes a link', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RichTextEditor 
           content='<p><a href="https://example.com">Link text</a></p>' 
           onChange={onChangeSpy} 
@@ -336,7 +336,7 @@ describe('RichTextEditor Component', () => {
   });
   describe('History (Undo/Redo)', () => {
     it('undoes the last action', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RichTextEditor 
           content="" 
           onChange={onChangeSpy} 
@@ -352,7 +352,7 @@ describe('RichTextEditor Component', () => {
       cy.get('.ProseMirror').should('not.contain', 'First text');
     });
     it('redoes the undone action', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RichTextEditor 
           content="" 
           onChange={onChangeSpy} 
@@ -367,7 +367,7 @@ describe('RichTextEditor Component', () => {
       cy.get('.ProseMirror').should('contain', 'Some text');
     });
     it('disables undo when nothing to undo', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RichTextEditor 
           content="" 
           onChange={onChangeSpy} 
@@ -377,7 +377,7 @@ describe('RichTextEditor Component', () => {
       cy.get('[aria-label="Undo (Ctrl+Z)"]').should('be.disabled');
     });
     it('disables redo when nothing to redo', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RichTextEditor 
           content="" 
           onChange={onChangeSpy} 
@@ -387,7 +387,7 @@ describe('RichTextEditor Component', () => {
       cy.get('[aria-label="Redo (Ctrl+Y)"]').should('be.disabled');
     });
     it('supports keyboard shortcuts for undo/redo', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RichTextEditor 
           content="" 
           onChange={onChangeSpy} 
@@ -410,7 +410,7 @@ describe('RichTextEditor Component', () => {
     }
   });
     it('calls onChange when content is modified', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RichTextEditor 
           content="" 
           onChange={onChangeSpy} 
@@ -436,7 +436,7 @@ describe('RichTextEditor Component', () => {
         );
       };
       
-      cy.mount(<TestComponent />);
+      cy.mountWithProviders(<TestComponent />);
       
       cy.get('.ProseMirror').should('contain', 'Initial content');
       
@@ -452,7 +452,7 @@ describe('RichTextEditor Component', () => {
     }
   });
     it('has proper ARIA attributes', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RichTextEditor 
           content="" 
           onChange={onChangeSpy}
@@ -471,7 +471,7 @@ describe('RichTextEditor Component', () => {
         .should('have.attr', 'aria-label', 'Text formatting toolbar');
     });
     it('toolbar buttons have aria-pressed state', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RichTextEditor 
           content="<p>Test</p>" 
           onChange={onChangeSpy} 
@@ -485,7 +485,7 @@ describe('RichTextEditor Component', () => {
         .should('have.attr', 'aria-pressed', 'true');
     });
     it('provides screen reader announcements', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RichTextEditor 
           content="" 
           onChange={onChangeSpy} 
@@ -495,7 +495,7 @@ describe('RichTextEditor Component', () => {
       cy.get('[role="status"]').should('contain', 'Rich text editor ready');
     });
     it('supports keyboard navigation in toolbar', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RichTextEditor 
           content="" 
           onChange={onChangeSpy} 
@@ -517,7 +517,7 @@ describe('RichTextEditor Component', () => {
     }
   });
     it('handles empty content gracefully', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RichTextEditor 
           content="" 
           onChange={onChangeSpy} 
@@ -527,7 +527,7 @@ describe('RichTextEditor Component', () => {
       cy.get('.ProseMirror').should('exist');
     });
     it('handles null content', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RichTextEditor 
           content={null as any} 
           onChange={onChangeSpy} 
@@ -539,7 +539,7 @@ describe('RichTextEditor Component', () => {
     it('handles very long content', () => {
       const longContent = '<p>' + 'A'.repeat(10000) + '</p>';
       
-      cy.mount(
+      cy.mountWithProviders(
         <RichTextEditor 
           content={longContent} 
           onChange={onChangeSpy} 
@@ -551,7 +551,7 @@ describe('RichTextEditor Component', () => {
     it('handles special characters in content', () => {
       const specialContent = '<p>&lt;script&gt;alert("XSS")&lt;/script&gt;</p>';
       
-      cy.mount(
+      cy.mountWithProviders(
         <RichTextEditor 
           content={specialContent} 
           onChange={onChangeSpy} 
@@ -561,7 +561,7 @@ describe('RichTextEditor Component', () => {
       cy.get('.ProseMirror').should('contain', '<script>alert("XSS")</script>');
     });
     it('maintains content when toolbar buttons are clicked without selection', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RichTextEditor 
           content="<p>Test content</p>" 
           onChange={onChangeSpy} 
@@ -585,7 +585,7 @@ describe('RichTextEditor Component', () => {
     it('adapts toolbar for mobile viewport', () => {
       cy.viewport(375, 667);
       
-      cy.mount(
+      cy.mountWithProviders(
         <RichTextEditor 
           content="" 
           onChange={onChangeSpy} 
@@ -604,7 +604,7 @@ describe('RichTextEditor Component', () => {
     it('works on tablet viewport', () => {
       cy.viewport(768, 1024);
       
-      cy.mount(
+      cy.mountWithProviders(
         <RichTextEditor 
           content="" 
           onChange={onChangeSpy} 
@@ -617,7 +617,7 @@ describe('RichTextEditor Component', () => {
     it('works on desktop viewport', () => {
       cy.viewport(1920, 1080);
       
-      cy.mount(
+      cy.mountWithProviders(
         <RichTextEditor 
           content="" 
           onChange={onChangeSpy} 

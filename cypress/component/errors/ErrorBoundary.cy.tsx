@@ -71,7 +71,7 @@ describe('ErrorBoundary', () => {
     }
   });
     it('renders children when there is no error', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <ErrorBoundary>
           <ThrowError shouldThrow={false} />
         </ErrorBoundary>
@@ -80,7 +80,7 @@ describe('ErrorBoundary', () => {
       cy.get('[data-cy="child-content"]').should('be.visible');
     });
     it('catches errors and displays fallback UI', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <ErrorBoundary>
           <ThrowError shouldThrow={true} />
         </ErrorBoundary>
@@ -91,7 +91,7 @@ describe('ErrorBoundary', () => {
       cy.contains('Try Again').should('be.visible');
     });
     it('generates unique error ID', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <ErrorBoundary>
           <ThrowError shouldThrow={true} />
         </ErrorBoundary>
@@ -111,7 +111,7 @@ describe('ErrorBoundary', () => {
     }
   });
     it('displays root level error UI', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <ErrorBoundary level="root">
           <ThrowError shouldThrow={true} />
         </ErrorBoundary>
@@ -123,7 +123,7 @@ describe('ErrorBoundary', () => {
       cy.contains('Try Again').should('be.visible');
     });
     it('displays route level error UI', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <ErrorBoundary level="route">
           <ThrowError shouldThrow={true} />
         </ErrorBoundary>
@@ -135,7 +135,7 @@ describe('ErrorBoundary', () => {
       cy.contains('Try Again').should('be.visible');
     });
     it('displays component level error UI', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <ErrorBoundary level="component">
           <ThrowError shouldThrow={true} />
         </ErrorBoundary>
@@ -154,7 +154,7 @@ describe('ErrorBoundary', () => {
     }
   });
     it('uses custom fallback when provided', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <ErrorBoundary fallbackComponent={CustomFallback}>
           <ThrowError shouldThrow={true} />
         </ErrorBoundary>
@@ -167,7 +167,7 @@ describe('ErrorBoundary', () => {
     it('passes error info to custom fallback', () => {
       const customMessage = 'Custom error message';
       
-      cy.mount(
+      cy.mountWithProviders(
         <ErrorBoundary fallbackComponent={CustomFallback}>
           <ThrowError shouldThrow={true} errorMessage={customMessage} />
         </ErrorBoundary>
@@ -194,7 +194,7 @@ describe('ErrorBoundary', () => {
         return <div data-cy="success">Successfully rendered</div>;
       };
       
-      cy.mount(
+      cy.mountWithProviders(
         <ErrorBoundary level="component">
           <ConditionalError />
         </ErrorBoundary>
@@ -215,7 +215,7 @@ describe('ErrorBoundary', () => {
         return <div data-cy="recovered">Recovered from error</div>;
       };
       
-      cy.mount(
+      cy.mountWithProviders(
         <ErrorBoundary fallbackComponent={CustomFallback}>
           <ConditionalError />
         </ErrorBoundary>
@@ -236,7 +236,7 @@ describe('ErrorBoundary', () => {
     it('calls onError callback when error occurs', () => {
       const onError = cy.stub();
       
-      cy.mount(
+      cy.mountWithProviders(
         <ErrorBoundary onError={onError}>
           <ThrowError shouldThrow={true} />
         </ErrorBoundary>
@@ -252,7 +252,7 @@ describe('ErrorBoundary', () => {
     it('passes error ID to callback', () => {
       const onError = cy.stub();
       
-      cy.mount(
+      cy.mountWithProviders(
         <ErrorBoundary onError={onError}>
           <ThrowError shouldThrow={true} />
         </ErrorBoundary>
@@ -272,7 +272,7 @@ describe('ErrorBoundary', () => {
     }
   });
     it('triggers error boundary from hook', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <ErrorBoundary>
           <ComponentWithErrorHandler triggerError={true} />
         </ErrorBoundary>
@@ -282,7 +282,7 @@ describe('ErrorBoundary', () => {
       cy.contains('Hook triggered error').should('be.visible');
     });
     it('does not trigger error when false', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <ErrorBoundary>
           <ComponentWithErrorHandler triggerError={false} />
         </ErrorBoundary>
@@ -299,7 +299,7 @@ describe('ErrorBoundary', () => {
     }
   });
     it('provides home navigation for root errors', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <ErrorBoundary level="root">
           <ThrowError shouldThrow={true} />
         </ErrorBoundary>
@@ -308,7 +308,7 @@ describe('ErrorBoundary', () => {
       cy.contains('Go Home').should('have.attr', 'onclick');
     });
     it('provides reload action for root errors', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <ErrorBoundary level="root">
           <ThrowError shouldThrow={true} />
         </ErrorBoundary>
@@ -317,7 +317,7 @@ describe('ErrorBoundary', () => {
       cy.contains('Reload App').should('have.attr', 'onclick');
     });
     it('provides back navigation for route errors', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <ErrorBoundary level="route">
           <ThrowError shouldThrow={true} />
         </ErrorBoundary>
@@ -336,7 +336,7 @@ describe('ErrorBoundary', () => {
     it('shows error details in development', () => {
       // * This test assumes we're in development mode
       if (process.env.NODE_ENV === 'development') {
-        cy.mount(
+        cy.mountWithProviders(
           <ErrorBoundary level="component">
             <ThrowError shouldThrow={true} errorMessage="Dev error details" />
           </ErrorBoundary>
@@ -348,7 +348,7 @@ describe('ErrorBoundary', () => {
     });
     it('shows component stack in development for root errors', () => {
       if (process.env.NODE_ENV === 'development') {
-        cy.mount(
+        cy.mountWithProviders(
           <ErrorBoundary level="root">
             <ThrowError shouldThrow={true} />
           </ErrorBoundary>
@@ -367,7 +367,7 @@ describe('ErrorBoundary', () => {
     }
   });
     it('catches errors at different levels', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <ErrorBoundary level="root">
           <div>
             <ErrorBoundary level="component">
@@ -392,7 +392,7 @@ describe('ErrorBoundary', () => {
     }
   });
     it('has accessible buttons in error UI', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <ErrorBoundary level="root">
           <ThrowError shouldThrow={true} />
         </ErrorBoundary>
@@ -402,7 +402,7 @@ describe('ErrorBoundary', () => {
       cy.contains('Reload App').should('be.visible').and('have.attr', 'class').and('include', 'focus:');
     });
     it('supports keyboard navigation', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <ErrorBoundary level="component">
           <ThrowError shouldThrow={true} />
         </ErrorBoundary>
@@ -432,7 +432,7 @@ describe('ErrorBoundary', () => {
       
       // TODO: Note: Async errors need to be caught differently
       // * This test demonstrates that async errors don't trigger error boundary
-      cy.mount(
+      cy.mountWithProviders(
         <ErrorBoundary>
           <AsyncError />
         </ErrorBoundary>
@@ -451,7 +451,7 @@ describe('ErrorBoundary', () => {
         return <div data-cy="final-success">Finally succeeded</div>;
       };
       
-      cy.mount(
+      cy.mountWithProviders(
         <ErrorBoundary level="component">
           <MultiError />
         </ErrorBoundary>

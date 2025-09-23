@@ -99,7 +99,7 @@ describe('VirtualizedProjectList Component', () => {
   it('renders projects in virtualized grid', () => {
     const projects = Array.from({ length: 6 }, (_, i) => mockProject(`${i + 1}`));
     
-    cy.mount(
+    cy.mountWithProviders(
       <VirtualizedProjectList
         projects={projects}
         onDeleteProject={onDeleteSpy}
@@ -112,7 +112,7 @@ describe('VirtualizedProjectList Component', () => {
   });
 
   it('handles empty projects array', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <VirtualizedProjectList
         projects={[]}
         onDeleteProject={onDeleteSpy}
@@ -127,7 +127,7 @@ describe('VirtualizedProjectList Component', () => {
   it('shows deleting state for specific project', () => {
     const projects = [mockProject('1'), mockProject('2')];
     
-    cy.mount(
+    cy.mountWithProviders(
       <VirtualizedProjectList
         projects={projects}
         onDeleteProject={onDeleteSpy}
@@ -142,7 +142,7 @@ describe('VirtualizedProjectList Component', () => {
   it('calls onDeleteProject when project is deleted', () => {
     const projects = [mockProject('1')];
     
-    cy.mount(
+    cy.mountWithProviders(
       <VirtualizedProjectList
         projects={projects}
         onDeleteProject={onDeleteSpy}
@@ -159,7 +159,7 @@ describe('VirtualizedProjectList Component', () => {
     
     // * Test mobile viewport (1 column)
     cy.viewport(375, 667);
-    cy.mount(
+    cy.mountWithProviders(
       <VirtualizedProjectList
         projects={projects}
         onDeleteProject={onDeleteSpy}
@@ -170,7 +170,7 @@ describe('VirtualizedProjectList Component', () => {
     
     // * Test tablet viewport (2 columns)
     cy.viewport(768, 1024);
-    cy.mount(
+    cy.mountWithProviders(
       <VirtualizedProjectList
         projects={projects}
         onDeleteProject={onDeleteSpy}
@@ -181,7 +181,7 @@ describe('VirtualizedProjectList Component', () => {
     
     // * Test desktop viewport (3 columns)
     cy.viewport(1920, 1080);
-    cy.mount(
+    cy.mountWithProviders(
       <VirtualizedProjectList
         projects={projects}
         onDeleteProject={onDeleteSpy}
@@ -227,7 +227,7 @@ describe('InfiniteScrollList Component', () => {
     const items = Array.from({ length: 10 }, (_, i) => `Item ${i + 1}`);
     const loadMore = cy.stub();
     
-    cy.mount(
+    cy.mountWithProviders(
       <InfiniteScrollList
         items={items}
         renderItem={renderItem}
@@ -245,7 +245,7 @@ describe('InfiniteScrollList Component', () => {
     const items = Array.from({ length: 5 }, (_, i) => `Item ${i + 1}`);
     const loadMore = cy.stub();
     
-    cy.mount(
+    cy.mountWithProviders(
       <InfiniteScrollList
         items={items}
         renderItem={renderItem}
@@ -262,7 +262,7 @@ describe('InfiniteScrollList Component', () => {
     const items = Array.from({ length: 5 }, (_, i) => `Item ${i + 1}`);
     const loadMore = cy.stub();
     
-    cy.mount(
+    cy.mountWithProviders(
       <InfiniteScrollList
         items={items}
         renderItem={renderItem}
@@ -278,7 +278,7 @@ describe('InfiniteScrollList Component', () => {
   it('handles empty items array', () => {
     const loadMore = cy.stub();
     
-    cy.mount(
+    cy.mountWithProviders(
       <InfiniteScrollList
         items={[]}
         renderItem={renderItem}
@@ -296,7 +296,7 @@ describe('InfiniteScrollList Component', () => {
     const items = ['Item 1'];
     const loadMore = cy.stub();
     
-    cy.mount(
+    cy.mountWithProviders(
       <InfiniteScrollList
         items={items}
         renderItem={renderItem}
@@ -314,7 +314,7 @@ describe('InfiniteScrollList Component', () => {
     const items = ['Item 1'];
     const loadMore = cy.stub();
     
-    cy.mount(
+    cy.mountWithProviders(
       <InfiniteScrollList
         items={items}
         renderItem={renderItem}
@@ -333,7 +333,7 @@ describe('InfiniteScrollList Component', () => {
     const items = ['Item 1'];
     const loadMore = cy.stub().as('loadMore');
     
-    cy.mount(
+    cy.mountWithProviders(
       <InfiniteScrollList
         items={items}
         renderItem={renderItem}
@@ -373,7 +373,7 @@ describe('VirtualizedQuestionList Component', () => {
   it('renders questions in virtualized list', () => {
     const questions = Array.from({ length: 10 }, (_, i) => mockQuestion(`${i + 1}`));
     
-    cy.mount(
+    cy.mountWithProviders(
       <VirtualizedQuestionList
         questions={questions}
         renderItem={renderQuestion}
@@ -386,7 +386,7 @@ describe('VirtualizedQuestionList Component', () => {
   });
 
   it('handles empty questions array', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <VirtualizedQuestionList
         questions={[]}
         renderItem={renderQuestion}
@@ -400,7 +400,7 @@ describe('VirtualizedQuestionList Component', () => {
   it('supports drag and drop reordering', () => {
     const questions = Array.from({ length: 5 }, (_, i) => mockQuestion(`${i + 1}`));
     
-    cy.mount(
+    cy.mountWithProviders(
       <VirtualizedQuestionList
         questions={questions}
         renderItem={renderQuestion}
@@ -416,7 +416,7 @@ describe('VirtualizedQuestionList Component', () => {
   it('disables reordering when enableReorder is false', () => {
     const questions = Array.from({ length: 5 }, (_, i) => mockQuestion(`${i + 1}`));
     
-    cy.mount(
+    cy.mountWithProviders(
       <VirtualizedQuestionList
         questions={questions}
         renderItem={renderQuestion}

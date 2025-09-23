@@ -97,7 +97,7 @@ describe('TextInput - Rapid Interactions', () => {
 
     it('handles rapid typing without character loss', () => {
       const onChange = cy.stub();
-      cy.mount(<TestWrapper onChange={onChange} />);
+      cy.mountWithProviders(<TestWrapper onChange={onChange} />);
       
       const testText = 'The quick brown fox jumps over the lazy dog';
       
@@ -110,7 +110,7 @@ describe('TextInput - Rapid Interactions', () => {
     });
 
     it('handles very fast typing (100+ WPM)', () => {
-      cy.mount(<TestWrapper />);
+      cy.mountWithProviders(<TestWrapper />);
       
       const testText = 'This is a test of rapid typing at high speed';
       
@@ -126,7 +126,7 @@ describe('TextInput - Rapid Interactions', () => {
     });
 
     it('handles rapid paste operations', () => {
-      cy.mount(<TestWrapper />);
+      cy.mountWithProviders(<TestWrapper />);
       
       const longText = 'Lorem ipsum '.repeat(100);
       
@@ -144,7 +144,7 @@ describe('TextInput - Rapid Interactions', () => {
     });
 
     it('maintains correct cursor position during rapid typing', () => {
-      cy.mount(<TestWrapper />);
+      cy.mountWithProviders(<TestWrapper />);
       
       // * Type initial text
       cy.get('[data-cy="text-input"]').type('Hello World');
@@ -169,7 +169,7 @@ describe('TextInput - Rapid Interactions', () => {
 
     it('handles rapid focus and blur events', () => {
       const onBlur = cy.stub();
-      cy.mount(<TestWrapper onBlur={onBlur} />);
+      cy.mountWithProviders(<TestWrapper onBlur={onBlur} />);
       
       // * Rapidly focus and blur
       for (let i = 0; i < 10; i++) {
@@ -184,7 +184,7 @@ describe('TextInput - Rapid Interactions', () => {
     });
 
     it('preserves value during rapid focus changes', () => {
-      cy.mount(<TestWrapper />);
+      cy.mountWithProviders(<TestWrapper />);
       
       const testValue = 'Test value';
       cy.get('[data-cy="text-input"]').type(testValue);
@@ -211,7 +211,7 @@ describe('TextInput - Rapid Interactions', () => {
 
     it('handles rapid typing with debounce correctly', () => {
       const onChange = cy.stub();
-      cy.mount(<TestWrapper onChange={onChange} debounceDelay={300} />);
+      cy.mountWithProviders(<TestWrapper onChange={onChange} debounceDelay={300} />);
       
       // * Type rapidly
       cy.get('[data-cy="text-input"]').type('Hello', { delay: 50 });
@@ -232,7 +232,7 @@ describe('TextInput - Rapid Interactions', () => {
 
     it('cancels previous debounced calls correctly', () => {
       const onChange = cy.stub();
-      cy.mount(<TestWrapper onChange={onChange} debounceDelay={200} />);
+      cy.mountWithProviders(<TestWrapper onChange={onChange} debounceDelay={200} />);
       
       // * Type first value
       cy.get('[data-cy="text-input"]').type('First');
@@ -259,7 +259,7 @@ describe('TextInput - Rapid Interactions', () => {
   });
 
     it('handles concurrent state updates correctly', () => {
-      cy.mount(<TestWrapper />);
+      cy.mountWithProviders(<TestWrapper />);
       
       // * Simulate concurrent updates
       RaceConditionHelpers.synchronizeStateUpdates([
@@ -303,7 +303,7 @@ describe('TextInput - Rapid Interactions', () => {
         );
       };
       
-      cy.mount(<SubmitForm />);
+      cy.mountWithProviders(<SubmitForm />);
       
       // * Rapidly click submit
       StressTestHelpers.simulateRapidFormSubmit(
@@ -326,7 +326,7 @@ describe('TextInput - Rapid Interactions', () => {
   });
 
     it('remains responsive during rapid input', () => {
-      cy.mount(<TestWrapper />);
+      cy.mountWithProviders(<TestWrapper />);
       
       // Test UI responsiveness
       PerformanceHelpers.testResponsiveness(
@@ -342,7 +342,7 @@ describe('TextInput - Rapid Interactions', () => {
     });
 
     it('handles rapid clear and type cycles efficiently', () => {
-      cy.mount(<TestWrapper />);
+      cy.mountWithProviders(<TestWrapper />);
       
       const startTime = Date.now();
       
@@ -373,7 +373,7 @@ describe('TextInput - Rapid Interactions', () => {
   });
 
     it('handles rage clicking without breaking', () => {
-      cy.mount(<TestWrapper />);
+      cy.mountWithProviders(<TestWrapper />);
       
       cy.get('[data-cy="text-input"]').type('Initial value');
       
@@ -389,7 +389,7 @@ describe('TextInput - Rapid Interactions', () => {
     });
 
     it('handles rapid select all and replace', () => {
-      cy.mount(<TestWrapper />);
+      cy.mountWithProviders(<TestWrapper />);
       
       // * Rapid select all and replace
       for (let i = 0; i < 10; i++) {
@@ -404,7 +404,7 @@ describe('TextInput - Rapid Interactions', () => {
     });
 
     it('handles rapid undo/redo operations', () => {
-      cy.mount(<TestWrapper />);
+      cy.mountWithProviders(<TestWrapper />);
       
       // * Type some text
       cy.get('[data-cy="text-input"]').type('Hello World');
@@ -431,7 +431,7 @@ describe('TextInput - Rapid Interactions', () => {
   });
 
     it('verifies no character loss during rapid input', () => {
-      cy.mount(<TestWrapper />);
+      cy.mountWithProviders(<TestWrapper />);
       
       const testText = 'Testing123!@#';
       
@@ -442,7 +442,7 @@ describe('TextInput - Rapid Interactions', () => {
     });
 
     it('verifies UI responsiveness during rapid actions', () => {
-      cy.mount(<TestWrapper />);
+      cy.mountWithProviders(<TestWrapper />);
       
       RapidInteractionAssertions.assertUIResponsiveness(
         () => {
@@ -455,7 +455,7 @@ describe('TextInput - Rapid Interactions', () => {
     });
 
     it('verifies correct change count tracking', () => {
-      cy.mount(<TestWrapper />);
+      cy.mountWithProviders(<TestWrapper />);
       
       // Type 10 characters rapidly
       'HelloWorld'.split('').forEach(char => {

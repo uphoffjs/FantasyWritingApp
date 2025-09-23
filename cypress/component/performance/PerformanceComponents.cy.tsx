@@ -83,13 +83,13 @@ describe('PerformanceMonitorComponent', () => {
   });
 
     it('renders collapsed button by default', () => {
-      cy.mount(<PerformanceMonitor />);
+      cy.mountWithProviders(<PerformanceMonitor />);
       cy.get('button[title="Show Performance Monitor"]').should('be.visible');
       cy.get('.lucide-activity').should('be.visible');
     });
 
     it('renders expanded when defaultOpen is true', () => {
-      cy.mount(<PerformanceMonitor defaultOpen={true} />);
+      cy.mountWithProviders(<PerformanceMonitor defaultOpen={true} />);
       cy.contains('Performance Monitor').should('be.visible');
       cy.contains('FPS').should('be.visible');
     });
@@ -101,7 +101,7 @@ describe('PerformanceMonitorComponent', () => {
         writable: true
       });
       
-      cy.mount(<PerformanceMonitor />);
+      cy.mountWithProviders(<PerformanceMonitor />);
       cy.get('button[title="Show Performance Monitor"]').should('not.exist');
       
       Object.defineProperty(process.env, 'NODE_ENV', {
@@ -111,13 +111,13 @@ describe('PerformanceMonitorComponent', () => {
     });
 
     it('renders in different positions', () => {
-      cy.mount(<PerformanceMonitor position="top-left" />);
+      cy.mountWithProviders(<PerformanceMonitor position="top-left" />);
       cy.get('.top-4.left-4').should('exist');
 
-      cy.mount(<PerformanceMonitor position="bottom-left" />);
+      cy.mountWithProviders(<PerformanceMonitor position="bottom-left" />);
       cy.get('.bottom-4.left-4').should('exist');
 
-      cy.mount(<PerformanceMonitor position="top-right" />);
+      cy.mountWithProviders(<PerformanceMonitor position="top-right" />);
       cy.get('.top-4.right-4').should('exist');
     });
   });
@@ -131,19 +131,19 @@ describe('PerformanceMonitorComponent', () => {
   });
 
     it('displays FPS metric', () => {
-      cy.mount(<PerformanceMonitor defaultOpen={true} />);
+      cy.mountWithProviders(<PerformanceMonitor defaultOpen={true} />);
       cy.contains('FPS').should('be.visible');
       cy.contains('60').should('be.visible');
     });
 
     it('displays average render time', () => {
-      cy.mount(<PerformanceMonitor defaultOpen={true} />);
+      cy.mountWithProviders(<PerformanceMonitor defaultOpen={true} />);
       cy.contains('Avg Render').should('be.visible');
       cy.contains('12.5ms').should('be.visible');
     });
 
     it('displays memory usage', () => {
-      cy.mount(<PerformanceMonitor defaultOpen={true} />);
+      cy.mountWithProviders(<PerformanceMonitor defaultOpen={true} />);
       cy.contains('Memory Usage').should('be.visible');
       cy.contains('Used:').should('be.visible');
       cy.contains('50.0 MB').should('be.visible');
@@ -152,12 +152,12 @@ describe('PerformanceMonitorComponent', () => {
     });
 
     it('shows memory usage progress bar', () => {
-      cy.mount(<PerformanceMonitor defaultOpen={true} />);
+      cy.mountWithProviders(<PerformanceMonitor defaultOpen={true} />);
       cy.get('[data-cy*="metals-gold"]').should('have.attr', 'style').and('include', 'width: 50%');
     });
 
     it('displays render statistics', () => {
-      cy.mount(<PerformanceMonitor defaultOpen={true} />);
+      cy.mountWithProviders(<PerformanceMonitor defaultOpen={true} />);
       cy.contains('Render Statistics').should('be.visible');
       cy.contains('Total Renders:').should('be.visible');
       cy.contains('150').should('be.visible');
@@ -166,12 +166,12 @@ describe('PerformanceMonitorComponent', () => {
     });
 
     it('highlights slow renders in red', () => {
-      cy.mount(<PerformanceMonitor defaultOpen={true} />);
+      cy.mountWithProviders(<PerformanceMonitor defaultOpen={true} />);
       cy.contains('5').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
     });
 
     it('displays slowest components', () => {
-      cy.mount(<PerformanceMonitor defaultOpen={true} />);
+      cy.mountWithProviders(<PerformanceMonitor defaultOpen={true} />);
       cy.contains('Slowest Components').should('be.visible');
       cy.contains('ElementBrowser').should('be.visible');
       cy.contains('25.3ms').should('be.visible');
@@ -180,7 +180,7 @@ describe('PerformanceMonitorComponent', () => {
     });
 
     it('highlights components over 16ms threshold', () => {
-      cy.mount(<PerformanceMonitor defaultOpen={true} />);
+      cy.mountWithProviders(<PerformanceMonitor defaultOpen={true} />);
       cy.contains('25.3ms').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
       cy.contains('18.7ms').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
       cy.contains('16.2ms').should('not.have.class', 'text-flame-400');
@@ -196,27 +196,27 @@ describe('PerformanceMonitorComponent', () => {
   });
 
     it('toggles expanded state when button clicked', () => {
-      cy.mount(<PerformanceMonitor />);
+      cy.mountWithProviders(<PerformanceMonitor />);
       cy.get('button[title="Show Performance Monitor"]').click();
       cy.contains('Performance Monitor').should('be.visible');
     });
 
     it('closes when X button clicked', () => {
-      cy.mount(<PerformanceMonitor defaultOpen={true} />);
+      cy.mountWithProviders(<PerformanceMonitor defaultOpen={true} />);
       cy.get('button').contains('×').parent().click();
       cy.contains('Performance Monitor').should('not.exist');
       cy.get('button[title="Show Performance Monitor"]').should('be.visible');
     });
 
     it('clears metrics when Clear button clicked', () => {
-      cy.mount(<PerformanceMonitor defaultOpen={true} />);
+      cy.mountWithProviders(<PerformanceMonitor defaultOpen={true} />);
       cy.contains('Clear Metrics').click();
       expect(mockPerformanceMonitor.clear).to.have.been.called;
     });
 
     it('logs to console when Log button clicked', () => {
       cy.stub(console, 'log');
-      cy.mount(<PerformanceMonitor defaultOpen={true} />);
+      cy.mountWithProviders(<PerformanceMonitor defaultOpen={true} />);
       cy.contains('Log to Console').click();
       cy.wrap(console.log).should('have.been.calledWith', 'Full Report:', mockReport);
     });
@@ -232,7 +232,7 @@ describe('PerformanceMonitorComponent', () => {
 
     it('updates report every 2 seconds when open', () => {
       cy.clock();
-      cy.mount(<PerformanceMonitor defaultOpen={true} />);
+      cy.mountWithProviders(<PerformanceMonitor defaultOpen={true} />);
       
       // * Initial call
       expect(mockPerformanceMonitor.getReport).to.have.been.calledOnce;
@@ -248,7 +248,7 @@ describe('PerformanceMonitorComponent', () => {
 
     it('does not update when collapsed', () => {
       cy.clock();
-      cy.mount(<PerformanceMonitor />);
+      cy.mountWithProviders(<PerformanceMonitor />);
       
       mockPerformanceMonitor.getReport.reset();
       cy.tick(2000);
@@ -257,7 +257,7 @@ describe('PerformanceMonitorComponent', () => {
 
     it('stops updating when closed', () => {
       cy.clock();
-      cy.mount(<PerformanceMonitor defaultOpen={true} />);
+      cy.mountWithProviders(<PerformanceMonitor defaultOpen={true} />);
       
       mockPerformanceMonitor.getReport.reset();
       cy.get('button').contains('×').parent().click();
@@ -280,7 +280,7 @@ describe('PerformanceMonitorComponent', () => {
         ...mockReport,
         memoryUsage: null
       });
-      cy.mount(<PerformanceMonitor defaultOpen={true} />);
+      cy.mountWithProviders(<PerformanceMonitor defaultOpen={true} />);
       cy.contains('Memory Usage').should('not.exist');
     });
 
@@ -289,7 +289,7 @@ describe('PerformanceMonitorComponent', () => {
         ...mockReport,
         slowestComponents: []
       });
-      cy.mount(<PerformanceMonitor defaultOpen={true} />);
+      cy.mountWithProviders(<PerformanceMonitor defaultOpen={true} />);
       cy.contains('Slowest Components').should('not.exist');
     });
 
@@ -298,7 +298,7 @@ describe('PerformanceMonitorComponent', () => {
         ...mockReport,
         slowRenders: 0
       });
-      cy.mount(<PerformanceMonitor defaultOpen={true} />);
+      cy.mountWithProviders(<PerformanceMonitor defaultOpen={true} />);
       cy.contains('0').should('not.have.class', 'text-flame-400');
     });
 
@@ -310,7 +310,7 @@ describe('PerformanceMonitorComponent', () => {
           totalJSHeapSize: 2 * 1024 * 1024 * 1024 // 2GB
         }
       });
-      cy.mount(<PerformanceMonitor defaultOpen={true} />);
+      cy.mountWithProviders(<PerformanceMonitor defaultOpen={true} />);
       cy.contains('1024.0 MB').should('be.visible');
       cy.contains('2048.0 MB').should('be.visible');
     });
@@ -367,18 +367,18 @@ describe('PerformanceDashboard Component', () => {
   });
 
     it('does not render when show is false', () => {
-      cy.mount(<PerformanceDashboard show={false} onClose={cy.stub()} />);
+      cy.mountWithProviders(<PerformanceDashboard show={false} onClose={cy.stub()} />);
       cy.get('.fixed.inset-0').should('not.exist');
     });
 
     it('renders modal when show is true', () => {
-      cy.mount(<PerformanceDashboard show={true} onClose={cy.stub()} />);
+      cy.mountWithProviders(<PerformanceDashboard show={true} onClose={cy.stub()} />);
       cy.contains('Performance Dashboard').should('be.visible');
       cy.contains('Real-time performance metrics and monitoring').should('be.visible');
     });
 
     it('renders backdrop', () => {
-      cy.mount(<PerformanceDashboard show={true} onClose={cy.stub()} />);
+      cy.mountWithProviders(<PerformanceDashboard show={true} onClose={cy.stub()} />);
       cy.get('[data-cy*="black"]\\/50').should('be.visible');
     });
   });
@@ -392,21 +392,21 @@ describe('PerformanceDashboard Component', () => {
   });
 
     it('displays LCP metric', () => {
-      cy.mount(<PerformanceDashboard show={true} onClose={cy.stub()} />);
+      cy.mountWithProviders(<PerformanceDashboard show={true} onClose={cy.stub()} />);
       cy.contains('Largest Contentful Paint').should('be.visible');
       cy.contains('2000').should('be.visible');
       cy.contains('Budget: 2500ms').should('be.visible');
     });
 
     it('displays FID metric', () => {
-      cy.mount(<PerformanceDashboard show={true} onClose={cy.stub()} />);
+      cy.mountWithProviders(<PerformanceDashboard show={true} onClose={cy.stub()} />);
       cy.contains('First Input Delay').should('be.visible');
       cy.contains('50').should('be.visible');
       cy.contains('Budget: 100ms').should('be.visible');
     });
 
     it('displays CLS metric', () => {
-      cy.mount(<PerformanceDashboard show={true} onClose={cy.stub()} />);
+      cy.mountWithProviders(<PerformanceDashboard show={true} onClose={cy.stub()} />);
       cy.contains('Cumulative Layout Shift').should('be.visible');
       cy.contains('0.050').should('be.visible');
       cy.contains('Budget: 0.1score').should('be.visible');
@@ -420,7 +420,7 @@ describe('PerformanceDashboard Component', () => {
           LCP: { avg: 3000, p95: 3500 }
         }
       });
-      cy.mount(<PerformanceDashboard show={true} onClose={cy.stub()} />);
+      cy.mountWithProviders(<PerformanceDashboard show={true} onClose={cy.stub()} />);
       cy.get('.border-red-400').should('exist');
       cy.get('.lucide-alert-triangle').should('be.visible');
     });
@@ -435,19 +435,19 @@ describe('PerformanceDashboard Component', () => {
   });
 
     it('displays render time P95', () => {
-      cy.mount(<PerformanceDashboard show={true} onClose={cy.stub()} />);
+      cy.mountWithProviders(<PerformanceDashboard show={true} onClose={cy.stub()} />);
       cy.contains('Render Time (P95)').should('be.visible');
       cy.contains('15').should('be.visible');
     });
 
     it('displays search time P95', () => {
-      cy.mount(<PerformanceDashboard show={true} onClose={cy.stub()} />);
+      cy.mountWithProviders(<PerformanceDashboard show={true} onClose={cy.stub()} />);
       cy.contains('Search Time (P95)').should('be.visible');
       cy.contains('120').should('be.visible');
     });
 
     it('displays store update P95', () => {
-      cy.mount(<PerformanceDashboard show={true} onClose={cy.stub()} />);
+      cy.mountWithProviders(<PerformanceDashboard show={true} onClose={cy.stub()} />);
       cy.contains('Store Update (P95)').should('be.visible');
       cy.contains('45').should('be.visible');
     });
@@ -462,27 +462,27 @@ describe('PerformanceDashboard Component', () => {
   });
 
     it('shows time window buttons', () => {
-      cy.mount(<PerformanceDashboard show={true} onClose={cy.stub()} />);
+      cy.mountWithProviders(<PerformanceDashboard show={true} onClose={cy.stub()} />);
       cy.contains('1m').should('be.visible');
       cy.contains('5m').should('be.visible');
       cy.contains('15m').should('be.visible');
     });
 
     it('highlights active time window', () => {
-      cy.mount(<PerformanceDashboard show={true} onClose={cy.stub()} />);
+      cy.mountWithProviders(<PerformanceDashboard show={true} onClose={cy.stub()} />);
       cy.contains('5m').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
       cy.contains('1m').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
     });
 
     it('changes time window when clicked', () => {
-      cy.mount(<PerformanceDashboard show={true} onClose={cy.stub()} />);
+      cy.mountWithProviders(<PerformanceDashboard show={true} onClose={cy.stub()} />);
       cy.contains('1m').click();
       cy.contains('1m').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
       cy.contains('5m').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
     });
 
     it('displays selected time window in summary', () => {
-      cy.mount(<PerformanceDashboard show={true} onClose={cy.stub()} />);
+      cy.mountWithProviders(<PerformanceDashboard show={true} onClose={cy.stub()} />);
       cy.contains('Time Window:').parent().contains('5m').should('be.visible');
       
       cy.contains('1m').click();
@@ -499,13 +499,13 @@ describe('PerformanceDashboard Component', () => {
   });
 
     it('displays total metrics count', () => {
-      cy.mount(<PerformanceDashboard show={true} onClose={cy.stub()} />);
+      cy.mountWithProviders(<PerformanceDashboard show={true} onClose={cy.stub()} />);
       cy.contains('Total Metrics:').should('be.visible');
       cy.contains('500').should('be.visible');
     });
 
     it('displays budget violations', () => {
-      cy.mount(<PerformanceDashboard show={true} onClose={cy.stub()} />);
+      cy.mountWithProviders(<PerformanceDashboard show={true} onClose={cy.stub()} />);
       cy.contains('Budget Violations:').should('be.visible');
       cy.contains('3').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
     });
@@ -520,14 +520,14 @@ describe('PerformanceDashboard Component', () => {
   });
 
     it('displays recent metrics list', () => {
-      cy.mount(<PerformanceDashboard show={true} onClose={cy.stub()} />);
+      cy.mountWithProviders(<PerformanceDashboard show={true} onClose={cy.stub()} />);
       cy.contains('Recent Metrics').should('be.visible');
       cy.contains('render').should('be.visible');
       cy.contains('12.00 ms').should('be.visible');
     });
 
     it('shows metrics in reverse chronological order', () => {
-      cy.mount(<PerformanceDashboard show={true} onClose={cy.stub()} />);
+      cy.mountWithProviders(<PerformanceDashboard show={true} onClose={cy.stub()} />);
       cy.get('.font-mono').first().should('contain', 'store_update');
     });
 
@@ -540,7 +540,7 @@ describe('PerformanceDashboard Component', () => {
       }));
       cy.stub(window, 'usePerformanceMetrics').returns({ metrics: manyMetrics });
       
-      cy.mount(<PerformanceDashboard show={true} onClose={cy.stub()} />);
+      cy.mountWithProviders(<PerformanceDashboard show={true} onClose={cy.stub()} />);
       cy.get('.font-mono').should('have.length', 20);
     });
   });
@@ -555,13 +555,13 @@ describe('PerformanceDashboard Component', () => {
 
     it('closes when X button clicked', () => {
       const onClose = cy.stub();
-      cy.mount(<PerformanceDashboard show={true} onClose={onClose} />);
+      cy.mountWithProviders(<PerformanceDashboard show={true} onClose={onClose} />);
       cy.get('button').contains('×').click();
       expect(onClose).to.have.been.called;
     });
 
     it('clears metrics when Clear button clicked', () => {
-      cy.mount(<PerformanceDashboard show={true} onClose={cy.stub()} />);
+      cy.mountWithProviders(<PerformanceDashboard show={true} onClose={cy.stub()} />);
       cy.contains('Clear Metrics').click();
       expect(mockPerformanceMonitor.clearMetrics).to.have.been.called;
     });
@@ -569,7 +569,7 @@ describe('PerformanceDashboard Component', () => {
     it('exports to console when Export button clicked', () => {
       cy.stub(console, 'log');
       cy.stub(console, 'table');
-      cy.mount(<PerformanceDashboard show={true} onClose={cy.stub()} />);
+      cy.mountWithProviders(<PerformanceDashboard show={true} onClose={cy.stub()} />);
       cy.contains('Export to Console').click();
       cy.wrap(console.log).should('have.been.calledWith', 'Performance Summary:', mockSummary);
       cy.wrap(console.table).should('have.been.calledWith', mockSummary.metrics);
@@ -586,7 +586,7 @@ describe('PerformanceDashboard Component', () => {
 
     it('updates summary every second', () => {
       cy.clock();
-      cy.mount(<PerformanceDashboard show={true} onClose={cy.stub()} />);
+      cy.mountWithProviders(<PerformanceDashboard show={true} onClose={cy.stub()} />);
       
       mockPerformanceMonitor.getSummary.reset();
       cy.tick(1000);
@@ -599,7 +599,7 @@ describe('PerformanceDashboard Component', () => {
     it('stops updating when closed', () => {
       cy.clock();
       const onClose = cy.stub();
-      cy.mount(<PerformanceDashboard show={true} onClose={onClose} />);
+      cy.mountWithProviders(<PerformanceDashboard show={true} onClose={onClose} />);
       
       mockPerformanceMonitor.getSummary.reset();
       cy.get('button').contains('×').click();
@@ -626,13 +626,13 @@ describe('PerformanceDashboard Component', () => {
           CLS: null
         }
       });
-      cy.mount(<PerformanceDashboard show={true} onClose={cy.stub()} />);
+      cy.mountWithProviders(<PerformanceDashboard show={true} onClose={cy.stub()} />);
       cy.contains('-').should('exist');
     });
 
     it('handles empty recent metrics', () => {
       cy.stub(window, 'usePerformanceMetrics').returns({ metrics: [] });
-      cy.mount(<PerformanceDashboard show={true} onClose={cy.stub()} />);
+      cy.mountWithProviders(<PerformanceDashboard show={true} onClose={cy.stub()} />);
       cy.contains('Recent Metrics').should('be.visible');
       cy.get('.font-mono').should('not.exist');
     });
@@ -648,13 +648,13 @@ describe('PerformanceDashboard Component', () => {
 
     it('adapts grid layout on mobile', () => {
       cy.viewport(375, 667);
-      cy.mount(<PerformanceDashboard show={true} onClose={cy.stub()} />);
+      cy.mountWithProviders(<PerformanceDashboard show={true} onClose={cy.stub()} />);
       cy.get('.md\\:grid-cols-3').should('exist');
     });
 
     it('scrolls content on small screens', () => {
       cy.viewport(375, 667);
-      cy.mount(<PerformanceDashboard show={true} onClose={cy.stub()} />);
+      cy.mountWithProviders(<PerformanceDashboard show={true} onClose={cy.stub()} />);
       cy.get('.overflow-y-auto').should('exist');
     });
   });
@@ -689,7 +689,7 @@ describe('PerformanceProfiler Component', () => {
   });
 
     it('renders children correctly', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <PerformanceProfiler id="test">
           <TestComponent text="Hello World" />
         </PerformanceProfiler>
@@ -698,7 +698,7 @@ describe('PerformanceProfiler Component', () => {
     });
 
     it('records mount metrics', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <PerformanceProfiler id="test">
           <TestComponent text="Test" />
         </PerformanceProfiler>
@@ -717,7 +717,7 @@ describe('PerformanceProfiler Component', () => {
 
     it('includes metadata in metrics', () => {
       const metadata = { userId: '123', pageId: 'home' };
-      cy.mount(
+      cy.mountWithProviders(
         <PerformanceProfiler id="test" metadata={metadata}>
           <TestComponent text="Test" />
         </PerformanceProfiler>
@@ -805,7 +805,7 @@ describe('PerformanceProfiler Component', () => {
     it('wraps component with profiler', () => {
       const WrappedComponent = withPerformanceProfiler(TestComponent, 'wrapped-test');
       
-      cy.mount(<WrappedComponent text="Wrapped" />);
+      cy.mountWithProviders(<WrappedComponent text="Wrapped" />);
       cy.get('[data-cy="test-component"]').should('contain', 'Wrapped');
     });
 
@@ -817,14 +817,14 @@ describe('PerformanceProfiler Component', () => {
     it('passes props correctly through HOC', () => {
       const WrappedComponent = withPerformanceProfiler(TestComponent, 'wrapped-test');
       
-      cy.mount(<WrappedComponent text="Props Test" />);
+      cy.mountWithProviders(<WrappedComponent text="Props Test" />);
       cy.get('[data-cy="test-component"]').should('contain', 'Props Test');
     });
 
     it('profiles wrapped component', () => {
       const WrappedComponent = withPerformanceProfiler(TestComponent, 'wrapped-test');
       
-      cy.mount(<WrappedComponent text="Test" />);
+      cy.mountWithProviders(<WrappedComponent text="Test" />);
       
       cy.wait(10).then(() => {
         expect(mockPerformanceMonitor.recordMetric).to.have.been.calledWith(
@@ -858,7 +858,7 @@ describe('PerformanceProfiler Component', () => {
     });
 
     it('handles multiple children', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <PerformanceProfiler id="multi-test">
           <TestComponent text="First" />
           <TestComponent text="Second" />
@@ -870,7 +870,7 @@ describe('PerformanceProfiler Component', () => {
     });
 
     it('handles nested profilers', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <PerformanceProfiler id="outer">
           <div>
             <PerformanceProfiler id="inner">

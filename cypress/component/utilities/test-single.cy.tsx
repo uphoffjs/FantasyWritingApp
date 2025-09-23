@@ -38,7 +38,7 @@ describe('Single Test - ElementBrowser', () => {
     const mockProject = ProjectFactory.createFantasyProject();
     
     // * Try mounting with the simplest possible setup
-    cy.mount(
+    cy.mountWithProviders(
       <div>
         <h1>Test Mount</h1>
         <p>If you see this, mounting works</p>
@@ -51,7 +51,7 @@ describe('Single Test - ElementBrowser', () => {
   it('should mount ElementBrowser with MemoryRouter', () => {
     const mockProject = ProjectFactory.createFantasyProject();
     
-    cy.mount(
+    cy.mountWithProviders(
       <MemoryRouter initialEntries={[`/project/${mockProject.id}`]}>
         <ElementBrowser />
       </MemoryRouter>

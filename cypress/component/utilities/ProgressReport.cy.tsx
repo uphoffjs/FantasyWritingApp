@@ -95,7 +95,7 @@ describe('ProgressReport Component', () => {
     it('renders modal with header', () => {
       const project = createMockProject([createMockElement()]);
 
-      cy.mount(<ProgressReport project={project} onClose={onCloseSpy} />);
+      cy.mountWithProviders(<ProgressReport project={project} onClose={onCloseSpy} />);
 
       cy.contains('Progress Report').should('be.visible');
       cy.get('[data-cy="close-button"]').should('be.visible');
@@ -104,7 +104,7 @@ describe('ProgressReport Component', () => {
     it('displays project information', () => {
       const project = createMockProject([createMockElement()]);
 
-      cy.mount(<ProgressReport project={project} onClose={onCloseSpy} />);
+      cy.mountWithProviders(<ProgressReport project={project} onClose={onCloseSpy} />);
 
       cy.contains('Test Project').should('be.visible');
       cy.contains('Test project description').should('be.visible');
@@ -119,7 +119,7 @@ describe('ProgressReport Component', () => {
       ];
       const project = createMockProject(elements);
 
-      cy.mount(<ProgressReport project={project} onClose={onCloseSpy} />);
+      cy.mountWithProviders(<ProgressReport project={project} onClose={onCloseSpy} />);
 
       cy.contains('Overall Statistics').should('be.visible');
       cy.contains('Total Elements').should('be.visible');
@@ -135,7 +135,7 @@ describe('ProgressReport Component', () => {
       ];
       const project = createMockProject(elements);
 
-      cy.mount(<ProgressReport project={project} onClose={onCloseSpy} />);
+      cy.mountWithProviders(<ProgressReport project={project} onClose={onCloseSpy} />);
 
       cy.contains('Category Breakdown').should('be.visible');
       cy.contains('Characters').should('be.visible');
@@ -149,7 +149,7 @@ describe('ProgressReport Component', () => {
       ];
       const project = createMockProject(elements);
 
-      cy.mount(<ProgressReport project={project} onClose={onCloseSpy} />);
+      cy.mountWithProviders(<ProgressReport project={project} onClose={onCloseSpy} />);
 
       cy.contains('Recent Activity').should('be.visible');
       cy.contains('Recent Element 1').should('be.visible');
@@ -159,7 +159,7 @@ describe('ProgressReport Component', () => {
     it('displays export format buttons', () => {
       const project = createMockProject([createMockElement()]);
 
-      cy.mount(<ProgressReport project={project} onClose={onCloseSpy} />);
+      cy.mountWithProviders(<ProgressReport project={project} onClose={onCloseSpy} />);
 
       cy.contains('button', 'PDF').should('be.visible');
       cy.contains('button', 'Email').should('be.visible');
@@ -201,7 +201,7 @@ describe('ProgressReport Component', () => {
       ];
       const project = createMockProject(elements);
 
-      cy.mount(<ProgressReport project={project} onClose={onCloseSpy} />);
+      cy.mountWithProviders(<ProgressReport project={project} onClose={onCloseSpy} />);
 
       // 3 out of 4 questions answered = 75%
       cy.contains('Overall Completion').parent().contains('75%').should('be.visible');
@@ -215,7 +215,7 @@ describe('ProgressReport Component', () => {
       ];
       const project = createMockProject(elements);
 
-      cy.mount(<ProgressReport project={project} onClose={onCloseSpy} />);
+      cy.mountWithProviders(<ProgressReport project={project} onClose={onCloseSpy} />);
 
       cy.contains('Completed').parent().contains('2').should('be.visible');
     });
@@ -246,7 +246,7 @@ describe('ProgressReport Component', () => {
       ];
       const project = createMockProject(elements);
 
-      cy.mount(<ProgressReport project={project} onClose={onCloseSpy} />);
+      cy.mountWithProviders(<ProgressReport project={project} onClose={onCloseSpy} />);
 
       cy.contains('Characters').parent().contains('2 elements').should('be.visible');
       cy.contains('Characters').parent().contains('2/3 questions').should('be.visible');
@@ -261,7 +261,7 @@ describe('ProgressReport Component', () => {
       ];
       const project = createMockProject(elements);
 
-      cy.mount(<ProgressReport project={project} onClose={onCloseSpy} />);
+      cy.mountWithProviders(<ProgressReport project={project} onClose={onCloseSpy} />);
 
       cy.contains('Recent Activity').parent().within(() => {
         cy.get('div').then($divs => {
@@ -282,7 +282,7 @@ describe('ProgressReport Component', () => {
       );
       const project = createMockProject(elements);
 
-      cy.mount(<ProgressReport project={project} onClose={onCloseSpy} />);
+      cy.mountWithProviders(<ProgressReport project={project} onClose={onCloseSpy} />);
 
       cy.contains('Recent Activity').parent().within(() => {
         cy.get('div > div').should('have.length', 10);
@@ -301,7 +301,7 @@ describe('ProgressReport Component', () => {
     it('selects PDF format by default', () => {
       const project = createMockProject([createMockElement()]);
 
-      cy.mount(<ProgressReport project={project} onClose={onCloseSpy} />);
+      cy.mountWithProviders(<ProgressReport project={project} onClose={onCloseSpy} />);
 
       cy.contains('button', 'PDF').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
     });
@@ -309,7 +309,7 @@ describe('ProgressReport Component', () => {
     it('switches export format when button clicked', () => {
       const project = createMockProject([createMockElement()]);
 
-      cy.mount(<ProgressReport project={project} onClose={onCloseSpy} />);
+      cy.mountWithProviders(<ProgressReport project={project} onClose={onCloseSpy} />);
 
       cy.contains('button', 'Email').click();
       cy.contains('button', 'Email').should('be.visible') // React Native Web uses inline styles instead of CSS classes;
@@ -323,7 +323,7 @@ describe('ProgressReport Component', () => {
     it('shows correct icon for each export format', () => {
       const project = createMockProject([createMockElement()]);
 
-      cy.mount(<ProgressReport project={project} onClose={onCloseSpy} />);
+      cy.mountWithProviders(<ProgressReport project={project} onClose={onCloseSpy} />);
 
       // Select PDF and check for Download icon
       cy.contains('button', 'PDF').click();
@@ -356,7 +356,7 @@ describe('ProgressReport Component', () => {
     it('handles PDF export', () => {
       const project = createMockProject([createMockElement()]);
 
-      cy.mount(<ProgressReport project={project} onClose={onCloseSpy} />);
+      cy.mountWithProviders(<ProgressReport project={project} onClose={onCloseSpy} />);
 
       cy.contains('button', 'PDF').click();
       cy.contains('button', 'Export').click();
@@ -368,7 +368,7 @@ describe('ProgressReport Component', () => {
     it('handles email export', () => {
       const project = createMockProject([createMockElement()]);
 
-      cy.mount(<ProgressReport project={project} onClose={onCloseSpy} />);
+      cy.mountWithProviders(<ProgressReport project={project} onClose={onCloseSpy} />);
 
       cy.contains('button', 'Email').click();
       
@@ -387,7 +387,7 @@ describe('ProgressReport Component', () => {
     it('handles image export', () => {
       const project = createMockProject([createMockElement()]);
 
-      cy.mount(<ProgressReport project={project} onClose={onCloseSpy} />);
+      cy.mountWithProviders(<ProgressReport project={project} onClose={onCloseSpy} />);
 
       cy.contains('button', 'Image').click();
       
@@ -410,7 +410,7 @@ describe('ProgressReport Component', () => {
     it('disables export button while generating', () => {
       const project = createMockProject([createMockElement()]);
 
-      cy.mount(<ProgressReport project={project} onClose={onCloseSpy} />);
+      cy.mountWithProviders(<ProgressReport project={project} onClose={onCloseSpy} />);
 
       // Can't easily test the actual generation state, but verify button structure
       cy.contains('button', 'Export').should('not.be.disabled');
@@ -437,7 +437,7 @@ describe('ProgressReport Component', () => {
       );
       const project = createMockProject(elements);
 
-      cy.mount(<ProgressReport project={project} onClose={onCloseSpy} />);
+      cy.mountWithProviders(<ProgressReport project={project} onClose={onCloseSpy} />);
 
       cy.contains('Characters').should('be.visible');
       cy.contains('Locations').should('be.visible');
@@ -474,7 +474,7 @@ describe('ProgressReport Component', () => {
       ];
       const project = createMockProject(elements);
 
-      cy.mount(<ProgressReport project={project} onClose={onCloseSpy} />);
+      cy.mountWithProviders(<ProgressReport project={project} onClose={onCloseSpy} />);
 
       cy.contains('Overall Completion').parent().within(() => {
         cy.get('[role="progressbar"]').should('exist');
@@ -488,7 +488,7 @@ describe('ProgressReport Component', () => {
       ];
       const project = createMockProject(elements);
 
-      cy.mount(<ProgressReport project={project} onClose={onCloseSpy} />);
+      cy.mountWithProviders(<ProgressReport project={project} onClose={onCloseSpy} />);
 
       cy.contains('Characters').parent().within(() => {
         cy.get('[role="progressbar"]').should('exist');
@@ -511,7 +511,7 @@ describe('ProgressReport Component', () => {
     it('closes when close button clicked', () => {
       const project = createMockProject([createMockElement()]);
 
-      cy.mount(<ProgressReport project={project} onClose={onCloseSpy} />);
+      cy.mountWithProviders(<ProgressReport project={project} onClose={onCloseSpy} />);
 
       cy.get('button').first().click(); // X button
       cy.get('@onClose').should('have.been.calledOnce');
@@ -520,7 +520,7 @@ describe('ProgressReport Component', () => {
     it('closes when Close button clicked', () => {
       const project = createMockProject([createMockElement()]);
 
-      cy.mount(<ProgressReport project={project} onClose={onCloseSpy} />);
+      cy.mountWithProviders(<ProgressReport project={project} onClose={onCloseSpy} />);
 
       cy.contains('button', 'Close').click();
       cy.get('@onClose').should('have.been.calledOnce');
@@ -529,7 +529,7 @@ describe('ProgressReport Component', () => {
     it('has fixed positioning overlay', () => {
       const project = createMockProject([createMockElement()]);
 
-      cy.mount(<ProgressReport project={project} onClose={onCloseSpy} />);
+      cy.mountWithProviders(<ProgressReport project={project} onClose={onCloseSpy} />);
 
       cy.get('.fixed.inset-0').should('exist');
       cy.get('[data-cy*="black"][data-cy*="opacity-"]50').should('exist');
@@ -541,7 +541,7 @@ describe('ProgressReport Component', () => {
       );
       const project = createMockProject(elements);
 
-      cy.mount(<ProgressReport project={project} onClose={onCloseSpy} />);
+      cy.mountWithProviders(<ProgressReport project={project} onClose={onCloseSpy} />);
 
       cy.get('.overflow-y-auto').should('exist');
     });
@@ -558,7 +558,7 @@ describe('ProgressReport Component', () => {
     it('handles empty project', () => {
       const project = createMockProject([]);
 
-      cy.mount(<ProgressReport project={project} onClose={onCloseSpy} />);
+      cy.mountWithProviders(<ProgressReport project={project} onClose={onCloseSpy} />);
 
       cy.contains('Total Elements').parent().contains('0').should('be.visible');
       cy.contains('Overall Completion').parent().contains('0%').should('be.visible');
@@ -571,7 +571,7 @@ describe('ProgressReport Component', () => {
       });
       const project = createMockProject([element]);
 
-      cy.mount(<ProgressReport project={project} onClose={onCloseSpy} />);
+      cy.mountWithProviders(<ProgressReport project={project} onClose={onCloseSpy} />);
 
       cy.contains('Questions').parent().contains('0').should('be.visible');
     });
@@ -585,7 +585,7 @@ describe('ProgressReport Component', () => {
       });
       const project = createMockProject([element]);
 
-      cy.mount(<ProgressReport project={project} onClose={onCloseSpy} />);
+      cy.mountWithProviders(<ProgressReport project={project} onClose={onCloseSpy} />);
 
       cy.contains('Answered').parent().contains('0').should('be.visible');
     });
@@ -594,7 +594,7 @@ describe('ProgressReport Component', () => {
       const project = createMockProject([createMockElement()]);
       project.name = 'This is a very long project name that might cause layout issues if not handled properly';
 
-      cy.mount(<ProgressReport project={project} onClose={onCloseSpy} />);
+      cy.mountWithProviders(<ProgressReport project={project} onClose={onCloseSpy} />);
 
       cy.contains(project.name).should('be.visible');
     });
@@ -613,7 +613,7 @@ describe('ProgressReport Component', () => {
       );
       const project = createMockProject(elements);
 
-      cy.mount(<ProgressReport project={project} onClose={onCloseSpy} />);
+      cy.mountWithProviders(<ProgressReport project={project} onClose={onCloseSpy} />);
 
       cy.contains('Category Breakdown').should('be.visible');
       categories.forEach(cat => {
@@ -636,7 +636,7 @@ describe('ProgressReport Component', () => {
       
       const project = createMockProject([createMockElement()]);
 
-      cy.mount(<ProgressReport project={project} onClose={onCloseSpy} />);
+      cy.mountWithProviders(<ProgressReport project={project} onClose={onCloseSpy} />);
 
       cy.contains('Progress Report').should('be.visible');
       cy.contains('Overall Statistics').should('be.visible');
@@ -650,7 +650,7 @@ describe('ProgressReport Component', () => {
       
       const project = createMockProject([createMockElement()]);
 
-      cy.mount(<ProgressReport project={project} onClose={onCloseSpy} />);
+      cy.mountWithProviders(<ProgressReport project={project} onClose={onCloseSpy} />);
 
       // ? TODO: * Should show abbreviated text on mobile
       cy.contains('button', 'Export').should('be.visible');
@@ -661,7 +661,7 @@ describe('ProgressReport Component', () => {
       
       const project = createMockProject([createMockElement()]);
 
-      cy.mount(<ProgressReport project={project} onClose={onCloseSpy} />);
+      cy.mountWithProviders(<ProgressReport project={project} onClose={onCloseSpy} />);
 
       cy.contains('Progress Report').should('be.visible');
       cy.get('.sm\\:max-w-4xl').should('exist');
@@ -672,7 +672,7 @@ describe('ProgressReport Component', () => {
       
       const project = createMockProject([createMockElement()]);
 
-      cy.mount(<ProgressReport project={project} onClose={onCloseSpy} />);
+      cy.mountWithProviders(<ProgressReport project={project} onClose={onCloseSpy} />);
 
       cy.contains('Progress Report').should('be.visible');
       cy.contains('Export Report').should('be.visible'); // Full text on desktop
@@ -690,7 +690,7 @@ describe('ProgressReport Component', () => {
     it('has accessible close button', () => {
       const project = createMockProject([createMockElement()]);
 
-      cy.mount(<ProgressReport project={project} onClose={onCloseSpy} />);
+      cy.mountWithProviders(<ProgressReport project={project} onClose={onCloseSpy} />);
 
       cy.get('button').first().should('be.visible'); // X button
     });
@@ -698,7 +698,7 @@ describe('ProgressReport Component', () => {
     it('uses semantic headings', () => {
       const project = createMockProject([createMockElement()]);
 
-      cy.mount(<ProgressReport project={project} onClose={onCloseSpy} />);
+      cy.mountWithProviders(<ProgressReport project={project} onClose={onCloseSpy} />);
 
       cy.contains('h2', 'Progress Report').should('exist');
     });
@@ -706,7 +706,7 @@ describe('ProgressReport Component', () => {
     it('supports keyboard navigation', () => {
       const project = createMockProject([createMockElement()]);
 
-      cy.mount(<ProgressReport project={project} onClose={onCloseSpy} />);
+      cy.mountWithProviders(<ProgressReport project={project} onClose={onCloseSpy} />);
 
       cy.contains('button', 'PDF').focus();
       cy.focused().should('contain', 'PDF');

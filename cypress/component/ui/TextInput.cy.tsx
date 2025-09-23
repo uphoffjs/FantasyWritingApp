@@ -35,7 +35,7 @@ describe('TextInput Component', () => {
     mockOnChangeText = cy.stub().as('onChangeText');
   });
   it('should render basic text input', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <TextInput 
         placeholder="Enter text..." 
         testID="text-input"
@@ -50,7 +50,7 @@ describe('TextInput Component', () => {
     cy.get('[data-cy="text-input"]').should('have.attr', 'placeholder', 'Enter text...');
   });
   it('should render with label', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <TextInput 
         label="Character Name"
         placeholder="Enter character name"
@@ -66,7 +66,7 @@ describe('TextInput Component', () => {
     cy.get('[data-cy="text-input"]').should('be.visible');
   });
   it('should handle text input and change events', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <TextInput 
         placeholder="Enter text..."
         testID="text-input"
@@ -87,7 +87,7 @@ describe('TextInput Component', () => {
   it('should display placeholder correctly', () => {
     const placeholderText = 'Enter your character backstory...';
     
-    cy.mount(
+    cy.mountWithProviders(
       <TextInput 
         placeholder={placeholderText}
         testID="text-input"
@@ -100,7 +100,7 @@ describe('TextInput Component', () => {
   it('should display error state and message', () => {
     const errorMessage = 'Character name is required';
     
-    cy.mount(
+    cy.mountWithProviders(
       <TextInput 
         label="Character Name"
         placeholder="Enter name"
@@ -117,7 +117,7 @@ describe('TextInput Component', () => {
     cy.get('[data-cy="text-input"]').should('have.css', 'border-color', 'rgb(220, 38, 38)'); // #DC2626
   });
   it('should handle multiline text input', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <TextInput 
         label="Character Description"
         placeholder="Enter detailed description..."
@@ -141,7 +141,7 @@ describe('TextInput Component', () => {
     cy.get('[data-cy="text-input"]').should('contain.value', multilineText);
   });
   it('should have proper accessibility labels', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <TextInput 
         label="Email Address"
         placeholder="Enter your email"
@@ -161,7 +161,7 @@ describe('TextInput Component', () => {
   it('should handle default value', () => {
     const defaultValue = 'Gandalf the Grey';
     
-    cy.mount(
+    cy.mountWithProviders(
       <TextInput 
         defaultValue={defaultValue}
         placeholder="Enter name"
@@ -186,7 +186,7 @@ describe('TextInput Component', () => {
       );
     };
 
-    cy.mount(<TestWrapper />);
+    cy.mountWithProviders(<TestWrapper />);
 
     // * Check initial value
     cy.get('[data-cy="text-input"]').should('have.value', 'Initial value');
@@ -196,7 +196,7 @@ describe('TextInput Component', () => {
     cy.get('[data-cy="text-input"]').should('have.value', 'New value');
   });
   it('should apply custom container styling', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <TextInput 
         placeholder="Enter text"
         containerStyle={{ marginBottom: 32 }}
@@ -209,7 +209,7 @@ describe('TextInput Component', () => {
     cy.get('[data-cy="text-input"]').parent().should('have.css', 'margin-bottom', '32px');
   });
   it('should apply custom input styling', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <TextInput 
         placeholder="Enter text"
         inputStyle={{ backgroundColor: 'rgb(55, 65, 81)' }} // #374151
@@ -225,7 +225,7 @@ describe('TextInput Component', () => {
     const mockOnFocus = cy.stub().as('onFocus');
     const mockOnBlur = cy.stub().as('onBlur');
     
-    cy.mount(
+    cy.mountWithProviders(
       <TextInput 
         placeholder="Enter text"
         testID="text-input"
@@ -244,7 +244,7 @@ describe('TextInput Component', () => {
     cy.get('@onBlur').should('have.been.called');
   });
   it('should handle different input types', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <TextInput 
         placeholder="Enter email"
         keyboardType="email-address"
@@ -257,7 +257,7 @@ describe('TextInput Component', () => {
     cy.get('[data-cy="text-input"]').should('be.visible');
   });
   it('should handle secure text entry', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <TextInput 
         placeholder="Enter password"
         secureTextEntry={true}
@@ -270,7 +270,7 @@ describe('TextInput Component', () => {
     cy.get('[data-cy="text-input"]').should('have.attr', 'type', 'password');
   });
   it('should handle max length', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <TextInput 
         placeholder="Enter name"
         maxLength={10}
@@ -288,7 +288,7 @@ describe('TextInput Component', () => {
     });
   });
   it('should handle disabled state', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <TextInput 
         placeholder="Enter text"
         editable={false}
@@ -301,7 +301,7 @@ describe('TextInput Component', () => {
     cy.get('[data-cy="text-input"]').should('be.disabled');
   });
   it('should have consistent styling across platforms', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <TextInput 
         label="Test Input"
         placeholder="Enter text"
@@ -318,7 +318,7 @@ describe('TextInput Component', () => {
       .and('have.css', 'color', 'rgb(249, 250, 251)'); // #F9FAFB
   });
   it('should handle rapid typing without issues', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <TextInput 
         placeholder="Enter text"
         testID="text-input"
@@ -331,7 +331,7 @@ describe('TextInput Component', () => {
     cy.get('[data-cy="text-input"]').should('have.value', 'QuickTypingTest');
   });
   it('should handle special characters', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <TextInput 
         placeholder="Enter text"
         testID="text-input"
@@ -344,7 +344,7 @@ describe('TextInput Component', () => {
     cy.get('[data-cy="text-input"]').should('have.value', specialText);
   });
   it('should handle copy and paste operations', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <TextInput 
         placeholder="Enter text"
         testID="text-input"

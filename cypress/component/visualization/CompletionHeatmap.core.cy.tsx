@@ -76,7 +76,7 @@ describe('CompletionHeatmap Core Tests', () => {
       ];
       const project = createMockProject(elements);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       // TODO: * Legend should be visible
       cy.contains('Completion:').should('be.visible');
@@ -87,7 +87,7 @@ describe('CompletionHeatmap Core Tests', () => {
     it('displays legend color boxes', () => {
       const project = createMockProject([createMockElement()]);
 
-      cy.mount(<CompletionHeatmap project={project} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} />);
 
       // TODO: * Should have 7 legend color boxes
       cy.get('[title="0%"]').should('exist');
@@ -102,7 +102,7 @@ describe('CompletionHeatmap Core Tests', () => {
     it('renders empty state when no elements', () => {
       const project = createMockProject([]);
 
-      cy.mount(<CompletionHeatmap project={project} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} />);
 
       cy.contains('No elements to display in heatmap').should('be.visible');
     });
@@ -115,7 +115,7 @@ describe('CompletionHeatmap Core Tests', () => {
       ];
       const project = createMockProject(elements);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       // TODO: * Should render all elements in grid
       cy.get('[data-cy="heatmap-grid"] [data-cy^="element-cell"]').should('have.length.at.least', 3);
@@ -129,7 +129,7 @@ describe('CompletionHeatmap Core Tests', () => {
       ];
       const project = createMockProject(elements);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       cy.contains('👤').should('be.visible'); // Character icon
       cy.contains('📍').should('be.visible'); // Location icon
@@ -145,7 +145,7 @@ describe('CompletionHeatmap Core Tests', () => {
       ];
       const project = createMockProject(elements);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       cy.contains('Completed').should('be.visible');
       cy.contains('Half Done').should('be.visible');
@@ -168,7 +168,7 @@ describe('CompletionHeatmap Core Tests', () => {
       ];
       const project = createMockProject(elements);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       // React Native Web uses inline styles instead of CSS classes
       // * Test for element with 100% completion by content or data attributes
@@ -181,7 +181,7 @@ describe('CompletionHeatmap Core Tests', () => {
       ];
       const project = createMockProject(elements);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       // React Native Web uses inline styles instead of CSS classes
       // * Test for element with 80-99% completion
@@ -194,7 +194,7 @@ describe('CompletionHeatmap Core Tests', () => {
       ];
       const project = createMockProject(elements);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       // React Native Web uses inline styles instead of CSS classes
       // * Test for element with 60-79% completion
@@ -207,7 +207,7 @@ describe('CompletionHeatmap Core Tests', () => {
       ];
       const project = createMockProject(elements);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       // React Native Web uses inline styles instead of CSS classes
       // * Test for element with 40-59% completion
@@ -220,7 +220,7 @@ describe('CompletionHeatmap Core Tests', () => {
       ];
       const project = createMockProject(elements);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       // React Native Web uses inline styles instead of CSS classes
       // * Test for element with 20-39% completion
@@ -233,7 +233,7 @@ describe('CompletionHeatmap Core Tests', () => {
       ];
       const project = createMockProject(elements);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       // React Native Web uses inline styles instead of CSS classes
       // * Test for element with 1-19% completion
@@ -246,7 +246,7 @@ describe('CompletionHeatmap Core Tests', () => {
       ];
       const project = createMockProject(elements);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       // React Native Web uses inline styles instead of CSS classes
       // * Test for element with 0% completion

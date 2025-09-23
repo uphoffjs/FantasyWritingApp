@@ -41,14 +41,14 @@ describe('ErrorMessage Component', () => {
     }
   });
     it('renders with required message prop', () => {
-      cy.mount(<ErrorMessage {...defaultProps} />);
+      cy.mountWithProviders(<ErrorMessage {...defaultProps} />);
       
       cy.get('[data-cy="error-message"]').should('be.visible');
       cy.get('[data-cy="error-description"]')
         .should('have.text', defaultProps.message);
     });
     it('renders with default title', () => {
-      cy.mount(<ErrorMessage {...defaultProps} />);
+      cy.mountWithProviders(<ErrorMessage {...defaultProps} />);
       
       cy.get('[data-cy="error-title"]')
         .should('be.visible')
@@ -56,13 +56,13 @@ describe('ErrorMessage Component', () => {
     });
     it('renders with custom title', () => {
       const customTitle = 'Network Error';
-      cy.mount(<ErrorMessage {...defaultProps} title={customTitle} />);
+      cy.mountWithProviders(<ErrorMessage {...defaultProps} title={customTitle} />);
       
       cy.get('[data-cy="error-title"]')
         .should('have.text', customTitle);
     });
     it('renders error icon', () => {
-      cy.mount(<ErrorMessage {...defaultProps} />);
+      cy.mountWithProviders(<ErrorMessage {...defaultProps} />);
       
       // * Check for AlertCircle icon (Lucide React)
       cy.get('svg').first()
@@ -72,13 +72,13 @@ describe('ErrorMessage Component', () => {
         .and('have.class', 'text-blood-500');
     });
     it('applies custom className', () => {
-      cy.mount(<ErrorMessage {...defaultProps} className="custom-error-class" />);
+      cy.mountWithProviders(<ErrorMessage {...defaultProps} className="custom-error-class" />);
       
       cy.get('[data-cy="error-message"]')
         .should('be.visible') // React Native Web uses inline styles instead of CSS classes;
     });
     it('has correct default styling', () => {
-      cy.mount(<ErrorMessage {...defaultProps} />);
+      cy.mountWithProviders(<ErrorMessage {...defaultProps} />);
       
       cy.get('[data-cy="error-message"]')
         .should('be.visible') // React Native Web uses inline styles instead of CSS classes
@@ -97,7 +97,7 @@ describe('ErrorMessage Component', () => {
   });
     it('renders retry button when onRetry is provided', () => {
       const onRetrySpy = cy.spy().as('onRetry');
-      cy.mount(<ErrorMessage {...defaultProps} onRetry={onRetrySpy} />);
+      cy.mountWithProviders(<ErrorMessage {...defaultProps} onRetry={onRetrySpy} />);
       
       cy.get('[data-cy="error-retry"]')
         .should('be.visible')
@@ -110,13 +110,13 @@ describe('ErrorMessage Component', () => {
         .and('have.class', 'h-4');
     });
     it('does not render retry button when onRetry is not provided', () => {
-      cy.mount(<ErrorMessage {...defaultProps} />);
+      cy.mountWithProviders(<ErrorMessage {...defaultProps} />);
       
       cy.get('[data-cy="error-retry"]').should('not.exist');
     });
     it('calls onRetry when retry button is clicked', () => {
       const onRetrySpy = cy.spy().as('onRetry');
-      cy.mount(<ErrorMessage {...defaultProps} onRetry={onRetrySpy} />);
+      cy.mountWithProviders(<ErrorMessage {...defaultProps} onRetry={onRetrySpy} />);
       
       cy.get('[data-cy="error-retry"]').click();
       
@@ -124,7 +124,7 @@ describe('ErrorMessage Component', () => {
     });
     it('retry button has hover effect', () => {
       const onRetrySpy = cy.spy();
-      cy.mount(<ErrorMessage {...defaultProps} onRetry={onRetrySpy} />);
+      cy.mountWithProviders(<ErrorMessage {...defaultProps} onRetry={onRetrySpy} />);
       
       cy.get('[data-cy="error-retry"]')
         .should('be.visible') // React Native Web uses inline styles instead of CSS classes
@@ -140,7 +140,7 @@ describe('ErrorMessage Component', () => {
     }
   });
     it('displays network error', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <ErrorMessage 
           title="Network Error"
           message="Unable to connect to the server. Please check your internet connection."
@@ -151,7 +151,7 @@ describe('ErrorMessage Component', () => {
       cy.get('[data-cy="error-description"]').should('contain', 'Unable to connect');
     });
     it('displays validation error', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <ErrorMessage 
           title="Validation Error"
           message="Please fill in all required fields."
@@ -162,7 +162,7 @@ describe('ErrorMessage Component', () => {
       cy.get('[data-cy="error-description"]').should('contain', 'required fields');
     });
     it('displays permission error', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <ErrorMessage 
           title="Permission Denied"
           message="You don't have permission to perform this action."
@@ -182,7 +182,7 @@ describe('ErrorMessage Component', () => {
   });
     it('handles very long error messages', () => {
       const longMessage = 'A'.repeat(500);
-      cy.mount(<ErrorMessage message={longMessage} />);
+      cy.mountWithProviders(<ErrorMessage message={longMessage} />);
       
       cy.get('[data-cy="error-description"]')
         .should('be.visible')
@@ -190,14 +190,14 @@ describe('ErrorMessage Component', () => {
     });
     it('handles very long titles', () => {
       const longTitle = 'This is a very long error title that might wrap to multiple lines';
-      cy.mount(<ErrorMessage {...defaultProps} title={longTitle} />);
+      cy.mountWithProviders(<ErrorMessage {...defaultProps} title={longTitle} />);
       
       cy.get('[data-cy="error-title"]')
         .should('be.visible')
         .and('have.text', longTitle);
     });
     it('handles empty message string', () => {
-      cy.mount(<ErrorMessage message="" />);
+      cy.mountWithProviders(<ErrorMessage message="" />);
       
       cy.get('[data-cy="error-description"]')
         .should('exist')
@@ -205,14 +205,14 @@ describe('ErrorMessage Component', () => {
     });
     it('handles multiline error messages', () => {
       const multilineMessage = 'Line 1\nLine 2\nLine 3';
-      cy.mount(<ErrorMessage message={multilineMessage} />);
+      cy.mountWithProviders(<ErrorMessage message={multilineMessage} />);
       
       cy.get('[data-cy="error-description"]')
         .should('have.text', multilineMessage);
     });
     it('handles special characters in message', () => {
       const specialMessage = 'Error: <script>alert("XSS")</script> & "quotes" \'apostrophes\'';
-      cy.mount(<ErrorMessage message={specialMessage} />);
+      cy.mountWithProviders(<ErrorMessage message={specialMessage} />);
       
       cy.get('[data-cy="error-description"]')
         .should('have.text', specialMessage);
@@ -226,14 +226,14 @@ describe('ErrorMessage Component', () => {
     }
   });
     it('has proper ARIA role', () => {
-      cy.mount(<ErrorMessage {...defaultProps} />);
+      cy.mountWithProviders(<ErrorMessage {...defaultProps} />);
       
       cy.get('[data-cy="error-message"]')
         .should('have.attr', 'role', 'alert');
     });
     it('is keyboard navigable when retry button is present', () => {
       const onRetrySpy = cy.spy();
-      cy.mount(
+      cy.mountWithProviders(
         <div>
           <button>Before</button>
           <ErrorMessage {...defaultProps} onRetry={onRetrySpy} />
@@ -252,7 +252,7 @@ describe('ErrorMessage Component', () => {
     });
     it('retry button can be activated with Enter key', () => {
       const onRetrySpy = cy.spy().as('onRetry');
-      cy.mount(<ErrorMessage {...defaultProps} onRetry={onRetrySpy} />);
+      cy.mountWithProviders(<ErrorMessage {...defaultProps} onRetry={onRetrySpy} />);
       
       // * Focus and trigger enter key on the button
       cy.get('[data-cy="error-retry"]').focus().trigger('keydown', { key: 'Enter', keyCode: 13 });
@@ -262,7 +262,7 @@ describe('ErrorMessage Component', () => {
     });
     it('retry button can be activated with Space key', () => {
       const onRetrySpy = cy.spy().as('onRetry');
-      cy.mount(<ErrorMessage {...defaultProps} onRetry={onRetrySpy} />);
+      cy.mountWithProviders(<ErrorMessage {...defaultProps} onRetry={onRetrySpy} />);
       
       // * Focus and trigger space key on the button
       cy.get('[data-cy="error-retry"]').focus().trigger('keydown', { key: ' ', keyCode: 32 });
@@ -271,7 +271,7 @@ describe('ErrorMessage Component', () => {
       cy.get('@onRetry').should('have.been.calledOnce');
     });
     it('announces error to screen readers', () => {
-      cy.mount(<ErrorMessage {...defaultProps} />);
+      cy.mountWithProviders(<ErrorMessage {...defaultProps} />);
       
       // role="alert" makes this a live region that announces to screen readers
       cy.get('[role="alert"]').should('exist');
@@ -286,7 +286,7 @@ describe('ErrorMessage Component', () => {
   });
     it('renders correctly on mobile viewport', () => {
       cy.viewport(375, 667);
-      cy.mount(<ErrorMessage {...defaultProps} onRetry={cy.spy()} />);
+      cy.mountWithProviders(<ErrorMessage {...defaultProps} onRetry={cy.spy()} />);
       
       cy.get('[data-cy="error-message"]').should('be.visible');
       cy.get('[data-cy="error-title"]').should('be.visible');
@@ -298,14 +298,14 @@ describe('ErrorMessage Component', () => {
     });
     it('renders correctly on tablet viewport', () => {
       cy.viewport(768, 1024);
-      cy.mount(<ErrorMessage {...defaultProps} onRetry={cy.spy()} />);
+      cy.mountWithProviders(<ErrorMessage {...defaultProps} onRetry={cy.spy()} />);
       
       cy.get('[data-cy="error-message"]').should('be.visible');
       cy.get('[data-cy="error-title"]').should('be.visible');
     });
     it('renders correctly on desktop viewport', () => {
       cy.viewport(1920, 1080);
-      cy.mount(<ErrorMessage {...defaultProps} onRetry={cy.spy()} />);
+      cy.mountWithProviders(<ErrorMessage {...defaultProps} onRetry={cy.spy()} />);
       
       cy.get('[data-cy="error-message"]').should('be.visible');
       cy.get('[data-cy="error-title"]').should('be.visible');
@@ -314,7 +314,7 @@ describe('ErrorMessage Component', () => {
       cy.viewport(320, 568);
       const longMessage = 'This is a very long error message that should wrap appropriately on narrow mobile viewports without breaking the layout';
       
-      cy.mount(<ErrorMessage message={longMessage} onRetry={cy.spy()} />);
+      cy.mountWithProviders(<ErrorMessage message={longMessage} onRetry={cy.spy()} />);
       
       cy.get('[data-cy="error-description"]')
         .should('be.visible')
@@ -329,7 +329,7 @@ describe('ErrorMessage Component', () => {
     }
   });
     it('works in a form context', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <form>
           <input type="text" placeholder="Email" />
           <ErrorMessage 
@@ -343,7 +343,7 @@ describe('ErrorMessage Component', () => {
       cy.get('[data-cy="error-message"]').should('be.visible');
     });
     it('works in a modal context', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <div className="fixed inset-0 flex items-center justify-center">
           <div className="bg-white p-6 rounded-lg shadow-lg">
             <h2>Modal Title</h2>
@@ -376,7 +376,7 @@ describe('ErrorMessage Component', () => {
         );
       };
       
-      cy.mount(<TestComponent />);
+      cy.mountWithProviders(<TestComponent />);
       
       cy.get('[data-cy="error-message"]').should('not.exist');
       
@@ -387,7 +387,7 @@ describe('ErrorMessage Component', () => {
       cy.get('[data-cy="error-message"]').should('not.exist');
     });
     it('works with multiple error messages', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <div className="space-y-4">
           <ErrorMessage 
             title="Error 1"

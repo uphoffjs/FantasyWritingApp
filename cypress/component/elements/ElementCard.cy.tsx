@@ -64,7 +64,7 @@ describe('ElementCard Component', () => {
   });
 
   it('should render correctly with element data', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <ElementCard 
         element={mockElement} 
         onPress={mockOnPress}
@@ -92,7 +92,7 @@ describe('ElementCard Component', () => {
   });
 
   it('should handle click interaction', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <ElementCard 
         element={mockElement} 
         onPress={mockOnPress}
@@ -121,7 +121,7 @@ describe('ElementCard Component', () => {
         name: `Test Element ${percentage}%`
       };
 
-      cy.mount(
+      cy.mountWithProviders(
         <ElementCard 
           element={testElement} 
           onPress={mockOnPress}
@@ -150,7 +150,7 @@ describe('ElementCard Component', () => {
         name: `Test ${category}` 
       };
 
-      cy.mount(
+      cy.mountWithProviders(
         <ElementCard 
           element={testElement} 
           onPress={mockOnPress}
@@ -165,7 +165,7 @@ describe('ElementCard Component', () => {
   });
 
   it('should display tags when present', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <ElementCard 
         element={mockElement} 
         onPress={mockOnPress}
@@ -185,7 +185,7 @@ describe('ElementCard Component', () => {
       tags: ['tag1', 'tag2', 'tag3', 'tag4', 'tag5'],
     };
 
-    cy.mount(
+    cy.mountWithProviders(
       <ElementCard 
         element={elementWithManyTags} 
         onPress={mockOnPress}
@@ -201,7 +201,7 @@ describe('ElementCard Component', () => {
   });
 
   it('should display relationships count', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <ElementCard 
         element={mockElement} 
         onPress={mockOnPress}
@@ -219,7 +219,7 @@ describe('ElementCard Component', () => {
       description: undefined,
     };
 
-    cy.mount(
+    cy.mountWithProviders(
       <ElementCard 
         element={elementWithoutDescription} 
         onPress={mockOnPress}
@@ -237,7 +237,7 @@ describe('ElementCard Component', () => {
       tags: undefined,
     };
 
-    cy.mount(
+    cy.mountWithProviders(
       <ElementCard 
         element={elementWithoutTags} 
         onPress={mockOnPress}
@@ -250,7 +250,7 @@ describe('ElementCard Component', () => {
   });
 
   it('should have proper accessibility attributes', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <ElementCard 
         element={mockElement} 
         onPress={mockOnPress}
@@ -265,7 +265,7 @@ describe('ElementCard Component', () => {
   });
 
   it('should format dates correctly', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <ElementCard 
         element={mockElement} 
         onPress={mockOnPress}
@@ -280,7 +280,7 @@ describe('ElementCard Component', () => {
   it('should handle custom icon prop', () => {
     const customIcon = '🧙‍♂️';
     
-    cy.mount(
+    cy.mountWithProviders(
       <ElementCard 
         element={mockElement} 
         icon={customIcon}

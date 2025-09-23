@@ -111,13 +111,13 @@ describe('SyncQueueStatus Component', () => {
       byEntity: {}
     });
     
-    cy.mount(<SyncQueueStatus />);
+    cy.mountWithProviders(<SyncQueueStatus />);
     
     cy.get('button').should('not.exist');
   });
 
   it('shows pending count button when items in queue', () => {
-    cy.mount(<SyncQueueStatus />);
+    cy.mountWithProviders(<SyncQueueStatus />);
     
     cy.wrap(null).then(() => {
       expect(mockSyncQueueManager.getQueueStatus).to.have.been.called;
@@ -128,7 +128,7 @@ describe('SyncQueueStatus Component', () => {
   });
 
   it('opens dropdown on click', () => {
-    cy.mount(<SyncQueueStatus />);
+    cy.mountWithProviders(<SyncQueueStatus />);
     
     cy.contains('5 pending').click();
     cy.contains('Sync Queue').should('be.visible');
@@ -137,7 +137,7 @@ describe('SyncQueueStatus Component', () => {
   });
 
   it('displays priority breakdown with icons', () => {
-    cy.mount(<SyncQueueStatus />);
+    cy.mountWithProviders(<SyncQueueStatus />);
     
     cy.contains('5 pending').click();
     
@@ -153,7 +153,7 @@ describe('SyncQueueStatus Component', () => {
   });
 
   it('displays entity type breakdown', () => {
-    cy.mount(<SyncQueueStatus />);
+    cy.mountWithProviders(<SyncQueueStatus />);
     
     cy.contains('5 pending').click();
     
@@ -166,7 +166,7 @@ describe('SyncQueueStatus Component', () => {
   it('clears queue with confirmation', () => {
     cy.stub(window, 'confirm').returns(true);
     
-    cy.mount(<SyncQueueStatus />);
+    cy.mountWithProviders(<SyncQueueStatus />);
     
     cy.contains('5 pending').click();
     cy.contains('Clear Queue').click();
@@ -180,7 +180,7 @@ describe('SyncQueueStatus Component', () => {
   it('cancels clear when user declines confirmation', () => {
     cy.stub(window, 'confirm').returns(false);
     
-    cy.mount(<SyncQueueStatus />);
+    cy.mountWithProviders(<SyncQueueStatus />);
     
     cy.contains('5 pending').click();
     cy.contains('Clear Queue').click();
@@ -191,7 +191,7 @@ describe('SyncQueueStatus Component', () => {
   });
 
   it('animates dropdown entrance', () => {
-    cy.mount(<SyncQueueStatus />);
+    cy.mountWithProviders(<SyncQueueStatus />);
     
     cy.contains('5 pending').click();
     cy.get('.absolute').should('have.css', 'opacity') // CSS properties work in React Native Web;
@@ -199,7 +199,7 @@ describe('SyncQueueStatus Component', () => {
 
   it('updates status every 5 seconds', () => {
     cy.clock();
-    cy.mount(<SyncQueueStatus />);
+    cy.mountWithProviders(<SyncQueueStatus />);
     
     cy.wrap(null).then(() => {
       expect(mockSyncQueueManager.getQueueStatus).to.have.been.calledOnce;
@@ -213,7 +213,7 @@ describe('SyncQueueStatus Component', () => {
   });
 
   it('handles different priority icons', () => {
-    cy.mount(<SyncQueueStatus />);
+    cy.mountWithProviders(<SyncQueueStatus />);
     
     cy.contains('5 pending').click();
     
@@ -265,7 +265,7 @@ describe('ConflictResolver Component', () => {
   });
 
   it('renders conflict modal with project info', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <ConflictResolver
         conflict={mockConflict}
         onResolve={onResolve}
@@ -278,7 +278,7 @@ describe('ConflictResolver Component', () => {
   });
 
   it('displays local version details', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <ConflictResolver
         conflict={mockConflict}
         onResolve={onResolve}
@@ -293,7 +293,7 @@ describe('ConflictResolver Component', () => {
   });
 
   it('displays cloud version details', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <ConflictResolver
         conflict={mockConflict}
         onResolve={onResolve}
@@ -308,7 +308,7 @@ describe('ConflictResolver Component', () => {
   });
 
   it('displays merge option', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <ConflictResolver
         conflict={mockConflict}
         onResolve={onResolve}
@@ -321,7 +321,7 @@ describe('ConflictResolver Component', () => {
   });
 
   it('selects local version on click', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <ConflictResolver
         conflict={mockConflict}
         onResolve={onResolve}
@@ -335,7 +335,7 @@ describe('ConflictResolver Component', () => {
   });
 
   it('selects cloud version on click', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <ConflictResolver
         conflict={mockConflict}
         onResolve={onResolve}
@@ -349,7 +349,7 @@ describe('ConflictResolver Component', () => {
   });
 
   it('selects merge option on click', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <ConflictResolver
         conflict={mockConflict}
         onResolve={onResolve}
@@ -363,7 +363,7 @@ describe('ConflictResolver Component', () => {
   });
 
   it('disables Apply button when no selection', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <ConflictResolver
         conflict={mockConflict}
         onResolve={onResolve}
@@ -375,7 +375,7 @@ describe('ConflictResolver Component', () => {
   });
 
   it('enables Apply button after selection', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <ConflictResolver
         conflict={mockConflict}
         onResolve={onResolve}
@@ -388,7 +388,7 @@ describe('ConflictResolver Component', () => {
   });
 
   it('calls onResolve with selected resolution', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <ConflictResolver
         conflict={mockConflict}
         onResolve={onResolve}
@@ -405,7 +405,7 @@ describe('ConflictResolver Component', () => {
   });
 
   it('calls onCancel when Cancel clicked', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <ConflictResolver
         conflict={mockConflict}
         onResolve={onResolve}
@@ -423,7 +423,7 @@ describe('ConflictResolver Component', () => {
   it('shows resolving state during resolution', () => {
     const slowResolve = cy.stub().callsFake(() => new Promise(resolve => setTimeout(resolve, 1000)));
     
-    cy.mount(
+    cy.mountWithProviders(
       <ConflictResolver
         conflict={mockConflict}
         onResolve={slowResolve}
@@ -437,7 +437,7 @@ describe('ConflictResolver Component', () => {
   });
 
   it('formats dates correctly', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <ConflictResolver
         conflict={mockConflict}
         onResolve={onResolve}
@@ -451,7 +451,7 @@ describe('ConflictResolver Component', () => {
   });
 
   it('animates modal entrance', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <ConflictResolver
         conflict={mockConflict}
         onResolve={onResolve}
@@ -497,7 +497,7 @@ describe('AutoSyncStatus Component', () => {
   it('renders null when not authenticated', () => {
     mockAuthStore.isAuthenticated = false;
     
-    cy.mount(<AutoSyncStatus />);
+    cy.mountWithProviders(<AutoSyncStatus />);
     
     cy.get('div').should('not.exist');
   });
@@ -505,14 +505,14 @@ describe('AutoSyncStatus Component', () => {
   it('shows offline mode when in offline mode', () => {
     mockAuthStore.isOfflineMode = true;
     
-    cy.mount(<AutoSyncStatus />);
+    cy.mountWithProviders(<AutoSyncStatus />);
     
     cy.contains('Offline Mode').should('be.visible');
     cy.get('svg').should('exist'); // CloudOff icon
   });
 
   it('shows idle state with last sync time', () => {
-    cy.mount(<AutoSyncStatus />);
+    cy.mountWithProviders(<AutoSyncStatus />);
     
     cy.contains('All changes saved').should('be.visible');
     cy.get('[title*="Last synced"]').should('exist');
@@ -526,7 +526,7 @@ describe('AutoSyncStatus Component', () => {
       errors: []
     });
     
-    cy.mount(<AutoSyncStatus />);
+    cy.mountWithProviders(<AutoSyncStatus />);
     
     cy.contains('Syncing (3)...').should('be.visible');
     cy.get('.animate-spin').should('exist');
@@ -540,7 +540,7 @@ describe('AutoSyncStatus Component', () => {
       errors: []
     });
     
-    cy.mount(<AutoSyncStatus />);
+    cy.mountWithProviders(<AutoSyncStatus />);
     
     cy.contains('7 pending').should('be.visible');
     cy.get('.text-flame-400').should('exist');
@@ -554,7 +554,7 @@ describe('AutoSyncStatus Component', () => {
       errors: []
     });
     
-    cy.mount(<AutoSyncStatus />);
+    cy.mountWithProviders(<AutoSyncStatus />);
     
     cy.contains('Offline - changes will sync when online').should('be.visible');
     cy.get('.text-flame-400').should('exist');
@@ -568,7 +568,7 @@ describe('AutoSyncStatus Component', () => {
       errors: ['Network timeout', 'Server error']
     });
     
-    cy.mount(<AutoSyncStatus />);
+    cy.mountWithProviders(<AutoSyncStatus />);
     
     cy.contains('Sync error - click to retry').should('be.visible');
     cy.get('.text-blood-400').should('exist');
@@ -583,7 +583,7 @@ describe('AutoSyncStatus Component', () => {
       errors: ['Network error']
     });
     
-    cy.mount(<AutoSyncStatus />);
+    cy.mountWithProviders(<AutoSyncStatus />);
     
     cy.contains('Sync error - click to retry').click();
     
@@ -605,7 +605,7 @@ describe('AutoSyncStatus Component', () => {
       errors: []
     });
     
-    cy.mount(<AutoSyncStatus />);
+    cy.mountWithProviders(<AutoSyncStatus />);
     
     cy.get('[data-cy*="flame-"]600').contains('15').should('be.visible');
   });
@@ -618,13 +618,13 @@ describe('AutoSyncStatus Component', () => {
       errors: []
     });
     
-    cy.mount(<AutoSyncStatus />);
+    cy.mountWithProviders(<AutoSyncStatus />);
     
     cy.get('[data-cy*="flame-"]600').contains('99+').should('be.visible');
   });
 
   it('subscribes to sync state changes', () => {
-    cy.mount(<AutoSyncStatus />);
+    cy.mountWithProviders(<AutoSyncStatus />);
     
     cy.wrap(null).then(() => {
       expect(mockAutoSyncService.subscribe).to.have.been.called;
@@ -632,7 +632,7 @@ describe('AutoSyncStatus Component', () => {
   });
 
   it('shows hover effect on cloud icon', () => {
-    cy.mount(<AutoSyncStatus />);
+    cy.mountWithProviders(<AutoSyncStatus />);
     
     cy.get('.group').trigger('mouseenter');
     cy.get('.group-hover\\:text-ink-light').should('exist');
@@ -646,7 +646,7 @@ describe('AutoSyncStatus Component', () => {
       errors: []
     });
     
-    cy.mount(<AutoSyncStatus />);
+    cy.mountWithProviders(<AutoSyncStatus />);
     
     cy.contains('Ready').should('be.visible');
   });

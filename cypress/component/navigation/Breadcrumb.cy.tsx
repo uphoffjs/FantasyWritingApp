@@ -33,7 +33,7 @@ describe('Breadcrumb Component', () => {
 
   
   const mountWithRouter = (component: React.ReactNode) => {
-    return cy.mount(
+    return cy.mountWithProviders(
       <MemoryRouter>
         {component}
       </MemoryRouter>

@@ -99,7 +99,7 @@ describe('MobileHeader Component', () => {
   });
 
     it('renders header with project name when project exists', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileHeader {...defaultProps} />
         </RouterWrapper>
@@ -109,7 +109,7 @@ describe('MobileHeader Component', () => {
 
     it('renders default title when no project', () => {
       mockWorldbuildingStore.getCurrentProject.returns(null);
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileHeader {...defaultProps} />
         </RouterWrapper>
@@ -119,7 +119,7 @@ describe('MobileHeader Component', () => {
 
     it('shows back button on project page', () => {
       mockLocation.pathname = '/project/123';
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileHeader {...defaultProps} />
         </RouterWrapper>
@@ -128,7 +128,7 @@ describe('MobileHeader Component', () => {
     });
 
     it('shows hamburger menu button', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileHeader {...defaultProps} />
         </RouterWrapper>
@@ -137,7 +137,7 @@ describe('MobileHeader Component', () => {
     });
 
     it('shows menu icon when closed', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileHeader {...defaultProps} />
         </RouterWrapper>
@@ -148,7 +148,7 @@ describe('MobileHeader Component', () => {
     });
 
     it('shows X icon when open', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileHeader mobileMenuOpen={true} setMobileMenuOpen={defaultProps.setMobileMenuOpen} />
         </RouterWrapper>
@@ -168,7 +168,7 @@ describe('MobileHeader Component', () => {
   });
 
     it('shows menu overlay when open', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileHeader mobileMenuOpen={true} setMobileMenuOpen={defaultProps.setMobileMenuOpen} />
         </RouterWrapper>
@@ -178,7 +178,7 @@ describe('MobileHeader Component', () => {
     });
 
     it('displays navigation items in menu', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileHeader mobileMenuOpen={true} setMobileMenuOpen={defaultProps.setMobileMenuOpen} />
         </RouterWrapper>
@@ -190,7 +190,7 @@ describe('MobileHeader Component', () => {
     });
 
     it('shows project info when project exists', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileHeader mobileMenuOpen={true} setMobileMenuOpen={defaultProps.setMobileMenuOpen} />
         </RouterWrapper>
@@ -200,7 +200,7 @@ describe('MobileHeader Component', () => {
     });
 
     it('shows sync status when authenticated', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileHeader mobileMenuOpen={true} setMobileMenuOpen={defaultProps.setMobileMenuOpen} />
         </RouterWrapper>
@@ -218,7 +218,7 @@ describe('MobileHeader Component', () => {
   });
 
     it('toggles menu when hamburger clicked', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileHeader {...defaultProps} />
         </RouterWrapper>
@@ -228,7 +228,7 @@ describe('MobileHeader Component', () => {
     });
 
     it('closes menu when overlay clicked', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileHeader mobileMenuOpen={true} setMobileMenuOpen={defaultProps.setMobileMenuOpen} />
         </RouterWrapper>
@@ -238,7 +238,7 @@ describe('MobileHeader Component', () => {
     });
 
     it('closes menu when X button clicked', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileHeader mobileMenuOpen={true} setMobileMenuOpen={defaultProps.setMobileMenuOpen} />
         </RouterWrapper>
@@ -250,7 +250,7 @@ describe('MobileHeader Component', () => {
     });
 
     it('navigates to projects when Home clicked', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileHeader mobileMenuOpen={true} setMobileMenuOpen={defaultProps.setMobileMenuOpen} />
         </RouterWrapper>
@@ -262,7 +262,7 @@ describe('MobileHeader Component', () => {
 
     it('navigates back when back button clicked', () => {
       mockLocation.pathname = '/project/123';
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileHeader {...defaultProps} />
         </RouterWrapper>
@@ -279,7 +279,7 @@ describe('MobileHeader Component', () => {
       const createObjectURL = cy.stub(URL, 'createObjectURL').returns('blob:url');
       const revokeObjectURL = cy.stub(URL, 'revokeObjectURL');
       
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileHeader mobileMenuOpen={true} setMobileMenuOpen={defaultProps.setMobileMenuOpen} />
         </RouterWrapper>
@@ -291,7 +291,7 @@ describe('MobileHeader Component', () => {
 
     it('disables export when no project', () => {
       mockWorldbuildingStore.currentProjectId = null;
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileHeader mobileMenuOpen={true} setMobileMenuOpen={defaultProps.setMobileMenuOpen} />
         </RouterWrapper>
@@ -310,7 +310,7 @@ describe('MobileHeader Component', () => {
 
     it('is hidden on desktop', () => {
       cy.viewport(1024, 768);
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileHeader {...defaultProps} />
         </RouterWrapper>
@@ -320,7 +320,7 @@ describe('MobileHeader Component', () => {
 
     it('is visible on mobile', () => {
       cy.viewport(375, 667);
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileHeader {...defaultProps} />
         </RouterWrapper>
@@ -341,7 +341,7 @@ describe('MobileHeader Component', () => {
       const importStub = cy.stub().resolves(true);
       mockWorldbuildingStore.importProject = importStub;
       
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileHeader mobileMenuOpen={true} setMobileMenuOpen={defaultProps.setMobileMenuOpen} />
         </RouterWrapper>
@@ -356,7 +356,7 @@ describe('MobileHeader Component', () => {
       mockWorldbuildingStore.importProject = importStub;
       cy.stub(window, 'alert');
       
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileHeader mobileMenuOpen={true} setMobileMenuOpen={defaultProps.setMobileMenuOpen} />
         </RouterWrapper>
@@ -410,7 +410,7 @@ describe('MobileMenuDrawer Component', () => {
   });
 
     it('renders nothing when closed', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileMenuDrawer {...defaultProps} />
         </RouterWrapper>
@@ -419,7 +419,7 @@ describe('MobileMenuDrawer Component', () => {
     });
 
     it('renders drawer when open', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileMenuDrawer isOpen={true} onClose={defaultProps.onClose} />
         </RouterWrapper>
@@ -429,7 +429,7 @@ describe('MobileMenuDrawer Component', () => {
     });
 
     it('shows user info when authenticated', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileMenuDrawer isOpen={true} onClose={defaultProps.onClose} />
         </RouterWrapper>
@@ -439,7 +439,7 @@ describe('MobileMenuDrawer Component', () => {
 
     it('shows offline mode indicator', () => {
       mockAuthStore.isOfflineMode = true;
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileMenuDrawer isOpen={true} onClose={defaultProps.onClose} />
         </RouterWrapper>
@@ -448,7 +448,7 @@ describe('MobileMenuDrawer Component', () => {
     });
 
     it('displays current project section', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileMenuDrawer isOpen={true} onClose={defaultProps.onClose} />
         </RouterWrapper>
@@ -458,7 +458,7 @@ describe('MobileMenuDrawer Component', () => {
     });
 
     it('shows all navigation items', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileMenuDrawer isOpen={true} onClose={defaultProps.onClose} />
         </RouterWrapper>
@@ -481,7 +481,7 @@ describe('MobileMenuDrawer Component', () => {
   });
 
     it('animates backdrop fade in', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileMenuDrawer isOpen={true} onClose={defaultProps.onClose} />
         </RouterWrapper>
@@ -490,7 +490,7 @@ describe('MobileMenuDrawer Component', () => {
     });
 
     it('animates drawer slide in', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileMenuDrawer isOpen={true} onClose={defaultProps.onClose} />
         </RouterWrapper>
@@ -508,7 +508,7 @@ describe('MobileMenuDrawer Component', () => {
   });
 
     it('closes when backdrop clicked', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileMenuDrawer isOpen={true} onClose={defaultProps.onClose} />
         </RouterWrapper>
@@ -518,7 +518,7 @@ describe('MobileMenuDrawer Component', () => {
     });
 
     it('closes when X button clicked', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileMenuDrawer isOpen={true} onClose={defaultProps.onClose} />
         </RouterWrapper>
@@ -528,7 +528,7 @@ describe('MobileMenuDrawer Component', () => {
     });
 
     it('navigates to projects', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileMenuDrawer isOpen={true} onClose={defaultProps.onClose} />
         </RouterWrapper>
@@ -539,7 +539,7 @@ describe('MobileMenuDrawer Component', () => {
     });
 
     it('navigates to current project', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileMenuDrawer isOpen={true} onClose={defaultProps.onClose} />
         </RouterWrapper>
@@ -550,7 +550,7 @@ describe('MobileMenuDrawer Component', () => {
     });
 
     it('navigates to settings', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileMenuDrawer isOpen={true} onClose={defaultProps.onClose} />
         </RouterWrapper>
@@ -561,7 +561,7 @@ describe('MobileMenuDrawer Component', () => {
     });
 
     it('navigates to profile', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileMenuDrawer isOpen={true} onClose={defaultProps.onClose} />
         </RouterWrapper>
@@ -572,7 +572,7 @@ describe('MobileMenuDrawer Component', () => {
     });
 
     it('handles sign out', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileMenuDrawer isOpen={true} onClose={defaultProps.onClose} />
         </RouterWrapper>
@@ -586,7 +586,7 @@ describe('MobileMenuDrawer Component', () => {
       const exportStub = cy.stub().resolves('export-data');
       mockWorldbuildingStore.exportProject = exportStub;
       
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileMenuDrawer isOpen={true} onClose={defaultProps.onClose} />
         </RouterWrapper>
@@ -599,7 +599,7 @@ describe('MobileMenuDrawer Component', () => {
 
     it('disables export when no project', () => {
       mockWorldbuildingStore.currentProjectId = null;
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileMenuDrawer isOpen={true} onClose={defaultProps.onClose} />
         </RouterWrapper>
@@ -611,7 +611,7 @@ describe('MobileMenuDrawer Component', () => {
       const importStub = cy.stub().resolves(true);
       mockWorldbuildingStore.importProject = importStub;
       
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileMenuDrawer isOpen={true} onClose={defaultProps.onClose} />
         </RouterWrapper>
@@ -631,7 +631,7 @@ describe('MobileMenuDrawer Component', () => {
 
     it('is mobile-only component', () => {
       cy.viewport(1024, 768);
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileMenuDrawer isOpen={true} onClose={defaultProps.onClose} />
         </RouterWrapper>
@@ -650,7 +650,7 @@ describe('MobileMenuDrawer Component', () => {
 
     it('handles no user', () => {
       mockAuthStore.user = null;
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileMenuDrawer isOpen={true} onClose={defaultProps.onClose} />
         </RouterWrapper>
@@ -660,7 +660,7 @@ describe('MobileMenuDrawer Component', () => {
 
     it('handles no project', () => {
       mockWorldbuildingStore.getCurrentProject.returns(null);
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileMenuDrawer isOpen={true} onClose={defaultProps.onClose} />
         </RouterWrapper>
@@ -708,7 +708,7 @@ describe('MobileBreadcrumbs Component', () => {
 
     it('renders nothing on home page', () => {
       cy.stub(React, 'useLocation').returns({ pathname: '/' });
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileBreadcrumbs />
         </RouterWrapper>
@@ -718,7 +718,7 @@ describe('MobileBreadcrumbs Component', () => {
 
     it('renders nothing on projects page', () => {
       cy.stub(React, 'useLocation').returns({ pathname: '/projects' });
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileBreadcrumbs />
         </RouterWrapper>
@@ -729,7 +729,7 @@ describe('MobileBreadcrumbs Component', () => {
     it('renders breadcrumbs on project page', () => {
       cy.stub(React, 'useLocation').returns({ pathname: '/project/123' });
       cy.stub(React, 'useParams').returns({ projectId: '123' });
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileBreadcrumbs />
         </RouterWrapper>
@@ -739,7 +739,7 @@ describe('MobileBreadcrumbs Component', () => {
     });
 
     it('renders breadcrumbs on element page', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileBreadcrumbs />
         </RouterWrapper>
@@ -752,7 +752,7 @@ describe('MobileBreadcrumbs Component', () => {
     it('shows home icon for projects breadcrumb', () => {
       cy.stub(React, 'useLocation').returns({ pathname: '/project/123' });
       cy.stub(React, 'useParams').returns({ projectId: '123' });
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileBreadcrumbs />
         </RouterWrapper>
@@ -761,7 +761,7 @@ describe('MobileBreadcrumbs Component', () => {
     });
 
     it('shows chevron separators', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileBreadcrumbs />
         </RouterWrapper>
@@ -777,7 +777,7 @@ describe('MobileBreadcrumbs Component', () => {
           { id: '456', name: 'Very Long Element Name That Should Be Truncated' }
         ]
       });
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileBreadcrumbs />
         </RouterWrapper>
@@ -795,7 +795,7 @@ describe('MobileBreadcrumbs Component', () => {
   });
 
     it('navigates to projects when Projects clicked', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileBreadcrumbs />
         </RouterWrapper>
@@ -805,7 +805,7 @@ describe('MobileBreadcrumbs Component', () => {
     });
 
     it('navigates to project when project name clicked', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileBreadcrumbs />
         </RouterWrapper>
@@ -815,7 +815,7 @@ describe('MobileBreadcrumbs Component', () => {
     });
 
     it('does not navigate when clicking current page', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileBreadcrumbs />
         </RouterWrapper>
@@ -825,7 +825,7 @@ describe('MobileBreadcrumbs Component', () => {
     });
 
     it('disables last breadcrumb', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileBreadcrumbs />
         </RouterWrapper>
@@ -834,7 +834,7 @@ describe('MobileBreadcrumbs Component', () => {
     });
 
     it('styles last breadcrumb differently', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileBreadcrumbs />
         </RouterWrapper>
@@ -854,7 +854,7 @@ describe('MobileBreadcrumbs Component', () => {
 
     it('is hidden on desktop', () => {
       cy.viewport(1024, 768);
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileBreadcrumbs />
         </RouterWrapper>
@@ -866,7 +866,7 @@ describe('MobileBreadcrumbs Component', () => {
       cy.viewport(375, 667);
       cy.stub(React, 'useLocation').returns({ pathname: '/project/123' });
       cy.stub(React, 'useParams').returns({ projectId: '123' });
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileBreadcrumbs />
         </RouterWrapper>
@@ -876,7 +876,7 @@ describe('MobileBreadcrumbs Component', () => {
 
     it('handles horizontal overflow', () => {
       cy.viewport(375, 667);
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileBreadcrumbs />
         </RouterWrapper>
@@ -897,7 +897,7 @@ describe('MobileBreadcrumbs Component', () => {
       mockWorldbuildingStore.getCurrentProject.returns(null);
       cy.stub(React, 'useLocation').returns({ pathname: '/project/123' });
       cy.stub(React, 'useParams').returns({ projectId: '123' });
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileBreadcrumbs />
         </RouterWrapper>
@@ -911,7 +911,7 @@ describe('MobileBreadcrumbs Component', () => {
         name: 'Test Project',
         elements: []
       });
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileBreadcrumbs />
         </RouterWrapper>
@@ -923,7 +923,7 @@ describe('MobileBreadcrumbs Component', () => {
     it('does not render with only one breadcrumb', () => {
       cy.stub(React, 'useLocation').returns({ pathname: '/other' });
       cy.stub(React, 'useParams').returns({});
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileBreadcrumbs />
         </RouterWrapper>
@@ -964,7 +964,7 @@ describe('MobileBackButton Component', () => {
 
     it('renders nothing on home page', () => {
       cy.stub(React, 'useLocation').returns({ pathname: '/' });
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileBackButton />
         </RouterWrapper>
@@ -974,7 +974,7 @@ describe('MobileBackButton Component', () => {
 
     it('renders nothing on projects page', () => {
       cy.stub(React, 'useLocation').returns({ pathname: '/projects' });
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileBackButton />
         </RouterWrapper>
@@ -983,7 +983,7 @@ describe('MobileBackButton Component', () => {
     });
 
     it('renders back button on element page', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileBackButton />
         </RouterWrapper>
@@ -993,7 +993,7 @@ describe('MobileBackButton Component', () => {
 
     it('renders back button on project page', () => {
       cy.stub(React, 'useLocation').returns({ pathname: '/project/123' });
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileBackButton />
         </RouterWrapper>
@@ -1002,7 +1002,7 @@ describe('MobileBackButton Component', () => {
     });
 
     it('shows arrow left icon', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileBackButton />
         </RouterWrapper>
@@ -1011,7 +1011,7 @@ describe('MobileBackButton Component', () => {
     });
 
     it('has proper styling', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileBackButton />
         </RouterWrapper>
@@ -1033,7 +1033,7 @@ describe('MobileBackButton Component', () => {
   });
 
     it('navigates from element to project', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileBackButton />
         </RouterWrapper>
@@ -1044,7 +1044,7 @@ describe('MobileBackButton Component', () => {
 
     it('navigates from project to projects list', () => {
       cy.stub(React, 'useLocation').returns({ pathname: '/project/123' });
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileBackButton />
         </RouterWrapper>
@@ -1055,7 +1055,7 @@ describe('MobileBackButton Component', () => {
 
     it('does not render on other pages', () => {
       cy.stub(React, 'useLocation').returns({ pathname: '/settings' });
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileBackButton />
         </RouterWrapper>
@@ -1074,7 +1074,7 @@ describe('MobileBackButton Component', () => {
 
     it('is hidden on desktop', () => {
       cy.viewport(1024, 768);
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileBackButton />
         </RouterWrapper>
@@ -1084,7 +1084,7 @@ describe('MobileBackButton Component', () => {
 
     it('is visible on mobile', () => {
       cy.viewport(375, 667);
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileBackButton />
         </RouterWrapper>
@@ -1102,7 +1102,7 @@ describe('MobileBackButton Component', () => {
   });
 
     it('has proper aria-label', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileBackButton />
         </RouterWrapper>
@@ -1111,7 +1111,7 @@ describe('MobileBackButton Component', () => {
     });
 
     it('is keyboard accessible', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileBackButton />
         </RouterWrapper>
@@ -1121,7 +1121,7 @@ describe('MobileBackButton Component', () => {
     });
 
     it('has hover state', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileBackButton />
         </RouterWrapper>
@@ -1140,7 +1140,7 @@ describe('MobileBackButton Component', () => {
 
     it('handles missing currentProjectId', () => {
       mockWorldbuildingStore.currentProjectId = null;
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileBackButton />
         </RouterWrapper>
@@ -1151,7 +1151,7 @@ describe('MobileBackButton Component', () => {
 
     it('handles nested paths correctly', () => {
       cy.stub(React, 'useLocation').returns({ pathname: '/project/123/element/456/edit' });
-      cy.mount(
+      cy.mountWithProviders(
         <RouterWrapper>
           <MobileBackButton />
         </RouterWrapper>

@@ -72,7 +72,7 @@ describe('CompletionHeatmap Edge Cases & Accessibility', () => {
       const element = createMockElement();
       const project = createMockProject([element]);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       cy.get('[data-cy="heatmap-grid"] [data-cy^="element-cell"]').should('have.length.at.least', 1);
     });
@@ -83,7 +83,7 @@ describe('CompletionHeatmap Edge Cases & Accessibility', () => {
       });
       const project = createMockProject([element]);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       cy.get('[data-cy^="element-cell"]').first().should('be.visible');
     });
@@ -92,7 +92,7 @@ describe('CompletionHeatmap Edge Cases & Accessibility', () => {
       const element = createMockElement();
       const project = createMockProject([element]);
 
-      cy.mount(<CompletionHeatmap project={project} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} />);
 
       cy.get('[data-cy^="element-cell"]').first().click();
       // TODO: * Should not throw error
@@ -106,7 +106,7 @@ describe('CompletionHeatmap Edge Cases & Accessibility', () => {
       ];
       const project = createMockProject(elements);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       // React Native Web uses inline styles, test for element presence instead
       cy.get('[data-cy^="element-cell"]').should('have.length', 3);
@@ -128,7 +128,7 @@ describe('CompletionHeatmap Edge Cases & Accessibility', () => {
       });
       const project = createMockProject([element]);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       cy.get('[title="Character Name - 65% complete"]').should('exist');
     });
@@ -137,7 +137,7 @@ describe('CompletionHeatmap Edge Cases & Accessibility', () => {
       const element = createMockElement();
       const project = createMockProject([element]);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       // React Native Web applies cursor styles inline
       cy.get('[data-cy^="element-cell"]').should('have.css', 'cursor', 'pointer');
@@ -146,7 +146,7 @@ describe('CompletionHeatmap Edge Cases & Accessibility', () => {
     it('provides legend for color meaning', () => {
       const project = createMockProject([createMockElement()]);
 
-      cy.mount(<CompletionHeatmap project={project} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} />);
 
       cy.contains('Completion:').should('be.visible');
       cy.contains('0% → 100%').should('be.visible');
@@ -171,7 +171,7 @@ describe('CompletionHeatmap Edge Cases & Accessibility', () => {
       ];
       const project = createMockProject(elements);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       cy.get('[data-cy="heatmap-grid"]').should('be.visible');
       cy.contains('Completion:').should('be.visible');
@@ -186,7 +186,7 @@ describe('CompletionHeatmap Edge Cases & Accessibility', () => {
       const element = createMockElement({ name: 'Test' });
       const project = createMockProject([element]);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       // TODO: * Tooltip should be hidden on mobile - React Native Web uses conditional rendering
       cy.get('[data-cy="tooltip"]').should('not.exist');
@@ -201,7 +201,7 @@ describe('CompletionHeatmap Edge Cases & Accessibility', () => {
       ];
       const project = createMockProject(elements);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       cy.get('[data-cy="heatmap-grid"]').should('be.visible');
       // React Native Web handles responsive sizing with inline styles
@@ -216,7 +216,7 @@ describe('CompletionHeatmap Edge Cases & Accessibility', () => {
       );
       const project = createMockProject(elements);
 
-      cy.mount(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
+      cy.mountWithProviders(<CompletionHeatmap project={project} onElementClick={onElementClickSpy} />);
 
       cy.get('[data-cy="heatmap-grid"]').should('be.visible');
       // React Native Web handles hover states with inline styles

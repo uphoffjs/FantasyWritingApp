@@ -1,6 +1,6 @@
 import { defineConfig } from "cypress";
 import codeCoverageTask from "@cypress/code-coverage/task";
-import { factoryTasks } from "./cypress/fixtures/factories";
+import { factoryTasks } from "./cypress/fixtures/factories/index";
 
 export default defineConfig({
   e2e: {
@@ -41,6 +41,7 @@ export default defineConfig({
       codeCoverageTask(on, config);
 
       // Add any custom tasks here
+      console.log('Factory tasks being registered (e2e):', factoryTasks);
       on("task", {
         log(message) {
           console.log(message);
@@ -48,20 +49,15 @@ export default defineConfig({
         },
         // Register factory tasks for data seeding
         ...factoryTasks,
-        // * Explicit factory task registration as fallback
+        // * Explicitly add factory:reset in case spread is not working
         'factory:reset': () => {
-          console.log('Factory reset called');
+          console.log('Factory reset called (e2e)');
+          if (factoryTasks && factoryTasks['factory:reset']) {
+            return factoryTasks['factory:reset']();
+          }
+          // Fallback if factoryTasks is not available
           return null;
-        },
-        'factory:create': () => {
-          return {};
-        },
-        'factory:scenario': () => {
-          return { project: {}, stories: [], characters: [] };
-        },
-        'factory:seed': () => {
-          return { stories: [], characters: [], projects: [], elements: [] };
-        },
+        }
       });
 
       // * Fix Chrome CDP connection issues
@@ -136,6 +132,7 @@ export default defineConfig({
       codeCoverageTask(on, config);
 
       // React Native Web specific tasks and factory tasks
+      console.log('Factory tasks being registered:', factoryTasks);
       on("task", {
         // General logging task for debug commands
         log(message) {
@@ -154,20 +151,15 @@ export default defineConfig({
         },
         // Register factory tasks for data seeding
         ...factoryTasks,
-        // * Explicit factory task registration as fallback
+        // * Explicitly add factory:reset in case spread is not working
         'factory:reset': () => {
           console.log('Factory reset called');
+          if (factoryTasks && factoryTasks['factory:reset']) {
+            return factoryTasks['factory:reset']();
+          }
+          // Fallback if factoryTasks is not available
           return null;
-        },
-        'factory:create': () => {
-          return {};
-        },
-        'factory:scenario': () => {
-          return { project: {}, stories: [], characters: [] };
-        },
-        'factory:seed': () => {
-          return { stories: [], characters: [], projects: [], elements: [] };
-        },
+        }
       });
 
       // * Fix Chrome CDP connection issues for component tests

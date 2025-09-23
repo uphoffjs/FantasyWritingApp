@@ -31,7 +31,7 @@ describe('Session Management Migration Example', () => {
         },
       };
 
-      cy.mount(
+      cy.mountWithProviders(
         <TestWrapper initialState={testData}>
           <CreateElementModal
             visible={true}
@@ -54,7 +54,7 @@ describe('Session Management Migration Example', () => {
         },
       };
 
-      cy.mount(
+      cy.mountWithProviders(
         <TestWrapper initialState={testData}>
           <CreateElementModal
             visible={true}
@@ -85,7 +85,7 @@ describe('Session Management Migration Example', () => {
 
     it('test 1 - uses cached session', () => {
       // * First test creates and caches the session
-      cy.mount(
+      cy.mountWithProviders(
         <TestWrapper>
           <CreateElementModal
             visible={true}
@@ -101,7 +101,7 @@ describe('Session Management Migration Example', () => {
 
     it('test 2 - reuses cached session (faster)', () => {
       // * Second test reuses the cached session - much faster!
-      cy.mount(
+      cy.mountWithProviders(
         <TestWrapper>
           <CreateElementModal
             visible={true}
@@ -132,7 +132,7 @@ describe('Session Management Migration Example', () => {
     });
 
     it('admin user can create elements', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <TestWrapper>
           <CreateElementModal
             visible={true}
@@ -157,7 +157,7 @@ describe('Session Management Migration Example', () => {
 
     it('reuses both auth and project sessions', () => {
       // * Both sessions are reused - very fast execution
-      cy.mount(
+      cy.mountWithProviders(
         <TestWrapper>
           <CreateElementModal
             visible={true}
@@ -223,7 +223,7 @@ describe('Session Management Migration Example', () => {
     });
 
     it('uses complex cached data', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <TestWrapper>
           <CreateElementModal
             visible={true}
@@ -270,7 +270,7 @@ describe('Session Management Migration Example', () => {
         },
       };
 
-      cy.mount(
+      cy.mountWithProviders(
         <TestWrapper initialState={testData}>
           <CreateElementModal
             visible={true}
@@ -308,7 +308,7 @@ describe('Session Management Migration Example', () => {
         }
       );
 
-      cy.mount(
+      cy.mountWithProviders(
         <TestWrapper>
           <CreateElementModal
             visible={true}
@@ -346,7 +346,7 @@ describe('Session Management Migration Example', () => {
         }
       );
 
-      cy.mount(
+      cy.mountWithProviders(
         <TestWrapper>
           <CreateElementModal
             visible={true}

@@ -94,7 +94,7 @@ describe('SyncQueueStatus Component', () => {
   describe('Display Modes', () => {
     it('should render in compact mode correctly', () => {
       // * Arrange - Mount component in compact mode
-      cy.mount(
+      cy.mountWithProviders(
         <SyncQueueStatus
           compact={true}
           testID="sync-status"
@@ -110,7 +110,7 @@ describe('SyncQueueStatus Component', () => {
 
     it('should render in full mode with queue details', () => {
       // * Arrange - Mount component in full mode
-      cy.mount(
+      cy.mountWithProviders(
         <SyncQueueStatus
           compact={false}
           showDetails={true}
@@ -126,7 +126,7 @@ describe('SyncQueueStatus Component', () => {
 
     it('should toggle between compact and full modes', () => {
       // * Arrange
-      cy.mount(
+      cy.mountWithProviders(
         <SyncQueueStatus
           compact={true}
           testID="sync-status"
@@ -154,7 +154,7 @@ describe('SyncQueueStatus Component', () => {
         (win as any).NetInfo.fetch = cy.stub().resolves({ isConnected: true });
       });
 
-      cy.mount(
+      cy.mountWithProviders(
         <SyncQueueStatus
           compact={false}
           testID="sync-status"
@@ -172,7 +172,7 @@ describe('SyncQueueStatus Component', () => {
         (win as any).NetInfo.fetch = cy.stub().resolves({ isConnected: false });
       });
 
-      cy.mount(
+      cy.mountWithProviders(
         <SyncQueueStatus
           compact={false}
           testID="sync-status"
@@ -198,7 +198,7 @@ describe('SyncQueueStatus Component', () => {
         (win as any).NetInfo.fetch = cy.stub().resolves({ isConnected: true });
       });
 
-      cy.mount(
+      cy.mountWithProviders(
         <SyncQueueStatus
           compact={false}
           testID="sync-status"
@@ -234,7 +234,7 @@ describe('SyncQueueStatus Component', () => {
         failedItems: [],
       });
 
-      cy.mount(
+      cy.mountWithProviders(
         <SyncQueueStatus
           compact={false}
           showDetails={true}
@@ -255,7 +255,7 @@ describe('SyncQueueStatus Component', () => {
         retrying: [],
       });
 
-      cy.mount(
+      cy.mountWithProviders(
         <SyncQueueStatus
           compact={false}
           testID="sync-status"
@@ -279,7 +279,7 @@ describe('SyncQueueStatus Component', () => {
         }), 1000))
       );
 
-      cy.mount(
+      cy.mountWithProviders(
         <SyncQueueStatus
           compact={false}
           testID="sync-status"
@@ -304,7 +304,7 @@ describe('SyncQueueStatus Component', () => {
         failedItems: mockQueueItems,
       });
 
-      cy.mount(
+      cy.mountWithProviders(
         <SyncQueueStatus
           compact={false}
           testID="sync-status"
@@ -321,7 +321,7 @@ describe('SyncQueueStatus Component', () => {
       // * Arrange - Mock conflicts
       cy.stub(deltaSyncService, 'getPendingChanges').returns(mockConflicts);
 
-      cy.mount(
+      cy.mountWithProviders(
         <SyncQueueStatus
           compact={false}
           enableConflictResolution={true}
@@ -347,7 +347,7 @@ describe('SyncQueueStatus Component', () => {
       cy.stub(deltaSyncService, 'getPendingChanges').returns(mockConflicts);
       const resolveStub = cy.stub().resolves();
 
-      cy.mount(
+      cy.mountWithProviders(
         <SyncQueueStatus
           compact={false}
           enableConflictResolution={true}
@@ -374,7 +374,7 @@ describe('SyncQueueStatus Component', () => {
       // * Arrange - Mock conflicts
       cy.stub(deltaSyncService, 'getPendingChanges').returns(mockConflicts);
 
-      cy.mount(
+      cy.mountWithProviders(
         <SyncQueueStatus
           compact={false}
           enableConflictResolution={true}
@@ -401,7 +401,7 @@ describe('SyncQueueStatus Component', () => {
       // * Arrange - Mock conflicts
       cy.stub(deltaSyncService, 'getPendingChanges').returns(mockConflicts);
 
-      cy.mount(
+      cy.mountWithProviders(
         <SyncQueueStatus
           compact={false}
           enableConflictResolution={true}
@@ -428,7 +428,7 @@ describe('SyncQueueStatus Component', () => {
   describe('Auto-hide Functionality', () => {
     it('should auto-hide after successful sync', () => {
       // * Arrange - Component with auto-hide enabled
-      cy.mount(
+      cy.mountWithProviders(
         <SyncQueueStatus
           compact={false}
           autoHide={true}
@@ -458,7 +458,7 @@ describe('SyncQueueStatus Component', () => {
         failedItems: [],
       });
 
-      cy.mount(
+      cy.mountWithProviders(
         <SyncQueueStatus
           compact={false}
           autoHide={true}
@@ -480,7 +480,7 @@ describe('SyncQueueStatus Component', () => {
     it('should adapt to different viewports', () => {
       // * Test mobile viewport
       cy.viewport('iphone-x');
-      cy.mount(
+      cy.mountWithProviders(
         <SyncQueueStatus
           compact={false}
           testID="sync-status"
@@ -499,7 +499,7 @@ describe('SyncQueueStatus Component', () => {
 
     it('should position correctly based on position prop', () => {
       // * Test top position
-      cy.mount(
+      cy.mountWithProviders(
         <SyncQueueStatus
           position="top"
           compact={false}
@@ -511,7 +511,7 @@ describe('SyncQueueStatus Component', () => {
         .and('have.css', 'top', '0px');
 
       // * Test bottom position
-      cy.mount(
+      cy.mountWithProviders(
         <SyncQueueStatus
           position="bottom"
           compact={false}
@@ -536,7 +536,7 @@ describe('SyncQueueStatus Component', () => {
         failedItems: [],
       });
 
-      cy.mount(
+      cy.mountWithProviders(
         <SyncQueueStatus
           compact={false}
           testID="sync-status"
@@ -560,7 +560,7 @@ describe('SyncQueueStatus Component', () => {
         failedItems: [],
       });
 
-      cy.mount(
+      cy.mountWithProviders(
         <SyncQueueStatus
           compact={false}
           testID="sync-status"
@@ -578,7 +578,7 @@ describe('SyncQueueStatus Component', () => {
       // * Arrange - Mock sync error
       cy.stub(offlineQueueManager, 'processQueue').rejects(new Error('Network error'));
 
-      cy.mount(
+      cy.mountWithProviders(
         <SyncQueueStatus
           compact={false}
           testID="sync-status"
@@ -600,7 +600,7 @@ describe('SyncQueueStatus Component', () => {
       });
 
       // * Should still mount without crashing
-      cy.mount(
+      cy.mountWithProviders(
         <SyncQueueStatus
           compact={false}
           testID="sync-status"

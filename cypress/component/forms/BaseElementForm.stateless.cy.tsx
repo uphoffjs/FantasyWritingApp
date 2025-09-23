@@ -58,7 +58,7 @@ describe('BaseElementForm - Stateless Tests', () => {
   };
 
   it('renders without any providers', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <BaseElementForm
         questions={basicQuestions}
         answers={{}}
@@ -72,7 +72,7 @@ describe('BaseElementForm - Stateless Tests', () => {
   });
 
   it('shows categories', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <BaseElementForm
         questions={basicQuestions}
         answers={{}}
@@ -88,7 +88,7 @@ describe('BaseElementForm - Stateless Tests', () => {
   });
 
   it('expands categories on click', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <BaseElementForm
         questions={basicQuestions}
         answers={{}}
@@ -110,7 +110,7 @@ describe('BaseElementForm - Stateless Tests', () => {
   });
 
   it('displays existing answers', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <BaseElementForm
         questions={basicQuestions}
         answers={basicAnswers}
@@ -131,7 +131,7 @@ describe('BaseElementForm - Stateless Tests', () => {
   it('calls onChange when typing', () => {
     const onChange = cy.stub();
     
-    cy.mount(
+    cy.mountWithProviders(
       <BaseElementForm
         questions={basicQuestions}
         answers={{}}
@@ -153,7 +153,7 @@ describe('BaseElementForm - Stateless Tests', () => {
   });
 
   it('shows required field indicators', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <BaseElementForm
         questions={basicQuestions}
         answers={{}}
@@ -173,7 +173,7 @@ describe('BaseElementForm - Stateless Tests', () => {
   });
 
   it('shows help text when clicked', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <BaseElementForm
         questions={basicQuestions}
         answers={{}}
@@ -198,7 +198,7 @@ describe('BaseElementForm - Stateless Tests', () => {
   });
 
   it('toggles between basic and detailed mode', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <BaseElementForm
         questions={basicQuestions}
         answers={{}}
@@ -251,7 +251,7 @@ describe('BaseElementForm - Stateless Tests', () => {
       }
     ];
 
-    cy.mount(
+    cy.mountWithProviders(
       <BaseElementForm
         questions={mixedQuestions}
         answers={{}}
@@ -271,7 +271,7 @@ describe('BaseElementForm - Stateless Tests', () => {
   });
 
   it('shows error for required fields without values', () => {
-    cy.mount(
+    cy.mountWithProviders(
       <BaseElementForm
         questions={basicQuestions}
         answers={{}} // No answers provided

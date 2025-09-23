@@ -50,14 +50,14 @@ describe('ResourceHints', () => {
   });
 
     it('renders without visible UI', () => {
-      cy.mount(<ResourceHints />);
+      cy.mountWithProviders(<ResourceHints />);
       
       // TODO: * Component should not render any visible content
       cy.get('body').children().should('have.length', 0);
     });
     
     it('adds prefetch links to document head', () => {
-      cy.mount(<ResourceHints />);
+      cy.mountWithProviders(<ResourceHints />);
       
       // * Check for prefetch links
       cy.document().then(doc => {
@@ -67,7 +67,7 @@ describe('ResourceHints', () => {
     });
     
     it('adds preconnect links for external domains', () => {
-      cy.mount(<ResourceHints />);
+      cy.mountWithProviders(<ResourceHints />);
       
       cy.document().then(doc => {
         const preconnectLinks = doc.querySelectorAll('link[rel="preconnect"]');
@@ -82,7 +82,7 @@ describe('ResourceHints', () => {
     });
     
     it('adds DNS prefetch hints', () => {
-      cy.mount(<ResourceHints />);
+      cy.mountWithProviders(<ResourceHints />);
       
       cy.document().then(doc => {
         const dnsPrefetchLinks = doc.querySelectorAll('link[rel="dns-prefetch"]');
@@ -91,7 +91,7 @@ describe('ResourceHints', () => {
     });
     
     it('preloads critical images', () => {
-      cy.mount(<ResourceHints />);
+      cy.mountWithProviders(<ResourceHints />);
       
       cy.document().then(doc => {
         const preloadLinks = doc.querySelectorAll('link[rel="preload"][as="image"]');
@@ -110,10 +110,10 @@ describe('ResourceHints', () => {
 
     it('component unmounts cleanly', () => {
       // * First mount the component
-      cy.mount(<ResourceHints />);
+      cy.mountWithProviders(<ResourceHints />);
       
       // * Then remount with different content to simulate replacement
-      cy.mount(<div>Replacement content</div>);
+      cy.mountWithProviders(<div>Replacement content</div>);
       cy.contains('Replacement content').should('be.visible');
     });
   });
@@ -143,13 +143,13 @@ describe('ValidationPanel', () => {
   });
 
     it('renders validation panel', () => {
-      cy.mount(<ValidationPanel {...defaultProps} />);
+      cy.mountWithProviders(<ValidationPanel {...defaultProps} />);
       
       cy.contains('Validation Rules').should('be.visible');
     });
     
     it('shows text validation options for text type', () => {
-      cy.mount(<ValidationPanel {...defaultProps} questionType="text" />);
+      cy.mountWithProviders(<ValidationPanel {...defaultProps} questionType="text" />);
       
       cy.contains('Min Length').should('be.visible');
       cy.contains('Max Length').should('be.visible');
@@ -157,14 +157,14 @@ describe('ValidationPanel', () => {
     });
     
     it('shows number validation options for number type', () => {
-      cy.mount(<ValidationPanel {...defaultProps} questionType="number" />);
+      cy.mountWithProviders(<ValidationPanel {...defaultProps} questionType="number" />);
       
       cy.contains('Min Value').should('be.visible');
       cy.contains('Max Value').should('be.visible');
     });
     
     it('shows custom error message field', () => {
-      cy.mount(<ValidationPanel {...defaultProps} />);
+      cy.mountWithProviders(<ValidationPanel {...defaultProps} />);
       
       cy.contains('Custom Error Message').should('be.visible');
     });
@@ -180,7 +180,7 @@ describe('ValidationPanel', () => {
 
     it('handles min length changes', () => {
       const onChange = cy.stub();
-      cy.mount(<ValidationPanel {...defaultProps} onChange={onChange} />);
+      cy.mountWithProviders(<ValidationPanel {...defaultProps} onChange={onChange} />);
       
       cy.get('input[placeholder="No minimum"]').first().type('5');
       cy.wrap(onChange).should('have.been.calledWith', { minLength: 5 });
@@ -188,7 +188,7 @@ describe('ValidationPanel', () => {
     
     it('handles max length changes', () => {
       const onChange = cy.stub();
-      cy.mount(<ValidationPanel {...defaultProps} onChange={onChange} />);
+      cy.mountWithProviders(<ValidationPanel {...defaultProps} onChange={onChange} />);
       
       cy.get('input[placeholder="No maximum"]').first().type('100');
       cy.wrap(onChange).should('have.been.calledWith', { maxLength: 100 });
@@ -196,7 +196,7 @@ describe('ValidationPanel', () => {
     
     it('handles pattern changes', () => {
       const onChange = cy.stub();
-      cy.mount(<ValidationPanel {...defaultProps} onChange={onChange} />);
+      cy.mountWithProviders(<ValidationPanel {...defaultProps} onChange={onChange} />);
       
       cy.get('input[placeholder*="^[A-Za-z]+$"]').type('^\\d+$');
       cy.wrap(onChange).should('have.been.calledWith', { pattern: '^\\d+$' });
@@ -204,7 +204,7 @@ describe('ValidationPanel', () => {
     
     it('clears validation when field emptied', () => {
       const onChange = cy.stub();
-      cy.mount(
+      cy.mountWithProviders(
         <ValidationPanel 
           {...defaultProps} 
           validation={{ minLength: 5 }}
@@ -227,7 +227,7 @@ describe('ValidationPanel', () => {
 
     it('handles min value changes', () => {
       const onChange = cy.stub();
-      cy.mount(<ValidationPanel {...defaultProps} questionType="number" onChange={onChange} />);
+      cy.mountWithProviders(<ValidationPanel {...defaultProps} questionType="number" onChange={onChange} />);
       
       cy.get('input[placeholder="No minimum"]').type('0');
       cy.wrap(onChange).should('have.been.calledWith', { min: 0 });
@@ -235,7 +235,7 @@ describe('ValidationPanel', () => {
     
     it('handles max value changes', () => {
       const onChange = cy.stub();
-      cy.mount(<ValidationPanel {...defaultProps} questionType="number" onChange={onChange} />);
+      cy.mountWithProviders(<ValidationPanel {...defaultProps} questionType="number" onChange={onChange} />);
       
       cy.get('input[placeholder="No maximum"]').type('100');
       cy.wrap(onChange).should('have.been.calledWith', { max: 100 });
@@ -252,7 +252,7 @@ describe('ValidationPanel', () => {
 
     it('handles custom error message', () => {
       const onChange = cy.stub();
-      cy.mount(<ValidationPanel {...defaultProps} onChange={onChange} />);
+      cy.mountWithProviders(<ValidationPanel {...defaultProps} onChange={onChange} />);
       
       cy.get('input[placeholder*="error message"]').type('Please enter a valid value');
       cy.wrap(onChange).should('have.been.calledWith', { 
@@ -276,7 +276,7 @@ describe('ValidationPanel', () => {
         pattern: '^[A-Z]' 
       };
       
-      cy.mount(
+      cy.mountWithProviders(
         <ValidationPanel 
           {...defaultProps} 
           validation={validation}
@@ -289,7 +289,7 @@ describe('ValidationPanel', () => {
     });
     
     it('handles validation for textarea type', () => {
-      cy.mount(<ValidationPanel {...defaultProps} questionType="textarea" />);
+      cy.mountWithProviders(<ValidationPanel {...defaultProps} questionType="textarea" />);
       
       cy.contains('Min Length').should('be.visible');
       cy.contains('Max Length').should('be.visible');
@@ -321,27 +321,27 @@ describe('LazyImage', () => {
   });
 
     it('renders with loading placeholder initially', () => {
-      cy.mount(<LazyImage {...defaultProps} />);
+      cy.mountWithProviders(<LazyImage {...defaultProps} />);
       
       // ? TODO: * Should show loading state initially
       cy.get('div[class*="animate-pulse"]').should('be.visible');
     });
     
     it('shows image when loaded', () => {
-      cy.mount(<LazyImage {...defaultProps} />);
+      cy.mountWithProviders(<LazyImage {...defaultProps} />);
       
       // * Wait for image to appear
       cy.get('img[alt="Test image"]').should('be.visible');
     });
     
     it('applies custom className', () => {
-      cy.mount(<LazyImage {...defaultProps} className="custom-class" />);
+      cy.mountWithProviders(<LazyImage {...defaultProps} className="custom-class" />);
       
       cy.get('.custom-class').should('exist');
     });
     
     it('handles loading state', () => {
-      cy.mount(<LazyImage {...defaultProps} />);
+      cy.mountWithProviders(<LazyImage {...defaultProps} />);
       
       // * Check for loading indicator
       cy.get('[data-cy="image-loading"]').should('exist');
@@ -357,7 +357,7 @@ describe('LazyImage', () => {
   });
 
     it('lazy loads when in viewport', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <div style={{ height: '2000px' }}>
           <div style={{ height: '1500px' }}>Spacer</div>
           <LazyImage {...defaultProps} />
@@ -384,14 +384,14 @@ describe('LazyImage', () => {
   });
 
     it('shows error state on load failure', () => {
-      cy.mount(<LazyImage src="invalid-url" alt="Error test" />);
+      cy.mountWithProviders(<LazyImage src="invalid-url" alt="Error test" />);
       
       // ? TODO: * Should show error state
       cy.get('[data-cy="image-error"]').should('be.visible');
     });
     
     it('shows fallback on error', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <LazyImage 
           src="invalid-url" 
           alt="Error test"
@@ -428,19 +428,19 @@ describe('ProjectSearchBar', () => {
   });
 
     it('renders search input', () => {
-      cy.mount(<ProjectSearchBar {...defaultProps} />);
+      cy.mountWithProviders(<ProjectSearchBar {...defaultProps} />);
       
       cy.get('input[placeholder="Search projects..."]').should('be.visible');
     });
     
     it('shows search icon', () => {
-      cy.mount(<ProjectSearchBar {...defaultProps} />);
+      cy.mountWithProviders(<ProjectSearchBar {...defaultProps} />);
       
       cy.get('svg').should('be.visible'); // Search icon
     });
     
     it('displays initial value', () => {
-      cy.mount(<ProjectSearchBar {...defaultProps} value="test query" />);
+      cy.mountWithProviders(<ProjectSearchBar {...defaultProps} value="test query" />);
       
       cy.get('input').should('have.value', 'test query');
     });
@@ -456,21 +456,21 @@ describe('ProjectSearchBar', () => {
 
     it('handles input changes', () => {
       const onChange = cy.stub();
-      cy.mount(<ProjectSearchBar {...defaultProps} onChange={onChange} />);
+      cy.mountWithProviders(<ProjectSearchBar {...defaultProps} onChange={onChange} />);
       
       cy.get('input').type('fantasy world');
       cy.wrap(onChange).should('have.been.called');
     });
     
     it('shows clear button when has value', () => {
-      cy.mount(<ProjectSearchBar {...defaultProps} value="test" />);
+      cy.mountWithProviders(<ProjectSearchBar {...defaultProps} value="test" />);
       
       cy.get('[data-cy="clear-search"]').should('be.visible');
     });
     
     it('clears search on clear button click', () => {
       const onChange = cy.stub();
-      cy.mount(<ProjectSearchBar {...defaultProps} value="test" onChange={onChange} />);
+      cy.mountWithProviders(<ProjectSearchBar {...defaultProps} value="test" onChange={onChange} />);
       
       cy.get('[data-cy="clear-search"]').click();
       cy.wrap(onChange).should('have.been.calledWith', '');
@@ -478,7 +478,7 @@ describe('ProjectSearchBar', () => {
     
     it('debounces search input', () => {
       const onChange = cy.stub();
-      cy.mount(<ProjectSearchBar {...defaultProps} onChange={onChange} debounce={300} />);
+      cy.mountWithProviders(<ProjectSearchBar {...defaultProps} onChange={onChange} debounce={300} />);
       
       cy.get('input').type('test');
       
@@ -501,7 +501,7 @@ describe('ProjectSearchBar', () => {
 
     it('submits on Enter key', () => {
       const onSubmit = cy.stub();
-      cy.mount(<ProjectSearchBar {...defaultProps} onSubmit={onSubmit} />);
+      cy.mountWithProviders(<ProjectSearchBar {...defaultProps} onSubmit={onSubmit} />);
       
       cy.get('input').type('test{enter}');
       cy.wrap(onSubmit).should('have.been.calledWith', 'test');
@@ -509,7 +509,7 @@ describe('ProjectSearchBar', () => {
     
     it('clears on Escape key', () => {
       const onChange = cy.stub();
-      cy.mount(<ProjectSearchBar {...defaultProps} value="test" onChange={onChange} />);
+      cy.mountWithProviders(<ProjectSearchBar {...defaultProps} value="test" onChange={onChange} />);
       
       cy.get('input').type('{esc}');
       cy.wrap(onChange).should('have.been.calledWith', '');
@@ -545,13 +545,13 @@ describe('ProjectSortDropdown', () => {
   });
 
     it('renders sort dropdown', () => {
-      cy.mount(<ProjectSortDropdown {...defaultProps} />);
+      cy.mountWithProviders(<ProjectSortDropdown {...defaultProps} />);
       
       cy.contains('Name').should('be.visible');
     });
     
     it('shows dropdown icon', () => {
-      cy.mount(<ProjectSortDropdown {...defaultProps} />);
+      cy.mountWithProviders(<ProjectSortDropdown {...defaultProps} />);
       
       cy.get('svg').should('be.visible'); // Chevron icon
     });
@@ -566,7 +566,7 @@ describe('ProjectSortDropdown', () => {
   });
 
     it('opens dropdown on click', () => {
-      cy.mount(<ProjectSortDropdown {...defaultProps} />);
+      cy.mountWithProviders(<ProjectSortDropdown {...defaultProps} />);
       
       cy.contains('Name').click();
       cy.contains('Date Created').should('be.visible');
@@ -575,7 +575,7 @@ describe('ProjectSortDropdown', () => {
     
     it('selects option', () => {
       const onChange = cy.stub();
-      cy.mount(<ProjectSortDropdown {...defaultProps} onChange={onChange} />);
+      cy.mountWithProviders(<ProjectSortDropdown {...defaultProps} onChange={onChange} />);
       
       cy.contains('Name').click();
       cy.contains('Date Created').click();
@@ -584,7 +584,7 @@ describe('ProjectSortDropdown', () => {
     });
     
     it('closes dropdown after selection', () => {
-      cy.mount(<ProjectSortDropdown {...defaultProps} />);
+      cy.mountWithProviders(<ProjectSortDropdown {...defaultProps} />);
       
       cy.contains('Name').click();
       cy.contains('Date Created').click();
@@ -594,7 +594,7 @@ describe('ProjectSortDropdown', () => {
     });
     
     it('closes dropdown on outside click', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <div>
           <ProjectSortDropdown {...defaultProps} />
           <div data-cy="outside">Outside element</div>
@@ -618,7 +618,7 @@ describe('ProjectSortDropdown', () => {
   });
 
     it('shows sort direction indicator', () => {
-      cy.mount(
+      cy.mountWithProviders(
         <ProjectSortDropdown 
           {...defaultProps} 
           value="name"
@@ -631,7 +631,7 @@ describe('ProjectSortDropdown', () => {
     
     it('toggles sort direction on same option click', () => {
       const onChange = cy.stub();
-      cy.mount(
+      cy.mountWithProviders(
         <ProjectSortDropdown 
           {...defaultProps} 
           value="name"
@@ -674,7 +674,7 @@ describe('TagManager', () => {
   });
 
     it('renders tag list', () => {
-      cy.mount(<TagManager {...defaultProps} />);
+      cy.mountWithProviders(<TagManager {...defaultProps} />);
       
       cy.contains('fantasy').should('be.visible');
       cy.contains('magic').should('be.visible');
@@ -682,13 +682,13 @@ describe('TagManager', () => {
     });
     
     it('shows add tag button', () => {
-      cy.mount(<TagManager {...defaultProps} />);
+      cy.mountWithProviders(<TagManager {...defaultProps} />);
       
       cy.get('[data-cy="add-tag-button"]').should('be.visible');
     });
     
     it('shows tag count', () => {
-      cy.mount(<TagManager {...defaultProps} />);
+      cy.mountWithProviders(<TagManager {...defaultProps} />);
       
       cy.contains('3 tags').should('be.visible');
     });
@@ -703,7 +703,7 @@ describe('TagManager', () => {
   });
 
     it('opens add tag modal', () => {
-      cy.mount(<TagManager {...defaultProps} />);
+      cy.mountWithProviders(<TagManager {...defaultProps} />);
       
       cy.get('[data-cy="add-tag-button"]').click();
       cy.get('[data-cy="tag-modal"]').should('be.visible');
@@ -711,7 +711,7 @@ describe('TagManager', () => {
     
     it('adds new tag from input', () => {
       const onAdd = cy.stub();
-      cy.mount(<TagManager {...defaultProps} onAdd={onAdd} />);
+      cy.mountWithProviders(<TagManager {...defaultProps} onAdd={onAdd} />);
       
       cy.get('[data-cy="add-tag-button"]').click();
       cy.get('[data-cy="tag-input"]').type('newTag');
@@ -722,7 +722,7 @@ describe('TagManager', () => {
     
     it('adds tag from suggestions', () => {
       const onAdd = cy.stub();
-      cy.mount(<TagManager {...defaultProps} onAdd={onAdd} />);
+      cy.mountWithProviders(<TagManager {...defaultProps} onAdd={onAdd} />);
       
       cy.get('[data-cy="add-tag-button"]').click();
       cy.get('[data-cy="suggested-tag-epic"]').click();
@@ -741,14 +741,14 @@ describe('TagManager', () => {
 
     it('removes tag on X click', () => {
       const onRemove = cy.stub();
-      cy.mount(<TagManager {...defaultProps} onRemove={onRemove} />);
+      cy.mountWithProviders(<TagManager {...defaultProps} onRemove={onRemove} />);
       
       cy.get('[data-cy="remove-tag-fantasy"]').click();
       cy.wrap(onRemove).should('have.been.calledWith', 'fantasy');
     });
     
     it('confirms before removing', () => {
-      cy.mount(<TagManager {...defaultProps} confirmRemove={true} />);
+      cy.mountWithProviders(<TagManager {...defaultProps} confirmRemove={true} />);
       
       cy.get('[data-cy="remove-tag-fantasy"]').click();
       cy.contains('Remove tag?').should('be.visible');
@@ -765,7 +765,7 @@ describe('TagManager', () => {
   });
 
     it('enables edit mode on tag click', () => {
-      cy.mount(<TagManager {...defaultProps} />);
+      cy.mountWithProviders(<TagManager {...defaultProps} />);
       
       cy.get('[data-cy="tag-fantasy"]').click();
       cy.get('[data-cy="edit-tag-input"]').should('be.visible');
@@ -773,7 +773,7 @@ describe('TagManager', () => {
     
     it('saves edited tag', () => {
       const onEdit = cy.stub();
-      cy.mount(<TagManager {...defaultProps} onEdit={onEdit} />);
+      cy.mountWithProviders(<TagManager {...defaultProps} onEdit={onEdit} />);
       
       cy.get('[data-cy="tag-fantasy"]').click();
       cy.get('[data-cy="edit-tag-input"]').clear().type('epic-fantasy');
@@ -792,7 +792,7 @@ describe('TagManager', () => {
   });
 
     it('filters tags by search', () => {
-      cy.mount(<TagManager {...defaultProps} />);
+      cy.mountWithProviders(<TagManager {...defaultProps} />);
       
       cy.get('[data-cy="tag-search"]').type('mag');
       cy.contains('magic').should('be.visible');
@@ -800,7 +800,7 @@ describe('TagManager', () => {
     });
     
     it('shows no results message', () => {
-      cy.mount(<TagManager {...defaultProps} />);
+      cy.mountWithProviders(<TagManager {...defaultProps} />);
       
       cy.get('[data-cy="tag-search"]').type('xyz');
       cy.contains('No tags found').should('be.visible');

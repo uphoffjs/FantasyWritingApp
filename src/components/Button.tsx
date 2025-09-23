@@ -18,6 +18,7 @@ import {
 } from 'react-native';
 import { useTheme } from '../providers/ThemeProvider';
 import { LoadingIndicator } from './loading/LoadingIndicator';
+import { getTestProps } from '../utils/react-native-web-polyfills';
 
 interface ButtonProps {
   title: string;
@@ -172,7 +173,7 @@ export function Button({
         onPressOut={handlePressOut}
         onPress={onPress}
         disabled={isDisabled}
-        testID={testID}
+        {...(testID ? getTestProps(testID) : {})}
         accessibilityRole="button"
         accessibilityState={{ disabled: isDisabled }}
       >
