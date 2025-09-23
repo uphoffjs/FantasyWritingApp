@@ -91,7 +91,7 @@ read_memory("checkpoint") but do not start any work yet
 
 **Load important cypress project docs at once:**
 ```bash
-/sc:load @/Users/jacobuphoff/Desktop/FantasyWritingApp/cypress/docs/cypress-best-practices.md @cypress/docs/ADVANCED-TESTING-STRATEGY.md @/Users/jacobuphoff/Desktop/FantasyWritingApp/CLAUDE.md but do not start any work yet
+/sc:load @/Users/jacobuphoff/Desktop/FantasyWritingApp/CLAUDE.md @/Users/jacobuphoff/Desktop/FantasyWritingApp/cypress/docs/cypress-best-practices.md @cypress/docs/ADVANCED-TESTING-STRATEGY.md @/Users/jacobuphoff/Desktop/FantasyWritingApp/CLAUDE.md but do not start any work yet
 ```
 
 **Or load individually:**

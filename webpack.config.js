@@ -26,6 +26,12 @@ module.exports = {
     {
       module: /react-native-worklets/,
       message: /Critical dependency/
+    },
+    // * Suppress cypress-axe warnings about require and require.resolve
+    // * These are false positives since Cypress provides these in its context
+    {
+      module: /cypress-axe/,
+      message: /Critical dependency/
     }
   ],
   resolve: {
@@ -160,13 +166,13 @@ module.exports = {
     hot: true,  // Enable hot module replacement
     liveReload: true, // Enable live reloading
     open: {
-      // * Configure to open in Brave browser
+      // * Configure to open in Chrome browser
       app: {
         name: process.platform === 'darwin'
-          ? 'Brave Browser' // macOS app name
+          ? 'Google Chrome' // macOS app name
           : process.platform === 'win32'
-          ? 'brave' // Windows executable name
-          : 'brave-browser', // Linux executable name
+          ? 'chrome' // Windows executable name
+          : 'google-chrome', // Linux executable name
         // ! Platform-specific browser arguments
         arguments: process.platform === 'linux'
           ? ['--new-window'] // Linux may need this

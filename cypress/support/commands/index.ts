@@ -30,6 +30,9 @@ import './utility'; // Stub and spy commands
 // * Performance Monitoring
 import './performance';
 
+// * Data Seeding Commands
+import './seeding';
+
 // * Export for TypeScript reference
 export * from './auth';
 export * from './debug';

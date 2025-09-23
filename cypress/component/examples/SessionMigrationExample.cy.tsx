@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { CreateElementModal } from '../../../src/components/elements/CreateElementModal';
+import { CreateElementModal } from '../../../src/components/CreateElementModal';
 import { TestWrapper } from '../../support/component-wrapper';
 
 describe('Session Management Migration Example', () => {

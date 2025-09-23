@@ -1,0 +1,210 @@
+{
+  "worldbuilding": {
+    "projects": [
+      {
+        "id": "project-fantasy",
+        "name": "The Elder Kingdoms",
+        "description": "A rich fantasy world with magic and dragons",
+        "createdAt": "2024-01-01T00:00:00Z",
+        "updatedAt": "2024-01-15T00:00:00Z"
+      },
+      {
+        "id": "project-scifi",
+        "name": "Stellar Horizons",
+        "description": "A space opera spanning multiple star systems",
+        "createdAt": "2024-01-05T00:00:00Z",
+        "updatedAt": "2024-01-20T00:00:00Z"
+      }
+    ],
+    "activeProjectId": "project-fantasy",
+    "elements": [
+      {
+        "id": "element-char-1",
+        "projectId": "project-fantasy",
+        "name": "Aragorn Stormwind",
+        "type": "character",
+        "category": "Characters",
+        "completionPercentage": 85,
+        "answers": {
+          "background": "A noble warrior from the northern kingdoms",
+          "motivation": "To restore peace to the realm",
+          "abilities": "Master swordsman and tactician"
+        },
+        "relationships": ["rel-1", "rel-2"],
+        "createdAt": "2024-01-02T00:00:00Z"
+      },
+      {
+        "id": "element-char-2",
+        "projectId": "project-fantasy",
+        "name": "Lyra Moonwhisper",
+        "type": "character",
+        "category": "Characters",
+        "completionPercentage": 75,
+        "answers": {
+          "background": "An elven mage from the ancient forests",
+          "motivation": "To unlock the secrets of ancient magic",
+          "abilities": "Powerful elemental magic"
+        },
+        "relationships": ["rel-1"],
+        "createdAt": "2024-01-03T00:00:00Z"
+      },
+      {
+        "id": "element-loc-1",
+        "projectId": "project-fantasy",
+        "name": "Dragonspire Keep",
+        "type": "location",
+        "category": "Locations",
+        "completionPercentage": 90,
+        "answers": {
+          "description": "An ancient fortress built into a mountain peak",
+          "significance": "Former seat of the Dragon Kings",
+          "inhabitants": "Now home to the Order of the Silver Dawn"
+        },
+        "relationships": ["rel-2"],
+        "createdAt": "2024-01-04T00:00:00Z"
+      },
+      {
+        "id": "element-magic-1",
+        "projectId": "project-fantasy",
+        "name": "Elemental Weaving",
+        "type": "magic-power",
+        "category": "Magic Systems",
+        "completionPercentage": 60,
+        "answers": {
+          "source": "Drawing power from natural elements",
+          "limitations": "Requires mental focus and physical gestures",
+          "practitioners": "Taught only at the Academy of Arcane Arts"
+        },
+        "relationships": [],
+        "createdAt": "2024-01-05T00:00:00Z"
+      },
+      {
+        "id": "element-org-1",
+        "projectId": "project-fantasy",
+        "name": "Order of the Silver Dawn",
+        "type": "organization",
+        "category": "Organizations",
+        "completionPercentage": 70,
+        "answers": {
+          "purpose": "Protect the realm from dark magic",
+          "structure": "Led by a council of seven masters",
+          "membership": "Knights and mages united in purpose"
+        },
+        "relationships": ["rel-2"],
+        "createdAt": "2024-01-06T00:00:00Z"
+      }
+    ],
+    "relationships": [
+      {
+        "id": "rel-1",
+        "projectId": "project-fantasy",
+        "sourceId": "element-char-1",
+        "targetId": "element-char-2",
+        "type": "companion",
+        "description": "Travel companions on the quest",
+        "bidirectional": true
+      },
+      {
+        "id": "rel-2",
+        "projectId": "project-fantasy",
+        "sourceId": "element-char-1",
+        "targetId": "element-loc-1",
+        "type": "located_at",
+        "description": "Currently stationed at the keep",
+        "bidirectional": false
+      }
+    ]
+  },
+  "auth": {
+    "user": {
+      "id": "user-complete",
+      "email": "writer@example.com",
+      "name": "Complete Test Writer",
+      "role": "admin",
+      "preferences": {
+        "theme": "dark",
+        "autoSave": true,
+        "defaultProject": "project-fantasy"
+      }
+    },
+    "isAuthenticated": true,
+    "token": "complete-test-token-admin",
+    "refreshToken": "complete-refresh-token"
+  },
+  "stories": [
+    {
+      "id": "story-1",
+      "title": "The Dragon's Heir",
+      "synopsis": "A tale of destiny and dragons",
+      "genre": "fantasy",
+      "status": "draft",
+      "wordCount": 45000,
+      "chapters": [
+        {
+          "id": "chapter-1",
+          "title": "The Prophecy",
+          "content": "The ancient prophecy spoke of a chosen one...",
+          "wordCount": 5000,
+          "order": 1
+        },
+        {
+          "id": "chapter-2",
+          "title": "The Journey Begins",
+          "content": "At dawn, the companions set forth...",
+          "wordCount": 4500,
+          "order": 2
+        }
+      ]
+    },
+    {
+      "id": "story-2",
+      "title": "Shadows of the Past",
+      "synopsis": "Dark secrets threaten the kingdom",
+      "genre": "fantasy",
+      "status": "published",
+      "wordCount": 120000,
+      "publishedDate": "2024-01-10T00:00:00Z"
+    }
+  ],
+  "characters": [
+    {
+      "id": "char-1",
+      "name": "Aragorn Stormwind",
+      "role": "protagonist",
+      "age": 32,
+      "description": "Tall and weathered, with piercing blue eyes",
+      "backstory": "Raised by the northern clans after his parents' death",
+      "traits": ["brave", "honorable", "strategic"],
+      "relationships": {
+        "char-2": "companion",
+        "char-3": "mentor"
+      }
+    },
+    {
+      "id": "char-2",
+      "name": "Lyra Moonwhisper",
+      "role": "supporting",
+      "age": 150,
+      "description": "Ethereal beauty with silver hair",
+      "backstory": "Last of the ancient elven mage bloodline",
+      "traits": ["wise", "mysterious", "powerful"],
+      "relationships": {
+        "char-1": "companion",
+        "char-3": "student"
+      }
+    },
+    {
+      "id": "char-3",
+      "name": "Master Aldric",
+      "role": "mentor",
+      "age": 67,
+      "description": "Grizzled veteran with countless scars",
+      "backstory": "Former general turned teacher",
+      "traits": ["experienced", "gruff", "caring"],
+      "relationships": {
+        "char-1": "student",
+        "char-2": "colleague"
+      }
+    }
+  ]
+}

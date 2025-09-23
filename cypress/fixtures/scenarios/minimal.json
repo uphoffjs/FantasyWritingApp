@@ -1,0 +1,26 @@
+{
+  "worldbuilding": {
+    "projects": [
+      {
+        "id": "project-minimal",
+        "name": "Minimal Test Project",
+        "description": "A minimal project for basic testing",
+        "createdAt": "2024-01-01T00:00:00Z",
+        "updatedAt": "2024-01-01T00:00:00Z"
+      }
+    ],
+    "activeProjectId": "project-minimal",
+    "elements": [],
+    "relationships": []
+  },
+  "auth": {
+    "user": {
+      "id": "user-minimal",
+      "email": "minimal@test.com",
+      "name": "Minimal User",
+      "role": "user"
+    },
+    "isAuthenticated": true,
+    "token": "minimal-test-token"
+  }
+}
