@@ -11,6 +11,7 @@ import { useWorldbuildingStore } from '../store/worldbuildingStore';
 import { ElementBrowser } from '../components/ElementBrowser.web';
 import { CreateElementModal } from '../components/CreateElementModal.web';
 import { RelationshipManager } from '../components/RelationshipManager.web';
+import { getTestProps } from '../utils/react-native-web-polyfills';
 
 export function ProjectScreen() {
   const route = useRoute<RootStackScreenProps<'Project'>['route']>();
@@ -32,7 +33,7 @@ export function ProjectScreen() {
           <button
             className="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors"
             onClick={() => navigation.goBack()}
-            data-cy="back-to-projects-button"
+            {...getTestProps('back-to-projects-button')}
           >
             Back to Projects
           </button>
@@ -75,7 +76,7 @@ export function ProjectScreen() {
             <button
               onClick={() => navigation.goBack()}
               className="p-2 hover:bg-gray-700 rounded-lg transition-colors mr-3"
-              data-cy="back-button"
+              {...getTestProps('back-button')}
             >
               <svg className="w-6 h-6 text-gray-100" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
@@ -92,7 +93,7 @@ export function ProjectScreen() {
             <button
               onClick={handleCreateElement}
               className="bg-indigo-500 hover:bg-indigo-600 text-white rounded-full w-10 h-10 flex items-center justify-center transition-colors"
-              data-cy="add-element-button"
+              {...getTestProps('add-element-button')}
             >
               <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
@@ -125,7 +126,7 @@ export function ProjectScreen() {
                   : 'text-gray-400 hover:text-gray-300'
               }`}
               onClick={() => setActiveTab('elements')}
-              data-cy="elements-tab"
+              {...getTestProps('elements-tab')}
             >
               Elements
             </button>
@@ -136,7 +137,7 @@ export function ProjectScreen() {
                   : 'text-gray-400 hover:text-gray-300'
               }`}
               onClick={() => setActiveTab('relationships')}
-              data-cy="relationships-tab"
+              {...getTestProps('relationships-tab')}
             >
               Relationships
             </button>

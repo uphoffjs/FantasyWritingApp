@@ -8,6 +8,7 @@ import React, { useState, useCallback } from 'react';
 import { useWorldbuildingStore } from '../store/worldbuildingStore';
 import { ElementCategory } from '../types/models';
 import { getCategoryIcon } from '../utils/categoryMapping';
+import { getTestProps } from '../utils/react-native-web-polyfills';
 
 interface CreateElementModalProps {
   visible: boolean;
@@ -135,7 +136,7 @@ export function CreateElementModal({
           <button
             onClick={handleClose}
             className="absolute top-2 right-6 p-2 text-gray-400 hover:text-gray-200 transition-colors"
-            data-cy="close-modal"
+            {...getTestProps('close-modal')}
           >
             <span className="text-2xl">✕</span>
           </button>
@@ -158,7 +159,7 @@ export function CreateElementModal({
                     : ''
                 }`}
                 onClick={() => handleCategoryPress(category.value as ElementCategory | 'custom')}
-                data-cy={`category-${category.value}`}
+                {...getTestProps(`category-${category.value}`)}
               >
                 <div className="text-3xl mb-2">{category.icon}</div>
                 <div className={`font-semibold mb-1 ${
@@ -181,7 +182,7 @@ export function CreateElementModal({
           <button
             className="flex-1 py-3 px-4 bg-gray-700 text-gray-100 font-semibold rounded-lg hover:bg-gray-600 transition-colors"
             onClick={handleClose}
-            data-cy="cancel-button"
+            {...getTestProps('cancel-button')}
           >
             Cancel
           </button>
@@ -193,7 +194,7 @@ export function CreateElementModal({
             }`}
             onClick={handleCreate}
             disabled={!selectedCategory || isCreating}
-            data-cy="create-button"
+            {...getTestProps('create-button')}
           >
             {isCreating ? (
               <span className="inline-flex items-center">

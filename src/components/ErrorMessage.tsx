@@ -1,4 +1,5 @@
 import React from 'react';
+import { getTestProps } from '../utils/react-native-web-polyfills';
 
 interface ErrorMessageProps {
   error?: Error | string | null;
@@ -41,10 +42,16 @@ export const ErrorMessage: React.FC<ErrorMessageProps> = ({
       borderColor: '#fcc',
       color: '#c00'
     },
-    warning: { backgroundColor: '#fff3cd', // ! HARDCODED: Should use design tokens borderColor: '#ffeeba', // ! HARDCODED: Should use design tokens color: '#856404', // ! HARDCODED: Should use design tokens
-  },
-    info: { backgroundColor: '#d1ecf1', // ! HARDCODED: Should use design tokens borderColor: '#bee5eb', // ! HARDCODED: Should use design tokens color: '#0c5460', // ! HARDCODED: Should use design tokens
-  }
+    warning: {
+      backgroundColor: '#fff3cd', // ! HARDCODED: Should use design tokens
+      borderColor: '#ffeeba', // ! HARDCODED: Should use design tokens
+      color: '#856404', // ! HARDCODED: Should use design tokens
+    },
+    info: {
+      backgroundColor: '#d1ecf1', // ! HARDCODED: Should use design tokens
+      borderColor: '#bee5eb', // ! HARDCODED: Should use design tokens
+      color: '#0c5460', // ! HARDCODED: Should use design tokens
+    }
   };
 
   const currentStyle = typeStyles[type];
@@ -56,8 +63,7 @@ export const ErrorMessage: React.FC<ErrorMessageProps> = ({
 
   return (
     <div 
-      data-testid={testId}
-      data-cy={`${type}-message`}
+      {...getTestProps(`${type}-message`)}
       className={`error-message ${type} ${className}`}
       style={{
         padding: '12px 16px', margin: '12px 0', // ! HARDCODED: Should use design tokens
@@ -74,11 +80,10 @@ export const ErrorMessage: React.FC<ErrorMessageProps> = ({
     >
       {/* Header with title and dismiss button */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <strong data-testid={`${testId}-title`}>{title}</strong>
+        <strong {...getTestProps(`${testId}-title`)}>{title}</strong>
         {dismissible && onDismiss && (
           <button
-            data-testid={`${testId}-dismiss`}
-            data-cy="dismiss-error"
+            {...getTestProps('dismiss-error')}
             onClick={onDismiss}
             aria-label="Dismiss message"
             style={{
@@ -96,12 +101,15 @@ export const ErrorMessage: React.FC<ErrorMessageProps> = ({
       </div>
 
       {/* Error message */}
-      <div data-testid={`${testId}-text`}>{displayMessage}</div>
+      <div {...getTestProps(`${testId}-text`)}>{displayMessage}</div>
 
       {/* Error details (if available) */}
       {showDetails && (details || (error instanceof Error && error.stack)) && (
-        <details data-testid={`${testId}-details`}>
-          <summary style={{ cursor: 'pointer', // ! HARDCODED: Should use design tokens marginTop: '8px' }}> {/* ! HARDCODED: Should use design tokens */}
+        <details {...getTestProps(`${testId}-details`)}>
+          <summary style={{
+            cursor: 'pointer', // ! HARDCODED: Should use design tokens
+            marginTop: '8px' // ! HARDCODED: Should use design tokens
+          }}>
             Show Details
           </summary>
           <pre style={{
@@ -112,7 +120,8 @@ export const ErrorMessage: React.FC<ErrorMessageProps> = ({
             fontSize: '12px',
             overflow: 'auto',
             maxHeight: '200px' }}>
-            {details || (error instanceof Error ? error.stack : '' // ! HARDCODED: Should use design tokens)}
+            {details || (error instanceof Error ? error.stack : '') // ! HARDCODED: Should use design tokens
+            }
           </pre>
         </details>
       )}
@@ -120,18 +129,20 @@ export const ErrorMessage: React.FC<ErrorMessageProps> = ({
       {/* Retry button */}
       {onRetry && (
         <button
-          data-testid={`${testId}-retry`}
-          data-cy="retry-button"
+          {...getTestProps('retry-button')}
           onClick={onRetry}
           style={{
             alignSelf: 'flex-start',
-            padding: '6px 12px', backgroundColor: type === 'error' // ! HARDCODED: Should use design tokens ? '#dc3545' : type === 'warning' ? '#ffc107' : '#17a2b8', color: 'white', // ! HARDCODED: Should use design tokens
+            padding: '6px 12px',
+            backgroundColor: type === 'error' // ! HARDCODED: Should use design tokens
+              ? '#dc3545' : type === 'warning' ? '#ffc107' : '#17a2b8',
+            color: 'white', // ! HARDCODED: Should use design tokens
             border: 'none',
             borderRadius: '4px',
             cursor: 'pointer',
             fontSize: '14px',
             marginTop: '8px', // ! HARDCODED: Should use design tokens
-  }}
+          }}
         >
           {retryText}
         </button>

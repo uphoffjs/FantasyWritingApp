@@ -548,7 +548,7 @@ Has a personality`;
       cy.wrap(onImportSpy).should('have.been.calledWith', 
         Cypress.sinon.match((value: any) => {
           // TODO: q1 should not be included since it says "No answer provided"
-          return !('q1' in value) && value['q2'] === 'Has a personality';
+          return !('q1' in value) && value.q2 === 'Has a personality';
         }));
     });
     it('handles multiline answers during import', () => {

@@ -10,6 +10,7 @@ import { WorldElement } from '../types/models';
 import { getCategoryIcon } from '../utils/categoryMapping';
 import { getElementColor } from '../utils/elementColors';
 import { ProgressRing } from './ProgressRing';
+import { getTestProps } from '../utils/react-native-web-polyfills';
 
 // * Helper to safely use theme context
 const useOptionalTheme = () => {
@@ -124,7 +125,7 @@ export const ElementCard = memo(function ElementCard({
         pressed && styles.cardPressed,
         Platform.OS === 'web' && styles.cardWeb,
       ]}
-      data-cy="element-card"
+      {...getTestProps('element-card')}
     >
       {/* Completion Badge */}
       <View style={[styles.badge, { backgroundColor: badge.color + '20', borderColor: badge.color }]}>
@@ -136,7 +137,7 @@ export const ElementCard = memo(function ElementCard({
       <View style={styles.header}>
         <View style={styles.headerLeft}>
           <View style={[styles.categoryIconContainer, { backgroundColor: elementColors.bg }]}>
-            <Text style={styles.categoryIcon} data-cy="category-icon">
+            <Text style={styles.categoryIcon} {...getTestProps('category-icon')}>
               {categoryIcon}
             </Text>
           </View>
@@ -144,11 +145,11 @@ export const ElementCard = memo(function ElementCard({
             <Text
               style={[styles.elementName, { color: elementColors.text }]}
               numberOfLines={2}
-              data-cy="element-name"
+              {...getTestProps('element-name')}
             >
               {element.name}
             </Text>
-            <Text style={styles.categoryText} data-cy="element-category">
+            <Text style={styles.categoryText} {...getTestProps('element-category')}>
               {element.category.replace('-', ' ')}
             </Text>
           </View>
@@ -171,7 +172,7 @@ export const ElementCard = memo(function ElementCard({
         <Text
           style={styles.description}
           numberOfLines={2}
-          data-cy="element-description"
+          {...getTestProps('element-description')}
         >
           {element.description}
         </Text>
@@ -188,7 +189,7 @@ export const ElementCard = memo(function ElementCard({
           <View style={styles.tags}>
             {element.tags.slice(0, 2).map((tag) => (
               <View key={tag} style={styles.tag}>
-                <Text style={styles.tagText} data-cy="element-tag">
+                <Text style={styles.tagText} {...getTestProps('element-tag')}>
                   {tag}
                 </Text>
               </View>

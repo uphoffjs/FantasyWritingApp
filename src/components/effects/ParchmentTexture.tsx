@@ -92,13 +92,13 @@ export const ParchmentTexture: React.FC<ParchmentTextureProps> = ({
         style={[
           StyleSheet.absoluteFillObject,
           {
-            backgroundColor: theme.mode === 'dark' 
+            backgroundColor: theme.mode === 'dark'
               ? theme.colors.metal.gold
               : theme.colors.metal.bronze,
             opacity: opacity,
+            pointerEvents: 'none' as any, // Use style.pointerEvents instead of deprecated prop
           }
         ]}
-        pointerEvents="none"
       />
       {children}
     </View>

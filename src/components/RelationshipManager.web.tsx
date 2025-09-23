@@ -9,6 +9,7 @@ import { WorldElement, Relationship } from '../types/models';
 import { useWorldbuildingStore } from '../store/worldbuildingStore';
 import { v4 as uuidv4 } from 'uuid';
 import { getCategoryIcon } from '../utils/categoryMapping';
+import { getTestProps } from '../utils/react-native-web-polyfills';
 
 interface RelationshipManagerProps {
   elements: WorldElement[];
@@ -135,7 +136,7 @@ export function RelationshipManager({ elements, projectId }: RelationshipManager
         <button
           onClick={() => setShowAddModal(true)}
           className="px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition-colors"
-          data-cy="add-relationship-button"
+          {...getTestProps('add-relationship-button')}
         >
           Add Relationship
         </button>
@@ -183,7 +184,7 @@ export function RelationshipManager({ elements, projectId }: RelationshipManager
                       <button
                         onClick={() => handleDeleteRelationship(rel.id)}
                         className="ml-4 p-2 text-red-400 hover:text-red-300 transition-colors"
-                        data-cy={`delete-relationship-${rel.id}`}
+                        {...getTestProps(`delete-relationship-${rel.id}`)}
                       >
                         <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                           <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>

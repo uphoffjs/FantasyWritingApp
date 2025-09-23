@@ -12,6 +12,7 @@ import { WorldElement } from '../types/models';
 import { getCategoryIcon } from '../utils/categoryMapping';
 import { getElementColor } from '../utils/elementColors';
 import { fantasyMasterColors } from '../constants/fantasyMasterColors';
+import { getTestProps } from '../utils/react-native-web-polyfills';
 
 // ! RelationshipGraph Component with Fantasy Theme Colors
 // * Displays element relationships in a visually appealing graph-like layout
@@ -148,7 +149,7 @@ export const RelationshipGraphV2: React.FC<RelationshipGraphProps> = ({
     ];
 
     return (
-      <View style={styles.legend} data-cy="relationship-legend">
+      <View style={styles.legend} {...getTestProps('relationship-legend')}>
         <Text style={styles.legendTitle}>Relationship Types</Text>
         <View style={styles.legendItems}>
           {legendItems.map((item) => (
@@ -184,7 +185,7 @@ export const RelationshipGraphV2: React.FC<RelationshipGraphProps> = ({
           isFocused && styles.focusedNode,
         ]}
         onPress={() => handleElementPress(element)}
-        data-cy={`element-node-${element.id}`}
+        {...getTestProps(`element-node-${element.id}`)}
       >
         <View style={styles.nodeHeader}>
           <View style={[styles.nodeIcon, { backgroundColor: elementColors.accent }]}>
@@ -246,7 +247,7 @@ export const RelationshipGraphV2: React.FC<RelationshipGraphProps> = ({
           { borderLeftColor: relationshipColor }
         ]}
         onPress={() => onRelationshipPress?.(relationship)}
-        data-cy={`relationship-${relationship.id}`}
+        {...getTestProps(`relationship-${relationship.id}`)}
       >
         <View style={styles.relationshipHeader}>
           <Text style={[styles.relationshipType, { color: relationshipColor }]}>
@@ -287,7 +288,7 @@ export const RelationshipGraphV2: React.FC<RelationshipGraphProps> = ({
     const categoryColor = fantasyMasterColors.elements[category as keyof typeof fantasyMasterColors.elements] || theme.colors.primary.main;
 
     return (
-      <View key={category} style={styles.categorySection} data-cy={`category-section-${category}`}>
+      <View key={category} style={styles.categorySection} {...getTestProps(`category-section-${category}`)}>
         <TouchableOpacity
           style={[styles.categoryHeader, { backgroundColor: categoryColor + '10' }]}
           onPress={() => toggleCategory(category)}
@@ -324,7 +325,7 @@ export const RelationshipGraphV2: React.FC<RelationshipGraphProps> = ({
   };
 
   return (
-    <View style={styles.container} data-cy="relationship-graph">
+    <View style={styles.container} {...getTestProps('relationship-graph')}>
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.title}>Element Relationships</Text>
@@ -343,7 +344,7 @@ export const RelationshipGraphV2: React.FC<RelationshipGraphProps> = ({
       >
         {/* Focused Element Details */}
         {focusedElementId && (
-          <View style={styles.focusSection} data-cy="focused-element-section">
+          <View style={styles.focusSection} {...getTestProps('focused-element-section')}>
             <Text style={styles.focusSectionTitle}>Selected Element</Text>
             {renderElementNode(elements.find(el => el.id === focusedElementId)!, false)}
             
@@ -363,7 +364,7 @@ export const RelationshipGraphV2: React.FC<RelationshipGraphProps> = ({
             <TouchableOpacity
               style={styles.clearFocusButton}
               onPress={() => setFocusedElementId(null)}
-              data-cy="clear-focus-button"
+              {...getTestProps('clear-focus-button')}
             >
               <Text style={styles.clearFocusText}>Clear Selection</Text>
             </TouchableOpacity>

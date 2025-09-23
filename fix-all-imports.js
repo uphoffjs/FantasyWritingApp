@@ -25,7 +25,7 @@ const fixLog = [];
 testFiles.forEach(filePath => {
   const relativePath = path.relative(__dirname, filePath);
   let content = fs.readFileSync(filePath, 'utf8');
-  let originalContent = content;
+  const originalContent = content;
   let fileFixes = 0;
 
   // Fix 1: CalculationService -> calculationService (most critical - 144 occurrences)
@@ -105,7 +105,7 @@ const mockElement = {
 const wrapperPath = path.join(__dirname, 'cypress/support/component-wrapper.tsx');
 if (fs.existsSync(wrapperPath)) {
   let wrapperContent = fs.readFileSync(wrapperPath, 'utf8');
-  let originalWrapper = wrapperContent;
+  const originalWrapper = wrapperContent;
 
   // Ensure mountWithProviders is exported
   if (!wrapperContent.includes('export const mountWithProviders') &&

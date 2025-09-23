@@ -8,6 +8,7 @@ import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import type { NavigationProp } from '../navigation/types';
 import { useWorldbuildingStore } from '../store/worldbuildingStore';
+import { getTestProps } from '../utils/react-native-web-polyfills';
 
 export function ProjectListScreen() {
   const navigation = useNavigation<NavigationProp>();
@@ -57,7 +58,7 @@ export function ProjectListScreen() {
           <button
             onClick={handleNewProjectClick}
             className="bg-might hover:bg-dragonfire transition-colors rounded-lg px-4 py-2 flex items-center text-white"
-            data-cy="new-project-button"
+            {...getTestProps('new-project-button')}
           >
             <span className="text-white font-semibold font-cinzel">
               + New Project
@@ -80,7 +81,7 @@ export function ProjectListScreen() {
                 onChange={(e) => {
                   setNewProjectName(e.target.value);
                 }}
-                data-cy="project-name-input"
+                {...getTestProps('project-name-input')}
               />
             </div>
             <div className="mb-4">
@@ -92,7 +93,7 @@ export function ProjectListScreen() {
                 onChange={(e) => {
                   setNewProjectDescription(e.target.value);
                 }}
-                data-cy="project-description-input"
+                {...getTestProps('project-description-input')}
               />
             </div>
             <div className="flex justify-end gap-3">
@@ -103,14 +104,14 @@ export function ProjectListScreen() {
                   setNewProjectDescription('');
                 }}
                 className="bg-parchment-200 hover:bg-parchment-400 transition-colors rounded-lg px-4 py-2"
-                data-cy="cancel-project-button"
+                {...getTestProps('cancel-project-button')}
               >
                 <span className="text-ink-secondary font-semibold">Cancel</span>
               </button>
               <button
                 onClick={handleCreateProject}
                 className="bg-might hover:bg-dragonfire transition-colors rounded-lg px-4 py-2"
-                data-cy="create-project-button"
+                {...getTestProps('create-project-button')}
               >
                 <span className="text-white font-semibold">Create</span>
               </button>
@@ -156,7 +157,7 @@ export function ProjectListScreen() {
                       handleDeleteProject(item.id, item.name);
                     }}
                     className="p-2 hover:bg-parchment-400 rounded transition-colors"
-                    data-cy="delete-project-button"
+                    {...getTestProps('delete-project-button')}
                   >
                     <svg className="w-5 h-5 text-dragonfire" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>

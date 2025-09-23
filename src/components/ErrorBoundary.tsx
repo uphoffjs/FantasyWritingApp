@@ -1,4 +1,5 @@
 import React, { Component, ReactNode, ErrorInfo, createContext, useContext } from 'react';
+import { getTestProps } from '../utils/react-native-web-polyfills';
 
 // * Error context for useErrorHandler hook
 const ErrorContext = createContext<((error: Error) => void) | null>(null);
@@ -152,9 +153,8 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
 
       // * Default error UI based on level
       return (
-        <div 
-          data-testid="error-boundary-fallback"
-          data-cy="error-boundary"
+        <div
+          {...getTestProps('error-boundary-fallback')}
           style={{
             padding: '20px',
             margin: '20px', border: '1px solid #ff6b6b', // ! HARDCODED: Should use design tokens
@@ -163,13 +163,13 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
           }}
         >
           {/* ! HARDCODED: Should use design tokens */}
-          <h2 data-testid="error-title" style={{ color: '#c92a2a' }}>
+          <h2 {...getTestProps('error-title')} style={{ color: '#c92a2a' }}>
             {level === 'page' ? 'Page Error' : 
              level === 'section' ? 'Section Error' : 
              'Component Error'}
           </h2>
           {/* ! HARDCODED: Should use design tokens */}
-          <p data-testid="error-message" style={{ color: '#862e2e' }}>
+          <p {...getTestProps('error-message')} style={{ color: '#862e2e' }}>
             {error.message || 'An unexpected error occurred'}
           </p>
           
@@ -198,9 +198,8 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
             </p>
           )}
           
-          <button 
-            data-testid="reset-error-button"
-            data-cy="reset-error"
+          <button
+            {...getTestProps('reset-error-button')}
             onClick={this.resetError}
             style={{
               marginTop: '20px', padding: '10px 20px', // ! HARDCODED: Should use design tokens backgroundColor: '#087f5b', // ! HARDCODED: Should use design tokens

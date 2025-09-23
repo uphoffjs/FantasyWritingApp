@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import { View, ViewProps, Platform } from 'react-native';
+import { getTestProps } from '../utils/react-native-web-polyfills';
 
 interface TestableViewProps extends ViewProps {
   dataCy?: string;
@@ -32,19 +33,8 @@ export const TestableView: React.FC<TestableViewProps> = ({
     }
   }, [dataCy]);
 
-  // * Build attributes object
-  const testAttributes: any = {};
-  
-  if (dataCy) {
-    // * Add testID for React Native testing
-    testAttributes.testID = dataCy;
-    
-    // * Add web-specific attributes
-    if (Platform.OS === 'web') {
-      testAttributes['data-cy'] = dataCy;
-      testAttributes['data-testid'] = dataCy;
-    }
-  }
+  // * Use centralized getTestProps function
+  const testAttributes = dataCy ? getTestProps(dataCy) : {};
 
   return (
     <View 
@@ -57,16 +47,5 @@ export const TestableView: React.FC<TestableViewProps> = ({
   );
 };
 
-// * Helper function to create testable attributes
-export const getTestableProps = (id: string): any => {
-  const props: any = {
-    testID: id,
-  };
-
-  if (Platform.OS === 'web') {
-    props['data-cy'] = id;
-    props['data-testid'] = id;
-  }
-
-  return props;
-};
+// * Re-export the centralized getTestProps function for backward compatibility
+export { getTestProps as getTestableProps } from '../utils/react-native-web-polyfills';

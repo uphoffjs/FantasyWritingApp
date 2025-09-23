@@ -29,7 +29,7 @@ const colors = {
 };
 
 // Statistics tracking
-let stats = {
+const stats = {
   totalFiles: 0,
   filesFixed: 0,
   selectorsFixed: 0,

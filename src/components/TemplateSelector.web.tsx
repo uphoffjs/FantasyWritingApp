@@ -9,6 +9,7 @@ import { QuestionnaireTemplate, ElementCategory } from '../types/models';
 import { useWorldbuildingStore } from '../store/worldbuildingStore';
 import { DEFAULT_TEMPLATES } from '../types/worldbuilding';
 import { getCategoryIcon } from '../utils/categoryMapping';
+import { getTestProps } from '../utils/react-native-web-polyfills';
 
 interface TemplateSelectorProps {
   category: ElementCategory;
@@ -105,7 +106,7 @@ export function TemplateSelector({
             <button
               onClick={onClose}
               className="p-2 text-gray-400 hover:text-gray-200 transition-colors"
-              data-cy="close-template-selector"
+              {...getTestProps('close-template-selector')}
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -123,7 +124,7 @@ export function TemplateSelector({
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search templates..."
               className="w-full pl-10 pr-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:border-indigo-500"
-              data-cy="template-search"
+              {...getTestProps('template-search')}
             />
             <svg
               className="absolute left-3 top-2.5 w-5 h-5 text-gray-500"
@@ -163,7 +164,7 @@ export function TemplateSelector({
                       : 'border-gray-700 bg-gray-900 hover:border-gray-600'
                   }`}
                   onClick={() => setSelectedTemplateId(template.id)}
-                  data-cy={`template-${template.id}`}
+                  {...getTestProps(`template-${template.id}`)}
                 >
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
@@ -253,7 +254,7 @@ export function TemplateSelector({
             <button
               onClick={onClose}
               className="px-4 py-2 bg-gray-700 text-gray-100 rounded-lg hover:bg-gray-600 transition-colors"
-              data-cy="cancel-template-button"
+              {...getTestProps('cancel-template-button')}
             >
               Cancel
             </button>
@@ -265,7 +266,7 @@ export function TemplateSelector({
                   ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
                   : 'bg-indigo-500 text-white hover:bg-indigo-600'
               }`}
-              data-cy="apply-template-button"
+              {...getTestProps('apply-template-button')}
             >
               {isLoading ? (
                 <span className="flex items-center">

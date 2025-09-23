@@ -7,6 +7,7 @@ import React, { memo } from 'react';
 import { WorldElement } from '../types/models';
 import { getCategoryIcon } from '../utils/categoryMapping';
 import { ProgressRing } from './ProgressRing.web';
+import { getTestProps } from '../utils/react-native-web-polyfills';
 
 interface ElementCardProps {
   element: WorldElement;
@@ -66,7 +67,7 @@ export const ElementCard = memo(function ElementCard({
     <div
       onClick={onPress}
       className="bg-gray-800 hover:bg-gray-700 rounded-lg p-4 cursor-pointer transition-colors duration-200 border border-gray-700 hover:border-gray-600"
-      data-cy={`element-card-${element.id}`}
+      {...getTestProps(`element-card-${element.id}`)}
     >
       {/* Header Section */}
       <div className="flex items-start justify-between mb-3">

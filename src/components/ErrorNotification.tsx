@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { getTestProps } from '../utils/react-native-web-polyfills';
 
 export interface ErrorNotificationProps {
   error?: Error | string | null;
@@ -125,8 +126,7 @@ export const ErrorNotification: React.FC<ErrorNotificationProps> = ({
 
   return (
     <div
-      data-testid={testId}
-      data-cy={`${type}-notification`}
+      {...getTestProps(`${type}-notification`)}
       className={`error-notification ${type} ${className} ${animated ? 'animated' : ''}`}
       style={{
         position: 'fixed',
@@ -150,14 +150,13 @@ export const ErrorNotification: React.FC<ErrorNotificationProps> = ({
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span data-testid={`${testId}-icon`} style={{ fontSize: '20px' }}> {/* ! HARDCODED: Should use design tokens */}
+          <span {...getTestProps(`${testId}-icon`)} style={{ fontSize: '20px' }}> {/* ! HARDCODED: Should use design tokens */}
             {icons[type]}
           </span>
-          <strong data-testid={`${testId}-title`}>{displayTitle}</strong>
+          <strong {...getTestProps(`${testId}-title`)}>{displayTitle}</strong>
         </div>
         <button
-          data-testid={`${testId}-close`}
-          data-cy="close-notification"
+          {...getTestProps('close-notification')}
           onClick={handleClose}
           style={{
             background: 'transparent',
@@ -176,15 +175,14 @@ export const ErrorNotification: React.FC<ErrorNotificationProps> = ({
       </div>
 
       {/* Message */}
-      <div data-testid={`${testId}-message`} style={{ paddingLeft: ' 28px' }}>
+      <div {...getTestProps(`${testId}-message`)} style={{ paddingLeft: ' 28px' }}>
         {displayMessage}
       </div>
 
       {/* Retry button */}
       {onRetry && (
         <button
-          data-testid={`${testId}-retry`}
-          data-cy="retry-notification"
+          {...getTestProps('retry-notification')}
           onClick={onRetry}
           style={{
             alignSelf: 'flex-start', // ! HARDCODED: Should use design tokens
@@ -204,7 +202,7 @@ export const ErrorNotification: React.FC<ErrorNotificationProps> = ({
       {/* Progress bar */}
       {showProgress && !persistent && (
         <div
-          data-testid={`${testId}-progress`}
+          {...getTestProps(`${testId}-progress`)}
           style={{
             position: 'absolute',
             bottom: 0,

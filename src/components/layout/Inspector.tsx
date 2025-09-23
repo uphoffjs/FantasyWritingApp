@@ -14,6 +14,7 @@ import { WorldElement } from '../../types/models';
 import { getCategoryIcon } from '../../utils/categoryMapping';
 import { getElementColor } from '../../utils/elementColors';
 import { ProgressRing } from '../ProgressRing';
+import { getTestProps } from '../../utils/react-native-web-polyfills';
 
 // ! Inspector Panel Component for Element Details
 // * Contextual content that changes based on selected element
@@ -84,7 +85,7 @@ export const Inspector: React.FC<InspectorProps> = ({
   if (!selectedElement) {
     // * Empty state when no element is selected
     return (
-      <View style={styles.container} data-cy="inspector-empty">
+      <View style={styles.container} {...getTestProps('inspector-empty')}>
         <View style={styles.emptyState}>
           <Text style={styles.emptyIcon}>📋</Text>
           <Text style={styles.emptyTitle}>No Element Selected</Text>
@@ -128,7 +129,7 @@ export const Inspector: React.FC<InspectorProps> = ({
           transform: [{ translateX: slideAnim }],
         },
       ]}
-      data-cy="inspector-panel"
+      {...getTestProps('inspector-panel')}
     >
       {/* Header with Element Info */}
       <View style={[styles.header, { backgroundColor: elementColors.bg }]}>
@@ -138,10 +139,10 @@ export const Inspector: React.FC<InspectorProps> = ({
               <Text style={styles.categoryIcon}>{categoryIcon}</Text>
             </View>
             <View style={styles.headerInfo}>
-              <Text style={[styles.elementName, { color: elementColors.text }]} data-cy="inspector-element-name">
+              <Text style={[styles.elementName, { color: elementColors.text }]} {...getTestProps('inspector-element-name')}>
                 {selectedElement.name}
               </Text>
-              <Text style={styles.categoryText} data-cy="inspector-element-category">
+              <Text style={styles.categoryText} {...getTestProps('inspector-element-category')}>
                 {selectedElement.category.replace('-', ' ')}
               </Text>
             </View>
@@ -151,7 +152,7 @@ export const Inspector: React.FC<InspectorProps> = ({
               <TouchableOpacity
                 onPress={onToggleCollapse}
                 style={styles.collapseButton}
-                data-cy="inspector-collapse-button"
+                {...getTestProps('inspector-collapse-button')}
               >
                 <Text style={styles.actionIcon}>{isCollapsed ? '◀' : '▶'}</Text>
               </TouchableOpacity>
@@ -160,7 +161,7 @@ export const Inspector: React.FC<InspectorProps> = ({
               <TouchableOpacity
                 onPress={onClose}
                 style={styles.closeButton}
-                data-cy="inspector-close-button"
+                {...getTestProps('inspector-close-button')}
               >
                 <Text style={styles.actionIcon}>✕</Text>
               </TouchableOpacity>
@@ -174,7 +175,7 @@ export const Inspector: React.FC<InspectorProps> = ({
             <TouchableOpacity
               style={[styles.actionButton, styles.editButton]}
               onPress={() => onEdit(selectedElement)}
-              data-cy="inspector-edit-button"
+              {...getTestProps('inspector-edit-button')}
             >
               <Text style={styles.actionButtonText}>✏️ Edit</Text>
             </TouchableOpacity>
@@ -183,7 +184,7 @@ export const Inspector: React.FC<InspectorProps> = ({
             <TouchableOpacity
               style={[styles.actionButton, styles.duplicateButton]}
               onPress={() => onDuplicate(selectedElement)}
-              data-cy="inspector-duplicate-button"
+              {...getTestProps('inspector-duplicate-button')}
             >
               <Text style={styles.actionButtonText}>📋 Duplicate</Text>
             </TouchableOpacity>
@@ -192,7 +193,7 @@ export const Inspector: React.FC<InspectorProps> = ({
             <TouchableOpacity
               style={[styles.actionButton, styles.deleteButton]}
               onPress={() => onDelete(selectedElement)}
-              data-cy="inspector-delete-button"
+              {...getTestProps('inspector-delete-button')}
             >
               <Text style={styles.actionButtonText}>🗑️ Delete</Text>
             </TouchableOpacity>
@@ -205,7 +206,7 @@ export const Inspector: React.FC<InspectorProps> = ({
         <TouchableOpacity
           style={[styles.tab, activeTab === 'details' && styles.activeTab]}
           onPress={() => handleTabPress('details')}
-          data-cy="inspector-details-tab"
+          {...getTestProps('inspector-details-tab')}
         >
           <Text style={[styles.tabText, activeTab === 'details' && styles.activeTabText]}>
             Details
@@ -214,7 +215,7 @@ export const Inspector: React.FC<InspectorProps> = ({
         <TouchableOpacity
           style={[styles.tab, activeTab === 'relationships' && styles.activeTab]}
           onPress={() => handleTabPress('relationships')}
-          data-cy="inspector-relationships-tab"
+          {...getTestProps('inspector-relationships-tab')}
         >
           <Text style={[styles.tabText, activeTab === 'relationships' && styles.activeTabText]}>
             Relationships ({relationships.length})
@@ -223,7 +224,7 @@ export const Inspector: React.FC<InspectorProps> = ({
         <TouchableOpacity
           style={[styles.tab, activeTab === 'history' && styles.activeTab]}
           onPress={() => handleTabPress('history')}
-          data-cy="inspector-history-tab"
+          {...getTestProps('inspector-history-tab')}
         >
           <Text style={[styles.tabText, activeTab === 'history' && styles.activeTabText]}>
             History
@@ -234,7 +235,7 @@ export const Inspector: React.FC<InspectorProps> = ({
       {/* Tab Content */}
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
         {activeTab === 'details' && (
-          <View style={styles.tabContent} data-cy="inspector-details-content">
+          <View style={styles.tabContent} {...getTestProps('inspector-details-content')}>
             {/* Completion Status */}
             <View style={styles.detailSection}>
               <Text style={styles.sectionTitle}>Completion Status</Text>
@@ -269,7 +270,7 @@ export const Inspector: React.FC<InspectorProps> = ({
             {selectedElement.description && (
               <View style={styles.detailSection}>
                 <Text style={styles.sectionTitle}>Description</Text>
-                <Text style={styles.descriptionText} data-cy="inspector-description">
+                <Text style={styles.descriptionText} {...getTestProps('inspector-description')}>
                   {selectedElement.description}
                 </Text>
               </View>
@@ -281,7 +282,7 @@ export const Inspector: React.FC<InspectorProps> = ({
                 <Text style={styles.sectionTitle}>Tags</Text>
                 <View style={styles.tagContainer}>
                   {selectedElement.tags.map((tag, index) => (
-                    <View key={index} style={styles.tag} data-cy="inspector-tag">
+                    <View key={index} style={styles.tag} {...getTestProps('inspector-tag')}>
                       <Text style={styles.tagText}>{tag}</Text>
                     </View>
                   ))}
@@ -317,7 +318,7 @@ export const Inspector: React.FC<InspectorProps> = ({
         )}
 
         {activeTab === 'relationships' && (
-          <View style={styles.tabContent} data-cy="inspector-relationships-content">
+          <View style={styles.tabContent} {...getTestProps('inspector-relationships-content')}>
             {relationships.length === 0 ? (
               <View style={styles.emptyTabState}>
                 <Text style={styles.emptyTabIcon}>🔗</Text>
@@ -328,7 +329,7 @@ export const Inspector: React.FC<InspectorProps> = ({
               </View>
             ) : (
               relationships.map((rel) => (
-                <View key={rel.id} style={styles.relationshipCard} data-cy="inspector-relationship">
+                <View key={rel.id} style={styles.relationshipCard} {...getTestProps('inspector-relationship')}>
                   <View style={styles.relationshipHeader}>
                     <Text style={styles.relationshipType}>{rel.type}</Text>
                     <Text style={styles.relationshipArrow}>→</Text>
@@ -359,7 +360,7 @@ export const Inspector: React.FC<InspectorProps> = ({
         )}
 
         {activeTab === 'history' && (
-          <View style={styles.tabContent} data-cy="inspector-history-content">
+          <View style={styles.tabContent} {...getTestProps('inspector-history-content')}>
             {history.length === 0 ? (
               <View style={styles.emptyTabState}>
                 <Text style={styles.emptyTabIcon}>📜</Text>
@@ -370,7 +371,7 @@ export const Inspector: React.FC<InspectorProps> = ({
               </View>
             ) : (
               history.map((entry) => (
-                <View key={entry.id} style={styles.historyEntry} data-cy="inspector-history-entry">
+                <View key={entry.id} style={styles.historyEntry} {...getTestProps('inspector-history-entry')}>
                   <View style={styles.historyHeader}>
                     <Text style={styles.historyAction}>{entry.action}</Text>
                     <Text style={styles.historyTime}>

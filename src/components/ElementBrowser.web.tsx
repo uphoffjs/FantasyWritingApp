@@ -8,6 +8,7 @@ import React, { useState, useMemo, useCallback } from 'react';
 import { WorldElement, ElementCategory } from '../types/models';
 import { ElementCard } from './ElementCard.web';
 import { getCategoryIcon } from '../utils/categoryMapping';
+import { getTestProps } from '../utils/react-native-web-polyfills';
 
 interface ElementBrowserProps {
   elements: WorldElement[];
@@ -154,7 +155,7 @@ export function ElementBrowser({
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search elements..."
             className="w-full px-4 py-2 pl-10 bg-gray-800 border border-gray-700 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:border-indigo-500"
-            data-cy="search-input"
+            {...getTestProps('search-input')}
           />
           <svg
             className="absolute left-3 top-2.5 w-5 h-5 text-gray-500"
@@ -174,7 +175,7 @@ export function ElementBrowser({
           <button
             onClick={() => setShowSortMenu(!showSortMenu)}
             className="px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-gray-100 hover:bg-gray-700 transition-colors flex items-center gap-2"
-            data-cy="sort-button"
+            {...getTestProps('sort-button')}
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
@@ -218,7 +219,7 @@ export function ElementBrowser({
                 ? 'bg-indigo-500 text-white'
                 : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
             }`}
-            data-cy={`category-filter-${filter.value}`}
+            {...getTestProps(`category-filter-${filter.value}`)}
           >
             <span>{filter.icon}</span>
             <span className="text-sm">{filter.label}</span>
@@ -243,7 +244,7 @@ export function ElementBrowser({
             <button
               onClick={onCreateElement}
               className="px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition-colors"
-              data-cy="create-first-element"
+              {...getTestProps('create-first-element')}
             >
               Create First Element
             </button>
@@ -266,7 +267,7 @@ export function ElementBrowser({
         <button
           onClick={onCreateElement}
           className="fixed bottom-6 right-6 w-14 h-14 bg-indigo-500 text-white rounded-full shadow-lg hover:bg-indigo-600 transition-colors flex items-center justify-center"
-          data-cy="create-element-fab"
+          {...getTestProps('create-element-fab')}
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />

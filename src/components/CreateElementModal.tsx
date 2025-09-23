@@ -14,6 +14,7 @@ import {
 import { useWorldbuildingStore } from '../store/worldbuildingStore';
 import { ElementCategory } from '../types/models';
 import { getCategoryIcon } from '../utils/categoryMapping';
+import { getTestProps } from '../utils/react-native-web-polyfills';
 
 interface CreateElementModalProps {
   visible: boolean;
@@ -165,7 +166,7 @@ export function CreateElementModal({
                       selectedCategory === category.value && styles.categoryCardSelected,
                     ]}
                     onPress={() => handleCategoryPress(category.value as ElementCategory | 'custom')}
-                    data-cy={`category-${category.value}`}
+                    {...getTestProps(`category-${category.value}`)}
                   >
                     <Text style={styles.categoryIcon}>{category.icon}</Text>
                     <Text

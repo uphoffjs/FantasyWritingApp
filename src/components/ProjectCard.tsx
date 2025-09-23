@@ -16,6 +16,7 @@ import { Project } from '../types/models';
 import { useWorldbuildingStore } from '../store/worldbuildingStore';
 import { ProgressRing } from './ProgressRing';
 import { LazyImage } from './LazyImage';
+import { getTestProps } from '../utils/react-native-web-polyfills';
 
 // * Helper to safely use theme context
 const useOptionalTheme = () => {
@@ -359,7 +360,7 @@ export const ProjectCard = memo(function ProjectCard({
           onPressIn={handlePressIn}
           onPressOut={handlePressOut}
           onLongPress={handleLongPress}
-          data-cy="project-card"
+          {...getTestProps('project-card')}
         >
         {/* Cover Image or Default Header with Progress Ring Overlay */}
         <View style={styles.header}>
@@ -478,7 +479,7 @@ export const ProjectCard = memo(function ProjectCard({
             <Pressable
               style={styles.openButton}
               onPress={handleOpenProject}
-              testID="project-card-open-button"
+              {...getTestProps('project-card-open-button')}
             >
               <Text style={styles.openButtonText}>Open →</Text>
             </Pressable>

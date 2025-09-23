@@ -12,6 +12,7 @@ import { RelationshipManager } from '../components/RelationshipManager.web';
 import { TemplateSelector } from '../components/TemplateSelector.web';
 import { useWorldbuildingStore } from '../store/worldbuildingStore';
 import { getCategoryIcon } from '../utils/categoryMapping';
+import { getTestProps } from '../utils/react-native-web-polyfills';
 
 export function ElementScreen() {
   const route = useRoute<RootStackScreenProps<'Element'>['route']>();
@@ -43,7 +44,7 @@ export function ElementScreen() {
           <button
             className="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors"
             onClick={() => navigation.goBack()}
-            data-cy="back-button"
+            {...getTestProps('back-button')}
           >
             Go Back
           </button>
@@ -74,7 +75,7 @@ export function ElementScreen() {
               <button
                 onClick={() => navigation.goBack()}
                 className="p-2 hover:bg-gray-700 rounded-lg transition-colors"
-                data-cy="back-button"
+                {...getTestProps('back-button')}
               >
                 <svg className="w-6 h-6 text-gray-100" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
@@ -93,7 +94,7 @@ export function ElementScreen() {
             <button
               onClick={handleDeleteElement}
               className="p-2 text-red-400 hover:text-red-300 hover:bg-gray-700 rounded-lg transition-all"
-              data-cy="delete-element-button"
+              {...getTestProps('delete-element-button')}
             >
               <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
@@ -124,7 +125,7 @@ export function ElementScreen() {
                   : 'text-gray-400 hover:text-gray-300'
               }`}
               onClick={() => setActiveTab('editor')}
-              data-cy="editor-tab"
+              {...getTestProps('editor-tab')}
             >
               Details & Questions
             </button>
@@ -135,7 +136,7 @@ export function ElementScreen() {
                   : 'text-gray-400 hover:text-gray-300'
               }`}
               onClick={() => setActiveTab('relationships')}
-              data-cy="relationships-tab"
+              {...getTestProps('relationships-tab')}
             >
               Relationships
             </button>

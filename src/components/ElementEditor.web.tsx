@@ -7,6 +7,7 @@
 import React, { useState, useCallback, useEffect, useMemo } from 'react';
 import { WorldElement, Question, Answer } from '../types/models';
 import { useWorldbuildingStore } from '../store/worldbuildingStore';
+import { getTestProps } from '../utils/react-native-web-polyfills';
 
 interface ElementEditorProps {
   element: WorldElement;
@@ -42,7 +43,7 @@ function QuestionField({ question, value, onChange, disabled }: QuestionFieldPro
           disabled={disabled}
           placeholder={question.placeholder}
           className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:border-indigo-500 disabled:opacity-50"
-          data-cy={`question-${question.id}`}
+          {...getTestProps(`question-${question.id}`)}
         />
       </div>
     );
@@ -66,7 +67,7 @@ function QuestionField({ question, value, onChange, disabled }: QuestionFieldPro
           placeholder={question.placeholder}
           rows={4}
           className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:border-indigo-500 disabled:opacity-50 resize-vertical"
-          data-cy={`question-${question.id}`}
+          {...getTestProps(`question-${question.id}`)}
         />
       </div>
     );
@@ -88,7 +89,7 @@ function QuestionField({ question, value, onChange, disabled }: QuestionFieldPro
           onChange={(e) => onChange(e.target.value)}
           disabled={disabled}
           className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-gray-100 focus:outline-none focus:border-indigo-500 disabled:opacity-50"
-          data-cy={`question-${question.id}`}
+          {...getTestProps(`question-${question.id}`)}
         >
           <option value="">Select an option...</option>
           {question.options.map((option) => (
@@ -121,7 +122,7 @@ function QuestionField({ question, value, onChange, disabled }: QuestionFieldPro
           min={question.min}
           max={question.max}
           className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:border-indigo-500 disabled:opacity-50"
-          data-cy={`question-${question.id}`}
+          {...getTestProps(`question-${question.id}`)}
         />
       </div>
     );
@@ -148,7 +149,7 @@ function QuestionField({ question, value, onChange, disabled }: QuestionFieldPro
               onChange={(e) => onChange(e.target.checked)}
               disabled={disabled}
               className="sr-only"
-              data-cy={`question-${question.id}`}
+              {...getTestProps(`question-${question.id}`)}
             />
             <div
               className={`w-11 h-6 rounded-full transition-colors ${
@@ -184,7 +185,7 @@ function QuestionField({ question, value, onChange, disabled }: QuestionFieldPro
           onChange={(e) => onChange(e.target.value)}
           disabled={disabled}
           className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:border-indigo-500 disabled:opacity-50"
-          data-cy={`question-${question.id}`}
+          {...getTestProps(`question-${question.id}`)}
         />
       </div>
     );
@@ -312,7 +313,7 @@ export function ElementEditor({
             onChange={(e) => handleElementChange('name', e.target.value)}
             className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:border-indigo-500"
             placeholder="Enter element name..."
-            data-cy="element-name-input"
+            {...getTestProps('element-name-input')}
           />
         </div>
 
@@ -326,7 +327,7 @@ export function ElementEditor({
             rows={3}
             className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:border-indigo-500 resize-vertical"
             placeholder="Enter a brief description..."
-            data-cy="element-description-input"
+            {...getTestProps('element-description-input')}
           />
         </div>
 
@@ -355,7 +356,7 @@ export function ElementEditor({
                 onClick={handleSave}
                 disabled={!hasChanges || isSaving}
                 className="px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                data-cy="save-button"
+                {...getTestProps('save-button')}
               >
                 Save Changes
               </button>
