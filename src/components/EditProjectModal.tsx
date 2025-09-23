@@ -21,6 +21,7 @@ import { Button } from './Button';
 import { ImagePicker } from './ImagePicker';
 import { useWorldbuildingStore } from '../store/worldbuildingStore';
 import { useTheme } from '../providers/ThemeProvider';
+import { getTestProps } from '../utils/react-native-web-polyfills';
 
 interface EditProjectModalProps {
   visible: boolean;
@@ -182,14 +183,14 @@ export function EditProjectModal({
         style={styles.keyboardView}
       >
         <View style={styles.modalOverlay}>
-          <Pressable style={styles.backdrop} onPress={handleClose} testID="edit-project-backdrop" />
+          <Pressable style={styles.backdrop} onPress={handleClose} {...getTestProps('edit-project-backdrop')} />
           
           <View style={styles.modalContent}>
             <ScrollView showsVerticalScrollIndicator={false}>
               {/* Header */}
               <View style={styles.header}>
                 <Text style={styles.title}>✏️ Edit Project</Text>
-                <Pressable onPress={handleClose} style={styles.closeButton} testID="edit-project-close-button">
+                <Pressable onPress={handleClose} style={styles.closeButton} {...getTestProps('edit-project-close-button')}>
                   <Text style={styles.closeIcon}>✕</Text>
                 </Pressable>
               </View>
@@ -255,7 +256,7 @@ export function EditProjectModal({
                             formData.genre === genre && styles.genreChipSelected,
                           ]}
                           onPress={() => setFormData({ ...formData, genre })}
-                          testID={`edit-genre-chip-${genre.toLowerCase().replace(/\s+/g, '-')}`}
+                          {...getTestProps(`edit-genre-chip-${genre.toLowerCase().replace(/\s+/g, '-')}`)}
                         >
                           <Text
                             style={[
@@ -283,7 +284,7 @@ export function EditProjectModal({
                           formData.status === status.value && styles.statusOptionSelected,
                         ]}
                         onPress={() => setFormData({ ...formData, status: status.value })}
-                        testID={`edit-status-option-${status.value}`}
+                        {...getTestProps(`edit-status-option-${status.value}`)}
                       >
                         <View style={styles.radioCircle}>
                           {formData.status === status.value && (
@@ -327,7 +328,7 @@ export function EditProjectModal({
                 <Pressable
                   style={styles.deleteButton}
                   onPress={handleDelete}
-                  testID="edit-project-delete-button"
+                  {...getTestProps('edit-project-delete-button')}
                 >
                   <Text style={styles.deleteButtonText}>Delete Project</Text>
                 </Pressable>

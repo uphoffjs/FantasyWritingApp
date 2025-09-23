@@ -13,12 +13,14 @@ interface ElementCardProps {
   element: WorldElement;
   icon?: string;
   onPress: () => void;
+  testID?: string;
 }
 
 export const ElementCard = memo(function ElementCard({
   element,
   icon,
   onPress,
+  testID = 'element-card',
 }: ElementCardProps) {
   const categoryIcon = icon || getCategoryIcon(element.category);
 
@@ -67,17 +69,17 @@ export const ElementCard = memo(function ElementCard({
     <div
       onClick={onPress}
       className="bg-gray-800 hover:bg-gray-700 rounded-lg p-4 cursor-pointer transition-colors duration-200 border border-gray-700 hover:border-gray-600"
-      {...getTestProps(`element-card-${element.id}`)}
+      {...getTestProps(testID)}
     >
       {/* Header Section */}
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center flex-1 min-w-0">
-          <span className="text-2xl mr-3">{categoryIcon}</span>
+          <span className="text-2xl mr-3" {...getTestProps('category-icon')}>{categoryIcon}</span>
           <div className="flex-1 min-w-0">
-            <h3 className="text-lg font-semibold text-gray-100 truncate">
+            <h3 className="text-lg font-semibold text-gray-100 truncate" {...getTestProps('element-name')}>
               {element.name || 'Unnamed Element'}
             </h3>
-            <p className="text-sm text-gray-400 capitalize">
+            <p className="text-sm text-gray-400 capitalize" {...getTestProps('element-category')}>
               {element.category || 'uncategorized'} • {element.type || 'general'}
             </p>
           </div>
@@ -86,17 +88,18 @@ export const ElementCard = memo(function ElementCard({
         {/* Progress Ring */}
         <div className="ml-3 flex-shrink-0">
           <ProgressRing
-            percentage={completionPercentage}
-            size={48}
+            progress={completionPercentage}
+            diameter={48}
             strokeWidth={4}
-            color={getCompletionColor(completionPercentage)}
+            progressColor={getCompletionColor(completionPercentage)}
+            backgroundColor="#E5E7EB"
           />
         </div>
       </div>
 
       {/* Description */}
       {element.description && (
-        <p className="text-sm text-gray-300 mb-3 line-clamp-2">
+        <p className="text-sm text-gray-300 mb-3 line-clamp-2" {...getTestProps('element-description')}>
           {element.description}
         </p>
       )}

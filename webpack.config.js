@@ -77,6 +77,10 @@ module.exports = {
                 helpers: true,
                 regenerator: true
               }],
+              // * Fix loose mode warnings for react-native-svg
+              ['@babel/plugin-transform-class-properties', { loose: true }],
+              ['@babel/plugin-transform-private-methods', { loose: true }],
+              ['@babel/plugin-transform-private-property-in-object', { loose: true }],
               'react-native-web'
               // NativeWind babel plugin removed for web builds - causes PostCSS async issues
             ]
@@ -97,7 +101,11 @@ module.exports = {
               ['@babel/preset-react', { runtime: 'automatic' }]
             ],
             plugins: [
-              '@babel/plugin-transform-modules-commonjs'
+              '@babel/plugin-transform-modules-commonjs',
+              // * Fix loose mode warnings for react-native-svg
+              ['@babel/plugin-transform-class-properties', { loose: true }],
+              ['@babel/plugin-transform-private-methods', { loose: true }],
+              ['@babel/plugin-transform-private-property-in-object', { loose: true }]
             ]
           }
         }

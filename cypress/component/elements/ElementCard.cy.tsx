@@ -52,6 +52,7 @@ describe('ElementCard Component', () => {
   };
 
   let mockOnPress;
+  let onPressCalled = false;
 
   beforeEach(function() {
     // ! MANDATORY: Comprehensive debug setup
@@ -60,7 +61,11 @@ describe('ElementCard Component', () => {
     // * Clean state before each test
     cy.cleanState();
 
-    mockOnPress = cy.stub().as('onPress');
+    // * Use regular function instead of cy.stub() for RN Web compatibility
+    onPressCalled = false;
+    mockOnPress = () => {
+      onPressCalled = true;
+    };
   });
 
   it('should render correctly with element data', () => {
@@ -101,7 +106,10 @@ describe('ElementCard Component', () => {
     );
 
     cy.get('[data-cy="element-card"]').click();
-    cy.get('@onPress').should('have.been.called');
+    // * Check that our function was called
+    cy.wrap(null).should(() => {
+      expect(onPressCalled).to.be.true;
+    });
   });
 
   it('should display completion badge based on percentage', () => {

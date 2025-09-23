@@ -15,6 +15,7 @@ import { Button } from './Button';
 import { ImagePicker } from './ImagePicker';
 import { useWorldbuildingStore } from '../store/worldbuildingStore';
 import { useTheme } from '../providers/ThemeProvider';
+import { getTestProps } from '../utils/react-native-web-polyfills';
 
 interface CreateProjectModalProps {
   visible: boolean;
@@ -204,14 +205,14 @@ export function CreateProjectModal({
         style={styles.keyboardView}
       >
         <View style={styles.modalOverlay}>
-          <Pressable style={styles.backdrop} onPress={handleClose} testID="create-project-backdrop" />
+          <Pressable style={styles.backdrop} onPress={handleClose} {...getTestProps('create-project-backdrop')} />
           
           <View style={styles.modalContent}>
             <ScrollView showsVerticalScrollIndicator={false}>
               {/* Header */}
               <View style={styles.header}>
                 <Text style={styles.title}>✨ Create New Project</Text>
-                <Pressable onPress={handleClose} style={styles.closeButton} testID="create-project-close-button">
+                <Pressable onPress={handleClose} style={styles.closeButton} {...getTestProps('create-project-close-button')}>
                   <Text style={styles.closeIcon}>✕</Text>
                 </Pressable>
               </View>
@@ -233,7 +234,7 @@ export function CreateProjectModal({
                           selectedTemplate === template.id && styles.templateCardSelected,
                         ]}
                         onPress={() => handleTemplateSelect(template.id)}
-                        testID={`template-${template.id}`}
+                        {...getTestProps(`template-${template.id}`)}
                       >
                         <Text style={styles.templateIcon}>{template.icon}</Text>
                         <Text style={[
@@ -317,7 +318,7 @@ export function CreateProjectModal({
                             formData.genre === genre && styles.genreChipSelected,
                           ]}
                           onPress={() => setFormData({ ...formData, genre })}
-                          testID={`genre-chip-${genre.toLowerCase().replace(/\s+/g, '-')}`}
+                          {...getTestProps(`genre-chip-${genre.toLowerCase().replace(/\s+/g, '-')}`)}
                         >
                           <Text
                             style={[
@@ -345,7 +346,7 @@ export function CreateProjectModal({
                           formData.status === status.value && styles.statusOptionSelected,
                         ]}
                         onPress={() => setFormData({ ...formData, status: status.value })}
-                        testID={`status-option-${status.value}`}
+                        {...getTestProps(`status-option-${status.value}`)}
                       >
                         <View style={styles.radioCircle}>
                           {formData.status === status.value && (

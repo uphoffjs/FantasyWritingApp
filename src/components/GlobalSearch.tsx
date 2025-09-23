@@ -19,6 +19,7 @@ import { WorldElement, Project } from '../types/models';
 import { getCategoryIcon } from '../utils/categoryMapping';
 import { useTheme } from '../providers/ThemeProvider';
 import { useSearchDebounce } from '../hooks/useDebounce';
+import { getTestProps } from '../utils/react-native-web-polyfills';
 
 interface GlobalSearchProps {
   visible: boolean;
@@ -162,7 +163,7 @@ export function GlobalSearch({ visible, onClose }: GlobalSearchProps) {
 
   // * Handle recent search selection
   const handleRecentSearchPress = (search: string) => {
-    setLocalQuery(search);
+    setSearchTerm(search);
     setShowRecent(false);
   };
 
@@ -178,7 +179,7 @@ export function GlobalSearch({ visible, onClose }: GlobalSearchProps) {
             pressed && styles.resultItemPressed,
           ]}
           onPress={() => handleResultPress(item)}
-          testID={`search-result-project-${project.id}`}
+          {...getTestProps(`search-result-project-${project.id}`)}
         >
           <View style={styles.resultIcon}>
             <Text style={styles.resultIconText}>📚</Text>
@@ -205,7 +206,7 @@ export function GlobalSearch({ visible, onClose }: GlobalSearchProps) {
             pressed && styles.resultItemPressed,
           ]}
           onPress={() => handleResultPress(item)}
-          testID={`search-result-element-${element.id}`}
+          {...getTestProps(`search-result-element-${element.id}`)}
         >
           <View style={styles.resultIcon}>
             <Text style={styles.resultIconText}>
@@ -239,7 +240,7 @@ export function GlobalSearch({ visible, onClose }: GlobalSearchProps) {
           pressed && styles.recentItemPressed,
         ]}
         onPress={() => handleRecentSearchPress(item)}
-        testID={`recent-search-${item}`}
+        {...getTestProps(`recent-search-${item}`)}
       >
         <Text style={styles.recentIcon}>🕐</Text>
         <Text style={styles.recentText} numberOfLines={1}>
@@ -252,13 +253,13 @@ export function GlobalSearch({ visible, onClose }: GlobalSearchProps) {
   const renderEmpty = () => {
     const styles = getStyles(theme);
     
-    if (!localQuery.trim()) {
+    if (!searchTerm.trim()) {
       if (showRecent && recentSearches.length > 0) {
         return (
           <View style={styles.recentContainer}>
             <View style={styles.recentHeader}>
               <Text style={styles.recentTitle}>Recent Searches</Text>
-              <Pressable onPress={clearRecentSearches} testID="clear-recent-searches">
+              <Pressable onPress={clearRecentSearches} {...getTestProps('clear-recent-searches')}>
                 <Text style={styles.clearText}>Clear</Text>
               </Pressable>
             </View>
@@ -321,10 +322,10 @@ export function GlobalSearch({ visible, onClose }: GlobalSearchProps) {
         style={styles.container}
         testID="global-search-keyboard-avoiding"
       >
-        <Pressable 
-          style={styles.backdrop} 
+        <Pressable
+          style={styles.backdrop}
           onPress={onClose}
-          testID="global-search-backdrop"
+          {...getTestProps('global-search-backdrop')}
         />
         
         <View style={styles.modalContent}>
@@ -348,16 +349,16 @@ export function GlobalSearch({ visible, onClose }: GlobalSearchProps) {
                 <Pressable
                   onPress={() => setSearchTerm('')}
                   style={styles.clearButton}
-                  testID="global-search-clear-button"
+                  {...getTestProps('global-search-clear-button')}
                 >
                   <Text style={styles.clearIcon}>✕</Text>
                 </Pressable>
               )}
             </View>
-            <Pressable 
-              onPress={onClose} 
+            <Pressable
+              onPress={onClose}
               style={styles.cancelButton}
-              testID="global-search-cancel-button"
+              {...getTestProps('global-search-cancel-button')}
             >
               <Text style={styles.cancelText}>Cancel</Text>
             </Pressable>

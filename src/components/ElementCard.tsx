@@ -11,12 +11,12 @@ import { getCategoryIcon } from '../utils/categoryMapping';
 import { getElementColor } from '../utils/elementColors';
 import { ProgressRing } from './ProgressRing';
 import { getTestProps } from '../utils/react-native-web-polyfills';
+import { useTheme } from '../providers/ThemeProvider';
 
 // * Helper to safely use theme context
 const useOptionalTheme = () => {
   try {
-     
-    const { useTheme } = require('../providers/ThemeProvider');
+    // * Use the exported useTheme hook
     return useTheme();
   } catch {
     return null;
@@ -27,12 +27,14 @@ interface ElementCardProps {
   element: WorldElement;
   icon?: string;
   onPress: () => void;
+  testID?: string;
 }
 
 export const ElementCard = memo(function ElementCard({
   element,
   icon,
   onPress,
+  testID = 'element-card',
 }: ElementCardProps) {
   const categoryIcon = icon || getCategoryIcon(element.category);
   const themeContext = useOptionalTheme();
@@ -125,7 +127,7 @@ export const ElementCard = memo(function ElementCard({
         pressed && styles.cardPressed,
         Platform.OS === 'web' && styles.cardWeb,
       ]}
-      {...getTestProps('element-card')}
+      {...getTestProps(testID)}
     >
       {/* Completion Badge */}
       <View style={[styles.badge, { backgroundColor: badge.color + '20', borderColor: badge.color }]}>

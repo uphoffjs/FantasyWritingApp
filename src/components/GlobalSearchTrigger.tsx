@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import { GlobalSearch } from './GlobalSearch';
 import { useTheme } from '../providers/ThemeProvider';
+import { getTestProps } from '../utils/react-native-web-polyfills';
 
 interface GlobalSearchTriggerProps {
   // * Optional custom trigger button (if not provided, uses default)
@@ -62,7 +63,7 @@ export function GlobalSearchTrigger({
   if (customTrigger) {
     return (
       <>
-        <Pressable onPress={openSearch} testID="global-search-trigger-custom">
+        <Pressable onPress={openSearch} {...getTestProps('global-search-trigger-custom')}>
           {customTrigger}
         </Pressable>
         <GlobalSearch visible={searchVisible} onClose={closeSearch} />
@@ -80,7 +81,7 @@ export function GlobalSearchTrigger({
             pressed && styles.floatingButtonPressed,
           ]}
           onPress={openSearch}
-          testID="global-search-trigger-floating"
+          {...getTestProps('global-search-trigger-floating')}
         >
           <Text style={styles.floatingButtonIcon}>🔍</Text>
         </Pressable>
@@ -107,7 +108,7 @@ export function HeaderSearchButton() {
           pressed && styles.headerButtonPressed,
         ]}
         onPress={() => setSearchVisible(true)}
-        testID="header-search-button"
+        {...getTestProps('header-search-button')}
       >
         <Text style={styles.headerButtonIcon}>🔍</Text>
         {Platform.OS === 'web' && (

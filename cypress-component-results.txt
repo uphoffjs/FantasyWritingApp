@@ -1,0 +1,10 @@
+npm error Missing script: "test:component:electron"
+npm error
+npm error Did you mean one of these?
+npm error   npm run test:component # run the "test:component" package script
+npm error   npm run test:component:open # run the "test:component:open" package script
+npm error   npm run test:component:chrome # run the "test:component:chrome" package script
+npm error
+npm error To see a list of scripts, run:
+npm error   npm run
+npm error A complete log of this run can be found in: /Users/jacobuphoff/.npm/_logs/2025-09-23T19_46_44_839Z-debug-0.log

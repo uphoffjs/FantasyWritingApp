@@ -9,6 +9,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Text, StyleSheet, Animated, Platform, Easing } from 'react-native';
 import Svg, { Circle, G } from 'react-native-svg';
+import { getTestProps } from '../utils/react-native-web-polyfills';
 
 // * Helper to safely use theme context
 // * Returns null if not within a ThemeProvider
@@ -374,11 +375,11 @@ export const ProgressRing: React.FC<ProgressRingProps> = ({
               }
             ]}
           >
-            <Text style={styles.percentageText} testID={`${testID}-percentage`}>
+            <Text style={styles.percentageText} {...getTestProps('completion-text')}>
               {Math.round(clampedProgress)}%
             </Text>
             {label && (
-              <Text style={styles.labelText} testID={`${testID}-label`}>
+              <Text style={styles.labelText} {...getTestProps(`${testID}-label`)}>
                 {label}
               </Text>
             )}

@@ -3,9 +3,13 @@
  * Provides unified access and reset functionality
  */
 
-export { StoryFactory, type Story, type Chapter } from './story.factory';
-export { CharacterFactory, type Character, type CharacterRelationship, type CharacterAppearance } from './character.factory';
-export { ProjectFactory, type Project, type WorldElement, type Question } from './project.factory';
+import { StoryFactory, type Story, type Chapter } from './story.factory';
+import { CharacterFactory, type Character, type CharacterRelationship, type CharacterAppearance } from './character.factory';
+import { ProjectFactory, type Project, type WorldElement, type Question } from './project.factory';
+
+export { StoryFactory, type Story, type Chapter };
+export { CharacterFactory, type Character, type CharacterRelationship, type CharacterAppearance };
+export { ProjectFactory, type Project, type WorldElement, type Question };
 
 /**
  * Master factory manager for test data
@@ -16,11 +20,7 @@ export class FactoryManager {
    * Should be called before each test to ensure clean state
    */
   static resetAll() {
-    // * Import dynamically to avoid circular dependencies
-    const { StoryFactory } = require('./story.factory');
-    const { CharacterFactory } = require('./character.factory');
-    const { ProjectFactory } = require('./project.factory');
-    
+    // * Reset all factory counters
     StoryFactory.reset();
     CharacterFactory.reset();
     ProjectFactory.reset();
@@ -30,9 +30,6 @@ export class FactoryManager {
    * Create a complete test scenario with related data
    */
   static createScenario(type: 'minimal' | 'standard' | 'complete' = 'standard') {
-    const { StoryFactory } = require('./story.factory');
-    const { CharacterFactory } = require('./character.factory');
-    const { ProjectFactory } = require('./project.factory');
     
     switch (type) {
       case 'minimal':
@@ -79,9 +76,6 @@ export class FactoryManager {
    * Create mock data for specific test categories
    */
   static createForTest(testType: string): any {
-    const { StoryFactory } = require('./story.factory');
-    const { CharacterFactory } = require('./character.factory');
-    const { ProjectFactory } = require('./project.factory');
     
     const testData: Record<string, () => any> = {
       // Story-related tests
@@ -156,9 +150,6 @@ export class FactoryManager {
     projects?: number;
     elements?: number;
   } = {}) {
-    const { StoryFactory } = require('./story.factory');
-    const { CharacterFactory } = require('./character.factory');
-    const { ProjectFactory } = require('./project.factory');
     
     const defaults = {
       stories: 5,

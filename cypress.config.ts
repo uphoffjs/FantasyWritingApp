@@ -1,6 +1,7 @@
 import { defineConfig } from "cypress";
 import codeCoverageTask from "@cypress/code-coverage/task";
-import { factoryTasks } from "./cypress/fixtures/factories/index";
+// * Import factory tasks from JavaScript file to avoid TypeScript compilation issues
+const { factoryTasks } = require("./cypress/fixtures/factories/factory-tasks.js");
 
 export default defineConfig({
   e2e: {
@@ -41,23 +42,13 @@ export default defineConfig({
       codeCoverageTask(on, config);
 
       // Add any custom tasks here
-      console.log('Factory tasks being registered (e2e):', factoryTasks);
       on("task", {
         log(message) {
           console.log(message);
           return null;
         },
         // Register factory tasks for data seeding
-        ...factoryTasks,
-        // * Explicitly add factory:reset in case spread is not working
-        'factory:reset': () => {
-          console.log('Factory reset called (e2e)');
-          if (factoryTasks && factoryTasks['factory:reset']) {
-            return factoryTasks['factory:reset']();
-          }
-          // Fallback if factoryTasks is not available
-          return null;
-        }
+        ...factoryTasks
       });
 
       // * Fix Chrome CDP connection issues
@@ -132,7 +123,6 @@ export default defineConfig({
       codeCoverageTask(on, config);
 
       // React Native Web specific tasks and factory tasks
-      console.log('Factory tasks being registered:', factoryTasks);
       on("task", {
         // General logging task for debug commands
         log(message) {
@@ -150,16 +140,7 @@ export default defineConfig({
           return null;
         },
         // Register factory tasks for data seeding
-        ...factoryTasks,
-        // * Explicitly add factory:reset in case spread is not working
-        'factory:reset': () => {
-          console.log('Factory reset called');
-          if (factoryTasks && factoryTasks['factory:reset']) {
-            return factoryTasks['factory:reset']();
-          }
-          // Fallback if factoryTasks is not available
-          return null;
-        }
+        ...factoryTasks
       });
 
       // * Fix Chrome CDP connection issues for component tests

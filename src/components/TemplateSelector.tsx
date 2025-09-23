@@ -12,6 +12,7 @@ import {
 import { QuestionnaireTemplate, ElementCategory } from '../types/models';
 import { useWorldbuildingStore } from '../store/worldbuildingStore';
 import { DEFAULT_TEMPLATES } from '../types/worldbuilding';
+import { getTestProps } from '../utils/react-native-web-polyfills';
 
 interface TemplateSelectorProps {
   category: ElementCategory;
@@ -77,7 +78,7 @@ export function TemplateSelector({
       <Pressable
         key={template.id}
         style={[styles.templateCard, isSelected && styles.templateCardSelected]}
-        testID={`template-card-${template.id}`}
+        {...getTestProps(`template-card-${template.id}`)}
         onPress={() => setSelectedTemplateId(template.id)}
       >
         <View style={styles.templateHeader}>
@@ -142,7 +143,7 @@ export function TemplateSelector({
         <View style={styles.modalContent}>
           <View style={styles.header}>
             <Text style={styles.title}>Select Template</Text>
-            <Pressable onPress={onClose} style={styles.closeButton} testID="template-selector-close-button">
+            <Pressable onPress={onClose} style={styles.closeButton} {...getTestProps('template-selector-close-button')}>
               <Text style={styles.closeIcon}>✕</Text>
             </Pressable>
           </View>
@@ -194,7 +195,7 @@ export function TemplateSelector({
             <Pressable
               style={styles.cancelButton}
               onPress={onClose}
-              testID="template-selector-cancel-button"
+              {...getTestProps('template-selector-cancel-button')}
             >
               <Text style={styles.cancelButtonText}>Cancel</Text>
             </Pressable>
@@ -206,7 +207,7 @@ export function TemplateSelector({
               ]}
               onPress={handleSelectTemplate}
               disabled={!selectedTemplateId}
-              testID="template-selector-use-button"
+              {...getTestProps('template-selector-use-button')}
             >
               <Text style={styles.selectButtonText}>
                 Use Template

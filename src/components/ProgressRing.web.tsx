@@ -9,6 +9,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Text, StyleSheet, Animated, Platform, Easing } from 'react-native';
 import Svg, { Circle, G } from 'react-native-svg';
+import { getTestProps } from '../utils/react-native-web-polyfills';
 
 interface ProgressRingProps {
   // * Progress value between 0 and 100
@@ -391,7 +392,7 @@ export const ProgressRing: React.FC<ProgressRingProps> = ({
               }
             ]}
           >
-            <Text style={styles.percentageText} testID={`${testID}-percentage`}>
+            <Text style={styles.percentageText} {...getTestProps('completion-text')}>
               {Math.round(clampedProgress)}%
             </Text>
             {label && (
