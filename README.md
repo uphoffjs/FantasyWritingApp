@@ -16,11 +16,13 @@ Fantasy Writing App (evolved from Fantasy Element Builder) is a powerful tool de
 
 ## Tech Stack
 
-- **Framework**: React Native 0.81.4 with TypeScript
+- **Framework**: React Native 0.75.4 with TypeScript 5.2.2
 - **Web Support**: React Native Web for PWA deployment
 - **State Management**: Zustand with persistence
-- **Build Tool**: Webpack 5 for web builds
+- **Build Tool**: Vite 5.x (migrated from Webpack)
+- **Testing**: Cypress 14.5.4 for E2E and component tests
 - **PWA**: Service Worker for offline support
+- **Backend**: Supabase (optional)
 
 ## Installation
 
@@ -37,21 +39,29 @@ npm install
 ### Web Development (PWA) - Primary Focus
 
 ```bash
-# Start the web development server
+# Start the Vite development server
 npm run dev
 # or
 npm run web
 
-# Opens at http://localhost:8080
+# Opens at http://localhost:3002
+# Dev server starts in <1 second with Vite!
 ```
 
 ### Build for Production
 
 ```bash
-# Create production build for web
-npm run build:web
+# Create optimized production build with Vite
+npm run build
+
+# Analyze bundle size
+npm run build:analyze
+
+# Preview production build locally
+npm run preview
 
 # Output will be in /dist directory
+# Build time: ~18.5 seconds
 ```
 
 ### Native Development (Future)
@@ -102,15 +112,23 @@ FantasyWritingApp/
 ├── src/
 │   ├── types/        # TypeScript type definitions
 │   ├── utils/        # Utility functions
-│   └── store/        # Zustand state management
-├── web/
-│   ├── index.html    # PWA HTML template
-│   ├── manifest.json # PWA manifest
-│   └── service-worker.js # Offline support
+│   ├── store/        # Zustand state management
+│   ├── components/   # React Native components
+│   ├── screens/      # App screens
+│   └── navigation/   # React Navigation setup
+├── cypress/
+│   ├── e2e/          # End-to-end tests
+│   └── component/    # Component tests
+├── docs/
+│   └── migration/    # Vite migration documentation
+├── .github/
+│   └── workflows/    # CI/CD pipelines
+├── index.html        # Vite entry HTML
+├── vite.config.ts    # Vite configuration
+├── vite.config.prod.ts # Production config
+├── index.web.entry.js # Web entry point
 ├── ios/              # iOS native code (future)
-├── android/          # Android native code (future)
-├── webpack.config.js # Web build configuration
-└── index.web.js      # Web entry point
+└── android/          # Android native code (future)
 ```
 
 ## PWA Capabilities
@@ -169,36 +187,46 @@ Users can export their data from the original Fantasy Element Builder and import
 ```json
 {
   "scripts": {
+    "dev": "vite --port 3002",
+    "web": "vite --port 3002",
+    "build": "vite build --config vite.config.prod.ts",
+    "build:analyze": "vite build --config vite.config.prod.ts && open dist/stats.html",
+    "preview": "vite preview --port 3002",
+    "lint": "eslint . --ext ts,tsx",
+    "test": "npm run test:component && npm run test:e2e",
+    "test:component": "cypress run --component --browser electron --headless",
+    "test:e2e": "start-server-and-test 'vite --port 3002' http://localhost:3002 'cypress run'",
+    "cypress:open": "cypress open",
+
+    "// Native scripts (future)": "",
     "android": "react-native run-android",
     "ios": "react-native run-ios",
-    "lint": "eslint .",
-    "start": "react-native start",
-    "test": "jest",
-    "web": "webpack serve --mode development",
-    "build:web": "webpack --mode production",
-    "analyze": "webpack-bundle-analyzer"
+    "start": "react-native start"
   }
 }
 ```
 
 ## Requirements
 
-- Node.js >= 20.19.3
-- npm >= 10.8.2
+- Node.js >= 18.0.0 (v22.19.0 recommended)
+- npm >= 8.0.0
 - For iOS development: Xcode 12+
 - For Android development: Android Studio
 
 ## Documentation
 
+- [Vite Migration Guide](./docs/migration/deployment-guide-vite.md) - Complete deployment documentation
+- [Vite Migration TODO](./VITE_MIGRATION_TODO.md) - Migration progress tracker
+- [Claude Instructions](./CLAUDE.md) - Development guidelines and standards
 - [Phase 0 Implementation Log](./PHASE_0_IMPLEMENTATION_LOG.md) - Details of initial setup
-- [Element Builder to RN Web TODO](../fantasy-element-builder/ELEMENT_BUILDER_TO_RN_WEB_TODO.md) - Complete conversion plan
 
 ## Troubleshooting
 
 ### Web Development Issues
 - Ensure all dependencies are installed: `npm install`
-- Clear webpack cache if needed: `rm -rf node_modules/.cache`
-- Check that port 8080 is available for the dev server
+- Clear Vite cache if needed: `rm -rf node_modules/.vite`
+- Check that port 3002 is available (Vite will auto-increment if busy)
+- For build issues, check `vite.config.ts` for proper React Native Web configuration
 
 ### Native Development Issues
 - For iOS: Make sure to run `cd ios && pod install`

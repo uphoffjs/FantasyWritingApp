@@ -1,0 +1,16 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "chrome",
+      "request": "launch",
+      "name": "Vite: Chrome",
+      "url": "http://localhost:3002",
+      "webRoot": "${workspaceFolder}",
+      "sourceMaps": true,
+      "sourceMapPathOverrides": {
+        "/@fs/*": "${webRoot}/*"
+      }
+    }
+  ]
+}

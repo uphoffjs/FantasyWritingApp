@@ -2,6 +2,7 @@ import { defineConfig } from "cypress";
 import codeCoverageTask from "@cypress/code-coverage/task";
 // * Import factory tasks from JavaScript file to avoid TypeScript compilation issues
 const { factoryTasks } = require("./cypress/fixtures/factories/factory-tasks.js");
+// * Import Vite dev server for component testing
 
 export default defineConfig({
   e2e: {
@@ -82,25 +83,16 @@ export default defineConfig({
   },
 
   component: {
-    devServer: {
-      framework: "react",
-      bundler: "webpack",
-      webpackConfig: (() => {
-        // * Use optimized webpack config for tests
-        // * Falls back to regular config if test config doesn't exist
-        try {
-          const testConfig = require("./webpack.test");
-          console.log("✅ Using optimized webpack.test.js for faster component tests");
-          return testConfig;
-        } catch (e) {
-          console.log("⚠️ webpack.test.js not found, falling back to webpack.config.js");
-          const config = require("./webpack.config");
-          if (config.devServer) {
-            config.devServer.port = 3003;
-          }
-          return config;
-        }
-      })(),
+    devServer: (devServerConfig) => {
+      const viteDevServer = require("@cypress/vite-dev-server");
+      // * Use test-specific Vite config to avoid TypeScript issues
+      const viteConfig = require("./vite.config.test.js");
+      return viteDevServer.devServer({
+        ...devServerConfig,
+        framework: "react",
+        bundler: "vite",
+        viteConfig,
+      });
     },
     supportFile: "cypress/support/component.tsx",
     specPattern: "cypress/component/**/*.cy.{js,jsx,ts,tsx}",

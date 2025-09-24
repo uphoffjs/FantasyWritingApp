@@ -99,3 +99,7 @@ claude-*.md
 
 # Development mockups (keep in claudedocs)
 mockups/
+
+# Vite
+.vite/
+*.local
