@@ -168,7 +168,8 @@ describe('ElementCard Component', () => {
 
       // * Check that the card renders with category-specific styling
       cy.get('[data-cy="element-card"]').should('be.visible');
-      cy.get('[data-cy="element-category"]').should('contain.text', category.replace('-', ' '));
+      // * Category text may include additional info like template, so use partial match
+      cy.get('[data-cy="element-category"]').should('contain.text', category);
     });
   });
 

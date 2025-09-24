@@ -117,6 +117,58 @@ describe('Feature', () => {
 3. cy.request() - API seeding
 4. cy.intercept() - Fixture stubbing
 
+## Selector Best Practices
+
+### Priority Order (MANDATORY)
+1. **`data-cy`** - PREFERRED for all new tests
+2. **`data-testid`** - React Native Web conversion
+3. **`testID`** - React Native fallback
+4. ❌ **NEVER**: Class selectors (`.class`), element selectors (`button`), attribute selectors (`[title="..."]`)
+
+### Custom Cypress Commands
+```javascript
+// PREFERRED: Use data-cy attributes
+cy.getByDataCy('submit-button').click();
+cy.getByDataCy('input-field').type('text');
+
+// For test IDs (handles multiple strategies)
+cy.getByTestId('element-name').should('exist');
+
+// Specialized commands for common patterns
+cy.clickButton('Submit');           // Looks for data-cy first, then text
+cy.getModal('create-element');      // Gets modal with data-cy pattern
+cy.getCard('element-card');         // Gets card with data-cy pattern
+cy.getPerformanceElement('toggle'); // Gets performance-[element]
+
+// Within parent elements
+cy.getByDataCy('form').findByTestId('field');
+```
+
+### Adding Selectors to Components
+```javascript
+// React Native components
+<TouchableOpacity
+  testID="submit-button"  // Converts to data-cy on web
+  data-cy="submit-button"  // Explicit for web
+>
+
+// Web-specific components
+<button data-cy="submit-button">Submit</button>
+
+// Performance components
+<div data-cy="performance-monitor-toggle">
+<div data-cy="performance-dashboard-overlay">
+<button data-cy="clear-metrics-button">
+```
+
+### Naming Conventions
+- **Buttons**: `[action]-button` (e.g., `submit-button`, `cancel-button`)
+- **Modals**: `[name]-modal` (e.g., `create-element-modal`)
+- **Cards**: `[type]-card` (e.g., `element-card`, `project-card`)
+- **Forms**: `[name]-form` (e.g., `login-form`, `element-form`)
+- **Inputs**: `[field]-input` (e.g., `email-input`, `password-input`)
+- **Performance**: `performance-[element]` (e.g., `performance-monitor-toggle`)
+
 ## Platform Handling
 - Web: `Platform.OS === 'web'`
 - Mobile: Touch events, no hover states

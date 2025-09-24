@@ -1,5 +1,5 @@
 import { StateCreator } from 'zustand';
-import { performanceMonitor } from '../../services/PerformanceMonitor';
+import { performanceMonitor } from '../../utils/performanceMonitor';
 
 type PerformanceMiddlewareImpl = <T>(
   storeInitializer: StateCreator<T, [], []>,

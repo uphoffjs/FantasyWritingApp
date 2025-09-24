@@ -3,7 +3,7 @@
  * Provides easy access to factories and automatic cleanup
  */
 
-import { FactoryManager } from '../fixtures/factories';
+import { FactoryManager } from '../fixtures/factories/index';
 
 /**
  * Register factory hooks for automatic cleanup

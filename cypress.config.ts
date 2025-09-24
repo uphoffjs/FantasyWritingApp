@@ -86,12 +86,20 @@ export default defineConfig({
       framework: "react",
       bundler: "webpack",
       webpackConfig: (() => {
-        // Load webpack config and override the port
-        const config = require("./webpack.config");
-        if (config.devServer) {
-          config.devServer.port = 3003;
+        // * Use optimized webpack config for tests
+        // * Falls back to regular config if test config doesn't exist
+        try {
+          const testConfig = require("./webpack.test");
+          console.log("✅ Using optimized webpack.test.js for faster component tests");
+          return testConfig;
+        } catch (e) {
+          console.log("⚠️ webpack.test.js not found, falling back to webpack.config.js");
+          const config = require("./webpack.config");
+          if (config.devServer) {
+            config.devServer.port = 3003;
+          }
+          return config;
         }
-        return config;
       })(),
     },
     supportFile: "cypress/support/component.tsx",

@@ -7,10 +7,16 @@ import { View, Text, TouchableOpacity, TextInput, ActivityIndicator, Platform, S
 // * Helper function to add proper test attributes for React Native Web
 const getTestProps = (id: string) => {
   // React Native Web automatically converts testID to data-testid in the DOM
-  // TODO: * We need to use testID for React Native components
+  // * For web/tests, we only need data-cy to avoid DOM warnings
+  if (Platform.OS === 'web') {
+    return {
+      'data-testid': id,
+      'data-cy': id,
+    };
+  }
+  // * For native, use React Native props
   return {
     testID: id,
-    // * Also add accessible prop for better testing
     accessible: true,
     accessibilityTestID: id,
   };
@@ -938,7 +944,7 @@ export const CreateElementModal: React.FC<CreateElementModalProps> = ({
       <View style={modalStyles.modalContent}>
         <View style={modalStyles.modalHeader}>
           <Text style={modalStyles.modalTitle}>Create New Element</Text>
-          <TouchableOpacity style={modalStyles.closeButton} onPress={onClose}>
+          <TouchableOpacity style={modalStyles.closeButton} onPress={onClose} {...getTestProps('modal-close-button')}>
             <Text style={{ fontSize: 20 }}>✕</Text>
           </TouchableOpacity>
         </View>

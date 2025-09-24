@@ -11,6 +11,9 @@
 
 // * Import fixture data for static seeding
 import testData from '../../../fixtures/testData.json';
+// * Import stores for direct manipulation
+import { useWorldbuildingStore } from '../../../../src/store/rootStore';
+import { useAuthStore } from '../../../../src/store/authStore';
 
 /**
  * Seed data using factory tasks (cy.task)
@@ -70,13 +73,36 @@ Cypress.Commands.add('seedFromFixture', (fixtureName: string) => {
   return cy.fixture(fixtureName).then((data) => {
     // * Apply fixture data to stores
     cy.window().then((win: any) => {
-      if (data.worldbuilding && win.__zustand_worldbuilding_store) {
-        const store = win.__zustand_worldbuilding_store.getState();
-        Object.assign(store, data.worldbuilding);
+      // * Ensure stores are accessible from window for testing
+      if (!win.__zustand_worldbuilding_store) {
+        win.__zustand_worldbuilding_store = useWorldbuildingStore;
       }
-      if (data.auth && win.__zustand_auth_store) {
-        const authStore = win.__zustand_auth_store.getState();
-        Object.assign(authStore, data.auth);
+      if (!win.__zustand_auth_store) {
+        win.__zustand_auth_store = useAuthStore;
+      }
+
+      // * Update worldbuilding store using safe partial updates
+      if (data.worldbuilding) {
+        const store = win.__zustand_worldbuilding_store;
+
+        // ! Use setState with a function to safely merge state without triggering middleware
+        store.setState((state: any) => ({
+          ...state,
+          projects: data.worldbuilding.projects || state.projects || [],
+          activeProjectId: data.worldbuilding.activeProjectId || state.activeProjectId,
+          elements: data.worldbuilding.elements || state.elements || [],
+          relationships: data.worldbuilding.relationships || state.relationships || [],
+        }), false); // * false = don't trigger subscriptions
+      }
+
+      // * Update auth store
+      if (data.auth) {
+        const authStore = win.__zustand_auth_store;
+        // ! Use setState with a function to safely merge state
+        authStore.setState((state: any) => ({
+          ...state,
+          ...data.auth
+        }), false); // * false = don't trigger subscriptions
       }
     });
 
@@ -147,15 +173,20 @@ Cypress.Commands.add('cleanTestData', () => {
     win.localStorage.clear();
     win.sessionStorage.clear();
 
+    // * Ensure stores are accessible from window for testing
+    if (!win.__zustand_worldbuilding_store) {
+      win.__zustand_worldbuilding_store = useWorldbuildingStore;
+    }
+    if (!win.__zustand_auth_store) {
+      win.__zustand_auth_store = useAuthStore;
+    }
+
     // Reset Zustand stores if available
-    if (win.__zustand_worldbuilding_store) {
-      const store = win.__zustand_worldbuilding_store.getState();
-      if (store.clearAllProjects) store.clearAllProjects();
-    }
-    if (win.__zustand_auth_store) {
-      const authStore = win.__zustand_auth_store.getState();
-      if (authStore.logout) authStore.logout();
-    }
+    const store = win.__zustand_worldbuilding_store.getState();
+    if (store.clearAllProjects) store.clearAllProjects();
+
+    const authStore = win.__zustand_auth_store.getState();
+    if (authStore.logout) authStore.logout();
   });
 
   cy.log('🧹 Test data cleaned');
@@ -233,7 +264,12 @@ Cypress.Commands.add('verifySeededData', (expectations: {
   elements?: number;
 }) => {
   cy.window().then((win: any) => {
-    const store = win.__zustand_worldbuilding_store?.getState();
+    // * Ensure store is accessible from window for testing
+    if (!win.__zustand_worldbuilding_store) {
+      win.__zustand_worldbuilding_store = useWorldbuildingStore;
+    }
+
+    const store = win.__zustand_worldbuilding_store.getState();
 
     if (expectations.projects !== undefined) {
       expect(store.projects).to.have.length(expectations.projects);

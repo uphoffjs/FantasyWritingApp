@@ -47,9 +47,6 @@ export function getTestProps(testId: string, isWeb = Platform.OS === 'web') {
     return {
       'data-testid': testId,
       'data-cy': testId, // Also add data-cy for backward compatibility
-      testID: testId,
-      accessibilityTestID: testId,
-      accessible: true,
     };
   }
   return {
@@ -146,22 +143,33 @@ export function getPlatformProps(webProps: any = {}, nativeProps: any = {}) {
 
 // * Helper to ensure proper accessibility props
 export function getAccessibilityProps(label: string, hint?: string, role?: string) {
-  const props: any = {
-    accessible: true,
-    accessibilityLabel: label,
-  };
-  
-  if (hint) {
-    props.accessibilityHint = hint;
-  }
-  
-  if (role) {
-    props.accessibilityRole = role;
-    if (Platform.OS === 'web') {
-      props.role = role; // Web also uses the role attribute
+  const props: any = {};
+
+  // * Only add 'accessible' for native platforms, not web
+  if (Platform.OS !== 'web') {
+    props.accessible = true;
+    props.accessibilityLabel = label;
+
+    if (hint) {
+      props.accessibilityHint = hint;
+    }
+
+    if (role) {
+      props.accessibilityRole = role;
+    }
+  } else {
+    // * Web uses aria-label instead of accessibilityLabel
+    props['aria-label'] = label;
+
+    if (hint) {
+      props['aria-describedby'] = hint;
+    }
+
+    if (role) {
+      props.role = role;
     }
   }
-  
+
   return props;
 }
 

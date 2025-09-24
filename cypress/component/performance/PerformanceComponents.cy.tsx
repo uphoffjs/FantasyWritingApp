@@ -84,8 +84,8 @@ describe('PerformanceMonitorComponent', () => {
 
     it('renders collapsed button by default', () => {
       cy.mountWithProviders(<PerformanceMonitor />);
-      cy.get('button[title="Show Performance Monitor"]').should('be.visible');
-      cy.get('.lucide-activity').should('be.visible');
+      cy.get('[data-cy="performance-monitor-toggle"]').should('be.visible');
+      cy.get('[data-cy="performance-monitor-icon"]').should('be.visible');
     });
 
     it('renders expanded when defaultOpen is true', () => {
@@ -102,7 +102,7 @@ describe('PerformanceMonitorComponent', () => {
       });
       
       cy.mountWithProviders(<PerformanceMonitor />);
-      cy.get('button[title="Show Performance Monitor"]').should('not.exist');
+      cy.get('[data-cy="performance-monitor-toggle"]').should('not.exist');
       
       Object.defineProperty(process.env, 'NODE_ENV', {
         value: originalEnv,
@@ -112,13 +112,13 @@ describe('PerformanceMonitorComponent', () => {
 
     it('renders in different positions', () => {
       cy.mountWithProviders(<PerformanceMonitor position="top-left" />);
-      cy.get('.top-4.left-4').should('exist');
+      cy.get('[data-cy="performance-monitor-container"][data-position="top-left"]').should('exist');
 
       cy.mountWithProviders(<PerformanceMonitor position="bottom-left" />);
-      cy.get('.bottom-4.left-4').should('exist');
+      cy.get('[data-cy="performance-monitor-container"][data-position="bottom-left"]').should('exist');
 
       cy.mountWithProviders(<PerformanceMonitor position="top-right" />);
-      cy.get('.top-4.right-4').should('exist');
+      cy.get('[data-cy="performance-monitor-container"][data-position="top-right"]').should('exist');
     });
   });
 
@@ -153,7 +153,7 @@ describe('PerformanceMonitorComponent', () => {
 
     it('shows memory usage progress bar', () => {
       cy.mountWithProviders(<PerformanceMonitor defaultOpen={true} />);
-      cy.get('[data-cy*="metals-gold"]').should('have.attr', 'style').and('include', 'width: 50%');
+      cy.get('[data-cy="memory-usage-bar"]').should('have.attr', 'style').and('include', 'width: 50%');
     });
 
     it('displays render statistics', () => {
@@ -197,27 +197,27 @@ describe('PerformanceMonitorComponent', () => {
 
     it('toggles expanded state when button clicked', () => {
       cy.mountWithProviders(<PerformanceMonitor />);
-      cy.get('button[title="Show Performance Monitor"]').click();
+      cy.get('[data-cy="performance-monitor-toggle"]').click();
       cy.contains('Performance Monitor').should('be.visible');
     });
 
     it('closes when X button clicked', () => {
       cy.mountWithProviders(<PerformanceMonitor defaultOpen={true} />);
-      cy.get('button').contains('×').parent().click();
+      cy.get('[data-cy="performance-monitor-close"]').click();
       cy.contains('Performance Monitor').should('not.exist');
-      cy.get('button[title="Show Performance Monitor"]').should('be.visible');
+      cy.get('[data-cy="performance-monitor-toggle"]').should('be.visible');
     });
 
     it('clears metrics when Clear button clicked', () => {
       cy.mountWithProviders(<PerformanceMonitor defaultOpen={true} />);
-      cy.contains('Clear Metrics').click();
+      cy.get('[data-cy="clear-metrics-button"]').click();
       expect(mockPerformanceMonitor.clear).to.have.been.called;
     });
 
     it('logs to console when Log button clicked', () => {
       cy.stub(console, 'log');
       cy.mountWithProviders(<PerformanceMonitor defaultOpen={true} />);
-      cy.contains('Log to Console').click();
+      cy.get('[data-cy="log-to-console-button"]').click();
       cy.wrap(console.log).should('have.been.calledWith', 'Full Report:', mockReport);
     });
   });
@@ -260,7 +260,7 @@ describe('PerformanceMonitorComponent', () => {
       cy.mountWithProviders(<PerformanceMonitor defaultOpen={true} />);
       
       mockPerformanceMonitor.getReport.reset();
-      cy.get('button').contains('×').parent().click();
+      cy.get('[data-cy="performance-monitor-close"]').click();
       
       cy.tick(2000);
       expect(mockPerformanceMonitor.getReport).not.to.have.been.called;
@@ -368,7 +368,7 @@ describe('PerformanceDashboard Component', () => {
 
     it('does not render when show is false', () => {
       cy.mountWithProviders(<PerformanceDashboard show={false} onClose={cy.stub()} />);
-      cy.get('.fixed.inset-0').should('not.exist');
+      cy.get('[data-cy="performance-dashboard-overlay"]').should('not.exist');
     });
 
     it('renders modal when show is true', () => {
@@ -379,7 +379,7 @@ describe('PerformanceDashboard Component', () => {
 
     it('renders backdrop', () => {
       cy.mountWithProviders(<PerformanceDashboard show={true} onClose={cy.stub()} />);
-      cy.get('[data-cy*="black"]\\/50').should('be.visible');
+      cy.get('[data-cy="performance-dashboard-overlay"]').should('be.visible');
     });
   });
 
@@ -421,8 +421,8 @@ describe('PerformanceDashboard Component', () => {
         }
       });
       cy.mountWithProviders(<PerformanceDashboard show={true} onClose={cy.stub()} />);
-      cy.get('.border-red-400').should('exist');
-      cy.get('.lucide-alert-triangle').should('be.visible');
+      cy.get('[data-cy="budget-violation-indicator"]').should('exist');
+      cy.get('[data-cy="budget-violation-icon"]').should('be.visible');
     });
   });
 
@@ -528,7 +528,7 @@ describe('PerformanceDashboard Component', () => {
 
     it('shows metrics in reverse chronological order', () => {
       cy.mountWithProviders(<PerformanceDashboard show={true} onClose={cy.stub()} />);
-      cy.get('.font-mono').first().should('contain', 'store_update');
+      cy.get('[data-cy="metric-entry"]').first().should('contain', 'store_update');
     });
 
     it('limits display to last 20 metrics', () => {
@@ -541,7 +541,7 @@ describe('PerformanceDashboard Component', () => {
       cy.stub(window, 'usePerformanceMetrics').returns({ metrics: manyMetrics });
       
       cy.mountWithProviders(<PerformanceDashboard show={true} onClose={cy.stub()} />);
-      cy.get('.font-mono').should('have.length', 20);
+      cy.get('[data-cy="metric-entry"]').should('have.length', 20);
     });
   });
 
@@ -556,13 +556,13 @@ describe('PerformanceDashboard Component', () => {
     it('closes when X button clicked', () => {
       const onClose = cy.stub();
       cy.mountWithProviders(<PerformanceDashboard show={true} onClose={onClose} />);
-      cy.get('button').contains('×').click();
+      cy.get('[data-cy="performance-dashboard-close"]').click();
       expect(onClose).to.have.been.called;
     });
 
     it('clears metrics when Clear button clicked', () => {
       cy.mountWithProviders(<PerformanceDashboard show={true} onClose={cy.stub()} />);
-      cy.contains('Clear Metrics').click();
+      cy.get('[data-cy="clear-metrics-button"]').click();
       expect(mockPerformanceMonitor.clearMetrics).to.have.been.called;
     });
 
@@ -570,7 +570,7 @@ describe('PerformanceDashboard Component', () => {
       cy.stub(console, 'log');
       cy.stub(console, 'table');
       cy.mountWithProviders(<PerformanceDashboard show={true} onClose={cy.stub()} />);
-      cy.contains('Export to Console').click();
+      cy.get('[data-cy="export-to-console-button"]').click();
       cy.wrap(console.log).should('have.been.calledWith', 'Performance Summary:', mockSummary);
       cy.wrap(console.table).should('have.been.calledWith', mockSummary.metrics);
     });
@@ -602,7 +602,7 @@ describe('PerformanceDashboard Component', () => {
       cy.mountWithProviders(<PerformanceDashboard show={true} onClose={onClose} />);
       
       mockPerformanceMonitor.getSummary.reset();
-      cy.get('button').contains('×').click();
+      cy.get('[data-cy="performance-dashboard-close"]').click();
       
       cy.tick(1000);
       expect(mockPerformanceMonitor.getSummary).not.to.have.been.called;
@@ -634,7 +634,7 @@ describe('PerformanceDashboard Component', () => {
       cy.stub(window, 'usePerformanceMetrics').returns({ metrics: [] });
       cy.mountWithProviders(<PerformanceDashboard show={true} onClose={cy.stub()} />);
       cy.contains('Recent Metrics').should('be.visible');
-      cy.get('.font-mono').should('not.exist');
+      cy.get('[data-cy="metric-entry"]').should('not.exist');
     });
   });
 
@@ -649,13 +649,13 @@ describe('PerformanceDashboard Component', () => {
     it('adapts grid layout on mobile', () => {
       cy.viewport(375, 667);
       cy.mountWithProviders(<PerformanceDashboard show={true} onClose={cy.stub()} />);
-      cy.get('.md\\:grid-cols-3').should('exist');
+      cy.get('[data-cy="metrics-grid"]').should('exist');
     });
 
     it('scrolls content on small screens', () => {
       cy.viewport(375, 667);
       cy.mountWithProviders(<PerformanceDashboard show={true} onClose={cy.stub()} />);
-      cy.get('.overflow-y-auto').should('exist');
+      cy.get('[data-cy="metrics-list-container"]').should('exist');
     });
   });
 });

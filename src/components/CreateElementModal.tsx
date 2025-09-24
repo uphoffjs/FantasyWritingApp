@@ -142,7 +142,11 @@ export function CreateElementModal({
             <View style={styles.header}>
               <View style={styles.dragIndicator} />
               <Text style={styles.title}>Create New Element</Text>
-              <Pressable onPress={handleClose} style={styles.closeButton}>
+              <Pressable
+                onPress={handleClose}
+                style={styles.closeButton}
+                {...getTestProps('modal-close-button')}
+              >
                 <Text style={styles.closeIcon}>✕</Text>
               </Pressable>
             </View>
