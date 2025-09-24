@@ -8,7 +8,6 @@ This directory contains 70+ component test files that must follow strict Cypress
 
 All component tests MUST:
 
-1. ✅ Use `data-cy` selectors (NOT `data-testid`)
 2. ✅ Include `cy.comprehensiveDebug()` in `beforeEach`
 3. ✅ Include `cy.cleanState()` in `beforeEach`
 4. ✅ Include failure capture in `afterEach`
