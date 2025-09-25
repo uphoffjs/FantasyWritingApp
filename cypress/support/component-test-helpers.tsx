@@ -944,7 +944,13 @@ export const CreateElementModal: React.FC<CreateElementModalProps> = ({
       <View style={modalStyles.modalContent}>
         <View style={modalStyles.modalHeader}>
           <Text style={modalStyles.modalTitle}>Create New Element</Text>
-          <TouchableOpacity style={modalStyles.closeButton} onPress={onClose} {...getTestProps('modal-close-button')}>
+          <TouchableOpacity
+            style={modalStyles.closeButton}
+            onPress={onClose}
+            testID="modal-close-button"
+            data-testid="modal-close-button"
+            data-cy="modal-close-button"
+          >
             <Text style={{ fontSize: 20 }}>✕</Text>
           </TouchableOpacity>
         </View>
@@ -955,7 +961,9 @@ export const CreateElementModal: React.FC<CreateElementModalProps> = ({
           {categories.map((category) => (
             <TouchableOpacity
               key={category.id}
-              {...getTestProps(`category-${category.id}`)}
+              testID={`category-${category.id}`}
+              data-testid={`category-${category.id}`}
+              data-cy={`category-${category.id}`}
               style={[
                 modalStyles.categoryCard,
                 selectedCategory === category.id && modalStyles.categoryCardSelected

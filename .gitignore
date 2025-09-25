@@ -103,3 +103,6 @@ mockups/
 # Vite
 .vite/
 *.local
+
+# Webpack cache for Cypress component tests
+.webpack-cache/

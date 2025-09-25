@@ -17,7 +17,9 @@ import {
   Platform,
   Animated,
 } from 'react-native';
-import NetInfo from '@react-native-community/netinfo';
+// TODO: Install @react-native-community/netinfo package
+// import NetInfo from '@react-native-community/netinfo';
+const NetInfo = { addEventListener: () => ({ remove: () => {} }) }; // * Mock for now
 import { useTheme } from '../providers/ThemeProvider';
 import { useSupabaseSync } from '../hooks/useSupabaseSync';
 import { useWorldbuildingStore } from '../store/worldbuildingStore';

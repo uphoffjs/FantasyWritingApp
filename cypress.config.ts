@@ -90,6 +90,23 @@ export default defineConfig({
 
       const webpackConfig = {
         mode: 'development',
+        // * Performance optimization: Add filesystem cache for faster rebuilds
+        cache: {
+          type: 'filesystem',
+          cacheDirectory: path.resolve(__dirname, '.webpack-cache'),
+          // * Cache dependencies for better invalidation
+          buildDependencies: {
+            config: [__filename]
+          }
+        },
+        // * Optimization settings for faster test builds
+        optimization: {
+          removeAvailableModules: false,  // * Skip expensive module optimization
+          removeEmptyChunks: false,       // * Skip empty chunk removal
+          splitChunks: false,              // * Disable code splitting for tests
+          runtimeChunk: false,             // * Single runtime chunk
+          minimize: false                  // * Skip minification for tests
+        },
         module: {
           rules: [
             {
@@ -170,6 +187,7 @@ export default defineConfig({
     trashAssetsBeforeRuns: true,    // Clean old files
     // testIsolation: true,          // Not supported for component tests - only E2E
     // experimentalStudio: true,     // Not supported for component tests - only E2E
+    // experimentalRunAllSpecs: true, // Not supported for component tests - only E2E
     numTestsKeptInMemory: 50,       // Limit memory usage
     setupNodeEvents(on, config) {
       codeCoverageTask(on, config);

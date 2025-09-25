@@ -6,7 +6,10 @@
  */
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import NetInfo, { NetInfoState } from '@react-native-community/netinfo';
+// TODO: Install @react-native-community/netinfo package
+// import NetInfo, { NetInfoState } from '@react-native-community/netinfo';
+const NetInfo = { addEventListener: () => ({ remove: () => {} }), fetch: () => Promise.resolve({ isConnected: true }) }; // * Mock for now
+type NetInfoState = { isConnected: boolean | null };
 import { deltaSyncService, DeltaChange } from './deltaSyncService';
 
 // * Types for queue management

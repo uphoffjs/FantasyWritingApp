@@ -147,7 +147,7 @@ export function TemplateEditor({
   onClose,
   visible,
 }: TemplateEditorProps) {
-  const [name, setName] = useState('' // ! HARDCODED: Should use design tokens);
+  const [name, setName] = useState(''); // ! HARDCODED: Should use design tokens
   const [description, setDescription] = useState('');
   const [questions, setQuestions] = useState<Question[]>([]);
   const [tags, setTags] = useState('');
