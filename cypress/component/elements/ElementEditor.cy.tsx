@@ -15,7 +15,7 @@
 
 import React from 'react';
 import { ElementEditor } from '../../../src/components/ElementEditor';
-import { ElementFactory, QuestionFactory } from '../../fixtures/factories';
+import { elementFactory } from '../../fixtures/factories';
 import { BrowserRouter } from 'react-router-dom';
 
 describe('ElementEditor Component', () => {
@@ -35,11 +35,12 @@ describe('ElementEditor Component', () => {
   const mockProjectId = 'test-project-id';
   
   // TODO: * Create mock element - CharacterForm loads questions from template, not element
-  const mockElement = ElementFactory.createCharacter({
+  const mockElement = elementFactory({
     name: 'Gandalf',
     description: 'A wise wizard',
     tags: ['wizard', 'fellowship'],
-    questions: [], // CharacterForm ignores these and uses characterTemplate
+    category: 'Characters',
+    type: 'character',
     answers: {
       'name': { questionId: 'name', value: 'Gandalf the Grey', lastUpdated: new Date() },
       'occupation': { questionId: 'occupation', value: 'Wizard', lastUpdated: new Date() }
@@ -47,11 +48,13 @@ describe('ElementEditor Component', () => {
   });
 
   // * Use factory for simpler mock data
-  const simpleElement = ElementFactory.createCharacter({
+  const simpleElement = elementFactory({
     name: 'Simple Character',
     description: 'A basic character for testing',
-    createdAt: new Date(),
-    updatedAt: new Date(),
+    category: 'Characters',
+    type: 'character',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
     completionPercentage: 16.67
   });
 

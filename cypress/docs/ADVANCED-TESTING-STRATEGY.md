@@ -14,18 +14,22 @@
 
 ## Overview
 
-This document outlines the comprehensive Cypress testing strategy for FantasyWritingApp, a React Native application tested through React Native Web. The patterns are derived from battle-tested approaches used in production applications, adapted specifically for React Native's unique requirements.
+This document outlines the comprehensive Cypress testing strategy for FantasyWritingApp, a React Native application tested through React Native Web. The patterns are derived from battle-tested approaches used in production applications and aligned with [Official Cypress Best Practices](https://docs.cypress.io/guides/references/best-practices), adapted specifically for React Native's unique requirements.
+
+> **⚠️ CRITICAL**: Always start your development server BEFORE running Cypress tests. Never attempt to start servers from within Cypress scripts.
 
 ## Testing Philosophy
 
 ### Core Principles
-1. **DRY (Don't Repeat Yourself)**: Modular, reusable test utilities
-2. **User-Centric Testing**: Test actual user workflows, not implementation
-3. **Comprehensive Coverage**: E2E for critical paths, components for UI logic
-4. **Defensive Testing**: Mandatory debug utilities for failure analysis
-5. **React Native First**: All patterns consider mobile-first development
-6. **Local Development First**: Test against local servers for maximum control
-7. **State Isolation**: Each test must be completely independent
+1. **Test Independence**: Each test can run in isolation without dependency on other tests
+2. **User-Centric Testing**: Test actual user workflows, not implementation details
+3. **Proper Element Selection**: Use data-* attributes exclusively, never CSS selectors
+4. **No Arbitrary Waits**: Use assertions and intercepts, not cy.wait(time)
+5. **Server Management**: Start servers BEFORE tests, never within test code
+6. **baseUrl Configuration**: Always set baseUrl to avoid hardcoding URLs
+7. **State Isolation**: Clean state BEFORE tests, not after
+8. **Session Caching**: Use cy.session() for all authentication to improve performance
+9. **Cypress Commands**: Use Cypress commands, not JavaScript variable assignments
 
 ### Testing Pyramid for React Native
 ```
@@ -75,6 +79,16 @@ cypress/
   - Example: `element-creation.cy.js`, `project-management.cy.js`
 - **Component Tests**: `[ComponentName].cy.jsx` or `[ComponentName].cy.tsx`
   - Example: `ElementCard.cy.jsx`, `ProjectList.cy.tsx`
+
+### Server Management (Critical)
+```bash
+# ALWAYS start server BEFORE running Cypress
+npm run web              # Start dev server on port 3002
+npm run cypress:open     # Then open Cypress
+
+# Or use start-server-and-test for automation
+npm run test:e2e         # Handles server startup automatically
+```
 
 ### Test Structure Template
 ```javascript
@@ -230,7 +244,7 @@ describe('Elements with Stubbed Data', () => {
 
 `cy.session()` provides intelligent caching of browser state (cookies, localStorage, sessionStorage) between tests, dramatically improving test performance while maintaining proper isolation.
 
-### Session Lifecycle
+### Session Lifecycle (Per Cypress.io Best Practices)
 
 ```javascript
 // Session Creation Flow
@@ -238,21 +252,29 @@ cy.session(id, setup, options)
 // 1. Clear all session data
 // 2. Execute setup function
 // 3. Cache session data with id
-// 4. Run validation (if provided)
+// 4. Run validation (MANDATORY for reliability)
 // 5. Restore session in subsequent calls
+
+// ⚠️ IMPORTANT: Always include validation callback
+// This ensures the session is still valid before use
 ```
 
-### Session ID Best Practices
+### Session ID Best Practices (Updated per Cypress.io)
 
 ```javascript
-// ✅ Good - Unique IDs that prevent conflicts
-cy.session([email, role, environment])
+// ✅ BEST PRACTICE - Unique, deterministic IDs
+cy.session([email, role, environment])          // Composite key
 cy.session([userType, permissions.join(',')])
-cy.session(`${username}-${timestamp}`) // For forced refresh
+cy.session(`${username}-${testSuite}`)         // Scoped by test suite
 
-// ❌ Bad - Non-unique or random IDs
-cy.session('user') // Too generic
-cy.session(Math.random()) // Creates new session every time
+// ❌ ANTI-PATTERNS - Never use these
+cy.session('user')                             // Too generic, causes conflicts
+cy.session(Math.random())                      // Non-deterministic
+cy.session(Date.now())                         // Changes every run
+
+// ✅ ALWAYS call cy.visit() after cy.session()
+cy.session('user', setup, validate)
+cy.visit('/dashboard')                         // Navigate after session restore
 ```
 
 ### Advanced Session Patterns
@@ -408,6 +430,25 @@ beforeEach(() => {
   });
   cy.visit('/'); // Navigate after session restore
 });
+```
+
+## Selector Best Practices (Critical)
+
+### Priority Order (From Cypress.io Official Docs)
+```javascript
+// 1. BEST - Test-specific attributes
+cy.get('[data-cy="submit"]')                  // Preferred by Cypress team
+cy.get('[data-test="submit"]')                // Alternative
+cy.get('[data-testid="submit"]')              // Testing Library compatibility
+
+// 2. ACCEPTABLE - When test attributes unavailable
+cy.get('[role="button"][name="Submit"]')     // Semantic HTML
+
+// 3. NEVER USE - Too brittle
+cy.get('.btn.btn-large')                      // CSS classes change
+cy.get('#submit')                              // IDs may not be unique
+cy.get('button')                               // Too generic
+cy.contains('Submit')                          // Text changes break tests
 ```
 
 ## Custom Commands Architecture
@@ -969,7 +1010,7 @@ cypress/debug-logs/
 5. **Environment**: Viewport, URL, browser info
 6. **Screenshots**: Full-page captures on failure
 
-## Configuration Best Practices
+## Configuration Best Practices (Aligned with Cypress.io)
 
 ### Cypress Configuration (cypress.config.js)
 ```javascript
@@ -977,8 +1018,8 @@ import { defineConfig } from 'cypress';
 
 export default defineConfig({
   e2e: {
-    // * Essential configuration
-    baseUrl: 'http://localhost:3002',
+    // * MANDATORY - Always set baseUrl (Cypress.io Best Practice)
+    baseUrl: 'http://localhost:3002',  // Enables cy.visit('/path') instead of full URLs
     viewportWidth: 375,  // Mobile-first
     viewportHeight: 812,
 
@@ -1441,6 +1482,38 @@ rm -rf .nyc_output coverage
 npm run test:coverage
 ```
 
+## Cypress Commands vs JavaScript (Critical Distinction)
+
+### ❌ WRONG - JavaScript Variable Assignment
+```javascript
+// This WILL NOT WORK - Cypress commands are asynchronous
+const button = cy.get('[data-cy="submit"]')   // ❌ Returns a Cypress chain, not element
+button.click()                                // ❌ Will fail
+
+let username                                  // ❌ Don't do this
+cy.get('[data-cy="username"]').then($el => {
+  username = $el.text()                       // ❌ Breaks command chain
+})
+```
+
+### ✅ CORRECT - Use Cypress Commands
+```javascript
+// Use aliases for reusability
+cy.get('[data-cy="submit"]').as('submitBtn')
+cy.get('@submitBtn').click()
+
+// Use closures for values
+cy.get('[data-cy="username"]').then($username => {
+  const text = $username.text()
+  cy.get('[data-cy="greeting"]').should('contain', text)
+})
+
+// Or use invoke
+cy.get('[data-cy="username"]')
+  .invoke('text')
+  .should('equal', 'JohnDoe')
+```
+
 ## Best Practices
 
 ### DO's ✅
@@ -1455,17 +1528,17 @@ npm run test:coverage
 9. **Test touch interactions** for mobile experience
 10. **Organize commands** by category
 
-### DON'Ts ❌
+### DON'Ts ❌ (Updated per Cypress.io)
 1. **Never use CSS selectors** for element selection
 2. **Don't use conditional logic** in tests (no if statements)
-3. **Don't test external services** directly
-4. **Avoid hardcoded waits** (use proper assertions)
-5. **Don't skip error handling** in commands
-6. **Never leave console.log** in test code
-7. **Don't test implementation details**
-8. **Avoid testing third-party components** in isolation
-9. **Don't ignore test failures** without investigation
-10. **Never commit sensitive data** in fixtures
+3. **Don't visit external sites** - only test your application
+4. **Don't use arbitrary waits** - cy.wait(3000) is always wrong
+5. **Don't start servers in tests** - start before running Cypress
+6. **Don't assign return values** - use aliases and closures instead
+7. **Don't make tests dependent** - each test must stand alone
+8. **Don't clean after tests** - clean before to ensure isolation
+9. **Don't skip baseUrl** - always configure it
+10. **Don't ignore validation** in cy.session() - always validate
 
 ## React Native Specific Patterns
 
@@ -1602,12 +1675,14 @@ describe('Form Validation', () => {
 
 This comprehensive testing strategy, enhanced with official Cypress best practices, ensures robust, maintainable tests for the FantasyWritingApp. By following these patterns and incorporating proper data seeding, stubbing, session management, and configuration strategies, the test suite will provide confidence in the application's functionality across all platforms while maintaining excellent debugging capabilities and performance.
 
-### Key Takeaways
-1. **Always start your local development server** before running tests
-2. **Use baseUrl configuration** to avoid hardcoding URLs
-3. **Implement multiple data seeding strategies** based on test needs
-4. **Cache authentication with cy.session()** for faster tests
-5. **Stub external services** to isolate your application
-6. **Configure timeouts appropriately** for React Native Web
-7. **Use environment-specific configurations** for different stages
-8. **Test error states and edge cases** comprehensively
+### Key Takeaways (Cypress.io Best Practices)
+1. **Start servers BEFORE Cypress** - Never use cy.exec() to start servers
+2. **Always configure baseUrl** - Enables relative URLs in cy.visit()
+3. **Write independent tests** - No coupling or shared state between tests
+4. **Use data-* attributes** - Never use CSS selectors or IDs
+5. **Cache sessions properly** - Always include validation callbacks
+6. **Avoid arbitrary waits** - Use intercepts and assertions instead
+7. **Don't visit external sites** - Only test your own application
+8. **Use Cypress commands** - Don't assign return values to JavaScript variables
+9. **Clean before, not after** - Ensure test isolation
+10. **Test user behavior** - Not implementation details

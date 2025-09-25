@@ -29,32 +29,32 @@ import { BaseElementForm } from '../../support/component-test-helpers';
 // import { ReligionForm } from '../../../src/components/ReligionForm';
 // import { TechnologyForm } from '../../../src/components/TechnologyForm';
 import { Answer, ElementCategory } from '../../../src/types/worldbuilding';
-import { QuestionFactory } from '../../fixtures/factories';
+import { questionFactory } from '../../fixtures/factories';
 import { MockWorldbuildingStoreProvider } from '../../support/component-test-helpers';
 
 // * Use factory for mock data
 const mockQuestions = [
-  QuestionFactory.createText({
+  questionFactory.createText({
     id: 'q1',
     text: 'Name',
     required: true,
     category: 'General',
     placeholder: 'Enter name'
   }),
-  QuestionFactory.createTextarea({
+  questionFactory.createTextarea({
     id: 'q2',
     text: 'Description',
     category: 'General',
     helpText: 'Provide a detailed description',
     inputSize: 'large'
   }),
-  QuestionFactory.createNumber({
+  questionFactory.createNumber({
     id: 'q3',
     text: 'Age',
     category: 'Details',
     validation: { min: 0, max: 1000 }
   }),
-  QuestionFactory.createSelect({
+  questionFactory.createSelect({
     id: 'q4',
     text: 'Type',
     category: 'Details',
@@ -64,7 +64,7 @@ const mockQuestions = [
       { value: 'neutral', label: 'Neutral' }
     ]
   }),
-  QuestionFactory.createMultiselect({
+  questionFactory.createMultiselect({
     id: 'q5',
     text: 'Abilities',
     category: 'Powers',

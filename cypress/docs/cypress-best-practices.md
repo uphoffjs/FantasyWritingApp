@@ -1,25 +1,31 @@
 # Cypress Best Practices Guide
 
-This document outlines essential best practices for writing effective, maintainable, and reliable Cypress tests for the FantasyWritingApp project.
+This document outlines essential best practices for writing effective, maintainable, and reliable Cypress tests for the FantasyWritingApp project, aligned with [Official Cypress Best Practices](https://docs.cypress.io/guides/references/best-practices).
 
-> **⚠️ CRITICAL RULES**:
+> **⚠️ CRITICAL RULES (From Cypress.io)**:
 > 1. NEVER use conditional statements (if/else) in Cypress tests. Tests must be deterministic.
-> 2. ALWAYS use `cy.comprehensiveDebug()` in every `beforeEach` hook - THIS IS MANDATORY.
-> 3. ALWAYS use `cy.cleanState()` to reset application state before each test.
-> 4. ALWAYS test against local development servers for maximum control.
-> 5. NEVER try to start a web server from within Cypress scripts.
+> 2. ALWAYS start your server BEFORE running Cypress - NEVER within test code.
+> 3. ALWAYS set `baseUrl` in configuration - enables relative URLs.
+> 4. ALWAYS use `data-*` attributes for selectors - NEVER CSS classes or IDs.
+> 5. ALWAYS write independent tests - no coupling between tests.
+> 6. ALWAYS use `cy.session()` with validation - improves performance.
+> 7. ALWAYS use `cy.comprehensiveDebug()` in every `beforeEach` hook.
+> 8. NEVER use arbitrary waits like `cy.wait(3000)` - use assertions.
+> 9. NEVER visit external sites - only test your application.
+> 10. NEVER assign Cypress command returns to variables - use aliases.
 
 ## Table of Contents
 1. [Starting Your Development Server](#starting-your-development-server)
 2. [Organizing Tests](#organizing-tests)
 3. [Selecting Elements](#selecting-elements)
-4. [Test Independence](#test-independence)
-5. [State Management](#state-management)
-6. [Avoiding Common Pitfalls](#avoiding-common-pitfalls)
-7. [Authentication & Login](#authentication--login)
-8. [Network Requests & Waiting](#network-requests--waiting)
-9. [Configuration Best Practices](#configuration-best-practices)
-10. [Data Seeding Strategies](#data-seeding-strategies)
+4. [Assigning Return Values](#assigning-return-values)
+5. [Test Independence](#test-independence)
+6. [State Management](#state-management)
+7. [Avoiding Common Pitfalls](#avoiding-common-pitfalls)
+8. [Authentication & Login](#authentication--login)
+9. [Network Requests & Waiting](#network-requests--waiting)
+10. [Configuration Best Practices](#configuration-best-practices)
+11. [Data Seeding Strategies](#data-seeding-strategies)
 
 ---
 
@@ -34,13 +40,14 @@ Testing against local servers provides:
 - **Debugging capabilities** with access to server logs
 - **Test-specific endpoints** for data setup and teardown
 
-### Starting Your Server (Before Cypress)
+### Starting Your Server (Cypress.io Best Practice)
 
 ```bash
-# Start your React Native Web development server
+# MANDATORY: Start server BEFORE Cypress
 npm run web        # Starts on port 3002
+cypress open       # THEN open Cypress
 
-# Or use start-server-and-test for CI/CD
+# Or use start-server-and-test for automation (RECOMMENDED)
 # package.json
 {
   "scripts": {
@@ -49,7 +56,8 @@ npm run web        # Starts on port 3002
 }
 ```
 
-⚠️ **Important**: Server must be running BEFORE starting Cypress. Never try to start servers from within Cypress tests.
+⚠️ **Cypress.io Rule**: NEVER start servers from Cypress. Quote from docs:
+> "Don't try to start a web server from within Cypress scripts. Read about best practices here."
 
 ---
 
@@ -99,20 +107,27 @@ cypress/
 
 ## Selecting Elements
 
-### ✅ Best Practice: Use Data Attributes
+### ✅ Best Practice: Use Data Attributes (Cypress.io Priority)
 
-**Always use `data-cy` attributes for element selection** in the FantasyWritingApp project:
+**Selector Priority from Official Cypress Documentation**:
 
 ```javascript
-// ✅ GOOD - Using data-cy attribute
-cy.get('[data-cy="create-element-button"]').click()
-cy.get('[data-cy="element-title-input"]').type('Dragon')
+// 1. BEST - Cypress Recommended
+cy.get('[data-cy="submit"]')              // Cypress team's preference
+cy.get('[data-test="submit"]')            // Alternative test attribute
+cy.get('[data-testid="submit"]')          // Testing Library compatibility
 
-// ❌ BAD - Don't use these selectors
-cy.get('.btn-primary').click()        // CSS class
-cy.get('#submit').click()              // ID
-cy.get('button').contains('Submit')   // Tag + text
+// 2. ACCEPTABLE - Only if above unavailable
+cy.get('[role="button"][name="Submit"]') // Semantic HTML
+
+// 3. NEVER USE - Anti-patterns per Cypress.io
+cy.get('.btn.btn-large')                  // ❌ CSS classes change
+cy.get('#submit')                          // ❌ IDs aren't unique
+cy.get('button:first')                     // ❌ Order changes
+cy.contains('Submit')                      // ❌ Text content changes
 ```
+
+**Quote from Cypress.io**: "Don't target elements based on CSS attributes such as: id, class, tag"
 
 ### Implementing Data Attributes in React Native
 
@@ -146,6 +161,45 @@ const getTestProps = (id: string) => {
 3. **`data-testid`** - For compatibility with Testing Library
 4. **Role attributes** - For accessibility testing
 5. Never use CSS classes, IDs, or tag names
+
+---
+
+## Assigning Return Values
+
+### ❌ ANTI-PATTERN: Direct Assignment (From Cypress.io)
+
+```javascript
+// ❌ WRONG - This DOES NOT WORK
+const button = cy.get('[data-cy="submit"]') // Returns Cypress chain, not element!
+button.click() // FAILS!
+
+// ❌ WRONG - Variables don't work as expected
+let username
+cy.get('[data-cy="username"]').then($el => {
+  username = $el.text() // By the time this runs, too late
+})
+cy.visit(`/users/${username}`) // username is undefined!
+```
+
+### ✅ CORRECT: Use Cypress Patterns
+
+```javascript
+// ✅ Use aliases
+cy.get('[data-cy="submit"]').as('submitButton')
+cy.get('@submitButton').click()
+
+// ✅ Use closures
+cy.get('[data-cy="username"]').then($username => {
+  cy.visit(`/users/${$username.text()}`)
+})
+
+// ✅ Chain commands
+cy.get('[data-cy="username"]')
+  .invoke('text')
+  .then(username => {
+    cy.visit(`/users/${username}`)
+  })
+```
 
 ---
 
@@ -253,30 +307,44 @@ cy.get('[data-cy="element-list"]').should('be.visible')
 cy.get('[data-cy="save-status"]').should('contain', 'Saved')
 ```
 
-### Don't Visit External Sites
+### Don't Visit External Sites (Cypress.io Rule)
 
 ```javascript
-// ❌ BAD - Testing external sites
-cy.visit('https://google.com')
+// ❌ BAD - Cypress.io explicitly forbids this
+cy.visit('https://google.com')           // Will fail - different origin
+cy.visit('https://external-api.com')     // Will fail - not your app
 
 // ✅ GOOD - Only test your application
-cy.visit('/elements')
+cy.visit('/')                            // Uses baseUrl
+cy.visit('/elements')                    // Relative to baseUrl
 
-// For external API calls, use cy.request() or cy.intercept()
-cy.intercept('GET', 'https://api.external.com/**', { 
-  fixture: 'external-api-response.json' 
+// ✅ For external APIs, use cy.request() or stub
+cy.request('https://api.external.com/data') // Direct API call
+
+// ✅ Or intercept and stub
+cy.intercept('GET', 'https://api.external.com/**', {
+  fixture: 'external-api-response.json'
 })
 ```
 
-### Don't Start Web Servers in Tests
+**Cypress.io Quote**: "Don't try to visit or interact with sites you don't control"
+
+### Don't Start Web Servers in Tests (Critical Cypress.io Rule)
 
 ```javascript
-// ❌ BAD - Starting server in test
+// ❌ ANTI-PATTERN - Never do this
 before(() => {
-  exec('npm run start')
+  cy.exec('npm run start')      // ❌ WRONG!
+  cy.task('startServer')        // ❌ WRONG!
+  cy.wait(5000)                 // ❌ WRONG!
 })
 
-// ✅ GOOD - Use start-server-and-test in package.json
+// ✅ CORRECT - Start server BEFORE Cypress
+// Option 1: Manual
+npm run web                     // Terminal 1
+cypress open                    // Terminal 2
+
+// Option 2: Automated (BEST)
 // package.json
 {
   "scripts": {
@@ -284,6 +352,8 @@ before(() => {
   }
 }
 ```
+
+**Cypress.io Guidance**: Web servers should be started before running Cypress, not from within test code.
 
 ### Server Management Best Practices
 
@@ -361,26 +431,36 @@ beforeEach(function() {
 })
 ```
 
-### Using cy.session() for Login Caching
+### Using cy.session() for Login Caching (Cypress.io Pattern)
 
 ```javascript
 Cypress.Commands.add('login', (email = 'test@example.com') => {
   cy.session(
-    email,
+    email,  // Unique session ID
     () => {
-      cy.visit('/login')
-      cy.get('[data-cy="email-input"]').type(email)
-      cy.get('[data-cy="password-input"]').type('password')
-      cy.get('[data-cy="login-button"]').click()
-      cy.url().should('include', '/dashboard')
+      // PREFER API login for speed (Cypress.io recommendation)
+      cy.request('POST', '/api/login', {
+        email,
+        password: 'password'
+      }).then(response => {
+        window.localStorage.setItem('authToken', response.body.token)
+      })
     },
     {
       validate() {
-        cy.getCookie('auth-token').should('exist')
-      }
+        // MANDATORY validation per Cypress.io
+        cy.window().then(win => {
+          expect(win.localStorage.getItem('authToken')).to.not.be.null
+        })
+      },
+      cacheAcrossSpecs: true  // Share session across test files
     }
   )
 })
+
+// IMPORTANT: Always cy.visit() after cy.session()
+cy.login('user@example.com')
+cy.visit('/dashboard')  // Navigate after session restore
 ```
 
 ---
@@ -422,15 +502,15 @@ cy.wait('@getElements')
 
 ## Configuration Best Practices
 
-### cypress.config.ts Settings
+### cypress.config.ts Settings (Per Cypress.io)
 
 ```typescript
 import { defineConfig } from 'cypress'
 
 export default defineConfig({
   e2e: {
-    // Essential Configuration
-    baseUrl: 'http://localhost:3002',  // ALWAYS use baseUrl
+    // MANDATORY per Cypress.io - Set baseUrl
+    baseUrl: 'http://localhost:3002',  // Enables cy.visit('/') instead of full URLs
     viewportWidth: 375,   // Mobile-first for React Native
     viewportHeight: 812,
 
@@ -1278,24 +1358,28 @@ cy.intercept('POST', '/api/elements', {
 
 ---
 
-## Summary Checklist
+## Summary Checklist (Cypress.io Best Practices)
 
-- [ ] Start local development server before running tests
-- [ ] Always use `data-cy` attributes for element selection
-- [ ] Write independent, isolated tests
-- [ ] Clean state before tests, not after
-- [ ] Configure baseUrl to avoid hardcoding URLs
-- [ ] Avoid arbitrary waits - wait for specific conditions
-- [ ] Use cy.session() for caching authentication
-- [ ] Choose appropriate data seeding strategy
-- [ ] Intercept and control network requests
-- [ ] Configure timeouts based on your app's needs
-- [ ] Create custom commands for common operations
+**Critical Rules from Official Documentation:**
+- [ ] ✅ Start server BEFORE Cypress - never within tests
+- [ ] ✅ Set `baseUrl` in config - enables relative URLs
+- [ ] ✅ Use `data-cy` attributes - never CSS selectors
+- [ ] ✅ Write independent tests - no coupling
+- [ ] ✅ Use cy.session() with validation - cache auth
+- [ ] ✅ Clean state BEFORE tests - not after
+- [ ] ✅ Use assertions/intercepts - no arbitrary waits
+- [ ] ✅ Test only your app - no external sites
+- [ ] ✅ Use aliases/closures - no variable assignment
+- [ ] ✅ Prefer API operations for setup - faster than UI
+
+**Additional Project Standards:**
+- [ ] Use `cy.comprehensiveDebug()` in beforeEach
 - [ ] Test across different viewports
-- [ ] Never test external sites
+- [ ] Create custom commands for common operations
+- [ ] Configure appropriate timeouts
+- [ ] Use environment-specific configurations
 - [ ] Run linting before committing test code
-- [ ] Use environment-specific configurations for different stages
 
 ---
 
-*This document is based on official Cypress best practices and adapted specifically for the FantasyWritingApp React Native project.*
+*This document is directly aligned with [Official Cypress Best Practices](https://docs.cypress.io/guides/references/best-practices) and adapted specifically for the FantasyWritingApp React Native project. When in doubt, refer to the official Cypress documentation.*

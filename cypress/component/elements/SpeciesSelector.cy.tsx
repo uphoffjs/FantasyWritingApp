@@ -30,11 +30,11 @@ describe('SpeciesSelector', () => {
   });
   // * Use factory to create complete WorldElement objects
   const mockRaces: WorldElement[] = [
-    ElementFactory.create({ id: 'race1', name: 'Elf', category: 'race-species', completion: 100 }),
-    ElementFactory.create({ id: 'race2', name: 'Dwarf', category: 'race-species', completion: 80 }),
-    ElementFactory.create({ id: 'race3', name: 'Human', category: 'race-species', completion: 90 }),
-    ElementFactory.create({ id: 'race4', name: 'Orc', category: 'race-species', completion: 70 }),
-    ElementFactory.create({ id: 'race5', name: 'Dragon', category: 'race-species', completion: 60 })
+    elementFactory({ id: 'race1', name: 'Elf', category: 'race-species', completionPercentage: 100 }),
+    elementFactory({ id: 'race2', name: 'Dwarf', category: 'race-species', completionPercentage: 80 }),
+    elementFactory({ id: 'race3', name: 'Human', category: 'race-species', completionPercentage: 90 }),
+    elementFactory({ id: 'race4', name: 'Orc', category: 'race-species', completionPercentage: 70 }),
+    elementFactory({ id: 'race5', name: 'Dragon', category: 'race-species', completionPercentage: 60 })
   ];
   
   let defaultProps: any;
@@ -341,8 +341,8 @@ describe('SpeciesDropdown', () => {
   });
   
   const mockRaces: WorldElement[] = [
-    ElementFactory.create({ id: 'race1', name: 'Elf', category: 'race-species', completion: 100 }),
-    ElementFactory.create({ id: 'race2', name: 'Dwarf', category: 'race-species', completion: 80 })];
+    elementFactory({ id: 'race1', name: 'Elf', category: 'race-species', completionPercentage: 100 }),
+    elementFactory({ id: 'race2', name: 'Dwarf', category: 'race-species', completionPercentage: 80 })];
   
   let defaultProps: any;
   

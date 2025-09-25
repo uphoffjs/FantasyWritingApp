@@ -15,7 +15,7 @@
 
 import React from 'react';
 import { TemplateEditor } from '../../../src/components/TemplateEditor';
-import { mountWithProviders } from '../../support/component';
+// mountWithProviders is available as a Cypress command - use cy.mountWithProviders()
 import { QuestionnaireTemplate, Question } from '../../../src/types/worldbuilding';
 
 describe('TemplateEditor Component', () => {
@@ -82,7 +82,7 @@ describe('TemplateEditor Component', () => {
     }
   });
     it('renders with all essential elements', () => {
-      mountWithProviders(
+      cy.mountWithProviders(
         <TemplateEditor
           template={defaultTemplate}
           onSave={onSaveSpy}
@@ -122,7 +122,7 @@ describe('TemplateEditor Component', () => {
         updatedAt: new Date().toISOString()
       };
 
-      mountWithProviders(
+      cy.mountWithProviders(
         <TemplateEditor
           template={newTemplate}
           onSave={onSaveSpy}
@@ -136,7 +136,7 @@ describe('TemplateEditor Component', () => {
       cy.get('[data-cy="no-questions-message"]').should('contain', 'No questions added yet');
     });
     it('displays question details correctly', () => {
-      mountWithProviders(
+      cy.mountWithProviders(
         <TemplateEditor
           template={defaultTemplate}
           onSave={onSaveSpy}
@@ -175,7 +175,7 @@ describe('TemplateEditor Component', () => {
     }
   });
     it('updates template name', () => {
-      mountWithProviders(
+      cy.mountWithProviders(
         <TemplateEditor
           template={defaultTemplate}
           onSave={onSaveSpy}
@@ -194,7 +194,7 @@ describe('TemplateEditor Component', () => {
       expect(savedTemplate.name).to.equal('Updated Character Template');
     });
     it('updates template description', () => {
-      mountWithProviders(
+      cy.mountWithProviders(
         <TemplateEditor
           template={defaultTemplate}
           onSave={onSaveSpy}
@@ -213,7 +213,7 @@ describe('TemplateEditor Component', () => {
       expect(savedTemplate.description).to.equal('A comprehensive template for detailed character creation');
     });
     it('validates template name is required', () => {
-      mountWithProviders(
+      cy.mountWithProviders(
         <TemplateEditor
           template={defaultTemplate}
           onSave={onSaveSpy}
@@ -236,7 +236,7 @@ describe('TemplateEditor Component', () => {
     }
   });
     it('adds a new text question', () => {
-      mountWithProviders(
+      cy.mountWithProviders(
         <TemplateEditor
           template={defaultTemplate}
           onSave={onSaveSpy}
@@ -262,7 +262,7 @@ describe('TemplateEditor Component', () => {
       cy.get('[data-cy^="question-item-"]:last').should('contain', 'What is their backstory?');
     });
     it('adds a select question with options', () => {
-      mountWithProviders(
+      cy.mountWithProviders(
         <TemplateEditor
           template={defaultTemplate}
           onSave={onSaveSpy}
@@ -294,7 +294,7 @@ describe('TemplateEditor Component', () => {
       });
     });
     it('adds a number question with validation', () => {
-      mountWithProviders(
+      cy.mountWithProviders(
         <TemplateEditor
           template={defaultTemplate}
           onSave={onSaveSpy}
@@ -321,7 +321,7 @@ describe('TemplateEditor Component', () => {
       });
     });
     it('cancels adding a question', () => {
-      mountWithProviders(
+      cy.mountWithProviders(
         <TemplateEditor
           template={defaultTemplate}
           onSave={onSaveSpy}
@@ -348,7 +348,7 @@ describe('TemplateEditor Component', () => {
     }
   });
     it('edits an existing question', () => {
-      mountWithProviders(
+      cy.mountWithProviders(
         <TemplateEditor
           template={defaultTemplate}
           onSave={onSaveSpy}
@@ -378,7 +378,7 @@ describe('TemplateEditor Component', () => {
       });
     });
     it('deletes a question', () => {
-      mountWithProviders(
+      cy.mountWithProviders(
         <TemplateEditor
           template={defaultTemplate}
           onSave={onSaveSpy}
@@ -399,7 +399,7 @@ describe('TemplateEditor Component', () => {
       cy.get('[data-cy="question-item-q2"]').should('not.exist');
     });
     it('cancels deleting a question', () => {
-      mountWithProviders(
+      cy.mountWithProviders(
         <TemplateEditor
           template={defaultTemplate}
           onSave={onSaveSpy}
@@ -426,7 +426,7 @@ describe('TemplateEditor Component', () => {
     }
   });
     it('reorders questions via drag and drop', () => {
-      mountWithProviders(
+      cy.mountWithProviders(
         <TemplateEditor
           template={defaultTemplate}
           onSave={onSaveSpy}
@@ -452,7 +452,7 @@ describe('TemplateEditor Component', () => {
         .should('have.css', 'cursor', 'grab');
     });
     it('shows drag handle on hover', () => {
-      mountWithProviders(
+      cy.mountWithProviders(
         <TemplateEditor
           template={defaultTemplate}
           onSave={onSaveSpy}
@@ -475,7 +475,7 @@ describe('TemplateEditor Component', () => {
     }
   });
     it('adds conditional logic to a question', () => {
-      mountWithProviders(
+      cy.mountWithProviders(
         <TemplateEditor
           template={defaultTemplate}
           onSave={onSaveSpy}
@@ -513,7 +513,7 @@ describe('TemplateEditor Component', () => {
         )
       };
 
-      mountWithProviders(
+      cy.mountWithProviders(
         <TemplateEditor
           template={templateWithConditional}
           onSave={onSaveSpy}
@@ -542,7 +542,7 @@ describe('TemplateEditor Component', () => {
     }
   });
     it('switches to Basic Mode tab', () => {
-      mountWithProviders(
+      cy.mountWithProviders(
         <TemplateEditor
           template={defaultTemplate}
           onSave={onSaveSpy}
@@ -559,7 +559,7 @@ describe('TemplateEditor Component', () => {
       cy.get('[data-cy="basic-mode-textarea"]').should('be.visible');
     });
     it('converts questions to text format in Basic Mode', () => {
-      mountWithProviders(
+      cy.mountWithProviders(
         <TemplateEditor
           template={defaultTemplate}
           onSave={onSaveSpy}
@@ -574,7 +574,7 @@ describe('TemplateEditor Component', () => {
       cy.get('[data-cy="basic-mode-textarea"]').should('contain', 'What is their role?');
     });
     it('adds questions from Basic Mode text', () => {
-      mountWithProviders(
+      cy.mountWithProviders(
         <TemplateEditor
           template={defaultTemplate}
           onSave={onSaveSpy}
@@ -606,7 +606,7 @@ describe('TemplateEditor Component', () => {
     }
   });
     it('opens preview modal', () => {
-      mountWithProviders(
+      cy.mountWithProviders(
         <TemplateEditor
           template={defaultTemplate}
           onSave={onSaveSpy}
@@ -625,7 +625,7 @@ describe('TemplateEditor Component', () => {
       cy.get('[data-cy="preview-question-3"]').should('contain', 'What is their role?');
     });
     it('closes preview modal', () => {
-      mountWithProviders(
+      cy.mountWithProviders(
         <TemplateEditor
           template={defaultTemplate}
           onSave={onSaveSpy}
@@ -648,7 +648,7 @@ describe('TemplateEditor Component', () => {
     }
   });
     it('saves template with all changes', () => {
-      mountWithProviders(
+      cy.mountWithProviders(
         <TemplateEditor
           template={defaultTemplate}
           onSave={onSaveSpy}
@@ -674,7 +674,7 @@ describe('TemplateEditor Component', () => {
       expect(savedTemplate.questions).to.have.length(4);
     });
     it('shows confirmation when canceling with unsaved changes', () => {
-      mountWithProviders(
+      cy.mountWithProviders(
         <TemplateEditor
           template={defaultTemplate}
           onSave={onSaveSpy}
@@ -700,7 +700,7 @@ describe('TemplateEditor Component', () => {
       cy.get('@onClose').should('have.been.calledOnce');
     });
     it('continues editing when declining cancel confirmation', () => {
-      mountWithProviders(
+      cy.mountWithProviders(
         <TemplateEditor
           template={defaultTemplate}
           onSave={onSaveSpy}
@@ -720,7 +720,7 @@ describe('TemplateEditor Component', () => {
       cy.get('@onClose').should('not.have.been.called');
     });
     it('closes without confirmation when no changes made', () => {
-      mountWithProviders(
+      cy.mountWithProviders(
         <TemplateEditor
           template={defaultTemplate}
           onSave={onSaveSpy}
@@ -735,7 +735,7 @@ describe('TemplateEditor Component', () => {
       cy.get('@onClose').should('have.been.calledOnce');
     });
     it('closes via X button', () => {
-      mountWithProviders(
+      cy.mountWithProviders(
         <TemplateEditor
           template={defaultTemplate}
           onSave={onSaveSpy}
@@ -755,7 +755,7 @@ describe('TemplateEditor Component', () => {
     }
   });
     it('handles empty question text', () => {
-      mountWithProviders(
+      cy.mountWithProviders(
         <TemplateEditor
           template={defaultTemplate}
           onSave={onSaveSpy}
@@ -769,7 +769,7 @@ describe('TemplateEditor Component', () => {
       cy.get('[data-cy="question-error"]').should('contain', 'Question text is required');
     });
     it('handles duplicate question text warning', () => {
-      mountWithProviders(
+      cy.mountWithProviders(
         <TemplateEditor
           template={defaultTemplate}
           onSave={onSaveSpy}
@@ -784,7 +784,7 @@ describe('TemplateEditor Component', () => {
       cy.get('[data-cy="question-warning"]').should('contain', 'This question already exists');
     });
     it('handles select question without options', () => {
-      mountWithProviders(
+      cy.mountWithProviders(
         <TemplateEditor
           template={defaultTemplate}
           onSave={onSaveSpy}
@@ -800,7 +800,7 @@ describe('TemplateEditor Component', () => {
       cy.get('[data-cy="question-error"]').should('contain', 'Select questions require at least one option');
     });
     it('handles very long template names', () => {
-      mountWithProviders(
+      cy.mountWithProviders(
         <TemplateEditor
           template={defaultTemplate}
           onSave={onSaveSpy}
@@ -831,7 +831,7 @@ describe('TemplateEditor Component', () => {
         questions: manyQuestions
       };
 
-      mountWithProviders(
+      cy.mountWithProviders(
         <TemplateEditor
           template={templateWithManyQuestions}
           onSave={onSaveSpy}
@@ -854,7 +854,7 @@ describe('TemplateEditor Component', () => {
     }
   });
     it('supports keyboard navigation', () => {
-      mountWithProviders(
+      cy.mountWithProviders(
         <TemplateEditor
           template={defaultTemplate}
           onSave={onSaveSpy}
@@ -873,7 +873,7 @@ describe('TemplateEditor Component', () => {
       cy.focused().should('have.attr', 'data-cy', 'questions-tab');
     });
     it('has proper ARIA labels', () => {
-      mountWithProviders(
+      cy.mountWithProviders(
         <TemplateEditor
           template={defaultTemplate}
           onSave={onSaveSpy}
@@ -894,7 +894,7 @@ describe('TemplateEditor Component', () => {
         .should('have.attr', 'aria-label', 'Save template');
     });
     it('announces changes to screen readers', () => {
-      mountWithProviders(
+      cy.mountWithProviders(
         <TemplateEditor
           template={defaultTemplate}
           onSave={onSaveSpy}
@@ -911,7 +911,7 @@ describe('TemplateEditor Component', () => {
       cy.get('[aria-live="polite"]').should('contain', 'Question added');
     });
     it('supports escape key to close modals', () => {
-      mountWithProviders(
+      cy.mountWithProviders(
         <TemplateEditor
           template={defaultTemplate}
           onSave={onSaveSpy}
@@ -936,7 +936,7 @@ describe('TemplateEditor Component', () => {
     it('adapts layout for mobile viewport', () => {
       cy.viewport(375, 667);
       
-      mountWithProviders(
+      cy.mountWithProviders(
         <TemplateEditor
           template={defaultTemplate}
           onSave={onSaveSpy}
@@ -959,7 +959,7 @@ describe('TemplateEditor Component', () => {
     it('adapts layout for tablet viewport', () => {
       cy.viewport(768, 1024);
       
-      mountWithProviders(
+      cy.mountWithProviders(
         <TemplateEditor
           template={defaultTemplate}
           onSave={onSaveSpy}
@@ -973,7 +973,7 @@ describe('TemplateEditor Component', () => {
     it('shows full layout on desktop', () => {
       cy.viewport(1920, 1080);
       
-      mountWithProviders(
+      cy.mountWithProviders(
         <TemplateEditor
           template={defaultTemplate}
           onSave={onSaveSpy}
@@ -994,7 +994,7 @@ describe('TemplateEditor Component', () => {
     it('handles touch interactions on mobile', () => {
       cy.viewport(375, 667);
       
-      mountWithProviders(
+      cy.mountWithProviders(
         <TemplateEditor
           template={defaultTemplate}
           onSave={onSaveSpy}

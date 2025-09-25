@@ -20,6 +20,71 @@ const generateTimestamp = (daysAgo: number = 0): string => {
   return date.toISOString();
 };
 
+// * Question factory for form testing
+export interface QuestionFactoryOptions {
+  id?: string;
+  text?: string;
+  type?: 'text' | 'textarea' | 'number' | 'select' | 'multiselect' | 'boolean' | 'date';
+  required?: boolean;
+  category?: string;
+  placeholder?: string;
+  helpText?: string;
+  validation?: any;
+  options?: Array<{ value: string; label: string }>;
+  inputSize?: 'small' | 'medium' | 'large';
+  min?: number;
+  max?: number;
+}
+
+export const questionFactory = (overrides: QuestionFactoryOptions = {}): any => ({
+  id: overrides.id || generateId('question'),
+  text: overrides.text || 'Test question?',
+  type: overrides.type || 'text',
+  required: overrides.required !== undefined ? overrides.required : false,
+  category: overrides.category || 'general',
+  placeholder: overrides.placeholder || 'Enter your answer',
+  helpText: overrides.helpText || '',
+  options: overrides.options || [],
+  validation: overrides.validation || null,
+  inputSize: overrides.inputSize || 'medium',
+  min: overrides.min,
+  max: overrides.max,
+  createdAt: generateTimestamp(0),
+  updatedAt: generateTimestamp(0)
+});
+
+// Helper methods for specific question types
+questionFactory.createText = (overrides: QuestionFactoryOptions = {}) =>
+  questionFactory({ ...overrides, type: 'text' });
+
+questionFactory.createTextarea = (overrides: QuestionFactoryOptions = {}) =>
+  questionFactory({ ...overrides, type: 'textarea', inputSize: overrides.inputSize || 'large' });
+
+questionFactory.createNumber = (overrides: QuestionFactoryOptions = {}) =>
+  questionFactory({ ...overrides, type: 'number' });
+
+questionFactory.createSelect = (overrides: QuestionFactoryOptions = {}) =>
+  questionFactory({
+    ...overrides,
+    type: 'select',
+    options: overrides.options || [
+      { value: 'option1', label: 'Option 1' },
+      { value: 'option2', label: 'Option 2' },
+      { value: 'option3', label: 'Option 3' }
+    ]
+  });
+
+questionFactory.createMultiselect = (overrides: QuestionFactoryOptions = {}) =>
+  questionFactory({
+    ...overrides,
+    type: 'multiselect',
+    options: overrides.options || [
+      { value: 'option1', label: 'Option 1' },
+      { value: 'option2', label: 'Option 2' },
+      { value: 'option3', label: 'Option 3' }
+    ]
+  });
+
 // * Project factory
 export interface ProjectFactoryOptions {
   id?: string;

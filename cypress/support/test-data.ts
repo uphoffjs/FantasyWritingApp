@@ -318,3 +318,28 @@ export const relationshipTypes = [
   'neighbor',
   'acquaintance'
 ];
+
+// Element-related mock data for worldbuilding tests
+export const mockElement = {
+  id: 'element-1',
+  name: 'Test Element',
+  category: 'character',
+  type: 'character',
+  description: 'Test element description',
+  projectId: 'project-1',
+  relationships: [],
+  completionPercentage: 75,
+  createdAt: new Date('2024-01-01').toISOString(),
+  updatedAt: new Date('2024-01-01').toISOString(),
+  tags: ['test'],
+  answers: {}
+};
+
+export const createMockElements = (count: number = 3) => {
+  return Array.from({ length: count }, (_, i) => ({
+    ...mockElement,
+    id: `element-${i + 1}`,
+    name: `Test Element ${i + 1}`,
+    completionPercentage: Math.floor(Math.random() * 100)
+  }));
+};

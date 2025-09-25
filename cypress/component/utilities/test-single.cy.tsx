@@ -16,7 +16,7 @@
 import React from 'react';
 import { ElementBrowser } from '../../../src/components/ElementBrowser';
 import { BrowserRouter, MemoryRouter } from 'react-router-dom';
-import { ProjectFactory } from '../../fixtures/factories';
+import { projectFactory } from '../../fixtures/factories';
 import { mountWithProviders } from '../_helpers/mount-helpers';
 
 describe('Single Test - ElementBrowser', () => {
@@ -35,7 +35,7 @@ describe('Single Test - ElementBrowser', () => {
 
   it('should mount without crashing', () => {
     // * Most basic test possible
-    const mockProject = ProjectFactory.createFantasyProject();
+    const mockProject = projectFactory({ name: 'Fantasy Project' });
     
     // * Try mounting with the simplest possible setup
     cy.mountWithProviders(
@@ -49,7 +49,7 @@ describe('Single Test - ElementBrowser', () => {
   });
   
   it('should mount ElementBrowser with MemoryRouter', () => {
-    const mockProject = ProjectFactory.createFantasyProject();
+    const mockProject = projectFactory({ name: 'Fantasy Project' });
     
     cy.mountWithProviders(
       <MemoryRouter initialEntries={[`/project/${mockProject.id}`]}>
@@ -62,7 +62,7 @@ describe('Single Test - ElementBrowser', () => {
   });
   
   it('should mount ElementBrowser with full providers', () => {
-    const mockProject = ProjectFactory.createFantasyProject();
+    const mockProject = projectFactory({ name: 'Fantasy Project' });
     
     mountWithProviders(<ElementBrowser />, {
       initialState: { 

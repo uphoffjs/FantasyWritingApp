@@ -107,17 +107,28 @@ Use these prefixes for clear, categorized comments throughout the codebase:
 // // const oldImplementation = legacy();
 ```
 
-## Critical Development Rules
+## Critical Development Rules (Aligned with Cypress.io)
 
-### NEVER Do
-- ❌ Use selectors other than `data-cy`/`testID`
-- ❌ Skip reading files before editing
-- ❌ Use HTML elements (use React Native components)
-- ❌ Use `if` statements in Cypress tests
+### NEVER Do (Cypress.io Best Practices)
+- ❌ Start servers within Cypress tests - start BEFORE
+- ❌ Visit external sites - only test your application
+- ❌ Use arbitrary waits like `cy.wait(3000)`
+- ❌ Use CSS selectors, IDs, or tag selectors
+- ❌ Assign Cypress returns to variables
+- ❌ Use `if/else` statements in tests
+- ❌ Create dependent tests - each must be independent
+- ❌ Clean after tests - clean BEFORE
+- ❌ Skip baseUrl configuration
 - ❌ Leave console.log statements
 - ❌ Skip `npm run lint`
 
-### ALWAYS Do
+### ALWAYS Do (Cypress & React Native Standards)
+- ✅ Start dev server BEFORE running Cypress
+- ✅ Set baseUrl in cypress.config.js
+- ✅ Use `data-cy` attributes exclusively
+- ✅ Use cy.session() with validation for auth
+- ✅ Write independent, isolated tests
+- ✅ Clean state BEFORE each test
 - ✅ React Native components only (View, Text, TouchableOpacity, TextInput)
 - ✅ Platform.select() for platform-specific code
 - ✅ StyleSheet.create() for styles
@@ -125,14 +136,23 @@ Use these prefixes for clear, categorized comments throughout the codebase:
 - ✅ Validate/sanitize user inputs
 - ✅ Add accessibility props
 
-## Cypress Testing Rules
+## Cypress Testing Rules (Per Cypress.io Best Practices)
 ```javascript
-// MANDATORY Structure
+// MANDATORY Structure (Aligned with Official Docs)
 describe('Feature', () => {
   beforeEach(function() {  // Must use function()
-    cy.comprehensiveDebug();  // MANDATORY
-    cy.cleanState();          // MANDATORY
-    cy.visit('/');
+    cy.comprehensiveDebug();  // Project requirement
+    cy.cleanState();          // Clean BEFORE (Cypress.io rule)
+
+    // Use session for auth (Cypress.io pattern)
+    cy.session('user', setup, {
+      validate() {            // Validation required
+        cy.getCookie('auth').should('exist');
+      },
+      cacheAcrossSpecs: true
+    });
+
+    cy.visit('/');           // Uses baseUrl
   });
 
   afterEach(function() {
@@ -143,40 +163,86 @@ describe('Feature', () => {
 
   it('test description', () => {
     // Arrange → Act → Assert pattern
-    // NO if/else statements
-    // Use only data-cy selectors
+    // NO if/else statements (Cypress.io rule)
+    // NO arbitrary waits (Cypress.io rule)
+    // Use only data-cy selectors (Cypress.io rule)
+    // Each test independent (Cypress.io rule)
   });
 });
 ```
 
-### Session Management
-- Use cy.session() for all auth
-- Add `cacheAcrossSpecs: true`
-- Include validation callback
-- Unique session IDs
-
-### Data Seeding Methods
-1. cy.exec() - System commands
-2. cy.task() - Node.js code
-3. cy.request() - API seeding
-4. cy.intercept() - Fixture stubbing
-
-## Selector Best Practices
-
-### Priority Order (MANDATORY)
-1. **`data-cy`** - PREFERRED for all new tests
-2. **`data-testid`** - React Native Web conversion
-3. **`testID`** - React Native fallback
-4. ❌ **NEVER**: Class selectors (`.class`), element selectors (`button`), attribute selectors (`[title="..."]`)
-
-### Custom Cypress Commands
+### Session Management (Cypress.io Patterns)
 ```javascript
-// PREFERRED: Use data-cy attributes
-cy.getByDataCy('submit-button').click();
-cy.getByDataCy('input-field').type('text');
+// CORRECT per Cypress.io
+cy.session(
+  ['user', 'role', 'env'],  // Composite key
+  () => {
+    // PREFER API login (faster)
+    cy.request('POST', '/api/login', credentials)
+      .then(res => {
+        window.localStorage.setItem('token', res.body.token);
+      });
+  },
+  {
+    validate() {            // MANDATORY
+      cy.window().then(win => {
+        expect(win.localStorage.getItem('token')).to.not.be.null;
+      });
+    },
+    cacheAcrossSpecs: true  // Share across files
+  }
+);
 
-// For test IDs (handles multiple strategies)
-cy.getByTestId('element-name').should('exist');
+// ALWAYS navigate after session
+cy.visit('/dashboard');
+```
+
+### Data Seeding Methods (Cypress.io Patterns)
+1. **cy.exec()** - System commands (DB reset)
+2. **cy.task()** - Node.js code (complex seeding)
+3. **cy.request()** - API seeding (PREFERRED for speed)
+4. **cy.intercept()** - Stub responses (not seeding)
+
+```javascript
+// BEST: API seeding (fast)
+cy.request('POST', '/api/seed/user', userData);
+
+// Good: Task for complex operations
+cy.task('seedDatabase', { users: 5 });
+
+// Stubbing (different from seeding)
+cy.intercept('GET', '/api/users', { fixture: 'users.json' });
+```
+
+## Selector Best Practices (Cypress.io Official Priority)
+
+### Priority Order (From Official Docs)
+1. **`data-cy`** - Cypress team's PREFERRED selector
+2. **`data-test`** - Alternative test attribute
+3. **`data-testid`** - Testing Library compatibility
+4. **`testID`** - React Native (converts to data-cy)
+5. **`[role][name]`** - Semantic HTML (if above unavailable)
+
+### NEVER Use (Cypress.io Anti-patterns)
+- ❌ **`.class`** - CSS classes change
+- ❌ **`#id`** - IDs aren't unique
+- ❌ **`button`** - Too generic
+- ❌ **`[title="..."]`** - Attributes change
+- ❌ **`cy.contains('text')`** - Text changes
+
+### Custom Cypress Commands (Best Practices)
+```javascript
+// PREFERRED: Use data-cy attributes (Cypress.io)
+cy.get('[data-cy="submit-button"]').click();
+cy.getByDataCy('submit-button').click(); // Custom helper
+
+// NEVER assign to variables (Cypress.io rule)
+// ❌ WRONG
+const button = cy.get('[data-cy="submit"]');
+
+// ✅ CORRECT - Use aliases
+cy.get('[data-cy="submit"]').as('submitBtn');
+cy.get('@submitBtn').click();
 
 // Specialized commands for common patterns
 cy.clickButton('Submit');           // Looks for data-cy first, then text
@@ -219,11 +285,12 @@ cy.getByDataCy('form').findByTestId('field');
 - Responsive: useWindowDimensions()
 - Storage: AsyncStorage (mobile) / localStorage (web)
 
-## Testing Coverage Requirements
-- Lines: 80%
-- Branches: 75%
-- Functions: 80%
-- Critical paths: 100% E2E coverage
+## Testing Coverage Requirements (Realistic Targets)
+- **Lines**: 80% (75-85% range acceptable)
+- **Branches**: 75% (70-80% realistic)
+- **Functions**: 80% (75-85% good)
+- **Critical paths**: 90% E2E (100% unrealistic)
+- **Note**: Avoid 100% targets - they're unrealistic per Cypress.io
 
 ## Error Handling
 - Error boundaries required
@@ -231,12 +298,16 @@ cy.getByDataCy('form').findByTestId('field');
 - Network error handling with cy.intercept()
 - Console error capture in tests
 
-## Quick Debug Process
-1. Check webpack output (BashOutput tool)
-2. Verify http://localhost:3002 responds
-3. Run Cypress tests for console errors
-4. Check TypeScript compilation
-5. Verify dependencies (npm ls)
+## Quick Debug Process (Cypress.io Aligned)
+1. **Ensure server is running on port 3002 FIRST**
+2. Check webpack output (BashOutput tool)
+3. Verify http://localhost:3002 responds
+4. **Check baseUrl is set in cypress.config.js**
+5. Run Cypress tests for console errors
+6. **Check for arbitrary waits** (grep for cy.wait)
+7. **Verify all tests are independent**
+8. Check TypeScript compilation
+9. Verify dependencies (npm ls)
 
 ## React Native Pitfalls
 - Text must be in Text component
@@ -260,11 +331,17 @@ git commit -m "feat: description"  # conventional commits
 - `/src/store/` - Zustand stores
 - `/src/types/` - TypeScript types
 
-## Testing Compliance Docs
-For detailed Cypress compliance requirements, see:
+## Testing Compliance Docs (Updated Hierarchy)
+**Primary References (in order)**:
+1. **[Cypress.io Official Best Practices](https://docs.cypress.io/guides/references/best-practices)** - Ultimate authority
+2. **`/cypress/CYPRESS-TESTING-STANDARDS.md`** - Project authority (v2.0.0)
+3. **`/cypress/docs/cypress-best-practices.md`** - Detailed guide
+4. **`/cypress/docs/ADVANCED-TESTING-STRATEGY.md`** - Advanced patterns
+
+**Implementation Tracking**:
 - `/cypress/support/TODO.md` - Improvements checklist
 - `/cypress/support/IMPLEMENTATION_PLAN.md` - Implementation details
-- `/cypress/support/COMPLIANCE_SUMMARY.md` - Current status (65% compliant)
+- `/cypress/support/COMPLIANCE_SUMMARY.md` - Current status
 
 ## Test Results Management
 
