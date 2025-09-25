@@ -7,6 +7,50 @@
 4. ✅ Include helpful code comments (Better Comments syntax)
 5. ✅ Fix code first when tests fail
 6. ✅ Mobile-first development
+7. ✅ Clear context every 90 minutes (see Context Management below)
+
+## 🧠 Context Management
+
+### Quick Context Commands
+```bash
+# The Golden Sequence™ - Use every 90 minutes
+/sc:save                          # Save config
+write_memory("checkpoint", state) # Save context
+/clear                           # Clear conversation
+/sc:load                         # Reload config
+read_memory("checkpoint")        # Restore context
+```
+
+### Context Health Monitoring
+| Indicator | Action Required |
+|-----------|----------------|
+| **Slow responses** | Clear immediately |
+| **90+ minutes** | Proactive clear |
+| **Before break** | Save checkpoint |
+| **Task complete** | Update memory |
+| **End of day** | Save EOD summary |
+
+### Essential Memory Keys
+```bash
+"checkpoint"        # Current work state
+"EOD"              # End of day summary
+"feature_[name]"   # Feature-specific context
+"bug_[id]"         # Debug session state
+"temp_*"           # Temporary (delete after use)
+```
+
+### 📚 Context Documentation
+- **[CONTEXT_MANAGEMENT_GUIDE.md](./CONTEXT_MANAGEMENT_GUIDE.md)** - Comprehensive context management strategies
+- **[SESSION_BEST_PRACTICES.md](./SESSION_BEST_PRACTICES.md)** - Optimal session patterns and workflows
+- **[QUICK_REFERENCE.md](./QUICK_REFERENCE.md)** - Command cheat sheet for quick access
+- **[claude-save-and-clear-workflow.md](./claude-save-and-clear-workflow.md)** - Step-by-step clear workflow
+
+### When to Clear Context
+- ✅ Every 90-120 minutes (mandatory)
+- ✅ Before complex operations
+- ✅ When responses feel slow
+- ✅ After completing major features
+- ✅ Before/after debugging sessions
 
 ## Project Overview
 **FantasyWritingApp**: Cross-platform creative writing app (React Native) for managing stories, characters, scenes, and chapters.
