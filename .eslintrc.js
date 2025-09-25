@@ -110,6 +110,28 @@ module.exports = {
       }
     },
     {
+      // Cypress-specific rules for selector patterns
+      files: ['**/cypress/**/*.cy.{ts,tsx}'],
+      rules: {
+        // * Custom rules via comments - will be checked by lint script
+        'no-restricted-syntax': [
+          'warn',
+          {
+            selector: 'CallExpression[callee.object.name="cy"][callee.property.name=/^(get|find)$/][arguments.0.value=/^[^\\[]/]',
+            message: 'Prefer data-cy selectors: Use cy.get("[data-cy=...]") instead of string selectors'
+          },
+          {
+            selector: 'CallExpression[callee.object.name="cy"][callee.property.name="contains"]:not(:has(Literal[value=/data-cy/]))',
+            message: 'Consider using data-cy selectors with cy.contains() for better reliability'
+          },
+          {
+            selector: 'CallExpression[callee.object.name="cy"][callee.property.name="wait"][arguments.0.type="Literal"][arguments.0.value=/^[0-9]+$/]',
+            message: 'Avoid arbitrary waits like cy.wait(3000). Use proper assertions instead'
+          }
+        ]
+      }
+    },
+    {
       // Template files
       files: ['**/*TEMPLATE*.{js,jsx,ts,tsx}', '**/templates/**/*.{js,jsx,ts,tsx}'],
       rules: {

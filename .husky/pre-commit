@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# * Pre-commit hook to run lint-staged and check for import issues
+# ! This prevents broken imports and lint errors from being committed
+
+npx lint-staged
