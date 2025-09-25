@@ -14,7 +14,7 @@
  */
 
 import React from 'react';
-import { ErrorNotification, useErrorNotification } from '../../support/component-test-helpersErrorNotification';
+import { ErrorNotification, useNotifications } from '../../../src/components/ErrorNotification';
 
 describe('ErrorNotification Component', () => {
   beforeEach(function() {
@@ -385,15 +385,15 @@ describe('ErrorNotification Component', () => {
     });
     it.skip('applies stacking styles to multiple notifications', () => {
       const TestComponent = () => {
-        const { showError, ErrorNotifications } = useErrorNotification();
-        
+        const { notifications, showNotification } = useNotifications();
+
         React.useEffect(() => {
-          showError(new Error('Error 1'));
-          showError(new Error('Error 2'));
-          showError(new Error('Error 3'));
+          showNotification({ error: new Error('Error 1'), type: 'error' });
+          showNotification({ error: new Error('Error 2'), type: 'error' });
+          showNotification({ error: new Error('Error 3'), type: 'error' });
         }, []);
-        
-        return <ErrorNotifications />;
+
+        return <NotificationContainer notifications={notifications} />;
       };
       
       cy.mountWithProviders(<TestComponent />);

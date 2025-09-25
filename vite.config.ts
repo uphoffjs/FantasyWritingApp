@@ -27,7 +27,9 @@ export default defineConfig({
       include: [
         'react-native-svg/**',
         'react-native-safe-area-context/**',
-        'react-native-screens/**'
+        'react-native-screens/**',
+        'merge-options/**', // * Fix merge-options ESM/CommonJS interop
+        '@react-native-async-storage/async-storage/**'
       ]
     }),
     // * SVG as React components
@@ -80,12 +82,15 @@ export default defineConfig({
       '@react-navigation/native',
       '@react-navigation/native-stack',
       '@react-navigation/bottom-tabs',
-      'zustand'
+      'zustand',
+      '@react-native-async-storage/async-storage' // * Include to pre-bundle with its dependencies
     ],
     // * Exclude problematic packages from optimization
     exclude: [
       'react-native', // ! Never try to parse the actual react-native package
-      '@react-native-async-storage/async-storage'
+      '@cypress/react',
+      'cypress-axe',
+      'cypress-real-events'
     ],
     // * Force ESBuild to handle these extensions
     esbuildOptions: {

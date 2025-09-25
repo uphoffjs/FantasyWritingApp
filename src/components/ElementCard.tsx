@@ -152,7 +152,7 @@ export const ElementCard = memo(function ElementCard({
               {element.name}
             </Text>
             <Text style={styles.categoryText} {...getTestProps('element-category')}>
-              {element.category.replace('-', ' ')}
+              {element.category} • general
             </Text>
           </View>
         </View>

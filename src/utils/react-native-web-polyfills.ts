@@ -51,8 +51,11 @@ export function getTestProps(testId: string, isWeb = Platform.OS === 'web') {
   }
   return {
     testID: testId,
-    accessibilityTestID: testId,
-    accessible: true,
+    // ! Only add accessibility props on native, not web to avoid React warnings
+    ...(Platform.OS !== 'web' && {
+      accessibilityTestID: testId,
+      accessible: true,
+    }),
   };
 }
 
@@ -145,8 +148,24 @@ export function getPlatformProps(webProps: any = {}, nativeProps: any = {}) {
 export function getAccessibilityProps(label: string, hint?: string, role?: string) {
   const props: any = {};
 
-  // * Only add 'accessible' for native platforms, not web
-  if (Platform.OS !== 'web') {
+  if (Platform.OS === 'web') {
+    // * Web uses aria attributes instead of accessibility props
+    props['aria-label'] = label;
+
+    if (hint) {
+      props['aria-describedby'] = hint;
+    }
+
+    if (role) {
+      // * Map React Native roles to HTML roles for web
+      const webRole = role === 'button' ? 'button' :
+                      role === 'link' ? 'link' :
+                      role === 'image' ? 'img' :
+                      role === 'text' ? 'text' : role;
+      props.role = webRole;
+    }
+  } else {
+    // * Only add accessibility props for native platforms
     props.accessible = true;
     props.accessibilityLabel = label;
 
@@ -156,17 +175,6 @@ export function getAccessibilityProps(label: string, hint?: string, role?: strin
 
     if (role) {
       props.accessibilityRole = role;
-    }
-  } else {
-    // * Web uses aria-label instead of accessibilityLabel
-    props['aria-label'] = label;
-
-    if (hint) {
-      props['aria-describedby'] = hint;
-    }
-
-    if (role) {
-      props.role = role;
     }
   }
 

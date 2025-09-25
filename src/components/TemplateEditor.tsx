@@ -52,7 +52,8 @@ function QuestionEditor({ question, onChange, onDelete }: QuestionEditorProps) {
         <View style={styles.questionField}>
           <Text style={styles.fieldLabel}>Type</Text>
           <View style={styles.typeSelector}>
-            {(['text' // ! HARDCODED: Should use design tokens, 'textarea', 'select', 'multiselect', 'number', 'date', 'boolean'] as QuestionType[]).map((type) => (
+            {/* ! HARDCODED: Should use design tokens */}
+            {(['text', 'textarea', 'select', 'multiselect', 'number', 'date', 'boolean'] as QuestionType[]).map((type) => (
               <Pressable
                 key={type}
                 style={[
@@ -91,13 +92,13 @@ function QuestionEditor({ question, onChange, onDelete }: QuestionEditorProps) {
           <Switch
             value={question.required || false}
             onValueChange={(required) => onChange({ ...question, required })}
-            trackColor={{ false: '#374151', // ! HARDCODED: Should use design tokens true: ' #6366F1' }} thumbColor="
-      #F9FAFB"
+            trackColor={{ false: '#374151', true: '#6366F1' }}
+            thumbColor="#F9FAFB"
           />
         </View>
       </View>
 
-      {(question.type === ' // ! HARDCODED: Should use design tokensselect' || question.type === 'multiselect') && (
+      {(question.type === 'select' || question.type === 'multiselect') && (
         <View style={styles.questionField}>
           <Text style={styles.fieldLabel}>Options (comma-separated)</Text>
           <TextInput
@@ -118,9 +119,10 @@ function QuestionEditor({ question, onChange, onDelete }: QuestionEditorProps) {
         <Text style={styles.fieldLabel}>Help Text</Text>
         <TextInput
           style={styles.fieldInput}
-          value={question.helpText || '' // ! HARDCODED: Should use design tokens}
+          value={question.helpText || ''}
           onChangeText={(helpText) => onChange({ ...question, helpText })}
-          placeholder="Additional guidance for this question" placeholderTextColor="#6B7280"
+          placeholder="Additional guidance for this question"
+          placeholderTextColor="#6B7280"
           multiline
         />
       </View>
@@ -129,7 +131,7 @@ function QuestionEditor({ question, onChange, onDelete }: QuestionEditorProps) {
         <Text style={styles.fieldLabel}>Placeholder</Text>
         <TextInput
           style={styles.fieldInput}
-          value={question.placeholder || '' // ! HARDCODED: Should use design tokens}
+          value={question.placeholder || ''} // ! HARDCODED: Should use design tokens
           onChangeText={(placeholder) => onChange({ ...question, placeholder })}
           placeholder="Placeholder text" placeholderTextColor="#6B7280"
         />

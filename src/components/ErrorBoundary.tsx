@@ -36,6 +36,7 @@ interface ErrorBoundaryState {
 export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   private resetTimeoutId: NodeJS.Timeout | null = null;
   private previousResetKeys: Array<string | number> = [];
+  private _errorId: string | null = null;
 
   constructor(props: ErrorBoundaryProps) {
     super(props);
@@ -46,6 +47,16 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
       errorCount: 0
     };
     this.previousResetKeys = props.resetKeys || [];
+  }
+
+  // * Generate unique error ID
+  get errorId(): string {
+    if (!this._errorId) {
+      const timestamp = Date.now();
+      const random = Math.random().toString(36).substring(2, 9);
+      this._errorId = `err_${timestamp}_${random}`;
+    }
+    return this._errorId;
   }
 
   static getDerivedStateFromError(error: Error): Partial<ErrorBoundaryState> {
@@ -113,7 +124,10 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
       clearTimeout(this.resetTimeoutId);
       this.resetTimeoutId = null;
     }
-    
+
+    // * Reset error ID for next error
+    this._errorId = null;
+
     this.setState({
       hasError: false,
       error: null,
@@ -202,14 +216,16 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
             {...getTestProps('reset-error-button')}
             onClick={this.resetError}
             style={{
-              marginTop: '20px', padding: '10px 20px', // ! HARDCODED: Should use design tokens backgroundColor: '#087f5b', // ! HARDCODED: Should use design tokens
+              marginTop: '20px', padding: '10px 20px', // ! HARDCODED: Should use design tokens
+              backgroundColor: '#087f5b', // ! HARDCODED: Should use design tokens
               color: 'white',
               border: 'none',
               borderRadius: '4px',
-              cursor: 'pointer', fontSize: '16px', // ! HARDCODED: Should use design tokens
-  }}
+              cursor: 'pointer',
+              fontSize: '16px', // ! HARDCODED: Should use design tokens
+            }}
           >
-            Try Again
+            Retry
           </button>
         </div>
       );

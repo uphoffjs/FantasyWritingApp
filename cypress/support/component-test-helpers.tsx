@@ -955,7 +955,7 @@ export const CreateElementModal: React.FC<CreateElementModalProps> = ({
           {categories.map((category) => (
             <TouchableOpacity
               key={category.id}
-              testID={`category-${category.id}`}
+              {...getTestProps(`category-${category.id}`)}
               style={[
                 modalStyles.categoryCard,
                 selectedCategory === category.id && modalStyles.categoryCardSelected
@@ -984,8 +984,8 @@ export const CreateElementModal: React.FC<CreateElementModalProps> = ({
           >
             <Text>Cancel</Text>
           </TouchableOpacity>
-          <TouchableOpacity 
-            testID="element-card"
+          <TouchableOpacity
+            {...getTestProps("create-element-button")}
             style={[
               modalStyles.createButton,
               (!selectedCategory || isCreating) && modalStyles.createButtonDisabled
@@ -1282,7 +1282,7 @@ export const ElementBrowser: React.FC<ElementBrowserProps> = ({
 
   if (loading) {
     return (
-      <View testID={testID} style={elementBrowserStyles.container}>
+      <View {...getTestProps(testID)} style={elementBrowserStyles.container}>
         <View style={elementBrowserStyles.centered}>
           <Text>Loading elements...</Text>
         </View>
@@ -1320,7 +1320,7 @@ export const ElementBrowser: React.FC<ElementBrowserProps> = ({
   };
 
   return (
-    <View testID={testID} style={elementBrowserStyles.container}>
+    <View {...getTestProps(testID)} style={elementBrowserStyles.container}>
       {/* Search Bar */}
       <View style={elementBrowserStyles.searchContainer}>
         <TextInput
@@ -1896,7 +1896,7 @@ export const GlobalSearch: React.FC<GlobalSearchProps> = ({
   const hasSearched = searchQuery.length > 0;
 
   return (
-    <View style={globalSearchStyles.container} testID={testID}>
+    <View style={globalSearchStyles.container} {...getTestProps(testID)}>
       <TouchableOpacity 
         style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }} 
         onPress={onClose}
@@ -2254,7 +2254,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
       <TouchableOpacity
         style={projectCardStyles.container}
         onPress={handleCardPress}
-        testID={testID}
+        {...getTestProps(testID)}
         accessibilityRole="button"
         accessibilityLabel={`Project: ${project.name}`}
       >
@@ -2264,13 +2264,13 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
             {project.coverImage ? (
               <Text
                 style={projectCardStyles.coverImage}
-                testID="project-cover-image"
+                {...getTestProps('project-cover-image')}
               >
                 {/* In a real app, this would be an Image component */}
                 🖼️
               </Text>
             ) : (
-              <Text style={projectCardStyles.folderIcon} testID="project-default-icon">
+              <Text style={projectCardStyles.folderIcon} {...getTestProps('project-default-icon')}>
                 📁
               </Text>
             )}
@@ -2278,7 +2278,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
 
           <View style={projectCardStyles.contentContainer}>
             <View style={projectCardStyles.titleContainer}>
-              <Text style={projectCardStyles.title} testID="project-name">
+              <Text style={projectCardStyles.title} {...getTestProps('project-name')}>
                 {project.name}
               </Text>
               
@@ -2286,7 +2286,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
               <TouchableOpacity
                 style={projectCardStyles.actionButton}
                 onPress={handleActionPress}
-                testID="project-action-button"
+                {...getTestProps('project-action-button')}
                 accessibilityRole="button"
                 accessibilityLabel="Project actions"
               >
@@ -2301,15 +2301,15 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
                   projectCardStyles.statusBadge,
                   { backgroundColor: getStatusColor(project.status) }
                 ]}
-                testID="project-status-badge"
+                {...getTestProps('project-status-badge')}
               >
-                <Text style={projectCardStyles.statusText} testID="project-status">
+                <Text style={projectCardStyles.statusText} {...getTestProps('project-status')}>
                   {project.status.charAt(0).toUpperCase() + project.status.slice(1).replace('-', ' ')}
                 </Text>
               </View>
               
               {project.genre && (
-                <Text style={projectCardStyles.metaText} testID="project-genre">
+                <Text style={projectCardStyles.metaText} {...getTestProps('project-genre')}>
                   {project.genre}
                 </Text>
               )}
@@ -2319,7 +2319,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
             {project.description && (
               <Text 
                 style={projectCardStyles.description}
-                testID="project-description"
+                {...getTestProps('project-description')}
                 numberOfLines={2}
               >
                 {project.description}
@@ -2328,12 +2328,12 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
 
             {/* Metadata */}
             <View style={projectCardStyles.metaContainer}>
-              <Text style={projectCardStyles.elementCount} testID="project-element-count">
+              <Text style={projectCardStyles.elementCount} {...getTestProps('project-element-count')}>
                 {project.elementCount || 0} elements
               </Text>
               
               {project.updatedAt && (
-                <Text style={projectCardStyles.metaText} testID="project-updated-at">
+                <Text style={projectCardStyles.metaText} {...getTestProps('project-updated-at')}>
                   {formatRelativeProjectTime(project.updatedAt)}
                 </Text>
               )}
@@ -2343,11 +2343,11 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
 
         {/* Action Menu */}
         {showActionMenu && (
-          <View style={projectCardStyles.actionMenu} testID="project-action-menu">
+          <View style={projectCardStyles.actionMenu} {...getTestProps('project-action-menu')}>
             <TouchableOpacity
               style={projectCardStyles.menuItem}
               onPress={() => handleMenuItemPress('edit')}
-              testID="project-edit-action"
+              {...getTestProps('project-edit-action')}
               accessibilityRole="button"
             >
               <Text style={projectCardStyles.menuItemText}>Edit</Text>
@@ -2356,7 +2356,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
             <TouchableOpacity
               style={projectCardStyles.menuItem}
               onPress={() => handleMenuItemPress('duplicate')}
-              testID="project-duplicate-action"
+              {...getTestProps('project-duplicate-action')}
               accessibilityRole="button"
             >
               <Text style={projectCardStyles.menuItemText}>Duplicate</Text>
@@ -2365,7 +2365,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
             <TouchableOpacity
               style={[projectCardStyles.menuItem, projectCardStyles.menuItemLast]}
               onPress={() => handleMenuItemPress('delete')}
-              testID="project-delete-action"
+              {...getTestProps('project-delete-action')}
               accessibilityRole="button"
             >
               <Text style={[projectCardStyles.menuItemText, projectCardStyles.menuItemDelete]}>

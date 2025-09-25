@@ -29,8 +29,8 @@ export const createCrossPlatformStorage = (): CrossPlatformStorage => {
     return {
       getItem: (name: string) => {
         try {
-          return // ! SECURITY: Using localStorage
-      localStorage.getItem(name);
+          // ! SECURITY: Using localStorage
+          return localStorage.getItem(name);
         } catch (error) {
           console.error('Error reading from localStorage:', error);
           return null;

@@ -115,8 +115,8 @@ describe('CreateElementModal Component', () => {
     cy.mountWithProviders(<CreateElementModal {...defaultProps} />);
 
     // * Test close button using data-cy selector
-    cy.get('[data-cy=modal-close-button]').should('be.visible');
-    cy.get('[data-cy=modal-close-button]').click();
+    cy.get('[data-cy="modal-close-button"]').should('be.visible');
+    cy.get('[data-cy="modal-close-button"]').click();
     cy.get('@onClose').should('have.been.called');
 
     // * Test cancel button

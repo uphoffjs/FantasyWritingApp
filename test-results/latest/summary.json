@@ -1,0 +1,22 @@
+{
+  "timestamp": "2025-01-24T14:30:00Z",
+  "type": "component",
+  "runner": "cypress",
+  "status": "partial",
+  "duration": "5m+",
+  "stats": {
+    "passed": 6,
+    "failed": 3,
+    "skipped": 0,
+    "total": 9
+  },
+  "coverage": null,
+  "files": {
+    "latest": "test-results-latest.md",
+    "component": "test-results-latest-component.md"
+  },
+  "critical_issues": [
+    "Webpack still being used despite Vite migration causing severe timeouts"
+  ],
+  "previous": null
+}

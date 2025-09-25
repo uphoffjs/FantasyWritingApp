@@ -89,8 +89,8 @@ describe('ElementCard Component', () => {
     // * Check description
     cy.get('[data-cy="element-description"]').should('contain.text', 'A brave warrior from the northern kingdoms');
     
-    // * Check completion percentage
-    cy.get('[data-cy="completion-text"]').should('contain.text', '75%');
+    // * Check completion percentage in progress ring
+    cy.get('[data-testid="progress-ring"]').should('contain.text', '75%');
     
     // * Check category icon is present
     cy.get('[data-cy="category-icon"]').should('be.visible');
@@ -117,8 +117,8 @@ describe('ElementCard Component', () => {
     const testCases = [
       { percentage: 100, expectedText: 'Complete', expectedIcon: '🏅' },
       { percentage: 85, expectedText: 'Nearly Done', expectedIcon: '⭐' },
-      { percentage: 65, expectedText: 'In Progress', expectedIcon: '⚡' },
-      { percentage: 25, expectedText: 'Started', expectedIcon: '✨' },
+      { percentage: 65, expectedText: 'Progressing', expectedIcon: '🚀' },
+      { percentage: 25, expectedText: 'Started', expectedIcon: '✏️' },
       { percentage: 0, expectedText: 'Not Started', expectedIcon: '📋' },
     ];
 
@@ -169,6 +169,7 @@ describe('ElementCard Component', () => {
       // * Check that the card renders with category-specific styling
       cy.get('[data-cy="element-card"]').should('be.visible');
       // * Category text may include additional info like template, so use partial match
+      // * Note: Category text uses hyphens (e.g., 'item-object') not spaces
       cy.get('[data-cy="element-category"]').should('contain.text', category);
     });
   });

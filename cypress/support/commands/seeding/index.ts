@@ -12,7 +12,7 @@
 // * Import fixture data for static seeding
 import testData from '../../../fixtures/testData.json';
 // * Import stores for direct manipulation
-import { useWorldbuildingStore } from '../../../../src/store/rootStore';
+import { useWorldbuildingStore } from '../../../../src/store/worldbuildingStore';
 import { useAuthStore } from '../../../../src/store/authStore';
 
 /**
