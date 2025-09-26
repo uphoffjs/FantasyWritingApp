@@ -195,18 +195,12 @@ const createStyles = (theme: any) => StyleSheet.create({
     borderRadius: theme.borderRadius.lg,
     padding: theme.spacing.md,
     marginVertical: theme.spacing.sm,
-    ...Platform.select({
-      web: {
-        boxShadow: `0 2px 4px ${theme.colors.shadow.light}`,
-      },
-      default: {
-        shadowColor: theme.colors.shadow.DEFAULT,
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
-        elevation: 3,
-      },
-    }),
+    // * Use React Native shadow properties for all platforms
+    shadowColor: theme.colors.shadow.DEFAULT || '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   header: {
     flexDirection: 'row',

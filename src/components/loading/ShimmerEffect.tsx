@@ -144,29 +144,50 @@ export const ShimmerEffect: React.FC<ShimmerEffectProps> = ({
   // * Create dynamic styles
   const styles = createStyles(theme, borderRadius);
   
-  // * Web implementation with CSS gradient
+  // * Web implementation using animated views (no CSS)
   if (Platform.OS === 'web') {
-    const webGradientStyle: any = {
-      backgroundImage: `linear-gradient(
-        ${direction === 'vertical' ? '180deg' : direction === 'diagonal' ? '135deg' : '90deg'},
-        ${colors.base} 0%,
-        ${colors.highlight} 50%,
-        ${colors.base} 100%
-      )`,
-      backgroundSize: direction === 'vertical' ? '100% 200%' : '200% 100%',
-      animation: animated ? `shimmer ${duration}ms ease-in-out infinite` : 'none',
-    };
-    
     return (
-      <View 
+      <View
         style={[
           styles.container,
           { width, height },
-          webGradientStyle,
           style,
         ]}
         testID={testID}
-      />
+      >
+        <View style={styles.shimmerBase}>
+          <Animated.View
+            style={[
+              styles.shimmerHighlight,
+              {
+                opacity: shimmerOpacity,
+                transform: getTransform(),
+              },
+            ]}
+          >
+            {/* * Use gradient-like effect with multiple overlapping views */}
+            <View
+              style={[
+                StyleSheet.absoluteFillObject,
+                {
+                  backgroundColor: colors.highlight,
+                  opacity: 0.8,
+                }
+              ]}
+            />
+            <View
+              style={[
+                StyleSheet.absoluteFillObject,
+                {
+                  backgroundColor: colors.base,
+                  opacity: 0.3,
+                  transform: [{ translateX: 10 }],
+                }
+              ]}
+            />
+          </Animated.View>
+        </View>
+      </View>
     );
   }
   
@@ -205,21 +226,7 @@ export const ShimmerEffect: React.FC<ShimmerEffectProps> = ({
 
 // * Style creation function
 const createStyles = (theme: any, borderRadius?: number) => {
-  // * Add web animation keyframes
-  if (Platform.OS === 'web' && typeof document !== 'undefined') {
-    const styleSheet = document.createElement('style');
-    styleSheet.innerHTML = `
-      @keyframes shimmer {
-        0% { background-position: -200% 0; }
-        100% { background-position: 200% 0; }
-      }
-    `;
-    if (!document.head.querySelector('#shimmer-animation')) {
-      styleSheet.id = 'shimmer-animation';
-      document.head.appendChild(styleSheet);
-    }
-  }
-  
+  // * No need for CSS keyframes - using Animated API instead
   return StyleSheet.create({
     container: {
       overflow: 'hidden',

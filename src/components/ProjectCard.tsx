@@ -246,7 +246,8 @@ export const ProjectCard = memo(function ProjectCard({
 
   const handleDelete = () => {
     if (Platform.OS === 'web') {
-      const confirmed = window.confirm(
+      // * Use type assertion for web-specific API
+      const confirmed = (globalThis as any).confirm?.(
         `Are you sure you want to delete "${project.name}"? This action cannot be undone.`
       );
       if (confirmed && onDelete) {
@@ -576,9 +577,13 @@ const createStyles = (theme: any) => StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: `${theme.colors.metal.silver}10`, // * Subtle metallic sheen
-    backgroundImage: Platform.OS === 'web' 
-      ? `linear-gradient(135deg, ${theme.colors.metal.silver}05 0%, ${theme.colors.metal.gold}10 100%)`
-      : undefined,
+    // * Web-specific gradient styling
+    ...Platform.select({
+      web: {
+        backgroundImage: `linear-gradient(135deg, ${theme.colors.metal.silver}05 0%, ${theme.colors.metal.gold}10 100%)`,
+      },
+      default: {},
+    }),
   },
   defaultHeaderContent: {
     alignItems: 'center',

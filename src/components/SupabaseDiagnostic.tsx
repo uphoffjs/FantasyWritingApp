@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { View, Text, ScrollView, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
 import { supabase } from '../lib/supabase';
 import { useAuthStore } from '../store/authStore';
 
 export const SupabaseDiagnostic: React.FC = () => {
   const [diagnosticResults, setDiagnosticResults] = useState<any>({});
   const [isRunning, setIsRunning] = useState(false);
+  const [showRawData, setShowRawData] = useState(false);
   const { user } = useAuthStore();
 
   const runDiagnostics = async () => {
@@ -116,135 +118,306 @@ export const SupabaseDiagnostic: React.FC = () => {
   }, [user]);
 
   return (
-    <div style={{ 
-      padding: '20px', 
-      backgroundColor: '#f5f5f5', 
-      borderRadius: '8px',
-      maxWidth: '800px',
-      margin: '20px auto'
-    }}>
-      <h2>🔍 Supabase Connection Diagnostic</h2>
-      
-      <div style={{ marginBottom: '20px' }}>
-        <p><strong>Local User ID:</strong> {user?.id || 'Not authenticated'}</p>
-        <p><strong>Local Email:</strong> {user?.email || 'Not authenticated'}</p>
-      </div>
+    <ScrollView style={styles.container}>
+      <View style={styles.card}>
+        <Text style={styles.title}>🔍 Supabase Connection Diagnostic</Text>
 
-      <button 
-        onClick={runDiagnostics} 
-        disabled={isRunning}
-        style={{
-          padding: '10px 20px',
-          backgroundColor: '#4CAF50',
-          color: 'white',
-          border: 'none',
-          borderRadius: '4px',
-          cursor: isRunning ? 'not-allowed' : 'pointer',
-          opacity: isRunning ? 0.6 : 1
-        }}
-      >
-        {isRunning ? 'Running Diagnostics...' : 'Run Diagnostics'}
-      </button>
+        <View style={styles.userInfo}>
+          <Text style={styles.infoText}>
+            <Text style={styles.bold}>Local User ID:</Text> {user?.id || 'Not authenticated'}
+          </Text>
+          <Text style={styles.infoText}>
+            <Text style={styles.bold}>Local Email:</Text> {user?.email || 'Not authenticated'}
+          </Text>
+        </View>
 
-      {Object.keys(diagnosticResults).length > 0 && (
-        <div style={{ marginTop: '20px' }}>
-          <h3>Diagnostic Results:</h3>
-          
-          {/* Auth Session Test */}
-          {diagnosticResults.authSession && (
-            <div style={{ 
-              marginBottom: '15px', 
-              padding: '10px', 
-              backgroundColor: diagnosticResults.authSession.success ? '#e8f5e9' : '#ffebee',
-              borderRadius: '4px'
-            }}>
-              <h4>✅ Auth Session</h4>
-              <p>Status: {diagnosticResults.authSession.success ? '✅ Active' : '❌ No Session'}</p>
-              {diagnosticResults.authSession.userId && (
-                <p>User ID: {diagnosticResults.authSession.userId}</p>
-              )}
-              {diagnosticResults.authSession.error && (
-                <p style={{ color: 'red' }}>Error: {diagnosticResults.authSession.error}</p>
-              )}
-            </div>
+        <TouchableOpacity
+          onPress={runDiagnostics}
+          disabled={isRunning}
+          style={[styles.button, isRunning && styles.buttonDisabled]}
+        >
+          {isRunning ? (
+            <ActivityIndicator color="#FFFFFF" />
+          ) : (
+            <Text style={styles.buttonText}>
+              {isRunning ? 'Running Diagnostics...' : 'Run Diagnostics'}
+            </Text>
           )}
+        </TouchableOpacity>
 
-          {/* RLS Test */}
-          {diagnosticResults.rlsTest && (
-            <div style={{ 
-              marginBottom: '15px', 
-              padding: '10px', 
-              backgroundColor: diagnosticResults.rlsTest.success ? '#e8f5e9' : '#ffebee',
-              borderRadius: '4px'
-            }}>
-              <h4>🔒 RLS Test (SELECT)</h4>
-              <p>Status: {diagnosticResults.rlsTest.success ? '✅ Success' : '❌ Failed'}</p>
-              {diagnosticResults.rlsTest.error && (
-                <>
-                  <p style={{ color: 'red' }}>Error: {diagnosticResults.rlsTest.error}</p>
-                  <p style={{ color: 'red' }}>Code: {diagnosticResults.rlsTest.errorCode}</p>
-                </>
-              )}
-              {diagnosticResults.rlsTest.data && (
-                <p>Retrieved {diagnosticResults.rlsTest.data.length} projects</p>
-              )}
-            </div>
-          )}
+        {Object.keys(diagnosticResults).length > 0 && (
+          <View style={styles.resultsContainer}>
+            <Text style={styles.sectionTitle}>Diagnostic Results:</Text>
 
-          {/* Insert Test */}
-          {diagnosticResults.insertTest && (
-            <div style={{ 
-              marginBottom: '15px', 
-              padding: '10px', 
-              backgroundColor: diagnosticResults.insertTest.success ? '#e8f5e9' : '#ffebee',
-              borderRadius: '4px'
-            }}>
-              <h4>📝 Insert Test</h4>
-              <p>Status: {diagnosticResults.insertTest.success ? '✅ Success' : '❌ Failed'}</p>
-              {diagnosticResults.insertTest.error && (
-                <>
-                  <p style={{ color: 'red' }}>Error: {diagnosticResults.insertTest.error}</p>
-                  <p style={{ color: 'red' }}>Code: {diagnosticResults.insertTest.errorCode}</p>
-                </>
-              )}
-            </div>
-          )}
+            {/* Auth Session Test */}
+            {diagnosticResults.authSession && (
+              <View style={[
+                styles.resultCard,
+                diagnosticResults.authSession.success ? styles.successCard : styles.errorCard
+              ]}>
+                <Text style={styles.resultTitle}>✅ Auth Session</Text>
+                <Text style={styles.resultText}>
+                  Status: {diagnosticResults.authSession.success ? '✅ Active' : '❌ No Session'}
+                </Text>
+                {diagnosticResults.authSession.userId && (
+                  <Text style={styles.resultText}>User ID: {diagnosticResults.authSession.userId}</Text>
+                )}
+                {diagnosticResults.authSession.error && (
+                  <Text style={styles.errorText}>Error: {diagnosticResults.authSession.error}</Text>
+                )}
+              </View>
+            )}
 
-          {/* Raw JSON output for debugging */}
-          <details style={{ marginTop: '20px' }}>
-            <summary style={{ cursor: 'pointer', fontWeight: 'bold' }}>
-              📋 Raw Diagnostic Data (Click to expand)
-            </summary>
-            <pre style={{ 
-              backgroundColor: '#f0f0f0', 
-              padding: '10px', 
-              borderRadius: '4px',
-              overflow: 'auto'
-            }}>
-              {JSON.stringify(diagnosticResults, null, 2)}
-            </pre>
-          </details>
-        </div>
-      )}
+            {/* RLS Test */}
+            {diagnosticResults.rlsTest && (
+              <View style={[
+                styles.resultCard,
+                diagnosticResults.rlsTest.success ? styles.successCard : styles.errorCard
+              ]}>
+                <Text style={styles.resultTitle}>🔒 RLS Test (SELECT)</Text>
+                <Text style={styles.resultText}>
+                  Status: {diagnosticResults.rlsTest.success ? '✅ Success' : '❌ Failed'}
+                </Text>
+                {diagnosticResults.rlsTest.error && (
+                  <>
+                    <Text style={styles.errorText}>Error: {diagnosticResults.rlsTest.error}</Text>
+                    <Text style={styles.errorText}>Code: {diagnosticResults.rlsTest.errorCode}</Text>
+                  </>
+                )}
+                {diagnosticResults.rlsTest.data && (
+                  <Text style={styles.resultText}>Retrieved {diagnosticResults.rlsTest.data.length} projects</Text>
+                )}
+              </View>
+            )}
 
-      <div style={{ marginTop: '30px', padding: '15px', backgroundColor: '#fff3cd', borderRadius: '4px' }}>
-        <h3>🛠️ How to Fix 403 Forbidden Error:</h3>
-        <ol>
-          <li>
-            <strong>Apply RLS Policies:</strong> Go to your Supabase dashboard → SQL Editor → 
-            Run the SQL script in <code>/scripts/fix-supabase-rls.sql</code>
-          </li>
-          <li>
-            <strong>Verify Authentication:</strong> Make sure you're logged in with a valid Supabase user
-          </li>
-          <li>
-            <strong>Check User ID Match:</strong> Ensure the user_id in projects table matches auth.uid()
-          </li>
-          <li>
-            <strong>Test with Service Role Key:</strong> If needed for debugging, temporarily use service role key (not for production!)
-          </li>
-        </ol>
-      </div>
-    </div>
+            {/* Insert Test */}
+            {diagnosticResults.insertTest && (
+              <View style={[
+                styles.resultCard,
+                diagnosticResults.insertTest.success ? styles.successCard : styles.errorCard
+              ]}>
+                <Text style={styles.resultTitle}>📝 Insert Test</Text>
+                <Text style={styles.resultText}>
+                  Status: {diagnosticResults.insertTest.success ? '✅ Success' : '❌ Failed'}
+                </Text>
+                {diagnosticResults.insertTest.error && (
+                  <>
+                    <Text style={styles.errorText}>Error: {diagnosticResults.insertTest.error}</Text>
+                    <Text style={styles.errorText}>Code: {diagnosticResults.insertTest.errorCode}</Text>
+                  </>
+                )}
+              </View>
+            )}
+
+            {/* Raw JSON output for debugging */}
+            <TouchableOpacity
+              style={styles.rawDataToggle}
+              onPress={() => setShowRawData(!showRawData)}
+            >
+              <Text style={styles.rawDataToggleText}>
+                📋 Raw Diagnostic Data (Tap to {showRawData ? 'hide' : 'expand'})
+              </Text>
+            </TouchableOpacity>
+
+            {showRawData && (
+              <View style={styles.rawDataContainer}>
+                <ScrollView horizontal>
+                  <Text style={styles.rawDataText}>
+                    {JSON.stringify(diagnosticResults, null, 2)}
+                  </Text>
+                </ScrollView>
+              </View>
+            )}
+          </View>
+        )}
+
+        <View style={styles.helpCard}>
+          <Text style={styles.helpTitle}>🛠️ How to Fix 403 Forbidden Error:</Text>
+          <View style={styles.helpList}>
+            <View style={styles.helpItem}>
+              <Text style={styles.helpNumber}>1.</Text>
+              <View style={styles.helpTextContainer}>
+                <Text style={styles.helpBold}>Apply RLS Policies:</Text>
+                <Text style={styles.helpText}>
+                  Go to your Supabase dashboard → SQL Editor →
+                  Run the SQL script in /scripts/fix-supabase-rls.sql
+                </Text>
+              </View>
+            </View>
+            <View style={styles.helpItem}>
+              <Text style={styles.helpNumber}>2.</Text>
+              <View style={styles.helpTextContainer}>
+                <Text style={styles.helpBold}>Verify Authentication:</Text>
+                <Text style={styles.helpText}>
+                  Make sure you're logged in with a valid Supabase user
+                </Text>
+              </View>
+            </View>
+            <View style={styles.helpItem}>
+              <Text style={styles.helpNumber}>3.</Text>
+              <View style={styles.helpTextContainer}>
+                <Text style={styles.helpBold}>Check User ID Match:</Text>
+                <Text style={styles.helpText}>
+                  Ensure the user_id in projects table matches auth.uid()
+                </Text>
+              </View>
+            </View>
+            <View style={styles.helpItem}>
+              <Text style={styles.helpNumber}>4.</Text>
+              <View style={styles.helpTextContainer}>
+                <Text style={styles.helpBold}>Test with Service Role Key:</Text>
+                <Text style={styles.helpText}>
+                  If needed for debugging, temporarily use service role key (not for production!)
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+    </ScrollView>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+  },
+  card: {
+    padding: 20,
+    backgroundColor: '#F5F5F5',
+    borderRadius: 8,
+    maxWidth: 800,
+    marginHorizontal: 20,
+    marginVertical: 20,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    color: '#333333',
+  },
+  userInfo: {
+    marginBottom: 20,
+  },
+  infoText: {
+    fontSize: 14,
+    color: '#333333',
+    marginBottom: 5,
+  },
+  bold: {
+    fontWeight: 'bold',
+  },
+  button: {
+    padding: 12,
+    backgroundColor: '#4CAF50',
+    borderRadius: 4,
+    alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: 44,
+  },
+  buttonDisabled: {
+    opacity: 0.6,
+  },
+  buttonText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: '500',
+  },
+  resultsContainer: {
+    marginTop: 20,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 15,
+    color: '#333333',
+  },
+  resultCard: {
+    marginBottom: 15,
+    padding: 10,
+    borderRadius: 4,
+  },
+  successCard: {
+    backgroundColor: '#E8F5E9',
+  },
+  errorCard: {
+    backgroundColor: '#FFEBEE',
+  },
+  resultTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 5,
+    color: '#333333',
+  },
+  resultText: {
+    fontSize: 14,
+    color: '#333333',
+    marginBottom: 3,
+  },
+  errorText: {
+    fontSize: 14,
+    color: '#D32F2F',
+    marginBottom: 3,
+  },
+  rawDataToggle: {
+    marginTop: 20,
+    padding: 10,
+    backgroundColor: '#E0E0E0',
+    borderRadius: 4,
+  },
+  rawDataToggleText: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#333333',
+  },
+  rawDataContainer: {
+    marginTop: 10,
+    padding: 10,
+    backgroundColor: '#F0F0F0',
+    borderRadius: 4,
+  },
+  rawDataText: {
+    fontSize: 12,
+    fontFamily: 'monospace',
+    color: '#333333',
+  },
+  helpCard: {
+    marginTop: 30,
+    padding: 15,
+    backgroundColor: '#FFF3CD',
+    borderRadius: 4,
+  },
+  helpTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 15,
+    color: '#333333',
+  },
+  helpList: {
+    marginLeft: 10,
+  },
+  helpItem: {
+    flexDirection: 'row',
+    marginBottom: 10,
+  },
+  helpNumber: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#333333',
+    marginRight: 10,
+  },
+  helpTextContainer: {
+    flex: 1,
+  },
+  helpBold: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#333333',
+    marginBottom: 2,
+  },
+  helpText: {
+    fontSize: 14,
+    color: '#333333',
+  },
+});

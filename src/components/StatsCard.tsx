@@ -298,8 +298,15 @@ const createStyles = (
           elevation: 2,
         },
         web: {
+          // * Web-specific shadow styling
+          shadowColor: theme.colors.effects.shadow,
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.1,
+          shadowRadius: 4,
+          // @ts-ignore - boxShadow is web-specific
           boxShadow: `0 2px 4px ${theme.colors.effects.shadow}20`,
-        } as any,
+        },
+        default: {},
       }),
     },
     headerRow: {

@@ -10,6 +10,7 @@ import {
   ScrollView,
   Switch,
   Alert,
+  StyleSheet,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -121,51 +122,55 @@ export default function LoginScreen() {
   };
 
   return (
-    <KeyboardAvoidingView 
-      className="flex-1 bg-parchment-100"
+    <KeyboardAvoidingView
+      style={styles.container}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
-      <ScrollView 
-        className="flex-1" 
+      <ScrollView
+        style={styles.scrollView}
         contentContainerStyle={{ flexGrow: 1 }}
         keyboardShouldPersistTaps="handled"
       >
-        <View className="flex-1 justify-center px-8 py-12">
+        <View style={styles.contentContainer}>
           {/* Logo/Title */}
-          <View className="items-center mb-8">
-            <Text className="text-4xl font-bold font-cinzel text-metals-gold">
+          <View style={styles.logoContainer}>
+            <Text style={styles.logoTitle}>
               Fantasy Element Builder
             </Text>
-            <Text className="text-ink-secondary mt-2 text-center">
+            <Text style={styles.logoSubtitle}>
               Build Your Fictional Worlds
             </Text>
           </View>
           
           {/* Main Form Card */}
-          <View className="bg-parchment-300 rounded-lg shadow-lg p-6">
+          <View style={styles.formCard}>
             {/* Tab Switcher */}
-            <View className="flex-row mb-6 bg-parchment-200 rounded-lg p-1">
+            <View style={styles.tabSwitcher}>
               <TouchableOpacity
-                className={`flex-1 py-2 px-4 rounded-md ${
-                  mode === 'signin' ? 'bg-parchment-400' : ''
-                }`}
+                style={[
+                  styles.tabButton,
+                  mode === 'signin' && styles.tabButtonActive
+                ]}
                 onPress={() => mode !== 'signin' && switchMode()}
               >
-                <Text className={`text-center font-medium ${
-                  mode === 'signin' ? 'text-ink-primary' : 'text-ink-secondary'
-                }`}>
+                <Text style={[
+                  styles.tabButtonText,
+                  mode === 'signin' && styles.tabButtonTextActive
+                ]}>
                   Sign In
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
-                className={`flex-1 py-2 px-4 rounded-md ${
-                  mode === 'signup' ? 'bg-parchment-400' : ''
-                }`}
+                style={[
+                  styles.tabButton,
+                  mode === 'signup' && styles.tabButtonActive
+                ]}
                 onPress={() => mode !== 'signup' && switchMode()}
               >
-                <Text className={`text-center font-medium ${
-                  mode === 'signup' ? 'text-ink-primary' : 'text-ink-secondary'
-                }`}>
+                <Text style={[
+                  styles.tabButtonText,
+                  mode === 'signup' && styles.tabButtonTextActive
+                ]}>
                   Sign Up
                 </Text>
               </TouchableOpacity>
@@ -173,9 +178,9 @@ export default function LoginScreen() {
             
             {/* Error Display */}
             {error && (
-              <View className="bg-dragonfire-100/20 border border-dragonfire-700/50 rounded-lg p-3 mb-4 flex-row items-center">
+              <View style={styles.errorContainer}>
                 <Icon name="error-outline" size={16} color="#991b1b" />
-                <Text className="text-dragonfire text-sm ml-2 flex-1">{error}</Text>
+                <Text style={styles.errorText}>{error}</Text>
               </View>
             )}
             
@@ -183,21 +188,21 @@ export default function LoginScreen() {
             {showForgotPassword ? (
               <View>
                 <TouchableOpacity
-                  className="self-end mb-4"
+                  style={styles.closeButton}
                   onPress={() => setShowForgotPassword(false)}
                 >
                   <Icon name="close" size={24} color="#4A3C30" />
                 </TouchableOpacity>
-                
-                <Text className="text-lg font-semibold text-ink-primary mb-4">
+
+                <Text style={styles.resetPasswordTitle}>
                   Reset Password
                 </Text>
-                
-                <View className="mb-4">
-                  <View className="flex-row items-center bg-parchment-100 rounded-lg px-4 py-3 border border-parchment-400">
+
+                <View style={styles.inputWrapper}>
+                  <View style={styles.inputContainer}>
                     <Icon name="mail-outline" size={20} color="#4A3C30" />
                     <TextInput
-                      className="flex-1 ml-3 text-ink-primary"
+                      style={styles.input}
                       placeholder="Enter your email"
                       placeholderTextColor="#5C4A3A"
                       value={forgotPasswordEmail}
@@ -207,18 +212,19 @@ export default function LoginScreen() {
                     />
                   </View>
                 </View>
-                
+
                 <TouchableOpacity
-                  className={`bg-might rounded-lg py-4 ${
-                    forgotPasswordSent ? 'opacity-50' : ''
-                  }`}
+                  style={[
+                    styles.submitButton,
+                    forgotPasswordSent && styles.buttonDisabled
+                  ]}
                   onPress={handleForgotPassword}
                   disabled={forgotPasswordSent || isLoading}
                 >
                   {isLoading ? (
                     <ActivityIndicator color="white" />
                   ) : (
-                    <Text className="text-white text-center font-semibold font-cinzel">
+                    <Text style={styles.submitButtonText}>
                       {forgotPasswordSent ? 'Email Sent!' : 'Send Reset Link'}
                     </Text>
                   )}
@@ -227,11 +233,11 @@ export default function LoginScreen() {
             ) : (
               <>
                 {/* Email Input */}
-                <View className="mb-4">
-                  <View className="flex-row items-center bg-parchment-100 rounded-lg px-4 py-3 border border-parchment-400">
+                <View style={styles.inputWrapper}>
+                  <View style={styles.inputContainer}>
                     <Icon name="mail-outline" size={20} color="#4A3C30" />
                     <TextInput
-                      className="flex-1 ml-3 text-ink-primary"
+                      style={styles.input}
                       placeholder="Email"
                       placeholderTextColor="#5C4A3A"
                       value={email}
@@ -243,11 +249,11 @@ export default function LoginScreen() {
                 </View>
                 
                 {/* Password Input */}
-                <View className="mb-4">
-                  <View className="flex-row items-center bg-parchment-100 rounded-lg px-4 py-3 border border-parchment-400">
+                <View style={styles.inputWrapper}>
+                  <View style={styles.inputContainer}>
                     <Icon name="lock-outline" size={20} color="#4A3C30" />
                     <TextInput
-                      className="flex-1 ml-3 text-ink-primary"
+                      style={styles.input}
                       placeholder="Password"
                       placeholderTextColor="#5C4A3A"
                       value={password}
@@ -259,11 +265,11 @@ export default function LoginScreen() {
                 
                 {/* Confirm Password (Sign Up only) */}
                 {mode === 'signup' && (
-                  <View className="mb-4">
-                    <View className="flex-row items-center bg-parchment-100 rounded-lg px-4 py-3 border border-parchment-400">
+                  <View style={styles.inputWrapper}>
+                    <View style={styles.inputContainer}>
                       <Icon name="lock-outline" size={20} color="#4A3C30" />
                       <TextInput
-                        className="flex-1 ml-3 text-ink-primary"
+                        style={styles.input}
                         placeholder="Confirm Password"
                         placeholderTextColor="#5C4A3A"
                         value={confirmPassword}
@@ -276,38 +282,38 @@ export default function LoginScreen() {
                 
                 {/* Remember Me & Forgot Password */}
                 {mode === 'signin' && (
-                  <View className="flex-row justify-between items-center mb-6">
-                    <View className="flex-row items-center">
+                  <View style={styles.rememberMeContainer}>
+                    <View style={styles.rememberMeLeft}>
                       <Switch
                         value={rememberMe}
                         onValueChange={setRememberMe}
                         trackColor={{ false: '#E8DCC0', true: '#A31C1C' }}
                         thumbColor={rememberMe ? '#fff' : '#f4f3f4'}
                       />
-                      <Text className="text-ink-secondary ml-2">Remember me</Text>
+                      <Text style={styles.rememberMeText}>Remember me</Text>
                     </View>
                     <TouchableOpacity onPress={() => setShowForgotPassword(true)}>
-                      <Text className="text-metals-gold">Forgot Password?</Text>
+                      <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
                     </TouchableOpacity>
                   </View>
                 )}
                 
                 {/* Submit Button */}
                 <TouchableOpacity
-                  className="bg-might rounded-lg py-3 px-4 mb-4"
+                  style={styles.submitButtonMain}
                   onPress={handleSubmit}
                   disabled={isLoading}
                 >
                   {isLoading ? (
                     <ActivityIndicator color="white" />
                   ) : (
-                    <View className="flex-row items-center justify-center">
-                      <Icon 
-                        name={mode === 'signin' ? 'login' : 'person-add'} 
-                        size={20} 
-                        color="white" 
+                    <View style={styles.submitButtonContent}>
+                      <Icon
+                        name={mode === 'signin' ? 'login' : 'person-add'}
+                        size={20}
+                        color="white"
                       />
-                      <Text className="text-white text-center font-semibold font-cinzel ml-2">
+                      <Text style={styles.submitButtonMainText}>
                         {mode === 'signin' ? 'Sign In' : 'Create Account'}
                       </Text>
                     </View>
@@ -319,12 +325,12 @@ export default function LoginScreen() {
           </View>
           
           {/* Benefits Message */}
-          <View className="mt-8 items-center">
-            <Text className="text-sm text-ink-secondary">Create an account to:</Text>
-            <View className="mt-2">
-              <Text className="text-sm text-ink-secondary">• Save your worlds in the cloud</Text>
-              <Text className="text-sm text-ink-secondary">• Access from any device</Text>
-              <Text className="text-sm text-ink-secondary">• Collaborate with others</Text>
+          <View style={styles.benefitsContainer}>
+            <Text style={styles.benefitsTitle}>Create an account to:</Text>
+            <View style={styles.benefitsList}>
+              <Text style={styles.benefitsText}>• Save your worlds in the cloud</Text>
+              <Text style={styles.benefitsText}>• Access from any device</Text>
+              <Text style={styles.benefitsText}>• Collaborate with others</Text>
             </View>
           </View>
         </View>
@@ -332,3 +338,181 @@ export default function LoginScreen() {
     </KeyboardAvoidingView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#FAF7F2', // parchment-100
+  },
+  scrollView: {
+    flex: 1,
+  },
+  contentContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    paddingHorizontal: 32,
+    paddingVertical: 48,
+  },
+  logoContainer: {
+    alignItems: 'center',
+    marginBottom: 32,
+  },
+  logoTitle: {
+    fontSize: 36,
+    fontWeight: 'bold',
+    color: '#C9A94F', // metals-gold
+    fontFamily: Platform.OS === 'ios' ? 'System' : 'sans-serif', // font-cinzel replacement
+  },
+  logoSubtitle: {
+    color: '#5C4A3A', // ink-secondary
+    marginTop: 8,
+    textAlign: 'center',
+  },
+  formCard: {
+    backgroundColor: '#F2E8D8', // parchment-300
+    borderRadius: 8,
+    padding: 24,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  tabSwitcher: {
+    flexDirection: 'row',
+    marginBottom: 24,
+    backgroundColor: '#F7EFDF', // parchment-200
+    borderRadius: 8,
+    padding: 4,
+  },
+  tabButton: {
+    flex: 1,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 6,
+  },
+  tabButtonActive: {
+    backgroundColor: '#E8DCC0', // parchment-400
+  },
+  tabButtonText: {
+    textAlign: 'center',
+    fontWeight: '500',
+    color: '#5C4A3A', // ink-secondary
+  },
+  tabButtonTextActive: {
+    color: '#4A3C30', // ink-primary
+  },
+  errorContainer: {
+    backgroundColor: 'rgba(220, 38, 38, 0.1)', // dragonfire-100/20
+    borderWidth: 1,
+    borderColor: 'rgba(153, 27, 27, 0.5)', // dragonfire-700/50
+    borderRadius: 8,
+    padding: 12,
+    marginBottom: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  errorText: {
+    color: '#DC2626', // dragonfire
+    fontSize: 14,
+    marginLeft: 8,
+    flex: 1,
+  },
+  closeButton: {
+    alignSelf: 'flex-end',
+    marginBottom: 16,
+  },
+  resetPasswordTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#4A3C30', // ink-primary
+    marginBottom: 16,
+  },
+  inputWrapper: {
+    marginBottom: 16,
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FAF7F2', // parchment-100
+    borderRadius: 8,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderWidth: 1,
+    borderColor: '#E8DCC0', // parchment-400
+  },
+  input: {
+    flex: 1,
+    marginLeft: 12,
+    color: '#4A3C30', // ink-primary
+    fontSize: 16,
+  },
+  submitButton: {
+    backgroundColor: '#A31C1C', // might
+    borderRadius: 8,
+    paddingVertical: 16,
+  },
+  submitButtonMain: {
+    backgroundColor: '#A31C1C', // might
+    borderRadius: 8,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    marginBottom: 16,
+  },
+  submitButtonContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  submitButtonText: {
+    color: 'white',
+    textAlign: 'center',
+    fontWeight: '600',
+    fontFamily: Platform.OS === 'ios' ? 'System' : 'sans-serif',
+  },
+  submitButtonMainText: {
+    color: 'white',
+    textAlign: 'center',
+    fontWeight: '600',
+    marginLeft: 8,
+    fontFamily: Platform.OS === 'ios' ? 'System' : 'sans-serif',
+  },
+  buttonDisabled: {
+    opacity: 0.5,
+  },
+  rememberMeContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 24,
+  },
+  rememberMeLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  rememberMeText: {
+    color: '#5C4A3A', // ink-secondary
+    marginLeft: 8,
+  },
+  forgotPasswordText: {
+    color: '#C9A94F', // metals-gold
+  },
+  benefitsContainer: {
+    marginTop: 32,
+    alignItems: 'center',
+  },
+  benefitsTitle: {
+    fontSize: 14,
+    color: '#5C4A3A', // ink-secondary
+  },
+  benefitsList: {
+    marginTop: 8,
+  },
+  benefitsText: {
+    fontSize: 14,
+    color: '#5C4A3A', // ink-secondary
+  },
+});

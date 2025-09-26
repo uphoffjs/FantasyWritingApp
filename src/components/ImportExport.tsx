@@ -27,49 +27,52 @@ export function ImportExport({
   const { projects, importData, exportData, exportProject } = useWorldbuildingStore();
   const [isExporting, setIsExporting] = useState(false);
   const [isImporting, setIsImporting] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // * Web-specific file input handling
+  // * Web-specific file input handling using dynamic element creation
   const handleWebImport = () => {
-    if (Platform.OS === 'web' && fileInputRef.current) {
-      fileInputRef.current.click();
-    }
-  };
+    if (Platform.OS !== 'web') return;
 
-  const handleWebFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
+    // * Create file input dynamically without storing ref
+    const input = (globalThis as any).document?.createElement('input');
+    if (!input) return;
 
-    setIsImporting(true);
-    try {
-      const text = await file.text();
-      const data = JSON.parse(text);
-      
-      // * Validate the data structure
-      if (!data.version || !data.projects) {
-        throw new Error('Invalid data format');
+    input.type = 'file';
+    input.accept = '.json';
+
+    input.onchange = async (event: any) => {
+      const file = event.target.files?.[0];
+      if (!file) return;
+
+      setIsImporting(true);
+      try {
+        const text = await file.text();
+        const data = JSON.parse(text);
+
+        // * Validate the data structure
+        if (!data.version || !data.projects) {
+          throw new Error('Invalid data format');
+        }
+
+        await importData(data);
+
+        Alert.alert(
+          'Import Successful',
+          `Imported ${data.projects.length} project(s) successfully.`
+        );
+
+        onImportSuccess?.();
+      } catch (error) {
+        console.error('Import failed:', error);
+        Alert.alert(
+          'Import Failed',
+          'Failed to import data. Please ensure the file is a valid Fantasy Writing App export.'
+        );
+      } finally {
+        setIsImporting(false);
       }
+    };
 
-      await importData(data);
-      
-      Alert.alert(
-        'Import Successful',
-        `Imported ${data.projects.length} project(s) successfully.`
-      );
-      
-      onImportSuccess?.();
-    } catch (error) {
-      console.error('Import failed:', error);
-      Alert.alert(
-        'Import Failed',
-        'Failed to import data. Please ensure the file is a valid Fantasy Writing App export.'
-      );
-    } finally {
-      setIsImporting(false);
-      if (fileInputRef.current) {
-        fileInputRef.current.value = '';
-      }
-    }
+    input.click();
   };
 
   // * Native import handling
@@ -270,17 +273,6 @@ export function ImportExport({
         </Pressable>
       </View>
 
-      {/* Hidden file input for web */}
-      {Platform.OS === 'web' && (
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept=".json"
-          style={styles.hiddenInput}
-          onChange={handleWebFileSelect}
-        />
-      )}
-
       <View style={styles.infoContainer}>
         <Text style={styles.infoTitle}>ℹ️ Export Format</Text>
         <Text style={styles.infoText}>
@@ -376,8 +368,5 @@ const styles = StyleSheet.create({
   warningText: {
     fontSize: 13, color: '#FCA5A5', // ! HARDCODED: Should use design tokens
     lineHeight: 18,
-  },
-  hiddenInput: {
-    display: 'none',
   },
 });

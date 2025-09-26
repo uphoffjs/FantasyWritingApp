@@ -32,42 +32,61 @@ export const ParchmentTexture: React.FC<ParchmentTextureProps> = ({
 }) => {
   const { theme } = useTheme();
   
-  // * Web implementation using CSS gradients and patterns
+  // * Web implementation using layered Views for texture effect
   if (Platform.OS === 'web') {
-    const webStyles: React.CSSProperties = {
-      position: 'relative' as const,
-      // * Create subtle parchment texture using CSS gradients
-      backgroundImage: `
-        repeating-linear-gradient(
-          45deg,
-          transparent,
-          transparent 10px,
-          rgba(${theme.mode === 'dark' ? '255, 255, 255' : '139, 69, 19'}, ${opacity * 0.3}) 10px,
-          rgba(${theme.mode === 'dark' ? '255, 255, 255' : '139, 69, 19'}, ${opacity * 0.3}) 20px
-        ),
-        repeating-linear-gradient(
-          -45deg,
-          transparent,
-          transparent 10px,
-          rgba(${theme.mode === 'dark' ? '255, 255, 255' : '160, 82, 45'}, ${opacity * 0.2}) 10px,
-          rgba(${theme.mode === 'dark' ? '255, 255, 255' : '160, 82, 45'}, ${opacity * 0.2}) 20px
-        ),
-        radial-gradient(
-          ellipse at center,
-          rgba(${theme.mode === 'dark' ? '255, 255, 255' : '218, 165, 32'}, ${opacity * 0.1}) 0%,
-          transparent 70%
-        )
-      `,
-      backgroundSize: '100px 100px, 100px 100px, cover',
-      backgroundPosition: '0 0, 50px 0, center',
-      ...(style as React.CSSProperties),
-    };
-
+    // * Create texture effect using overlapping semi-transparent views
     return (
-      <View 
-        style={[styles.container, webStyles as any]}
+      <View
+        style={[
+          styles.container,
+          style,
+          {
+            backgroundColor: theme.colors.surface.background,
+          }
+        ]}
         testID={testID}
       >
+        {/* * First texture layer - diagonal pattern effect */}
+        <View
+          style={[
+            StyleSheet.absoluteFillObject,
+            {
+              backgroundColor: theme.mode === 'dark'
+                ? theme.colors.metal.gold
+                : theme.colors.metal.bronze,
+              opacity: opacity * 0.3,
+              pointerEvents: 'none' as any,
+              transform: [{ skewX: '45deg' }],
+            }
+          ]}
+        />
+        {/* * Second texture layer - opposite diagonal */}
+        <View
+          style={[
+            StyleSheet.absoluteFillObject,
+            {
+              backgroundColor: theme.mode === 'dark'
+                ? 'rgba(255, 255, 255, 0.05)'
+                : theme.colors.metal.copper,
+              opacity: opacity * 0.2,
+              pointerEvents: 'none' as any,
+              transform: [{ skewX: '-45deg' }],
+            }
+          ]}
+        />
+        {/* * Third texture layer - center gradient simulation */}
+        <View
+          style={[
+            StyleSheet.absoluteFillObject,
+            {
+              backgroundColor: theme.mode === 'dark'
+                ? 'rgba(255, 255, 255, 0.02)'
+                : theme.colors.metal.gold,
+              opacity: opacity * 0.1,
+              pointerEvents: 'none' as any,
+            }
+          ]}
+        />
         {children}
       </View>
     );

@@ -242,12 +242,17 @@ const createStyles = (theme: any) => StyleSheet.create({
     opacity: 0.8,
   },
   cardWeb: {
-    transition: 'all 0.3s ease',
-    cursor: 'pointer',
-    '&:hover': {
-      transform: 'translateY(-1px)',
-      shadowOpacity: 0.15,
-    },
+    ...Platform.select({
+      web: {
+        transition: 'all 0.3s ease',
+        cursor: 'pointer',
+        '&:hover': {
+          transform: 'translateY(-1px)',
+          shadowOpacity: 0.15,
+        },
+      } as any,
+      default: {},
+    }),
   },
   badge: {
     position: 'absolute',

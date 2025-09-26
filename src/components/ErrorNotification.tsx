@@ -1,5 +1,17 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Animated,
+  ViewStyle,
+  TextStyle,
+  Dimensions,
+} from 'react-native';
 import { getTestProps } from '../utils/react-native-web-polyfills';
+
+const { width: screenWidth } = Dimensions.get('window');
 
 export interface ErrorNotificationProps {
   error?: Error | string | null;
@@ -14,9 +26,9 @@ export interface ErrorNotificationProps {
   persistent?: boolean;
   showProgress?: boolean;
   animated?: boolean;
-  className?: string;
-  style?: React.CSSProperties;
   testId?: string;
+  containerStyle?: ViewStyle;
+  textStyle?: TextStyle;
 }
 
 export const ErrorNotification: React.FC<ErrorNotificationProps> = ({
@@ -32,12 +44,13 @@ export const ErrorNotification: React.FC<ErrorNotificationProps> = ({
   persistent = false,
   showProgress = true,
   animated = true,
-  className = '',
-  style,
-  testId = 'error-notification'
+  testId = 'error-notification',
+  containerStyle,
+  textStyle,
 }) => {
   const [isVisible, setIsVisible] = useState(true);
-  const [progress, setProgress] = useState(100);
+  const fadeAnim = useRef(new Animated.Value(1)).current;
+  const progressAnim = useRef(new Animated.Value(1)).current;
 
   // * Get the message to display
   const displayMessage = message || (error instanceof Error ? error.message : error) || 'An error occurred';
@@ -46,34 +59,40 @@ export const ErrorNotification: React.FC<ErrorNotificationProps> = ({
   // * Handle auto-dismiss
   useEffect(() => {
     if (!persistent && duration > 0) {
-      const interval = showProgress ? 50 : duration;
-      const decrement = showProgress ? (100 / (duration / 50)) : 0;
-      
-      const timer = setInterval(() => {
-        if (showProgress) {
-          setProgress(prev => {
-            const newProgress = prev - decrement;
-            if (newProgress <= 0) {
-              handleClose();
-              return 0;
-            }
-            return newProgress;
-          });
-        } else {
+      if (showProgress) {
+        // Animate progress bar
+        Animated.timing(progressAnim, {
+          toValue: 0,
+          duration: duration,
+          useNativeDriver: false,
+        }).start(() => {
           handleClose();
-        }
-      }, interval);
-
-      return () => clearInterval(timer);
+        });
+      } else {
+        // Simple timer without progress
+        const timer = setTimeout(() => {
+          handleClose();
+        }, duration);
+        return () => clearTimeout(timer);
+      }
     }
   }, [duration, persistent, showProgress]);
 
   const handleClose = useCallback(() => {
-    setIsVisible(false);
-    setTimeout(() => {
+    if (animated) {
+      Animated.timing(fadeAnim, {
+        toValue: 0,
+        duration: 300,
+        useNativeDriver: true,
+      }).start(() => {
+        setIsVisible(false);
+        onClose?.();
+      });
+    } else {
+      setIsVisible(false);
       onClose?.();
-    }, animated ? 300 : 0);
-  }, [onClose, animated]);
+    }
+  }, [onClose, animated, fadeAnim]);
 
   if (!displayMessage && !error) {
     return null;
@@ -84,141 +103,219 @@ export const ErrorNotification: React.FC<ErrorNotificationProps> = ({
   }
 
   // * Style based on type
-  const typeStyles = {
-    error: { backgroundColor: '#f44336', // ! HARDCODED: Should use design tokens
+  const typeColors = {
+    error: {
+      backgroundColor: '#f44336',
       color: 'white',
-      iconColor: 'white'
     },
-    warning: { backgroundColor: '#ff9800', // ! HARDCODED: Should use design tokens
+    warning: {
+      backgroundColor: '#ff9800',
       color: 'white',
-      iconColor: 'white'
     },
-    success: { backgroundColor: '#4caf50', // ! HARDCODED: Should use design tokens
+    success: {
+      backgroundColor: '#4caf50',
       color: 'white',
-      iconColor: 'white'
     },
-    info: { backgroundColor: '#2196f3', // ! HARDCODED: Should use design tokens
+    info: {
+      backgroundColor: '#2196f3',
       color: 'white',
-      iconColor: 'white'
     }
   };
 
-  // * Position styles
-  const positionStyles: Record<string, React.CSSProperties> = {
-    'top': { top: '20px', left: '50%', transform: 'translateX(-50%)' },
-    'bottom': { bottom: '20px', left: '50%', transform: 'translateX(-50%)' },
-    'top-right': { top: '20px', right: '20px' },
-    'top-left': { top: '20px', left: '20px' }, // ! HARDCODED: Should use design tokens
-    'bottom-right': { bottom: '20px', right: '20px' }, // ! HARDCODED: Should use design tokens
-    'bottom-left': { bottom: '20px', left: '20px' } // ! HARDCODED: Should use design tokens
-  };
-
-  const currentTypeStyle = typeStyles[type];
-  const currentPositionStyle = positionStyles[position];
-
   // * Icons for different types
   const icons = {
-    error: '❌', // ! HARDCODED: Should use design tokens
+    error: '❌',
     warning: '⚠️',
     success: '✅',
     info: 'ℹ️'
   };
 
+  const currentTypeColors = typeColors[type];
+
+  // * Position styles
+  const getPositionStyle = (): ViewStyle => {
+    const baseStyle: ViewStyle = {
+      position: 'absolute',
+      minWidth: 300,
+      maxWidth: screenWidth - 40,
+    };
+
+    switch (position) {
+      case 'top':
+        return { ...baseStyle, top: 20, alignSelf: 'center' };
+      case 'bottom':
+        return { ...baseStyle, bottom: 20, alignSelf: 'center' };
+      case 'top-right':
+        return { ...baseStyle, top: 20, right: 20 };
+      case 'top-left':
+        return { ...baseStyle, top: 20, left: 20 };
+      case 'bottom-right':
+        return { ...baseStyle, bottom: 20, right: 20 };
+      case 'bottom-left':
+        return { ...baseStyle, bottom: 20, left: 20 };
+      default:
+        return { ...baseStyle, top: 20, right: 20 };
+    }
+  };
+
   return (
-    <div
+    <Animated.View
       {...getTestProps(`${type}-notification`)}
-      className={`error-notification ${type} ${className} ${animated ? 'animated' : ''}`}
-      style={{
-        position: 'fixed',
-        ...currentPositionStyle,
-        minWidth: '300px',
-        maxWidth: '500px',
-        padding: '16px',
-        borderRadius: '8px',
-        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', zIndex: 9999,
-        display: 'flex', // ! HARDCODED: Should use design tokens
-        flexDirection: 'column',
-        gap: '8px',
-        ...currentTypeStyle,
-        opacity: isVisible ? 1 : 0,
-        transition: animated ? 'opacity 0.3s ease-in-out' : 'none',
-        ...style
-      }}
-      role="alert"
-      aria-live={type === 'error' || type === 'warning' ? 'assertive' : 'polite'}
+      style={[
+        styles.container,
+        getPositionStyle(),
+        {
+          backgroundColor: currentTypeColors.backgroundColor,
+          opacity: fadeAnim,
+        },
+        containerStyle,
+      ]}
+      accessibilityRole="alert"
+      accessibilityLiveRegion={type === 'error' || type === 'warning' ? 'assertive' : 'polite'}
     >
       {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span {...getTestProps(`${testId}-icon`)} style={{ fontSize: '20px' }}> {/* ! HARDCODED: Should use design tokens */}
+      <View style={styles.header}>
+        <View style={styles.titleContainer}>
+          <Text {...getTestProps(`${testId}-icon`)} style={styles.icon}>
             {icons[type]}
-          </span>
-          <strong {...getTestProps(`${testId}-title`)}>{displayTitle}</strong>
-        </div>
-        <button
+          </Text>
+          <Text
+            {...getTestProps(`${testId}-title`)}
+            style={[
+              styles.title,
+              { color: currentTypeColors.color },
+              textStyle,
+            ]}
+          >
+            {displayTitle}
+          </Text>
+        </View>
+        <TouchableOpacity
           {...getTestProps('close-notification')}
-          onClick={handleClose}
-          style={{
-            background: 'transparent',
-            border: 'none',
-            color: currentTypeStyle.iconColor,
-            fontSize: '24px',
-            cursor: 'pointer',
-            padding: '0',
-            marginLeft: '12px',
-            lineHeight: 1
-          }}
-          aria-label="Close notification"
+          onPress={handleClose}
+          style={styles.closeButton}
+          accessibilityLabel="Close notification"
         >
-          ×
-        </button>
-      </div>
+          <Text style={[styles.closeText, { color: currentTypeColors.color }]}>
+            ×
+          </Text>
+        </TouchableOpacity>
+      </View>
 
       {/* Message */}
-      <div {...getTestProps(`${testId}-message`)} style={{ paddingLeft: ' 28px' }}>
+      <Text
+        {...getTestProps(`${testId}-message`)}
+        style={[
+          styles.message,
+          { color: currentTypeColors.color },
+          textStyle,
+        ]}
+      >
         {displayMessage}
-      </div>
+      </Text>
 
       {/* Retry button */}
       {onRetry && (
-        <button
+        <TouchableOpacity
           {...getTestProps('retry-notification')}
-          onClick={onRetry}
-          style={{
-            alignSelf: 'flex-start', // ! HARDCODED: Should use design tokens
-            marginLeft: '28px',
-            padding: '4px 12px',
-            backgroundColor: 'rgba(255, 255, 255, 0.2)', // ! HARDCODED: Should use design tokens
-            color: 'white',
-            border: '1px solid rgba(255, 255, 255, 0.3)',
-            borderRadius: '4px',
-            cursor: 'pointer', fontSize: '14px', // ! HARDCODED: Should use design tokens
-  }}
+          onPress={onRetry}
+          style={styles.retryButton}
         >
-          {retryText}
-        </button>
+          <Text style={styles.retryText}>
+            {retryText}
+          </Text>
+        </TouchableOpacity>
       )}
 
       {/* Progress bar */}
       {showProgress && !persistent && (
-        <div
+        <Animated.View
           {...getTestProps(`${testId}-progress`)}
-          style={{
-            position: 'absolute',
-            bottom: 0,
-            left: 0,
-            height: '4px',
-            width: `${progress}%`,
-            backgroundColor: 'rgba(255, 255, 255, 0.5)',
-            borderBottomLeftRadius: progress > 5 ? '8px' : '0', // ! HARDCODED: Should use design tokens
-            borderBottomRightRadius: progress > 95 ? '8px' : '0', // ! HARDCODED: Should use design tokens
-            transition: 'width 0.05s linear'
-          }}
+          style={[
+            styles.progressBar,
+            {
+              width: progressAnim.interpolate({
+                inputRange: [0, 1],
+                outputRange: ['0%', '100%'],
+              }),
+            },
+          ]}
         />
       )}
-    </div>
+    </Animated.View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 16,
+    borderRadius: 8,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    elevation: 5,
+    zIndex: 9999,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 8,
+  },
+  titleContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  icon: {
+    fontSize: 20,
+    marginRight: 8,
+  },
+  title: {
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  closeButton: {
+    padding: 4,
+    marginLeft: 12,
+  },
+  closeText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    lineHeight: 24,
+  },
+  message: {
+    fontSize: 14,
+    paddingLeft: 28,
+    marginBottom: 8,
+  },
+  retryButton: {
+    alignSelf: 'flex-start',
+    marginLeft: 28,
+    paddingVertical: 4,
+    paddingHorizontal: 12,
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.3)',
+    borderRadius: 4,
+  },
+  retryText: {
+    color: 'white',
+    fontSize: 14,
+  },
+  progressBar: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    height: 4,
+    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+    borderBottomLeftRadius: 8,
+    borderBottomRightRadius: 8,
+  },
+});
 
 // * Notification manager for managing multiple notifications
 interface Notification {
@@ -252,9 +349,11 @@ export const useNotifications = () => {
 };
 
 // * Notification container component
+// Note: In React Native, this should be placed at the root of your app
+// with proper positioning to overlay other content
 export const NotificationContainer: React.FC<{ notifications: Notification[] }> = ({ notifications }) => {
   return (
-    <>
+    <View style={StyleSheet.absoluteFillObject} pointerEvents="box-none">
       {notifications.map(({ id, props }) => (
         <ErrorNotification
           key={id}
@@ -262,7 +361,7 @@ export const NotificationContainer: React.FC<{ notifications: Notification[] }> 
           onClose={() => props.onClose?.()}
         />
       ))}
-    </>
+    </View>
   );
 };
 

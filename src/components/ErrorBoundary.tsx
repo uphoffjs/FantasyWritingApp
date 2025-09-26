@@ -1,4 +1,11 @@
 import React, { Component, ReactNode, ErrorInfo, createContext, useContext } from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+  StyleSheet,
+} from 'react-native';
 import { getTestProps } from '../utils/react-native-web-polyfills';
 
 // * Error context for useErrorHandler hook
@@ -16,7 +23,7 @@ export function useErrorHandler() {
 interface ErrorBoundaryProps {
   children: ReactNode;
   fallback?: React.ComponentType<{ error: Error; resetError: () => void }>;
-  onError?: (error: Error, errorInfo: ErrorInfo) => void;
+  onError?: (error: Error, errorInfo: ErrorInfo, errorId?: string) => void;
   isolate?: boolean;
   level?: 'page' | 'section' | 'component';
   resetKeys?: Array<string | number>;
@@ -31,6 +38,7 @@ interface ErrorBoundaryState {
   error: Error | null;
   errorInfo: ErrorInfo | null;
   errorCount: number;
+  detailsExpanded: boolean;
 }
 
 export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
@@ -44,7 +52,8 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
       hasError: false,
       error: null,
       errorInfo: null,
-      errorCount: 0
+      errorCount: 0,
+      detailsExpanded: false
     };
     this.previousResetKeys = props.resetKeys || [];
   }
@@ -71,7 +80,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     // * Log error details
     console.error('ErrorBoundary caught error:', error, errorInfo);
-    
+
     // * Update state with error info
     this.setState(prevState => ({
       errorInfo,
@@ -94,13 +103,13 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
   componentDidUpdate(prevProps: ErrorBoundaryProps) {
     const { resetKeys, resetOnPropsChange } = this.props;
     const { hasError } = this.state;
-    
+
     // * Reset error boundary when resetKeys change
     if (hasError && resetKeys) {
-      const hasResetKeyChanged = resetKeys.some((key, index) => 
+      const hasResetKeyChanged = resetKeys.some((key, index) =>
         key !== this.previousResetKeys[index]
       );
-      
+
       if (hasResetKeyChanged) {
         this.resetError();
         this.previousResetKeys = [...resetKeys];
@@ -132,7 +141,8 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
       hasError: false,
       error: null,
       errorInfo: null,
-      errorCount: 0
+      errorCount: 0,
+      detailsExpanded: false
     });
   };
 
@@ -145,14 +155,20 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
     });
   };
 
+  toggleDetails = () => {
+    this.setState(prevState => ({
+      detailsExpanded: !prevState.detailsExpanded
+    }));
+  };
+
   render() {
-    const { hasError, error, errorInfo } = this.state;
-    const { 
-      children, 
-      fallback: FallbackComponent, 
+    const { hasError, error, errorInfo, errorCount, detailsExpanded } = this.state;
+    const {
+      children,
+      fallback: FallbackComponent,
       fallbackComponent: AlternateFallback,
       level = 'component',
-      showDetails = process.env.NODE_ENV === 'development'
+      showDetails = __DEV__ // Use React Native's __DEV__ instead of process.env
     } = this.props;
 
     if (hasError && error) {
@@ -160,74 +176,72 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
       if (FallbackComponent) {
         return <FallbackComponent error={error} resetError={this.resetError} />;
       }
-      
+
       if (AlternateFallback) {
         return <AlternateFallback error={error} resetError={this.resetError} />;
       }
 
       // * Default error UI based on level
+      const errorTitle = level === 'page' ? 'Page Error' :
+                        level === 'section' ? 'Section Error' :
+                        'Component Error';
+
       return (
-        <div
+        <View
           {...getTestProps('error-boundary-fallback')}
-          style={{
-            padding: '20px',
-            margin: '20px', border: '1px solid #ff6b6b', // ! HARDCODED: Should use design tokens
-            borderRadius: '8px', backgroundColor: '#ffe0e0', // ! HARDCODED: Should use design tokens
-            textAlign: 'center'
-          }}
+          style={styles.container}
         >
-          {/* ! HARDCODED: Should use design tokens */}
-          <h2 {...getTestProps('error-title')} style={{ color: '#c92a2a' }}>
-            {level === 'page' ? 'Page Error' : 
-             level === 'section' ? 'Section Error' : 
-             'Component Error'}
-          </h2>
-          {/* ! HARDCODED: Should use design tokens */}
-          <p {...getTestProps('error-message')} style={{ color: '#862e2e' }}>
-            {error.message || 'An unexpected error occurred'}
-          </p>
-          
-          {/* ! HARDCODED: Should use design tokens */}
-          {showDetails && errorInfo && (
-            <details style={{ textAlign: 'left', marginTop: '20px' }}>
-              {/* ! HARDCODED: Should use design tokens */}
-              <summary style={{ cursor: 'pointer', color: '#862e2e' }}>
-                Error Details
-              </summary>
-              <pre style={{ 
-                backgroundColor: '#fff', 
-                padding: '10px', 
-                borderRadius: '4px',
-                overflow: 'auto', fontSize: '12px', // ! HARDCODED: Should use design tokens
-  }}>
-                {errorInfo.componentStack}
-              </pre>
-            </details>
-          )}
-          
-          {/* ! HARDCODED: Should use design tokens */}
-          {this.state.errorCount >= 3 && (
-            <p style={{ color: '#862e2e', fontStyle: 'italic' }}>
-              Multiple errors detected. Please refresh the page.
-            </p>
-          )}
-          
-          <button
-            {...getTestProps('reset-error-button')}
-            onClick={this.resetError}
-            style={{
-              marginTop: '20px', padding: '10px 20px', // ! HARDCODED: Should use design tokens
-              backgroundColor: '#087f5b', // ! HARDCODED: Should use design tokens
-              color: 'white',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: 'pointer',
-              fontSize: '16px', // ! HARDCODED: Should use design tokens
-            }}
+          <Text
+            {...getTestProps('error-title')}
+            style={styles.title}
           >
-            Retry
-          </button>
-        </div>
+            {errorTitle}
+          </Text>
+
+          <Text
+            {...getTestProps('error-message')}
+            style={styles.message}
+          >
+            {error.message || 'An unexpected error occurred'}
+          </Text>
+
+          {showDetails && errorInfo && (
+            <View style={styles.detailsContainer}>
+              <TouchableOpacity
+                onPress={this.toggleDetails}
+                style={styles.detailsToggle}
+              >
+                <Text style={styles.detailsToggleText}>
+                  {detailsExpanded ? 'Hide' : 'Show'} Error Details
+                </Text>
+              </TouchableOpacity>
+
+              {detailsExpanded && (
+                <ScrollView style={styles.detailsContent}>
+                  <Text style={styles.stackTrace}>
+                    {errorInfo.componentStack}
+                  </Text>
+                </ScrollView>
+              )}
+            </View>
+          )}
+
+          {errorCount >= 3 && (
+            <Text style={styles.warningText}>
+              Multiple errors detected. Please restart the app.
+            </Text>
+          )}
+
+          <TouchableOpacity
+            {...getTestProps('reset-error-button')}
+            onPress={this.resetError}
+            style={styles.retryButton}
+          >
+            <Text style={styles.retryButtonText}>
+              Retry
+            </Text>
+          </TouchableOpacity>
+        </View>
       );
     }
 
@@ -240,6 +254,74 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
   }
 }
 
+const styles = StyleSheet.create({
+  container: {
+    padding: 20,
+    margin: 20,
+    borderWidth: 1,
+    borderColor: '#ff6b6b',
+    borderRadius: 8,
+    backgroundColor: '#ffe0e0',
+    alignItems: 'center',
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#c92a2a',
+    marginBottom: 10,
+  },
+  message: {
+    fontSize: 16,
+    color: '#862e2e',
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  detailsContainer: {
+    width: '100%',
+    marginTop: 20,
+  },
+  detailsToggle: {
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+  },
+  detailsToggleText: {
+    color: '#862e2e',
+    textDecorationLine: 'underline',
+    fontSize: 14,
+  },
+  detailsContent: {
+    backgroundColor: '#fff',
+    padding: 10,
+    borderRadius: 4,
+    maxHeight: 200,
+    marginTop: 10,
+  },
+  stackTrace: {
+    fontSize: 12,
+    color: '#333',
+    fontFamily: 'monospace',
+  },
+  warningText: {
+    color: '#862e2e',
+    fontStyle: 'italic',
+    fontSize: 14,
+    marginVertical: 10,
+    textAlign: 'center',
+  },
+  retryButton: {
+    marginTop: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    backgroundColor: '#087f5b',
+    borderRadius: 4,
+  },
+  retryButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: '500',
+  },
+});
+
 // Higher-order component for wrapping components with error boundary
 export function withErrorBoundary<P extends object>(
   Component: React.ComponentType<P>,
@@ -250,9 +332,9 @@ export function withErrorBoundary<P extends object>(
       <Component {...props} />
     </ErrorBoundary>
   );
-  
+
   WrappedComponent.displayName = `withErrorBoundary(${Component.displayName || Component.name})`;
-  
+
   return WrappedComponent;
 }
 
