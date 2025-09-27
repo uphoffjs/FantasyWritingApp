@@ -30,60 +30,8 @@ console.warn = (...args) => {
 
 // * Mock React Native modules - removed NativeAnimatedHelper as it's handled by preset
 
-// * Mock AsyncStorage
-jest.mock('@react-native-async-storage/async-storage', () => {
-  const mockStorage = {};
-  return {
-    setItem: jest.fn((key, value) => {
-      return new Promise((resolve) => {
-        mockStorage[key] = value;
-        resolve(null);
-      });
-    }),
-    getItem: jest.fn((key) => {
-      return new Promise((resolve) => {
-        resolve(mockStorage[key] || null);
-      });
-    }),
-    removeItem: jest.fn((key) => {
-      return new Promise((resolve) => {
-        delete mockStorage[key];
-        resolve(null);
-      });
-    }),
-    clear: jest.fn(() => {
-      return new Promise((resolve) => {
-        Object.keys(mockStorage).forEach((key) => delete mockStorage[key]);
-        resolve(null);
-      });
-    }),
-    getAllKeys: jest.fn(() => {
-      return new Promise((resolve) => {
-        resolve(Object.keys(mockStorage));
-      });
-    }),
-    multiGet: jest.fn((keys) => {
-      return new Promise((resolve) => {
-        const result = keys.map((key) => [key, mockStorage[key] || null]);
-        resolve(result);
-      });
-    }),
-    multiSet: jest.fn((pairs) => {
-      return new Promise((resolve) => {
-        pairs.forEach(([key, value]) => {
-          mockStorage[key] = value;
-        });
-        resolve(null);
-      });
-    }),
-    multiRemove: jest.fn((keys) => {
-      return new Promise((resolve) => {
-        keys.forEach((key) => delete mockStorage[key]);
-        resolve(null);
-      });
-    }),
-  };
-});
+// * Mock AsyncStorage - using __mocks__ directory pattern
+jest.mock('@react-native-async-storage/async-storage');
 
 // * Mock React Navigation
 jest.mock('@react-navigation/native', () => {

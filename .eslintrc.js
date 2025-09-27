@@ -82,8 +82,60 @@ module.exports = {
     'no-div-regex': 'off',
     'comma-dangle': ['error', 'only-multiline'],
     'prettier/prettier': 'off', // Handled separately
+
+    // Platform-specific import rules
+    'no-restricted-imports': ['error', {
+      patterns: [
+        {
+          group: ['*.web', '*.ios', '*.android', '*.native'],
+          message: 'Do not import platform-specific files directly. Use platform-agnostic imports and let Metro bundler handle selection.'
+        }
+      ],
+      paths: [
+        {
+          name: 'react-native-web',
+          message: 'Import from react-native instead. React Native Web handles the aliasing.'
+        }
+      ]
+    }],
+
+    // Ensure testID presence for testing
+    'react/jsx-no-undef': 'error',
+    'react/jsx-uses-react': 'error',
+    'react/jsx-uses-vars': 'error',
   },
   overrides: [
+    {
+      // Web-specific platform files
+      files: ['*.web.tsx', '*.web.ts', '*.web.jsx', '*.web.js'],
+      env: {
+        browser: true
+      },
+      rules: {
+        // Allow web-specific patterns in .web.tsx files
+        'no-restricted-globals': 'off',
+        // Allow DOM manipulation for web
+        'no-undef': ['error', { typeof: true }],
+        // Allow web-specific event handlers
+        'react/no-unknown-property': ['error', {
+          ignore: ['onMouseEnter', 'onMouseLeave', 'onContextMenu']
+        }],
+        // Ensure data-testid for web testing
+        'react/jsx-no-literals': 'off',
+        // Allow style prop for web-specific styling
+        'react-native/no-inline-styles': 'off'
+      }
+    },
+    {
+      // Native platform files (iOS and Android specific)
+      files: ['*.ios.tsx', '*.ios.ts', '*.android.tsx', '*.android.ts'],
+      rules: {
+        // Enforce React Native patterns
+        'react-native/no-inline-styles': 'error',
+        'react-native/no-color-literals': 'warn',
+        'react-native/no-raw-text': 'error'
+      }
+    },
     {
       // Service Worker files
       files: ['**/service-worker*.js', '**/sw*.js'],
