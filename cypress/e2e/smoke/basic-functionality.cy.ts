@@ -2,8 +2,6 @@
 
 describe('Basic App Functionality - Smoke Tests', () => {
   beforeEach(() => {
-    // ! MANDATORY: Comprehensive debug setup
-    cy.comprehensiveDebug();
   });
 
   it.only('should load the login page when not authenticated', () => {

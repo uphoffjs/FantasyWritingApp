@@ -4,9 +4,6 @@ import { selectors } from '../support/selectors';
 
 describe('Homepage', () => {
   beforeEach(() => {
-    // ! MANDATORY: Comprehensive debug setup
-    cy.comprehensiveDebug();
-
     // * Visit the application
     cy.visit('/');
   });

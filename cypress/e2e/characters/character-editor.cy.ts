@@ -1,9 +1,6 @@
 describe('Character Editor Integration', () => {
   beforeEach(() => {
     // * Using cy.session() for authentication caching
-    // ! MANDATORY: Comprehensive debug setup
-    cy.comprehensiveDebug();
-
     // * Setup test environment with session-based auth
     // * Use session-based API login for faster authentication
     cy.apiLogin('test@example.com', 'testpassword123')

@@ -7,6 +7,7 @@ import './auth';
 
 // * Debug Utilities (root level as per TODO)
 import './debug';
+import './build-error-capture';
 
 // * Navigation (cross-cutting concern, stays at root)
 import './navigation';

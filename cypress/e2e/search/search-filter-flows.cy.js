@@ -24,9 +24,7 @@ describe('Search and Filter Flows', () => {
   };
 
   beforeEach(function() {
-    // ! MANDATORY: Comprehensive debug setup
-    cy.comprehensiveDebug();
-
+    
     // * Clean state BEFORE test (Cypress best practice)
     cy.task('db:clean');
 
@@ -119,9 +117,7 @@ describe('Search and Filter Flows', () => {
 
   describe('Project Filtering', () => {
     beforeEach(() => {
-    // ! MANDATORY: Comprehensive debug setup
-    cy.comprehensiveDebug();
-
+    
       cy.visit('/projects');
       cy.get('[data-cy="projects-list"]').should('be.visible');
     });
@@ -195,9 +191,7 @@ describe('Search and Filter Flows', () => {
 
   describe('Element Filtering', () => {
     beforeEach(() => {
-    // ! MANDATORY: Comprehensive debug setup
-    cy.comprehensiveDebug();
-
+    
       cy.visit('/elements');
       cy.get('[data-cy="elements-list"]').should('be.visible');
     });
@@ -304,9 +298,7 @@ describe('Search and Filter Flows', () => {
 
   describe('Sort and View Options', () => {
     beforeEach(() => {
-    // ! MANDATORY: Comprehensive debug setup
-    cy.comprehensiveDebug();
-
+    
       cy.visit('/elements');
     });
 

@@ -11,9 +11,6 @@
 
 describe('Character Creation and Editing - Full Workflow', () => {
   beforeEach(() => {
-    // ! MANDATORY: Comprehensive debug setup
-    cy.comprehensiveDebug();
-
     // * Setup test environment with session-based auth
     cy.task('factory:reset')
     // * Use session-based API login for faster authentication
@@ -170,9 +167,6 @@ describe('Character Creation and Editing - Full Workflow', () => {
 
   describe('Character Editing Workflow', () => {
     beforeEach(() => {
-    // ! MANDATORY: Comprehensive debug setup
-    cy.comprehensiveDebug();
-
       // * Create a character to edit
       cy.get('[data-cy="create-character-button"]').click()
       cy.get('[data-cy="character-type-protagonist"]').click()
@@ -232,9 +226,6 @@ describe('Character Creation and Editing - Full Workflow', () => {
 
   describe('Character Management', () => {
     beforeEach(() => {
-    // ! MANDATORY: Comprehensive debug setup
-    cy.comprehensiveDebug();
-
       // * Create multiple characters
       const characters = [
         { name: 'Aragorn', type: 'protagonist' },
@@ -386,9 +377,6 @@ describe('Character Creation and Editing - Full Workflow', () => {
  */
 describe('Character-Specific Component Workflows', () => {
   beforeEach(() => {
-    // ! MANDATORY: Comprehensive debug setup
-    cy.comprehensiveDebug();
-
     cy.visit('/')
     // * Setup a story with characters
     cy.get('[data-cy="create-story-button"]').click()

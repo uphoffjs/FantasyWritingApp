@@ -2,9 +2,6 @@
 describe('Navigation and Routing', () => {
   beforeEach(() => {
     // * Using cy.session() for authentication caching
-    // ! MANDATORY: Comprehensive debug setup
-    cy.comprehensiveDebug();
-
     // * Use session-based API login for faster authentication
     cy.apiLogin('test@example.com', 'testpassword123')
     cy.visit('/stories')

@@ -10,8 +10,7 @@ describe('Login Page Renders', () => {
     // Clear cookies and local storage before each test to ensure a clean state
     cy.clearCookies();
     cy.clearLocalStorage();
-
-    cy.comprehensiveDebug();
+    cy.comprehensiveDebugWithBuildCapture(); // Ensure debug and build error capture is active
   });
   it('should render the login page with all essential elements', () => {
     // Visit the app

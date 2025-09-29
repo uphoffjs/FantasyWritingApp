@@ -44,9 +44,6 @@ describe('Project and Element Management Journey', () => {
   });
 
   beforeEach(() => {
-    // ! MANDATORY: Comprehensive debug setup
-    cy.comprehensiveDebug();
-
     // * Navigate to projects page
     projectsPage.visit();
   });
@@ -175,9 +172,6 @@ describe('Project and Element Management Journey', () => {
     });
 
     beforeEach(() => {
-    // ! MANDATORY: Comprehensive debug setup
-    cy.comprehensiveDebug();
-
       // * Navigate to elements page
       elementsPage.visit(projectId);
     });

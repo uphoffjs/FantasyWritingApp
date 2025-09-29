@@ -10,8 +10,6 @@ import { storyFactory } from '../../fixtures/factories/story.factory';
  */
 describe('Story CRUD Operations', () => {
   beforeEach(() => {
-    // ! MANDATORY: Comprehensive debug setup
-    cy.comprehensiveDebug();
 
     // * Reset factory counters for test isolation
     StoryFactory.reset();
@@ -77,8 +75,6 @@ describe('Story CRUD Operations', () => {
     let testStory: ReturnType<typeof StoryFactory.create>;
 
     beforeEach(() => {
-    // ! MANDATORY: Comprehensive debug setup
-    cy.comprehensiveDebug();
 
       // * Create a test story via API or UI
       testStory = StoryFactory.createWithChapters(3);
@@ -121,8 +117,6 @@ describe('Story CRUD Operations', () => {
     let testStory: ReturnType<typeof StoryFactory.create>;
 
     beforeEach(() => {
-    // ! MANDATORY: Comprehensive debug setup
-    cy.comprehensiveDebug();
 
       testStory = StoryFactory.createDraft();
       
@@ -185,8 +179,6 @@ describe('Story CRUD Operations', () => {
     let testStory: ReturnType<typeof StoryFactory.create>;
 
     beforeEach(() => {
-    // ! MANDATORY: Comprehensive debug setup
-    cy.comprehensiveDebug();
 
       testStory = StoryFactory.create();
       
@@ -243,8 +235,6 @@ describe('Story CRUD Operations', () => {
 
   describe('Story List Operations', () => {
     beforeEach(() => {
-    // ! MANDATORY: Comprehensive debug setup
-    cy.comprehensiveDebug();
 
       // * Create multiple stories
       const stories = StoryFactory.createMany(10);
@@ -321,8 +311,6 @@ describe('Story CRUD Operations', () => {
     let testStory: ReturnType<typeof StoryFactory.createWithChapters>;
 
     beforeEach(() => {
-    // ! MANDATORY: Comprehensive debug setup
-    cy.comprehensiveDebug();
 
       testStory = StoryFactory.createWithChapters(3);
       

@@ -11,9 +11,7 @@
 describe('Scene Editor and Management', () => {
   beforeEach(() => {
     // * Using cy.session() for authentication caching
-    // ! MANDATORY: Comprehensive debug setup
-    cy.comprehensiveDebug();
-
+    
     // * Setup test environment
     // * Use session-based API login for faster authentication
     cy.apiLogin('test@example.com', 'testpassword123')
@@ -96,9 +94,7 @@ describe('Scene Editor and Management', () => {
   describe('Scene Editing', () => {
     beforeEach(() => {
     // * Using cy.session() for authentication caching
-    // ! MANDATORY: Comprehensive debug setup
-    cy.comprehensiveDebug();
-
+    
       // * Create a scene to edit
       cy.get('[data-cy="nav-scenes"]').click()
       cy.get('[data-cy="create-scene-button"]').click()
@@ -190,9 +186,7 @@ describe('Scene Editor and Management', () => {
   describe('Scene Organization', () => {
     beforeEach(() => {
     // * Using cy.session() for authentication caching
-    // ! MANDATORY: Comprehensive debug setup
-    cy.comprehensiveDebug();
-
+    
       // * Create multiple scenes for organization testing
       cy.get('[data-cy="nav-scenes"]').click()
       
@@ -271,9 +265,7 @@ describe('Scene Editor and Management', () => {
   describe('Scene Management', () => {
     beforeEach(() => {
     // * Using cy.session() for authentication caching
-    // ! MANDATORY: Comprehensive debug setup
-    cy.comprehensiveDebug();
-
+    
       // * Create multiple scenes
       cy.get('[data-cy="nav-scenes"]').click()
       

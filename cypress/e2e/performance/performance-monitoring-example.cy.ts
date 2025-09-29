@@ -18,12 +18,6 @@ import { DEFAULT_BUDGETS } from '../../support/commands/performance/performance-
 
 describe('Performance Monitoring Examples', () => {
   beforeEach(function() {
-    // ! MANDATORY: Comprehensive debug setup
-    cy.comprehensiveDebug();
-
-    // * Clean state before each test
-    cy.cleanState();
-
     // * Setup test user
     cy.setupTestUser();
 

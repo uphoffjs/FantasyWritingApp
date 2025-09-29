@@ -4,8 +4,6 @@
 describe('Verify Custom Commands Work', () => {
   beforeEach(() => {
     // * Using cy.session() for authentication caching
-    // ! MANDATORY: Comprehensive debug setup
-    cy.comprehensiveDebug();
   });
 
   it('should verify clearLocalStorage command works', () => {

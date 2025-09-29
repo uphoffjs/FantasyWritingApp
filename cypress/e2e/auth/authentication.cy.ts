@@ -6,8 +6,6 @@ describe('Authentication Example Tests', () => {
   describe('Authenticated User Tests', () => {
     beforeEach(() => {
     // * Using cy.session() for authentication caching
-    // ! MANDATORY: Comprehensive debug setup
-    cy.comprehensiveDebug();
 
       // * Use session-based API login for faster authentication
       cy.apiLogin('test@example.com', 'testpassword123')
@@ -81,8 +79,6 @@ describe('Authentication Example Tests', () => {
   describe('Logged Out State', () => {
     beforeEach(() => {
     // * Using cy.session() for authentication caching
-    // ! MANDATORY: Comprehensive debug setup
-    cy.comprehensiveDebug();
 
       // ! SECURITY: * Clear everything and don't set auth
       cy.window().then((win) => {

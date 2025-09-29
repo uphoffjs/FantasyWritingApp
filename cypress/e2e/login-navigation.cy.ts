@@ -4,12 +4,6 @@
 describe('Authentication Navigation', () => {
   // ! MANDATORY: Use function() syntax for access to this.currentTest
   beforeEach(function() {
-    // * Comprehensive debugging for all tests
-    cy.comprehensiveDebug();
-    
-    // * Clean all state for deterministic testing
-    cy.cleanState();
-    
     // * Log test initialization
     cy.task('log', '========================================');
     cy.task('log', `Starting test: ${this.currentTest?.title}`);

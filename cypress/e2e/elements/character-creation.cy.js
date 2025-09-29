@@ -63,8 +63,6 @@ describe('Character Creation Flow', () => {
   });
 
   beforeEach(() => {
-    // ! MANDATORY: Comprehensive debug setup
-    cy.comprehensiveDebug();
 
     // * Login and navigate to project
     cy.session('authenticated-user', () => {
@@ -446,8 +444,6 @@ describe('Character Creation Flow', () => {
 
   describe('Mobile Character Creation', () => {
     beforeEach(() => {
-    // ! MANDATORY: Comprehensive debug setup
-    cy.comprehensiveDebug();
 
       cy.viewport('iphone-x');
     });

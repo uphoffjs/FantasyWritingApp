@@ -18,12 +18,6 @@ import { DEVICE_VIEWPORTS, CUSTOM_VIEWPORTS } from '../../support/commands/respo
 
 describe('Responsive Design Tests', () => {
   beforeEach(function() {
-    // ! MANDATORY: Comprehensive debug setup
-    cy.comprehensiveDebug();
-
-    // * Clean state before each test
-    cy.cleanState();
-
     // * Setup test user
     cy.setupTestUser();
   });

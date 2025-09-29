@@ -22,8 +22,6 @@ describe('Story and Scene Management Flow', () => {
   };
 
   beforeEach(function() {
-    // ! MANDATORY: Comprehensive debug setup
-    cy.comprehensiveDebug();
 
     // * Clean state BEFORE test (Cypress best practice)
     cy.task('db:clean');
@@ -120,8 +118,6 @@ describe('Story and Scene Management Flow', () => {
     let storyId;
 
     beforeEach(() => {
-    // ! MANDATORY: Comprehensive debug setup
-    cy.comprehensiveDebug();
 
       // * Create story context for scenes
       cy.request('POST', '/api/stories', testStory).then((response) => {
@@ -241,8 +237,6 @@ describe('Story and Scene Management Flow', () => {
     let storyId;
 
     beforeEach(() => {
-    // ! MANDATORY: Comprehensive debug setup
-    cy.comprehensiveDebug();
 
       cy.request('POST', '/api/stories', testStory).then((response) => {
         storyId = response.body.id;
@@ -301,8 +295,6 @@ describe('Story and Scene Management Flow', () => {
     let storyId;
 
     beforeEach(() => {
-    // ! MANDATORY: Comprehensive debug setup
-    cy.comprehensiveDebug();
 
       cy.request('POST', '/api/stories', {
         ...testStory,
@@ -367,8 +359,6 @@ describe('Story and Scene Management Flow', () => {
     let storyId;
 
     beforeEach(() => {
-    // ! MANDATORY: Comprehensive debug setup
-    cy.comprehensiveDebug();
 
       // * Create story with content
       cy.request('POST', '/api/stories', testStory).then((response) => {

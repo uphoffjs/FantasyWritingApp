@@ -37,8 +37,6 @@ describe('User Registration Flow', () => {
   };
 
   beforeEach(() => {
-    // ! MANDATORY: Comprehensive debug setup
-    cy.comprehensiveDebug();
 
     // * Clean state before each test (Cypress best practice)
     cy.clearCookies();
@@ -321,8 +319,6 @@ describe('User Registration Flow', () => {
 
   describe('Mobile Registration', () => {
     beforeEach(() => {
-    // ! MANDATORY: Comprehensive debug setup
-    cy.comprehensiveDebug();
 
       cy.viewport('iphone-x');
     });
