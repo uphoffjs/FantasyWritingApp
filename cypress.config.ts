@@ -42,6 +42,15 @@ export default defineConfig({
     setupNodeEvents(on, config) {
       codeCoverageTask(on, config);
 
+      // * Configure webpack preprocessor for E2E tests to handle React Native modules
+      const webpack = require('@cypress/webpack-preprocessor');
+      const webpackOptions = require('./cypress/webpack.config.js');
+
+      on('file:preprocessor', webpack({
+        webpackOptions,
+        watchOptions: {}
+      }));
+
       // Add any custom tasks here
       on("task", {
         log(message) {

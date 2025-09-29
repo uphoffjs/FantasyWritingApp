@@ -48,6 +48,7 @@ describe('Basic App Functionality - Smoke Tests', () => {
     cy.visit('/')
 
     // * Check that main navigation elements exist
+    // eslint-disable-next-line cypress/require-data-selectors
     cy.get('body').should('be.visible')
 
     // * Basic smoke test - app loads without throwing errors
@@ -60,6 +61,7 @@ describe('Basic App Functionality - Smoke Tests', () => {
     cy.visit('/')
 
     // * Check that React Native Web components render
+    // eslint-disable-next-line cypress/require-data-selectors
     cy.get('body').should('have.css', 'font-family')
 
     // * Should not have any critical console errors
@@ -82,6 +84,7 @@ describe('Basic App Functionality - Smoke Tests', () => {
     cy.visit('/')
 
     // * App should load in authenticated mode
+    // eslint-disable-next-line cypress/require-data-selectors
     cy.get('body').should('be.visible')
     cy.url().should('not.include', '/login')
   })
@@ -93,14 +96,17 @@ describe('Basic App Functionality - Smoke Tests', () => {
 
     // * Test mobile viewport
     cy.viewport(375, 667)
+    // eslint-disable-next-line cypress/require-data-selectors
     cy.get('body').should('be.visible')
 
     // * Test tablet viewport
     cy.viewport(768, 1024)
+    // eslint-disable-next-line cypress/require-data-selectors
     cy.get('body').should('be.visible')
 
     // * Test desktop viewport
     cy.viewport(1920, 1080)
+    // eslint-disable-next-line cypress/require-data-selectors
     cy.get('body').should('be.visible')
   })
 
