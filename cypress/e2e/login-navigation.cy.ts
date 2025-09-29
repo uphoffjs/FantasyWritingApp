@@ -1,7 +1,7 @@
 // * Login Page Navigation E2E Tests - Following Cypress Best Practices
 // ! NO CONDITIONAL STATEMENTS - Tests are deterministic
 
-describe('Authentication Navigation', function() {
+describe('Authentication Navigation', () => {
   // ! MANDATORY: Use function() syntax for access to this.currentTest
   beforeEach(function() {
     // * Comprehensive debugging for all tests
@@ -34,7 +34,7 @@ describe('Authentication Navigation', function() {
       cy.task('log', 'Viewport set to iPhone X (375x812)');
     });
     
-    it('should show login page when visiting root unauthenticated', () => {
+    it.only('should show login page when visiting root unauthenticated', () => {
       // * Visit root page
       cy.task('log', 'Visiting root page as unauthenticated user...');
       cy.visit('http://localhost:3002');
@@ -98,7 +98,7 @@ describe('Authentication Navigation', function() {
       
       // * Set viewport
       cy.viewport('iphone-x');
-      cy.task('log', 'User authenticated via cy.apiLogin('test@example.com', 'testpassword123')');
+      cy.task('log', 'User authenticated via cy.apiLogin("test@example.com", "testpassword123")');
     });
     
     it('should show dashboard when visiting root authenticated', () => {

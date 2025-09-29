@@ -110,7 +110,7 @@ export default function LoginScreen() {
         setForgotPasswordSent(false);
         setForgotPasswordEmail('');
       }, 3000);
-    } catch (error) {
+    } catch (err) {
       Alert.alert('Error', 'Failed to send reset email. Please try again.');
     }
   };
@@ -147,6 +147,7 @@ export default function LoginScreen() {
             {/* Tab Switcher */}
             <View style={styles.tabSwitcher}>
               <TouchableOpacity
+                testID="signin-tab-button"
                 style={[
                   styles.tabButton,
                   mode === 'signin' && styles.tabButtonActive
@@ -161,6 +162,7 @@ export default function LoginScreen() {
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
+                testID="signup-tab-button"
                 style={[
                   styles.tabButton,
                   mode === 'signup' && styles.tabButtonActive
@@ -178,7 +180,7 @@ export default function LoginScreen() {
             
             {/* Error Display */}
             {error && (
-              <View style={styles.errorContainer}>
+              <View testID="error-container" style={styles.errorContainer}>
                 <Icon name="error-outline" size={16} color="#991b1b" />
                 <Text style={styles.errorText}>{error}</Text>
               </View>
@@ -188,6 +190,7 @@ export default function LoginScreen() {
             {showForgotPassword ? (
               <View>
                 <TouchableOpacity
+                  testID="close-forgot-password-button"
                   style={styles.closeButton}
                   onPress={() => setShowForgotPassword(false)}
                 >
@@ -202,6 +205,7 @@ export default function LoginScreen() {
                   <View style={styles.inputContainer}>
                     <Icon name="mail-outline" size={20} color="#4A3C30" />
                     <TextInput
+                      testID="forgot-password-email-input"
                       style={styles.input}
                       placeholder="Enter your email"
                       placeholderTextColor="#5C4A3A"
@@ -214,6 +218,7 @@ export default function LoginScreen() {
                 </View>
 
                 <TouchableOpacity
+                  testID="send-reset-link-button"
                   style={[
                     styles.submitButton,
                     forgotPasswordSent && styles.buttonDisabled
@@ -237,6 +242,7 @@ export default function LoginScreen() {
                   <View style={styles.inputContainer}>
                     <Icon name="mail-outline" size={20} color="#4A3C30" />
                     <TextInput
+                      testID="email-input"
                       style={styles.input}
                       placeholder="Email"
                       placeholderTextColor="#5C4A3A"
@@ -253,6 +259,7 @@ export default function LoginScreen() {
                   <View style={styles.inputContainer}>
                     <Icon name="lock-outline" size={20} color="#4A3C30" />
                     <TextInput
+                      testID="password-input"
                       style={styles.input}
                       placeholder="Password"
                       placeholderTextColor="#5C4A3A"
@@ -269,6 +276,7 @@ export default function LoginScreen() {
                     <View style={styles.inputContainer}>
                       <Icon name="lock-outline" size={20} color="#4A3C30" />
                       <TextInput
+                        testID="confirm-password-input"
                         style={styles.input}
                         placeholder="Confirm Password"
                         placeholderTextColor="#5C4A3A"
@@ -285,6 +293,7 @@ export default function LoginScreen() {
                   <View style={styles.rememberMeContainer}>
                     <View style={styles.rememberMeLeft}>
                       <Switch
+                        testID="remember-me-switch"
                         value={rememberMe}
                         onValueChange={setRememberMe}
                         trackColor={{ false: '#E8DCC0', true: '#A31C1C' }}
@@ -292,7 +301,7 @@ export default function LoginScreen() {
                       />
                       <Text style={styles.rememberMeText}>Remember me</Text>
                     </View>
-                    <TouchableOpacity onPress={() => setShowForgotPassword(true)}>
+                    <TouchableOpacity testID="forgot-password-link" onPress={() => setShowForgotPassword(true)}>
                       <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
                     </TouchableOpacity>
                   </View>
@@ -300,6 +309,7 @@ export default function LoginScreen() {
                 
                 {/* Submit Button */}
                 <TouchableOpacity
+                  testID="submit-button"
                   style={styles.submitButtonMain}
                   onPress={handleSubmit}
                   disabled={isLoading}

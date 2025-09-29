@@ -1,6 +1,7 @@
 # CLAUDE.md - FantasyWritingApp Quick Reference
 
 ## 🚨 MANDATORY CHECKLIST
+
 1. ✅ Read existing files before editing (use Read tool)
 2. ✅ Use ONLY `data-cy` attributes for test selectors (React Native: `testID`)
 3. ✅ Run `npm run lint` before marking tasks complete
@@ -12,6 +13,7 @@
 ## 🧠 Context Management
 
 ### Quick Context Commands
+
 ```bash
 # The Golden Sequence™ - Use every 90 minutes
 /sc:save                          # Save config
@@ -22,15 +24,17 @@ read_memory("checkpoint")        # Restore context
 ```
 
 ### Context Health Monitoring
-| Indicator | Action Required |
-|-----------|----------------|
+
+| Indicator          | Action Required   |
+| ------------------ | ----------------- |
 | **Slow responses** | Clear immediately |
-| **90+ minutes** | Proactive clear |
-| **Before break** | Save checkpoint |
-| **Task complete** | Update memory |
-| **End of day** | Save EOD summary |
+| **90+ minutes**    | Proactive clear   |
+| **Before break**   | Save checkpoint   |
+| **Task complete**  | Update memory     |
+| **End of day**     | Save EOD summary  |
 
 ### Essential Memory Keys
+
 ```bash
 "checkpoint"        # Current work state
 "EOD"              # End of day summary
@@ -40,12 +44,14 @@ read_memory("checkpoint")        # Restore context
 ```
 
 ### 📚 Context Documentation
+
 - **[CONTEXT_MANAGEMENT_GUIDE.md](./CONTEXT_MANAGEMENT_GUIDE.md)** - Comprehensive context management strategies
 - **[SESSION_BEST_PRACTICES.md](./SESSION_BEST_PRACTICES.md)** - Optimal session patterns and workflows
 - **[QUICK_REFERENCE.md](./QUICK_REFERENCE.md)** - Command cheat sheet for quick access
 - **[claude-save-and-clear-workflow.md](./claude-save-and-clear-workflow.md)** - Step-by-step clear workflow
 
 ### When to Clear Context
+
 - ✅ Every 90-120 minutes (mandatory)
 - ✅ Before complex operations
 - ✅ When responses feel slow
@@ -53,11 +59,13 @@ read_memory("checkpoint")        # Restore context
 - ✅ Before/after debugging sessions
 
 ## Project Overview
+
 **FantasyWritingApp**: Cross-platform creative writing app (React Native) for managing stories, characters, scenes, and chapters.
 
 **Core Elements**: Characters, Locations, Magic Systems, Cultures, Creatures, Organizations, Religions, Technologies, Historical Events, Languages
 
 ## Tech Stack
+
 - **Framework**: React Native 0.75.4 + TypeScript 5.2.2
 - **State**: Zustand with AsyncStorage
 - **Navigation**: React Navigation 6
@@ -66,16 +74,44 @@ read_memory("checkpoint")        # Restore context
 - **Backend**: Supabase
 
 ## Essential Commands
+
 ```bash
 npm run web           # Dev server port 3002
 npm run lint          # MANDATORY before commits
-npm run cypress:open  # Open Cypress UI
-npm run cypress:run   # Run headless tests
-npm run test          # Jest tests
+
+# 🚀 Cypress E2E Testing (Server starts automatically!)
+npm run cypress:open  # Open Cypress UI (auto-starts server)
+npm run cypress:run   # Run headless tests (auto-starts server)
+npm run test:e2e      # Run E2E tests (auto-starts server)
+npm run test:e2e:open # Open Cypress for E2E (auto-starts server)
+
+# Component & Unit Testing
+npm run test          # Jest unit tests
+npm run test:component # Cypress component tests
+
 npm run build:web     # Production build
 ```
 
+### ⚡ Automated Server Startup
+
+**No need to manually start the server!** All E2E commands use `start-server-and-test`:
+
+- Automatically starts dev server on port 3002
+- Waits for server to be ready
+- Runs Cypress tests
+- Shuts down server when complete
+
+```bash
+# OLD: Two terminals needed
+# Terminal 1: npm run web
+# Terminal 2: npm run cypress:run
+
+# NEW: One command does everything!
+npm run cypress:run
+```
+
 ## Project Structure
+
 ```
 src/
 ├── components/       # UI components (common/native/web)
@@ -90,6 +126,7 @@ cypress/            # E2E tests
 ```
 
 ## Better Comments Syntax
+
 Use these prefixes for clear, categorized comments throughout the codebase:
 
 ```javascript
@@ -110,6 +147,7 @@ Use these prefixes for clear, categorized comments throughout the codebase:
 ## Critical Development Rules (Aligned with Cypress.io)
 
 ### NEVER Do (Cypress.io Best Practices)
+
 - ❌ Start servers within Cypress tests - start BEFORE
 - ❌ Visit external sites - only test your application
 - ❌ Use arbitrary waits like `cy.wait(3000)`
@@ -123,6 +161,7 @@ Use these prefixes for clear, categorized comments throughout the codebase:
 - ❌ Skip `npm run lint`
 
 ### ALWAYS Do (Cypress & React Native Standards)
+
 - ✅ Start dev server BEFORE running Cypress
 - ✅ Set baseUrl in cypress.config.js
 - ✅ Use `data-cy` attributes exclusively
@@ -137,25 +176,28 @@ Use these prefixes for clear, categorized comments throughout the codebase:
 - ✅ Add accessibility props
 
 ## Cypress Testing Rules (Per Cypress.io Best Practices)
+
 ```javascript
 // MANDATORY Structure (Aligned with Official Docs)
 describe('Feature', () => {
-  beforeEach(function() {  // Must use function()
-    cy.comprehensiveDebug();  // Project requirement
-    cy.cleanState();          // Clean BEFORE (Cypress.io rule)
+  beforeEach(function () {
+    // Must use function()
+    cy.comprehensiveDebug(); // Project requirement
+    cy.cleanState(); // Clean BEFORE (Cypress.io rule)
 
     // Use session for auth (Cypress.io pattern)
     cy.session('user', setup, {
-      validate() {            // Validation required
+      validate() {
+        // Validation required
         cy.getCookie('auth').should('exist');
       },
-      cacheAcrossSpecs: true
+      cacheAcrossSpecs: true,
     });
 
-    cy.visit('/');           // Uses baseUrl
+    cy.visit('/'); // Uses baseUrl
   });
 
-  afterEach(function() {
+  afterEach(function () {
     if (this.currentTest.state === 'failed') {
       cy.captureFailureDebug();
     }
@@ -172,25 +214,26 @@ describe('Feature', () => {
 ```
 
 ### Session Management (Cypress.io Patterns)
+
 ```javascript
 // CORRECT per Cypress.io
 cy.session(
-  ['user', 'role', 'env'],  // Composite key
+  ['user', 'role', 'env'], // Composite key
   () => {
     // PREFER API login (faster)
-    cy.request('POST', '/api/login', credentials)
-      .then(res => {
-        window.localStorage.setItem('token', res.body.token);
-      });
+    cy.request('POST', '/api/login', credentials).then(res => {
+      window.localStorage.setItem('token', res.body.token);
+    });
   },
   {
-    validate() {            // MANDATORY
+    validate() {
+      // MANDATORY
       cy.window().then(win => {
         expect(win.localStorage.getItem('token')).to.not.be.null;
       });
     },
-    cacheAcrossSpecs: true  // Share across files
-  }
+    cacheAcrossSpecs: true, // Share across files
+  },
 );
 
 // ALWAYS navigate after session
@@ -198,6 +241,7 @@ cy.visit('/dashboard');
 ```
 
 ### Data Seeding Methods (Cypress.io Patterns)
+
 1. **cy.exec()** - System commands (DB reset)
 2. **cy.task()** - Node.js code (complex seeding)
 3. **cy.request()** - API seeding (PREFERRED for speed)
@@ -217,6 +261,7 @@ cy.intercept('GET', '/api/users', { fixture: 'users.json' });
 ## Selector Best Practices (Cypress.io Official Priority)
 
 ### Priority Order (From Official Docs)
+
 1. **`data-cy`** - Cypress team's PREFERRED selector
 2. **`data-test`** - Alternative test attribute
 3. **`data-testid`** - Testing Library compatibility
@@ -224,6 +269,7 @@ cy.intercept('GET', '/api/users', { fixture: 'users.json' });
 5. **`[role][name]`** - Semantic HTML (if above unavailable)
 
 ### NEVER Use (Cypress.io Anti-patterns)
+
 - ❌ **`.class`** - CSS classes change
 - ❌ **`#id`** - IDs aren't unique
 - ❌ **`button`** - Too generic
@@ -231,6 +277,7 @@ cy.intercept('GET', '/api/users', { fixture: 'users.json' });
 - ❌ **`cy.contains('text')`** - Text changes
 
 ### Custom Cypress Commands (Best Practices)
+
 ```javascript
 // PREFERRED: Use data-cy attributes (Cypress.io)
 cy.get('[data-cy="submit-button"]').click();
@@ -245,9 +292,9 @@ cy.get('[data-cy="submit"]').as('submitBtn');
 cy.get('@submitBtn').click();
 
 // Specialized commands for common patterns
-cy.clickButton('Submit');           // Looks for data-cy first, then text
-cy.getModal('create-element');      // Gets modal with data-cy pattern
-cy.getCard('element-card');         // Gets card with data-cy pattern
+cy.clickButton('Submit'); // Looks for data-cy first, then text
+cy.getModal('create-element'); // Gets modal with data-cy pattern
+cy.getCard('element-card'); // Gets card with data-cy pattern
 cy.getPerformanceElement('toggle'); // Gets performance-[element]
 
 // Within parent elements
@@ -255,6 +302,7 @@ cy.getByDataCy('form').findByTestId('field');
 ```
 
 ### Adding Selectors to Components
+
 ```javascript
 // React Native components
 <TouchableOpacity
@@ -272,6 +320,7 @@ cy.getByDataCy('form').findByTestId('field');
 ```
 
 ### Naming Conventions
+
 - **Buttons**: `[action]-button` (e.g., `submit-button`, `cancel-button`)
 - **Modals**: `[name]-modal` (e.g., `create-element-modal`)
 - **Cards**: `[type]-card` (e.g., `element-card`, `project-card`)
@@ -280,12 +329,14 @@ cy.getByDataCy('form').findByTestId('field');
 - **Performance**: `performance-[element]` (e.g., `performance-monitor-toggle`)
 
 ## Platform Handling
+
 - Web: `Platform.OS === 'web'`
 - Mobile: Touch events, no hover states
 - Responsive: useWindowDimensions()
 - Storage: AsyncStorage (mobile) / localStorage (web)
 
 ## Testing Coverage Requirements (Realistic Targets)
+
 - **Lines**: 80% (75-85% range acceptable)
 - **Branches**: 75% (70-80% realistic)
 - **Functions**: 80% (75-85% good)
@@ -293,12 +344,14 @@ cy.getByDataCy('form').findByTestId('field');
 - **Note**: Avoid 100% targets - they're unrealistic per Cypress.io
 
 ## Error Handling
+
 - Error boundaries required
 - Loading/error/success states
 - Network error handling with cy.intercept()
 - Console error capture in tests
 
 ## Quick Debug Process (Cypress.io Aligned)
+
 1. **Ensure server is running on port 3002 FIRST**
 2. Check webpack output (BashOutput tool)
 3. Verify http://localhost:3002 responds
@@ -310,6 +363,7 @@ cy.getByDataCy('form').findByTestId('field');
 9. Verify dependencies (npm ls)
 
 ## React Native Pitfalls
+
 - Text must be in Text component
 - Images need explicit dimensions
 - No CSS strings in styles
@@ -317,6 +371,7 @@ cy.getByDataCy('form').findByTestId('field');
 - Use testID → converts to data-cy on web
 
 ## Git Workflow
+
 ```bash
 # Feature branches only (never main)
 git checkout -b feature/[name]
@@ -324,6 +379,7 @@ git commit -m "feat: description"  # conventional commits
 ```
 
 ## File Paths Reference
+
 - `/cypress/e2e/` - E2E tests
 - `/cypress/support/` - Custom commands
 - `/src/components/` - Components
@@ -332,13 +388,16 @@ git commit -m "feat: description"  # conventional commits
 - `/src/types/` - TypeScript types
 
 ## Testing Compliance Docs (Updated Hierarchy)
+
 **Primary References (in order)**:
+
 1. **[Cypress.io Official Best Practices](https://docs.cypress.io/guides/references/best-practices)** - Ultimate authority
 2. **`/cypress/CYPRESS-TESTING-STANDARDS.md`** - Project authority (v2.0.0)
 3. **`/cypress/docs/cypress-best-practices.md`** - Detailed guide
 4. **`/cypress/docs/ADVANCED-TESTING-STRATEGY.md`** - Advanced patterns
 
 **Implementation Tracking**:
+
 - `/cypress/support/TODO.md` - Improvements checklist
 - `/cypress/support/IMPLEMENTATION_PLAN.md` - Implementation details
 - `/cypress/support/COMPLIANCE_SUMMARY.md` - Current status
@@ -346,7 +405,9 @@ git commit -m "feat: description"  # conventional commits
 ## Test Results Management
 
 ### File Naming Convention
+
 All test result files MUST include timestamps for easy identification:
+
 ```
 test-results-YYYYMMDD-HHmmss-[type].md
 test-results-20250124-143022-component.md   # Component tests
@@ -356,6 +417,7 @@ test-results-20250124-143022-all.md         # All test types
 ```
 
 ### Directory Structure
+
 ```
 test-results/
 ├── latest/                                  # Always contains most recent results
@@ -370,13 +432,15 @@ test-results/
 ```
 
 ### Metadata Header (MANDATORY)
+
 Every test results file MUST start with:
+
 ```markdown
 ---
-timestamp: 2025-01-24T14:30:22Z    # ISO 8601 format
-type: component                     # component|e2e|unit|all
-runner: cypress                     # cypress|jest|vitest
-status: complete                    # complete|partial|failed
+timestamp: 2025-01-24T14:30:22Z # ISO 8601 format
+type: component # component|e2e|unit|all
+runner: cypress # cypress|jest|vitest
+status: complete # complete|partial|failed
 duration: 3m42s
 passed: 45
 failed: 3
@@ -387,7 +451,9 @@ previous: test-results-20250124-093015-component.md
 ```
 
 ### Quick Access Commands
+
 Add these to package.json scripts:
+
 ```json
 {
   "test:report": "npm run test:component && node scripts/generate-report.js",
@@ -398,17 +464,19 @@ Add these to package.json scripts:
 ```
 
 ### Generate Report Script Example
+
 ```javascript
 // scripts/generate-report.js
-const timestamp = new Date().toISOString()
-  .replace(/[:.]/g, '-')
-  .slice(0, 19);
-const filename = `test-results-${timestamp}-${process.env.TEST_TYPE || 'all'}.md`;
+const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
+const filename = `test-results-${timestamp}-${
+  process.env.TEST_TYPE || 'all'
+}.md`;
 // Generate report with metadata header
 // Copy to test-results/latest/test-results-latest.md
 ```
 
 ### Finding Latest Results
+
 1. **Quick Check**: `test-results/latest/test-results-latest.md`
 2. **By Type**: `test-results/latest/test-results-latest-[type].md`
 3. **Summary**: `test-results/latest/summary.json` (machine-readable)
@@ -416,12 +484,14 @@ const filename = `test-results-${timestamp}-${process.env.TEST_TYPE || 'all'}.md
 5. **Git**: `git log -1 --name-only | grep test-results`
 
 ### Retention Policy
+
 - **Latest**: Always kept in `test-results/latest/`
 - **30 days**: Keep in monthly folders (`YYYY-MM/`)
 - **Archive**: Move to `archive/` after 30 days
 - **CI/CD**: Tag with build number: `test-results-YYYYMMDD-HHmmss-build-123.md`
 
 ### Comparison Features
+
 ```bash
 # Compare with previous run
 npm run test:compare
@@ -434,6 +504,7 @@ npm run test:trend -- --days=7
 ```
 
 ### Integration with CI/CD
+
 ```yaml
 # .github/workflows/test.yml example
 - name: Run Tests with Timestamp
@@ -444,6 +515,7 @@ npm run test:trend -- --days=7
 ```
 
 ### Best Practices
+
 1. **Always use ISO 8601** timestamps for consistency
 2. **Include metadata headers** for searchability
 3. **Maintain latest symlinks** for quick access
@@ -453,4 +525,5 @@ npm run test:trend -- --days=7
 7. **Track trends** over time for quality metrics
 
 ---
+
 **After compacting: Re-read this file for context**
