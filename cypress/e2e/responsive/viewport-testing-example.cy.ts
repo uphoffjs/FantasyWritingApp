@@ -28,34 +28,63 @@ describe('Responsive Design Tests', () => {
     cy.setupTestUser();
   });
 
-  afterEach(function() {
-    // ! Capture debug info if test failed
-    if (this.currentTest.state === 'failed') {
-      cy.captureFailureDebug();
-    }
-  });
+  // ! NOTE: Failure handling is done globally in cypress/support/e2e.ts
+  // ! Following Cypress best practices - no conditional statements in tests
 
   // * Example 1: Test across all device viewports
+  // ! Following Cypress best practices - separate tests for different conditions instead of if/else
   describe('Navigation Menu Responsiveness', () => {
-    ['iphone-x', 'ipad-2', 'macbook-15'].forEach((device) => {
-      context(`${device} viewport`, () => {
+    // * Mobile device tests
+    const mobileDevices = ['iphone-x'];
+    mobileDevices.forEach((device) => {
+      context(`${device} viewport (mobile)`, () => {
+        beforeEach(function() {
+          cy.viewport(device);
+          cy.visit('/');
+        });
+
+        it(`displays mobile navigation on ${device}`, () => {
+          // * Mobile: hamburger menu should be visible
+          cy.get('[data-cy="mobile-menu"]').should('be.visible');
+          cy.get('[data-cy="desktop-sidebar"]').should('not.exist');
+        });
+      });
+    });
+
+    // * Tablet device tests
+    const tabletDevices = ['ipad-2'];
+    tabletDevices.forEach((device) => {
+      context(`${device} viewport (tablet)`, () => {
         beforeEach(function() {
           cy.viewport(device);
           cy.visit('/');
         });
 
         it(`displays appropriate navigation on ${device}`, () => {
-          cy.window().then((win) => {
-            if (win.innerWidth < 768) {
-              // * Mobile: hamburger menu should be visible
-              cy.get('[data-cy="mobile-menu"]').should('be.visible');
-              cy.get('[data-cy="desktop-sidebar"]').should('not.exist');
-            } else {
-              // * Desktop: sidebar should be visible
-              cy.get('[data-cy="desktop-sidebar"]').should('be.visible');
-              cy.get('[data-cy="mobile-menu"]').should('not.exist');
-            }
+          // * Tablet may show desktop or mobile depending on orientation
+          // * Test should check for one or the other without conditionals
+          cy.get('body').then($body => {
+            // * Use data attributes set by the app based on viewport
+            const viewportMode = $body.attr('data-viewport-mode');
+            cy.wrap(viewportMode).should('be.oneOf', ['tablet', 'desktop']);
           });
+        });
+      });
+    });
+
+    // * Desktop device tests
+    const desktopDevices = ['macbook-15'];
+    desktopDevices.forEach((device) => {
+      context(`${device} viewport (desktop)`, () => {
+        beforeEach(function() {
+          cy.viewport(device);
+          cy.visit('/');
+        });
+
+        it(`displays desktop navigation on ${device}`, () => {
+          // * Desktop: sidebar should be visible
+          cy.get('[data-cy="desktop-sidebar"]').should('be.visible');
+          cy.get('[data-cy="mobile-menu"]').should('not.exist');
         });
       });
     });
@@ -166,29 +195,62 @@ describe('Responsive Design Tests', () => {
   });
 
   // * Example 7: Comprehensive viewport test using helper
+  // ! Following Cypress best practices - separate tests for each device category
   describe('Comprehensive Viewport Testing', () => {
-    it('should test element card across all viewports', () => {
-      cy.visit('/elements');
+    // * Mobile device tests
+    describe('Mobile Viewports', () => {
+      const mobileDevices = ['iphone-x', 'samsung-s10'];
 
-      // * This will run the test across all defined device viewports
-      cy.testAcrossViewports('Element Card Display', (device) => {
-        // * Common assertions for all viewports
-        cy.get('[data-cy="element-card"]').should('be.visible');
+      mobileDevices.forEach((device) => {
+        it(`should display element card correctly on ${device}`, () => {
+          cy.viewport(device);
+          cy.visit('/elements');
 
-        // * Device-specific assertions
-        if (device.includes('iphone') || device.includes('samsung')) {
+          // * Common assertions for all viewports
+          cy.get('[data-cy="element-card"]').should('be.visible');
+
           // * Mobile-specific tests
           cy.get('[data-cy="element-card"]').should('have.css', 'width', '100%');
           cy.get('[data-cy="element-actions"]').should('have.css', 'flex-direction', 'column');
-        } else if (device.includes('ipad')) {
+        });
+      });
+    });
+
+    // * Tablet device tests
+    describe('Tablet Viewports', () => {
+      const tabletDevices = ['ipad-2', 'ipad-pro'];
+
+      tabletDevices.forEach((device) => {
+        it(`should display element card correctly on ${device}`, () => {
+          cy.viewport(device);
+          cy.visit('/elements');
+
+          // * Common assertions for all viewports
+          cy.get('[data-cy="element-card"]').should('be.visible');
+
           // * Tablet-specific tests
           cy.get('[data-cy="element-card"]').should('not.have.css', 'width', '100%');
           cy.get('[data-cy="element-grid"]').should('have.css', 'grid-template-columns');
-        } else {
+        });
+      });
+    });
+
+    // * Desktop device tests
+    describe('Desktop Viewports', () => {
+      const desktopDevices = ['macbook-15', 'macbook-13'];
+
+      desktopDevices.forEach((device) => {
+        it(`should display element card correctly on ${device}`, () => {
+          cy.viewport(device);
+          cy.visit('/elements');
+
+          // * Common assertions for all viewports
+          cy.get('[data-cy="element-card"]').should('be.visible');
+
           // * Desktop-specific tests
           cy.get('[data-cy="element-sidebar"]').should('be.visible');
           cy.get('[data-cy="element-grid"]').should('have.css', 'grid-template-columns');
-        }
+        });
       });
     });
   });

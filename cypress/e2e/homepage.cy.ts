@@ -4,13 +4,16 @@ import { selectors } from '../support/selectors';
 
 describe('Homepage', () => {
   beforeEach(() => {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
     // * Visit the application
     cy.visit('/');
   });
 
   it('should display the homepage', () => {
     // * Check that the main app container is visible
-    cy.get('#root').should('be.visible');
+    cy.get('[data-cy="app-root"]').should('be.visible');
     
     // * You can add more specific checks here once the app structure is known
     // * For example:
@@ -32,7 +35,7 @@ describe('Homepage', () => {
 
     viewports.forEach(([width, height]) => {
       cy.viewport(width, height);
-      cy.get('#root').should('be.visible');
+      cy.get('[data-cy="app-root"]').should('be.visible');
       // * Add more responsive checks here
     });
   });

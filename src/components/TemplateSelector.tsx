@@ -157,7 +157,7 @@ export function TemplateSelector({
             <TextInput
               style={styles.searchInput}
               placeholder="Search templates..."
-              testID="template-search-input" placeholderTextColor="#6B7280"
+              {...getTestProps('template-search-input')} placeholderTextColor="#6B7280"
               value={searchQuery}
               onChangeText={setSearchQuery}
             />

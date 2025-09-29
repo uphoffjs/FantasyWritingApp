@@ -176,7 +176,7 @@ export function EditProjectModal({
       animationType="slide"
       transparent={true}
       onRequestClose={handleClose}
-      testID="edit-project-modal"
+      {...getTestProps('edit-project-modal')}
     >
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -210,7 +210,7 @@ export function EditProjectModal({
                   placeholder="Enter project name"
                   error={errors.name}
                   autoFocus
-                  testID="edit-project-name-input"
+                  {...getTestProps('edit-project-name-input')}
                 />
 
                 {/* Description */}
@@ -227,7 +227,7 @@ export function EditProjectModal({
                   multiline
                   numberOfLines={4}
                   error={errors.description}
-                  testID="edit-project-description-input"
+                  {...getTestProps('edit-project-description-input')}
                 />
 
                 {/* Cover Image */}
@@ -236,7 +236,7 @@ export function EditProjectModal({
                   onChange={(imageUri) => setFormData({ ...formData, coverImage: imageUri })}
                   label="Cover Image"
                   placeholder="Change cover image"
-                  testID="edit-project-cover-image"
+                  {...getTestProps('edit-project-cover-image')}
                 />
 
                 {/* Genre Selection */}
@@ -339,7 +339,7 @@ export function EditProjectModal({
                     onPress={handleClose}
                     variant="secondary"
                     size="medium"
-                    testID="edit-project-cancel-button"
+                    {...getTestProps('edit-project-cancel-button')}
                   />
                   <Button
                     title={isSaving ? 'Saving...' : 'Save Changes'}
@@ -348,7 +348,7 @@ export function EditProjectModal({
                     size="medium"
                     loading={isSaving}
                     disabled={!formData.name.trim() || isSaving}
-                    testID="edit-project-save-button"
+                    {...getTestProps('edit-project-save-button')}
                   />
                 </View>
               </View>

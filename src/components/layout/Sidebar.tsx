@@ -22,6 +22,7 @@ import { NavigationProp } from '../../navigation/types';
 import { useTheme } from '../../providers/ThemeProvider';
 import { useWorldbuildingStore } from '../../store/worldbuildingStore';
 
+import { getTestProps } from '../utils/react-native-web-polyfills';
 interface SidebarProps {
   // * Control visibility for mobile/tablet
   isVisible?: boolean;
@@ -192,7 +193,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         key={item.id}
         style={[styles.menuItem, isActive && styles.menuItemActive]}
         onPress={() => handleNavigation(item.route, item.action)}
-        testID={`sidebar-menu-item-${item.id}`}
+        {...getTestProps(`sidebar-menu-item-${item.id}`}
       >
         <Text style={[styles.menuIcon, isActive && styles.menuIconActive]}>{item.icon}</Text>
         <Text style={[styles.menuLabel, isActive && styles.menuLabelActive]}>{item.label}</Text>
@@ -227,7 +228,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         <Pressable
           style={styles.sectionHeader}
           onPress={() => toggleSection(sectionId)}
-          testID={`sidebar-section-${sectionId}`}
+          {...getTestProps(`sidebar-section-${sectionId)}`}
         >
           <Text style={styles.sectionTitle}>{title}</Text>
           <Animated.Text 
@@ -268,7 +269,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       <View style={styles.header}>
         <Text style={styles.headerTitle}>✨ Fantasy Writer</Text>
         {deviceType !== 'desktop' && (
-          <TouchableOpacity onPress={onClose} testID="sidebar-close-button">
+          <TouchableOpacity onPress={onClose} {...getTestProps('sidebar-close-button')}>
             <Text style={styles.closeIcon}>✕</Text>
           </TouchableOpacity>
         )}
@@ -315,11 +316,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
         <Pressable 
           style={styles.overlay} 
           onPress={onClose}
-          testID="sidebar-overlay"
+          {...getTestProps('sidebar-overlay')}
         />
         <Animated.View 
           style={[styles.mobileDrawer, { transform: [{ translateX: slideAnimation }] }]}
-          testID="sidebar-mobile-drawer"
+          {...getTestProps('sidebar-mobile-drawer')}
         >
           {sidebarContent}
         </Animated.View>
@@ -335,13 +336,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
           styles.tabletSidebar,
           { width: isVisible ? 280 : 60, opacity: isVisible ? 1 : 0.9 }
         ]}
-        testID="sidebar-tablet"
+        {...getTestProps('sidebar-tablet')}
       >
         {isVisible ? sidebarContent : (
           <TouchableOpacity 
             style={styles.collapsedToggle}
             onPress={() => onClose && onClose()}
-            testID="sidebar-expand-button"
+            {...getTestProps('sidebar-expand-button')}
           >
             <Text style={styles.hamburgerIcon}>☰</Text>
           </TouchableOpacity>
@@ -352,7 +353,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   // * Desktop: Render as fixed sidebar
   return (
-    <View style={styles.desktopSidebar} testID="sidebar-desktop">
+    <View style={styles.desktopSidebar} {...getTestProps('sidebar-desktop')}>
       {sidebarContent}
     </View>
   );

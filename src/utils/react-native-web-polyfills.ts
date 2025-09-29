@@ -41,12 +41,11 @@ export function initializePolyfills() {
   }
 }
 
-// * Helper to ensure testID attributes are properly converted to data-testid for web
+// * Helper to ensure testID attributes are properly converted to data-cy for web (Cypress best practice)
 export function getTestProps(testId: string, isWeb = Platform.OS === 'web') {
   if (isWeb) {
     return {
-      'data-testid': testId,
-      'data-cy': testId, // Also add data-cy for backward compatibility
+      'data-cy': testId, // * Use data-cy exclusively for Cypress best practices compliance
     };
   }
   return {

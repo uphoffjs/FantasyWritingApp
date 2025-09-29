@@ -25,6 +25,7 @@ import { useSupabaseSync } from '../hooks/useSupabaseSync';
 import { useWorldbuildingStore } from '../store/worldbuildingStore';
 import { ContentReveal } from './animations/ContentReveal';
 
+import { getTestProps } from '../utils/react-native-web-polyfills';
 // * Types for sync queue items
 export interface SyncQueueItem {
   id: string;
@@ -262,12 +263,12 @@ export const SyncQueueStatus: React.FC<SyncQueueStatusProps> = ({
           },
           position === 'floating' && styles.floating,
         ]}
-        testID={testID}
+        {...getTestProps(testID)}
       >
         <TouchableOpacity
           onPress={() => setIsExpanded(!isExpanded)}
           style={styles.compactContent}
-          testID={`${testID}-toggle`}
+          {...getTestProps(`${testID}-toggle`)}
         >
           <View style={styles.statusIndicator}>
             {isSyncing ? (
@@ -287,7 +288,7 @@ export const SyncQueueStatus: React.FC<SyncQueueStatusProps> = ({
 
           <Text
             style={[styles.statusText, { color: theme.colors.text.primary }]}
-            testID={`${testID}-status-text`}
+            {...getTestProps(`${testID}-status-text`)}
           >
             {getStatusText()}
           </Text>
@@ -296,7 +297,7 @@ export const SyncQueueStatus: React.FC<SyncQueueStatusProps> = ({
             <TouchableOpacity
               onPress={handleSync}
               style={[styles.syncButton, { backgroundColor: theme.colors.primary.DEFAULT }]}
-              testID={`${testID}-sync-button`}
+              {...getTestProps(`${testID}-sync-button`)}
             >
               <Text style={styles.syncButtonText}>Sync</Text>
             </TouchableOpacity>
@@ -318,7 +319,7 @@ export const SyncQueueStatus: React.FC<SyncQueueStatusProps> = ({
           },
           position === 'floating' && styles.floating,
         ]}
-        testID={testID}
+        {...getTestProps(testID)}
       >
         {/* Header */}
         <View style={[styles.header, { borderBottomColor: theme.colors.primary.borderLight }]}>
@@ -340,7 +341,7 @@ export const SyncQueueStatus: React.FC<SyncQueueStatusProps> = ({
               <TouchableOpacity
                 onPress={handleSync}
                 style={[styles.syncButton, { backgroundColor: theme.colors.primary.DEFAULT }]}
-                testID={`${testID}-sync-button`}
+                {...getTestProps(`${testID}-sync-button`)}
               >
                 <Text style={styles.syncButtonText}>Sync Now</Text>
               </TouchableOpacity>
@@ -350,7 +351,7 @@ export const SyncQueueStatus: React.FC<SyncQueueStatusProps> = ({
               <ActivityIndicator
                 size="small"
                 color={theme.colors.primary.DEFAULT}
-                testID={`${testID}-spinner`}
+                {...getTestProps(`${testID}-spinner`)}
               />
             )}
           </View>
@@ -362,7 +363,7 @@ export const SyncQueueStatus: React.FC<SyncQueueStatusProps> = ({
             <Text style={[styles.errorText, { color: theme.colors.semantic.danger }]}>
               {syncError}
             </Text>
-            <TouchableOpacity onPress={handleSync} testID={`${testID}-retry`}>
+            <TouchableOpacity onPress={handleSync} {...getTestProps(`${testID}-retry`)}>
               <Text style={[styles.retryText, { color: theme.colors.semantic.danger }]}>
                 Retry
               </Text>
@@ -384,7 +385,7 @@ export const SyncQueueStatus: React.FC<SyncQueueStatusProps> = ({
                   setShowConflictModal(true);
                 }}
                 style={styles.conflictItem}
-                testID={`${testID}-conflict-${conflict.id}`}
+                {...getTestProps(`${testID}-conflict-${conflict.id}`)}
               >
                 <Text style={[styles.conflictName, { color: theme.colors.text.primary }]}>
                   {conflict.entityName}
@@ -404,7 +405,7 @@ export const SyncQueueStatus: React.FC<SyncQueueStatusProps> = ({
               <View
                 key={item.id}
                 style={[styles.queueItem, { borderBottomColor: theme.colors.primary.borderLight }]}
-                testID={`${testID}-queue-item-${item.id}`}
+                {...getTestProps(`${testID}-queue-item-${item.id}`)}
               >
                 <View style={styles.queueItemLeft}>
                   <Text style={[styles.queueItemName, { color: theme.colors.text.primary }]}>
@@ -456,7 +457,7 @@ export const SyncQueueStatus: React.FC<SyncQueueStatusProps> = ({
                   <TouchableOpacity
                     onPress={() => handleResolveConflict(selectedConflict, 'local')}
                     style={[styles.modalButton, { backgroundColor: theme.colors.accent.vitality }]}
-                    testID={`${testID}-keep-local`}
+                    {...getTestProps(`${testID}-keep-local`)}
                   >
                     <Text style={styles.modalButtonText}>Keep Local</Text>
                   </TouchableOpacity>
@@ -464,7 +465,7 @@ export const SyncQueueStatus: React.FC<SyncQueueStatusProps> = ({
                   <TouchableOpacity
                     onPress={() => handleResolveConflict(selectedConflict, 'remote')}
                     style={[styles.modalButton, { backgroundColor: theme.colors.accent.swiftness }]}
-                    testID={`${testID}-keep-remote`}
+                    {...getTestProps(`${testID}-keep-remote`)}
                   >
                     <Text style={styles.modalButtonText}>Keep Remote</Text>
                   </TouchableOpacity>
@@ -472,7 +473,7 @@ export const SyncQueueStatus: React.FC<SyncQueueStatusProps> = ({
                   <TouchableOpacity
                     onPress={() => setShowConflictModal(false)}
                     style={[styles.modalButton, { backgroundColor: theme.colors.text.secondary }]}
-                    testID={`${testID}-cancel`}
+                    {...getTestProps(`${testID}-cancel`)}
                   >
                     <Text style={styles.modalButtonText}>Cancel</Text>
                   </TouchableOpacity>

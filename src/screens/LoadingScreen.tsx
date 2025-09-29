@@ -10,6 +10,7 @@ import { View, StyleSheet } from 'react-native';
 import { LoadingIndicator } from '../components/loading/LoadingIndicator';
 import { useTheme } from '../providers/ThemeProvider';
 
+import { getTestProps } from '../utils/react-native-web-polyfills';
 // * Helper to safely use theme context
 // * Returns null if not within a ThemeProvider
 const useOptionalTheme = () => {
@@ -47,7 +48,7 @@ export function LoadingScreen({
         message={message}
         progress={progress}
         fullscreen={false}
-        testID="loading-screen"
+        {...getTestProps('loading-screen')}
         accessibilityLabel="Loading application"
       />
     </View>

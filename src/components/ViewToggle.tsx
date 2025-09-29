@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { useTheme } from '../providers/ThemeProvider';
 
+import { getTestProps } from '../utils/react-native-web-polyfills';
 type ViewMode = 'grid' | 'list';
 
 interface ViewToggleProps {
@@ -58,7 +59,7 @@ export const ViewToggle = React.memo(function ViewToggle({
   }[size];
   
   return (
-    <View style={styles.container} testID={testID}>
+    <View style={styles.container} {...getTestProps(testID)}>
       {/* * Sliding indicator for active state */}
       <Animated.View 
         style={[
@@ -67,7 +68,7 @@ export const ViewToggle = React.memo(function ViewToggle({
             transform: [{ translateX: indicatorTranslateX }],
           },
         ]}
-        testID={`${testID}-indicator`}
+        {...getTestProps(`${testID}-indicator`)}
       />
       
       {/* * Grid view button */}
@@ -77,7 +78,7 @@ export const ViewToggle = React.memo(function ViewToggle({
           styles.button,
           pressed && styles.buttonPressed,
         ]}
-        testID={`${testID}-grid`}
+        {...getTestProps(`${testID}-grid`)}
         accessibilityRole="button"
         accessibilityLabel="Grid view"
         accessibilityState={{ selected: currentView === 'grid' }}
@@ -89,7 +90,7 @@ export const ViewToggle = React.memo(function ViewToggle({
             { fontSize: iconSize },
             currentView === 'grid' && styles.iconActive,
           ]}
-          testID={`${testID}-grid-icon`}
+          {...getTestProps(`${testID}-grid-icon`)}
         >
           ⊞
         </Text>
@@ -99,7 +100,7 @@ export const ViewToggle = React.memo(function ViewToggle({
               styles.label,
               currentView === 'grid' && styles.labelActive,
             ]}
-            testID={`${testID}-grid-label`}
+            {...getTestProps(`${testID}-grid-label`)}
           >
             Grid
           </Text>
@@ -113,7 +114,7 @@ export const ViewToggle = React.memo(function ViewToggle({
           styles.button,
           pressed && styles.buttonPressed,
         ]}
-        testID={`${testID}-list`}
+        {...getTestProps(`${testID}-list`)}
         accessibilityRole="button"
         accessibilityLabel="List view"
         accessibilityState={{ selected: currentView === 'list' }}
@@ -125,7 +126,7 @@ export const ViewToggle = React.memo(function ViewToggle({
             { fontSize: iconSize },
             currentView === 'list' && styles.iconActive,
           ]}
-          testID={`${testID}-list-icon`}
+          {...getTestProps(`${testID}-list-icon`)}
         >
           ☰
         </Text>
@@ -135,7 +136,7 @@ export const ViewToggle = React.memo(function ViewToggle({
               styles.label,
               currentView === 'list' && styles.labelActive,
             ]}
-            testID={`${testID}-list-label`}
+            {...getTestProps(`${testID}-list-label`)}
           >
             List
           </Text>

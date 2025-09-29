@@ -17,6 +17,7 @@ import {
 import { useTheme } from '../../providers/ThemeProvider';
 import { SkeletonCard } from './SkeletonCard';
 
+import { getTestProps } from '../utils/react-native-web-polyfills';
 interface SkeletonListProps {
   // * Number of skeleton items to render
   count?: number;
@@ -86,7 +87,7 @@ export const SkeletonList: React.FC<SkeletonListProps> = ({
           <SkeletonCard
             variant={variant}
             animated={true}
-            testID={`${testID}-item-${i}`}
+            {...getTestProps(`${testID}-item-${i}`)}
             style={{
               // * Add animation delay for staggered effect
               animationDelay: `${animationDelay}ms`,
@@ -106,7 +107,7 @@ export const SkeletonList: React.FC<SkeletonListProps> = ({
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={[styles.horizontalContainer, style]}
-        testID={testID}
+        {...getTestProps(testID)}
       >
         {renderSkeletonItems()}
       </ScrollView>
@@ -121,7 +122,7 @@ export const SkeletonList: React.FC<SkeletonListProps> = ({
         direction === 'grid' && styles.gridContainer,
         style,
       ]}
-      testID={testID}
+      {...getTestProps(testID)}
     >
       {renderSkeletonItems()}
     </View>
@@ -189,13 +190,13 @@ export const ContentLoader: React.FC<ContentLoaderProps> = ({
     return (
       <SkeletonList 
         {...skeleton}
-        testID={`${testID}-skeleton`}
+        {...getTestProps(`${testID}-skeleton`)}
       />
     );
   }
   
   return (
-    <View testID={`${testID}-content`}>
+    <View {...getTestProps(`${testID}-content`)}>
       {children}
     </View>
   );

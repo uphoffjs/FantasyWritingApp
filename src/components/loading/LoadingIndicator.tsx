@@ -19,6 +19,7 @@ import {
 } from 'react-native';
 import { useTheme } from '../../providers/ThemeProvider';
 
+import { getTestProps } from '../utils/react-native-web-polyfills';
 // * Helper to safely use theme context
 // * Returns null if not within a ThemeProvider
 const useOptionalTheme = () => {
@@ -206,14 +207,14 @@ export const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({
     <ActivityIndicator
       size={size === 'xlarge' ? 'large' : size}
       color={indicatorColor}
-      testID={`${testID}-spinner`}
+      {...getTestProps(`${testID}-spinner`)}
       accessibilityLabel={accessibilityLabel}
     />
   );
   
   // * Render animated dots variant
   const renderDots = () => (
-    <View style={styles.dotsContainer} testID={`${testID}-dots`}>
+    <View style={styles.dotsContainer} {...getTestProps(`${testID}-dots`)}>
       {dotsAnim.map((anim, index) => (
         <Animated.View
           key={`dot-${index}`}
@@ -231,7 +232,7 @@ export const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({
               ],
             },
           ]}
-          testID={`${testID}-dot-${index}`}
+          {...getTestProps(`${testID}-dot-${index}`)}
         />
       ))}
     </View>
@@ -241,7 +242,7 @@ export const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({
   const renderBar = () => {
     const progressValue = progress || 0;
     return (
-      <View style={styles.barContainer} testID={`${testID}-bar`}>
+      <View style={styles.barContainer} {...getTestProps(`${testID}-bar`)}>
         <View style={styles.barBackground}>
           <Animated.View
             style={[
@@ -250,11 +251,11 @@ export const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({
                 width: `${Math.min(100, progressValue * 100)}%`,
               },
             ]}
-            testID={`${testID}-bar-fill`}
+            {...getTestProps(`${testID}-bar-fill`)}
           />
         </View>
         {progress !== undefined && (
-          <Text style={styles.progressText} testID={`${testID}-progress-text`}>
+          <Text style={styles.progressText} {...getTestProps(`${testID}-progress-text`)}>
             {Math.round(progressValue * 100)}%
           </Text>
         )}
@@ -277,7 +278,7 @@ export const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({
             transform: [{ rotate: rotation }],
           },
         ]}
-        testID={`${testID}-ring`}
+        {...getTestProps(`${testID}-ring`)}
       >
         <View style={styles.ring}>
           <View style={styles.ringInner} />
@@ -312,7 +313,7 @@ export const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({
           transform: [{ scale: scaleAnim }],
         },
       ]}
-      testID={testID}
+      {...getTestProps(testID)}
       accessible={true}
       accessibilityRole="progressbar"
       accessibilityLabel={accessibilityLabel}
@@ -329,7 +330,7 @@ export const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({
               opacity: fadeAnim,
             },
           ]}
-          testID={`${testID}-message`}
+          {...getTestProps(`${testID}-message`)}
         >
           {message}
         </Animated.Text>
@@ -340,7 +341,7 @@ export const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({
   // * Render with overlay if fullscreen
   if (fullscreen || variant === 'overlay') {
     return (
-      <View style={styles.overlay} testID={`${testID}-overlay`}>
+      <View style={styles.overlay} {...getTestProps(`${testID}-overlay`)}>
         {content}
       </View>
     );

@@ -31,11 +31,9 @@ describe('Performance Monitoring Examples', () => {
     cy.visit('/elements');
   });
 
-  afterEach(function() {
-    // ! Capture debug info if test failed
-    if (this.currentTest.state === 'failed') {
-      cy.captureFailureDebug();
-    }
+  afterEach(() => {
+    // ! NOTE: Failure handling is done globally in cypress/support/e2e.ts
+    // ! Following Cypress best practices - no conditional statements in tests
 
     // * Generate performance report at end of each test
     cy.generatePerformanceReport();
@@ -120,7 +118,10 @@ describe('Performance Monitoring Examples', () => {
       cy.trackRerenders('[data-cy="element-list"]', () => {
         // * Type in search field to trigger re-renders
         cy.get('[data-cy="search-input"]').type('character');
-        cy.wait(500); // Wait for debounced search
+        // ! Following Cypress best practices - wait for specific conditions instead of arbitrary time
+        // * Wait for search results to update (debounced search completion)
+        cy.get('[data-cy="search-results"]').should('be.visible');
+        cy.get('[data-cy="element-list"]').should('contain', 'character');
       }).then((rerenderCount) => {
         // * Assert reasonable re-render count
         expect(rerenderCount).to.be.lessThan(5);

@@ -19,6 +19,7 @@ import {
 } from 'react-native';
 import { useTheme } from '../../providers/ThemeProvider';
 
+import { getTestProps } from '../utils/react-native-web-polyfills';
 // * Breakpoint constants for responsive layout
 const BREAKPOINTS = {
   mobile: 768,
@@ -97,13 +98,13 @@ export const AppShell: React.FC<AppShellProps> = ({
   // * Mobile Layout - Single column with bottom navigation
   if (deviceType === 'mobile') {
     return (
-      <View style={styles.container} testID="app-shell-mobile">
+      <View style={styles.container} {...getTestProps('app-shell-mobile')}>
         {/* Mobile Header */}
-        <View style={styles.mobileHeader} testID="mobile-header">
+        <View style={styles.mobileHeader} {...getTestProps('mobile-header')}>
           <TouchableOpacity
             onPress={onSidebarToggle}
             style={styles.menuButton}
-            testID="mobile-menu-button"
+            {...getTestProps('mobile-menu-button')}
             accessibilityLabel="Toggle menu"
             accessibilityRole="button"
           >
@@ -114,7 +115,7 @@ export const AppShell: React.FC<AppShellProps> = ({
             <TouchableOpacity
               onPress={onInspectorToggle}
               style={styles.menuButton}
-              testID="mobile-inspector-button"
+              {...getTestProps('mobile-inspector-button')}
               accessibilityLabel="Toggle inspector"
               accessibilityRole="button"
             >
@@ -125,13 +126,13 @@ export const AppShell: React.FC<AppShellProps> = ({
 
         {/* Mobile Sidebar Overlay */}
         {sidebarVisible && (
-          <View style={styles.mobileOverlay} testID="mobile-sidebar-overlay">
+          <View style={styles.mobileOverlay} {...getTestProps('mobile-sidebar-overlay')}>
             <TouchableOpacity
               style={styles.overlayBackground}
               onPress={onSidebarToggle}
               activeOpacity={1}
             />
-            <View style={styles.mobileSidebar} testID="mobile-sidebar">
+            <View style={styles.mobileSidebar} {...getTestProps('mobile-sidebar')}>
               <ScrollView>{sidebar}</ScrollView>
             </View>
           </View>
@@ -139,26 +140,26 @@ export const AppShell: React.FC<AppShellProps> = ({
 
         {/* Mobile Inspector Overlay */}
         {inspectorVisible && inspector && (
-          <View style={styles.mobileOverlay} testID="mobile-inspector-overlay">
+          <View style={styles.mobileOverlay} {...getTestProps('mobile-inspector-overlay')}>
             <TouchableOpacity
               style={styles.overlayBackground}
               onPress={onInspectorToggle}
               activeOpacity={1}
             />
-            <View style={styles.mobileInspector} testID="mobile-inspector">
+            <View style={styles.mobileInspector} {...getTestProps('mobile-inspector')}>
               <ScrollView>{inspector}</ScrollView>
             </View>
           </View>
         )}
 
         {/* Main Content */}
-        <View style={styles.mobileContent} testID="mobile-content">
+        <View style={styles.mobileContent} {...getTestProps('mobile-content')}>
           {children}
         </View>
 
         {/* Bottom Navigation */}
         {bottomNav && (
-          <View style={styles.bottomNav} testID="mobile-bottom-nav">
+          <View style={styles.bottomNav} {...getTestProps('mobile-bottom-nav')}>
             {bottomNav}
           </View>
         )}
@@ -169,10 +170,10 @@ export const AppShell: React.FC<AppShellProps> = ({
   // * Tablet Layout - 2-column with collapsible sidebar
   if (deviceType === 'tablet') {
     return (
-      <View style={styles.container} testID="app-shell-tablet">
+      <View style={styles.container} {...getTestProps('app-shell-tablet')}>
         {/* Tablet Header */}
         {header && (
-          <View style={styles.header} testID="tablet-header">
+          <View style={styles.header} {...getTestProps('tablet-header')}>
             {header}
           </View>
         )}
@@ -185,7 +186,7 @@ export const AppShell: React.FC<AppShellProps> = ({
                 styles.tabletSidebar,
                 { transform: [{ translateX: sidebarAnimation }] },
               ]}
-              testID="tablet-sidebar"
+              {...getTestProps('tablet-sidebar')}
             >
               <ScrollView>{sidebar}</ScrollView>
             </Animated.View>
@@ -197,14 +198,14 @@ export const AppShell: React.FC<AppShellProps> = ({
               styles.tabletContent,
               !sidebarVisible && styles.tabletContentExpanded,
             ]}
-            testID="tablet-content"
+            {...getTestProps('tablet-content')}
           >
             {/* Sidebar Toggle Button */}
             {!sidebarVisible && (
               <TouchableOpacity
                 onPress={onSidebarToggle}
                 style={styles.sidebarToggle}
-                testID="tablet-sidebar-toggle"
+                {...getTestProps('tablet-sidebar-toggle')}
                 accessibilityLabel="Show sidebar"
                 accessibilityRole="button"
               >
@@ -221,10 +222,10 @@ export const AppShell: React.FC<AppShellProps> = ({
 
   // * Desktop Layout - 3-column layout
   return (
-    <View style={styles.container} testID="app-shell-desktop">
+    <View style={styles.container} {...getTestProps('app-shell-desktop')}>
       {/* Desktop Header */}
       {header && (
-        <View style={styles.header} testID="desktop-header">
+        <View style={styles.header} {...getTestProps('desktop-header')}>
           {header}
         </View>
       )}
@@ -232,19 +233,19 @@ export const AppShell: React.FC<AppShellProps> = ({
       <View style={styles.desktopLayout}>
         {/* Sidebar */}
         {sidebar && (
-          <View style={styles.desktopSidebar} testID="desktop-sidebar">
+          <View style={styles.desktopSidebar} {...getTestProps('desktop-sidebar')}>
             <ScrollView>{sidebar}</ScrollView>
           </View>
         )}
 
         {/* Main Content Area */}
-        <View style={styles.desktopContent} testID="desktop-content">
+        <View style={styles.desktopContent} {...getTestProps('desktop-content')}>
           {children}
         </View>
 
         {/* Inspector Panel */}
         {inspector && (
-          <View style={styles.desktopInspector} testID="desktop-inspector">
+          <View style={styles.desktopInspector} {...getTestProps('desktop-inspector')}>
             <ScrollView>{inspector}</ScrollView>
           </View>
         )}

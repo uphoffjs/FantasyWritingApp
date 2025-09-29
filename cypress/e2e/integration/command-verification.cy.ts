@@ -1,8 +1,13 @@
 /// <reference types="cypress" />
 
-import { setupAuth, clearAuth } from '../../support/test-helpers'
 
 describe('Verify Custom Commands Work', () => {
+  beforeEach(() => {
+    // * Using cy.session() for authentication caching
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+  });
+
   it('should verify clearLocalStorage command works', () => {
     // * Set some data in localStorage
     cy.window().then((win) => {
@@ -23,7 +28,7 @@ describe('Verify Custom Commands Work', () => {
     cy.clearLocalStorage()
     
     // ! SECURITY: * Call setupAuth
-    setupAuth()
+    cy.apiLogin('test@example.com', 'testpassword123')
     
     // ! SECURITY: * Verify auth data was set
     cy.window().then((win) => {
@@ -55,13 +60,7 @@ describe('Verify Custom Commands Work', () => {
     cy.clearLocalStorage()
     
     // ! SECURITY: * Call setupAuth with custom data
-    setupAuth({
-      user: {
-        email: 'admin@example.com',
-        name: 'Admin User',
-        role: 'admin'
-      }
-    })
+    cy.apiLogin('test@example.com', 'testpassword123')
     
     // * Verify custom data was set
     cy.window().then((win) => {
@@ -76,7 +75,7 @@ describe('Verify Custom Commands Work', () => {
 
   it('should verify clearAuth function works', () => {
     // ! SECURITY: * Set up auth first
-    setupAuth()
+    cy.apiLogin('test@example.com', 'testpassword123')
     
     // ! SECURITY: * Verify auth is set
     cy.window().then((win) => {
@@ -108,7 +107,8 @@ describe('Verify Custom Commands Work', () => {
     })
     
     // * Call setupTestEnvironment
-    cy.setupTestEnvironment()
+    // * Use session-based API login for faster authentication
+    cy.apiLogin('test@example.com', 'testpassword123')
     
     // * Verify localStorage was cleared and offline mode set
     cy.window().then((win) => {
@@ -123,7 +123,7 @@ describe('Verify Custom Commands Work', () => {
 
   it('should verify story-specific storage keys work', () => {
     // ! SECURITY: * Setup auth
-    setupAuth()
+    cy.apiLogin('test@example.com', 'testpassword123')
     
     // * Verify writing app specific keys are used
     cy.window().then((win) => {

@@ -9,6 +9,7 @@ import React, { useEffect, useRef, memo } from 'react';
 import { View, Text, StyleSheet, Animated, TouchableOpacity, Platform } from 'react-native';
 import { useTheme } from '../providers/ThemeProvider';
 
+import { getTestProps } from '../utils/react-native-web-polyfills';
 interface StatsCardProps {
   // * Main metric value
   value: number | string;
@@ -160,18 +161,18 @@ export const StatsCard: React.FC<StatsCardProps> = memo(({
       {/* Icon and Label Row */}
       <View style={styles.headerRow}>
         {icon && (
-          <Text style={styles.icon} testID={`${testID}-icon`}>
+          <Text style={styles.icon} {...getTestProps(`${testID}-icon`)}>
             {icon}
           </Text>
         )}
-        <Text style={styles.label} testID={`${testID}-label`}>
+        <Text style={styles.label} {...getTestProps(`${testID}-label`)}>
           {label}
         </Text>
       </View>
       
       {/* Value Row */}
       <View style={styles.valueRow}>
-        <Text style={styles.value} testID={`${testID}-value`}>
+        <Text style={styles.value} {...getTestProps(`${testID}-value`)}>
           {animated && typeof value === 'number' ? (
             <AnimatedNumber value={animatedValue} />
           ) : (
@@ -184,11 +185,11 @@ export const StatsCard: React.FC<StatsCardProps> = memo(({
       {/* Trend Row */}
       {trendInfo && (
         <View style={styles.trendRow}>
-          <Text style={[styles.trendIcon, { color: trendInfo.color }]} testID={`${testID}-trend-icon`}>
+          <Text style={[styles.trendIcon, { color: trendInfo.color }]} {...getTestProps(`${testID}-trend-icon`)}>
             {trendInfo.icon}
           </Text>
           {showTrendPercentage && trendData && trendData.percentage !== 0 && (
-            <Text style={[styles.trendPercentage, { color: trendInfo.color }]} testID={`${testID}-trend-percentage`}>
+            <Text style={[styles.trendPercentage, { color: trendInfo.color }]} {...getTestProps(`${testID}-trend-percentage`)}>
               {trendData.percentage.toFixed(1)}%
             </Text>
           )}
@@ -204,7 +205,7 @@ export const StatsCard: React.FC<StatsCardProps> = memo(({
         onPressIn={handlePressIn}
         onPressOut={handlePressOut}
         activeOpacity={0.8}
-        testID={testID}
+        {...getTestProps(testID)}
       >
         <Animated.View style={[styles.container, { transform: [{ scale: scaleValue }] }]}>
           <CardContent />
@@ -214,7 +215,7 @@ export const StatsCard: React.FC<StatsCardProps> = memo(({
   }
   
   return (
-    <View style={styles.container} testID={testID}>
+    <View style={styles.container} {...getTestProps(testID)}>
       <CardContent />
     </View>
   );

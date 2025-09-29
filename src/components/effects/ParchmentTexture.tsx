@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import { useTheme } from '../../providers/ThemeProvider';
 
+import { getTestProps } from '../utils/react-native-web-polyfills';
 interface ParchmentTextureProps {
   children: React.ReactNode;
   opacity?: number; // * Default: 0.05 (5% opacity for subtle effect)
@@ -44,7 +45,7 @@ export const ParchmentTexture: React.FC<ParchmentTextureProps> = ({
             backgroundColor: theme.colors.surface.background,
           }
         ]}
-        testID={testID}
+        {...getTestProps(testID)}
       >
         {/* * First texture layer - diagonal pattern effect */}
         <View
@@ -104,7 +105,7 @@ export const ParchmentTexture: React.FC<ParchmentTextureProps> = ({
           backgroundColor: theme.colors.surface.background,
         }
       ]}
-      testID={testID}
+      {...getTestProps(testID)}
     >
       {/* * Subtle texture overlay using semi-transparent view */}
       <View 
@@ -164,7 +165,7 @@ export const BackgroundWithTexture: React.FC<BackgroundWithTextureProps> = ({
         },
         style,
       ]}
-      testID={testID}
+      {...getTestProps(testID)}
       {...props}
     >
       {children}

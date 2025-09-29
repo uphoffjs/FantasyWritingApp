@@ -164,7 +164,7 @@ export const ElementCard = memo(function ElementCard({
             size="small"
             showPercentage={true}
             colorPreset={getProgressColorPreset()}
-            testID="element-card-progress"
+            {...getTestProps('element-card-progress')}
           />
         </View>
       </View>

@@ -55,10 +55,16 @@ before(() => {
   cy.clearCookies();
 });
 
-// * Clean up after each test
-afterEach(() => {
+// * Handle test failures globally without conditional statements
+// ! IMPORTANT: Using Cypress events instead of if/else per best practices
+Cypress.on('fail', (error, runnable) => {
+  // * Capture failure debug information
+  cy.captureFailureDebug?.();
+
   // * Take a screenshot on failure
-  if (Cypress.currentTest.state === 'failed') {
-    cy.screenshot(`failed-${Cypress.currentTest.title}`);
-  }
+  const testTitle = runnable.title || 'unknown-test';
+  cy.screenshot(`failed-${testTitle}`, { capture: 'runner' });
+
+  // Re-throw the error to fail the test
+  throw error;
 });

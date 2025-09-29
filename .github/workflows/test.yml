@@ -10,8 +10,10 @@ on:
     types: [opened, synchronize, reopened]
 
 env:
-  NODE_VERSION: '18'
+  NODE_VERSION: '20'  # * Updated to match package.json engine requirement
   CYPRESS_CACHE_FOLDER: ~/.cache/Cypress
+  # ! CRITICAL: Cypress best practice - always set baseUrl via env var as backup
+  CYPRESS_BASE_URL: 'http://localhost:3002'
 
 jobs:
   # Job 1: Lint and Type Check
@@ -36,14 +38,26 @@ jobs:
         run: npm run lint
         continue-on-error: false
 
+      # ! Cypress-specific linting to enforce best practices
+      - name: Run Cypress ESLint rules
+        run: |
+          if [ -f ".eslintrc.cypress.js" ]; then
+            npm run lint:cypress || echo "Note: Install eslint-plugin-cypress for full linting"
+          fi
+        continue-on-error: true
+
       - name: Run TypeScript type checking
         run: npx tsc --noEmit
         continue-on-error: false
 
       - name: Check for console.log statements
         run: |
-          if grep -r "console.log" --include="*.ts" --include="*.tsx" --exclude-dir=node_modules --exclude-dir=dist src/; then
-            echo "Found console.log statements. Please remove them."
+          # ! Skip console.log check in test files and Cypress files
+          if grep -r "console.log" --include="*.ts" --include="*.tsx" \
+            --exclude-dir=node_modules --exclude-dir=dist \
+            --exclude-dir=cypress --exclude-dir=__tests__ \
+            --exclude="*.test.*" --exclude="*.spec.*" src/; then
+            echo "Found console.log statements in source code. Please remove them."
             exit 1
           fi
 
@@ -118,13 +132,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build application
-        run: npm run build
-        env:
-          VITE_API_URL: ${{ secrets.VITE_API_URL }}
-          VITE_ENVIRONMENT: test
-
-      - name: Run E2E tests
+      # ! Following Cypress best practice - npm run test:e2e already handles server startup
+      # * The test:e2e script uses start-server-and-test to manage server lifecycle
+      - name: Run E2E tests with managed server
         run: npm run test:e2e
         timeout-minutes: 20
         env:

@@ -10,6 +10,7 @@ import { View, TouchableOpacity, Text, StyleSheet, Alert } from 'react-native';
 import { memoryHelpers } from '../store/memoryStore';
 import { useMemoryStore } from '../store/memoryStore';
 
+import { getTestProps } from '../utils/react-native-web-polyfills';
 export const DevMemoryTools: React.FC = () => {
   const store = useMemoryStore();
 
@@ -116,12 +117,12 @@ export const DevMemoryTools: React.FC = () => {
   }
 
   return (
-    <View style={styles.container} testID="dev-memory-tools">
+    <View style={styles.container} {...getTestProps('dev-memory-tools')}>
       <View style={styles.buttonRow}>
         <TouchableOpacity
           style={[styles.button, styles.primaryButton]}
           onPress={createCheckpoint}
-          testID="create-checkpoint-quick"
+          {...getTestProps('create-checkpoint-quick')}
         >
           <Text style={styles.buttonText}>📸 Checkpoint</Text>
         </TouchableOpacity>
@@ -129,7 +130,7 @@ export const DevMemoryTools: React.FC = () => {
         <TouchableOpacity
           style={[styles.button, styles.infoButton]}
           onPress={showSummary}
-          testID="show-summary-quick"
+          {...getTestProps('show-summary-quick')}
         >
           <Text style={styles.buttonText}>📊 Summary</Text>
         </TouchableOpacity>
@@ -137,7 +138,7 @@ export const DevMemoryTools: React.FC = () => {
         <TouchableOpacity
           style={[styles.button, styles.successButton]}
           onPress={showProgress}
-          testID="show-progress-quick"
+          {...getTestProps('show-progress-quick')}
         >
           <Text style={styles.buttonText}>📈 Progress</Text>
         </TouchableOpacity>
@@ -145,7 +146,7 @@ export const DevMemoryTools: React.FC = () => {
         <TouchableOpacity
           style={[styles.button, styles.warningButton]}
           onPress={listCheckpoints}
-          testID="list-checkpoints-quick"
+          {...getTestProps('list-checkpoints-quick')}
         >
           <Text style={styles.buttonText}>📋 List</Text>
         </TouchableOpacity>
@@ -158,7 +159,7 @@ export const DevMemoryTools: React.FC = () => {
             timestamp: new Date().toISOString(),
             note: 'Quick save from dev tools'
           })}
-          testID="quick-save"
+          {...getTestProps('quick-save')}
         >
           <Text style={styles.buttonText}>💾 Quick Save</Text>
         </TouchableOpacity>
@@ -166,7 +167,7 @@ export const DevMemoryTools: React.FC = () => {
         <TouchableOpacity
           style={[styles.button, styles.secondaryButton]}
           onPress={() => quickLoad('quick_note')}
-          testID="quick-load"
+          {...getTestProps('quick-load')}
         >
           <Text style={styles.buttonText}>📂 Quick Load</Text>
         </TouchableOpacity>

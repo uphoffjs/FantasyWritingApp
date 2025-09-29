@@ -16,6 +16,7 @@ import {
 } from 'react-native';
 import { useTheme } from '../../providers/ThemeProvider';
 
+import { getTestProps } from '../utils/react-native-web-polyfills';
 interface SkeletonCardProps {
   // * Card variant for different sizes
   variant?: 'project' | 'element' | 'compact';
@@ -115,7 +116,7 @@ export const SkeletonCard: React.FC<SkeletonCardProps> = ({
             isLastLine && styles.skeletonLineShort,
             animated && { opacity: shimmerOpacity },
           ]}
-          testID={`${testID}-line-${i}`}
+          {...getTestProps(`${testID}-line-${i}`)}
         />
       );
     }
@@ -129,7 +130,7 @@ export const SkeletonCard: React.FC<SkeletonCardProps> = ({
         { width: finalWidth, height: finalHeight },
         style,
       ]}
-      testID={testID}
+      {...getTestProps(testID)}
     >
       {/* * Card header with thumbnail */}
       {showThumbnail && (
@@ -139,7 +140,7 @@ export const SkeletonCard: React.FC<SkeletonCardProps> = ({
               styles.thumbnail,
               animated && { opacity: shimmerOpacity },
             ]}
-            testID={`${testID}-thumbnail`}
+            {...getTestProps(`${testID}-thumbnail`)}
           />
           <View style={styles.headerContent}>
             <Animated.View
@@ -147,14 +148,14 @@ export const SkeletonCard: React.FC<SkeletonCardProps> = ({
                 styles.title,
                 animated && { opacity: shimmerOpacity },
               ]}
-              testID={`${testID}-title`}
+              {...getTestProps(`${testID}-title`)}
             />
             <Animated.View
               style={[
                 styles.subtitle,
                 animated && { opacity: shimmerOpacity },
               ]}
-              testID={`${testID}-subtitle`}
+              {...getTestProps(`${testID}-subtitle`)}
             />
           </View>
         </View>
@@ -173,14 +174,14 @@ export const SkeletonCard: React.FC<SkeletonCardProps> = ({
               styles.footerItem,
               animated && { opacity: shimmerOpacity },
             ]}
-            testID={`${testID}-footer-left`}
+            {...getTestProps(`${testID}-footer-left`)}
           />
           <Animated.View
             style={[
               styles.footerItem,
               animated && { opacity: shimmerOpacity },
             ]}
-            testID={`${testID}-footer-right`}
+            {...getTestProps(`${testID}-footer-right`)}
           />
         </View>
       )}

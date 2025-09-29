@@ -268,7 +268,7 @@ export function GlobalSearch({ visible, onClose }: GlobalSearchProps) {
               renderItem={renderRecentSearch}
               keyExtractor={(item, index) => `recent-${item}-${index}`}
               showsVerticalScrollIndicator={false}
-              testID="recent-searches-list"
+              {...getTestProps('recent-searches-list')}
             />
           </View>
         );
@@ -315,12 +315,12 @@ export function GlobalSearch({ visible, onClose }: GlobalSearchProps) {
       animationType="slide"
       transparent={true}
       onRequestClose={onClose}
-      testID="global-search-modal"
+      {...getTestProps('global-search-modal')}
     >
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.container}
-        testID="global-search-keyboard-avoiding"
+        {...getTestProps('global-search-keyboard-avoiding')}
       >
         <Pressable
           style={styles.backdrop}
@@ -343,7 +343,7 @@ export function GlobalSearch({ visible, onClose }: GlobalSearchProps) {
                 autoFocus
                 autoCorrect={false}
                 autoCapitalize="none"
-                testID="global-search-input"
+                {...getTestProps('global-search-input')}
               />
               {searchTerm.length > 0 && (
                 <Pressable
@@ -378,7 +378,7 @@ export function GlobalSearch({ visible, onClose }: GlobalSearchProps) {
             ]}
             showsVerticalScrollIndicator={false}
             ItemSeparatorComponent={() => <View style={styles.separator} />}
-            testID="global-search-results-list"
+            {...getTestProps('global-search-results-list')}
           />
 
           {/* Result Count or Keyboard Shortcut Hint */}

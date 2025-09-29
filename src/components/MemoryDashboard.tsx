@@ -21,6 +21,7 @@ import {
 } from 'react-native';
 import { useMemorySystem } from '../hooks/useMemory';
 
+import { getTestProps } from '../utils/react-native-web-polyfills';
 export const MemoryDashboard: React.FC = () => {
   const { checkpoints, tasks, session, analysis } = useMemorySystem();
   const [newGoal, setNewGoal] = useState('');
@@ -105,14 +106,14 @@ export const MemoryDashboard: React.FC = () => {
   };
 
   return (
-    <ScrollView style={styles.container} testID="memory-dashboard">
+    <ScrollView style={styles.container} {...getTestProps('memory-dashboard')}>
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Memory System Dashboard</Text>
       </View>
 
       {/* Session Section */}
-      <View style={styles.section} testID="session-section">
+      <View style={styles.section} {...getTestProps('session-section')}>
         <Text style={styles.sectionTitle}>Current Session</Text>
         {session.isSessionActive ? (
           <View>
@@ -127,7 +128,7 @@ export const MemoryDashboard: React.FC = () => {
             <TouchableOpacity
               style={[styles.button, styles.dangerButton]}
               onPress={handleEndSession}
-              testID="end-session-button"
+              {...getTestProps('end-session-button')}
             >
               <Text style={styles.buttonText}>End Session</Text>
             </TouchableOpacity>
@@ -139,12 +140,12 @@ export const MemoryDashboard: React.FC = () => {
               placeholder="Enter session goal..."
               value={newGoal}
               onChangeText={setNewGoal}
-              testID="session-goal-input"
+              {...getTestProps('session-goal-input')}
             />
             <TouchableOpacity
               style={[styles.button, styles.primaryButton]}
               onPress={handleStartSession}
-              testID="start-session-button"
+              {...getTestProps('start-session-button')}
             >
               <Text style={styles.buttonText}>Start Session</Text>
             </TouchableOpacity>
@@ -153,7 +154,7 @@ export const MemoryDashboard: React.FC = () => {
       </View>
 
       {/* Progress Analysis */}
-      <View style={styles.section} testID="progress-section">
+      <View style={styles.section} {...getTestProps('progress-section')}>
         <Text style={styles.sectionTitle}>Progress Analysis</Text>
         <View style={styles.statsContainer}>
           <View style={styles.statItem}>
@@ -181,7 +182,7 @@ export const MemoryDashboard: React.FC = () => {
       </View>
 
       {/* Tasks Section */}
-      <View style={styles.section} testID="tasks-section">
+      <View style={styles.section} {...getTestProps('tasks-section')}>
         <Text style={styles.sectionTitle}>Tasks</Text>
 
         {/* Add new task */}
@@ -191,12 +192,12 @@ export const MemoryDashboard: React.FC = () => {
             placeholder="Add new task..."
             value={newTask}
             onChangeText={setNewTask}
-            testID="new-task-input"
+            {...getTestProps('new-task-input')}
           />
           <TouchableOpacity
             style={[styles.button, styles.addButton]}
             onPress={handleAddTask}
-            testID="add-task-button"
+            {...getTestProps('add-task-button')}
           >
             <Text style={styles.buttonText}>Add</Text>
           </TouchableOpacity>
@@ -207,7 +208,7 @@ export const MemoryDashboard: React.FC = () => {
           <View style={styles.taskGroup}>
             <Text style={styles.taskGroupTitle}>In Progress</Text>
             {tasks.inProgressTasks.map((task) => (
-              <View key={task.id} style={styles.taskItem} testID={`task-${task.id}`}>
+              <View key={task.id} style={styles.taskItem} {...getTestProps(`task-${task.id}`}>
                 <Text style={styles.taskContent}>{task.content}</Text>
                 <View style={styles.taskActions}>
                   <TouchableOpacity
@@ -232,7 +233,7 @@ export const MemoryDashboard: React.FC = () => {
           <View style={styles.taskGroup}>
             <Text style={styles.taskGroupTitle}>Pending</Text>
             {tasks.pendingTasks.slice(0, 5).map((task) => (
-              <View key={task.id} style={styles.taskItem} testID={`task-${task.id}`}>
+              <View key={task.id} style={styles.taskItem} {...getTestProps(`task-${task.id}`}>
                 <Text style={styles.taskContent}>{task.content}</Text>
                 <TouchableOpacity
                   style={[styles.taskButton, styles.startButton]}
@@ -249,7 +250,7 @@ export const MemoryDashboard: React.FC = () => {
           <View style={styles.taskGroup}>
             <Text style={styles.taskGroupTitle}>Blocked</Text>
             {tasks.blockedTasks.map((task) => (
-              <View key={task.id} style={styles.taskItem} testID={`task-${task.id}`}>
+              <View key={task.id} style={styles.taskItem} {...getTestProps(`task-${task.id}`}>
                 <Text style={[styles.taskContent, styles.blockedText]}>
                   {task.content}
                 </Text>
@@ -263,7 +264,7 @@ export const MemoryDashboard: React.FC = () => {
       </View>
 
       {/* Checkpoints Section */}
-      <View style={styles.section} testID="checkpoints-section">
+      <View style={styles.section} {...getTestProps('checkpoints-section')}>
         <Text style={styles.sectionTitle}>Checkpoints</Text>
 
         {/* Create checkpoint */}
@@ -273,12 +274,12 @@ export const MemoryDashboard: React.FC = () => {
             placeholder="Checkpoint name (optional)..."
             value={checkpointName}
             onChangeText={setCheckpointName}
-            testID="checkpoint-name-input"
+            {...getTestProps('checkpoint-name-input')}
           />
           <TouchableOpacity
             style={[styles.button, styles.primaryButton]}
             onPress={handleCreateCheckpoint}
-            testID="create-checkpoint-button"
+            {...getTestProps('create-checkpoint-button')}
           >
             <Text style={styles.buttonText}>Create</Text>
           </TouchableOpacity>
@@ -294,7 +295,7 @@ export const MemoryDashboard: React.FC = () => {
                   styles.checkpointItem,
                   checkpoint.id === checkpoints.currentCheckpoint && styles.activeCheckpoint,
                 ]}
-                testID={`checkpoint-${checkpoint.id}`}
+                {...getTestProps(`checkpoint-${checkpoint.id}`}
               >
                 <View style={styles.checkpointInfo}>
                   <Text style={styles.checkpointName}>{checkpoint.name}</Text>
@@ -311,7 +312,7 @@ export const MemoryDashboard: React.FC = () => {
                   <TouchableOpacity
                     style={[styles.button, styles.restoreButton]}
                     onPress={() => handleRestoreCheckpoint(checkpoint.id)}
-                    testID={`restore-${checkpoint.id}`}
+                    {...getTestProps(`restore-${checkpoint.id}`)}
                   >
                     <Text style={styles.buttonText}>Restore</Text>
                   </TouchableOpacity>
@@ -319,7 +320,7 @@ export const MemoryDashboard: React.FC = () => {
                     <TouchableOpacity
                       style={[styles.button, styles.exportButton]}
                       onPress={() => checkpoints.export(checkpoint.id)}
-                      testID={`export-${checkpoint.id}`}
+                      {...getTestProps(`export-${checkpoint.id}`)}
                     >
                       <Text style={styles.buttonText}>Export</Text>
                     </TouchableOpacity>
@@ -334,7 +335,7 @@ export const MemoryDashboard: React.FC = () => {
       </View>
 
       {/* Summary Section */}
-      <View style={styles.section} testID="summary-section">
+      <View style={styles.section} {...getTestProps('summary-section')}>
         <Text style={styles.sectionTitle}>System Summary</Text>
         <TouchableOpacity
           style={[styles.button, styles.primaryButton]}
@@ -342,7 +343,7 @@ export const MemoryDashboard: React.FC = () => {
             const summary = analysis.getSummary();
             Alert.alert('Memory System Summary', summary);
           }}
-          testID="generate-summary-button"
+          {...getTestProps('generate-summary-button')}
         >
           <Text style={styles.buttonText}>Generate Summary</Text>
         </TouchableOpacity>

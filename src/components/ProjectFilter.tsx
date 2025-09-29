@@ -17,6 +17,7 @@ import { useTheme } from '../providers/ThemeProvider';
 import { Project } from '../types/models';
 import { useFilterDebounce } from '../hooks/useDebounce';
 
+import { getTestProps } from '../utils/react-native-web-polyfills';
 // * Filter options
 export interface ProjectFilterOptions {
   genres: string[];
@@ -207,7 +208,7 @@ export function ProjectFilter({
           pressed && styles.headerPressed,
         ]}
         onPress={() => setIsExpanded(!isExpanded)}
-        testID="project-filter-toggle"
+        {...getTestProps('project-filter-toggle')}
       >
         <View style={styles.headerLeft}>
           <Text style={styles.headerIcon}>🎯</Text>
@@ -250,7 +251,7 @@ export function ProjectFilter({
                     pressed && styles.chipPressed,
                   ]}
                   onPress={() => toggleGenre(genre)}
-                  testID={`filter-genre-${genre}`}
+                  {...getTestProps(`filter-genre-${genre)}`}
                 >
                   <Text
                     style={[
@@ -278,7 +279,7 @@ export function ProjectFilter({
                     pressed && styles.statusChipPressed,
                   ]}
                   onPress={() => toggleStatus(option.value)}
-                  testID={`filter-status-${option.value}`}
+                  {...getTestProps(`filter-status-${option.value)}`}
                 >
                   <Text style={styles.statusIcon}>{option.icon}</Text>
                   <Text
@@ -313,7 +314,7 @@ export function ProjectFilter({
                       pressed && styles.timeChipPressed,
                     ]}
                     onPress={() => setFilters(prev => ({ ...prev, lastModified: time.value as any }))}
-                    testID={`filter-time-${time.value}`}
+                    {...getTestProps(`filter-time-${time.value)}`}
                   >
                     <Text
                       style={[
@@ -346,7 +347,7 @@ export function ProjectFilter({
                         pressed && styles.sortChipPressed,
                       ]}
                       onPress={() => setFilters(prev => ({ ...prev, sortBy: sort.value as any }))}
-                      testID={`filter-sort-${sort.value}`}
+                      {...getTestProps(`filter-sort-${sort.value)}`}
                     >
                       <Text
                         style={[
@@ -365,7 +366,7 @@ export function ProjectFilter({
                     ...prev, 
                     sortOrder: prev.sortOrder === 'asc' ? 'desc' : 'asc' 
                   }))}
-                  testID="filter-sort-order"
+                  {...getTestProps('filter-sort-order')}
                 >
                   <Text style={styles.sortOrderIcon}>
                     {filters.sortOrder === 'asc' ? '↑' : '↓'}
@@ -383,7 +384,7 @@ export function ProjectFilter({
                 pressed && styles.clearButtonPressed,
               ]}
               onPress={clearFilters}
-              testID="filter-clear-all"
+              {...getTestProps('filter-clear-all')}
             >
               <Text style={styles.clearButtonText}>Clear All Filters</Text>
             </Pressable>

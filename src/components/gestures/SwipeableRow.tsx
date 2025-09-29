@@ -20,6 +20,7 @@ import {
 } from 'react-native';
 import { useTheme } from '../../providers/ThemeProvider';
 
+import { getTestProps } from '../utils/react-native-web-polyfills';
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 interface SwipeableRowProps {
@@ -326,11 +327,11 @@ export const SwipeableRow: React.FC<SwipeableRowProps> = ({
 
   // * Don't apply swipe on web by default (unless explicitly enabled)
   if (Platform.OS === 'web' && !onDelete && !onArchive) {
-    return <View testID={testID}>{children}</View>;
+    return <View {...getTestProps(testID)}>{children}</View>;
   }
 
   return (
-    <View style={styles.container} onLayout={handleLayout} testID={testID}>
+    <View style={styles.container} onLayout={handleLayout} {...getTestProps(testID)}>
       {/* * Background actions */}
       <View style={[styles.actionsContainer, { backgroundColor: theme.colors.surface.backgroundAlt }]}>
         {/* * Archive action (left side) */}
@@ -350,7 +351,7 @@ export const SwipeableRow: React.FC<SwipeableRowProps> = ({
             <TouchableOpacity
               onPress={handleArchivePress}
               style={styles.actionButton}
-              testID={`${testID}-archive-action`}
+              {...getTestProps(`${testID}-archive-action`)}
             >
               <Text style={[styles.actionText, { color: '#FFFFFF' }]}>
                 📦 {archiveText}
@@ -376,7 +377,7 @@ export const SwipeableRow: React.FC<SwipeableRowProps> = ({
             <TouchableOpacity
               onPress={handleDeletePress}
               style={styles.actionButton}
-              testID={`${testID}-delete-action`}
+              {...getTestProps(`${testID}-delete-action`)}
             >
               <Text style={[styles.actionText, { color: '#FFFFFF' }]}>
                 🗑️ {deleteText}

@@ -162,25 +162,50 @@ module.exports = {
       }
     },
     {
-      // Cypress-specific rules for selector patterns
-      files: ['**/cypress/**/*.cy.{ts,tsx}'],
+      // Cypress-specific rules - extends from .eslintrc.cypress.js
+      files: ['**/cypress/**/*.cy.{js,jsx,ts,tsx}', '**/cypress/**/*.spec.{js,jsx,ts,tsx}'],
+      extends: ['./.eslintrc.cypress.js'],
+      env: {
+        'cypress/globals': true
+      },
+      globals: {
+        cy: 'readonly',
+        Cypress: 'readonly'
+      },
       rules: {
-        // * Custom rules via comments - will be checked by lint script
+        // ! CRITICAL: Cypress Best Practices (from official docs)
+        // * These override any conflicting rules from other configs
         'no-restricted-syntax': [
-          'warn',
+          'error',
+          // ! Ban if/else statements - Tests MUST be deterministic
           {
-            selector: 'CallExpression[callee.object.name="cy"][callee.property.name=/^(get|find)$/][arguments.0.value=/^[^\\[]/]',
-            message: 'Prefer data-cy selectors: Use cy.get("[data-cy=...]") instead of string selectors'
+            selector: 'IfStatement',
+            message: '❌ NEVER use if/else in Cypress tests. Tests must be deterministic (Cypress.io best practice)'
           },
+          // ! Ban CSS class selectors
           {
-            selector: 'CallExpression[callee.object.name="cy"][callee.property.name="contains"]:not(:has(Literal[value=/data-cy/]))',
-            message: 'Consider using data-cy selectors with cy.contains() for better reliability'
+            selector: 'CallExpression[callee.object.name="cy"][callee.property.name="get"][arguments.0.value=/^\\./]',
+            message: '❌ NEVER use CSS class selectors. Use [data-cy="..."] instead (Cypress.io best practice)'
           },
+          // ! Ban ID selectors
           {
-            selector: 'CallExpression[callee.object.name="cy"][callee.property.name="wait"][arguments.0.type="Literal"][arguments.0.value=/^[0-9]+$/]',
-            message: 'Avoid arbitrary waits like cy.wait(3000). Use proper assertions instead'
+            selector: 'CallExpression[callee.object.name="cy"][callee.property.name="get"][arguments.0.value=/^#/]',
+            message: '❌ NEVER use ID selectors. Use [data-cy="..."] instead (Cypress.io best practice)'
+          },
+          // ! Ban arbitrary waits
+          {
+            selector: 'CallExpression[callee.object.name="cy"][callee.property.name="wait"][arguments.0.type="Literal"][arguments.0.raw=/^[0-9]+$/]',
+            message: '❌ NEVER use arbitrary waits like cy.wait(3000). Use assertions instead (Cypress.io best practice)'
+          },
+          // ! Ban data-testid in favor of data-cy
+          {
+            selector: 'Literal[value=/data-testid/]',
+            message: '⚠️ Use data-cy instead of data-testid for consistency'
           }
-        ]
+        ],
+        // * Disable rules that conflict with Cypress patterns
+        '@typescript-eslint/no-unused-vars': 'off',
+        'jest/valid-expect': 'off' // Cypress has different expect syntax
       }
     },
     {

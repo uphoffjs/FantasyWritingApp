@@ -8,6 +8,7 @@ import React, { memo } from 'react';
 import { View, StyleSheet, Platform, ViewStyle } from 'react-native';
 import { useTheme } from '../../providers/ThemeProvider';
 
+import { getTestProps } from '../utils/react-native-web-polyfills';
 interface CelticBorderProps {
   style?: ViewStyle;
   variant?: 'simple' | 'ornate' | 'corner' | 'full';
@@ -96,7 +97,7 @@ export const CelticBorder = memo(function CelticBorder({
           getWebBorderStyle(),
           style
         ]}
-        testID={testID}
+        {...getTestProps(testID)}
       >
         {children}
         {variant === 'ornate' && (
@@ -172,7 +173,7 @@ export const CelticBorder = memo(function CelticBorder({
         getMobileBorderStyle(),
         style
       ]} 
-      testID={testID}
+      {...getTestProps(testID)}
     >
       {children}
       {variant === 'ornate' && (

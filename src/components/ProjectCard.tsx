@@ -337,12 +337,12 @@ export const ProjectCard = memo(function ProjectCard({
       delay={index * 100} // * Stagger delay based on position in list
       distance={30}
       easing="spring"
-      testID={`project-card-reveal-${index}`}
+      {...getTestProps(`project-card-reveal-${index)}`}
     >
       <BackgroundWithTexture 
         variant="subtle"
         style={styles.textureWrapper}
-        testID="project-card-texture"
+        {...getTestProps('project-card-texture')}
       >
         <Animated.View 
           style={[styles.card, animatedCardStyle]}
@@ -371,7 +371,7 @@ export const ProjectCard = memo(function ProjectCard({
             style={styles.coverImage}
             resizeMode="cover"
             onError={() => setImageError(true)}
-            testID="project-card-cover-image"
+            {...getTestProps('project-card-cover-image')}
             fadeIn={true}
             showLoadingIndicator={true}
             threshold={0.5}
@@ -394,7 +394,7 @@ export const ProjectCard = memo(function ProjectCard({
             size="small"
             showPercentage={true}
             colorPreset="default"
-            testID="project-card-progress"
+            {...getTestProps('project-card-progress')}
           />
         </View>
       </View>

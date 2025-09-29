@@ -183,7 +183,7 @@ export function Button({
             size="small"
             color={loadingColor}
             inline={true}
-            testID={`${testID}-loading`}
+            {...getTestProps(`${testID}-loading`)}
           />
         ) : (
           <Text style={textStyles}>{title}</Text>

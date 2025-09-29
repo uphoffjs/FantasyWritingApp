@@ -245,7 +245,7 @@ export const Inspector: React.FC<InspectorProps> = ({
                   size="medium"
                   showPercentage={true}
                   colorPreset={selectedElement.category}
-                  testID="inspector-progress-ring"
+                  {...getTestProps('inspector-progress-ring')}
                 />
                 <View style={styles.completionInfo}>
                   <Text style={[styles.completionText, { color: getCompletionColor() }]}>

@@ -7,6 +7,7 @@
  */
 
 import React, { useEffect, useRef, useMemo } from 'react';
+import { getTestProps } from '../utils/react-native-web-polyfills';
 import {
   Animated,
   Platform,
@@ -347,7 +348,7 @@ export const ContentReveal: React.FC<ContentRevealProps> = ({
         animatedStyles,
         style,
       ]}
-      testID={testID}
+      {...getTestProps(testID)}
     >
       {children}
     </Animated.View>

@@ -28,6 +28,7 @@ import { ViewToggle } from '../components/ViewToggle';
 import { BottomNavigation } from '../components/BottomNavigation';
 import { useTheme } from '../providers/ThemeProvider';
 
+import { getTestProps } from '../utils/react-native-web-polyfills';
 type ViewMode = 'grid' | 'list';
 
 export function ProjectListScreen() {
@@ -117,7 +118,7 @@ export function ProjectListScreen() {
     if (viewMode === 'list') {
       // * List view - full width cards with inline stats
       return (
-        <View style={styles.listCard} testID={`project-list-item-${item.id}`}>
+        <View style={styles.listCard} {...getTestProps(`project-list-item-${item.id}`}>
           <ProjectCard 
             project={item}
             onPress={() => handleProjectSelect(item)}
@@ -131,7 +132,7 @@ export function ProjectListScreen() {
     
     // * Grid view - responsive columns
     return (
-      <View style={[styles.gridCard, { width: `${100 / getGridColumns()}%` }]} testID={`project-grid-item-${item.id}`}>
+      <View style={[styles.gridCard, { width: `${100 / getGridColumns()}%` }]} {...getTestProps(`project-grid-item-${item.id}`}>
         <ProjectCard 
           project={item}
           onPress={() => handleProjectSelect(item)}
@@ -152,12 +153,12 @@ export function ProjectListScreen() {
         <ScrollView 
           style={styles.scrollView}
           showsVerticalScrollIndicator={false}
-          testID="project-list-scroll"
+          {...getTestProps('project-list-scroll')}
         >
           {/* * Header with title and actions */}
-          <View style={styles.header} testID="dashboard-header">
+          <View style={styles.header} {...getTestProps('dashboard-header')}>
             <View style={styles.headerTop}>
-              <Text style={styles.title} testID="dashboard-title">
+              <Text style={styles.title} {...getTestProps('dashboard-title')}>
                 My Fantasy Worlds
               </Text>
               <View style={styles.headerActions}>
@@ -167,7 +168,7 @@ export function ProjectListScreen() {
                     currentView={viewMode}
                     onViewChange={setViewMode}
                     size="medium"
-                    testID="view-mode-toggle"
+                    {...getTestProps('view-mode-toggle')}
                   />
                 )}
                 
@@ -175,7 +176,7 @@ export function ProjectListScreen() {
                 <TouchableOpacity
                   onPress={() => setShowGlobalSearch(true)}
                   style={styles.searchButton}
-                  testID="search-button"
+                  {...getTestProps('search-button')}
                   accessibilityLabel="Search projects and elements"
                 >
                   <Text style={styles.searchIcon}>🔍</Text>
@@ -186,7 +187,7 @@ export function ProjectListScreen() {
                   <TouchableOpacity
                     onPress={handleCreateProject}
                     style={styles.createButton}
-                    testID="create-project-button"
+                    {...getTestProps('create-project-button')}
                     accessibilityLabel="Create new project"
                   >
                     <Text style={styles.createIcon}>✨</Text>
@@ -198,7 +199,7 @@ export function ProjectListScreen() {
           </View>
           
           {/* * Hero Stats Section */}
-          <View style={styles.statsSection} testID="dashboard-stats">
+          <View style={styles.statsSection} {...getTestProps('dashboard-stats')}>
             <ScrollView 
               horizontal 
               showsHorizontalScrollIndicator={false}
@@ -212,7 +213,7 @@ export function ProjectListScreen() {
                 change={stats.totalProjects > 0 ? '+1' : ''}
                 color={theme.colors.attributes.power}
                 size="large"
-                testID="stats-projects"
+                {...getTestProps('stats-projects')}
               />
               <StatsCard
                 title="Elements"
@@ -222,7 +223,7 @@ export function ProjectListScreen() {
                 change="+12%"
                 color={theme.colors.attributes.vitality}
                 size="large"
-                testID="stats-elements"
+                {...getTestProps('stats-elements')}
               />
               <StatsCard
                 title="Words Written"
@@ -232,7 +233,7 @@ export function ProjectListScreen() {
                 change="+2.5k"
                 color={theme.colors.attributes.swiftness}
                 size="large"
-                testID="stats-words"
+                {...getTestProps('stats-words')}
               />
               <StatsCard
                 title="Day Streak"
@@ -242,7 +243,7 @@ export function ProjectListScreen() {
                 change={stats.currentStreak > 0 ? `${stats.currentStreak} days` : 'Start today!'}
                 color={theme.colors.attributes.wisdom}
                 size="large"
-                testID="stats-streak"
+                {...getTestProps('stats-streak')}
               />
             </ScrollView>
           </View>
@@ -257,14 +258,14 @@ export function ProjectListScreen() {
                   currentView={viewMode}
                   onViewChange={setViewMode}
                   size="small"
-                  testID="view-mode-toggle-mobile"
+                  {...getTestProps('view-mode-toggle-mobile')}
                 />
               </View>
             )}
             
             {/* * Project List/Grid */}
             {projects.length === 0 ? (
-              <View style={styles.emptyState} testID="empty-state">
+              <View style={styles.emptyState} {...getTestProps('empty-state')}>
                 <Text style={styles.emptyIcon}>🏰</Text>
                 <Text style={styles.emptyTitle}>No projects yet</Text>
                 <Text style={styles.emptyText}>
@@ -273,7 +274,7 @@ export function ProjectListScreen() {
                 <TouchableOpacity
                   onPress={handleCreateProject}
                   style={styles.emptyButton}
-                  testID="empty-create-button"
+                  {...getTestProps('empty-create-button')}
                 >
                   <Text style={styles.emptyButtonText}>Create First Project</Text>
                 </TouchableOpacity>
@@ -287,7 +288,7 @@ export function ProjectListScreen() {
                 key={`grid-${getGridColumns()}`} // Force re-render on column change
                 scrollEnabled={false}
                 contentContainerStyle={styles.gridContainer}
-                testID="project-grid"
+                {...getTestProps('project-grid')}
               />
             ) : (
               <VirtualizedProjectList
@@ -295,7 +296,7 @@ export function ProjectListScreen() {
                 onProjectSelect={handleProjectSelect}
                 onProjectDelete={handleProjectDelete}
                 renderItem={renderProjectCard}
-                testID="project-list"
+                {...getTestProps('project-list')}
               />
             )}
           </View>
@@ -306,7 +307,7 @@ export function ProjectListScreen() {
           <TouchableOpacity
             onPress={handleCreateProject}
             style={styles.fab}
-            testID="fab-create"
+            {...getTestProps('fab-create')}
             accessibilityLabel="Create new project"
           >
             <Text style={styles.fabIcon}>✨</Text>

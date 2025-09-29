@@ -2,6 +2,7 @@
 import React from 'react';
 import { View, Text, Modal, TouchableOpacity, StyleSheet } from 'react-native';
 
+import { getTestProps } from '../utils/react-native-web-polyfills';
 interface LinkModalProps {
   visible: boolean;
   onClose: () => void;
@@ -24,23 +25,23 @@ export const LinkModal: React.FC<LinkModalProps> = ({
       visible={visible}
       onRequestClose={onClose}
       animationType="slide"
-      testID={testID}
+      {...getTestProps(testID)}
     >
-      <View style={styles.container} testID={`${testID}-container`}>
+      <View style={styles.container} {...getTestProps(`${testID}-container`)}>
         <View style={styles.header}>
-          <Text style={styles.title} testID={`${testID}-title`}>Link Element</Text>
-          <TouchableOpacity onPress={onClose} testID={`${testID}-close`}>
+          <Text style={styles.title} {...getTestProps(`${testID}-title`)}>Link Element</Text>
+          <TouchableOpacity onPress={onClose} {...getTestProps(`${testID}-close`)}>
             <Text style={styles.closeButton}>✕</Text>
           </TouchableOpacity>
         </View>
 
-        <View style={styles.content} testID={`${testID}-content`}>
+        <View style={styles.content} {...getTestProps(`${testID}-content`)}>
           {availableElements.map((element) => (
             <TouchableOpacity
               key={element.id}
               style={styles.elementItem}
               onPress={() => onSelect?.(element.id, element.type)}
-              testID={`${testID}-element-${element.id}`}
+              {...getTestProps(`${testID}-element-${element.id}`)}
             >
               <Text>{element.name}</Text>
               <Text style={styles.elementType}>{element.type}</Text>

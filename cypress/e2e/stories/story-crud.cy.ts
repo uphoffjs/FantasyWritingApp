@@ -1,8 +1,8 @@
 /// <reference types="cypress" />
 
 import { selectors } from '../../support/selectors';
-import { StoryFactory } from '../../fixtures/factories/story.factory';
-import { setupAuth } from '../../support/test-helpers';
+import { storyFactory } from '../../fixtures/factories/story.factory';
+;
 
 /**
  * Story CRUD E2E tests
@@ -10,11 +10,14 @@ import { setupAuth } from '../../support/test-helpers';
  */
 describe('Story CRUD Operations', () => {
   beforeEach(() => {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
     // * Reset factory counters for test isolation
     StoryFactory.reset();
     
     // ! SECURITY: * Setup authentication
-    setupAuth();
+    cy.apiLogin('test@example.com', 'testpassword123');
     
     // * Visit the stories page
     cy.visit('/stories');
@@ -74,6 +77,9 @@ describe('Story CRUD Operations', () => {
     let testStory: ReturnType<typeof StoryFactory.create>;
 
     beforeEach(() => {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
       // * Create a test story via API or UI
       testStory = StoryFactory.createWithChapters(3);
       
@@ -105,9 +111,9 @@ describe('Story CRUD Operations', () => {
       cy.get(selectors.story.storyItem(testStory.id)).click();
       
       // * Check metadata display
-      cy.get('[data-testid=story-genre]').should('contain', testStory.genre);
-      cy.get('[data-testid=story-status]').should('contain', testStory.status);
-      cy.get('[data-testid=chapter-count]').should('contain', testStory.chapters.length.toString());
+      cy.get('[data-cy=story-genre]').should('contain', testStory.genre);
+      cy.get('[data-cy=story-status]').should('contain', testStory.status);
+      cy.get('[data-cy=chapter-count]').should('contain', testStory.chapters.length.toString());
     });
   });
 
@@ -115,6 +121,9 @@ describe('Story CRUD Operations', () => {
     let testStory: ReturnType<typeof StoryFactory.create>;
 
     beforeEach(() => {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
       testStory = StoryFactory.createDraft();
       
       // Mock API responses
@@ -152,23 +161,23 @@ describe('Story CRUD Operations', () => {
     it('should auto-save story content', () => {
       // * Type in story editor
       cy.get(selectors.story.content).type(' Additional content for the story.');
-      
-      // ! PERFORMANCE: * Wait for auto-save (typically after a debounce period)
-      cy.wait(2000);
-      
-      // * Check for auto-save indicator
-      cy.get(selectors.story.lastSaved).should('contain', 'Saved');
+
+      // ! Following Cypress best practices - wait for specific conditions instead of arbitrary time
+      // * Wait for auto-save to complete by checking the indicator
+      cy.get(selectors.story.lastSaved, { timeout: 5000 })
+        .should('be.visible')
+        .and('contain', 'Saved');
     });
 
     it('should update story status', () => {
       // * Change status from draft to published
-      cy.get('[data-testid=story-status-select]').select('published');
+      cy.get('[data-cy=story-status-select]').select('published');
       
       cy.get(selectors.story.saveButton).click();
       cy.wait('@updateStory');
       
       // * Verify status change
-      cy.get('[data-testid=story-status]').should('contain', 'published');
+      cy.get('[data-cy=story-status]').should('contain', 'published');
     });
   });
 
@@ -176,6 +185,9 @@ describe('Story CRUD Operations', () => {
     let testStory: ReturnType<typeof StoryFactory.create>;
 
     beforeEach(() => {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
       testStory = StoryFactory.create();
       
       // Mock API responses
@@ -231,6 +243,9 @@ describe('Story CRUD Operations', () => {
 
   describe('Story List Operations', () => {
     beforeEach(() => {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
       // * Create multiple stories
       const stories = StoryFactory.createMany(10);
       
@@ -254,11 +269,11 @@ describe('Story CRUD Operations', () => {
 
     it('should filter stories by genre', () => {
       cy.get(selectors.ui.filterButton).click();
-      cy.get('[data-testid=filter-genre-fantasy]').click();
+      cy.get('[data-cy=filter-genre-fantasy]').click();
       
       // ? TODO: * Should only show fantasy stories
       cy.get(selectors.story.storiesList)
-        .find('[data-testid=story-genre]')
+        .find('[data-cy=story-genre]')
         .each(($el) => {
           cy.wrap($el).should('contain', 'fantasy');
         });
@@ -267,7 +282,7 @@ describe('Story CRUD Operations', () => {
     it('should sort stories', () => {
       // * Sort by date (newest first)
       cy.get(selectors.ui.sortButton).click();
-      cy.get('[data-testid=sort-date-desc]').click();
+      cy.get('[data-cy=sort-date-desc]').click();
       
       // TODO: * Verify sorting (would need to check actual dates)
       cy.get(selectors.story.storiesList)
@@ -306,6 +321,9 @@ describe('Story CRUD Operations', () => {
     let testStory: ReturnType<typeof StoryFactory.createWithChapters>;
 
     beforeEach(() => {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
       testStory = StoryFactory.createWithChapters(3);
       
       cy.intercept('GET', `**/api/stories/${testStory.id}`, {
@@ -319,26 +337,26 @@ describe('Story CRUD Operations', () => {
 
     it('should navigate between chapters', () => {
       // ? TODO: * Should show first chapter by default
-      cy.get('[data-testid=chapter-title]').should('contain', testStory.chapters[0].title);
+      cy.get('[data-cy=chapter-title]').should('contain', testStory.chapters[0].title);
       
       // * Navigate to next chapter
-      cy.get('[data-testid=next-chapter]').click();
-      cy.get('[data-testid=chapter-title]').should('contain', testStory.chapters[1].title);
+      cy.get('[data-cy=next-chapter]').click();
+      cy.get('[data-cy=chapter-title]').should('contain', testStory.chapters[1].title);
       
       // * Navigate to previous chapter
-      cy.get('[data-testid=prev-chapter]').click();
-      cy.get('[data-testid=chapter-title]').should('contain', testStory.chapters[0].title);
+      cy.get('[data-cy=prev-chapter]').click();
+      cy.get('[data-cy=chapter-title]').should('contain', testStory.chapters[0].title);
     });
 
     it('should add a new chapter', () => {
-      cy.get('[data-testid=add-chapter-button]').click();
+      cy.get('[data-cy=add-chapter-button]').click();
       
       // * Fill in chapter details
-      cy.get('[data-testid=new-chapter-title]').type('New Chapter Title');
-      cy.get('[data-testid=create-chapter-button]').click();
+      cy.get('[data-cy=new-chapter-title]').type('New Chapter Title');
+      cy.get('[data-cy=create-chapter-button]').click();
       
       // TODO: * Should add chapter to the story
-      cy.get('[data-testid=chapter-list]').should('contain', 'New Chapter Title');
+      cy.get('[data-cy=chapter-list]').should('contain', 'New Chapter Title');
     });
 
     it('should track word count', () => {

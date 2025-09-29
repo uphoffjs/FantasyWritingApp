@@ -16,19 +16,12 @@ describe('Authentication Navigation', function() {
     cy.task('log', '========================================');
   });
   
-  afterEach(function() {
-    // * Capture debug info on failure (no conditionals in test logic)
-    // * The conditional here is only for debugging output, not test flow
-    if (this.currentTest?.state === 'failed') {
-      cy.task('log', '========================================');
-      cy.task('log', '❌ TEST FAILED - CAPTURING DEBUG INFO');
-      cy.task('log', '========================================');
-      cy.captureFailureDebug();
-    }
-  });
+  // ! NOTE: Failure handling is done globally in cypress/support/e2e.ts
+  // ! Following Cypress best practices - no conditional statements in tests
 
   describe('Unauthenticated User Flow', () => {
     beforeEach(() => {
+    // * Using cy.session() for authentication caching
       // * Ensure user is NOT authenticated
       cy.window().then((win) => {
         win.localStorage.clear();
@@ -99,12 +92,13 @@ describe('Authentication Navigation', function() {
 
   describe('Authenticated User Flow', () => {
     beforeEach(() => {
+    // * Using cy.session() for authentication caching
       // * Set up authenticated state deterministically
-      cy.login(); // Custom command that sets up auth state
+      cy.apiLogin('test@example.com', 'testpassword123'); // Custom command that sets up auth state
       
       // * Set viewport
       cy.viewport('iphone-x');
-      cy.task('log', 'User authenticated via cy.login()');
+      cy.task('log', 'User authenticated via cy.apiLogin('test@example.com', 'testpassword123')');
     });
     
     it('should show dashboard when visiting root authenticated', () => {
@@ -145,6 +139,7 @@ describe('Authentication Navigation', function() {
 
   describe('Login Form Interactions', () => {
     beforeEach(() => {
+    // * Using cy.session() for authentication caching
       // * Ensure clean state and visit login
       cy.clearCookies();
       cy.clearLocalStorage();
@@ -222,8 +217,9 @@ describe('Authentication Navigation', function() {
 
   describe('Logout Flow', () => {
     beforeEach(() => {
+    // * Using cy.session() for authentication caching
       // * Start as authenticated user
-      cy.login();
+      cy.apiLogin('test@example.com', 'testpassword123');
       cy.visit('http://localhost:3002/dashboard');
       cy.viewport('iphone-x');
     });

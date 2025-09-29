@@ -9,6 +9,7 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../providers/ThemeProvider';
 
+import { getTestProps } from '../utils/react-native-web-polyfills';
 interface TabItem {
   id: string;
   label: string;
@@ -48,7 +49,7 @@ export const BottomNavigation = React.memo(function BottomNavigation({
   }
   
   return (
-    <View style={styles.container} testID="bottom-navigation">
+    <View style={styles.container} {...getTestProps('bottom-navigation')}>
       {tabs.map((tab) => {
         const isActive = activeTab === tab.id;
         
@@ -61,7 +62,7 @@ export const BottomNavigation = React.memo(function BottomNavigation({
               isActive && styles.tabActive,
               pressed && styles.tabPressed,
             ]}
-            testID={tab.testId}
+            {...getTestProps(tab.testId)}
             accessibilityRole="button"
             accessibilityLabel={`Navigate to ${tab.label}`}
             accessibilityState={{ selected: isActive }}
@@ -72,7 +73,7 @@ export const BottomNavigation = React.memo(function BottomNavigation({
                 styles.tabIcon,
                 isActive && styles.tabIconActive,
               ]}
-              testID={`${tab.testId}-icon`}
+              {...getTestProps(`${tab.testId)}-icon`)}
             >
               {tab.icon}
             </Text>
@@ -84,7 +85,7 @@ export const BottomNavigation = React.memo(function BottomNavigation({
                 isActive && styles.tabLabelActive,
               ]}
               numberOfLines={1}
-              testID={`${tab.testId}-label`}
+              {...getTestProps(`${tab.testId)}-label`)}
             >
               {tab.label}
             </Text>
@@ -93,7 +94,7 @@ export const BottomNavigation = React.memo(function BottomNavigation({
             {isActive && (
               <View 
                 style={styles.activeIndicator}
-                testID={`${tab.testId}-active-indicator`}
+                {...getTestProps(`${tab.testId)}-active-indicator`)}
               />
             )}
           </Pressable>

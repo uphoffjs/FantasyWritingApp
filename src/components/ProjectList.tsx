@@ -14,6 +14,7 @@ import { Project } from '../types/models';
 import { ProjectCard } from './ProjectCard';
 import { SwipeableRow } from './gestures/SwipeableRow';
 
+import { getTestProps } from '../utils/react-native-web-polyfills';
 interface ProjectListProps {
   projects: Project[];
   onProjectSelect?: (project: Project) => void;
@@ -101,7 +102,7 @@ export function ProjectList({
           <SwipeableRow
             onDelete={onProjectDelete ? () => onProjectDelete(item.id) : undefined}
             onArchive={onProjectArchive ? () => onProjectArchive(item.id) : undefined}
-            testID={`swipeable-project-${item.id}`}
+            {...getTestProps(`swipeable-project-${item.id}`}
           >
             {card}
           </SwipeableRow>

@@ -320,7 +320,7 @@ export const ProgressRing: React.FC<ProgressRingProps> = ({
           opacity: completionOpacity,
         }
       ]} 
-      testID={testID}
+      {...getTestProps(testID)}
     >
       <Animated.View 
         style={[
@@ -359,7 +359,7 @@ export const ProgressRing: React.FC<ProgressRingProps> = ({
               strokeDasharray={`${circumference} ${circumference}`}
               strokeDashoffset={strokeDashoffset}
               strokeLinecap="round"
-              testID={`${testID}-progress-circle`}
+              {...getTestProps(`${testID}-progress-circle`)}
             />
           </G>
         </Svg>

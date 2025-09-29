@@ -198,7 +198,7 @@ export function CreateProjectModal({
       animationType="slide"
       transparent={true}
       onRequestClose={handleClose}
-      testID="create-project-modal"
+      {...getTestProps('create-project-modal')}
     >
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -272,7 +272,7 @@ export function CreateProjectModal({
                   placeholder="Enter project name"
                   error={errors.name}
                   autoFocus
-                  testID="create-project-name-input"
+                  {...getTestProps('create-project-name-input')}
                 />
 
                 {/* Description */}
@@ -289,7 +289,7 @@ export function CreateProjectModal({
                   multiline
                   numberOfLines={4}
                   error={errors.description}
-                  testID="create-project-description-input"
+                  {...getTestProps('create-project-description-input')}
                 />
 
                 {/* Cover Image */}
@@ -298,7 +298,7 @@ export function CreateProjectModal({
                   onChange={(imageUri) => setFormData({ ...formData, coverImage: imageUri })}
                   label="Cover Image (Optional)"
                   placeholder="Add a cover image"
-                  testID="create-project-cover-image"
+                  {...getTestProps('create-project-cover-image')}
                 />
 
                 {/* Genre Selection */}
@@ -367,7 +367,7 @@ export function CreateProjectModal({
                   onPress={handleClose}
                   variant="secondary"
                   size="medium"
-                  testID="create-project-cancel-button"
+                  {...getTestProps('create-project-cancel-button')}
                 />
                 <Button
                   title={isCreating ? 'Creating...' : 'Create Project'}
@@ -376,7 +376,7 @@ export function CreateProjectModal({
                   size="medium"
                   loading={isCreating}
                   disabled={!formData.name.trim() || isCreating}
-                  testID="create-project-submit-button"
+                  {...getTestProps('create-project-submit-button')}
                 />
               </View>
             </ScrollView>

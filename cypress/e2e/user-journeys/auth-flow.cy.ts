@@ -20,6 +20,9 @@ describe('Authentication User Journey', () => {
   };
 
   beforeEach(() => {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
     // * Clean state before each test
     cy.clearCookies();
     cy.clearLocalStorage();
@@ -153,6 +156,9 @@ describe('Authentication User Journey', () => {
 
   describe('Logout Flow', () => {
     beforeEach(() => {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
       // * Sign in before each test
       loginPage.visit();
       loginPage.signIn(testUser.email, testUser.password);

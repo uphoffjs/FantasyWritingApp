@@ -63,6 +63,9 @@ describe('Character Creation Flow', () => {
   });
 
   beforeEach(() => {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
     // * Login and navigate to project
     cy.session('authenticated-user', () => {
       loginPage.loginViaAPI('test@example.com', 'Test123!');
@@ -198,7 +201,7 @@ describe('Character Creation Flow', () => {
 
       // * Verify bidirectional relationship
       elementPage.navigateToProject();
-      cy.contains('[data-cy^="element-card-"]', 'Frodo Baggins').click();
+      cy.get('[data-cy="element-card-frodo-baggins"]').click();
       elementPage.switchToRelationships();
       elementPage.shouldHaveRelationship('Samwise Gamgee', 'friend');
     });
@@ -319,7 +322,7 @@ describe('Character Creation Flow', () => {
   describe('Character Editing', () => {
     it('should edit existing character', () => {
       projectListPage.selectProject('Epic Fantasy Novel');
-      cy.contains('[data-cy^="element-card-"]', 'Aragorn Strider').click();
+      cy.get('[data-cy="element-card-aragorn-strider"]').click();
 
       // * Edit character details
       elementPage.enterName('Aragorn II Elessar');
@@ -333,7 +336,7 @@ describe('Character Creation Flow', () => {
 
     it('should track edit history', () => {
       projectListPage.selectProject('Epic Fantasy Novel');
-      cy.contains('[data-cy^="element-card-"]', 'Aragorn Strider').click();
+      cy.get('[data-cy="element-card-aragorn-strider"]').click();
 
       // * Make an edit
       elementPage.enterDescription('Updated description');
@@ -348,7 +351,7 @@ describe('Character Creation Flow', () => {
 
     it('should autosave changes', () => {
       projectListPage.selectProject('Epic Fantasy Novel');
-      cy.contains('[data-cy^="element-card-"]', 'Aragorn Strider').click();
+      cy.get('[data-cy="element-card-aragorn-strider"]').click();
 
       // * Enable autosave
       cy.get('[data-cy="autosave-toggle"]').click();
@@ -356,8 +359,13 @@ describe('Character Creation Flow', () => {
       // * Make changes
       elementPage.enterDescription('Autosaved description');
 
-      // * Wait for autosave (usually 2-3 seconds)
-      cy.wait(3000);
+      // ! Following Cypress best practices - wait for specific conditions instead of arbitrary time
+      // * Wait for autosave indicator or intercept save request
+      cy.intercept('POST', '**/api/autosave**').as('autosave');
+      cy.wait('@autosave');
+
+      // * Alternatively, check for save indicator
+      cy.get('[data-cy="save-indicator"]', { timeout: 5000 }).should('contain', 'Saved');
 
       // * Refresh page
       cy.reload();
@@ -370,7 +378,7 @@ describe('Character Creation Flow', () => {
   describe('Character Deletion', () => {
     it('should delete character with confirmation', () => {
       projectListPage.selectProject('Epic Fantasy Novel');
-      cy.contains('[data-cy^="element-card-"]', 'Minimal Character').click();
+      cy.get('[data-cy="element-card-minimal-character"]').click();
 
       // * Delete character
       elementPage.deleteElement();
@@ -386,11 +394,11 @@ describe('Character Creation Flow', () => {
     it('should handle relationship cleanup on deletion', () => {
       // * Delete character with relationships
       projectListPage.selectProject('Epic Fantasy Novel');
-      cy.contains('[data-cy^="element-card-"]', 'Samwise Gamgee').click();
+      cy.get('[data-cy="element-card-samwise-gamgee"]').click();
       elementPage.deleteElement();
 
       // * Check related character
-      cy.contains('[data-cy^="element-card-"]', 'Frodo Baggins').click();
+      cy.get('[data-cy="element-card-frodo-baggins"]').click();
       elementPage.switchToRelationships();
       elementPage.shouldHaveRelationshipCount(0);
     });
@@ -426,7 +434,7 @@ describe('Character Creation Flow', () => {
       projectListPage.selectProject('Epic Fantasy Novel');
 
       // * Click on tag to filter
-      cy.contains('[data-cy^="tag-filter-"]', 'ranger').click();
+      cy.get('[data-cy="tag-filter-ranger"]').click();
       cy.get('[data-cy="element-list"]').should('contain', 'Aragorn');
       cy.get('[data-cy="active-filters"]').should('contain', 'ranger');
 
@@ -438,6 +446,9 @@ describe('Character Creation Flow', () => {
 
   describe('Mobile Character Creation', () => {
     beforeEach(() => {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
       cy.viewport('iphone-x');
     });
 

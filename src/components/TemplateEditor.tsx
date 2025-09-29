@@ -340,7 +340,7 @@ export function TemplateEditor({
                       <View style={styles.basicModeRow}>
                         <Text style={styles.basicModeLabel}>Include in Basic Mode</Text>
                         <Switch
-                          value={basicQuestionIds.includes(question.id)}
+                          value={basicQuestionIds.includes(question.id}
                           onValueChange={() => handleToggleBasicQuestion(question.id)}
                           trackColor={{ false: ' // ! HARDCODED: Should use design tokens#374151', true: ' #6366F1' }} thumbColor="
       #F9FAFB"

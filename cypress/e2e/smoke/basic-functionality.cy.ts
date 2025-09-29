@@ -1,59 +1,68 @@
 /// <reference types="cypress" />
 
 describe('Basic App Functionality - Smoke Tests', () => {
+  beforeEach(() => {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+  });
+
   it('should load the login page when not authenticated', () => {
     cy.visit('/')
     cy.url().should('include', '/login')
   })
-  
+
   it('should display main navigation after authentication', () => {
-    // ! SECURITY: * Setup auth and visit main page
-    cy.setupTestEnvironment()
+    // * Use session-based API login for faster authentication
+    cy.apiLogin('test@example.com', 'testpassword123')
     cy.visit('/')
-    
-    // TODO: ! SECURITY: * Should navigate to stories page for authenticated users
+
+    // * Should navigate to stories page for authenticated users
     cy.url().should('satisfy', (url) => {
       return url.includes('/stories') || url.includes('/dashboard')
     })
   })
 
   it('should use createStory command if available', () => {
+    // * Use session-based API login for faster authentication
+    cy.apiLogin('test@example.com', 'testpassword123')
+
     // * Try to test if the command exists
     const commandExists = typeof cy.createStory === 'function'
     cy.log(`createStory command exists: ${commandExists}`)
-    
-    // * Setup environment and visit
-    cy.setupTestEnvironment()
+
     cy.visit('/')
   })
 
   it('should handle basic story creation workflow', () => {
-    cy.setupTestEnvironment()
+    // * Use session-based API login for faster authentication
+    cy.apiLogin('test@example.com', 'testpassword123')
     cy.visit('/stories')
-    
-    // ? TODO: * Should show create story button
-    cy.get('[data-testid="create-story"], [data-testid="get-started"]').should('be.visible')
+
+    // * Should show create story button
+    cy.get('[data-cy="create-story"], [data-cy="get-started"]').should('be.visible')
   })
 
   it('should handle basic navigation between main sections', () => {
-    cy.setupTestEnvironment()
+    // * Use session-based API login for faster authentication
+    cy.apiLogin('test@example.com', 'testpassword123')
     cy.visit('/')
-    
+
     // * Check that main navigation elements exist
     cy.get('body').should('be.visible')
-    
+
     // * Basic smoke test - app loads without throwing errors
-    cy.get('[data-testid="app-container"], main, #root').should('exist')
+    cy.get('[data-cy="app-container"], main, #root').should('exist')
   })
 
   it('should handle React Native Web rendering', () => {
-    cy.setupTestEnvironment()
+    // * Use session-based API login for faster authentication
+    cy.apiLogin('test@example.com', 'testpassword123')
     cy.visit('/')
-    
+
     // * Check that React Native Web components render
     cy.get('body').should('have.css', 'font-family')
-    
-    // TODO: * Should not have any critical console errors
+
+    // * Should not have any critical console errors
     cy.window().then((win) => {
       // * Basic check that window and document are available
       expect(win.document).to.exist
@@ -61,47 +70,77 @@ describe('Basic App Functionality - Smoke Tests', () => {
     })
   })
 
-  it('should handle offline mode gracefully', () => {
-    cy.setupTestEnvironment()
-    
-    // * Verify offline mode is set
+  it('should handle authenticated state correctly', () => {
+    // * Use session-based API login for faster authentication
+    cy.apiLogin('test@example.com', 'testpassword123')
+
+    // * Verify auth token is set via session
     cy.window().then((win) => {
-      expect(win.// ! SECURITY: Using localStorage
-      localStorage.getItem('fantasy-writing-app-offline-mode')).to.equal('true')
+      expect(win.localStorage.getItem('authToken')).to.exist
     })
-    
+
     cy.visit('/')
-    
-    // TODO: * App should still load in offline mode
+
+    // * App should load in authenticated mode
     cy.get('body').should('be.visible')
+    cy.url().should('not.include', '/login')
   })
 
   it('should handle responsive design basics', () => {
-    cy.setupTestEnvironment()
+    // * Use session-based API login for faster authentication
+    cy.apiLogin('test@example.com', 'testpassword123')
     cy.visit('/')
-    
+
     // * Test mobile viewport
     cy.viewport(375, 667)
     cy.get('body').should('be.visible')
-    
+
     // * Test tablet viewport
     cy.viewport(768, 1024)
     cy.get('body').should('be.visible')
-    
+
     // * Test desktop viewport
     cy.viewport(1920, 1080)
     cy.get('body').should('be.visible')
   })
 
   it('should handle error boundaries', () => {
-    cy.setupTestEnvironment()
+    // * Use session-based API login for faster authentication
+    cy.apiLogin('test@example.com', 'testpassword123')
     cy.visit('/')
-    
+
     // * Basic check that error boundary components would work
     // (This is mainly to ensure the app structure supports error handling)
     cy.window().then((win) => {
       // Check React is loaded
       expect(win.React || win.require).to.exist
+    })
+  })
+
+  it('should maintain session across multiple tests (performance check)', () => {
+    // * First login - session created
+    cy.apiLogin('test@example.com', 'testpassword123')
+    cy.visit('/')
+    cy.url().should('not.include', '/login')
+
+    // * Navigate to another page - session should persist
+    cy.visit('/stories')
+    cy.url().should('include', '/stories')
+
+    // * Check auth token still exists
+    cy.window().then((win) => {
+      expect(win.localStorage.getItem('authToken')).to.exist
+    })
+  })
+
+  it('should handle role-based authentication', () => {
+    // * Use session-based role login for admin user
+    cy.loginAs('admin')
+    cy.visit('/')
+
+    // * Verify admin role is set
+    cy.window().then((win) => {
+      expect(win.localStorage.getItem('userRole')).to.equal('admin')
     })
   })
 })

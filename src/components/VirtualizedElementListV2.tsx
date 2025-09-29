@@ -23,6 +23,7 @@ import { ElementCard } from './ElementCard';
 import { useTheme } from '../providers/ThemeProvider';
 import { fantasyMasterColors } from '../constants/fantasyMasterColors';
 
+import { getTestProps } from '../utils/react-native-web-polyfills';
 interface VirtualizedElementListProps {
   elements: WorldElement[];
   onElementPress?: (element: WorldElement) => void;
@@ -186,7 +187,7 @@ export const VirtualizedElementList = memo(function VirtualizedElementList({
           <Pressable 
             style={styles.createButton}
             onPress={onCreateElement}
-            testID="create-element-button"
+            {...getTestProps('create-element-button')}
           >
             <Text style={styles.createButtonText}>Create Element</Text>
           </Pressable>
@@ -207,13 +208,13 @@ export const VirtualizedElementList = memo(function VirtualizedElementList({
           placeholderTextColor={theme.colors.text.tertiary}
           value={searchQuery}
           onChangeText={setSearchQuery}
-          testID="element-search-input"
+          {...getTestProps('element-search-input')}
         />
         {searchQuery.length > 0 && (
           <Pressable 
             onPress={() => setSearchQuery('')}
             style={styles.clearButton}
-            testID="clear-search-button"
+            {...getTestProps('clear-search-button')}
           >
             <Text style={styles.clearIcon}>✕</Text>
           </Pressable>
@@ -239,7 +240,7 @@ export const VirtualizedElementList = memo(function VirtualizedElementList({
                 }
               ]}
               onPress={() => setSelectedCategory(category.id)}
-              testID={`category-filter-${category.id}`}
+              {...getTestProps(`category-filter-${category.id}`}
             >
               <Text style={styles.categoryIcon}>{category.icon}</Text>
               <Text 
@@ -276,7 +277,7 @@ export const VirtualizedElementList = memo(function VirtualizedElementList({
                     selectedTags.includes(tag) && styles.tagChipActive
                   ]}
                   onPress={() => toggleTag(tag)}
-                  testID={`tag-filter-${tag}`}
+                  {...getTestProps(`tag-filter-${tag)}`}
                 >
                   <Text 
                     style={[
@@ -303,7 +304,7 @@ export const VirtualizedElementList = memo(function VirtualizedElementList({
           <Pressable 
             style={styles.sortButton}
             onPress={() => setShowSortDropdown(!showSortDropdown)}
-            testID="sort-button"
+            {...getTestProps('sort-button')}
           >
             <Text style={styles.sortButtonText}>
               {SORT_OPTIONS.find(opt => opt.id === sortBy)?.label}
@@ -324,7 +325,7 @@ export const VirtualizedElementList = memo(function VirtualizedElementList({
                     setSortBy(option.id);
                     setShowSortDropdown(false);
                   }}
-                  testID={`sort-option-${option.id}`}
+                  {...getTestProps(`sort-option-${option.id}`}
                 >
                   <Text 
                     style={[
@@ -355,7 +356,7 @@ export const VirtualizedElementList = memo(function VirtualizedElementList({
   ]);
 
   return (
-    <View style={styles.container} testID={testID}>
+    <View style={styles.container} {...getTestProps(testID)}>
       <FlatList
         data={filteredElements}
         renderItem={renderItem}
@@ -385,7 +386,7 @@ export const VirtualizedElementList = memo(function VirtualizedElementList({
         <Pressable
           style={styles.fab}
           onPress={onCreateElement}
-          testID="fab-create-element"
+          {...getTestProps('fab-create-element')}
         >
           <Text style={styles.fabIcon}>➕</Text>
         </Pressable>

@@ -16,6 +16,7 @@ import {
 } from 'react-native';
 import { useTheme } from '../providers/ThemeProvider';
 
+import { getTestProps } from '../utils/react-native-web-polyfills';
 interface ImagePickerProps {
   value?: string;
   onChange: (imageUri: string | undefined) => void;
@@ -103,13 +104,13 @@ export function ImagePicker({
   const styles = getStyles(theme);
 
   return (
-    <View style={styles.container} testID={testID}>
+    <View style={styles.container} {...getTestProps(testID)}>
       {label && <Text style={styles.label}>{label}</Text>}
       
       <Pressable
         style={styles.imageContainer}
         onPress={value ? undefined : handleSelectImage}
-        testID={`${testID}-button`}
+        {...getTestProps(`${testID}-button`)}
       >
         {value && !imageError ? (
           <>
@@ -118,20 +119,20 @@ export function ImagePicker({
               style={styles.image}
               resizeMode="cover"
               onError={() => setImageError(true)}
-              testID={`${testID}-preview`}
+              {...getTestProps(`${testID}-preview`)}
             />
             <View style={styles.imageOverlay}>
               <Pressable
                 style={styles.changeButton}
                 onPress={handleSelectImage}
-                testID={`${testID}-change`}
+                {...getTestProps(`${testID}-change`)}
               >
                 <Text style={styles.changeButtonText}>Change</Text>
               </Pressable>
               <Pressable
                 style={styles.removeButton}
                 onPress={handleRemoveImage}
-                testID={`${testID}-remove`}
+                {...getTestProps(`${testID}-remove`)}
               >
                 <Text style={styles.removeButtonText}>Remove</Text>
               </Pressable>

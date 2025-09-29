@@ -13,8 +13,10 @@ on:
   workflow_dispatch:
 
 env:
-  NODE_VERSION: '18'
+  NODE_VERSION: '20'  # * Updated to match package.json engine requirement
   CYPRESS_CACHE_FOLDER: ~/.cache/Cypress
+  # ! CRITICAL: Cypress best practice - always set baseUrl via env var as backup
+  CYPRESS_BASE_URL: 'http://localhost:3002'
 
 jobs:
   # Job to install dependencies and build the app
@@ -43,15 +45,18 @@ jobs:
         if: steps.cache-nodemodules.outputs.cache-hit != 'true'
         run: npm ci
 
-      - name: Build application
-        run: npm run build:web
+      # ! Skip build for E2E tests - we'll use dev server (faster)
+      # * Building is only needed for production deployment
+      # - name: Build application
+      #   run: npm run build:web
 
-      - name: Save build folder
-        uses: actions/upload-artifact@v3
-        with:
-          name: build-folder
-          path: build
-          if-no-files-found: error
+      # ! Not needed when using dev server
+      # - name: Save build folder
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: build-folder
+      #     path: build
+      #     if-no-files-found: error
 
   # Cypress E2E tests running in parallel
   cypress-run:
@@ -89,11 +94,12 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-cypress-
 
-      - name: Download build folder
-        uses: actions/download-artifact@v3
-        with:
-          name: build-folder
-          path: build
+      # ! Not needed when using dev server
+      # - name: Download build folder
+      #   uses: actions/download-artifact@v3
+      #   with:
+      #     name: build-folder
+      #     path: build
 
       - name: Install dependencies
         run: npm ci
@@ -101,21 +107,15 @@ jobs:
       - name: Verify Cypress
         run: npx cypress verify
 
-      # Start server in background before running tests
-      - name: Start development server
-        run: |
-          npm run web &
-          npx wait-on http://localhost:3002
-        env:
-          CI: true
-
-      # Run Cypress tests with recording
-      - name: Cypress run
+      # ! CRITICAL: Following Cypress.io best practice - Start server BEFORE Cypress
+      # * Using start-server-and-test for reliable server management
+      - name: Run Cypress E2E tests
         uses: cypress-io/github-action@v6
         with:
-          # We've already installed deps and started server
+          # ! Don't install again - we already did npm ci
           install: false
-          start: false
+          # * Use start-server-and-test to properly manage server lifecycle
+          start: npm run web
           wait-on: 'http://localhost:3002'
           wait-on-timeout: 120
           browser: chrome
@@ -126,6 +126,8 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           # Tag recordings
           tag: ${{ github.event_name }}
+          # * Ensure clean test environment
+          command-prefix: 'npm run pre-test:cleanup &&'
         env:
           # Pass Cypress Cloud record key as secret
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}

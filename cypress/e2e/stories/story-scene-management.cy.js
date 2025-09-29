@@ -22,6 +22,9 @@ describe('Story and Scene Management Flow', () => {
   };
 
   beforeEach(function() {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
     // * Clean state BEFORE test (Cypress best practice)
     cy.task('db:clean');
 
@@ -117,6 +120,9 @@ describe('Story and Scene Management Flow', () => {
     let storyId;
 
     beforeEach(() => {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
       // * Create story context for scenes
       cy.request('POST', '/api/stories', testStory).then((response) => {
         storyId = response.body.id;
@@ -235,6 +241,9 @@ describe('Story and Scene Management Flow', () => {
     let storyId;
 
     beforeEach(() => {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
       cy.request('POST', '/api/stories', testStory).then((response) => {
         storyId = response.body.id;
         cy.visit(`/story/${storyId}/chapters`);
@@ -292,6 +301,9 @@ describe('Story and Scene Management Flow', () => {
     let storyId;
 
     beforeEach(() => {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
       cy.request('POST', '/api/stories', {
         ...testStory,
         targetWordCount: 10000,
@@ -355,6 +367,9 @@ describe('Story and Scene Management Flow', () => {
     let storyId;
 
     beforeEach(() => {
+    // ! MANDATORY: Comprehensive debug setup
+    cy.comprehensiveDebug();
+
       // * Create story with content
       cy.request('POST', '/api/stories', testStory).then((response) => {
         storyId = response.body.id;
@@ -393,11 +408,6 @@ describe('Story and Scene Management Flow', () => {
     });
   });
 
-  afterEach(function() {
-    // * Capture debug info on failure (Cypress best practice)
-    if (this.currentTest.state === 'failed') {
-      cy.screenshot(`failure-${this.currentTest.title}`);
-      cy.task('log', `Test failed: ${this.currentTest.title}`);
-    }
-  });
+  // ! NOTE: Failure handling is done globally in cypress/support/e2e.ts
+  // ! Following Cypress best practices - no conditional statements in tests
 });

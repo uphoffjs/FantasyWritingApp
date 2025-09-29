@@ -19,6 +19,7 @@ import {
 // import LinearGradient from 'react-native-linear-gradient';
 import { useTheme } from '../../providers/ThemeProvider';
 
+import { getTestProps } from '../utils/react-native-web-polyfills';
 interface ShimmerEffectProps {
   // * Width of the shimmer area
   width?: number | string;
@@ -153,7 +154,7 @@ export const ShimmerEffect: React.FC<ShimmerEffectProps> = ({
           { width, height },
           style,
         ]}
-        testID={testID}
+        {...getTestProps(testID)}
       >
         <View style={styles.shimmerBase}>
           <Animated.View
@@ -199,7 +200,7 @@ export const ShimmerEffect: React.FC<ShimmerEffectProps> = ({
         { width, height },
         style,
       ]}
-      testID={testID}
+      {...getTestProps(testID)}
     >
       <View style={styles.shimmerBase}>
         <Animated.View

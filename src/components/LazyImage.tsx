@@ -18,6 +18,7 @@ import {
 } from 'react-native';
 import { useTheme } from '../providers/ThemeProvider';
 
+import { getTestProps } from '../utils/react-native-web-polyfills';
 interface LazyImageProps extends Omit<ImageProps, 'source'> {
   // * Main image source
   source: ImageSourcePropType;
@@ -155,7 +156,7 @@ export const LazyImage: React.FC<LazyImageProps> = ({
   };
 
   return (
-    <View ref={imageRef} style={style} testID={testID}>
+    <View ref={imageRef} style={style} {...getTestProps(testID)}>
       <Animated.View style={{ opacity: fadeAnim, flex: 1 }}>
         <Image
           {...imageProps}
@@ -166,13 +167,13 @@ export const LazyImage: React.FC<LazyImageProps> = ({
             StyleSheet.absoluteFillObject,
             style,
           ]}
-          testID={`${testID}-image`}
+          {...getTestProps(`${testID}-image`)}
         />
       </Animated.View>
 
       {/* Loading indicator */}
       {showLoadingIndicator && !isLoaded && !hasError && shouldLoad && (
-        <View style={styles.loadingContainer} testID={`${testID}-loading`}>
+        <View style={styles.loadingContainer} {...getTestProps(`${testID}-loading`)}>
           <ActivityIndicator
             size="small"
             color={theme.colors.primary.DEFAULT}

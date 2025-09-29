@@ -52,12 +52,8 @@ describe('Sync Services E2E Tests', () => {
     cy.viewport('macbook-15');
   });
 
-  afterEach(function() {
-    // ! Capture debug info if test failed
-    if (this.currentTest.state === 'failed') {
-      cy.captureFailureDebug();
-    }
-  });
+  // ! NOTE: Failure handling is done globally in cypress/support/e2e.ts
+  // ! Following Cypress best practices - no conditional statements in tests
 
   describe('Delta Sync Service', () => {
     it('should track create operations', () => {
@@ -136,16 +132,22 @@ describe('Sync Services E2E Tests', () => {
       cy.get('[data-cy="save-project-button"]').click();
 
       // * Verify checksums are generated
+      // ! Following Cypress best practices - filter data before testing instead of using conditionals
       cy.window().then((win) => {
         const deltaChanges = JSON.parse(win.localStorage.getItem('@FantasyWritingApp:deltaChanges') || '[]');
 
-        deltaChanges.forEach((change: any) => {
-          if (change.newValue) {
-            expect(change.checksum).to.exist;
-            expect(change.checksum).to.be.a('string');
-            expect(change.checksum.length).to.be.greaterThan(0);
-          }
+        // * Filter to only changes with newValue before testing
+        const changesWithNewValue = deltaChanges.filter((change: any) => change.newValue);
+
+        // * Now test all filtered changes without conditionals
+        changesWithNewValue.forEach((change: any) => {
+          expect(change.checksum).to.exist;
+          expect(change.checksum).to.be.a('string');
+          expect(change.checksum.length).to.be.greaterThan(0);
         });
+
+        // * Ensure we have at least some changes with new values
+        expect(changesWithNewValue.length).to.be.greaterThan(0);
       });
     });
   });

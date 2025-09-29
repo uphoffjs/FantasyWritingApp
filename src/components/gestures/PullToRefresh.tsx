@@ -17,6 +17,7 @@ import {
 } from 'react-native';
 import { useTheme } from '../../providers/ThemeProvider';
 
+import { getTestProps } from '../utils/react-native-web-polyfills';
 interface PullToRefreshProps {
   children: React.ReactNode;
   onRefresh: () => Promise<void> | void;
@@ -209,7 +210,7 @@ export const PullToRefresh: React.FC<PullToRefreshProps> = ({
       progressViewOffset={progressViewOffset} // * Android
       title={statusMessage} // * iOS
       titleColor={theme.colors.text.secondary} // * iOS
-      testID={testID}
+      {...getTestProps(testID)}
     />
   );
 
@@ -286,7 +287,7 @@ export const PullToRefresh: React.FC<PullToRefreshProps> = ({
 
   // * Wrap in View with custom indicator for web
   return (
-    <View style={styles.container} testID={testID}>
+    <View style={styles.container} {...getTestProps(testID)}>
       {Platform.OS === 'web' && isRefreshing && webPullIndicator}
       {children}
     </View>
