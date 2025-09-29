@@ -209,9 +209,11 @@ function App() {
                 }}
               >
                 {(props) => (
-                  <Suspense fallback={<LoadingScreen message="Loading..." />}>
-                    <NotFoundScreen {...props} />
-                  </Suspense>
+                  <AuthGuard requireAuth={true}>
+                    <Suspense fallback={<LoadingScreen message="Loading..." />}>
+                      <NotFoundScreen {...props} />
+                    </Suspense>
+                  </AuthGuard>
                 )}
               </Stack.Screen>
             </Stack.Navigator>

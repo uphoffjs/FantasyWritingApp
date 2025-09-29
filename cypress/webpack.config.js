@@ -6,9 +6,17 @@
  */
 
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
   mode: 'development',
+
+  // * Set NODE_ENV to 'test' to ensure NativeWind is excluded
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify('test'),
+    }),
+  ],
 
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
@@ -46,15 +54,22 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
+            // * Force test environment to exclude NativeWind
+            envName: 'test',
             presets: [
               '@babel/preset-typescript',
               '@babel/preset-react',
               ['@babel/preset-env', { modules: false }]
             ],
             plugins: [
-              '@babel/plugin-proposal-class-properties',
+              // * Use newer plugin names with consistent 'loose' mode to fix Babel conflicts
+              ['@babel/plugin-transform-class-properties', { loose: true }],
+              ['@babel/plugin-transform-private-methods', { loose: true }],
+              ['@babel/plugin-transform-private-property-in-object', { loose: true }],
               '@babel/plugin-transform-runtime'
-            ]
+            ],
+            // * Ignore PostCSS/NativeWind processing
+            compact: false
           }
         }
       },
@@ -66,10 +81,13 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
+            // * Force test environment
+            envName: 'test',
             presets: [
               '@babel/preset-react',
               ['@babel/preset-env', { modules: false }]
-            ]
+            ],
+            compact: false
           }
         }
       },
