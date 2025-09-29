@@ -5,11 +5,23 @@ module.exports = {
   extends: [
     'plugin:cypress/recommended'
   ],
-  plugins: ['cypress'],
+  plugins: ['cypress'], // Note: 'jest' should NOT be in this array
   env: {
-    'cypress/globals': true
+    'cypress/globals': true,
+    'jest': false,  // Explicitly disable Jest environment
+    'mocha': true   // Enable Mocha environment
   },
   rules: {
+    // Disable ALL Jest plugin rules (these interfere with Cypress/Mocha)
+    'jest/no-focused-tests': 'off',
+    'jest/no-disabled-tests': 'off',
+    'jest/valid-expect': 'off',
+    'jest/no-identical-title': 'off',
+    'jest/no-conditional-expect': 'off',
+    'jest/no-test-return-statement': 'off',
+    'jest/prefer-to-be': 'off',
+    'jest/prefer-to-have-length': 'off',
+
     // ! CRITICAL: Cypress.io Best Practices Rules
 
     // * 1. No conditional statements (if/else) in tests

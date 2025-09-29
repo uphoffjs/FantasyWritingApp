@@ -166,13 +166,36 @@ module.exports = {
       files: ['**/cypress/**/*.cy.{js,jsx,ts,tsx}', '**/cypress/**/*.spec.{js,jsx,ts,tsx}'],
       extends: ['./.eslintrc.cypress.js'],
       env: {
-        'cypress/globals': true
+        'cypress/globals': true,
+        'jest': false,  // Explicitly disable Jest environment
+        'mocha': true   // Enable Mocha environment
       },
       globals: {
         cy: 'readonly',
-        Cypress: 'readonly'
+        Cypress: 'readonly',
+        // Mocha globals
+        describe: 'readonly',
+        context: 'readonly',
+        it: 'readonly',
+        specify: 'readonly',
+        before: 'readonly',
+        after: 'readonly',
+        beforeEach: 'readonly',
+        afterEach: 'readonly'
       },
       rules: {
+        // Explicitly disable ALL Jest rules
+        'jest/no-focused-tests': 'off',
+        'jest/no-disabled-tests': 'off',
+        'jest/valid-expect': 'off',
+        'jest/no-identical-title': 'off',
+        'jest/no-conditional-expect': 'off',
+        'jest/no-test-return-statement': 'off',
+        'jest/prefer-to-be': 'off',
+        'jest/prefer-to-have-length': 'off',
+
+        // Allow Mocha's exclusive tests (.only() in development)
+        'mocha/no-exclusive-tests': 'off',
         // ! CRITICAL: Cypress Best Practices (from official docs)
         // * These override any conflicting rules from other configs
         'no-restricted-syntax': [
@@ -204,8 +227,7 @@ module.exports = {
           }
         ],
         // * Disable rules that conflict with Cypress patterns
-        '@typescript-eslint/no-unused-vars': 'off',
-        'jest/valid-expect': 'off' // Cypress has different expect syntax
+        '@typescript-eslint/no-unused-vars': 'off'
       }
     },
     {
