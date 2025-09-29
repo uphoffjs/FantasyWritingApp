@@ -118,7 +118,7 @@ export function ProjectListScreen() {
     if (viewMode === 'list') {
       // * List view - full width cards with inline stats
       return (
-        <View style={styles.listCard} {...getTestProps(`project-list-item-${item.id}`}>
+        <View style={styles.listCard} {...getTestProps(`project-list-item-${item.id}`)}>
           <ProjectCard 
             project={item}
             onPress={() => handleProjectSelect(item)}
@@ -132,7 +132,7 @@ export function ProjectListScreen() {
     
     // * Grid view - responsive columns
     return (
-      <View style={[styles.gridCard, { width: `${100 / getGridColumns()}%` }]} {...getTestProps(`project-grid-item-${item.id}`}>
+      <View style={[styles.gridCard, { width: `${100 / getGridColumns()}%` }]} {...getTestProps(`project-grid-item-${item.id}`)}>
         <ProjectCard 
           project={item}
           onPress={() => handleProjectSelect(item)}

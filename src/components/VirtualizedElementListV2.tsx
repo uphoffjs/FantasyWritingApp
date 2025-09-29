@@ -240,7 +240,7 @@ export const VirtualizedElementList = memo(function VirtualizedElementList({
                 }
               ]}
               onPress={() => setSelectedCategory(category.id)}
-              {...getTestProps(`category-filter-${category.id}`}
+              {...getTestProps(`category-filter-${category.id}`)}
             >
               <Text style={styles.categoryIcon}>{category.icon}</Text>
               <Text 
@@ -277,7 +277,7 @@ export const VirtualizedElementList = memo(function VirtualizedElementList({
                     selectedTags.includes(tag) && styles.tagChipActive
                   ]}
                   onPress={() => toggleTag(tag)}
-                  {...getTestProps(`tag-filter-${tag)}`}
+                  {...getTestProps(`tag-filter-${tag}`)}
                 >
                   <Text 
                     style={[
@@ -325,7 +325,7 @@ export const VirtualizedElementList = memo(function VirtualizedElementList({
                     setSortBy(option.id);
                     setShowSortDropdown(false);
                   }}
-                  {...getTestProps(`sort-option-${option.id}`}
+                  {...getTestProps(`sort-option-${option.id}`)}
                 >
                   <Text 
                     style={[

@@ -194,7 +194,7 @@ export const MemoryCheckpointManager: React.FC = () => {
                       onPress={() => setSelectedCheckpoint(
                         selectedCheckpoint === checkpoint.id ? null : checkpoint.id
                       )}
-                      {...getTestProps(`checkpoint-${checkpoint.id}`}
+                      {...getTestProps(`checkpoint-${checkpoint.id}`)}
                     >
                       <Text style={styles.checkpointName}>{checkpoint.name}</Text>
                       <Text style={styles.checkpointTime}>
@@ -209,7 +209,7 @@ export const MemoryCheckpointManager: React.FC = () => {
                       <TouchableOpacity
                         style={[styles.iconButton, styles.restoreButton]}
                         onPress={() => handleRestore(checkpoint.id)}
-                        {...getTestProps(`restore-${checkpoint.id}`}
+                        {...getTestProps(`restore-${checkpoint.id}`)}
                       >
                         <Text style={styles.iconButtonText}>↻</Text>
                       </TouchableOpacity>
@@ -217,7 +217,7 @@ export const MemoryCheckpointManager: React.FC = () => {
                       <TouchableOpacity
                         style={[styles.iconButton, styles.exportButton]}
                         onPress={() => handleExport(checkpoint.id)}
-                        {...getTestProps(`export-${checkpoint.id}`}
+                        {...getTestProps(`export-${checkpoint.id}`)}
                       >
                         <Text style={styles.iconButtonText}>↓</Text>
                       </TouchableOpacity>
@@ -225,13 +225,13 @@ export const MemoryCheckpointManager: React.FC = () => {
                       <TouchableOpacity
                         style={[styles.iconButton, styles.deleteButton]}
                         onPress={() => handleDelete(checkpoint.id)}
-                        {...getTestProps(`delete-${checkpoint.id}`}
+                        {...getTestProps(`delete-${checkpoint.id}`)}
                       >
                         <Text style={styles.iconButtonText}>🗑</Text>
                       </TouchableOpacity>
                     </View>
 
-                    {selectedCheckpoint === checkpoint.id && getCheckpointDetails(checkpoint.id}
+                    {selectedCheckpoint === checkpoint.id && getCheckpointDetails(checkpoint.id)}
                   </View>
                 ))
               )}

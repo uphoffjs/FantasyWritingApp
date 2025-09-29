@@ -251,7 +251,7 @@ export function ProjectFilter({
                     pressed && styles.chipPressed,
                   ]}
                   onPress={() => toggleGenre(genre)}
-                  {...getTestProps(`filter-genre-${genre)}`}
+                  {...getTestProps(`filter-genre-${genre}`)}
                 >
                   <Text
                     style={[
@@ -279,7 +279,7 @@ export function ProjectFilter({
                     pressed && styles.statusChipPressed,
                   ]}
                   onPress={() => toggleStatus(option.value)}
-                  {...getTestProps(`filter-status-${option.value)}`}
+                  {...getTestProps(`filter-status-${option.value}`)}
                 >
                   <Text style={styles.statusIcon}>{option.icon}</Text>
                   <Text
@@ -314,7 +314,7 @@ export function ProjectFilter({
                       pressed && styles.timeChipPressed,
                     ]}
                     onPress={() => setFilters(prev => ({ ...prev, lastModified: time.value as any }))}
-                    {...getTestProps(`filter-time-${time.value)}`}
+                    {...getTestProps(`filter-time-${time.value}`)}
                   >
                     <Text
                       style={[
@@ -347,7 +347,7 @@ export function ProjectFilter({
                         pressed && styles.sortChipPressed,
                       ]}
                       onPress={() => setFilters(prev => ({ ...prev, sortBy: sort.value as any }))}
-                      {...getTestProps(`filter-sort-${sort.value)}`}
+                      {...getTestProps(`filter-sort-${sort.value}`)}
                     >
                       <Text
                         style={[

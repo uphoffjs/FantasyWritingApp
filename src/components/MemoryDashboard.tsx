@@ -208,7 +208,7 @@ export const MemoryDashboard: React.FC = () => {
           <View style={styles.taskGroup}>
             <Text style={styles.taskGroupTitle}>In Progress</Text>
             {tasks.inProgressTasks.map((task) => (
-              <View key={task.id} style={styles.taskItem} {...getTestProps(`task-${task.id}`}>
+              <View key={task.id} style={styles.taskItem} {...getTestProps(`task-${task.id}`)}>
                 <Text style={styles.taskContent}>{task.content}</Text>
                 <View style={styles.taskActions}>
                   <TouchableOpacity
@@ -233,7 +233,7 @@ export const MemoryDashboard: React.FC = () => {
           <View style={styles.taskGroup}>
             <Text style={styles.taskGroupTitle}>Pending</Text>
             {tasks.pendingTasks.slice(0, 5).map((task) => (
-              <View key={task.id} style={styles.taskItem} {...getTestProps(`task-${task.id}`}>
+              <View key={task.id} style={styles.taskItem} {...getTestProps(`task-${task.id}`)}>
                 <Text style={styles.taskContent}>{task.content}</Text>
                 <TouchableOpacity
                   style={[styles.taskButton, styles.startButton]}
@@ -250,7 +250,7 @@ export const MemoryDashboard: React.FC = () => {
           <View style={styles.taskGroup}>
             <Text style={styles.taskGroupTitle}>Blocked</Text>
             {tasks.blockedTasks.map((task) => (
-              <View key={task.id} style={styles.taskItem} {...getTestProps(`task-${task.id}`}>
+              <View key={task.id} style={styles.taskItem} {...getTestProps(`task-${task.id}`)}>
                 <Text style={[styles.taskContent, styles.blockedText]}>
                   {task.content}
                 </Text>
@@ -295,7 +295,7 @@ export const MemoryDashboard: React.FC = () => {
                   styles.checkpointItem,
                   checkpoint.id === checkpoints.currentCheckpoint && styles.activeCheckpoint,
                 ]}
-                {...getTestProps(`checkpoint-${checkpoint.id}`}
+                {...getTestProps(`checkpoint-${checkpoint.id}`)}
               >
                 <View style={styles.checkpointInfo}>
                   <Text style={styles.checkpointName}>{checkpoint.name}</Text>

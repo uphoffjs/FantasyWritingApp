@@ -73,7 +73,7 @@ export const BottomNavigation = React.memo(function BottomNavigation({
                 styles.tabIcon,
                 isActive && styles.tabIconActive,
               ]}
-              {...getTestProps(`${tab.testId)}-icon`)}
+              {...getTestProps(`${tab.testId}-icon`)}
             >
               {tab.icon}
             </Text>
@@ -85,7 +85,7 @@ export const BottomNavigation = React.memo(function BottomNavigation({
                 isActive && styles.tabLabelActive,
               ]}
               numberOfLines={1}
-              {...getTestProps(`${tab.testId)}-label`)}
+              {...getTestProps(`${tab.testId}-label`)}
             >
               {tab.label}
             </Text>
@@ -94,7 +94,7 @@ export const BottomNavigation = React.memo(function BottomNavigation({
             {isActive && (
               <View 
                 style={styles.activeIndicator}
-                {...getTestProps(`${tab.testId)}-active-indicator`)}
+                {...getTestProps(`${tab.testId}-active-indicator`)}
               />
             )}
           </Pressable>

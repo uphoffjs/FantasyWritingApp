@@ -337,7 +337,7 @@ export const ProjectCard = memo(function ProjectCard({
       delay={index * 100} // * Stagger delay based on position in list
       distance={30}
       easing="spring"
-      {...getTestProps(`project-card-reveal-${index)}`}
+      {...getTestProps(`project-card-reveal-${index}`)}
     >
       <BackgroundWithTexture 
         variant="subtle"

@@ -193,7 +193,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         key={item.id}
         style={[styles.menuItem, isActive && styles.menuItemActive]}
         onPress={() => handleNavigation(item.route, item.action)}
-        {...getTestProps(`sidebar-menu-item-${item.id}`}
+        {...getTestProps(`sidebar-menu-item-${item.id}`)}
       >
         <Text style={[styles.menuIcon, isActive && styles.menuIconActive]}>{item.icon}</Text>
         <Text style={[styles.menuLabel, isActive && styles.menuLabelActive]}>{item.label}</Text>
@@ -228,7 +228,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         <Pressable
           style={styles.sectionHeader}
           onPress={() => toggleSection(sectionId)}
-          {...getTestProps(`sidebar-section-${sectionId)}`}
+          {...getTestProps(`sidebar-section-${sectionId}`)}
         >
           <Text style={styles.sectionTitle}>{title}</Text>
           <Animated.Text 

@@ -102,7 +102,7 @@ export function ProjectList({
           <SwipeableRow
             onDelete={onProjectDelete ? () => onProjectDelete(item.id) : undefined}
             onArchive={onProjectArchive ? () => onProjectArchive(item.id) : undefined}
-            {...getTestProps(`swipeable-project-${item.id}`}
+            {...getTestProps(`swipeable-project-${item.id}`)}
           >
             {card}
           </SwipeableRow>
