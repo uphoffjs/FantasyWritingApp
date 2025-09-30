@@ -106,3 +106,8 @@ mockups/
 
 # Webpack cache for Cypress component tests
 .webpack-cache/
+
+# SuperClaude Framework - Python cache files only (keep framework files)
+superclaude/__pycache__/
+superclaude/**/*.pyc
+superclaude/**/__pycache__/

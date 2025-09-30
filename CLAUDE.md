@@ -1,36 +1,70 @@
 # FantasyWritingApp - Claude Code Configuration
 
-**SuperClaude Framework:** Enabled (v4.1.3)
-**Installation:** Global (`~/.claude/`)
+**SuperClaude Framework:** Dual Installation (Local + Global)
+
+- **Local:** v4.1.5 (`./superclaude/`) - Project-specific, version-controlled
+- **Global:** v4.1.3 (`~/.claude/`) - System-wide fallback
+
+**Priority:** Local installation takes precedence
 **Profile:** Default with project-specific enhancements
 
 ---
 
-## 🎯 SuperClaude Framework Import
+## 🎯 SuperClaude Framework - Dual Installation
 
-The following SuperClaude Framework components are automatically loaded from the global installation:
+This project uses **both local and global** SuperClaude installations for maximum flexibility:
 
-### Core Framework
+### 📦 Local Installation (Primary)
 
-- `@~/.claude/PRINCIPLES.md` - Software engineering principles
-- `@~/.claude/RULES.md` - Behavioral rules and workflows
-- `@~/.claude/FLAGS.md` - Mode activation flags
+- **Location:** `./superclaude/` (committed to repository)
+- **Version:** v4.1.5 (newer than global)
+- **Purpose:** Project-specific framework, team consistency
+- **Benefits:** Version control, team collaboration, project customization
 
-### Behavioral Modes
+### 🌍 Global Installation (Fallback)
 
-- `@~/.claude/MODE_Brainstorming.md` - Requirements discovery
-- `@~/.claude/MODE_Business_Panel.md` - Multi-expert business analysis
-- `@~/.claude/MODE_Introspection.md` - Meta-cognitive analysis
-- `@~/.claude/MODE_Orchestration.md` - Tool selection optimization
-- `@~/.claude/MODE_Task_Management.md` - Hierarchical task organization
-- `@~/.claude/MODE_Token_Efficiency.md` - Symbol-enhanced communication
+- **Location:** `~/.claude/` (user-specific)
+- **Version:** v4.1.3
+- **Purpose:** System-wide defaults, personal preferences
 
-### Business Analysis (Optional)
+### 🔧 Priority Order
 
-- `@~/.claude/BUSINESS_PANEL_EXAMPLES.md` - Business panel usage patterns
-- `@~/.claude/BUSINESS_SYMBOLS.md` - Business analysis symbols
+Claude Code checks for framework files in this order:
 
-> **Note:** The SuperClaude Framework enhances Claude Code with structured workflows, intelligent tool selection, and advanced analysis capabilities. Project-specific instructions below extend the global framework.
+1. **Local first:** `@./superclaude/Core/PRINCIPLES.md`
+2. **Global fallback:** `@~/.claude/PRINCIPLES.md`
+
+### 📚 Available Components
+
+#### Core Framework (6 files)
+
+- `@superclaude/Core/PRINCIPLES.md` - Software engineering principles
+- `@superclaude/Core/RULES.md` - Behavioral rules and workflows
+- `@superclaude/Core/FLAGS.md` - Mode activation flags
+- `@superclaude/Core/BUSINESS_PANEL_EXAMPLES.md` - Business analysis examples
+- `@superclaude/Core/BUSINESS_SYMBOLS.md` - Business symbol system
+- `@superclaude/Core/RESEARCH_CONFIG.md` - Research configuration
+
+#### Behavioral Modes (7 modes)
+
+- `@superclaude/Modes/MODE_Brainstorming.md` - Requirements discovery
+- `@superclaude/Modes/MODE_Business_Panel.md` - Multi-expert business analysis
+- `@superclaude/Modes/MODE_DeepResearch.md` - Comprehensive research mode
+- `@superclaude/Modes/MODE_Introspection.md` - Meta-cognitive analysis
+- `@superclaude/Modes/MODE_Orchestration.md` - Tool selection optimization
+- `@superclaude/Modes/MODE_Task_Management.md` - Hierarchical task organization
+- `@superclaude/Modes/MODE_Token_Efficiency.md` - Symbol-enhanced communication
+
+#### Specialized Agents (17 agents)
+
+Available in `./superclaude/Agents/` - Use with `@agent` syntax or `/sc:` commands
+
+#### Slash Commands (24 commands)
+
+All `/sc:` commands in `./superclaude/Commands/`:
+`/sc:analyze`, `/sc:brainstorm`, `/sc:build`, `/sc:business-panel`, `/sc:cleanup`, `/sc:design`, `/sc:document`, `/sc:estimate`, `/sc:explain`, `/sc:git`, `/sc:help`, `/sc:implement`, `/sc:improve`, `/sc:index`, `/sc:load`, `/sc:reflect`, `/sc:save`, `/sc:select-tool`, `/sc:spawn`, `/sc:spec-panel`, `/sc:task`, `/sc:test`, `/sc:troubleshoot`, `/sc:workflow`
+
+> **📝 Note:** The SuperClaude Framework enhances Claude Code with structured workflows, intelligent tool selection, and advanced analysis. Local installation ensures team consistency through version control.
 
 ---
 
