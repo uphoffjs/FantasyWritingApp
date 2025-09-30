@@ -104,6 +104,21 @@ npm run test          # Jest unit tests
 npm run test:component # Cypress component tests
 
 npm run build:web     # Production build
+
+# 🐳 Docker Cypress (macOS Sequoia Solution) ✅ VERIFIED WORKING
+
+## Commands
+npm run cypress:docker:test           # All tests + auto-server
+npm run cypress:docker:run            # All tests (manual server)
+SPEC=path/to/test.cy.ts npm run cypress:docker:test:spec    # Single test + auto-server
+SPEC=path/to/test.cy.ts npm run cypress:docker:run:spec     # Single test (manual server)
+
+## When to Use
+✅ macOS Sequoia (Darwin 24.6.0+) - Native Cypress fails with "bad option" errors
+✅ CI/CD - Consistent cross-platform environment
+❌ Interactive debugging - Use native Cypress on compatible platforms (headless only in Docker)
+
+📚 Full guide: /cypress/docs/DOCKER-CYPRESS-GUIDE.md
 ```
 
 ## ⚠️ CRITICAL: ALWAYS Use npm Scripts for Cypress
@@ -546,7 +561,9 @@ git commit -m "feat: description"  # conventional commits
 2. **`/cypress/CYPRESS-TESTING-STANDARDS.md`** - Project authority (v2.0.0)
 3. **`/cypress/docs/cypress-best-practices.md`** - Detailed guide
 4. **`/cypress/docs/ADVANCED-TESTING-STRATEGY.md`** - Advanced patterns
-5. **`/cypress/docs/RUNNING-SINGLE-TESTS.md`** - Single test execution guide (NEW!)
+5. **`/cypress/docs/RUNNING-SINGLE-TESTS.md`** - Single test execution guide
+6. **`/cypress/docs/DOCKER-CYPRESS-GUIDE.md`** - Docker Cypress quick guide (✅ VERIFIED)
+7. **`/cypress/docs/DOCKER-CYPRESS-SETUP.md`** - Docker Cypress detailed setup (comprehensive)
 
 **Implementation Tracking**:
 
