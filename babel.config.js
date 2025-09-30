@@ -25,6 +25,15 @@ module.exports = function(api) {
     ['@babel/plugin-transform-private-property-in-object', { loose: true }]
   );
 
+  // ! For web builds, return minimal config and let webpack's babel-loader handle everything
+  // ! This prevents @react-native/babel-preset from converting ES modules to CommonJS
+  if (isWeb) {
+    return {
+      presets: [],
+      plugins: []
+    };
+  }
+
   return {
     presets: ['module:@react-native/babel-preset'],
     plugins,

@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite';
+import { defineConfig, Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
 import reactNativeWeb from 'vite-plugin-react-native-web';
 import { viteCommonjs } from '@originjs/vite-plugin-commonjs';
@@ -6,10 +6,53 @@ import svgr from 'vite-plugin-svgr';
 import nodePolyfills from 'rollup-plugin-node-polyfills';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import { resolve } from 'path';
+import { transformSync } from '@babel/core';
+
+// ! Custom plugin to strip Flow types from React Native files
+function stripFlowPlugin(): Plugin {
+  const fs = require('fs');
+
+  return {
+    name: 'strip-flow',
+    enforce: 'pre', // ! Run before other transformations
+    load(id) {
+      // ! Only process .js files in react-native node_modules
+      // Remove query parameters (like ?v=xxx) from the ID
+      const cleanId = id.split('?')[0];
+
+      if (cleanId.includes('node_modules/react-native') && cleanId.endsWith('.js')) {
+        try {
+          // Read the file
+          const code = fs.readFileSync(cleanId, 'utf-8');
+
+          // Transform with Babel to strip Flow types
+          const result = transformSync(code, {
+            filename: cleanId,
+            plugins: ['@babel/plugin-transform-flow-strip-types'],
+            configFile: false,
+            babelrc: false,
+          });
+
+          return {
+            code: result?.code || code,
+            map: result?.map,
+          };
+        } catch (e) {
+          // ! If transformation fails, log and return null to let Vite handle it
+          console.warn(`Failed to strip Flow types from ${cleanId}:`, e);
+          return null;
+        }
+      }
+      return null;
+    },
+  };
+}
 
 // * Base configuration for Vite
 export default defineConfig({
   plugins: [
+    // ! Strip Flow types BEFORE any other processing
+    stripFlowPlugin(),
     // ! Order matters - React plugin must come first
     react({
       babel: {
@@ -76,38 +119,12 @@ export default defineConfig({
     global: 'globalThis',
     __DEV__: JSON.stringify(process.env.NODE_ENV !== 'production'),
   },
+  ssr: {
+    // ! Force Vite to not externalize react-native during SSR/scanning
+    noExternal: ['react-native'],
+  },
   optimizeDeps: {
-    // * Pre-bundle heavy dependencies
-    include: [
-      'react-native-web',
-      '@react-navigation/native',
-      '@react-navigation/native-stack',
-      '@react-navigation/bottom-tabs',
-      'zustand',
-      '@react-native-async-storage/async-storage' // * Include to pre-bundle with its dependencies
-    ],
-    // * Exclude problematic packages from optimization
-    exclude: [
-      'react-native', // ! Never try to parse the actual react-native package
-      'react-native-reanimated',
-      'react-native-gesture-handler',
-      'react-native-svg',
-      '@react-native/assets',
-      '@react-native/normalize-colors',
-      '@react-native/polyfills',
-      '@react-native-async-storage/async-storage/lib',
-      '@cypress/react',
-      'cypress-axe',
-      'cypress-real-events'
-    ],
-    // * Force ESBuild to handle these extensions
-    esbuildOptions: {
-      loader: {
-        '.js': 'jsx', // ! Treat .js files as JSX to handle React components
-        '.mjs': 'jsx', // ! Also handle .mjs files that might contain JSX
-      },
-      jsx: 'automatic', // ! Use React 17+ automatic JSX transform
-      target: 'es2020' // ! Ensure modern JS features are supported
-    }
+    // ! DISABLED: Bypass dependency scanning to avoid Flow syntax errors
+    disabled: true,
   }
 });

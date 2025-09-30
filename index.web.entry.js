@@ -1,5 +1,6 @@
 // * Add Vite-specific polyfills
-import 'react-native-gesture-handler';
+// ! TEMP: Commented out to bypass Vite Flow syntax errors
+// import 'react-native-gesture-handler';
 import './src/index.css';
 
 // ! Important: Check for Vite vs Webpack

@@ -62,14 +62,17 @@ files.forEach(file => {
     }
 
     // * Check for React Native imports in .web files
-    if (file.includes('.web.') && importPatterns.rnWebIssue.test(line)) {
-      errors.push({
-        file,
-        line: index + 1,
-        issue: 'Use react-native-web imports in .web files',
-        text: line.trim()
-      });
-    }
+    // ! SKIP: Webpack handles the aliasing via resolve.alias configuration
+    // ! The ESLint rule 'no-restricted-imports' enforces using 'react-native' everywhere
+    // ! Webpack's 'react-native$': 'react-native-web' alias resolves this correctly
+    // if (file.includes('.web.') && importPatterns.rnWebIssue.test(line)) {
+    //   errors.push({
+    //     file,
+    //     line: index + 1,
+    //     issue: 'Use react-native-web imports in .web files',
+    //     text: line.trim()
+    //   });
+    // }
   });
 
   // * Check for circular dependencies (basic check)
