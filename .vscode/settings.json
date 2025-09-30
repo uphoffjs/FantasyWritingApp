@@ -32,5 +32,6 @@
   },
   "[javascriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+  },
+  "claudeCodeChat.permissions.yoloMode": true
 }
