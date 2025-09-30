@@ -19,7 +19,7 @@ import {
 } from 'react-native';
 import { useTheme } from '../../providers/ThemeProvider';
 
-import { getTestProps } from '../utils/react-native-web-polyfills';
+import { getTestProps } from '../../utils/react-native-web-polyfills';
 // * Helper to safely use theme context
 // * Returns null if not within a ThemeProvider
 const useOptionalTheme = () => {

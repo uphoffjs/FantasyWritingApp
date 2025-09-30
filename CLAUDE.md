@@ -11,6 +11,7 @@
 5. ✅ Fix code first when tests fail
 6. ✅ Mobile-first development
 7. ✅ Clear context every 90 minutes (see Context Management below)
+8. ✅ **Create test failure report when Cypress tests fail** (see Test Failure Documentation below)
 
 ## 🧠 Context Management
 
@@ -82,10 +83,21 @@ npm run web           # Dev server port 3002
 npm run lint          # MANDATORY before commits
 
 # 🚀 Cypress E2E Testing (Server starts automatically!)
-npm run cypress:open  # Open Cypress UI (auto-starts server)
-npm run cypress:run   # Run headless tests (auto-starts server)
-npm run test:e2e      # Run E2E tests (auto-starts server)
-npm run test:e2e:open # Open Cypress for E2E (auto-starts server)
+
+## Run All E2E Tests
+npm run cypress:open  # Open Cypress UI - select tests manually
+npm run cypress:run   # Run all tests headless
+npm run test:e2e      # Alias for cypress:run
+
+## 🎯 Run Single Test File (RECOMMENDED for development!)
+SPEC=cypress/e2e/login-page/verify-login-page.cy.ts npm run cypress:run:spec
+SPEC=cypress/e2e/login-page/verify-login-page.cy.ts npm run cypress:open:spec
+SPEC=cypress/e2e/**/*.cy.ts npm run test:e2e:spec  # Works with globs
+
+## Quick Examples
+SPEC=cypress/e2e/homepage.cy.ts npm run test:e2e:spec
+SPEC=cypress/e2e/auth/*.cy.ts npm run cypress:run:spec
+SPEC=cypress/e2e/login-page/verify-login-page.cy.ts npm run cypress:open:spec
 
 # Component & Unit Testing
 npm run test          # Jest unit tests
@@ -93,6 +105,69 @@ npm run test:component # Cypress component tests
 
 npm run build:web     # Production build
 ```
+
+## ⚠️ CRITICAL: ALWAYS Use npm Scripts for Cypress
+
+### ✅ CORRECT Commands (Use These!)
+
+```bash
+# Cypress interactive mode
+npm run cypress:open
+
+# Run specific test (RECOMMENDED METHOD)
+SPEC=cypress/e2e/login-page/verify-login-page.cy.ts npm run cypress:run:spec
+
+# Run specific test in interactive mode
+SPEC=cypress/e2e/login-page/verify-login-page.cy.ts npm run cypress:open:spec
+
+# Run all E2E tests
+npm run test:e2e
+```
+
+### ❌ WRONG Commands (NEVER Use These!)
+
+```bash
+# ❌ DO NOT USE - Bypasses project configuration
+npx cypress open
+npx cypress run
+npx cypress run --spec "path/to/test.cy.ts"
+
+# ❌ DO NOT USE - Bypasses automatic server startup
+cypress open
+cypress run
+
+# ❌ DO NOT USE - Doesn't work with start-server-and-test
+npm run cypress:run -- --spec "path/to/test.cy.ts"
+# The -- flag doesn't inject into the quoted command, runs ALL tests instead
+```
+
+### Why This Matters
+
+**Using npm scripts ensures:**
+
+1. ✅ Automatic dev server startup via `start-server-and-test`
+2. ✅ Proper pre-test cleanup (kills old processes)
+3. ✅ Correct project configuration and environment
+4. ✅ Waits for server readiness before running tests
+5. ✅ Automatic server shutdown after tests complete
+
+**Using `npx` or direct `cypress` commands:**
+
+1. ❌ Bypasses automatic server startup
+2. ❌ Skips pre-test cleanup
+3. ❌ May use wrong configuration
+4. ❌ Requires manual server management
+5. ❌ Can cause port conflicts and test failures
+
+### Before Running ANY Cypress Command
+
+**MANDATORY Pre-Flight Checklist:**
+
+1. □ Check CLAUDE.md for documented commands
+2. □ Verify npm script exists in package.json
+3. □ Use `npm run [script-name]` format
+4. □ NEVER use `npx cypress` or direct `cypress` commands
+5. □ Ask user if command works before trying alternatives
 
 ### ⚡ Automated Server Startup
 
@@ -471,6 +546,7 @@ git commit -m "feat: description"  # conventional commits
 2. **`/cypress/CYPRESS-TESTING-STANDARDS.md`** - Project authority (v2.0.0)
 3. **`/cypress/docs/cypress-best-practices.md`** - Detailed guide
 4. **`/cypress/docs/ADVANCED-TESTING-STRATEGY.md`** - Advanced patterns
+5. **`/cypress/docs/RUNNING-SINGLE-TESTS.md`** - Single test execution guide (NEW!)
 
 **Implementation Tracking**:
 
@@ -599,6 +675,160 @@ npm run test:trend -- --days=7
 5. **Use semantic naming** for test types
 6. **Generate diffs** for regression detection
 7. **Track trends** over time for quality metrics
+
+## 🧪 Test Failure Documentation
+
+### MANDATORY: When Cypress Tests Fail
+
+**REQUIRED ACTION:** Immediately create a comprehensive test failure analysis report.
+
+### Report Generation Process
+
+1. **Capture Full Test Output**
+
+   ```bash
+   npm run cypress:run -- --spec "cypress/e2e/[test-name].cy.ts" > /tmp/cypress-output.log 2>&1
+   ```
+
+2. **Generate Timestamp**
+
+   ```bash
+   TIMESTAMP=$(date +"%Y%m%d-%H%M%S")
+   ```
+
+3. **Create Report File**
+   - **Location:** `test-results/[test-name]-test-results-YYYYMMDD-HHMMSS.md`
+   - **Format:** Comprehensive markdown with sections below
+
+### Required Report Sections
+
+```markdown
+# Cypress Test Results - [test-name].cy.ts
+
+---
+
+**Test File:** `cypress/e2e/[test-name].cy.ts`
+**Timestamp:** YYYY-MM-DD HH:MM:SS
+**Status:** ❌ FAILED / ⚠️ PARTIAL / ✅ PASSED
+**Duration:** [duration]
+**Platform:** [platform info]
+**Cypress Version:** [version]
+**Node Version:** [version]
+**Vite Version:** [version]
+
+---
+
+## Executive Summary
+
+[Brief 2-3 sentence summary of failure]
+
+## Error Details
+
+[Complete error messages and stack traces]
+
+## Root Cause Analysis
+
+[Detailed investigation of why tests failed]
+
+## Test Execution Log
+
+[Full command output]
+
+## Recommended Actions
+
+[Specific steps to resolve issues]
+
+## Environment Details
+
+[System configuration and dependencies]
+
+## Test Assertions Status
+
+[Which assertions passed/failed]
+
+## Related Files
+
+[Links to relevant source files]
+
+---
+
+**Report Generated:** [timestamp]
+**Report Type:** Failure Analysis / Success Report
+**Action Required:** [next steps]
+```
+
+### File Naming Convention
+
+```
+test-results/[test-name]-test-results-YYYYMMDD-HHMMSS.md
+
+Examples:
+test-results/verify-login-page-test-results-20250930-114134.md
+test-results/create-element-test-results-20250930-120000.md
+test-results/navigation-test-results-20250930-143000.md
+```
+
+### Report Categories
+
+**Failure Analysis Report:** When tests fail
+
+- Root cause investigation
+- Error categorization (build/runtime/assertion)
+- Recommended fixes
+- Environment diagnostics
+
+**Success Report:** When tests pass after failures
+
+- What was fixed
+- Verification results
+- Regression prevention notes
+
+**Partial Success Report:** When some tests pass
+
+- Pass/fail breakdown
+- Critical vs non-critical failures
+- Priority order for fixes
+
+### Automation Requirements
+
+**After ANY Cypress test run:**
+
+1. ✅ Capture complete output (stdout + stderr)
+2. ✅ Generate timestamped report file
+3. ✅ Include all required sections
+4. ✅ Categorize errors (build/infrastructure/assertion)
+5. ✅ Provide actionable recommendations
+6. ✅ Link to related source files
+7. ✅ Document environment configuration
+
+**Trigger Conditions:**
+
+- Test execution failures
+- Build errors preventing test runs
+- Infrastructure issues (Cypress startup, server issues)
+- Assertion failures in test code
+- Performance degradation
+- Flaky test detection
+
+### Example Command Integration
+
+```bash
+# Run test and auto-generate report on failure
+npm run cypress:run -- --spec "cypress/e2e/verify-login-page.cy.ts" || {
+  TIMESTAMP=$(date +"%Y%m%d-%H%M%S")
+  # Generate comprehensive failure report
+  # Save to test-results/verify-login-page-test-results-$TIMESTAMP.md
+}
+```
+
+### Report Analysis Workflow
+
+1. **Test fails** → Generate report immediately
+2. **Review report** → Identify root cause category
+3. **Apply fixes** → Based on recommended actions
+4. **Re-run test** → Verify resolution
+5. **Update report** → Document resolution if successful
+6. **Archive report** → Keep for historical tracking
 
 ---
 

@@ -14,6 +14,7 @@ export default defineConfig({
     react({
       babel: {
         plugins: [
+          '@babel/plugin-transform-flow-strip-types', // ! Strip Flow types from React Native files
           ['@babel/plugin-transform-class-properties', { loose: true }],
           ['@babel/plugin-transform-private-methods', { loose: true }],
           ['@babel/plugin-transform-private-property-in-object', { loose: true }]
@@ -88,6 +89,13 @@ export default defineConfig({
     // * Exclude problematic packages from optimization
     exclude: [
       'react-native', // ! Never try to parse the actual react-native package
+      'react-native-reanimated',
+      'react-native-gesture-handler',
+      'react-native-svg',
+      '@react-native/assets',
+      '@react-native/normalize-colors',
+      '@react-native/polyfills',
+      '@react-native-async-storage/async-storage/lib',
       '@cypress/react',
       'cypress-axe',
       'cypress-real-events'
@@ -95,9 +103,11 @@ export default defineConfig({
     // * Force ESBuild to handle these extensions
     esbuildOptions: {
       loader: {
-        '.js': 'jsx',
+        '.js': 'jsx', // ! Treat .js files as JSX to handle React components
+        '.mjs': 'jsx', // ! Also handle .mjs files that might contain JSX
       },
-      jsx: 'automatic'
+      jsx: 'automatic', // ! Use React 17+ automatic JSX transform
+      target: 'es2020' // ! Ensure modern JS features are supported
     }
   }
 });
