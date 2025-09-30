@@ -1,3 +1,39 @@
+# FantasyWritingApp - Claude Code Configuration
+
+**SuperClaude Framework:** Enabled (v4.1.3)
+**Installation:** Global (`~/.claude/`)
+**Profile:** Default with project-specific enhancements
+
+---
+
+## 🎯 SuperClaude Framework Import
+
+The following SuperClaude Framework components are automatically loaded from the global installation:
+
+### Core Framework
+
+- `@~/.claude/PRINCIPLES.md` - Software engineering principles
+- `@~/.claude/RULES.md` - Behavioral rules and workflows
+- `@~/.claude/FLAGS.md` - Mode activation flags
+
+### Behavioral Modes
+
+- `@~/.claude/MODE_Brainstorming.md` - Requirements discovery
+- `@~/.claude/MODE_Business_Panel.md` - Multi-expert business analysis
+- `@~/.claude/MODE_Introspection.md` - Meta-cognitive analysis
+- `@~/.claude/MODE_Orchestration.md` - Tool selection optimization
+- `@~/.claude/MODE_Task_Management.md` - Hierarchical task organization
+- `@~/.claude/MODE_Token_Efficiency.md` - Symbol-enhanced communication
+
+### Business Analysis (Optional)
+
+- `@~/.claude/BUSINESS_PANEL_EXAMPLES.md` - Business panel usage patterns
+- `@~/.claude/BUSINESS_SYMBOLS.md` - Business analysis symbols
+
+> **Note:** The SuperClaude Framework enhances Claude Code with structured workflows, intelligent tool selection, and advanced analysis capabilities. Project-specific instructions below extend the global framework.
+
+---
+
 # CLAUDE.md - FantasyWritingApp Quick Reference
 
 ## 🚨 MANDATORY CHECKLIST
