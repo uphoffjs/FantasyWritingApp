@@ -19,9 +19,24 @@ export default defineConfig({
       // Optimize React Native Web
       babel: {
         plugins: [
-          ['module:react-native-dotenv'],
           ['react-native-web', { commonjs: true }]
         ],
+        presets: [
+          ['@babel/preset-react', { runtime: 'automatic' }],
+          '@babel/preset-typescript'
+        ],
+        overrides: [
+          {
+            test: /node_modules[\\/](react-native|react-native-.*)/,
+            presets: [
+              ['@babel/preset-react', { runtime: 'automatic' }],
+              '@babel/preset-flow'
+            ],
+            plugins: [
+              ['react-native-web', { commonjs: true }]
+            ]
+          }
+        ]
       },
     }),
 
@@ -104,6 +119,14 @@ export default defineConfig({
 
       // Platform-specific resolution
       './src/components/(.+)\\.tsx$': './src/components/$1',
+
+      // Mobile-only packages aliased to empty modules for web
+      'react-native-document-picker': path.resolve(__dirname, './src/utils/empty-module.js'),
+      'react-native-fs': path.resolve(__dirname, './src/utils/empty-module.js'),
+      'react-native-share': path.resolve(__dirname, './src/utils/empty-module.js'),
+
+      // React Native packages with Flow types - alias to web versions or empty modules
+      'react-native-vector-icons': 'react-native-vector-icons/dist',
     },
     extensions: [
       '.web.tsx',
@@ -133,7 +156,7 @@ export default defineConfig({
       '/api': {
         target: process.env.VITE_API_URL || 'http://localhost:3001',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ''),
+        rewrite: (apiPath) => apiPath.replace(/^\/api/, ''),
       },
     },
   },
@@ -190,8 +213,7 @@ export default defineConfig({
         },
 
         // Asset naming
-        chunkFileNames: (chunkInfo) => {
-          const facadeModuleId = chunkInfo.facadeModuleId ? chunkInfo.facadeModuleId.split('/').pop() : 'chunk';
+        chunkFileNames: () => {
           return `js/[name].[hash].js`;
         },
 
@@ -220,9 +242,6 @@ export default defineConfig({
     // Target modern browsers for smaller bundles
     target: ['es2020', 'edge88', 'firefox78', 'chrome87', 'safari14'],
 
-    // Enable minification
-    minify: true,
-
     // Generate manifest
     manifest: true,
 
@@ -238,16 +257,34 @@ export default defineConfig({
       'react-dom',
       'react-native-web',
       '@react-navigation/native',
-      '@react-navigation/stack',
       'zustand',
       '@supabase/supabase-js',
     ],
     // Exclude packages that shouldn't be pre-bundled
-    exclude: ['@vitetest'],
+    exclude: [
+      '@vitetest',
+      'react-native',
+      'react-native-vector-icons',
+      'react-native-svg',
+      'react-native-gesture-handler',
+      'react-native-safe-area-context',
+      'react-native-screens'
+    ],
     // Force optimization of these packages
     esbuildOptions: {
       target: 'es2020',
+      loader: {
+        '.js': 'jsx',
+      },
     },
+  },
+
+  // ESBuild configuration for handling React Native
+  esbuild: {
+    loader: 'jsx',
+    include: /src\/.*\.(js|jsx|ts|tsx)$/,
+    exclude: [/node_modules/],
+    jsx: 'automatic',
   },
 
   // Define global constants
@@ -286,7 +323,7 @@ export default defineConfig({
   // Worker configuration for Web Workers
   worker: {
     format: 'es',
-    plugins: [react()],
+    plugins: () => [react()],
   },
 
   // Preview server (for testing production build)

@@ -362,6 +362,80 @@ cy.getByDataCy('form').findByTestId('field');
 8. Check TypeScript compilation
 9. Verify dependencies (npm ls)
 
+## TODO Archive Management
+
+### Archive Policy
+
+All completed or deprecated `todo.md` files should be archived to maintain workspace hygiene and historical tracking.
+
+### Directory Structure
+
+```
+claudedocs/
+└── archive/
+    └── todo/
+        ├── todo-20250930-091954.md
+        ├── todo-20250928-143022.md
+        └── todo-20250925-120015.md
+```
+
+### Naming Convention
+
+**Format:** `todo-YYYYMMDD-HHMMSS.md`
+
+- **YYYY**: Year (e.g., 2025)
+- **MM**: Month (01-12)
+- **DD**: Day (01-31)
+- **HH**: Hour (00-23)
+- **MM**: Minute (00-59)
+- **SS**: Second (00-59)
+
+**Examples:**
+
+- `todo-20250930-091954.md` - Archived Sep 30, 2025 at 09:19:54 AM
+- `todo-20250928-143022.md` - Archived Sep 28, 2025 at 02:30:22 PM
+
+### When to Archive
+
+Archive `todo.md` when:
+
+- ✅ All tasks are completed
+- ⚠️ File becomes deprecated/outdated
+- 🔄 Starting new project phase with fresh TODO
+- 📦 End of sprint/milestone
+
+### Archiving Process
+
+```bash
+# Generate timestamp
+TIMESTAMP=$(date +"%Y%m%d-%H%M%S")
+
+# Move to archive with timestamp
+mv todo.md claudedocs/archive/todo/todo-$TIMESTAMP.md
+
+# Create new todo.md if needed
+touch todo.md
+```
+
+### Retention Policy
+
+- **Active Archive**: Keep last 30 days in `claudedocs/archive/todo/`
+- **Long-term**: Move files older than 30 days to `claudedocs/archive/todo/old/` (optional)
+- **Never delete**: Maintain historical record for project tracking
+
+### Quick Access Commands
+
+```bash
+# List archived TODOs by date
+ls -lt claudedocs/archive/todo/
+
+# Find specific TODO
+ls claudedocs/archive/todo/ | grep "20250930"
+
+# View most recent archived TODO
+cat $(ls -t claudedocs/archive/todo/todo-*.md | head -1)
+```
+
 ## React Native Pitfalls
 
 - Text must be in Text component
