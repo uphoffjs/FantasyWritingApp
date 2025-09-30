@@ -6,7 +6,8 @@ const { factoryTasks } = require("./cypress/fixtures/factories/factory-tasks.js"
 
 export default defineConfig({
   e2e: {
-    baseUrl: "http://localhost:3002",
+    // ! Use host.docker.internal for Docker, localhost for native (CYPRESS_baseUrl can override)
+    baseUrl: process.env.CYPRESS_baseUrl || "http://localhost:3002",
     supportFile: "cypress/support/e2e.ts",
     specPattern: "cypress/e2e/**/*.cy.{js,jsx,ts,tsx}",
     screenshotOnRunFailure: true,

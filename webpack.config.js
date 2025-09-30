@@ -5,7 +5,7 @@ const Dotenv = require('dotenv-webpack');
 const CopyPlugin = require('copy-webpack-plugin');
 
 // Get port from environment variable or use defaults
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3002; // ! Changed from 3000 to match Vite port
 const _FALLBACK_PORTS = [3001, 5000, 5173, 8000, 8080, 8081, 9000]; // Unused but kept for reference
 
 module.exports = {
@@ -57,32 +57,59 @@ module.exports = {
   },
   module: {
     rules: [
+      // ! Rule 1: Process src/ files with TypeScript (NO Flow preset)
       {
         test: /\.(ts|tsx|js|jsx)$/,
-        exclude: /node_modules\/(?!(react-native.*|@react-native.*|@react-navigation.*|react-native-gesture-handler|react-native-reanimated|react-native-safe-area-context|react-native-screens|react-native-svg)\/).*/,
+        exclude: [
+          /node_modules/
+        ],
         use: {
           loader: 'babel-loader',
           options: {
             cacheDirectory: true,
-            // Don't use babel.config.js for web builds
             configFile: false,
             babelrc: false,
             presets: [
               ['@babel/preset-env', { modules: false }],
               ['@babel/preset-react', { runtime: 'automatic' }],
-              '@babel/preset-typescript'
+              ['@babel/preset-typescript', { onlyRemoveTypeImports: true }]
+            ],
+            plugins: [
+              // ! Removed @babel/plugin-transform-runtime completely - it was breaking named exports
+              ['@babel/plugin-transform-class-properties', { loose: true }],
+              ['@babel/plugin-transform-private-methods', { loose: true }],
+              ['@babel/plugin-transform-private-property-in-object', { loose: true }]
+              // ! Removed react-native-web plugin - it was converting named exports to default export
+            ]
+          }
+        }
+      },
+      // ! Rule 2: ONLY process react-native core (NOT @react-navigation)
+      // ! @react-navigation is already built as ES modules and should not be transformed
+      {
+        test: /\.(js|jsx)$/,
+        include: /node_modules\/(react-native|@react-native(?!\/@react-navigation)|react-native-gesture-handler|react-native-reanimated|react-native-safe-area-context|react-native-screens|react-native-svg)(?!\/@react-navigation)/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            cacheDirectory: true,
+            configFile: false,
+            babelrc: false,
+            presets: [
+              '@babel/preset-flow', // ! Strip Flow types from React Native
+              ['@babel/preset-env', { modules: false }],
+              ['@babel/preset-react', { runtime: 'automatic' }]
             ],
             plugins: [
               ['@babel/plugin-transform-runtime', {
                 helpers: true,
-                regenerator: true
+                regenerator: true,
+                useESModules: true
               }],
-              // * Fix loose mode warnings for react-native-svg
               ['@babel/plugin-transform-class-properties', { loose: true }],
               ['@babel/plugin-transform-private-methods', { loose: true }],
               ['@babel/plugin-transform-private-property-in-object', { loose: true }],
               'react-native-web'
-              // NativeWind babel plugin removed for web builds - causes PostCSS async issues
             ]
           }
         }
@@ -169,7 +196,7 @@ module.exports = {
     port: PORT,
     // Automatically find an available port if the specified port is busy
     allowedHosts: 'all',
-    host: 'localhost', // Use localhost for better compatibility
+    host: '0.0.0.0', // ! Changed from 'localhost' to bind to all interfaces for Docker compatibility
     historyApiFallback: true,
     hot: true,  // Enable hot module replacement
     liveReload: true, // Enable live reloading
