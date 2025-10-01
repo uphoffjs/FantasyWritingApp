@@ -11,7 +11,9 @@ This document defines the Cypress best practices enforced in the FantasyWritingA
 ## 🟢 MANDATORY Practices (CI/CD Enforced)
 
 ### 1. ✅ Start Server BEFORE Tests
+
 **Rule**: Never start servers within Cypress tests
+
 ```javascript
 // ❌ WRONG - Starting server in test
 it('test', () => {
@@ -28,11 +30,14 @@ beforeEach(() => {
 ```
 
 **Current Implementation**:
+
 - Dev server starts in CI/CD workflow before Cypress runs
 - baseUrl configured as `http://localhost:3002`
 
 ### 2. ✅ Use `data-cy` Selectors Exclusively
+
 **Rule**: Only use data-cy attributes for element selection
+
 ```javascript
 // ❌ WRONG - Using CSS classes or IDs
 cy.get('.btn-primary').click();
@@ -44,11 +49,14 @@ cy.get('[data-cy="submit-button"]').click();
 ```
 
 **Current Implementation**:
+
 - All E2E tests use data-cy selectors
 - Page objects enforce this pattern
 
 ### 3. ✅ Clean State BEFORE Tests, Not After
+
 **Rule**: Always clean state before each test
+
 ```javascript
 // ❌ WRONG - Cleaning after test
 afterEach(() => {
@@ -67,7 +75,9 @@ beforeEach(() => {
 **Current Implementation**: All E2E tests clean state in `beforeEach()`
 
 ### 4. ✅ No Arbitrary Waits
+
 **Rule**: Never use cy.wait() with fixed times
+
 ```javascript
 // ❌ WRONG - Arbitrary wait
 cy.get('[data-cy="submit"]').click();
@@ -86,7 +96,9 @@ cy.wait('@submitRequest');
 **Current Implementation**: No arbitrary waits in any E2E test
 
 ### 5. ✅ Independent Test Design
+
 **Rule**: Each test must be completely independent
+
 ```javascript
 // ❌ WRONG - Dependent tests
 it('creates user', () => {
@@ -108,7 +120,9 @@ it('updates user', () => {
 **Current Implementation**: All tests are independent with data factories
 
 ### 6. ✅ No External Site Visits
+
 **Rule**: Only test your own application
+
 ```javascript
 // ❌ WRONG - Visiting external site
 cy.visit('https://google.com');
@@ -120,7 +134,9 @@ cy.visit('/'); // Uses baseUrl
 **Current Implementation**: Only internal URLs used
 
 ### 7. ✅ Proper Session Management
+
 **Rule**: Use cy.session() for authentication
+
 ```javascript
 // ✅ CORRECT - Using session with validation
 cy.session(
@@ -131,8 +147,8 @@ cy.session(
   {
     validate() {
       cy.getCookie('auth').should('exist');
-    }
-  }
+    },
+  },
 );
 ```
 
@@ -141,7 +157,9 @@ cy.session(
 ## 🟡 Recommended Practices
 
 ### 1. Page Object Pattern
+
 **Status**: ✅ Implemented
+
 ```javascript
 // cypress/support/pages/LoginPage.js
 class LoginPage {
@@ -160,6 +178,7 @@ class LoginPage {
 ```
 
 **Current Page Objects**:
+
 - LoginPage
 - ProjectListPage
 - NavigationPage
@@ -168,24 +187,29 @@ class LoginPage {
 - StoryPage
 
 ### 2. Test Data Factories
+
 **Status**: ✅ Implemented
+
 ```javascript
 // cypress/fixtures/factories/userFactory.js
 export const generateUserData = () => ({
   email: `test${Date.now()}@example.com`,
   password: 'Test123!@#',
   firstName: 'Test',
-  lastName: 'User'
+  lastName: 'User',
 });
 ```
 
 **Current Factories**:
+
 - userFactory
 - projectFactory
 - elementFactory
 
 ### 3. API Seeding Over UI
+
 **Rule**: Use cy.request() for data setup
+
 ```javascript
 // ❌ SLOWER - Using UI to create data
 cy.visit('/projects/new');
@@ -194,12 +218,14 @@ cy.get('[data-cy="submit"]').click();
 
 // ✅ FASTER - Using API
 cy.request('POST', '/api/projects', {
-  name: 'Test Project'
+  name: 'Test Project',
 });
 ```
 
 ### 4. Intelligent Waiting
+
 **Rule**: Use cy.intercept() for network requests
+
 ```javascript
 // ✅ CORRECT - Wait for specific requests
 cy.intercept('GET', '/api/projects').as('getProjects');
@@ -208,12 +234,14 @@ cy.wait('@getProjects');
 ```
 
 ### 5. Proper Error Handling
+
 **Rule**: Test error scenarios
+
 ```javascript
 it('handles network errors gracefully', () => {
   cy.intercept('POST', '/api/submit', {
     statusCode: 500,
-    body: { error: 'Server Error' }
+    body: { error: 'Server Error' },
   }).as('serverError');
 
   cy.get('[data-cy="submit"]').click();
@@ -243,9 +271,11 @@ cypress/
 ## 🚀 CI/CD Configuration
 
 ### GitHub Actions Workflow
+
 **File**: `.github/workflows/cypress-e2e.yml`
 
 **Features**:
+
 - ✅ Parallel test execution (4 containers)
 - ✅ Server started before tests
 - ✅ Cypress Cloud recording
@@ -254,6 +284,7 @@ cypress/
 - ✅ Automatic retries for flaky tests
 
 ### Environment Variables
+
 ```yaml
 env:
   NODE_ENV: test
@@ -263,16 +294,17 @@ env:
 
 ## 📊 Performance Targets
 
-| Metric | Target | Current |
-|--------|--------|---------|
+| Metric              | Target  | Current    |
+| ------------------- | ------- | ---------- |
 | Test Execution Time | < 5 min | ✅ 3-4 min |
-| Flaky Test Rate | < 1% | ✅ 0% |
-| Parallel Efficiency | > 75% | ✅ 80% |
-| Test Coverage | > 80% | ✅ 85% |
+| Flaky Test Rate     | < 1%    | ✅ 0%      |
+| Parallel Efficiency | > 75%   | ✅ 80%     |
+| Test Coverage       | > 80%   | ✅ 85%     |
 
 ## 🛠️ Custom Commands
 
 ### Available Commands
+
 ```javascript
 // Login helper
 cy.login(email, password);
@@ -290,6 +322,7 @@ cy.getByDataCy('element-name');
 ## ❌ Anti-Patterns to Avoid
 
 ### 1. Variable Assignment
+
 ```javascript
 // ❌ WRONG
 const button = cy.get('[data-cy="submit"]');
@@ -301,6 +334,7 @@ cy.get('@submitButton').click();
 ```
 
 ### 2. Conditional Testing
+
 ```javascript
 // ❌ WRONG
 if (cy.get('[data-cy="modal"]').length > 0) {
@@ -313,6 +347,7 @@ cy.get('[data-cy="close"]').click();
 ```
 
 ### 3. Multiple Assertions in One Test
+
 ```javascript
 // ❌ WRONG - Too many assertions
 it('tests everything', () => {
@@ -335,6 +370,7 @@ it('allows user to create project', () => {
 ## 🔍 Debugging Tips
 
 ### 1. Use cy.debug()
+
 ```javascript
 cy.get('[data-cy="element"]')
   .debug() // Pauses here in headed mode
@@ -342,6 +378,7 @@ cy.get('[data-cy="element"]')
 ```
 
 ### 2. Use cy.pause()
+
 ```javascript
 cy.get('[data-cy="form"]').type('test');
 cy.pause(); // Pauses test execution
@@ -349,14 +386,16 @@ cy.get('[data-cy="submit"]').click();
 ```
 
 ### 3. Check Screenshots/Videos
+
 - Screenshots: `cypress/screenshots/`
 - Videos: `cypress/videos/`
 - CI Artifacts: Check GitHub Actions artifacts
 
 ### 4. Use Cypress Studio
+
 ```javascript
 // In cypress.config.ts
-experimentalStudio: true
+experimentalStudio: true;
 ```
 
 ## 📝 Checklist for New Tests
@@ -384,6 +423,7 @@ Before committing a new E2E test, ensure:
 ## 📈 Continuous Improvement
 
 This document is regularly updated based on:
+
 - Cypress.io official updates
 - Team feedback
 - CI/CD performance metrics
