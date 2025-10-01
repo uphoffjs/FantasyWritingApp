@@ -30,7 +30,6 @@ import './responsive';
 
 // * Utility Commands (stub, spy)
 import './utility/index';
-import './utility';
 
 // * Performance Monitoring
 import './performance';

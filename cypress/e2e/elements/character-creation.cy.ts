@@ -1,3 +1,5 @@
+/// <reference types="cypress" />
+
 /**
  * Character Creation Flow - E2E Test
  * Tests the complete character creation journey from project to fully detailed character

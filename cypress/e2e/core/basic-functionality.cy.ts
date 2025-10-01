@@ -4,12 +4,12 @@ describe('Basic App Functionality - Smoke Tests', () => {
   beforeEach(() => {
   });
 
-  it.only('should load the login page when not authenticated', () => {
+  it.only({tags: ["@smoke"]}, 'should load the login page when not authenticated', () => {
     cy.visit('/');
     cy.url().should('include', '/login');
   });
 
-  it('should display main navigation after authentication', () => {
+  it({tags: ["@smoke"]}, 'should display main navigation after authentication', () => {
     // * Use session-based API login for faster authentication
     cy.apiLogin('test@example.com', 'testpassword123');
     cy.visit('/');
@@ -20,7 +20,7 @@ describe('Basic App Functionality - Smoke Tests', () => {
     });
   });
 
-  it('should use createStory command if available', () => {
+  it({tags: ["@smoke"]}, 'should use createStory command if available', () => {
     // * Use session-based API login for faster authentication
     cy.apiLogin('test@example.com', 'testpassword123');
 
@@ -31,7 +31,7 @@ describe('Basic App Functionality - Smoke Tests', () => {
     cy.visit('/');
   });
 
-  it('should handle basic story creation workflow', () => {
+  it({tags: ["@smoke"]}, 'should handle basic story creation workflow', () => {
     // * Use session-based API login for faster authentication
     cy.apiLogin('test@example.com', 'testpassword123');
     cy.visit('/stories');
@@ -42,7 +42,7 @@ describe('Basic App Functionality - Smoke Tests', () => {
     );
   });
 
-  it('should handle basic navigation between main sections', () => {
+  it({tags: ["@smoke"]}, 'should handle basic navigation between main sections', () => {
     // * Use session-based API login for faster authentication
     cy.apiLogin('test@example.com', 'testpassword123');
     cy.visit('/');

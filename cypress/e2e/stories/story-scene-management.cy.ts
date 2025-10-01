@@ -1,3 +1,5 @@
+/// <reference types="cypress" />
+
 /**
  * Story and Scene Management E2E Test
  *

@@ -1,3 +1,5 @@
+/// <reference types="cypress" />
+
 /**
  * Search and Filter Flows E2E Test
  *

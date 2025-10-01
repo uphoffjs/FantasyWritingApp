@@ -1,3 +1,5 @@
+/// <reference types="cypress" />
+
 /**
  * User Registration Flow - E2E Test
  * Tests the complete user registration journey from landing to first project creation
