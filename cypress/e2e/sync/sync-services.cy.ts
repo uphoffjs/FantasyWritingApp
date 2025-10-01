@@ -17,7 +17,7 @@
  */
 
 describe('Sync Services E2E Tests', () => {
-  beforeEach(function() {
+  beforeEach(() => {
     // * Setup test user and initial data
     cy.setupTestUser({
       projects: [

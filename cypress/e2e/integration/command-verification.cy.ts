@@ -13,7 +13,7 @@ describe('Verify Custom Commands Work', () => {
     })
     
     // * Clear it using our command
-    cy.clearLocalStorage()
+    cy.cleanMockAuth()
     
     // * Verify it's cleared
     cy.window().then((win) => {
@@ -23,7 +23,7 @@ describe('Verify Custom Commands Work', () => {
 
   it('should verify setupAuth function works', () => {
     // * Clear localStorage first
-    cy.clearLocalStorage()
+    cy.cleanMockAuth()
     
     // ! SECURITY: * Call setupAuth
     cy.apiLogin('test@example.com', 'testpassword123')
@@ -55,7 +55,7 @@ describe('Verify Custom Commands Work', () => {
   })
 
   it('should verify setupAuth with custom user data', () => {
-    cy.clearLocalStorage()
+    cy.cleanMockAuth()
     
     // ! SECURITY: * Call setupAuth with custom data
     cy.apiLogin('test@example.com', 'testpassword123')
@@ -82,7 +82,7 @@ describe('Verify Custom Commands Work', () => {
     })
     
     // ! SECURITY: * Clear auth
-    clearAuth()
+    cy.cleanMockAuth()
     
     // ! SECURITY: * Verify auth is cleared
     cy.window().then((win) => {
@@ -137,7 +137,7 @@ describe('Verify Custom Commands Work', () => {
     })
     
     // * Clear and verify cleanup
-    cy.clearLocalStorage()
+    cy.cleanMockAuth()
     cy.window().then((win) => {
       expect(win.// ! SECURITY: Using localStorage
       localStorage.getItem('current-story-id')).to.be.null

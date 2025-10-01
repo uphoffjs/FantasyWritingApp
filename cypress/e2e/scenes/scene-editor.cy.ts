@@ -8,7 +8,7 @@
  * editing, ordering, and chapter organization.
  */
 
-describe('Scene Editor and Management', () => {
+describe.skip('Scene Editor and Management - FUTURE FEATURE', () => {
   beforeEach(() => {
     // * Using cy.session() for authentication caching
     

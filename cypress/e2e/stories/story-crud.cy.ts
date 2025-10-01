@@ -2,7 +2,6 @@
 
 import { selectors } from '../../support/selectors';
 import { storyFactory } from '../../fixtures/factories/story.factory';
-;
 
 /**
  * Story CRUD E2E tests
@@ -12,7 +11,7 @@ describe('Story CRUD Operations', () => {
   beforeEach(() => {
 
     // * Reset factory counters for test isolation
-    StoryFactory.reset();
+    storyFactory.reset();
     
     // ! SECURITY: * Setup authentication
     cy.apiLogin('test@example.com', 'testpassword123');
@@ -28,7 +27,7 @@ describe('Story CRUD Operations', () => {
       cy.get(selectors.story.createButton).click();
       
       // * Fill in story details
-      const story = StoryFactory.create();
+      const story = storyFactory.create();
       cy.get(selectors.story.titleInput).type(story.title);
       cy.get(selectors.story.genreSelect).select(story.genre);
       cy.get(selectors.story.descriptionInput).type(story.summary || '');
@@ -72,12 +71,12 @@ describe('Story CRUD Operations', () => {
   });
 
   describe('Read/View Story', () => {
-    let testStory: ReturnType<typeof StoryFactory.create>;
+    let testStory: ReturnType<typeof storyFactory.create>;
 
     beforeEach(() => {
 
       // * Create a test story via API or UI
-      testStory = StoryFactory.createWithChapters(3);
+      testStory = storyFactory.createWithChapters(3);
       
       // Mock API response for story list
       cy.intercept('GET', '**/api/stories*', {
@@ -114,11 +113,11 @@ describe('Story CRUD Operations', () => {
   });
 
   describe('Update Story', () => {
-    let testStory: ReturnType<typeof StoryFactory.create>;
+    let testStory: ReturnType<typeof storyFactory.create>;
 
     beforeEach(() => {
 
-      testStory = StoryFactory.createDraft();
+      testStory = storyFactory.createDraft();
       
       // Mock API responses
       cy.intercept('GET', '**/api/stories*', {
@@ -176,11 +175,11 @@ describe('Story CRUD Operations', () => {
   });
 
   describe('Delete Story', () => {
-    let testStory: ReturnType<typeof StoryFactory.create>;
+    let testStory: ReturnType<typeof storyFactory.create>;
 
     beforeEach(() => {
 
-      testStory = StoryFactory.create();
+      testStory = storyFactory.create();
       
       // Mock API responses
       cy.intercept('GET', '**/api/stories*', {
@@ -237,7 +236,7 @@ describe('Story CRUD Operations', () => {
     beforeEach(() => {
 
       // * Create multiple stories
-      const stories = StoryFactory.createMany(10);
+      const stories = storyFactory.createMany(10);
       
       cy.intercept('GET', '**/api/stories*', {
         statusCode: 200,
@@ -283,7 +282,7 @@ describe('Story CRUD Operations', () => {
 
     it('should handle pagination', () => {
       // Mock API with more stories
-      const manyStories = StoryFactory.createMany(25);
+      const manyStories = storyFactory.createMany(25);
       cy.intercept('GET', '**/api/stories*', {
         statusCode: 200,
         body: manyStories.slice(0, 10),
@@ -308,11 +307,11 @@ describe('Story CRUD Operations', () => {
   });
 
   describe('Story Editor Features', () => {
-    let testStory: ReturnType<typeof StoryFactory.createWithChapters>;
+    let testStory: ReturnType<typeof storyFactory.createWithChapters>;
 
     beforeEach(() => {
 
-      testStory = StoryFactory.createWithChapters(3);
+      testStory = storyFactory.createWithChapters(3);
       
       cy.intercept('GET', `**/api/stories/${testStory.id}`, {
         statusCode: 200,

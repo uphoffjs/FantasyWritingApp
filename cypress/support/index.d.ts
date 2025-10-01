@@ -11,6 +11,7 @@ declare namespace Cypress {
     apiLogin(email?: string, password?: string): Chainable<void>;
     sessionLogin(email?: string, password?: string): Chainable<void>;
     loginAs(userType: 'admin' | 'editor' | 'viewer' | 'user'): Chainable<void>;
+    clearTestSessions(): Chainable<void>;
     
     // * Navigation commands (commands/navigation.ts)
     navigateToHome(): Chainable<void>;

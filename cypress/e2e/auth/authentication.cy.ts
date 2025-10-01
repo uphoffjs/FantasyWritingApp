@@ -1,7 +1,5 @@
 /// <reference types="cypress" />
 
-import { setupAuth, clearAuth } from '../../support/test-helpers'
-
 describe('Authentication Example Tests', () => {
   describe('Authenticated User Tests', () => {
     beforeEach(() => {
@@ -18,7 +16,7 @@ describe('Authentication Example Tests', () => {
     it('should show authenticated user interface', () => {
       // TODO: * User should see the welcome screen or project list
       cy.url().should('include', '/projects')
-      
+
       // TODO: * Get started button should be visible for new users
       cy.get('[data-cy="get-started"]').should('be.visible')
     })
@@ -26,12 +24,12 @@ describe('Authentication Example Tests', () => {
     it('should allow creating a project as authenticated user', () => {
       // * Click get started
       cy.get('[data-cy="get-started"]').click()
-      
+
       // * Fill in project details
       cy.get('[data-cy="project-name"]').type('My Fantasy World')
       cy.get('[data-cy="project-description"]').type('A world of magic and adventure')
       cy.get('[data-cy="submit"]').click()
-      
+
       // * Verify project was created
       cy.get('[data-cy="project-card"]').should('contain', 'My Fantasy World')
     })
@@ -41,10 +39,10 @@ describe('Authentication Example Tests', () => {
       cy.get('[data-cy="get-started"]').click()
       cy.get('[data-cy="project-name"]').type('Test Project')
       cy.get('[data-cy="submit"]').click()
-      
+
       // * Reload the page
       cy.reload()
-      
+
       // TODO: ! SECURITY: * Auth state should persist, project should still be visible
       cy.get('[data-cy="project-card"]').should('contain', 'Test Project')
     })
@@ -58,7 +56,7 @@ describe('Authentication Example Tests', () => {
       // * Wait for page to load properly
       cy.get('body').should('be.visible')
       cy.url().should('include', '/projects')
-      
+
       // TODO: * Should still see projects page
       cy.url().should('include', '/projects')
     })
@@ -70,7 +68,7 @@ describe('Authentication Example Tests', () => {
       // * Wait for page to load properly
       cy.get('body').should('be.visible')
       cy.url().should('include', '/projects')
-      
+
       // TODO: * Should still see projects page
       cy.url().should('include', '/projects')
     })
@@ -81,9 +79,7 @@ describe('Authentication Example Tests', () => {
     // * Using cy.session() for authentication caching
 
       // ! SECURITY: * Clear everything and don't set auth
-      cy.window().then((win) => {
-        win.localStorage.clear()
-      })
+      cy.cleanMockAuth()
       cy.visit('/')
     })
 
@@ -101,17 +97,17 @@ describe('Authentication Example Tests', () => {
       // * Wait for page to load properly
       cy.get('body').should('be.visible')
       cy.url().should('include', '/projects')
-      
+
       // * Create a project
       cy.get('[data-cy="get-started"]').click()
       cy.get('[data-cy="project-name"]').type('User Project')
       cy.get('[data-cy="submit"]').click()
-      
+
       // ! SECURITY: * Clear auth and switch to admin
       cy.clearTestSessions() // Clear session cache
       cy.loginAs('admin')
       cy.reload()
-      
+
       // * Projects are stored locally, so admin would see the same projects
       cy.get('[data-cy="project-card"]').should('contain', 'User Project')
     })
@@ -125,12 +121,12 @@ describe('Authentication Example Tests', () => {
       // * Wait for page to load properly
       cy.get('body').should('be.visible')
       cy.url().should('include', '/projects')
-      
+
       // * Create a project (will use mocked API if needed)
       cy.get('[data-cy="get-started"]').click()
       cy.get('[data-cy="project-name"]').type('API Test Project')
       cy.get('[data-cy="submit"]').click()
-      
+
       // * Verify the project appears
       cy.get('[data-cy="project-card"]').should('contain', 'API Test Project')
     })
@@ -142,7 +138,7 @@ describe('Authentication Example Tests', () => {
       // * Wait for page to load properly
       cy.get('body').should('be.visible')
       cy.url().should('include', '/projects')
-      
+
       // TODO: * Should still work with offline mode
       cy.get('[data-cy="get-started"]').should('be.visible')
     })

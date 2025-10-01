@@ -17,7 +17,7 @@
 import { DEVICE_VIEWPORTS, CUSTOM_VIEWPORTS } from '../../support/commands/responsive/viewport-helpers';
 
 describe('Responsive Design Tests', () => {
-  beforeEach(function() {
+  beforeEach(() => {
     // * Setup test user
     cy.setupTestUser();
   });
@@ -32,7 +32,7 @@ describe('Responsive Design Tests', () => {
     const mobileDevices = ['iphone-x'];
     mobileDevices.forEach((device) => {
       context(`${device} viewport (mobile)`, () => {
-        beforeEach(function() {
+        beforeEach(() => {
           cy.viewport(device);
           cy.visit('/');
         });
@@ -49,7 +49,7 @@ describe('Responsive Design Tests', () => {
     const tabletDevices = ['ipad-2'];
     tabletDevices.forEach((device) => {
       context(`${device} viewport (tablet)`, () => {
-        beforeEach(function() {
+        beforeEach(() => {
           cy.viewport(device);
           cy.visit('/');
         });
@@ -70,7 +70,7 @@ describe('Responsive Design Tests', () => {
     const desktopDevices = ['macbook-15'];
     desktopDevices.forEach((device) => {
       context(`${device} viewport (desktop)`, () => {
-        beforeEach(function() {
+        beforeEach(() => {
           cy.viewport(device);
           cy.visit('/');
         });

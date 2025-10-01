@@ -21,7 +21,7 @@ describe('Story and Scene Management Flow', () => {
     content: 'It was a dark and stormy night...'
   };
 
-  beforeEach(function() {
+  beforeEach(() => {
 
     // * Clean state BEFORE test (Cypress best practice)
     cy.task('db:clean');

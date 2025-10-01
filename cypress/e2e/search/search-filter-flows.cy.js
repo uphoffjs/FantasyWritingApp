@@ -23,7 +23,7 @@ describe('Search and Filter Flows', () => {
     ]
   };
 
-  beforeEach(function() {
+  beforeEach(() => {
     
     // * Clean state BEFORE test (Cypress best practice)
     cy.task('db:clean');

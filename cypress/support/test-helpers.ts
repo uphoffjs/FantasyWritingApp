@@ -106,8 +106,22 @@ export function setupAuth(options: MockAuthOptions = {}) {
 
 /**
  * Clear authentication and reset to clean state
+ * @deprecated Use cy.cleanMockAuth() instead. This command will be removed in a future version.
+ * @see cypress/support/commands/auth/mock-auth.ts for the new implementation
+ *
+ * Migration guide:
+ * \`\`\`typescript
+ * // Old (deprecated):
+ * cy.clearAuth()
+ *
+ * // New (recommended):
+ * cy.cleanMockAuth()
+ * \`\`\`
  */
 export function clearAuth() {
+  // Log deprecation warning
+  cy.log('⚠️ DEPRECATED: clearAuth() is deprecated. Use cy.cleanMockAuth() instead.')
+
   cy.window().then((win) => {
     win.localStorage.removeItem('supabase.auth.token')
     win.localStorage.removeItem('worldbuilding-user')
@@ -119,8 +133,24 @@ export function clearAuth() {
 /**
  * Setup clean test environment
  * Clears localStorage and sets up offline mode
+ * @deprecated Use cy.mockSupabaseAuth() + cy.mockSupabaseDatabase() instead. This command will be removed in a future version.
+ * @see cypress/support/commands/auth/mock-auth.ts
+ * @see cypress/support/commands/database/mock-database.ts
+ *
+ * Migration guide:
+ * \`\`\`typescript
+ * // Old (deprecated):
+ * cy.setupTestEnvironment()
+ *
+ * // New (recommended):
+ * cy.mockSupabaseAuth({ user: { email: 'test@example.com' } })
+ * cy.mockSupabaseDatabase()
+ * \`\`\`
  */
 export function setupTestEnvironment() {
+  // Log deprecation warning
+  cy.log('⚠️ DEPRECATED: setupTestEnvironment() is deprecated. Use cy.mockSupabaseAuth() + cy.mockSupabaseDatabase() instead.')
+
   cy.window().then((win) => {
     win.localStorage.clear()
     // ! SECURITY: * Set offline mode to bypass auth checks
@@ -133,7 +163,9 @@ declare global {
   namespace Cypress {
     interface Chainable {
       setupAuth(options?: MockAuthOptions): Chainable<void>
+      /** @deprecated Use cy.cleanMockAuth() instead */
       clearAuth(): Chainable<void>
+      /** @deprecated Use cy.mockSupabaseAuth() + cy.mockSupabaseDatabase() instead */
       setupTestEnvironment(): Chainable<void>
     }
   }

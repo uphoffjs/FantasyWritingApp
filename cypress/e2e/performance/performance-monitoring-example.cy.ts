@@ -17,7 +17,7 @@
 import { DEFAULT_BUDGETS } from '../../support/commands/performance/performance-monitoring';
 
 describe('Performance Monitoring Examples', () => {
-  beforeEach(function() {
+  beforeEach(() => {
     // * Setup test user
     cy.setupTestUser();
 

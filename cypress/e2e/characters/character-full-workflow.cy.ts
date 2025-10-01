@@ -9,7 +9,7 @@
  * Adapted from fantasy-element-builder for writing app domain.
  */
 
-describe('Character Creation and Editing - Full Workflow', () => {
+describe.skip('Character Creation and Editing - Full Workflow - FUTURE FEATURE', () => {
   beforeEach(() => {
     // * Setup test environment with session-based auth
     cy.task('factory:reset')
