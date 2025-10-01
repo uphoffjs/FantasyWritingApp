@@ -34,6 +34,9 @@ import './performance';
 // * Data Seeding Commands
 import './seeding';
 
+// * Mock Supabase Commands
+import './mock-supabase';
+
 // * Export for TypeScript reference
 export * from './auth';
 export * from './debug';
