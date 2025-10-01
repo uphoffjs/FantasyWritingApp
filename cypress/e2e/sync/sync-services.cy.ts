@@ -40,7 +40,7 @@ describe('Sync Services E2E Tests', () => {
     });
 
     // * Visit the app
-    cy.visit('http://localhost:3002/app/projects');
+    cy.visit('/app/projects');
 
     // * Set viewport for testing
     cy.viewport('macbook-15');

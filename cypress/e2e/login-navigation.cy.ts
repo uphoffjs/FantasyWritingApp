@@ -31,7 +31,7 @@ describe('Authentication Navigation', () => {
     it.only('should show login page when visiting root unauthenticated', () => {
       // * Visit root page
       cy.task('log', 'Visiting root page as unauthenticated user...');
-      cy.visit('http://localhost:3002');
+      cy.visit('/');
       
       // * Assert we're redirected to login
       // ! No conditionals - we EXPECT to be on login page
@@ -49,7 +49,7 @@ describe('Authentication Navigation', () => {
     it('should display login form with proper elements', () => {
       // * Navigate directly to login
       cy.task('log', 'Navigating directly to login page...');
-      cy.visit('http://localhost:3002/login');
+      cy.visit('/login');
       
       // * Assert all required elements are present
       // ! No conditionals - deterministic expectations
@@ -72,7 +72,7 @@ describe('Authentication Navigation', () => {
     it('should prevent access to protected routes when unauthenticated', () => {
       // * Try to access protected route
       cy.task('log', 'Attempting to access protected dashboard route...');
-      cy.visit('http://localhost:3002/dashboard');
+      cy.visit('/dashboard');
       
       // * Assert redirect to login
       // ! No conditionals - we MUST be redirected
@@ -98,7 +98,7 @@ describe('Authentication Navigation', () => {
     it('should show dashboard when visiting root authenticated', () => {
       // * Visit root as authenticated user
       cy.task('log', 'Visiting root page as authenticated user...');
-      cy.visit('http://localhost:3002');
+      cy.visit('/');
       
       // * Assert we see dashboard, not login
       // ! No conditionals - deterministic expectation
@@ -110,7 +110,7 @@ describe('Authentication Navigation', () => {
     it('should redirect from login to dashboard when already authenticated', () => {
       // * Try to visit login when already authenticated
       cy.task('log', 'Attempting to visit login while authenticated...');
-      cy.visit('http://localhost:3002/login');
+      cy.visit('/login');
       
       // * Assert redirect to dashboard
       // ! No conditionals - must redirect authenticated users
@@ -121,7 +121,7 @@ describe('Authentication Navigation', () => {
     it('should allow access to protected routes when authenticated', () => {
       // * Visit protected route
       cy.task('log', 'Accessing protected profile route...');
-      cy.visit('http://localhost:3002/profile');
+      cy.visit('/profile');
       
       // * Assert access granted
       // ! No conditionals - deterministic access control
@@ -137,7 +137,7 @@ describe('Authentication Navigation', () => {
       // * Ensure clean state and visit login
       cy.clearCookies();
       cy.clearLocalStorage();
-      cy.visit('http://localhost:3002/login');
+      cy.visit('/login');
       cy.viewport('iphone-x');
     });
     
@@ -214,7 +214,7 @@ describe('Authentication Navigation', () => {
     // * Using cy.session() for authentication caching
       // * Start as authenticated user
       cy.apiLogin('test@example.com', 'testpassword123');
-      cy.visit('http://localhost:3002/dashboard');
+      cy.visit('/dashboard');
       cy.viewport('iphone-x');
     });
     
@@ -244,7 +244,7 @@ describe('Authentication Navigation', () => {
       
       // * Try to access protected route
       cy.task('log', 'Attempting to access dashboard after logout...');
-      cy.visit('http://localhost:3002/dashboard');
+      cy.visit('/dashboard');
       
       // * Assert redirect to login
       // ! No conditionals - must redirect after logout
@@ -257,7 +257,7 @@ describe('Authentication Navigation', () => {
   describe('Session Management', () => {
     it('should persist login across page refreshes', () => {
       // * Log in
-      cy.visit('http://localhost:3002/login');
+      cy.visit('/login');
       cy.get('[data-cy="email-input"]').type('test@example.com');
       cy.get('[data-cy="password-input"]').type('testpassword123');
       cy.get('[data-cy="login-button"]').click();
@@ -286,7 +286,7 @@ describe('Authentication Navigation', () => {
       
       // * Try to access protected route
       cy.task('log', 'Testing expired session handling...');
-      cy.visit('http://localhost:3002/dashboard');
+      cy.visit('/dashboard');
       
       // * Assert redirect to login with message
       // ! No conditionals - expired sessions must redirect
@@ -301,7 +301,7 @@ describe('Authentication Navigation', () => {
     it('should display login page correctly on mobile (iPhone X)', () => {
       // * Set mobile viewport
       cy.viewport('iphone-x');
-      cy.visit('http://localhost:3002/login');
+      cy.visit('/login');
       
       // * Assert responsive layout for mobile
       // ! No conditionals - deterministic mobile layout
@@ -318,7 +318,7 @@ describe('Authentication Navigation', () => {
     it('should display login page correctly on tablet (iPad)', () => {
       // * Set tablet viewport
       cy.viewport('ipad-2');
-      cy.visit('http://localhost:3002/login');
+      cy.visit('/login');
       
       // * Assert responsive layout for tablet
       // ! No conditionals - deterministic tablet layout
@@ -334,7 +334,7 @@ describe('Authentication Navigation', () => {
     it('should display login page correctly on desktop (MacBook)', () => {
       // * Set desktop viewport
       cy.viewport('macbook-15');
-      cy.visit('http://localhost:3002/login');
+      cy.visit('/login');
       
       // * Assert responsive layout for desktop
       // ! No conditionals - deterministic desktop layout
@@ -358,7 +358,7 @@ describe('Authentication Navigation', () => {
       }).as('loginError');
       
       // * Attempt login
-      cy.visit('http://localhost:3002/login');
+      cy.visit('/login');
       cy.get('[data-cy="email-input"]').type('test@example.com');
       cy.get('[data-cy="password-input"]').type('password123');
       cy.get('[data-cy="login-button"]').click();
@@ -385,7 +385,7 @@ describe('Authentication Navigation', () => {
       }).as('loginTimeout');
       
       // * Attempt login
-      cy.visit('http://localhost:3002/login');
+      cy.visit('/login');
       cy.get('[data-cy="email-input"]').type('test@example.com');
       cy.get('[data-cy="password-input"]').type('password123');
       cy.get('[data-cy="login-button"]').click();
