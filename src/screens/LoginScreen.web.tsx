@@ -109,14 +109,14 @@ export default function LoginScreen() {
     }
     
     try {
-      const { error } = await authService.resetPassword(forgotPasswordEmail);
-      
-      if (error) {
-        setError(error.message);
+      const { error: resetError } = await authService.resetPassword(forgotPasswordEmail);
+
+      if (resetError) {
+        setError(resetError.message);
         showToast({
           type: 'error',
           title: 'Password Reset Failed',
-          message: error.message,
+          message: resetError.message,
         });
       } else {
         setForgotPasswordSent(true);
@@ -157,7 +157,7 @@ export default function LoginScreen() {
           {/* Tab Switcher */}
           <div className="flex mb-6 bg-parchment-200/50 rounded-lg p-1">
             <button
-              {...getTestProps('signin-tab')}
+              {...getTestProps('signin-tab-button')}
               onClick={() => mode !== 'signin' && switchMode()}
               className={`flex-1 py-2 px-4 rounded-md transition-all ${
                 mode === 'signin'
@@ -168,7 +168,7 @@ export default function LoginScreen() {
               Sign In
             </button>
             <button
-              {...getTestProps('signup-link')}
+              {...getTestProps('signup-tab-button')}
               onClick={() => mode !== 'signup' && switchMode()}
               className={`flex-1 py-2 px-4 rounded-md transition-all ${
                 mode === 'signup'
@@ -270,6 +270,7 @@ export default function LoginScreen() {
               <div className="flex items-center justify-between">
                 <label className="flex items-center">
                   <input
+                    {...getTestProps('remember-me-switch')}
                     type="checkbox"
                     checked={rememberMe}
                     onChange={(e) => setRememberMe(e.target.checked)}
@@ -290,7 +291,7 @@ export default function LoginScreen() {
             
             {/* Submit Button */}
             <button
-              {...getTestProps('login-button')}
+              {...getTestProps('submit-button')}
               type="submit"
               disabled={isLoading}
               className="w-full py-3 px-4 bg-gradient-to-r from-might to-dragonfire text-white font-cinzel font-medium rounded-lg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-metals-gold focus:ring-offset-2 focus:ring-offset-parchment-100 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
