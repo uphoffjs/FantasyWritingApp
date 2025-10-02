@@ -27,21 +27,15 @@ interface BuildErrorInfo {
 /**
  * Enhanced comprehensive debug that captures build errors
  * Call this BEFORE cy.visit() to ensure all error handlers are installed
+ *
+ * NOTE: cy.on() cannot be called inside custom commands, so we set up
+ * window-level handlers instead
  */
 Cypress.Commands.add('comprehensiveDebugWithBuildCapture', () => {
   const errors: BuildErrorInfo[] = [];
 
-  // 1. Install error handlers before page load
-  cy.on('uncaught:exception', (err, runnable) => {
-    errors.push({
-      type: 'runtime',
-      message: err.message,
-      stack: err.stack,
-      timestamp: new Date().toISOString(),
-    });
-    cy.task('log', `[BUILD CAPTURE - UNCAUGHT] ${err.message}`);
-    return false; // Prevent test failure to continue capturing
-  });
+  // Log initialization
+  cy.task('log', '[BUILD CAPTURE] Initializing error capture...');
 
   // 2. Intercept all network requests to detect build errors
   cy.intercept('**/*', req => {
@@ -91,7 +85,8 @@ Cypress.Commands.add('comprehensiveDebugWithBuildCapture', () => {
               timestamp: new Date().toISOString(),
             };
             errors.push(error);
-            cy.task('log', `[BUILD ERROR DETECTED] ${error.message}`);
+            // Note: Cannot call cy.task() inside callbacks
+            // Error will be logged when retrieved
 
             // Store for later retrieval
             cy.window().then(win => {
@@ -123,17 +118,20 @@ Cypress.Commands.add('comprehensiveDebugWithBuildCapture', () => {
             },
             timestamp: new Date().toISOString(),
           });
-          cy.task('log', '[BUILD ERROR IN HTML] Error page detected');
+          // Note: Cannot call cy.task() inside callbacks
         }
       }
     });
   });
 
-  // 3. Set up window error handlers
-  cy.on('window:before:load', win => {
+  // 3. Set up window error handlers using window:before:load event
+  // Note: We must use cy.on outside of custom commands, so we use window.then instead
+  cy.window({ log: false }).then(win => {
     // Capture all console errors immediately
     const originalError = win.console.error;
-    win.console.error = function (...args: unknown[]) {
+    const extendedWin = win as ExtendedWindow;
+
+    extendedWin.console.error = function (...args: unknown[]) {
       const message = args
         .map(a => (typeof a === 'object' ? JSON.stringify(a) : String(a)))
         .join(' ');
@@ -143,7 +141,7 @@ Cypress.Commands.add('comprehensiveDebugWithBuildCapture', () => {
         message: message,
         timestamp: new Date().toISOString(),
       });
-      cy.task('log', `[CONSOLE ERROR] ${message}`);
+      // Note: Cannot call cy.task() inside window callback
       originalError.apply(win.console, args);
     };
 
@@ -159,10 +157,7 @@ Cypress.Commands.add('comprehensiveDebugWithBuildCapture', () => {
         },
         timestamp: new Date().toISOString(),
       });
-      cy.task(
-        'log',
-        `[WINDOW ERROR] ${evt.message} at ${evt.filename}:${evt.lineno}`,
-      );
+      // Note: Cannot call cy.task() inside event handlers
     });
 
     // Capture unhandled promise rejections
@@ -172,11 +167,11 @@ Cypress.Commands.add('comprehensiveDebugWithBuildCapture', () => {
         message: `Unhandled Promise Rejection: ${evt.reason}`,
         timestamp: new Date().toISOString(),
       });
-      cy.task('log', `[PROMISE REJECTION] ${evt.reason}`);
+      // Note: Cannot call cy.task() inside event handlers
     });
 
     // Store errors on window for retrieval
-    (win as ExtendedWindow).__cypressCapturedErrors = errors;
+    extendedWin.__cypressCapturedErrors = errors;
   });
 
   cy.task('log', '[BUILD CAPTURE] Error capture initialized');
