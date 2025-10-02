@@ -1,339 +1,898 @@
-# Writing and Organizing Tests
+# Writing and Organizing Tests - TypeScript Guide
 
-## Test Structure and Organization
+**Official Reference**: [Cypress.io - Writing and Organizing Tests](https://docs.cypress.io/app/core-concepts/writing-and-organizing-tests)
 
-### File Organization
+> This guide provides comprehensive coverage of Cypress test organization patterns with TypeScript-specific examples for the FantasyWritingApp project.
 
-Cypress follows a clear directory structure for organizing different types of tests and supporting files:
+---
+
+## 🚨 MANDATORY PROJECT REQUIREMENTS
+
+**Every Cypress test file in this project MUST follow these three rules:**
+
+### Rule 1: One `describe()` Block Per File
+
+Each test file should contain exactly **ONE** top-level `describe()` block. This keeps test files focused on a single feature or functionality.
+
+### Rule 2: Required `beforeEach()` Hook
+
+Every `describe()` block **MUST** start with this exact `beforeEach()` hook:
+
+```typescript
+beforeEach(() => {
+  // Clear cookies and local storage before each test to ensure a clean state
+  cy.clearCookies();
+  cy.clearLocalStorage();
+  cy.comprehensiveDebugWithBuildCapture(); // Capture build info for debugging
+  cy.comprehensiveDebug(); // Ensure debug capture is active
+});
+```
+
+### Rule 3: Multiple Tests Allowed
+
+You can and should have multiple `it()` test cases inside the single `describe()` block to test different aspects of the feature.
+
+### Quick Example
+
+```typescript
+// ✅ CORRECT Structure
+describe('Feature Name', () => {
+  // MANDATORY beforeEach first
+  beforeEach(() => {
+    cy.clearCookies();
+    cy.clearLocalStorage();
+    cy.comprehensiveDebugWithBuildCapture();
+    cy.comprehensiveDebug();
+  });
+
+  // Multiple tests allowed
+  it('does thing A', () => {
+    /* ... */
+  });
+  it('does thing B', () => {
+    /* ... */
+  });
+  it('does thing C', () => {
+    /* ... */
+  });
+});
+```
+
+---
+
+## Table of Contents
+
+1. [Folder Structure](#folder-structure)
+2. [Spec Files](#spec-files)
+3. [Writing Your First Test](#writing-your-first-test)
+4. [Test Structure](#test-structure)
+5. [Hooks](#hooks)
+6. [Excluding and Including Tests](#excluding-and-including-tests)
+7. [Dynamically Generate Tests](#dynamically-generate-tests)
+8. [Test Configuration](#test-configuration)
+9. [Running Tests](#running-tests)
+10. [TypeScript Support](#typescript-support)
+11. [Project-Specific Patterns](#project-specific-patterns)
+
+---
+
+## Folder Structure
+
+Cypress automatically scaffolds a suggested folder structure when you initialize your project. By default, it creates the following directories:
 
 ```
 cypress/
-├── e2e/                    # End-to-end tests
-│   ├── auth/              # Authentication-related tests
-│   │   ├── login.cy.js
-│   │   └── registration.cy.js
-│   ├── stories/           # Story management tests
-│   │   ├── story-creation.cy.js
-│   │   ├── story-editing.cy.js
-│   │   └── story-deletion.cy.js
-│   └── navigation/        # Navigation and routing tests
-│       └── app-navigation.cy.js
-├── component/             # Component tests
-│   ├── StoryCard.cy.tsx
-│   ├── CharacterForm.cy.tsx
-│   └── ProjectList.cy.tsx
-├── fixtures/             # Test data and mock responses
-│   ├── stories.json
-│   ├── characters.json
-│   └── users.json
-├── support/              # Shared utilities and configurations
-│   ├── commands.js       # Custom commands
-│   ├── e2e.js           # E2E test setup
-│   └── component.js     # Component test setup
-└── downloads/            # Downloaded files during tests
+├── e2e/                      # End-to-end test specs
+│   ├── login-page/          # Feature-based organization
+│   │   └── verify-login-page.cy.ts
+│   ├── elements/
+│   │   ├── create-element.cy.ts
+│   │   └── element-list.cy.ts
+│   └── projects/
+│       └── project-management.cy.ts
+├── fixtures/                 # Static test data
+│   ├── users.json
+│   ├── elements.json
+│   └── projects.json
+├── support/                  # Reusable test code
+│   ├── commands.ts          # Custom commands
+│   ├── e2e.ts              # E2E test configuration
+│   └── component.ts        # Component test configuration
+└── downloads/               # Downloaded files during tests
 ```
 
-### Naming Conventions
+### Directory Purpose
 
-```javascript
-// * File naming patterns
-// E2E tests: feature-name.cy.js
-user-authentication.cy.js
-story-management.cy.js
-character-creation.cy.js
+**`cypress/e2e/`**: Contains your end-to-end test specification files. This is where you write tests that simulate user interactions with your application.
 
-// Component tests: ComponentName.cy.tsx
-StoryCard.cy.tsx
-ProjectList.cy.tsx
-CharacterForm.cy.tsx
+**`cypress/fixtures/`**: Stores external pieces of static data that can be used by your tests. Fixtures are typically JSON files but can be other file types.
 
-// Fixture files: data-type.json
-stories.json
-users.json
-mock-api-responses.json
+**`cypress/support/`**: Contains reusable behavior such as custom commands or global overrides that you want to apply and make available to all your spec files.
+
+**`cypress/downloads/`**: Stores files downloaded during test execution (automatic).
+
+### Configuring Folder Structure
+
+You can customize the folder structure in your `cypress.config.ts` file:
+
+```typescript
+// cypress.config.ts
+import { defineConfig } from 'cypress';
+
+export default defineConfig({
+  e2e: {
+    specPattern: 'cypress/e2e/**/*.cy.{ts,tsx}',
+    supportFile: 'cypress/support/e2e.ts',
+    fixturesFolder: 'cypress/fixtures',
+    downloadsFolder: 'cypress/downloads',
+  },
+  component: {
+    specPattern: 'cypress/component/**/*.cy.{ts,tsx}',
+    supportFile: 'cypress/support/component.ts',
+  },
+});
 ```
 
-## Test Structure Patterns
+---
 
-### Describe Blocks for Organization
+## Spec Files
 
-```javascript
-// cypress/e2e/story-management.cy.js
-describe('Story Management', () => {
-  // * Context blocks group related tests
-  context('Story Creation', () => {
-    beforeEach(() => {
-      cy.visit('/stories')
-      cy.get('[data-cy="create-story-button"]').click()
-    })
+Spec files are test files that contain your test suites and test cases. Cypress supports several file extensions:
 
-    it('creates a story with valid data', () => {
-      // Test implementation
-    })
+### Supported Extensions
 
-    it('validates required fields', () => {
-      // Test implementation
-    })
+- `.ts` - TypeScript (recommended for this project)
+- `.tsx` - TypeScript with JSX
+- `.js` - JavaScript
+- `.jsx` - JavaScript with JSX
+- `.coffee` - CoffeeScript
+- `.cjsx` - CoffeeScript with JSX
 
-    it('handles character limit enforcement', () => {
-      // Test implementation
-    })
-  })
+### File Naming Convention
 
-  context('Story Editing', () => {
-    beforeEach(() => {
-      // ? Setup existing story for editing tests
-      cy.fixture('stories').then((stories) => {
-        cy.visit(`/stories/${stories[0].id}/edit`)
-      })
-    })
+Cypress looks for spec files with specific patterns. By default:
 
-    it('saves changes automatically', () => {
-      // Test implementation
-    })
+```typescript
+// Default pattern
+'**/*.cy.{ts,tsx,js,jsx}';
 
-    it('preserves unsaved changes on navigation', () => {
-      // Test implementation
-    })
-  })
-
-  context('Story Deletion', () => {
-    it('confirms deletion before removing story', () => {
-      // Test implementation
-    })
-
-    it('permanently removes story from list', () => {
-      // Test implementation
-    })
-  })
-})
+// Example spec file names
+login - page.cy.ts;
+element - creation.cy.ts;
+project - management.cy.tsx;
 ```
 
-### Test Hooks and Lifecycle
+### Creating Your First Spec
 
-```javascript
-describe('Fantasy Writing App', () => {
-  // * Runs once before all tests in this describe block
-  before(() => {
-    // Database seeding, one-time setup
-    cy.task('db:seed')
-    cy.task('resetUserData')
-  })
+```typescript
+// cypress/e2e/my-first-test.cy.ts
+describe('My First Test', () => {
+  it('visits the app', () => {
+    cy.visit('/');
+  });
+});
+```
 
-  // * Runs once after all tests in this describe block
-  after(() => {
-    // Cleanup operations
-    cy.task('db:cleanup')
-    cy.clearLocalStorage()
-  })
+---
 
-  // * Runs before each test
+## Writing Your First Test
+
+### Basic Test Structure
+
+A Cypress test follows a simple pattern using Mocha's BDD (Behavior-Driven Development) syntax:
+
+```typescript
+// cypress/e2e/login-page/verify-login-page.cy.ts
+describe('Login Page', () => {
+  it('should display the login form', () => {
+    // Arrange - Set up test conditions
+    cy.visit('/login');
+
+    // Act - Perform actions (if needed)
+    // (In this case, just visiting is the action)
+
+    // Assert - Verify expected outcomes
+    cy.get('[data-cy="login-form"]').should('be.visible');
+    cy.get('[data-cy="email-input"]').should('exist');
+    cy.get('[data-cy="password-input"]').should('exist');
+    cy.get('[data-cy="login-button"]').should('be.visible');
+  });
+});
+```
+
+### Understanding Test Structure
+
+**`describe()`**: Defines a test suite - a group of related tests. You can nest `describe()` blocks to organize tests hierarchically.
+
+**`it()`**: Defines an individual test case. Each `it()` block should test one specific behavior.
+
+**`cy.visit()`**: Navigates to a URL in your application.
+
+**`cy.get()`**: Queries the DOM for elements.
+
+**`.should()`**: Creates an assertion about the selected element.
+
+---
+
+## Test Structure
+
+### Using `describe()` for Test Suites
+
+Use `describe()` to define a test suite - a group of related tests:
+
+```typescript
+// cypress/e2e/elements/element-management.cy.ts
+describe('Element Management', () => {
+  // ! MANDATORY beforeEach
   beforeEach(() => {
-    // Common setup for each test
-    cy.visit('/')
-    cy.window().then((win) => {
-      win.localStorage.setItem('user', JSON.stringify({
-        id: 'test-user',
-        email: 'test@example.com'
-      }))
-    })
-  })
+    cy.clearCookies();
+    cy.clearLocalStorage();
+    cy.comprehensiveDebugWithBuildCapture();
+    cy.comprehensiveDebug();
+  });
 
-  // * Runs after each test
-  afterEach(() => {
-    // Cleanup after each test
-    cy.clearCookies()
-    cy.clearLocalStorage()
-    // ! Important: Reset application state
-    cy.task('resetTestData')
-  })
+  it('should create a character element', () => {
+    cy.visit('/elements/new');
+    cy.get('[data-cy="element-type-select"]').select('character');
+    cy.get('[data-cy="element-name-input"]').type('Aria Stormblade');
+    cy.get('[data-cy="save-element-button"]').click();
+    cy.get('[data-cy="success-message"]').should('contain', 'Element created');
+  });
 
-  it('loads the home screen correctly', () => {
-    cy.get('[data-cy="app-title"]').should('contain', 'Fantasy Writing App')
-    cy.get('[data-cy="story-list"]').should('be.visible')
-  })
-})
+  it('should edit a character element', () => {
+    // Test implementation
+  });
+
+  it('should create a location element', () => {
+    // Test implementation
+  });
+});
 ```
 
-### Page Object Pattern
+### Using `it()` for Individual Tests
 
-```javascript
-// cypress/support/pages/StoryPage.js
-export class StoryPage {
-  // * Define page elements
-  elements = {
-    titleInput: () => cy.get('[data-cy="story-title-input"]'),
-    contentEditor: () => cy.get('[data-cy="story-content-editor"]'),
-    saveButton: () => cy.get('[data-cy="save-story-button"]'),
-    publishButton: () => cy.get('[data-cy="publish-story-button"]'),
-    wordCount: () => cy.get('[data-cy="word-count-display"]'),
-    chapterList: () => cy.get('[data-cy="chapter-list"]'),
-    addChapterButton: () => cy.get('[data-cy="add-chapter-button"]')
-  }
+Use `it()` to define individual test cases within a `describe()` block:
 
-  // * Define page actions
-  visit(storyId = 'new') {
-    cy.visit(`/stories/${storyId}`)
-    return this
-  }
+```typescript
+describe('Element Creation', () => {
+  beforeEach(() => {
+    cy.clearCookies();
+    cy.clearLocalStorage();
+    cy.comprehensiveDebugWithBuildCapture();
+    cy.comprehensiveDebug();
+  });
 
-  enterTitle(title) {
-    this.elements.titleInput().clear().type(title)
-    return this
-  }
+  it('creates an element with valid data', () => {
+    // Test implementation
+  });
 
-  enterContent(content) {
-    this.elements.contentEditor().clear().type(content)
-    return this
-  }
+  it('validates required fields before saving', () => {
+    // Test implementation
+  });
+});
+```
 
-  save() {
-    this.elements.saveButton().click()
-    // ? Wait for save confirmation
-    cy.get('[data-cy="save-success"]').should('be.visible')
-    return this
-  }
+### ⚠️ DO NOT USE: `context()` and `specify()`
 
-  publish() {
-    this.elements.publishButton().click()
-    cy.get('[data-cy="publish-confirmation"]').within(() => {
-      cy.get('[data-cy="confirm-publish"]').click()
-    })
-    return this
-  }
+**Mocha provides aliases that we DO NOT use in this project:**
 
-  addChapter(title) {
-    this.elements.addChapterButton().click()
-    cy.get('[data-cy="chapter-title-input"]').type(title)
-    cy.get('[data-cy="create-chapter-button"]').click()
-    return this
-  }
+- ❌ **`context()`** - Alias for `describe()` - DO NOT USE
+- ❌ **`specify()`** - Alias for `it()` - DO NOT USE
 
-  // * Verification methods
-  shouldHaveTitle(title) {
-    this.elements.titleInput().should('have.value', title)
-    return this
-  }
+**Why we don't use them:**
 
-  shouldShowWordCount(count) {
-    this.elements.wordCount().should('contain', count)
-    return this
-  }
+- Creates inconsistency in the codebase
+- No functional benefit over `describe()` and `it()`
+- Our project rule: ONE `describe()` per file eliminates need for nested contexts
+- Simpler is better - stick to `describe()` and `it()`
 
-  shouldHaveChapters(chapterTitles) {
-    chapterTitles.forEach((title, index) => {
-      this.elements.chapterList()
-        .find(`[data-cy="chapter-item"]:eq(${index})`)
-        .should('contain', title)
-    })
-    return this
-  }
+```typescript
+// ❌ WRONG: Using context() and specify()
+describe('Element Management', () => {
+  context('Character Elements', () => {
+    // DON'T USE context()
+    specify('creates character', () => {
+      // DON'T USE specify()
+      // Test implementation
+    });
+  });
+});
+
+// ✅ CORRECT: Using describe() and it() only
+describe('Element Management', () => {
+  beforeEach(() => {
+    cy.clearCookies();
+    cy.clearLocalStorage();
+    cy.comprehensiveDebugWithBuildCapture();
+    cy.comprehensiveDebug();
+  });
+
+  it('creates character element', () => {
+    // Test implementation
+  });
+
+  it('creates location element', () => {
+    // Test implementation
+  });
+});
+```
+
+---
+
+## Hooks
+
+Hooks allow you to set up conditions before or after tests run. Cypress provides four hooks from Mocha:
+
+### Available Hooks
+
+**`before()`**: Runs once before all tests in the block
+**`beforeEach()`**: Runs before each test in the block
+**`afterEach()`**: Runs after each test in the block
+**`after()`**: Runs once after all tests in the block
+
+### 🚨 MANDATORY: Project Requirements
+
+**Every test file MUST follow these rules:**
+
+1. ✅ **One `describe()` block per file** - Each test file should have exactly ONE top-level `describe()` block
+2. ✅ **Multiple tests allowed** - You can have multiple `it()` tests inside the single `describe()` block
+3. ✅ **Required `beforeEach()` hook** - Every `describe()` block MUST include this exact `beforeEach()` setup:
+
+```typescript
+beforeEach(() => {
+  // Clear cookies and local storage before each test to ensure a clean state
+  cy.clearCookies();
+  cy.clearLocalStorage();
+  cy.comprehensiveDebugWithBuildCapture(); // Capture build info for debugging
+  cy.comprehensiveDebug(); // Ensure debug capture is active
+});
+```
+
+**Why these requirements?**
+
+- **Single `describe()` block**: Keeps test files focused and organized by feature
+- **Clear state before each test**: Prevents test pollution and ensures independence
+- **Debug capture**: Critical for troubleshooting failures and build issues
+- **Consistent structure**: Makes tests predictable and easier to maintain
+
+### Complete Hook Example with TypeScript
+
+```typescript
+// cypress/e2e/elements/element-workflow.cy.ts
+// ✅ CORRECT: Single describe() block per file
+describe('Element Workflow', () => {
+  // ! MANDATORY: Required beforeEach() hook in EVERY describe block
+  beforeEach(() => {
+    // Clear cookies and local storage before each test to ensure a clean state
+    cy.clearCookies();
+    cy.clearLocalStorage();
+    cy.comprehensiveDebugWithBuildCapture(); // Capture build info for debugging
+    cy.comprehensiveDebug(); // Ensure debug capture is active
+  });
+
+  // * Optional: before() hook for expensive one-time setup
+  before(() => {
+    // Seed database with initial data
+    cy.task('db:seed', { type: 'elements' });
+  });
+
+  // * Optional: Additional beforeEach() logic can be added after the mandatory one
+  beforeEach(() => {
+    // Set up authentication session
+    cy.session(
+      'user',
+      () => {
+        cy.visit('/login');
+        cy.get('[data-cy="email-input"]').type('test@example.com');
+        cy.get('[data-cy="password-input"]').type('password123');
+        cy.get('[data-cy="login-button"]').click();
+      },
+      {
+        validate() {
+          cy.getCookie('auth-token').should('exist');
+        },
+      },
+    );
+
+    // Navigate to elements page
+    cy.visit('/elements');
+  });
+
+  // * Optional: afterEach() hook for test cleanup
+  afterEach(function () {
+    // Capture failure information if test failed
+    if (this.currentTest?.state === 'failed') {
+      cy.captureFailureDebug();
+    }
+  });
+
+  // * Optional: after() hook for final cleanup
+  after(() => {
+    // Clean up database
+    cy.task('db:cleanup');
+  });
+
+  // ✅ Multiple it() tests allowed in single describe() block
+  it('creates an element successfully', () => {
+    cy.get('[data-cy="create-element-button"]').click();
+    cy.get('[data-cy="element-name-input"]').type('Test Element');
+    cy.get('[data-cy="save-button"]').click();
+    cy.get('[data-cy="success-message"]').should('be.visible');
+  });
+
+  it('validates element fields', () => {
+    cy.get('[data-cy="create-element-button"]').click();
+    cy.get('[data-cy="save-button"]').click();
+    cy.get('[data-cy="name-error"]').should('contain', 'Name is required');
+  });
+
+  it('edits an existing element', () => {
+    cy.get('[data-cy="element-card"]').first().click();
+    cy.get('[data-cy="edit-button"]').click();
+    cy.get('[data-cy="element-name-input"]').clear().type('Updated Name');
+    cy.get('[data-cy="save-button"]').click();
+    cy.get('[data-cy="success-message"]').should('be.visible');
+  });
+});
+```
+
+### Hook Execution Order
+
+```
+before() - runs once
+  └─ beforeEach() - runs before test 1
+      └─ test 1 executes
+  └─ afterEach() - runs after test 1
+  └─ beforeEach() - runs before test 2
+      └─ test 2 executes
+  └─ afterEach() - runs after test 2
+after() - runs once
+```
+
+### Important Hook Notes
+
+1. **MANDATORY `beforeEach()`** - Every `describe()` block must start with the required cleanup and debug setup
+2. **Single `describe()` per file** - Keep test files focused on one feature/functionality
+3. **Multiple `it()` tests allowed** - Group related test cases in the single `describe()` block
+4. **Use `function()` syntax** when you need access to the test context (`this.currentTest`)
+5. **Avoid arrow functions** if you need to access `this.currentTest`
+6. **Clean state in `beforeEach()`**, not `afterEach()` (Cypress best practice)
+7. **Use `before()` sparingly** - Tests should be independent
+
+### ❌ Common Mistakes to Avoid
+
+```typescript
+// ❌ WRONG: Multiple describe() blocks in one file
+describe('Element Creation', () => {
+  it('creates element', () => {});
+});
+
+describe('Element Editing', () => {
+  it('edits element', () => {});
+});
+
+// ❌ WRONG: Using context() instead of describe()
+describe('Element Management', () => {
+  context('Creation', () => {
+    // DON'T USE context()
+    it('creates element', () => {});
+  });
+});
+
+// ❌ WRONG: Using specify() instead of it()
+describe('Element Management', () => {
+  specify('creates element', () => {}); // DON'T USE specify()
+});
+
+// ❌ WRONG: Missing mandatory beforeEach() hook
+describe('Element Management', () => {
+  it('creates element', () => {});
+});
+
+// ❌ WRONG: beforeEach() missing required cleanup
+describe('Element Management', () => {
+  beforeEach(() => {
+    cy.visit('/elements'); // Missing clearCookies, clearLocalStorage, debug setup
+  });
+  it('creates element', () => {});
+});
+
+// ✅ CORRECT: Single describe() with mandatory beforeEach()
+describe('Element Management', () => {
+  beforeEach(() => {
+    cy.clearCookies();
+    cy.clearLocalStorage();
+    cy.comprehensiveDebugWithBuildCapture();
+    cy.comprehensiveDebug();
+  });
+
+  it('creates element', () => {});
+  it('edits element', () => {});
+  it('deletes element', () => {});
+});
+```
+
+---
+
+## Excluding and Including Tests
+
+### Skip Tests with `.skip()`
+
+Temporarily skip tests without deleting them:
+
+```typescript
+describe('Element Features', () => {
+  it('creates an element', () => {
+    // This test will run
+  });
+
+  it.skip('deletes an element', () => {
+    // This test will be skipped
+  });
+
+  // Skip entire suite
+  describe.skip('Advanced Features', () => {
+    it('feature 1', () => {
+      // All tests in this suite are skipped
+    });
+  });
+});
+```
+
+### Run Only Specific Tests with `.only()`
+
+Run only specific tests during development:
+
+```typescript
+describe('Element Features', () => {
+  it('creates an element', () => {
+    // This test will NOT run
+  });
+
+  it.only('edits an element', () => {
+    // ONLY this test will run
+  });
+
+  it('deletes an element', () => {
+    // This test will NOT run
+  });
+});
+```
+
+**⚠️ Warning**: Always remove `.only()` before committing. Consider using a pre-commit hook to prevent this:
+
+```typescript
+// .husky/pre-commit
+#!/bin/sh
+if grep -r "\.only(" cypress/e2e/; then
+  echo "❌ Found .only() in tests. Remove before committing."
+  exit 1
+fi
+```
+
+---
+
+## Dynamically Generate Tests
+
+Generate tests programmatically using loops or data structures:
+
+### Array-Based Test Generation
+
+```typescript
+// cypress/e2e/elements/element-types.cy.ts
+import type { ElementCategory } from '../../support/types';
+
+describe('Element Type Validation', () => {
+  const elementTypes: ElementCategory[] = [
+    'character',
+    'location',
+    'magic-system',
+    'culture',
+    'creature',
+    'organization',
+  ];
+
+  elementTypes.forEach(type => {
+    it(`should create a ${type} element`, () => {
+      cy.visit('/elements/new');
+      cy.get('[data-cy="element-type-select"]').select(type);
+      cy.get('[data-cy="element-name-input"]').type(`Test ${type}`);
+      cy.get('[data-cy="save-button"]').click();
+      cy.get('[data-cy="success-message"]').should('be.visible');
+    });
+  });
+});
+```
+
+### Fixture-Based Test Generation
+
+```typescript
+// cypress/e2e/elements/element-validation.cy.ts
+describe('Element Field Validation', () => {
+  let validationRules: Array<{
+    field: string;
+    rule: string;
+    errorMessage: string;
+  }>;
+
+  before(() => {
+    cy.fixture('validation-rules.json').then(rules => {
+      validationRules = rules;
+    });
+  });
+
+  beforeEach(() => {
+    cy.visit('/elements/new');
+  });
+
+  it('should validate all required fields', function () {
+    validationRules.forEach(rule => {
+      cy.get('[data-cy="save-button"]').click();
+      cy.get(`[data-cy="${rule.field}-error"]`).should(
+        'contain',
+        rule.errorMessage,
+      );
+    });
+  });
+});
+```
+
+### Data-Driven Testing with TypeScript
+
+```typescript
+interface TestCase {
+  description: string;
+  input: {
+    name: string;
+    type: string;
+    description: string;
+  };
+  expected: {
+    success: boolean;
+    message: string;
+  };
 }
 
-// Usage in tests
-import { StoryPage } from '../support/pages/StoryPage'
+describe('Element Creation Scenarios', () => {
+  const testCases: TestCase[] = [
+    {
+      description: 'creates element with valid data',
+      input: {
+        name: 'Aria Stormblade',
+        type: 'character',
+        description: 'A brave warrior',
+      },
+      expected: {
+        success: true,
+        message: 'Element created successfully',
+      },
+    },
+    {
+      description: 'rejects element with empty name',
+      input: {
+        name: '',
+        type: 'character',
+        description: 'A brave warrior',
+      },
+      expected: {
+        success: false,
+        message: 'Name is required',
+      },
+    },
+  ];
 
-describe('Story Creation', () => {
-  const storyPage = new StoryPage()
+  testCases.forEach(testCase => {
+    it(testCase.description, () => {
+      cy.visit('/elements/new');
+      cy.get('[data-cy="element-name-input"]').type(testCase.input.name);
+      cy.get('[data-cy="element-type-select"]').select(testCase.input.type);
+      cy.get('[data-cy="element-description-input"]').type(
+        testCase.input.description,
+      );
+      cy.get('[data-cy="save-button"]').click();
 
-  it('creates a complete story with chapters', () => {
-    storyPage
-      .visit()
-      .enterTitle('My Epic Fantasy Novel')
-      .enterContent('Once upon a time in a magical kingdom...')
-      .save()
-      .addChapter('Chapter 1: The Beginning')
-      .addChapter('Chapter 2: The Journey')
-      .shouldHaveTitle('My Epic Fantasy Novel')
-      .shouldHaveChapters(['Chapter 1: The Beginning', 'Chapter 2: The Journey'])
-  })
-})
-```
-
-## Custom Commands
-
-### Creating Reusable Commands
-
-```javascript
-// cypress/support/commands.js
-
-// * Authentication command
-Cypress.Commands.add('login', (email = 'test@example.com', password = 'password123') => {
-  cy.session([email, password], () => {
-    cy.visit('/login')
-    cy.get('[data-cy="email-input"]').type(email)
-    cy.get('[data-cy="password-input"]').type(password)
-    cy.get('[data-cy="login-button"]').click()
-    cy.url().should('include', '/dashboard')
-  })
-})
-
-// * Story creation command
-Cypress.Commands.add('createStory', (storyData = {}) => {
-  const defaultStory = {
-    title: 'Test Story',
-    content: 'Test content',
-    genre: 'fantasy'
-  }
-  
-  const story = { ...defaultStory, ...storyData }
-  
-  cy.get('[data-cy="create-story-button"]').click()
-  cy.get('[data-cy="story-title-input"]').type(story.title)
-  cy.get('[data-cy="story-content-editor"]').type(story.content)
-  cy.get('[data-cy="genre-select"]').select(story.genre)
-  cy.get('[data-cy="save-story-button"]').click()
-  
-  // ! Wait for story to be created and return story data
-  cy.get('[data-cy="story-created-message"]').should('be.visible')
-  cy.url().should('match', /\/stories\/\d+/)
-  
-  return cy.wrap(story)
-})
-
-// * Database operations
-Cypress.Commands.add('seedDatabase', (fixtures = []) => {
-  fixtures.forEach(fixture => {
-    cy.task('db:seed', fixture)
-  })
-})
-
-// * Wait for loading states
-Cypress.Commands.add('waitForPageLoad', () => {
-  cy.get('[data-cy="loading-spinner"]').should('not.exist')
-  cy.get('[data-cy="page-content"]').should('be.visible')
-})
-
-// * Form filling helper
-Cypress.Commands.add('fillForm', (formData) => {
-  Object.entries(formData).forEach(([field, value]) => {
-    if (typeof value === 'string') {
-      cy.get(`[data-cy="${field}-input"]`).clear().type(value)
-    } else if (typeof value === 'boolean') {
-      if (value) {
-        cy.get(`[data-cy="${field}-checkbox"]`).check()
+      if (testCase.expected.success) {
+        cy.get('[data-cy="success-message"]').should(
+          'contain',
+          testCase.expected.message,
+        );
       } else {
-        cy.get(`[data-cy="${field}-checkbox"]`).uncheck()
+        cy.get('[data-cy="error-message"]').should(
+          'contain',
+          testCase.expected.message,
+        );
       }
-    } else if (Array.isArray(value)) {
-      cy.get(`[data-cy="${field}-select"]`).select(value)
-    }
-  })
-})
-
-// ? Custom assertion for story validation
-Cypress.Commands.add('shouldBeValidStory', { prevSubject: true }, (subject) => {
-  cy.wrap(subject).should('have.property', 'id')
-  cy.wrap(subject).should('have.property', 'title').and('not.be.empty')
-  cy.wrap(subject).should('have.property', 'content')
-  cy.wrap(subject).should('have.property', 'wordCount').and('be.a', 'number')
-  cy.wrap(subject).should('have.property', 'createdAt')
-  
-  return cy.wrap(subject)
-})
+    });
+  });
+});
 ```
 
-### TypeScript Command Definitions
+---
+
+## Test Configuration
+
+### Configuring Individual Tests
+
+Override configuration for specific tests:
+
+```typescript
+describe('Element Management', () => {
+  // Configure specific test with custom timeout
+  it(
+    'handles slow element creation',
+    {
+      defaultCommandTimeout: 10000,
+      requestTimeout: 15000,
+    },
+    () => {
+      cy.visit('/elements/new');
+      cy.get('[data-cy="element-name-input"]').type('Complex Element');
+      cy.get('[data-cy="save-button"]').click();
+      cy.get('[data-cy="success-message"]', { timeout: 10000 }).should(
+        'be.visible',
+      );
+    },
+  );
+
+  // Browser-specific test
+  it(
+    'tests Chrome-specific feature',
+    {
+      browser: 'chrome',
+    },
+    () => {
+      // Only runs in Chrome
+      cy.visit('/elements');
+    },
+  );
+
+  // Set viewport for specific test
+  it(
+    'tests mobile layout',
+    {
+      viewportWidth: 375,
+      viewportHeight: 667,
+    },
+    () => {
+      cy.visit('/elements');
+      cy.get('[data-cy="mobile-menu"]').should('be.visible');
+    },
+  );
+});
+```
+
+### Suite-Level Configuration
+
+Apply configuration to entire test suites:
+
+```typescript
+describe(
+  'Mobile Element Management',
+  {
+    viewportWidth: 375,
+    viewportHeight: 667,
+  },
+  () => {
+    it('displays mobile navigation', () => {
+      cy.visit('/elements');
+      cy.get('[data-cy="mobile-menu"]').should('be.visible');
+    });
+
+    it('creates element on mobile', () => {
+      cy.visit('/elements/new');
+      cy.get('[data-cy="element-name-input"]').type('Mobile Element');
+      cy.get('[data-cy="save-button"]').click();
+    });
+  },
+);
+```
+
+### Conditional Test Execution
+
+```typescript
+describe('Browser-Specific Tests', () => {
+  // Run only in specific browsers
+  it(
+    'tests Firefox-specific behavior',
+    {
+      browser: 'firefox',
+    },
+    () => {
+      cy.visit('/elements');
+      // Firefox-specific test
+    },
+  );
+
+  // Skip in specific browsers
+  it(
+    'skips in Firefox',
+    {
+      browser: '!firefox',
+    },
+    () => {
+      cy.visit('/elements');
+      // Runs in all browsers except Firefox
+    },
+  );
+});
+```
+
+---
+
+## Running Tests
+
+### Running All Tests
+
+```bash
+# Open Cypress Test Runner (interactive mode)
+npm run cypress:open
+
+# Run all E2E tests (headless mode)
+npm run cypress:run
+npm run test:e2e  # Alias
+
+# Run component tests
+npm run test:component
+```
+
+### Running Specific Tests
+
+```bash
+# Run single test file
+SPEC=cypress/e2e/login-page/verify-login-page.cy.ts npm run cypress:run:spec
+
+# Run tests matching pattern
+SPEC=cypress/e2e/elements/*.cy.ts npm run cypress:run:spec
+
+# Run in interactive mode
+SPEC=cypress/e2e/login-page/verify-login-page.cy.ts npm run cypress:open:spec
+```
+
+### Test Execution Options
+
+```bash
+# Run in specific browser
+npm run cypress:run -- --browser chrome
+npm run cypress:run -- --browser firefox
+npm run cypress:run -- --browser edge
+
+# Run with specific configuration
+npm run cypress:run -- --config viewportWidth=1920,viewportHeight=1080
+
+# Run with environment variables
+npm run cypress:run -- --env apiUrl=http://localhost:3001
+
+# Run tests matching grep pattern (requires cypress-grep plugin)
+npm run cypress:run -- --env grep="creates element"
+```
+
+---
+
+## TypeScript Support
+
+### TypeScript Configuration
+
+Cypress automatically detects and processes TypeScript files. Ensure your `tsconfig.json` includes Cypress types:
+
+```json
+// tsconfig.json
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["es5", "dom"],
+    "types": ["cypress", "node"],
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "resolveJsonModule": true
+  },
+  "include": ["**/*.ts"],
+  "exclude": ["node_modules"]
+}
+```
+
+### Custom Command Type Definitions
+
+Define types for custom commands:
 
 ```typescript
 // cypress/support/commands.ts
@@ -341,502 +900,402 @@ declare global {
   namespace Cypress {
     interface Chainable {
       /**
-       * Login with email and password
-       * @param email - User email
+       * Custom command to log in via UI
+       * @param email - User email address
        * @param password - User password
+       * @example cy.login('user@example.com', 'password123')
        */
-      login(email?: string, password?: string): Chainable<void>
-      
+      login(email: string, password: string): Chainable<void>;
+
       /**
-       * Create a new story
-       * @param storyData - Story data object
+       * Create an element via UI
+       * @param elementData - Element data object
+       * @example cy.createElement({ name: 'Aria', type: 'character' })
        */
-      createStory(storyData?: Partial<Story>): Chainable<Story>
-      
+      createElement(elementData: ElementData): Chainable<string>;
+
       /**
-       * Seed database with fixture data
-       * @param fixtures - Array of fixture names
+       * Clean application state
+       * @example cy.cleanState()
        */
-      seedDatabase(fixtures?: string[]): Chainable<void>
-      
-      /**
-       * Wait for page to finish loading
-       */
-      waitForPageLoad(): Chainable<void>
-      
-      /**
-       * Fill form with data object
-       * @param formData - Object with field names and values
-       */
-      fillForm(formData: Record<string, any>): Chainable<void>
-      
-      /**
-       * Assert that subject is a valid story object
-       */
-      shouldBeValidStory(): Chainable<Story>
+      cleanState(): Chainable<void>;
     }
   }
 }
 
-interface Story {
-  id: string
-  title: string
-  content: string
-  wordCount: number
-  createdAt: string
-  updatedAt: string
-  genre: string
-  status: 'draft' | 'published' | 'archived'
+interface ElementData {
+  name: string;
+  type: string;
+  description?: string;
 }
-```
 
-## Test Configuration
-
-### Cypress Configuration File
-
-```javascript
-// cypress.config.js
-import { defineConfig } from 'cypress'
-
-export default defineConfig({
-  // * Global configuration
-  defaultCommandTimeout: 10000,
-  requestTimeout: 10000,
-  responseTimeout: 10000,
-  pageLoadTimeout: 30000,
-  
-  // ! Security and debugging
-  chromeWebSecurity: false,
-  video: false,
-  screenshotOnRunFailure: true,
-  trashAssetsBeforeRuns: true,
-  
-  // * Viewport settings
-  viewportWidth: 1280,
-  viewportHeight: 720,
-  
-  e2e: {
-    baseUrl: 'http://localhost:3002',
-    supportFile: 'cypress/support/e2e.js',
-    specPattern: 'cypress/e2e/**/*.cy.{js,jsx,ts,tsx}',
-    excludeSpecPattern: '*.hot-update.js',
-    
-    // ? Custom environment variables
-    env: {
-      apiUrl: 'http://localhost:3001',
-      testUser: {
-        email: 'test@example.com',
-        password: 'password123'
-      }
+// Implement commands
+Cypress.Commands.add('login', (email: string, password: string) => {
+  cy.session(
+    [email, password],
+    () => {
+      cy.visit('/login');
+      cy.get('[data-cy="email-input"]').type(email);
+      cy.get('[data-cy="password-input"]').type(password);
+      cy.get('[data-cy="login-button"]').click();
     },
-    
-    setupNodeEvents(on, config) {
-      // * Database tasks
-      on('task', {
-        'db:seed'(fixture) {
-          // Seed database with fixture data
-          return null
-        },
-        
-        'db:cleanup'() {
-          // Clean up database
-          return null
-        },
-        
-        'resetUserData'() {
-          // Reset user-specific data
-          return null
-        },
-        
-        'resetTestData'() {
-          // Reset test data between tests
-          return null
-        }
-      })
-      
-      // ? File system tasks
-      on('task', {
-        'fileExists'(filename) {
-          return require('fs').existsSync(filename)
-        },
-        
-        'readFile'(filename) {
-          return require('fs').readFileSync(filename, 'utf8')
-        }
-      })
-      
-      return config
-    }
-  },
-  
-  component: {
-    devServer: {
-      framework: 'react',
-      bundler: 'webpack'
+    {
+      validate() {
+        cy.getCookie('auth-token').should('exist');
+      },
     },
-    supportFile: 'cypress/support/component.js',
-    specPattern: 'cypress/component/**/*.cy.{js,jsx,ts,tsx}',
-    indexHtmlFile: 'cypress/support/component-index.html',
-    
-    env: {
-      coverage: true
-    }
+  );
+});
+
+Cypress.Commands.add('createElement', (elementData: ElementData) => {
+  cy.visit('/elements/new');
+  cy.get('[data-cy="element-name-input"]').type(elementData.name);
+  cy.get('[data-cy="element-type-select"]').select(elementData.type);
+  if (elementData.description) {
+    cy.get('[data-cy="element-description-input"]').type(
+      elementData.description,
+    );
   }
-})
+  cy.get('[data-cy="save-button"]').click();
+  cy.get('[data-cy="success-message"]').should('be.visible');
+  return cy.url().then(url => {
+    const id = url.split('/').pop() as string;
+    return cy.wrap(id);
+  });
+});
+
+export {};
 ```
 
-### Environment-Specific Configuration
+### Using Types in Tests
 
-```javascript
-// cypress/config/development.json
-{
-  "baseUrl": "http://localhost:3002",
-  "env": {
-    "apiUrl": "http://localhost:3001",
-    "database": "test_db_dev"
-  }
-}
+```typescript
+// cypress/e2e/elements/typed-element-test.cy.ts
+import type { ElementCategory, WorldElement } from '../../../src/types';
 
-// cypress/config/staging.json
-{
-  "baseUrl": "https://staging.fantasywritingapp.com",
-  "env": {
-    "apiUrl": "https://api-staging.fantasywritingapp.com",
-    "database": "test_db_staging"
-  }
-}
+describe('Typed Element Management', () => {
+  let testElement: Partial<WorldElement>;
 
-// Usage with config files
-// npx cypress run --config-file cypress/config/staging.json
+  // ! MANDATORY: Required beforeEach() hook
+  beforeEach(() => {
+    cy.clearCookies();
+    cy.clearLocalStorage();
+    cy.comprehensiveDebugWithBuildCapture();
+    cy.comprehensiveDebug();
+  });
+
+  before(() => {
+    testElement = {
+      name: 'Aria Stormblade',
+      type: 'character' as ElementCategory,
+      description: 'A brave warrior with magical abilities',
+    };
+  });
+
+  it('creates element with typed data', () => {
+    cy.visit('/elements/new');
+
+    // TypeScript ensures correct field names
+    cy.get('[data-cy="element-name-input"]').type(testElement.name!);
+    cy.get('[data-cy="element-type-select"]').select(testElement.type!);
+    cy.get('[data-cy="element-description-input"]').type(
+      testElement.description!,
+    );
+
+    cy.get('[data-cy="save-button"]').click();
+    cy.get('[data-cy="success-message"]').should('be.visible');
+  });
+});
 ```
 
-## Data Management
+---
 
-### Fixtures for Test Data
+## Project-Specific Patterns
 
-```json
-// cypress/fixtures/stories.json
-[
-  {
-    "id": "story-1",
-    "title": "The Dragon's Quest",
-    "content": "In a land far away, there lived a mighty dragon...",
-    "wordCount": 1250,
-    "genre": "fantasy",
-    "status": "draft",
-    "chapters": [
-      {
-        "id": "chapter-1",
-        "title": "The Beginning",
-        "orderIndex": 0,
-        "wordCount": 500
+### FantasyWritingApp Test Structure Template
+
+**Every test file MUST follow this exact structure:**
+
+```typescript
+// cypress/e2e/elements/element-creation.cy.ts
+import type { ElementCategory } from '../../../src/types';
+
+// ✅ RULE 1: Exactly ONE describe() block per file
+describe('Element Creation', () => {
+  // ! RULE 2: MANDATORY beforeEach() hook - MUST be first
+  beforeEach(() => {
+    // Clear cookies and local storage before each test to ensure a clean state
+    cy.clearCookies();
+    cy.clearLocalStorage();
+    cy.comprehensiveDebugWithBuildCapture(); // Capture build info for debugging
+    cy.comprehensiveDebug(); // Ensure debug capture is active
+  });
+
+  // * Optional: Additional beforeEach() hooks for test-specific setup
+  beforeEach(() => {
+    // Set up authentication using cy.session
+    cy.session(
+      'authenticated-user',
+      () => {
+        cy.visit('/login');
+        cy.get('[data-cy="email-input"]').type('test@example.com');
+        cy.get('[data-cy="password-input"]').type('password123');
+        cy.get('[data-cy="login-button"]').click();
+        cy.url().should('include', '/projects');
       },
       {
-        "id": "chapter-2", 
-        "title": "The Journey",
-        "orderIndex": 1,
-        "wordCount": 750
-      }
-    ],
-    "characters": ["char-1", "char-2"],
-    "createdAt": "2024-01-01T00:00:00.000Z",
-    "updatedAt": "2024-01-02T00:00:00.000Z"
-  }
-]
+        validate() {
+          // Validate session is still valid
+          cy.getCookie('auth-token').should('exist');
+        },
+        cacheAcrossSpecs: true,
+      },
+    );
+
+    // * Navigate to starting point
+    cy.visit('/elements');
+  });
+
+  // * Optional: afterEach() hook for failure capture
+  afterEach(function () {
+    // Capture debug info if test failed
+    if (this.currentTest?.state === 'failed') {
+      cy.captureFailureDebug();
+    }
+  });
+
+  // ✅ RULE 3: Multiple it() tests allowed in single describe() block
+  it('creates a character element successfully', () => {
+    const elementData = {
+      name: 'Aria Stormblade',
+      type: 'character' as ElementCategory,
+      description: 'A brave warrior with dragon heritage',
+    };
+
+    cy.get('[data-cy="create-element-button"]').click();
+    cy.get('[data-cy="element-type-select"]').select(elementData.type);
+    cy.get('[data-cy="element-name-input"]').type(elementData.name);
+    cy.get('[data-cy="element-description-input"]').type(
+      elementData.description,
+    );
+    cy.get('[data-cy="save-button"]').click();
+
+    // Verify success
+    cy.get('[data-cy="success-message"]').should('contain', 'Element created');
+    cy.get('[data-cy="element-name"]').should('contain', elementData.name);
+  });
+
+  it('validates required fields', () => {
+    cy.get('[data-cy="create-element-button"]').click();
+    cy.get('[data-cy="save-button"]').click();
+
+    // Verify validation errors
+    cy.get('[data-cy="name-error"]').should('contain', 'Name is required');
+    cy.get('[data-cy="type-error"]').should('contain', 'Type is required');
+  });
+
+  it('edits an existing element', () => {
+    // Create element first
+    cy.get('[data-cy="create-element-button"]').click();
+    cy.get('[data-cy="element-type-select"]').select('character');
+    cy.get('[data-cy="element-name-input"]').type('Original Name');
+    cy.get('[data-cy="save-button"]').click();
+
+    // Edit the element
+    cy.get('[data-cy="edit-button"]').click();
+    cy.get('[data-cy="element-name-input"]').clear().type('Updated Name');
+    cy.get('[data-cy="save-button"]').click();
+
+    // Verify update
+    cy.get('[data-cy="element-name"]').should('contain', 'Updated Name');
+  });
+});
 ```
 
-```json
-// cypress/fixtures/characters.json
+### Using Custom Commands (Still Following Structure Rules)
+
+```typescript
+// Simplified test using custom commands
+// ✅ Still follows: ONE describe() block per file
+describe('Element Management with Custom Commands', () => {
+  // ! MANDATORY: Required beforeEach() hook FIRST
+  beforeEach(() => {
+    cy.clearCookies();
+    cy.clearLocalStorage();
+    cy.comprehensiveDebugWithBuildCapture();
+    cy.comprehensiveDebug();
+  });
+
+  // * Optional: Additional setup with custom commands
+  beforeEach(() => {
+    cy.login('test@example.com', 'password123');
+    cy.visit('/elements');
+  });
+
+  // ✅ Multiple it() tests with custom commands
+  it('creates element using custom command', () => {
+    cy.createElement({
+      name: 'Aria Stormblade',
+      type: 'character',
+      description: 'A brave warrior',
+    }).then(elementId => {
+      // Use the returned element ID
+      cy.visit(`/elements/${elementId}`);
+      cy.get('[data-cy="element-name"]').should('contain', 'Aria Stormblade');
+    });
+  });
+});
+```
+
+### Fixture-Based Testing
+
+```typescript
+// cypress/fixtures/elements.json
 [
   {
-    "id": "char-1",
-    "name": "Aria Dragonborn",
-    "role": "protagonist",
-    "description": "A brave warrior with dragon heritage",
-    "personality": ["courageous", "loyal", "impulsive"],
-    "backstory": "Born in the dragon lands...",
-    "relationships": [
-      {
-        "characterId": "char-2",
-        "type": "ally",
-        "description": "Trusted companion"
-      }
-    ]
+    name: 'Aria Stormblade',
+    type: 'character',
+    description: 'A brave warrior with dragon heritage',
   },
   {
-    "id": "char-2",
-    "name": "Elron Swiftarrow",
-    "role": "supporting",
-    "description": "An elven archer and guide",
-    "personality": ["wise", "patient", "mysterious"],
-    "backstory": "Guardian of the ancient forests..."
-  }
-]
-```
-
-### Using Fixtures in Tests
-
-```javascript
-describe('Story Management with Fixtures', () => {
-  beforeEach(() => {
-    // * Load and use fixture data
-    cy.fixture('stories').as('storiesData')
-    cy.fixture('characters').as('charactersData')
-  })
-
-  it('displays existing stories from fixtures', function() {
-    // Access fixture data using 'this'
-    cy.seedDatabase(['stories', 'characters'])
-    cy.visit('/stories')
-    
-    this.storiesData.forEach((story, index) => {
-      cy.get(`[data-cy="story-item-${index}"]`)
-        .should('contain', story.title)
-        .and('contain', `${story.wordCount} words`)
-    })
-  })
-
-  it('loads story with associated characters', function() {
-    const story = this.storiesData[0]
-    cy.visit(`/stories/${story.id}`)
-    
-    // ? Verify characters are loaded
-    story.characters.forEach(characterId => {
-      const character = this.charactersData.find(c => c.id === characterId)
-      cy.get('[data-cy="story-characters"]')
-        .should('contain', character.name)
-    })
-  })
-
-  // * Alternative: Load fixtures directly in test
-  it('creates story from fixture template', () => {
-    cy.fixture('story-templates/fantasy-template').then((template) => {
-      cy.createStory(template)
-      
-      cy.get('[data-cy="story-title"]').should('contain', template.title)
-      cy.get('[data-cy="story-genre"]').should('contain', template.genre)
-    })
-  })
-})
-```
-
-## Test Isolation and Independence
-
-### Ensuring Test Independence
-
-```javascript
-describe('Test Isolation Best Practices', () => {
-  beforeEach(() => {
-    // * Reset application state before each test
-    cy.task('resetTestData')
-    cy.clearLocalStorage()
-    cy.clearCookies()
-    
-    // ? Setup clean environment
-    cy.login()
-    cy.visit('/stories')
-  })
-
-  it('test 1 - creates a story', () => {
-    cy.createStory({ title: 'Test Story 1' })
-    // ! This test should not affect other tests
-  })
-
-  it('test 2 - edits a story', () => {
-    // This test should start with clean state
-    cy.createStory({ title: 'Story to Edit' })
-    cy.get('[data-cy="edit-button"]').click()
-    cy.get('[data-cy="story-title-input"]').clear().type('Edited Title')
-    cy.get('[data-cy="save-button"]').click()
-    
-    cy.get('[data-cy="story-title"]').should('contain', 'Edited Title')
-  })
-
-  it('test 3 - deletes a story', () => {
-    // Independent test that doesn't rely on previous tests
-    cy.createStory({ title: 'Story to Delete' })
-    cy.get('[data-cy="delete-button"]').click()
-    cy.get('[data-cy="confirm-delete"]').click()
-    
-    cy.get('[data-cy="empty-stories-message"]').should('be.visible')
-  })
-})
-```
-
-### State Management Between Tests
-
-```javascript
-// * Using cy.session for authentication state
-Cypress.Commands.add('loginWithSession', (user = 'testUser') => {
-  cy.session(user, () => {
-    cy.visit('/login')
-    cy.get('[data-cy="email-input"]').type('test@example.com')
-    cy.get('[data-cy="password-input"]').type('password123')
-    cy.get('[data-cy="login-button"]').click()
-    cy.url().should('include', '/dashboard')
-  }, {
-    validate() {
-      // ? Validate that session is still valid
-      cy.visit('/dashboard')
-      cy.get('[data-cy="user-menu"]').should('be.visible')
-    }
-  })
-})
-
-// Usage in tests maintains session across tests
-describe('Authenticated User Stories', () => {
-  beforeEach(() => {
-    cy.loginWithSession()
-    cy.visit('/stories')
-  })
-
-  // Tests will reuse the authenticated session
-})
-```
-
-## Advanced Test Organization
-
-### Shared Test Behaviors
-
-```javascript
-// cypress/support/shared-behaviors.js
-export const sharedBehaviors = {
-  // * Form validation behaviors
-  testRequiredFields(fields) {
-    return () => {
-      fields.forEach(field => {
-        it(`validates ${field} is required`, () => {
-          cy.get('[data-cy="save-button"]').click()
-          cy.get(`[data-cy="${field}-error"]`)
-            .should('be.visible')
-            .and('contain', 'required')
-        })
-      })
-    }
+    name: 'Crystal Caverns',
+    type: 'location',
+    description: 'Ancient underground caves filled with magical crystals',
   },
+];
 
-  // * Loading state behaviors
-  testLoadingStates(elements) {
-    return () => {
-      it('shows loading state while processing', () => {
-        elements.forEach(element => {
-          cy.get(`[data-cy="${element}-loading"]`).should('be.visible')
-        })
-      })
+// cypress/e2e/elements/fixture-based-test.cy.ts
+describe('Element Creation from Fixtures', () => {
+  // ! MANDATORY: Required beforeEach() hook FIRST
+  beforeEach(() => {
+    cy.clearCookies();
+    cy.clearLocalStorage();
+    cy.comprehensiveDebugWithBuildCapture();
+    cy.comprehensiveDebug();
+  });
 
-      it('hides loading state when complete', () => {
-        cy.waitForPageLoad()
-        elements.forEach(element => {
-          cy.get(`[data-cy="${element}-loading"]`).should('not.exist')
-        })
-      })
-    }
-  },
+  // * Additional setup after mandatory hook
+  beforeEach(() => {
+    cy.login('test@example.com', 'password123');
+    cy.fixture('elements.json').as('elementsData');
+  });
 
-  // * Error handling behaviors
-  testErrorStates(scenarios) {
-    return () => {
-      scenarios.forEach(scenario => {
-        it(`handles ${scenario.name} error`, () => {
-          // Setup error condition
-          cy.intercept('POST', scenario.endpoint, {
-            statusCode: scenario.statusCode,
-            body: { error: scenario.error }
-          })
-
-          // Trigger action
-          cy.get(`[data-cy="${scenario.trigger}"]`).click()
-
-          // Verify error handling
-          cy.get('[data-cy="error-message"]')
-            .should('be.visible')
-            .and('contain', scenario.expectedMessage)
-        })
-      })
-    }
-  }
-}
-
-// Usage in test files
-import { sharedBehaviors } from '../support/shared-behaviors'
-
-describe('Story Form', () => {
-  context('Form Validation', sharedBehaviors.testRequiredFields([
-    'title', 'content', 'genre'
-  ]))
-
-  context('Loading States', sharedBehaviors.testLoadingStates([
-    'save', 'publish', 'delete'
-  ]))
-
-  context('Error Handling', sharedBehaviors.testErrorStates([
-    {
-      name: 'server error',
-      endpoint: '/api/stories',
-      statusCode: 500,
-      error: 'Internal server error',
-      trigger: 'save-button',
-      expectedMessage: 'Unable to save story'
-    }
-  ]))
-})
+  it('creates all elements from fixture', function () {
+    this.elementsData.forEach((element: any, index: number) => {
+      cy.createElement(element);
+      cy.visit('/elements');
+      cy.get(`[data-cy="element-card-${index}"]`).should(
+        'contain',
+        element.name,
+      );
+    });
+  });
+});
 ```
 
-### Test Suites and Tags
+---
 
-```javascript
-// * Tagging tests for different execution scenarios
-describe('Story Management', { tags: ['@smoke', '@stories'] }, () => {
-  it('creates a basic story', { tags: ['@critical'] }, () => {
-    // Critical path test
-  })
+## Best Practices Summary
 
-  it('validates story fields', { tags: ['@validation'] }, () => {
-    // Validation test
-  })
+### 🚨 PROJECT-SPECIFIC MANDATORY RULES
 
-  it('handles edge cases', { tags: ['@edge-case'] }, () => {
-    // Edge case test
-  })
-})
+1. **✅ ONE `describe()` block per file** - Keep test files focused on single features
+2. **✅ MANDATORY `beforeEach()` hook** - Every `describe()` must start with:
+   ```typescript
+   beforeEach(() => {
+     cy.clearCookies();
+     cy.clearLocalStorage();
+     cy.comprehensiveDebugWithBuildCapture();
+     cy.comprehensiveDebug();
+   });
+   ```
+3. **✅ Multiple `it()` tests allowed** - Group related test cases in single `describe()` block
 
-// Run specific tagged tests
-// npx cypress run --env grepTags="@smoke"
-// npx cypress run --env grepTags="@critical+@stories"
-```
+### ✅ DO
 
-### Cross-Browser Testing Organization
+- ✅ Use TypeScript for type safety and better IDE support
+- ✅ Use `describe()` and `it()` ONLY for test structure
+- ✅ Use `data-cy` attributes for selectors (never CSS classes or IDs)
+- ✅ Write independent tests that can run in any order
+- ✅ Use `cy.session()` for authentication to improve performance
+- ✅ Clean state in `beforeEach()`, not `afterEach()`
+- ✅ Organize tests by feature, not by file type
+- ✅ Use fixtures for test data
+- ✅ Use custom commands for common operations
+- ✅ Use meaningful test descriptions
 
-```javascript
-// cypress/support/browsers.js
-export const browserTests = {
-  runOnAllBrowsers(testFn) {
-    const browsers = ['chrome', 'firefox', 'edge']
-    
-    browsers.forEach(browser => {
-      context(`${browser} browser`, () => {
-        before(() => {
-          // ? Browser-specific setup
-          Cypress.browser.name === browser
-        })
-        
-        testFn()
-      })
-    })
-  }
-}
+### ❌ DON'T
 
-// Usage
-import { browserTests } from '../support/browsers'
+- ❌ Don't create multiple `describe()` blocks in one file
+- ❌ Don't skip the mandatory `beforeEach()` cleanup hook
+- ❌ Don't use `context()` (alias for `describe()`)
+- ❌ Don't use `specify()` (alias for `it()`)
+- ❌ Don't use conditional logic (if/else) in tests
+- ❌ Don't start servers within Cypress tests
+- ❌ Don't visit external sites
+- ❌ Don't use arbitrary waits (`cy.wait(3000)`)
+- ❌ Don't assign Cypress commands to variables
+- ❌ Don't create dependent tests
+- ❌ Don't use CSS classes, IDs, or tag selectors
+- ❌ Don't commit tests with `.only()`
+- ❌ Don't skip `baseUrl` configuration
 
-describe('Cross-Browser Story Creation', () => {
-  browserTests.runOnAllBrowsers(() => {
-    it('creates story consistently across browsers', () => {
-      cy.createStory({ title: 'Cross-Browser Test Story' })
-      cy.get('[data-cy="story-title"]').should('contain', 'Cross-Browser Test Story')
-    })
-  })
-})
-```
+---
 
-This comprehensive guide covers all aspects of writing and organizing Cypress tests, from basic structure to advanced patterns for maintaining large test suites effectively.
+## Additional Resources
+
+### Official Cypress Documentation
+
+- [Writing and Organizing Tests](https://docs.cypress.io/app/core-concepts/writing-and-organizing-tests)
+- [Best Practices](https://docs.cypress.io/guides/references/best-practices)
+- [TypeScript Support](https://docs.cypress.io/guides/tooling/typescript-support)
+- [Custom Commands](https://docs.cypress.io/api/cypress-api/custom-commands)
+
+### Project Documentation
+
+- [CLAUDE.md](../../CLAUDE.md) - Project quick reference
+- [cypress-best-practices.md](./cypress-best-practices.md) - Comprehensive best practices
+- [CUSTOM-COMMANDS-REFERENCE.md](./CUSTOM-COMMANDS-REFERENCE.md) - Custom command reference
+- [SELECTOR-PATTERNS.md](./SELECTOR-PATTERNS.md) - Selector strategy guide
+- [TESTING_GUIDE.md](./TESTING_GUIDE.md) - General testing guidelines
+
+---
+
+**Last Updated**: 2025-10-02
+**Cypress Version**: 13.x
+**TypeScript Version**: 5.2.2
+
+---
+
+## Summary: Golden Rules
+
+Remember these mandatory rules for every Cypress test file:
+
+### Structure Rules
+
+1. **📄 ONE `describe()` block per file** - Focus on single feature
+2. **✅ Multiple `it()` tests allowed** - Group related test cases
+3. **❌ NO `context()`** - Don't use (alias for `describe()`)
+4. **❌ NO `specify()`** - Don't use (alias for `it()`)
+
+### Setup Rules
+
+5. **🧹 MANDATORY `beforeEach()` cleanup hook** - Must be first in every `describe()`:
+   ```typescript
+   beforeEach(() => {
+     cy.clearCookies();
+     cy.clearLocalStorage();
+     cy.comprehensiveDebugWithBuildCapture();
+     cy.comprehensiveDebug();
+   });
+   ```
+
+### Why These Rules?
+
+- **Consistency**: Same structure across all test files
+- **Simplicity**: Only `describe()` and `it()` - no confusion
+- **Maintainability**: Easy to find, read, and modify tests
+- **Debuggability**: Comprehensive debug capture on every test
+- **Clean State**: Fresh environment for every test
+
+Following these rules ensures consistent, maintainable, and debuggable tests across the entire project.

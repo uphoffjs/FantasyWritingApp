@@ -73,6 +73,7 @@
     "e2e:ios": "npm run detox:build:ios && npm run detox:test:ios",
     "e2e:android": "npm run detox:build:android && npm run detox:test:android",
     "e2e:all": "npm run e2e:ios && npm run e2e:android",
+    "kill-serena-dashboard": "bash scripts/kill-serena-dashboard.sh",
     "test:component:chrome": "npm run pre-test:cleanup && cypress run --component --browser chrome --headless",
     "test:component:vite": "cypress run --component --browser electron --config-file cypress.config.ts",
     "test:component:vite:open": "cypress open --component --config-file cypress.config.ts",

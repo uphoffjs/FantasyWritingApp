@@ -227,12 +227,12 @@ module.exports = {
           },
           // ! Ban hardcoded localhost URLs in cy.visit()
           {
-            selector: 'CallExpression[callee.object.name="cy"][callee.property.name="visit"] Literal[value=/^http:\\/\\/localhost/]',
+            selector: 'CallExpression[callee.object.name="cy"][callee.property.name="visit"] > Literal[value=/localhost/]',
             message: '❌ NEVER use hardcoded localhost URLs. Use relative paths like cy.visit("/login") to work with baseUrl (Cypress.io best practice)'
           },
           // ! Ban hardcoded localhost URLs in cy.request()
           {
-            selector: 'CallExpression[callee.object.name="cy"][callee.property.name="request"] Literal[value=/^http:\\/\\/localhost/]',
+            selector: 'CallExpression[callee.object.name="cy"][callee.property.name="request"] > Literal[value=/localhost/]',
             message: '❌ NEVER use hardcoded localhost URLs in cy.request(). Use relative paths to work with baseUrl (Cypress.io best practice)'
           }
         ],
