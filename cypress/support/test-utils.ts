@@ -77,80 +77,80 @@ export const shouldBeEnabled = (element: string) => {
 };
 
 // * Additional missing test utility functions
-export const typeInInput = (selector: string, text: string) => {
-  cy.get(selector).type(text);
+export const typeInInput = (testId: string, text: string) => {
+  cy.get(`[data-cy="${testId}"]`).type(text);
 };
 
-export const checkElementVisible = (selector: string) => {
-  cy.get(selector).should('be.visible');
+export const checkElementVisible = (testId: string) => {
+  cy.get(`[data-cy="${testId}"]`).should('be.visible');
 };
 
-export const checkElementNotVisible = (selector: string) => {
-  cy.get(selector).should('not.be.visible');
+export const checkElementNotVisible = (testId: string) => {
+  cy.get(`[data-cy="${testId}"]`).should('not.be.visible');
 };
 
-export const checkElementExists = (selector: string) => {
-  cy.get(selector).should('exist');
+export const checkElementExists = (testId: string) => {
+  cy.get(`[data-cy="${testId}"]`).should('exist');
 };
 
-export const checkElementNotExists = (selector: string) => {
-  cy.get(selector).should('not.exist');
+export const checkElementNotExists = (testId: string) => {
+  cy.get(`[data-cy="${testId}"]`).should('not.exist');
 };
 
-export const checkButtonEnabled = (selector: string) => {
-  cy.get(selector).should('not.be.disabled');
+export const checkButtonEnabled = (testId: string) => {
+  cy.get(`[data-cy="${testId}"]`).should('not.be.disabled');
 };
 
-export const checkButtonDisabled = (selector: string) => {
-  cy.get(selector).should('be.disabled');
+export const checkButtonDisabled = (testId: string) => {
+  cy.get(`[data-cy="${testId}"]`).should('be.disabled');
 };
 
-export const checkAriaLabel = (selector: string, label: string) => {
-  cy.get(selector).should('have.attr', 'aria-label', label);
+export const checkAriaLabel = (testId: string, label: string) => {
+  cy.get(`[data-cy="${testId}"]`).should('have.attr', 'aria-label', label);
 };
 
-export const checkAriaExpanded = (selector: string, expanded: boolean) => {
-  cy.get(selector).should('have.attr', 'aria-expanded', String(expanded));
+export const checkAriaExpanded = (testId: string, expanded: boolean) => {
+  cy.get(`[data-cy="${testId}"]`).should('have.attr', 'aria-expanded', String(expanded));
 };
 
-export const checkInputValue = (selector: string, value: string) => {
-  cy.get(selector).should('have.value', value);
+export const checkInputValue = (testId: string, value: string) => {
+  cy.get(`[data-cy="${testId}"]`).should('have.value', value);
 };
 
-export const checkTextContent = (selector: string, text: string) => {
-  cy.get(selector).should('have.text', text);
+export const checkTextContent = (testId: string, text: string) => {
+  cy.get(`[data-cy="${testId}"]`).should('have.text', text);
 };
 
-export const checkContainsText = (selector: string, text: string) => {
-  cy.get(selector).should('contain', text);
+export const checkContainsText = (testId: string, text: string) => {
+  cy.get(`[data-cy="${testId}"]`).should('contain', text);
 };
 
-export const clickElement = (selector: string) => {
-  cy.get(selector).click();
+export const clickElement = (testId: string) => {
+  cy.get(`[data-cy="${testId}"]`).click();
 };
 
-export const clearInput = (selector: string) => {
-  cy.get(selector).clear();
+export const clearInput = (testId: string) => {
+  cy.get(`[data-cy="${testId}"]`).clear();
 };
 
-export const selectDropdownOption = (selector: string, value: string) => {
-  cy.get(selector).select(value);
+export const selectDropdownOption = (testId: string, value: string) => {
+  cy.get(`[data-cy="${testId}"]`).select(value);
 };
 
-export const checkCheckbox = (selector: string) => {
-  cy.get(selector).check();
+export const checkCheckbox = (testId: string) => {
+  cy.get(`[data-cy="${testId}"]`).check();
 };
 
-export const uncheckCheckbox = (selector: string) => {
-  cy.get(selector).uncheck();
+export const uncheckCheckbox = (testId: string) => {
+  cy.get(`[data-cy="${testId}"]`).uncheck();
 };
 
 export const waitFor = (milliseconds: number) => {
   cy.wait(milliseconds);
 };
 
-export const getElement = (selector: string) => {
-  return cy.get(selector);
+export const getElement = (testId: string) => {
+  return cy.get(`[data-cy="${testId}"]`);
 };
 
 export const findElement = (text: string) => {
@@ -159,49 +159,49 @@ export const findElement = (text: string) => {
 
 // * Keyboard navigation helpers
 export const pressKey = (key: string) => {
-  cy.get('body').type(key);
+  cy.get('[data-cy="app-root"], body').type(key);
 };
 
 export const pressEnter = () => {
-  cy.get('body').type('{enter}');
+  cy.get('[data-cy="app-root"], body').type('{enter}');
 };
 
 export const pressEscape = () => {
-  cy.get('body').type('{esc}');
+  cy.get('[data-cy="app-root"], body').type('{esc}');
 };
 
 export const pressTab = () => {
-  cy.get('body').type('{tab}');
+  cy.get('[data-cy="app-root"], body').type('{tab}');
 };
 
 // * Focus management
-export const checkFocused = (selector: string) => {
-  cy.get(selector).should('have.focus');
+export const checkFocused = (testId: string) => {
+  cy.get(`[data-cy="${testId}"]`).should('have.focus');
 };
 
-export const focusElement = (selector: string) => {
-  cy.get(selector).focus();
+export const focusElement = (testId: string) => {
+  cy.get(`[data-cy="${testId}"]`).focus();
 };
 
-export const blurElement = (selector: string) => {
-  cy.get(selector).blur();
+export const blurElement = (testId: string) => {
+  cy.get(`[data-cy="${testId}"]`).blur();
 };
 
 // * Form helpers
-export const submitForm = (selector: string) => {
-  cy.get(selector).submit();
+export const submitForm = (testId: string) => {
+  cy.get(`[data-cy="${testId}"]`).submit();
 };
 
-export const checkValidationMessage = (selector: string, message: string) => {
-  cy.get(selector).then($el => {
+export const checkValidationMessage = (testId: string, message: string) => {
+  cy.get(`[data-cy="${testId}"]`).then($el => {
     const validationMessage = ($el[0] as HTMLInputElement).validationMessage;
     expect(validationMessage).to.equal(message);
   });
 };
 
 // * Scroll helpers
-export const scrollToElement = (selector: string) => {
-  cy.get(selector).scrollIntoView();
+export const scrollToElement = (testId: string) => {
+  cy.get(`[data-cy="${testId}"]`).scrollIntoView();
 };
 
 export const scrollToTop = () => {
@@ -213,18 +213,18 @@ export const scrollToBottom = () => {
 };
 
 // * Class and attribute helpers
-export const checkHasClass = (selector: string, className: string) => {
-  cy.get(selector).should('have.class', className);
+export const checkHasClass = (testId: string, className: string) => {
+  cy.get(`[data-cy="${testId}"]`).should('have.class', className);
 };
 
-export const checkNotHasClass = (selector: string, className: string) => {
-  cy.get(selector).should('not.have.class', className);
+export const checkNotHasClass = (testId: string, className: string) => {
+  cy.get(`[data-cy="${testId}"]`).should('not.have.class', className);
 };
 
-export const checkAttribute = (selector: string, attr: string, value: string) => {
-  cy.get(selector).should('have.attr', attr, value);
+export const checkAttribute = (testId: string, attr: string, value: string) => {
+  cy.get(`[data-cy="${testId}"]`).should('have.attr', attr, value);
 };
 
-export const checkNotAttribute = (selector: string, attr: string) => {
-  cy.get(selector).should('not.have.attr', attr);
+export const checkNotAttribute = (testId: string, attr: string) => {
+  cy.get(`[data-cy="${testId}"]`).should('not.have.attr', attr);
 };

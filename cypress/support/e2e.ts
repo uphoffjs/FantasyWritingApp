@@ -1,3 +1,4 @@
+/// <reference types="cypress" />
 // E2E test support configuration
 
 // * Import commands
@@ -20,27 +21,28 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 
 // * Add custom commands to the global namespace
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Cypress {
     interface Chainable {
       // ! SECURITY: * Authentication commands
       login(email?: string, password?: string): Chainable<void>;
       logout(): Chainable<void>;
-      
+
       // Story/Writing commands
       createStory(title: string, genre?: string): Chainable<void>;
       openStory(title: string): Chainable<void>;
       saveStory(): Chainable<void>;
-      
+
       // * Character commands
       createCharacter(name: string, role?: string): Chainable<void>;
       editCharacter(name: string): Chainable<void>;
-      
+
       // * Navigation commands
       navigateToHome(): Chainable<void>;
       navigateToStories(): Chainable<void>;
       navigateToCharacters(): Chainable<void>;
       navigateToSettings(): Chainable<void>;
-      
+
       // * Utility commands
       waitForLoad(): Chainable<void>;
       checkAccessibility(): Chainable<void>;
@@ -49,7 +51,7 @@ declare global {
 }
 
 // * Configure test environment
-before(() => {
+beforeEach(() => {
   // * Clear any existing test data
   cy.clearLocalStorage();
   cy.clearCookies();
@@ -63,6 +65,8 @@ Cypress.on('fail', (error, runnable) => {
 
   // * Take a screenshot on failure
   const testTitle = runnable.title || 'unknown-test';
+  // * Assert page state before screenshot
+  cy.url().should('exist');
   cy.screenshot(`failed-${testTitle}`, { capture: 'runner' });
 
   // Re-throw the error to fail the test
