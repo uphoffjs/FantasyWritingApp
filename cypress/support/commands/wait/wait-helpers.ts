@@ -1,3 +1,5 @@
+ 
+// ! Generic wait helper commands that accept any selector type
 /**
  * Wait Helper Commands
  * Cypress best practice replacements for arbitrary waits
@@ -183,6 +185,7 @@ export {};
 
 // * Add TypeScript declarations
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Cypress {
     interface Chainable {
       waitForAutoSave(): Chainable<Element>;

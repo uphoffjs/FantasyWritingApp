@@ -30,9 +30,10 @@ Cypress.Commands.add('testResponsive', (callback: (viewport: {name: string; widt
  */
 Cypress.Commands.add('simulateTouch', (testId: string, gesture: 'tap' | 'longPress' | 'swipeLeft' | 'swipeRight' | 'swipeUp' | 'swipeDown') => {
   // * Function accepts testId and constructs data-cy selector internally
-   
+
   const selector = `[data-cy="${testId}"]`;
 
+   
   switch(gesture) {
     case 'tap':
       // * Simple tap/click
@@ -94,9 +95,10 @@ Cypress.Commands.add('simulateTouch', (testId: string, gesture: 'tap' | 'longPre
     default:
       throw new Error(`Unknown gesture: ${gesture}`);
   }
+   
 
   cy.task('log', `Simulated ${gesture} on ${testId}`);
-   
+
 });
 
 /**
@@ -167,9 +169,10 @@ Cypress.Commands.add('testVisibilityAcrossViewports', (
   expectations: { mobile: boolean; tablet: boolean; desktop: boolean }
 ) => {
   // * Function accepts testId and constructs data-cy selector internally
-   
+
   const selector = `[data-cy="${testId}"]`;
 
+   
   // * Test mobile viewport
   cy.setMobileViewport();
   if (expectations.mobile) {
@@ -194,6 +197,7 @@ Cypress.Commands.add('testVisibilityAcrossViewports', (
     cy.get(selector).should('not.exist');
   }
    
+
 });
 
 /**
@@ -204,9 +208,10 @@ Cypress.Commands.add('testVisibilityAcrossViewports', (
  */
 Cypress.Commands.add('pinch', (testId: string, scale: number) => {
   // * Function accepts testId and constructs data-cy selector internally
-   
+
   const selector = `[data-cy="${testId}"]`;
 
+   
   cy.get(selector).trigger('touchstart', {
     touches: [
       { identifier: 1, clientX: 100, clientY: 100 },
@@ -223,8 +228,10 @@ Cypress.Commands.add('pinch', (testId: string, scale: number) => {
   });
 
   cy.get(selector).trigger('touchend');
-  cy.task('log', `Simulated pinch ${scale > 1 ? 'zoom in' : 'zoom out'} on ${testId}`);
    
+
+  cy.task('log', `Simulated pinch ${scale > 1 ? 'zoom in' : 'zoom out'} on ${testId}`);
+
 });
 
 /**
@@ -235,10 +242,11 @@ Cypress.Commands.add('pinch', (testId: string, scale: number) => {
  */
 Cypress.Commands.add('rotate', (testId: string, degrees: number) => {
   // * Function accepts testId and constructs data-cy selector internally
-   
+
   const selector = `[data-cy="${testId}"]`;
   const radians = (degrees * Math.PI) / 180;
 
+   
   cy.get(selector).trigger('touchstart', {
     touches: [
       { identifier: 1, clientX: 150, clientY: 100 },
@@ -267,8 +275,10 @@ Cypress.Commands.add('rotate', (testId: string, degrees: number) => {
   });
 
   cy.get(selector).trigger('touchend');
-  cy.task('log', `Simulated rotation of ${degrees} degrees on ${testId}`);
    
+
+  cy.task('log', `Simulated rotation of ${degrees} degrees on ${testId}`);
+
 });
 
 // * Export empty object to prevent TS errors

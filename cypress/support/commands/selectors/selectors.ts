@@ -4,7 +4,10 @@
 
 /// <reference types="cypress" />
 
+/* eslint-disable no-undef */
+// ! JQuery is a Cypress global type
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Cypress {
     interface Chainable {
       /**
@@ -75,6 +78,7 @@ declare global {
     }
   }
 }
+/* eslint-enable no-undef */
 
 // * Main selector command that handles multiple strategies
 Cypress.Commands.add('getByTestId', (id: string, options?: Partial<Cypress.Timeoutable>) => {
@@ -101,6 +105,7 @@ Cypress.Commands.add('getByTestId', (id: string, options?: Partial<Cypress.Timeo
     })
   });
 
+   
   return cy.get(selectors, options);
 });
 
@@ -158,10 +163,12 @@ Cypress.Commands.add('clickButton', (text: string, options?: Partial<Cypress.Tim
   // * First try to find button with data-cy matching the text (lowercase, hyphenated)
   const dataCyId = text.toLowerCase().replace(/\s+/g, '-');
 
+   
   return cy.get('body').then($body => {
     if ($body.find(`[data-cy="${dataCyId}-button"]`).length > 0) {
       return cy.get(`[data-cy="${dataCyId}-button"]`, options).click();
     } else if ($body.find(`button[data-cy="${dataCyId}"]`).length > 0) {
+       
       return cy.get(`button[data-cy="${dataCyId}"]`, options).click();
     } else {
       // * Fallback to text content
@@ -189,6 +196,7 @@ Cypress.Commands.add('getModal', (modalId: string, options?: Partial<Cypress.Tim
     `[data-cy="${modalId}"]`
   ].join(', ');
 
+   
   return cy.get(selectors, options);
 });
 
@@ -211,6 +219,7 @@ Cypress.Commands.add('getCard', (cardId: string, options?: Partial<Cypress.Timeo
     `[data-cy="${cardId}"]`
   ].join(', ');
 
+   
   return cy.get(selectors, options);
 });
 

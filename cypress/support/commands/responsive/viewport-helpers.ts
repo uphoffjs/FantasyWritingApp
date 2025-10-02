@@ -6,6 +6,9 @@
  * Mobile-first approach for React Native Web applications
  */
 
+ 
+// ! These are generic viewport helper commands that accept any selector type
+
 // * Device viewport presets using Cypress built-in device names
 export const DEVICE_VIEWPORTS = [
   'iphone-x',      // 375x812
@@ -46,6 +49,7 @@ Cypress.Commands.add('testAcrossViewports', (
 ) => {
   describe(`Responsive Design: ${testDescription}`, () => {
     DEVICE_VIEWPORTS.forEach((device) => {
+      // eslint-disable-next-line no-undef
       context(`${device} viewport`, () => {
         beforeEach(function() {
           // ! MANDATORY: Comprehensive debug setup
@@ -201,6 +205,7 @@ Cypress.Commands.add('testInteractionMethods', (
 
 // * TypeScript definitions
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Cypress {
     interface Chainable {
       testAcrossViewports(

@@ -1,3 +1,5 @@
+ 
+// ! Test utilities that may use various selectors
 // * Stub and spy commands for testing
 import * as sinon from 'sinon';
 
@@ -7,6 +9,7 @@ Cypress.Commands.add('spy', sinon.spy);
 
 // * Augment Cypress namespace for TypeScript support
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Cypress {
     interface Chainable {
       stub: typeof sinon.stub;

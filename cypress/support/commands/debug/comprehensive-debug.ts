@@ -1,3 +1,5 @@
+ 
+// ! Debug commands that may use various selectors and screenshots
 // * Debug and testing helper Cypress commands
 // ! CRITICAL: Fixed promise chain issues - no cy.task() inside callbacks
 
