@@ -3,10 +3,22 @@
  * Specialized commands for detecting and reporting build/compilation errors
  */
 
+// * Extended Window type with custom Cypress properties
+type ExtendedWindow = Window & {
+  console: {
+    log: (...args: unknown[]) => void;
+    error: (...args: unknown[]) => void;
+    warn: (...args: unknown[]) => void;
+  };
+  __cypressBuildErrors?: BuildErrorInfo[];
+  __cypressCapturedErrors?: BuildErrorInfo[];
+  __cypressLogs?: string[];
+};
+
 interface BuildErrorInfo {
   type: 'build' | 'runtime' | 'network' | 'console';
   message: string;
-  details?: any;
+  details?: Record<string, unknown>;
   timestamp: string;
   url?: string;
   stack?: string;
@@ -83,7 +95,7 @@ Cypress.Commands.add('comprehensiveDebugWithBuildCapture', () => {
 
             // Store for later retrieval
             cy.window().then(win => {
-              (win as any).__cypressBuildErrors = errors;
+              (win as ExtendedWindow).__cypressBuildErrors = errors;
             });
             break;
           }
@@ -121,7 +133,7 @@ Cypress.Commands.add('comprehensiveDebugWithBuildCapture', () => {
   cy.on('window:before:load', win => {
     // Capture all console errors immediately
     const originalError = win.console.error;
-    win.console.error = function (...args: any[]) {
+    win.console.error = function (...args: unknown[]) {
       const message = args
         .map(a => (typeof a === 'object' ? JSON.stringify(a) : String(a)))
         .join(' ');
@@ -164,7 +176,7 @@ Cypress.Commands.add('comprehensiveDebugWithBuildCapture', () => {
     });
 
     // Store errors on window for retrieval
-    (win as any).__cypressCapturedErrors = errors;
+    (win as ExtendedWindow).__cypressCapturedErrors = errors;
   });
 
   cy.task('log', '[BUILD CAPTURE] Error capture initialized');
@@ -175,10 +187,10 @@ Cypress.Commands.add('comprehensiveDebugWithBuildCapture', () => {
  * Returns the errors if found, null otherwise
  */
 Cypress.Commands.add('checkForBuildErrors', () => {
-  return cy.window().then(win => {
+  return cy.window().then((win): BuildErrorInfo[] | null => {
     // Check stored errors
-    const capturedErrors = (win as any).__cypressCapturedErrors || [];
-    const buildErrors = (win as any).__cypressBuildErrors || [];
+    const capturedErrors = (win as ExtendedWindow).__cypressCapturedErrors || [];
+    const buildErrors = (win as ExtendedWindow).__cypressBuildErrors || [];
     const allErrors = [...capturedErrors, ...buildErrors];
 
     // Also check DOM for error messages
@@ -295,8 +307,8 @@ Cypress.Commands.add('waitForAppOrError', (timeout = 10000) => {
  */
 Cypress.Commands.add('exportBuildErrors', (filename?: string) => {
   cy.window().then(win => {
-    const errors = (win as any).__cypressCapturedErrors || [];
-    const buildErrors = (win as any).__cypressBuildErrors || [];
+    const errors = (win as ExtendedWindow).__cypressCapturedErrors || [];
+    const buildErrors = (win as ExtendedWindow).__cypressBuildErrors || [];
 
     const report = {
       test: Cypress.currentTest.title,
@@ -307,7 +319,7 @@ Cypress.Commands.add('exportBuildErrors', (filename?: string) => {
         title: win.document.title,
         bodySnippet: win.document.body.innerText.substring(0, 1000),
       },
-      console: (win as any).__cypressLogs || [],
+      console: (win as ExtendedWindow).__cypressLogs || [],
     };
 
     const fname = filename || `build-errors-${Date.now()}.json`;
