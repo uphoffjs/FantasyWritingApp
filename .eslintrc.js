@@ -224,6 +224,16 @@ module.exports = {
           {
             selector: 'Literal[value=/data-testid/]',
             message: '⚠️ Use data-cy instead of data-testid for consistency'
+          },
+          // ! Ban hardcoded localhost URLs in cy.visit()
+          {
+            selector: 'CallExpression[callee.object.name="cy"][callee.property.name="visit"] Literal[value=/^http:\\/\\/localhost/]',
+            message: '❌ NEVER use hardcoded localhost URLs. Use relative paths like cy.visit("/login") to work with baseUrl (Cypress.io best practice)'
+          },
+          // ! Ban hardcoded localhost URLs in cy.request()
+          {
+            selector: 'CallExpression[callee.object.name="cy"][callee.property.name="request"] Literal[value=/^http:\\/\\/localhost/]',
+            message: '❌ NEVER use hardcoded localhost URLs in cy.request(). Use relative paths to work with baseUrl (Cypress.io best practice)'
           }
         ],
         // * Disable rules that conflict with Cypress patterns
