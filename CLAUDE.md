@@ -14,6 +14,7 @@
 6. ✅ Mobile-first development
 7. ✅ Clear context every 90 minutes (see Context Management below)
 8. ✅ **Create test failure report when Cypress tests fail** (see TEST-RESULTS-MANAGEMENT.md)
+9. ✅ **Never modify protected files** (see Pre-Commit Protection below)
 
 ---
 
@@ -234,6 +235,11 @@ Use these prefixes for clear, categorized comments throughout the codebase:
 - [PROJECT-INFO.md](claudedocs/PROJECT-INFO.md) - Tech stack & structure (~135 lines)
 - [TEST-RESULTS-MANAGEMENT.md](claudedocs/TEST-RESULTS-MANAGEMENT.md) - Test reporting (~200 lines)
 
+### Pre-Commit Protection
+
+- [PRE-COMMIT-QUICK-REFERENCE.md](claudedocs/PRE-COMMIT-QUICK-REFERENCE.md) - Quick guide (~50 lines)
+- [PRE-COMMIT-PROTECTION-GUIDE.md](claudedocs/PRE-COMMIT-PROTECTION-GUIDE.md) - Complete guide (~350 lines)
+
 ### Context Management
 
 - [CONTEXT_MANAGEMENT_GUIDE.md](./CONTEXT_MANAGEMENT_GUIDE.md) - Context strategies
@@ -266,6 +272,20 @@ Use these prefixes for clear, categorized comments throughout the codebase:
 2. Follow Git workflow with feature branches
 3. Use conventional commits
 4. Archive completed TODOs
+
+### For Pre-Commit (IMPORTANT)
+
+Every commit automatically runs three quality gates:
+1. **Protected Files Check** - Blocks modification of critical files
+2. **Lint Checks** - Ensures code quality
+3. **Critical Test** - Runs login verification in Docker (~30-60 sec)
+
+**Protected Files (DO NOT MODIFY)**:
+- `cypress/e2e/login-page-tests/verify-login-page.cy.ts`
+- `scripts/check-protected-files.js`
+- `scripts/pre-commit-test.sh`
+
+**If commit blocked**: See [PRE-COMMIT-QUICK-REFERENCE.md](claudedocs/PRE-COMMIT-QUICK-REFERENCE.md)
 
 ---
 
