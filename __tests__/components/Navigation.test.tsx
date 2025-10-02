@@ -346,15 +346,15 @@ describe('Navigation', () => {
 
       const TestScreen = ({ navigation, route }: any) => (
         <View testID="test-screen">
-          <Button title="Navigate" onPress={() => navigation.navigate('Other')} />
-          <Button title="Go Back" onPress={() => navigation.goBack()} />
-          <Button title="Push" onPress={() => navigation.push('Other')} />
-          <Button title="Pop" onPress={() => navigation.pop()} />
-          <Button title="Pop To Top" onPress={() => navigation.popToTop()} />
-          <Button title="Replace" onPress={() => navigation.replace('Other')} />
-          <Button title="Reset" onPress={() => navigation.reset({ index: 0, routes: [] })} />
-          <Button title="Set Options" onPress={() => navigation.setOptions({ title: 'New' })} />
-          <Button title="Set Params" onPress={() => navigation.setParams({ new: 'param' })} />
+          <Button testID="button-navigate" title="Navigate" onPress={() => navigation.navigate('Other')} />
+          <Button testID="button-go-back" title="Go Back" onPress={() => navigation.goBack()} />
+          <Button testID="button-push" title="Push" onPress={() => navigation.push('Other')} />
+          <Button testID="button-pop" title="Pop" onPress={() => navigation.pop()} />
+          <Button testID="button-pop-to-top" title="Pop To Top" onPress={() => navigation.popToTop()} />
+          <Button testID="button-replace" title="Replace" onPress={() => navigation.replace('Other')} />
+          <Button testID="button-reset" title="Reset" onPress={() => navigation.reset({ index: 0, routes: [] })} />
+          <Button testID="button-set-options" title="Set Options" onPress={() => navigation.setOptions({ title: 'New' })} />
+          <Button testID="button-set-params" title="Set Params" onPress={() => navigation.setParams({ new: 'param' })} />
           <Text testID="route-name">{route.name}</Text>
           <Text testID="route-param">{route.params?.testParam}</Text>
         </View>

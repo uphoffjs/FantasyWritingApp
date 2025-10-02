@@ -1,7 +1,9 @@
 // ! PERFORMANCE: * Test optimization configuration and setup
 // TODO: ! PERFORMANCE: * Applies performance improvements, memory management, and anti-flakiness measures
 
-import { 
+/// <reference types="cypress" />
+import type * as React from 'react';
+import {
   MemoryManagement,
   PerformanceMonitoring,
   TestOptimization,
@@ -57,6 +59,7 @@ export const TestConfig = {
  */
 export const setupPerformanceHooks = () => {
   // * Before all tests
+  // eslint-disable-next-line no-undef
   before(() => {
     // * Clear any previous state
     MemoryManagement.performCleanup();
@@ -108,6 +111,7 @@ export const setupPerformanceHooks = () => {
   });
   
   // * After all tests
+  // eslint-disable-next-line no-undef
   after(() => {
     // ! PERFORMANCE: * Generate performance report
     generatePerformanceReport();
@@ -284,6 +288,7 @@ export const BenchmarkHelpers = {
     const results: Record<string, number> = {};
     
     for (const impl of implementations) {
+      // eslint-disable-next-line no-undef
       const stats = await Benchmarking.runBenchmark(impl.name, impl.fn, iterations);
       results[impl.name] = stats.avg;
     }
@@ -337,6 +342,7 @@ const generatePerformanceReport = () => {
   }
   
   // * Benchmark results
+  // eslint-disable-next-line no-undef
   const benchmarks = Array.from(Benchmarking.benchmarks.entries());
   if (benchmarks.length > 0) {
     cy.log('🏃 Benchmark Results:');

@@ -1,6 +1,9 @@
 // ! PERFORMANCE: * Performance monitoring and optimization utilities for Cypress tests
 // TODO: * Prevents memory leaks, improves execution speed, and reduces flakiness
 
+// * Type definitions for browser APIs
+/// <reference lib="dom" />
+
 /**
  * Memory management utilities
  */

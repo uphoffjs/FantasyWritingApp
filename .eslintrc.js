@@ -253,6 +253,34 @@ module.exports = {
       }
     },
     {
+      // Detox E2E test files
+      files: ['**/e2e/**/*.{js,jsx,ts,tsx}'],
+      env: {
+        jest: true,
+        node: true
+      },
+      globals: {
+        device: 'readonly',
+        element: 'readonly',
+        by: 'readonly',
+        waitFor: 'readonly',
+        expect: 'readonly',
+        // Jest/Detox globals
+        describe: 'readonly',
+        it: 'readonly',
+        test: 'readonly',
+        beforeAll: 'readonly',
+        beforeEach: 'readonly',
+        afterAll: 'readonly',
+        afterEach: 'readonly',
+        jest: 'readonly'
+      },
+      rules: {
+        '@typescript-eslint/no-unused-vars': 'off',
+        'no-undef': 'off' // Detox globals are not recognized by parser
+      }
+    },
+    {
       // Template files
       files: ['**/*TEMPLATE*.{js,jsx,ts,tsx}', '**/templates/**/*.{js,jsx,ts,tsx}'],
       rules: {
