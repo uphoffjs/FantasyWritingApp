@@ -48,19 +48,9 @@
    - Report generation
    - Results management
 
-### Project Information (for setup/architecture)
+### Full Testing Documentation (deep-dive only)
 
-4. **[claudedocs/PROJECT-INFO.md](claudedocs/PROJECT-INFO.md)** (~135 lines)
-   - Tech stack
-   - Project structure
-   - Platform handling
-   - React Native pitfalls
-   - Git workflow
-   - TODO archive guide
-
-### Full Documentation (deep-dive only)
-
-5. **Only read these for deep-dive:**
+4. **Only read these for deep-dive:**
    - [cypress/docs/cypress-best-practices.md](cypress/docs/cypress-best-practices.md) - Comprehensive practices (1,384 lines)
    - [cypress/docs/cypress-writing-organizing-tests.md](cypress/docs/cypress-writing-organizing-tests.md) - Complete guide (1,251 lines)
 
@@ -68,6 +58,48 @@
 
 - **Test writing**: 269 lines (~3.5% context) instead of 960 lines (~12.5% context)
 - **Savings**: **72% reduction** for typical use cases
+
+---
+
+## 🎨 Development Strategy for Claude
+
+**For efficient context usage, read files in THIS ORDER:**
+
+### Component Development (90% of cases)
+
+1. **[claudedocs/QUICK-DEV-REFERENCE.md](claudedocs/QUICK-DEV-REFERENCE.md)** - START HERE (280 lines)
+   - Component template with 8 golden rules
+   - Common patterns (Zustand, Navigation, Async)
+   - Quick TypeScript reference
+   - Common mistakes (Wrong vs Right)
+
+### Detailed Development Reference (when needed)
+
+2. **[claudedocs/DEVELOPMENT-COMPLETE-REFERENCE.md](claudedocs/DEVELOPMENT-COMPLETE-REFERENCE.md)** (~550 lines)
+   - Component development standards
+   - TypeScript patterns
+   - State management (Zustand)
+   - Navigation (React Navigation 6)
+   - Platform handling
+   - Performance optimization
+   - Accessibility standards
+   - Error handling patterns
+   - Backend integration (Supabase)
+
+### Project Information (for setup/architecture)
+
+3. **[claudedocs/PROJECT-INFO.md](claudedocs/PROJECT-INFO.md)** (~135 lines)
+   - Tech stack
+   - Project structure
+   - Platform handling
+   - React Native pitfalls
+   - Git workflow
+   - TODO archive guide
+
+### Context Savings
+
+- **Component development**: 280 lines (~3.7% context) instead of 550 lines (~7.2% context)
+- **Savings**: **49% reduction** for typical use cases
 - **Full docs available** when needed without loading everything upfront
 
 ---

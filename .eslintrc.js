@@ -53,13 +53,15 @@ module.exports = {
       varsIgnorePattern: '^_',
       ignoreRestSiblings: true
     }],
-    '@typescript-eslint/no-explicit-any': 'off', // Too many to fix now, can enable later
+    '@typescript-eslint/no-explicit-any': 'warn', // Warn on explicit any usage
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-empty-function': 'off',
     '@typescript-eslint/no-var-requires': 'off', // Allow requires in JS files
 
-    // React Native specific
-    'react-native/no-inline-styles': 'off',
+    // React Native specific - STRENGTHENED
+    'react-native/no-inline-styles': 'warn', // Enforce StyleSheet.create()
+    'react-native/no-raw-text': 'off', // Disabled due to template literal crash
+    'react-native/no-color-literals': 'warn', // Prefer color constants
     'react/react-in-jsx-scope': 'off',
     'react/no-unstable-nested-components': 'off',
 
@@ -103,6 +105,16 @@ module.exports = {
     'react/jsx-no-undef': 'error',
     'react/jsx-uses-react': 'error',
     'react/jsx-uses-vars': 'error',
+
+    // Custom development rules - enforcing 8 golden rules
+    'no-restricted-syntax': [
+      'error',
+      // Require testID on interactive elements (Golden Rule #2)
+      {
+        selector: 'JSXOpeningElement[name.name=/^(TouchableOpacity|Pressable|Button)$/]:not(:has(JSXAttribute[name.name="testID"]))',
+        message: '❌ Interactive elements MUST have testID attribute (Golden Rule #2: testID on Interactive Elements)'
+      }
+    ],
   },
   overrides: [
     {
