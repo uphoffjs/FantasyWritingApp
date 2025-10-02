@@ -202,6 +202,93 @@ npm run cypress:run -- --spec "path/to/test.cy.ts"
 npm run cypress:run
 ```
 
+## 🌐 Cypress URL Best Practices
+
+### ✅ ALWAYS Use Relative URLs
+
+**CORRECT** - Uses `baseUrl` from configuration:
+
+```typescript
+cy.visit('/');
+cy.visit('/login');
+cy.visit('/dashboard');
+cy.visit('/app/projects');
+cy.request('/api/users');
+```
+
+**WRONG** ❌ - Hardcoded localhost URLs:
+
+```typescript
+cy.visit('http://localhost:3002'); // ❌ Breaks Docker
+cy.visit('http://localhost:3002/login'); // ❌ Breaks CI/CD
+cy.request('http://localhost:3002/api'); // ❌ Not portable
+```
+
+### Why Relative URLs?
+
+1. **Docker Compatibility** - Works with `host.docker.internal:3002`
+2. **CI/CD Ready** - Easy to configure per environment
+3. **Cypress Best Practice** - Official recommendation from Cypress.io
+4. **Single Config** - Change URL once in `cypress.config.ts`
+5. **Environment Agnostic** - Same tests work everywhere
+
+### How baseUrl Works
+
+**Native Cypress** (`cypress.config.ts`):
+
+```javascript
+baseUrl: 'http://localhost:3002';
+cy.visit('/login'); // → http://localhost:3002/login ✅
+```
+
+**Docker Cypress** (environment variable):
+
+```bash
+CYPRESS_baseUrl=http://host.docker.internal:3002
+cy.visit('/login')  // → http://host.docker.internal:3002/login ✅
+```
+
+**CI/CD** (environment variable):
+
+```bash
+CYPRESS_baseUrl=https://staging.example.com
+cy.visit('/login')  // → https://staging.example.com/login ✅
+```
+
+### ESLint Protection
+
+ESLint will automatically catch hardcoded localhost URLs:
+
+```typescript
+// ❌ This will fail lint:
+cy.visit('http://localhost:3002/test');
+
+// Error: ❌ NEVER use hardcoded localhost URLs. Use relative paths
+// like cy.visit("/login") to work with baseUrl (Cypress.io best practice)
+```
+
+### Exception: External Sites
+
+Only use absolute URLs when testing external sites (rare):
+
+```typescript
+// Acceptable - testing redirect to external site
+cy.visit('https://external-oauth-provider.com/login');
+```
+
+### Quick Fix for Old Code
+
+```bash
+# Replace hardcoded URLs with relative paths
+# Before: cy.visit('http://localhost:3002/login')
+# After:  cy.visit('/login')
+```
+
+**Related Docs:**
+
+- [cypress/docs/DOCKER-CYPRESS-URL-FIX-COMPLETE.md](cypress/docs/DOCKER-CYPRESS-URL-FIX-COMPLETE.md) - URL fix details
+- [Cypress Best Practices](https://docs.cypress.io/guides/references/best-practices)
+
 ## Project Structure
 
 ```
