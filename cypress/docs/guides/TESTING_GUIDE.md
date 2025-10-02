@@ -47,7 +47,10 @@ Comprehensive accessibility testing utilities for WCAG 2.1 compliance.
 #### Basic Usage
 
 ```typescript
-import { AccessibilityHelpers, ComponentAccessibilityTests } from '../support/accessibility-utils';
+import {
+  AccessibilityHelpers,
+  ComponentAccessibilityTests,
+} from '../support/accessibility-utils';
 
 // Initialize axe-core
 AccessibilityHelpers.initializeAxe();
@@ -60,7 +63,7 @@ cy.checkAccessibility('[data-cy="component"]'); // Specific element
 cy.verifyARIAAttributes('[data-cy="input"]', {
   'aria-required': 'true',
   'aria-invalid': 'false',
-  'aria-describedby': 'help-text'
+  'aria-describedby': 'help-text',
 });
 
 // Test keyboard navigation
@@ -77,16 +80,16 @@ cy.testScreenReaderAnnouncement('[role="alert"]', 'Error: Invalid input');
 cy.checkAccessibility(null, {
   runOnly: {
     type: 'tag',
-    values: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']
-  }
+    values: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'],
+  },
 });
 
 // Test specific rules
 cy.checkAccessibility(null, {
   runOnly: {
     type: 'rule',
-    values: ['color-contrast', 'label', 'link-name']
-  }
+    values: ['color-contrast', 'label', 'link-name'],
+  },
 });
 ```
 
@@ -110,7 +113,7 @@ expect(leak).to.be.lessThan(1000000); // 1MB threshold
 
 // Clean up after tests
 MemoryManagement.performCleanup(); // Full cleanup
-MemoryManagement.cleanupDOM();      // DOM only
+MemoryManagement.cleanupDOM(); // DOM only
 MemoryManagement.clearReactFiber(); // React cache
 ```
 
@@ -141,14 +144,27 @@ import { BenchmarkHelpers } from '../support/test-optimization-config';
 await BenchmarkHelpers.benchmarkRender(
   'MyComponent',
   () => <MyComponent />,
-  10 // iterations
+  10, // iterations
 );
 
 // Compare performance
-const results = await BenchmarkHelpers.comparePerformance([
-  { name: 'Implementation A', fn: () => { /* ... */ } },
-  { name: 'Implementation B', fn: () => { /* ... */ } }
-], 10);
+const results = await BenchmarkHelpers.comparePerformance(
+  [
+    {
+      name: 'Implementation A',
+      fn: () => {
+        /* ... */
+      },
+    },
+    {
+      name: 'Implementation B',
+      fn: () => {
+        /* ... */
+      },
+    },
+  ],
+  10,
+);
 ```
 
 ### Boundary Testing (`boundary-test-utils.ts`)
@@ -164,7 +180,7 @@ import { BoundaryTestUtils } from '../support/boundary-test-utils';
 BoundaryTestUtils.testNumericBoundaries('[data-cy="age-input"]', {
   min: 0,
   max: 120,
-  integer: true
+  integer: true,
 });
 
 // Test with custom cases
@@ -172,7 +188,7 @@ BoundaryTestUtils.testNumericInput('[data-cy="price"]', [
   { value: -1, expected: 'invalid' },
   { value: 0, expected: 'valid' },
   { value: 999999, expected: 'valid' },
-  { value: 1000000, expected: 'invalid' }
+  { value: 1000000, expected: 'invalid' },
 ]);
 ```
 
@@ -183,7 +199,7 @@ BoundaryTestUtils.testNumericInput('[data-cy="price"]', [
 BoundaryTestUtils.testStringLength('[data-cy="username"]', {
   minLength: 3,
   maxLength: 20,
-  required: true
+  required: true,
 });
 
 // Test with edge cases
@@ -209,19 +225,19 @@ cy.rapidType('[data-cy="search"]', 'test query', 0); // No delay
 // Simulate rage clicking
 cy.simulateRageClick('[data-cy="submit"]', {
   count: 20,
-  interval: 50
+  interval: 50,
 });
 
 // Test simultaneous interactions
 RapidInteractionUtils.testSimultaneousClicks([
   '[data-cy="button1"]',
-  '[data-cy="button2"]'
+  '[data-cy="button2"]',
 ]);
 
 // Debounce/throttle testing
 cy.testDebouncedInput('[data-cy="search"]', {
   text: 'search term',
-  debounceTime: 300
+  debounceTime: 300,
 });
 ```
 
@@ -253,7 +269,7 @@ SpecialCharacterTests.testUnicodeSupport('[data-cy="name"]');
 // Test emoji handling
 SpecialCharacterTests.testEmojiHandling('[data-cy="message"]', {
   shouldPreserve: true,
-  maxLength: 280
+  maxLength: 280,
 });
 
 // Test internationalization
@@ -294,9 +310,13 @@ cy.wait(2000);
 import { AntiFlakinessUtils } from '../support/performance-utils';
 
 // ✅ Good - Retry with backoff
-await AntiFlakinessUtils.retryWithBackoff(async () => {
-  cy.get('[data-cy="dynamic-content"]').should('be.visible');
-}, 3, 100);
+await AntiFlakinessUtils.retryWithBackoff(
+  async () => {
+    cy.get('[data-cy="dynamic-content"]').should('be.visible');
+  },
+  3,
+  100,
+);
 
 // Wait for stable DOM
 AntiFlakinessUtils.waitForStableDOM('[data-cy="container"]', 5000);
@@ -308,13 +328,13 @@ AntiFlakinessUtils.waitForStableDOM('[data-cy="container"]', 5000);
 afterEach(() => {
   // Clean up DOM
   MemoryManagement.cleanupDOM();
-  
+
   // Clear timers
   MemoryManagement.clearAllTimers();
-  
+
   // Clear React cache
   MemoryManagement.clearReactFiber();
-  
+
   // Clear local storage
   cy.clearLocalStorage();
 });
@@ -342,7 +362,7 @@ React Native Web automatically converts `testID` props to `data-cy` attributes i
 // React Native component
 <TouchableOpacity testID="submit-button">
   <Text>Submit</Text>
-</TouchableOpacity>
+</TouchableOpacity>;
 
 // In Cypress tests
 cy.get('[data-cy="submit-button"]').click();
@@ -354,9 +374,7 @@ React Native Web handles both touch and click events:
 
 ```typescript
 // For mobile simulation
-cy.get('[data-cy="button"]')
-  .trigger('touchstart')
-  .trigger('touchend');
+cy.get('[data-cy="button"]').trigger('touchstart').trigger('touchend');
 
 // For desktop
 cy.get('[data-cy="button"]').click();
@@ -372,7 +390,7 @@ cy.get('[data-cy="scroll-view"]').scrollTo('bottom');
 
 // Or trigger scroll events
 cy.get('[data-cy="scroll-view"]').trigger('scroll', {
-  scrollTop: 500
+  scrollTop: 500,
 });
 ```
 
@@ -385,7 +403,11 @@ All text must be wrapped in Text components:
 cy.mount(<View>Some text</View>);
 
 // This works
-cy.mount(<View><Text>Some text</Text></View>);
+cy.mount(
+  <View>
+    <Text>Some text</Text>
+  </View>,
+);
 ```
 
 ### 5. Style Differences
@@ -394,7 +416,7 @@ React Native styles are objects, not CSS:
 
 ```typescript
 // Check computed styles
-cy.get('[data-cy="element"]').should(($el) => {
+cy.get('[data-cy="element"]').should($el => {
   const styles = window.getComputedStyle($el[0]);
   expect(styles.display).to.equal('flex'); // Default in RN
 });
@@ -407,11 +429,13 @@ cy.get('[data-cy="element"]').should(($el) => {
 #### 1. Component Not Mounting
 
 **Problem**: Component fails to mount in tests
+
 ```typescript
 // Error: Cannot read property 'Text' of undefined
 ```
 
 **Solution**: Ensure React Native Web is properly configured
+
 ```typescript
 // cypress/support/component.tsx
 import { configureReactNativeWeb } from './cypress-react-native-web';
@@ -424,35 +448,41 @@ before(() => {
 #### 2. Selectors Not Working
 
 **Problem**: Cannot find elements with selectors
+
 ```typescript
 // Error: Timed out retrying: Expected to find element: '[data-cy="button"]'
 ```
 
 **Solution**: Check testID prop and verify conversion
+
 ```typescript
 // Component
-<Button testID="submit-button" />
+<Button testID="submit-button" />;
 
 // Test - use data-cy in tests
 cy.get('[data-cy="submit-button"]');
 
 // Debug - log available selectors
 cy.get('body').then($body => {
-  console.log($body.find('[data-cy]').map((i, el) => el.getAttribute('data-cy')));
+  console.log(
+    $body.find('[data-cy]').map((i, el) => el.getAttribute('data-cy')),
+  );
 });
 ```
 
 #### 3. Async State Updates
 
 **Problem**: State changes not reflected immediately
+
 ```typescript
 // State update not visible in test
 ```
 
 **Solution**: Wait for state updates
+
 ```typescript
 // Use should with callback
-cy.get('[data-cy="counter"]').should(($el) => {
+cy.get('[data-cy="counter"]').should($el => {
   expect($el.text()).to.equal('5');
 });
 
@@ -463,11 +493,13 @@ AntiFlakinessUtils.waitForStableDOM('[data-cy="container"]');
 #### 4. Memory Leaks
 
 **Problem**: Tests consuming too much memory
+
 ```typescript
 // Error: JavaScript heap out of memory
 ```
 
 **Solution**: Implement proper cleanup
+
 ```typescript
 afterEach(() => {
   MemoryManagement.performCleanup();
@@ -484,11 +516,16 @@ beforeEach(() => {
 **Problem**: Tests pass/fail inconsistently
 
 **Solution**: Use anti-flakiness utilities
+
 ```typescript
 // Retry mechanism
-await AntiFlakinessUtils.retryWithBackoff(async () => {
-  // Test logic
-}, 3, 100);
+await AntiFlakinessUtils.retryWithBackoff(
+  async () => {
+    // Test logic
+  },
+  3,
+  100,
+);
 
 // Wait for network idle
 await AntiFlakinessUtils.waitForNetworkIdle(3000);
@@ -502,15 +539,17 @@ AntiFlakinessUtils.ensureInteractable('[data-cy="button"]');
 ### Optimization Strategies
 
 1. **Use Performance Budgets**
+
 ```typescript
 const budgets = {
-  componentMount: 100,   // ms
-  interaction: 200,      // ms
-  navigation: 300,       // ms
+  componentMount: 100, // ms
+  interaction: 200, // ms
+  navigation: 300, // ms
 };
 ```
 
 2. **Batch Operations**
+
 ```typescript
 TestOptimization.batchDOMOperations([
   () => cy.get('[data-cy="input1"]').type('text1'),
@@ -519,16 +558,19 @@ TestOptimization.batchDOMOperations([
 ```
 
 3. **Parallel Test Execution**
+
 ```typescript
 await TestOptimization.runParallel(tasks, 3); // max concurrency
 ```
 
 4. **Lazy Load Fixtures**
+
 ```typescript
 const fixture = OptimizedHelpers.lazyFixture('large-dataset');
 ```
 
 5. **Monitor Performance**
+
 ```typescript
 // Add to test suite
 setupPerformanceHooks();

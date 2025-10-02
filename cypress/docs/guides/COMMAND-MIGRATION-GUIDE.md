@@ -14,11 +14,11 @@ This guide helps migrate from deprecated Cypress commands to their modern, proje
 
 ## Quick Reference
 
-| Old Command (Deprecated) | New Command (Recommended) | File |
-|-------------------------|---------------------------|------|
-| `cy.clearAuth()` | `cy.cleanMockAuth()` | [mock-auth.ts](../support/commands/auth/mock-auth.ts) |
+| Old Command (Deprecated)    | New Command (Recommended)                             | File                                                                                                                     |
+| --------------------------- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| `cy.clearAuth()`            | `cy.cleanMockAuth()`                                  | [mock-auth.ts](../support/commands/auth/mock-auth.ts)                                                                    |
 | `cy.setupTestEnvironment()` | `cy.mockSupabaseAuth()` + `cy.mockSupabaseDatabase()` | [mock-auth.ts](../support/commands/auth/mock-auth.ts), [mock-database.ts](../support/commands/database/mock-database.ts) |
-| `cy.clearLocalStorage()` | `cy.cleanMockAuth()` | [mock-auth.ts](../support/commands/auth/mock-auth.ts) |
+| `cy.clearLocalStorage()`    | `cy.cleanMockAuth()`                                  | [mock-auth.ts](../support/commands/auth/mock-auth.ts)                                                                    |
 
 ---
 
@@ -29,41 +29,45 @@ This guide helps migrate from deprecated Cypress commands to their modern, proje
 **Why:** More semantic, project-specific name that clearly indicates it's for mock authentication cleanup.
 
 **Old Code (Deprecated):**
+
 ```typescript
-import { clearAuth } from '../../support/test-helpers'
+import { clearAuth } from '../../support/test-helpers';
 
 describe('My Test', () => {
   beforeEach(() => {
-    clearAuth() // ⚠️ DEPRECATED
-  })
-})
+    clearAuth(); // ⚠️ DEPRECATED
+  });
+});
 ```
 
 **New Code (Recommended):**
+
 ```typescript
 describe('My Test', () => {
   beforeEach(() => {
-    cy.cleanMockAuth() // ✅ Modern approach
-  })
-})
+    cy.cleanMockAuth(); // ✅ Modern approach
+  });
+});
 ```
 
 **Benefits:**
+
 - ✅ Clearer intent (mock-specific cleanup)
 - ✅ Consistent with other mock commands
 - ✅ No import required (Cypress command)
 - ✅ Better abstraction
 
 **Implementation:**
+
 ```typescript
 // cypress/support/commands/auth/mock-auth.ts
 Cypress.Commands.add('cleanMockAuth', () => {
-  cy.window().then((win) => {
-    win.localStorage.removeItem('sb-mock-auth-token')
+  cy.window().then(win => {
+    win.localStorage.removeItem('sb-mock-auth-token');
     // Clears all mock auth state
-  })
-  cy.log('🧹 Mock auth state cleaned')
-})
+  });
+  cy.log('🧹 Mock auth state cleaned');
+});
 ```
 
 ---
@@ -73,18 +77,20 @@ Cypress.Commands.add('cleanMockAuth', () => {
 **Why:** More granular control, explicit about what's being mocked, follows Cypress best practices.
 
 **Old Code (Deprecated):**
+
 ```typescript
-import { setupTestEnvironment } from '../../support/test-helpers'
+import { setupTestEnvironment } from '../../support/test-helpers';
 
 describe('My Test', () => {
   beforeEach(() => {
-    setupTestEnvironment() // ⚠️ DEPRECATED
-    cy.visit('/projects')
-  })
-})
+    setupTestEnvironment(); // ⚠️ DEPRECATED
+    cy.visit('/projects');
+  });
+});
 ```
 
 **New Code (Recommended):**
+
 ```typescript
 describe('My Test', () => {
   beforeEach(() => {
@@ -92,22 +98,24 @@ describe('My Test', () => {
     cy.mockSupabaseAuth({
       user: {
         email: 'test@example.com',
-        username: 'testuser'
-      }
-    })
-    cy.mockSupabaseDatabase()
-    cy.visit('/projects')
-  })
-})
+        username: 'testuser',
+      },
+    });
+    cy.mockSupabaseDatabase();
+    cy.visit('/projects');
+  });
+});
 ```
 
 **Benefits:**
+
 - ✅ Explicit about what's mocked
 - ✅ Customizable user data
 - ✅ Better test isolation
 - ✅ Clearer test intent
 
 **Advanced Usage:**
+
 ```typescript
 // Custom user data
 cy.mockSupabaseAuth({
@@ -115,15 +123,15 @@ cy.mockSupabaseAuth({
     id: 'custom-user-id',
     email: 'admin@example.com',
     username: 'admin',
-    display_name: 'Admin User'
-  }
-})
+    display_name: 'Admin User',
+  },
+});
 
 // Mock database with specific responses
-cy.mockSupabaseDatabase()
+cy.mockSupabaseDatabase();
 
 // Or mock errors for negative testing
-cy.mockSupabaseError('**/auth/v1/token*', 'auth')
+cy.mockSupabaseError('**/auth/v1/token*', 'auth');
 ```
 
 ---
@@ -133,31 +141,34 @@ cy.mockSupabaseError('**/auth/v1/token*', 'auth')
 **Why:** Built-in `cy.clearLocalStorage()` is too broad. Project-specific cleanup is more precise.
 
 **Old Code:**
+
 ```typescript
 it('should test something', () => {
-  cy.clearLocalStorage() // ⚠️ Too broad, clears everything
-  cy.visit('/login')
-})
+  cy.clearLocalStorage(); // ⚠️ Too broad, clears everything
+  cy.visit('/login');
+});
 ```
 
 **New Code (Recommended):**
+
 ```typescript
 it('should test something', () => {
-  cy.cleanMockAuth() // ✅ Precise, clears only auth state
-  cy.visit('/login')
-})
+  cy.cleanMockAuth(); // ✅ Precise, clears only auth state
+  cy.visit('/login');
+});
 ```
 
 **When to use each:**
+
 ```typescript
 // Use cleanMockAuth() for most auth-related cleanup
-cy.cleanMockAuth()
+cy.cleanMockAuth();
 
 // Use cy.clearLocalStorage() only if you need to clear ALL storage
-cy.clearLocalStorage() // Nuclear option
+cy.clearLocalStorage(); // Nuclear option
 
 // Use cy.cleanState() for comprehensive cleanup (localStorage + sessionStorage + IndexedDB)
-cy.cleanState() // Most thorough cleanup
+cy.cleanState(); // Most thorough cleanup
 ```
 
 ---
@@ -167,75 +178,81 @@ cy.cleanState() // Most thorough cleanup
 ### Pattern 1: Simple Auth Tests
 
 **Before:**
+
 ```typescript
 describe('Authentication Tests', () => {
   beforeEach(() => {
-    cy.clearLocalStorage()
-    cy.setupTestEnvironment()
-  })
+    cy.clearLocalStorage();
+    cy.setupTestEnvironment();
+  });
 
   afterEach(() => {
-    clearAuth()
-  })
-})
+    clearAuth();
+  });
+});
 ```
 
 **After:**
+
 ```typescript
 describe('Authentication Tests', () => {
   beforeEach(() => {
-    cy.cleanMockAuth()
-    cy.mockSupabaseAuth()
-    cy.mockSupabaseDatabase()
-  })
+    cy.cleanMockAuth();
+    cy.mockSupabaseAuth();
+    cy.mockSupabaseDatabase();
+  });
 
   afterEach(() => {
-    cy.cleanMockAuth()
-  })
-})
+    cy.cleanMockAuth();
+  });
+});
 ```
 
 ### Pattern 2: Custom User Testing
 
 **Before:**
+
 ```typescript
 it('should test admin user', () => {
-  cy.clearLocalStorage()
-  cy.setupTestEnvironment()
+  cy.clearLocalStorage();
+  cy.setupTestEnvironment();
   // Manually set admin data...
-})
+});
 ```
 
 **After:**
+
 ```typescript
 it('should test admin user', () => {
   cy.mockSupabaseAuth({
     user: {
       email: 'admin@test.com',
-      role: 'admin'
-    }
-  })
-  cy.mockSupabaseDatabase()
-  cy.visit('/admin')
-})
+      role: 'admin',
+    },
+  });
+  cy.mockSupabaseDatabase();
+  cy.visit('/admin');
+});
 ```
 
 ### Pattern 3: Session-Based Authentication
 
 **Before:**
+
 ```typescript
 beforeEach(() => {
-  cy.clearLocalStorage()
-  cy.apiLogin('test@example.com', 'password')
-})
+  cy.clearLocalStorage();
+  cy.apiLogin('test@example.com', 'password');
+});
 ```
 
 **After:**
+
 ```typescript
 beforeEach(() => {
   // cy.apiLogin() already handles cleanup internally
-  cy.apiLogin('test@example.com', 'password')
-})
+  cy.apiLogin('test@example.com', 'password');
+});
 ```
 
 ---
@@ -254,13 +271,14 @@ cy.mockSupabaseAuth({
     id: 'user-123',
     email: 'test@example.com',
     username: 'testuser',
-    display_name: 'Test User'
+    display_name: 'Test User',
   },
-  skipSupabase: false // Set true to skip API mocking
-})
+  skipSupabase: false, // Set true to skip API mocking
+});
 ```
 
 **Features:**
+
 - Sets mock auth token in localStorage
 - Mocks Supabase auth endpoints
 - Configurable user data
@@ -271,10 +289,11 @@ cy.mockSupabaseAuth({
 Clean all mock authentication state.
 
 ```typescript
-cy.cleanMockAuth()
+cy.cleanMockAuth();
 ```
 
 **What it clears:**
+
 - Mock auth tokens
 - User data
 - Session state
@@ -285,10 +304,11 @@ cy.cleanMockAuth()
 Mock Supabase database endpoints.
 
 ```typescript
-cy.mockSupabaseDatabase()
+cy.mockSupabaseDatabase();
 ```
 
 **Mocks:**
+
 - Profile endpoints
 - Project CRUD endpoints
 - Element CRUD endpoints
@@ -299,11 +319,12 @@ cy.mockSupabaseDatabase()
 Mock Supabase errors for negative testing.
 
 ```typescript
-cy.mockSupabaseError('**/auth/v1/token*', 'auth')
-cy.mockSupabaseError('**/rest/v1/projects*', 'network')
+cy.mockSupabaseError('**/auth/v1/token*', 'auth');
+cy.mockSupabaseError('**/rest/v1/projects*', 'network');
 ```
 
 **Error Types:**
+
 - `auth` - 401 authentication errors
 - `network` - 500 server errors
 - `validation` - 400 validation errors
@@ -318,10 +339,11 @@ cy.mockSupabaseError('**/rest/v1/projects*', 'network')
 Modern session-based API login (preferred).
 
 ```typescript
-cy.apiLogin('test@example.com', 'testpassword123')
+cy.apiLogin('test@example.com', 'testpassword123');
 ```
 
 **Features:**
+
 - ✅ Uses `cy.session()` for caching
 - ✅ Faster than UI login
 - ✅ Automatically handles cleanup
@@ -332,11 +354,12 @@ cy.apiLogin('test@example.com', 'testpassword123')
 Role-based login helper.
 
 ```typescript
-cy.loginAs('admin')  // Logs in as admin user
-cy.loginAs('user')   // Logs in as regular user
+cy.loginAs('admin'); // Logs in as admin user
+cy.loginAs('user'); // Logs in as regular user
 ```
 
 **Available Roles:**
+
 - `admin` - Administrator user
 - `user` - Regular user
 - `developer` - Developer user
@@ -345,14 +368,15 @@ cy.loginAs('user')   // Logs in as regular user
 
 ## Deprecation Timeline
 
-| Command | Deprecated | Removal | Replacement |
-|---------|-----------|---------|-------------|
-| `clearAuth()` | Oct 2025 | Feb 2026 | `cy.cleanMockAuth()` |
-| `setupTestEnvironment()` | Oct 2025 | Feb 2026 | `cy.mockSupabaseAuth()` + `cy.mockSupabaseDatabase()` |
+| Command                  | Deprecated | Removal  | Replacement                                           |
+| ------------------------ | ---------- | -------- | ----------------------------------------------------- |
+| `clearAuth()`            | Oct 2025   | Feb 2026 | `cy.cleanMockAuth()`                                  |
+| `setupTestEnvironment()` | Oct 2025   | Feb 2026 | `cy.mockSupabaseAuth()` + `cy.mockSupabaseDatabase()` |
 
 **Grace Period:** 4 months (Oct 2025 - Feb 2026)
 
 **Warnings:**
+
 - ⚠️ Runtime warnings in test logs
 - ⚠️ IDE warnings via @deprecated JSDoc
 - ⚠️ TypeScript type-level deprecation warnings
@@ -401,39 +425,42 @@ find cypress/e2e -name "*.cy.ts" -exec sed -i '' 's/cy\.clearLocalStorage()/cy.c
 ### Common Issues
 
 **Issue 1: Tests fail with "user not authenticated"**
+
 ```typescript
 // Problem: Forgot to add mock database
-cy.mockSupabaseAuth()
-cy.visit('/projects') // ❌ Fails - no database mock
+cy.mockSupabaseAuth();
+cy.visit('/projects'); // ❌ Fails - no database mock
 
 // Solution: Add database mock
-cy.mockSupabaseAuth()
-cy.mockSupabaseDatabase() // ✅ Works
-cy.visit('/projects')
+cy.mockSupabaseAuth();
+cy.mockSupabaseDatabase(); // ✅ Works
+cy.visit('/projects');
 ```
 
 **Issue 2: User data not persisting**
+
 ```typescript
 // Problem: clearLocalStorage() is too aggressive
-cy.mockSupabaseAuth()
-cy.clearLocalStorage() // ❌ Clears auth too
-cy.visit('/dashboard')
+cy.mockSupabaseAuth();
+cy.clearLocalStorage(); // ❌ Clears auth too
+cy.visit('/dashboard');
 
 // Solution: Use cleanMockAuth() or remove unnecessary clear
-cy.mockSupabaseAuth()
-cy.visit('/dashboard') // ✅ Auth persists
+cy.mockSupabaseAuth();
+cy.visit('/dashboard'); // ✅ Auth persists
 ```
 
 **Issue 3: Session conflicts**
+
 ```typescript
 // Problem: Multiple logins without cleanup
-cy.apiLogin('user1@test.com', 'pass')
-cy.apiLogin('user2@test.com', 'pass') // ❌ Session conflict
+cy.apiLogin('user1@test.com', 'pass');
+cy.apiLogin('user2@test.com', 'pass'); // ❌ Session conflict
 
 // Solution: Clear sessions between logins
-cy.apiLogin('user1@test.com', 'pass')
-cy.clearTestSessions()
-cy.apiLogin('user2@test.com', 'pass') // ✅ Works
+cy.apiLogin('user1@test.com', 'pass');
+cy.clearTestSessions();
+cy.apiLogin('user2@test.com', 'pass'); // ✅ Works
 ```
 
 ---
@@ -444,13 +471,13 @@ cy.apiLogin('user2@test.com', 'pass') // ✅ Works
 
 ```typescript
 // ✅ Preferred: Fast, cached, automatic cleanup
-cy.apiLogin('test@example.com', 'password')
+cy.apiLogin('test@example.com', 'password');
 
 // ❌ Avoid: Slow, manual cleanup required
-cy.visit('/login')
-cy.get('[data-cy="email"]').type('test@example.com')
-cy.get('[data-cy="password"]').type('password')
-cy.get('[data-cy="submit"]').click()
+cy.visit('/login');
+cy.get('[data-cy="email"]').type('test@example.com');
+cy.get('[data-cy="password"]').type('password');
+cy.get('[data-cy="submit"]').click();
 ```
 
 ### 2. Clean State in beforeEach, Not afterEach
@@ -458,41 +485,41 @@ cy.get('[data-cy="submit"]').click()
 ```typescript
 // ✅ Preferred: Clean BEFORE tests (Cypress best practice)
 beforeEach(() => {
-  cy.cleanMockAuth()
-  cy.mockSupabaseAuth()
-})
+  cy.cleanMockAuth();
+  cy.mockSupabaseAuth();
+});
 
 // ❌ Avoid: Cleaning after tests
 afterEach(() => {
-  cy.cleanMockAuth() // Unnecessary cleanup
-})
+  cy.cleanMockAuth(); // Unnecessary cleanup
+});
 ```
 
 ### 3. Be Explicit About What You Mock
 
 ```typescript
 // ✅ Clear, explicit, testable
-cy.mockSupabaseAuth({ user: { email: 'test@example.com' } })
-cy.mockSupabaseDatabase()
+cy.mockSupabaseAuth({ user: { email: 'test@example.com' } });
+cy.mockSupabaseDatabase();
 
 // ❌ Unclear what's happening
-cy.setupTestEnvironment() // What does this mock?
+cy.setupTestEnvironment(); // What does this mock?
 ```
 
 ### 4. Use Role Helpers for Common Scenarios
 
 ```typescript
 // ✅ Simple, readable
-cy.loginAs('admin')
+cy.loginAs('admin');
 
 // ❌ Verbose, repetitive
 cy.mockSupabaseAuth({
   user: {
     email: 'admin@example.com',
     role: 'admin',
-    permissions: ['admin']
-  }
-})
+    permissions: ['admin'],
+  },
+});
 ```
 
 ---
@@ -500,6 +527,7 @@ cy.mockSupabaseAuth({
 ## Support
 
 **Questions?** Check:
+
 - [Cypress Testing Standards](../CYPRESS-TESTING-STANDARDS.md)
 - [Cypress Best Practices](./cypress-best-practices.md)
 - [test-helpers.ts](../support/test-helpers.ts) - Deprecated commands source
@@ -510,6 +538,7 @@ cy.mockSupabaseAuth({
 ---
 
 **Version History:**
+
 - v2.0 (Oct 2025) - Added modern mock commands, deprecated old patterns
 - v1.0 (2024) - Original command set
 

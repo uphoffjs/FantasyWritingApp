@@ -17,6 +17,7 @@ The selector update tasks for `scene-editor.cy.ts` and `character-full-workflow.
 ### App Structure (Actual)
 
 **Screens Implemented:**
+
 ```
 src/screens/
 ├── ProjectListScreen.tsx      ✅ Exists
@@ -29,6 +30,7 @@ src/screens/
 ```
 
 **Routes Available:**
+
 - `/` - Project List
 - `/projects` - Project List
 - `/projects/:id` - Project Detail
@@ -37,6 +39,7 @@ src/screens/
 - `/settings` - Settings
 
 **Components Available:**
+
 - ElementCard, ElementEditor, ElementBrowser
 - ProjectCard, ProjectList
 - RelationshipManager, RelationshipGraph
@@ -45,6 +48,7 @@ src/screens/
 ### Tests Expecting Features (Not Implemented)
 
 **scene-editor.cy.ts:**
+
 - Expects: `/stories` route ❌
 - Expects: Scene creation UI ❌
 - Expects: Scene editor component ❌
@@ -52,6 +56,7 @@ src/screens/
 - **Status:** Tests aspirational future features
 
 **character-full-workflow.cy.ts:**
+
 - Expects: `/stories` route ❌
 - Expects: Character creation UI ❌
 - Expects: Character editor ❌
@@ -63,16 +68,20 @@ src/screens/
 ## Impact on Phase 2 Completion
 
 ### Original Plan
+
 - ⏳ Update scene-editor.cy.ts selectors (21 instances)
 - ⏳ Update character-full-workflow.cy.ts selectors (26 instances)
 
 ### Reality
+
 These tasks **cannot be completed** because:
+
 1. No components exist to add `data-cy` attributes to
 2. Tests would fail even with selector updates
 3. Features need to be built before tests can pass
 
 ### Recommendation
+
 **Mark these tasks as "BLOCKED - Feature Not Implemented"**
 
 ---
@@ -80,28 +89,34 @@ These tasks **cannot be completed** because:
 ## What Can Be Done Instead
 
 ### Option 1: Skip These Tests (Recommended)
+
 **Action:** Mark tests with `.skip()` until features are implemented
+
 ```typescript
 describe.skip('Scene Editor and Management', () => {
   // Tests for future feature
-})
+});
 
 describe.skip('Character Creation - Full Workflow', () => {
   // Tests for future feature
-})
+});
 ```
 
 **Benefits:**
+
 - ✅ Tests won't fail in CI/CD
 - ✅ Clear indication these are future features
 - ✅ Easy to re-enable when features are built
 
 ### Option 2: Delete These Tests
+
 **Action:** Remove tests entirely
 **When:** If Stories/Scenes/Characters are not planned features
 
 ### Option 3: Move to "Future Features" Directory
+
 **Action:** Organize tests by implementation status
+
 ```
 cypress/e2e/
 ├── implemented/          # Tests for existing features
@@ -121,12 +136,14 @@ cypress/e2e/
 Based on actual app structure, these tests likely have real components:
 
 **Working Tests (can update selectors):**
+
 - ✅ `login-page/verify-login-page.cy.ts` - LoginScreen exists
 - ✅ `projects/` tests - ProjectScreen, ProjectCard exist
 - ✅ `elements/` tests - ElementScreen, ElementCard exist
 - ✅ `auth/authentication.cy.ts` - Auth functionality exists
 
 **Example: Update element tests instead**
+
 ```bash
 # These would actually work
 cypress/e2e/elements/element-creation.cy.ts
@@ -139,8 +156,10 @@ cypress/e2e/projects/project-crud.cy.ts
 ## Recommended Action Plan
 
 ### Immediate (This Session)
+
 1. ✅ Document this blocker (this file)
 2. Skip unimplementable tests:
+
    ```typescript
    // Add .skip() to scene-editor.cy.ts
    describe.skip('Scene Editor and Management', () => {
@@ -148,10 +167,12 @@ cypress/e2e/projects/project-crud.cy.ts
    // Add .skip() to character-full-workflow.cy.ts
    describe.skip('Character Creation - Full Workflow', () => {
    ```
+
 3. Update Phase 2 completion status to reflect reality
 4. Mark Phase 2 as "Complete (within scope of existing features)"
 
 ### Future (When Features Are Built)
+
 1. Implement Stories/Scenes/Characters screens
 2. Add components with `data-cy` attributes from start
 3. Re-enable tests (remove `.skip()`)
@@ -162,6 +183,7 @@ cypress/e2e/projects/project-crud.cy.ts
 ## Revised Phase 2 Status
 
 ### Completable Tasks (9 of 9) ✅
+
 1. ✅ Auto-fixed function expressions
 2. ✅ Deleted old factories.ts
 3. ✅ Converted elementFactory.js → TS
@@ -173,10 +195,12 @@ cypress/e2e/projects/project-crud.cy.ts
 9. ✅ Created migration guide
 
 ### Blocked Tasks (2 of 11) ⚠️
+
 10. ⚠️ BLOCKED - scene-editor.cy.ts (no components)
 11. ⚠️ BLOCKED - character-full-workflow.cy.ts (no components)
 
 ### Adjusted Phase 2 Status
+
 - **Completable:** 100% (9/9) ✅
 - **Overall:** 82% (9/11) with 2 blocked by missing features
 - **Realistic Status:** Phase 2 Complete for existing features
@@ -188,18 +212,21 @@ cypress/e2e/projects/project-crud.cy.ts
 If you want to complete selector update work, focus on **implemented features**:
 
 ### 1. Element Tests
+
 ```bash
 # Find element-related cy.contains()
 grep -r "cy.contains(" cypress/e2e/elements/
 ```
 
 ### 2. Project Tests
+
 ```bash
 # Find project-related cy.contains()
 grep -r "cy.contains(" cypress/e2e/projects/
 ```
 
 ### 3. Login/Auth Tests
+
 ```bash
 # Find auth-related cy.contains()
 grep -r "cy.contains(" cypress/e2e/auth/
@@ -215,11 +242,13 @@ These would have actual components to update!
 **Bottom Line:** The selector update tasks are blocked not by technical complexity, but by missing application features. The tests were written aspirationally for future functionality.
 
 **Recommendation:**
+
 1. Mark Phase 2 as "100% complete for existing features"
 2. Skip/move the blocked tests
 3. Proceed to Phase 3 or stop here with excellent progress
 
 **Phase 2 Achievement:**
+
 - ✅ All critical refactoring complete
 - ✅ All factories consolidated
 - ✅ All deprecations marked

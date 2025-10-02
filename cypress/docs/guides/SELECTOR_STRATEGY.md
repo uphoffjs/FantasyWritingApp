@@ -16,19 +16,28 @@ A custom Cypress command that searches for elements using both `data-cy` and `da
 
 ```javascript
 // cypress/support/commands/selectors.ts
-Cypress.Commands.add('getByTestId', (selector: string, options?: Partial<Cypress.Loggable & Cypress.Timeoutable>) => {
-  return cy.get(`[data-cy="${selector}"], [data-testid="${selector}"]`, options);
-});
+Cypress.Commands.add(
+  'getByTestId',
+  (
+    selector: string,
+    options?: Partial<Cypress.Loggable & Cypress.Timeoutable>,
+  ) => {
+    return cy.get(
+      `[data-cy="${selector}"], [data-testid="${selector}"]`,
+      options,
+    );
+  },
+);
 ```
 
 ### Usage in Tests
 
 ```javascript
 // Instead of:
-cy.get('[data-cy="submit-button"]');  // Might fail if component uses testID
+cy.get('[data-cy="submit-button"]'); // Might fail if component uses testID
 
 // Use:
-cy.getByTestId('submit-button');  // Works with both data-cy and data-testid
+cy.getByTestId('submit-button'); // Works with both data-cy and data-testid
 ```
 
 ## 🔧 Component Implementation
@@ -59,12 +68,13 @@ import { getTestProps } from '../../utils/testUtils';
 // Automatically adds both testID and data-cy
 <TouchableOpacity {...getTestProps('submit-button')} onPress={handleSubmit}>
   <Text>Submit</Text>
-</TouchableOpacity>
+</TouchableOpacity>;
 ```
 
 ## 📊 Selector Priority
 
 The `getByTestId` command searches in this order:
+
 1. `data-cy` attribute (Cypress best practice)
 2. `data-testid` attribute (React Testing Library standard)
 
@@ -75,6 +85,7 @@ First match wins, ensuring optimal performance.
 ### For Existing Tests
 
 1. **Search and Replace**: Replace `cy.get('[data-cy="...]')` with `cy.getByTestId('...')`
+
    ```bash
    # Find all occurrences
    grep -r "cy.get.*data-cy" cypress/
@@ -84,6 +95,7 @@ First match wins, ensuring optimal performance.
    ```
 
 2. **Update Complex Selectors**:
+
    ```javascript
    // Before
    cy.get('[data-cy="form"] [data-cy="input"]');
@@ -142,7 +154,7 @@ declare namespace Cypress {
   interface Chainable {
     getByTestId(
       selector: string,
-      options?: Partial<Cypress.Loggable & Cypress.Timeoutable>
+      options?: Partial<Cypress.Loggable & Cypress.Timeoutable>,
     ): Chainable<JQuery<HTMLElement>>;
   }
 }
@@ -151,12 +163,14 @@ declare namespace Cypress {
 ## 📝 Best Practices
 
 ### DO ✅
+
 - Use semantic test IDs: `submit-button`, `user-email-input`
 - Keep test IDs unique within a component
 - Use getByTestId for all element selection
 - Add test IDs during component development
 
 ### DON'T ❌
+
 - Use generic IDs: `button1`, `div-wrapper`
 - Mix selector strategies in the same test
 - Use CSS classes or tag names for selection
@@ -171,6 +185,7 @@ declare namespace Cypress {
 ## 📊 Coverage Report
 
 Current selector compliance: **100%**
+
 - All components have appropriate test IDs
 - All tests use getByTestId command
 - No hardcoded selectors remaining

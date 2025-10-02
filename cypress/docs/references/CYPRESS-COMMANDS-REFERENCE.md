@@ -5,6 +5,7 @@ Comprehensive reference for all available Cypress commands in the FantasyWriting
 ## Quick Start Commands
 
 ### Most Common
+
 ```bash
 # Component tests (recommended - most reliable)
 npm run test:component:electron
@@ -19,6 +20,7 @@ npm run test:component:open
 ## Component Testing Commands
 
 ### Standard Component Tests
+
 ```bash
 # Run all component tests with Chrome (headless)
 npm run test:component
@@ -31,12 +33,14 @@ npm run test:component:open
 ```
 
 ### Parallel Component Tests
+
 ```bash
 # Run component tests in parallel (requires Cypress Dashboard)
 npm run test:component:parallel
 ```
 
 ### Direct Cypress Component Commands
+
 ```bash
 # Run all component tests with Chrome
 npx cypress run --component --browser chrome --headless
@@ -57,6 +61,7 @@ npx cypress open --component
 ## E2E Testing Commands
 
 ### Standard E2E Tests
+
 ```bash
 # Run all E2E tests (starts web server automatically)
 npm run test:e2e
@@ -66,12 +71,14 @@ npm run test:e2e:open
 ```
 
 ### Parallel E2E Tests
+
 ```bash
 # Run E2E tests in parallel (requires Cypress Dashboard)
 npm run test:e2e:parallel
 ```
 
 ### Direct Cypress E2E Commands
+
 ```bash
 # Run all E2E tests with Chrome
 npx cypress run --browser chrome --headless
@@ -92,6 +99,7 @@ npx cypress open
 ## Combined Testing Commands
 
 ### Run All Tests
+
 ```bash
 # Run both component and E2E tests sequentially
 npm run test:all
@@ -103,6 +111,7 @@ npm run test:all:parallel
 ## Browser-Specific Commands
 
 ### Chrome Browser
+
 ```bash
 # Component tests with Chrome
 npx cypress run --component --browser chrome --headless
@@ -114,6 +123,7 @@ npx cypress open --browser chrome
 ```
 
 ### Electron Browser (Most Reliable)
+
 ```bash
 # Component tests with Electron
 npx cypress run --component --browser electron --headless
@@ -125,6 +135,7 @@ npx cypress open --browser electron
 ```
 
 ### Firefox Browser
+
 ```bash
 # Component tests with Firefox
 npx cypress run --component --browser firefox --headless
@@ -136,6 +147,7 @@ npx cypress open --browser firefox
 ```
 
 ### Edge Browser
+
 ```bash
 # Component tests with Edge
 npx cypress run --component --browser edge --headless
@@ -149,6 +161,7 @@ npx cypress open --browser edge
 ## Maintenance Commands
 
 ### Cleanup Commands
+
 ```bash
 # Clean up processes and ports before running tests
 npm run pre-test:cleanup
@@ -161,6 +174,7 @@ npm run test:fix
 ```
 
 ### Manual Cleanup
+
 ```bash
 # Kill processes on port 3003
 lsof -ti :3003 | xargs kill -9
@@ -178,6 +192,7 @@ bash scripts/reset-chrome-cypress.sh
 ## Advanced Commands
 
 ### Spec Pattern Commands
+
 ```bash
 # Run tests matching a pattern
 npx cypress run --spec "cypress/component/**/*Card*.cy.tsx"
@@ -191,6 +206,7 @@ npx cypress run --spec "cypress/component/**/*.cy.tsx" --exclude "**/debug/**"
 ```
 
 ### Configuration Override Commands
+
 ```bash
 # Override viewport size
 npx cypress run --config viewportWidth=1920,viewportHeight=1080
@@ -209,6 +225,7 @@ npx cypress run --config "baseUrl=http://localhost:3001,video=true,screenshotOnR
 ```
 
 ### Environment Variable Commands
+
 ```bash
 # Set environment variables
 npx cypress run --env MOCK_AUTH_ENABLED=false
@@ -219,6 +236,7 @@ npx cypress run --component --env IS_REACT_NATIVE_WEB=true,PLATFORM=web
 ```
 
 ### Debug and Development Commands
+
 ```bash
 # Run with debug output
 DEBUG=cypress:* npx cypress run --component
@@ -234,6 +252,7 @@ npx cypress run --config "experimentalNetworkStubbing=false"
 ```
 
 ### Recording and Reporting Commands
+
 ```bash
 # Record test runs (requires Cypress Dashboard key)
 npx cypress run --record --key your-dashboard-key
@@ -251,6 +270,7 @@ npx cypress run --record --parallel --key your-dashboard-key
 ## Utility Commands
 
 ### Information Commands
+
 ```bash
 # Show Cypress installation info
 npx cypress info
@@ -266,6 +286,7 @@ npx cypress cache path
 ```
 
 ### Cache Management Commands
+
 ```bash
 # Clear Cypress cache
 npx cypress cache clear
@@ -280,6 +301,7 @@ npx cypress install
 ## Troubleshooting Commands
 
 ### When Tests Won't Start
+
 ```bash
 # 1. Reset everything
 npm run chrome:reset
@@ -302,6 +324,7 @@ pkill -f "electron"
 ```
 
 ### When Chrome Won't Connect
+
 ```bash
 # Reset Chrome profiles and cache
 npm run chrome:reset
@@ -317,6 +340,7 @@ npx cypress run --component --browser chrome --headed --config "chromeWebSecurit
 ```
 
 ### Debug Test Failures
+
 ```bash
 # Run single test file with debug output
 DEBUG=cypress:* npx cypress run --spec "cypress/component/elements/ElementCard.cy.tsx"
@@ -334,6 +358,7 @@ npx cypress run --config screenshotOnRunFailure=true,screenshotsFolder=cypress/s
 ## Project-Specific Commands
 
 ### With Start-Server-and-Test
+
 ```bash
 # Start web server and run E2E tests
 start-server-and-test web http://localhost:3002 "cypress run --browser chrome --headless"
@@ -343,6 +368,7 @@ start-server-and-test "PORT=3001 npm run web" http://localhost:3001 "cypress run
 ```
 
 ### React Native Web Specific
+
 ```bash
 # Component tests with RN Web environment
 npx cypress run --component --env IS_REACT_NATIVE_WEB=true,PLATFORM=web,TOUCH_EVENTS_ENABLED=true
@@ -357,18 +383,21 @@ npx cypress run --component --config "userAgent=Mozilla/5.0 (iPhone; CPU iPhone 
 ## Command Combinations
 
 ### Complete Test Suite
+
 ```bash
 # Run everything with maximum reliability
 npm run chrome:reset && npm run test:component:electron && npm run test:e2e
 ```
 
 ### Development Workflow
+
 ```bash
 # Quick component test cycle
 npm run pre-test:cleanup && npx cypress open --component --browser electron
 ```
 
 ### CI/CD Pipeline
+
 ```bash
 # Headless, reliable, with recording
 npm run pre-test:cleanup && npx cypress run --component --browser electron --record --parallel

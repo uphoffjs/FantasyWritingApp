@@ -7,8 +7,9 @@
 Web applications are highly dynamic and mutable. Their state and DOM are continuously changing, making conditional testing inherently unstable and non-deterministic.
 
 ### Key Issues
+
 1. **DOM Instability**: Web elements can change state rapidly between checks
-2. **Timing Uncertainties**: Asynchronous rendering makes reliable testing difficult  
+2. **Timing Uncertainties**: Asynchronous rendering makes reliable testing difficult
 3. **Non-Deterministic Behavior**: Tests produce inconsistent results
 
 ## Core Principle
@@ -18,9 +19,10 @@ Web applications are highly dynamic and mutable. Their state and DOM are continu
 ## Anti-Patterns to AVOID ❌
 
 ### 1. Conditional DOM Checking
+
 ```javascript
 // ❌ BAD - Never do this
-cy.get('body').then(($body) => {
+cy.get('body').then($body => {
   if ($body.find('[data-cy="element"]').length > 0) {
     // Do something
   } else {
@@ -30,9 +32,10 @@ cy.get('body').then(($body) => {
 ```
 
 ### 2. Checking Element Visibility Conditionally
+
 ```javascript
 // ❌ BAD - Unreliable
-cy.get('button').then(($button) => {
+cy.get('button').then($button => {
   if ($button.is(':visible')) {
     cy.get('button').click();
   }
@@ -40,6 +43,7 @@ cy.get('button').then(($button) => {
 ```
 
 ### 3. Try-Catch Patterns
+
 ```javascript
 // ❌ BAD - Don't use try-catch for control flow
 try {
@@ -50,6 +54,7 @@ try {
 ```
 
 ### 4. Element Existence Checks
+
 ```javascript
 // ❌ BAD - Race conditions
 if (cy.get('[data-cy="modal"]').should('exist')) {
@@ -91,7 +96,7 @@ cy.visit('/app?feature=disabled');
 // ✅ GOOD - Get truth from server
 cy.request('/api/user/status')
   .its('body.isAuthenticated')
-  .then((isAuthenticated) => {
+  .then(isAuthenticated => {
     if (isAuthenticated) {
       cy.visit('/dashboard');
     } else {
@@ -112,7 +117,7 @@ cy.get('[data-user-role="admin"]').should('exist');
 
 ```javascript
 // ✅ GOOD - Control application state
-cy.window().then((win) => {
+cy.window().then(win => {
   // Force specific state
   win.localStorage.setItem('featureFlag', 'enabled');
 });
@@ -126,8 +131,9 @@ cy.reload();
 ### Scenario 1: Testing Different User Roles
 
 **❌ BAD**:
+
 ```javascript
-cy.get('body').then(($body) => {
+cy.get('body').then($body => {
   if ($body.find('[data-cy="admin-panel"]').length > 0) {
     // Admin tests
   } else {
@@ -137,13 +143,14 @@ cy.get('body').then(($body) => {
 ```
 
 **✅ GOOD**:
+
 ```javascript
 // Separate test files or describe blocks
 describe('Admin User', () => {
   beforeEach(() => {
     cy.loginAsAdmin();
   });
-  
+
   it('sees admin panel', () => {
     cy.get('[data-cy="admin-panel"]').should('be.visible');
   });
@@ -153,7 +160,7 @@ describe('Regular User', () => {
   beforeEach(() => {
     cy.loginAsUser();
   });
-  
+
   it('does not see admin panel', () => {
     cy.get('[data-cy="admin-panel"]').should('not.exist');
   });
@@ -163,8 +170,9 @@ describe('Regular User', () => {
 ### Scenario 2: Handling Modals/Popups
 
 **❌ BAD**:
+
 ```javascript
-cy.get('body').then(($body) => {
+cy.get('body').then($body => {
   if ($body.find('[data-cy="modal"]').length > 0) {
     cy.get('[data-cy="close-modal"]').click();
   }
@@ -172,10 +180,11 @@ cy.get('body').then(($body) => {
 ```
 
 **✅ GOOD**:
+
 ```javascript
 // Option 1: Ensure modal never appears
 beforeEach(() => {
-  cy.window().then((win) => {
+  cy.window().then(win => {
     win.localStorage.setItem('hideWelcomeModal', 'true');
   });
 });
@@ -192,8 +201,9 @@ it('handles welcome modal', () => {
 ### Scenario 3: Dynamic Content Loading
 
 **❌ BAD**:
+
 ```javascript
-cy.get('body').then(($body) => {
+cy.get('body').then($body => {
   if ($body.find('.loading').length > 0) {
     cy.wait(5000); // Arbitrary wait
   }
@@ -201,6 +211,7 @@ cy.get('body').then(($body) => {
 ```
 
 **✅ GOOD**:
+
 ```javascript
 // Wait for specific conditions
 cy.get('[data-cy="loading"]').should('not.exist');
@@ -216,6 +227,7 @@ cy.get('[data-cy="content"]').should('be.visible');
 ## Testing Strategies
 
 ### 1. Separate Tests for Different States
+
 Instead of one test with conditionals, write multiple focused tests:
 
 ```javascript
@@ -225,7 +237,7 @@ describe('Authentication States', () => {
     cy.visit('/dashboard');
     cy.url().should('include', '/login');
   });
-  
+
   it('shows dashboard when authenticated', () => {
     cy.login();
     cy.visit('/dashboard');
@@ -235,6 +247,7 @@ describe('Authentication States', () => {
 ```
 
 ### 2. Use Custom Commands for State Setup
+
 ```javascript
 // cypress/support/commands.ts
 Cypress.Commands.add('setupAsNewUser', () => {
@@ -245,7 +258,7 @@ Cypress.Commands.add('setupAsNewUser', () => {
 
 Cypress.Commands.add('setupAsReturningUser', () => {
   cy.setCookie('auth', 'token123');
-  cy.window().then((win) => {
+  cy.window().then(win => {
     win.localStorage.setItem('user', JSON.stringify({ id: 1 }));
   });
   cy.visit('/');
@@ -253,10 +266,11 @@ Cypress.Commands.add('setupAsReturningUser', () => {
 ```
 
 ### 3. Intercept and Control Network Responses
+
 ```javascript
 // Control what the application receives
 cy.intercept('GET', '/api/feature-flags', {
-  body: { showNewFeature: true }
+  body: { showNewFeature: true },
 }).as('getFlags');
 
 cy.visit('/');
@@ -278,6 +292,7 @@ cy.wait('@getFlags');
 > "The only way to ensure your tests are 100% deterministic is to remove all variability and unknown states from your application during testing."
 
 If you find yourself needing conditional logic in tests, it's a sign that:
+
 - The application state is not properly controlled
 - The test is trying to do too much
 - The test should be split into multiple focused tests

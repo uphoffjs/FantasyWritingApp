@@ -16,7 +16,7 @@ React Native Web automatically converts the `testID` prop to `data-testid` attri
   <Text>Create Story</Text>
 </TouchableOpacity>
 
-<TextInput 
+<TextInput
   testID="story-title-input"
   placeholder="Enter story title"
   value={title}
@@ -47,16 +47,16 @@ All testID values should use kebab-case for consistency:
 
 ```typescript
 // ✅ CORRECT
-"story-title-input"
-"character-card"
-"save-button"
-"element-browser"
-"category-toggle-general"
+'story-title-input';
+'character-card';
+'save-button';
+'element-browser';
+'category-toggle-general';
 
 // ❌ INCORRECT
-"storyTitleInput"    // camelCase
-"story_title_input"  // snake_case
-"STORY-TITLE-INPUT"  // UPPERCASE
+'storyTitleInput'; // camelCase
+'story_title_input'; // snake_case
+'STORY-TITLE-INPUT'; // UPPERCASE
 ```
 
 ## Hierarchical Structure
@@ -65,14 +65,14 @@ Use a parent-child naming pattern for related elements:
 
 ```typescript
 // Parent container
-testID="story-card"
+testID = 'story-card';
 
 // Child elements
-testID="story-card-title"
-testID="story-card-author"
-testID="story-card-word-count"
-testID="story-card-edit-btn"
-testID="story-card-delete-btn"
+testID = 'story-card-title';
+testID = 'story-card-author';
+testID = 'story-card-word-count';
+testID = 'story-card-edit-btn';
+testID = 'story-card-delete-btn';
 
 // In tests
 cy.getRN('story-card').within(() => {
@@ -87,28 +87,28 @@ Use consistent prefixes to identify element types:
 
 ```typescript
 // Buttons
-testID="btn-create-story"
-testID="btn-save"
-testID="btn-cancel"
+testID = 'btn-create-story';
+testID = 'btn-save';
+testID = 'btn-cancel';
 
 // Inputs
-testID="input-story-title"
-testID="input-search"
-testID="textarea-story-content"
+testID = 'input-story-title';
+testID = 'input-search';
+testID = 'textarea-story-content';
 
 // Modals
-testID="modal-create-element"
-testID="modal-confirm-delete"
+testID = 'modal-create-element';
+testID = 'modal-confirm-delete';
 
 // Lists
-testID="list-characters"
-testID="list-item-character-0"
-testID="list-item-character-1"
+testID = 'list-characters';
+testID = 'list-item-character-0';
+testID = 'list-item-character-1';
 
 // Forms
-testID="form-story-details"
-testID="form-field-title"
-testID="form-field-genre"
+testID = 'form-story-details';
+testID = 'form-field-title';
+testID = 'form-field-genre';
 ```
 
 ## Fallback Strategies
@@ -116,6 +116,7 @@ testID="form-field-genre"
 When testID is not available, our custom `getRN()` command provides automatic fallbacks:
 
 ### Priority Order:
+
 1. **Test attributes** (data-testid, data-cy, testID)
 2. **Accessibility attributes** (aria-label, role)
 3. **Semantic attributes** (placeholder, name, id)
@@ -123,12 +124,9 @@ When testID is not available, our custom `getRN()` command provides automatic fa
 
 ```typescript
 // Component might be missing testID
-<TouchableOpacity 
-  accessibilityLabel="Create new story"
-  onPress={handleCreate}
->
+<TouchableOpacity accessibilityLabel="Create new story" onPress={handleCreate}>
   <Text>Create</Text>
-</TouchableOpacity>
+</TouchableOpacity>;
 
 // getRN() will find it via accessibility fallback
 cy.getRN('Create new story').rnClick();
@@ -174,6 +172,7 @@ cy.getRN('chapter-10').rnScrollTo('center');
 ## Common Patterns
 
 ### Modal Testing
+
 ```typescript
 // Opening a modal
 cy.getRN('btn-create-story').rnClick();
@@ -188,6 +187,7 @@ cy.getRN('modal-create-story').within(() => {
 ```
 
 ### List Item Testing
+
 ```typescript
 // Testing dynamic list items
 cy.getRN('list-stories').within(() => {
@@ -202,6 +202,7 @@ stories.forEach((story, index) => {
 ```
 
 ### Form Testing
+
 ```typescript
 // Complete form flow
 cy.getRN('form-story-details').within(() => {
@@ -213,6 +214,7 @@ cy.getRN('form-story-details').within(() => {
 ```
 
 ### Category Expansion (Accordion)
+
 ```typescript
 // Expanding collapsed sections
 cy.getRN('category-toggle-general').rnClick();
@@ -233,11 +235,11 @@ cy.get('.story-button').click();
 cy.get('div > div > button:nth-child(2)').click();
 
 // ❌ AVOID: Mixed naming conventions
-testID="storyTitle"  // Should be "story-title"
+testID = 'storyTitle'; // Should be "story-title"
 
 // ❌ AVOID: Generic IDs
-testID="button"  // Too generic
-testID="input"   // Not specific enough
+testID = 'button'; // Too generic
+testID = 'input'; // Not specific enough
 
 // ❌ AVOID: Using standard Cypress commands for RN components
 cy.get('[data-testid="input"]').type('text'); // Use .rnType() instead
@@ -254,7 +256,7 @@ cy.contains('Create').click();
 // STEP 1: Add testID to component
 <TouchableOpacity testID="btn-create" onPress={handleCreate}>
   <Text>Create</Text>
-</TouchableOpacity>
+</TouchableOpacity>;
 
 // STEP 2: Update test to use getRN
 cy.getRN('btn-create').rnClick();
@@ -275,7 +277,10 @@ When selectors aren't working:
 ```typescript
 // 1. Check if element exists in DOM
 cy.get('body').then($body => {
-  console.log('All testids:', $body.find('[data-testid]').map((i, el) => el.getAttribute('data-testid')));
+  console.log(
+    'All testids:',
+    $body.find('[data-testid]').map((i, el) => el.getAttribute('data-testid')),
+  );
 });
 
 // 2. Use getRN with logging
@@ -283,7 +288,10 @@ cy.getRN('my-element'); // Will log fallback warnings
 
 // 3. Check React Native Web conversion
 cy.window().then(win => {
-  console.log('React Native Web active:', !!win.document.querySelector('[data-testid]'));
+  console.log(
+    'React Native Web active:',
+    !!win.document.querySelector('[data-testid]'),
+  );
 });
 
 // 4. Verify element visibility
@@ -305,15 +313,15 @@ cy.getRN('my-element').should('exist').should('be.visible');
 
 ## Quick Reference
 
-| Element Type | testID Pattern | Example |
-|-------------|---------------|---------|
-| Button | `btn-{action}` | `btn-create-story` |
-| Input | `input-{field}` | `input-story-title` |
-| Select | `select-{field}` | `select-genre` |
-| Modal | `modal-{name}` | `modal-create-element` |
-| List | `list-{items}` | `list-characters` |
-| List Item | `list-item-{type}-{index}` | `list-item-character-0` |
-| Card | `card-{type}` | `card-story` |
-| Form | `form-{name}` | `form-story-details` |
-| Toggle | `toggle-{feature}` | `toggle-auto-save` |
-| Tab | `tab-{name}` | `tab-characters` |
+| Element Type | testID Pattern             | Example                 |
+| ------------ | -------------------------- | ----------------------- |
+| Button       | `btn-{action}`             | `btn-create-story`      |
+| Input        | `input-{field}`            | `input-story-title`     |
+| Select       | `select-{field}`           | `select-genre`          |
+| Modal        | `modal-{name}`             | `modal-create-element`  |
+| List         | `list-{items}`             | `list-characters`       |
+| List Item    | `list-item-{type}-{index}` | `list-item-character-0` |
+| Card         | `card-{type}`              | `card-story`            |
+| Form         | `form-{name}`              | `form-story-details`    |
+| Toggle       | `toggle-{feature}`         | `toggle-auto-save`      |
+| Tab          | `tab-{name}`               | `tab-characters`        |

@@ -3,6 +3,7 @@
 This document outlines essential best practices for writing effective, maintainable, and reliable Cypress tests for the FantasyWritingApp project, aligned with [Official Cypress Best Practices](https://docs.cypress.io/guides/references/best-practices).
 
 > **⚠️ CRITICAL RULES (From Cypress.io)**:
+>
 > 1. NEVER use conditional statements (if/else) in Cypress tests. Tests must be deterministic.
 > 2. ALWAYS start your server BEFORE running Cypress - NEVER within test code.
 > 3. ALWAYS set `baseUrl` in configuration - enables relative URLs.
@@ -15,6 +16,7 @@ This document outlines essential best practices for writing effective, maintaina
 > 10. NEVER assign Cypress command returns to variables - use aliases.
 
 ## Table of Contents
+
 1. [Starting Your Development Server](#starting-your-development-server)
 2. [Organizing Tests](#organizing-tests)
 3. [Selecting Elements](#selecting-elements)
@@ -34,6 +36,7 @@ This document outlines essential best practices for writing effective, maintaina
 ### Why Start Local Development Server?
 
 Testing against local servers provides:
+
 - **Complete control** over server configuration and environment
 - **Ability to seed data** and reset state between tests
 - **Faster test execution** compared to remote servers
@@ -57,6 +60,7 @@ cypress open       # THEN open Cypress
 ```
 
 ⚠️ **Cypress.io Rule**: NEVER start servers from Cypress. Quote from docs:
+
 > "Don't try to start a web server from within Cypress scripts. Read about best practices here."
 
 ---
@@ -64,6 +68,7 @@ cypress open       # THEN open Cypress
 ## Organizing Tests
 
 ### Test Structure
+
 - **Write specs in isolation**: Each test spec should be able to run independently
 - **Group related tests**: Use `describe` blocks to organize related test cases
 - **Use meaningful test names**: Test names should clearly describe what is being tested
@@ -71,27 +76,28 @@ cypress open       # THEN open Cypress
 ```javascript
 // Good - Clear, descriptive test structure
 describe('Element Creation', () => {
-  beforeEach(function() {
+  beforeEach(function () {
     // ! MANDATORY: Comprehensive debug setup
     cy.comprehensiveDebug();
 
     // * Reset state before each test
     cy.cleanState();
 
-    cy.visit('/elements')
-  })
+    cy.visit('/elements');
+  });
 
   it('should create a new character element', () => {
     // Test implementation
-  })
+  });
 
   it('should validate required fields', () => {
     // Test implementation
-  })
-})
+  });
+});
 ```
 
 ### File Organization
+
 ```
 cypress/
 ├── e2e/                    # End-to-end tests
@@ -113,18 +119,18 @@ cypress/
 
 ```javascript
 // 1. BEST - Cypress Recommended
-cy.get('[data-cy="submit"]')              // Cypress team's preference
-cy.get('[data-test="submit"]')            // Alternative test attribute
-cy.get('[data-testid="submit"]')          // Testing Library compatibility
+cy.get('[data-cy="submit"]'); // Cypress team's preference
+cy.get('[data-test="submit"]'); // Alternative test attribute
+cy.get('[data-testid="submit"]'); // Testing Library compatibility
 
 // 2. ACCEPTABLE - Only if above unavailable
-cy.get('[role="button"][name="Submit"]') // Semantic HTML
+cy.get('[role="button"][name="Submit"]'); // Semantic HTML
 
 // 3. NEVER USE - Anti-patterns per Cypress.io
-cy.get('.btn.btn-large')                  // ❌ CSS classes change
-cy.get('#submit')                          // ❌ IDs aren't unique
-cy.get('button:first')                     // ❌ Order changes
-cy.contains('Submit')                      // ❌ Text content changes
+cy.get('.btn.btn-large'); // ❌ CSS classes change
+cy.get('#submit'); // ❌ IDs aren't unique
+cy.get('button:first'); // ❌ Order changes
+cy.contains('Submit'); // ❌ Text content changes
 ```
 
 **Quote from Cypress.io**: "Don't target elements based on CSS attributes such as: id, class, tag"
@@ -135,12 +141,12 @@ For React Native components, use `testID` which converts to `data-cy` on web:
 
 ```tsx
 // React Native component
-<TouchableOpacity 
-  testID="create-element-button"  // Becomes data-cy on web
+<TouchableOpacity
+  testID="create-element-button" // Becomes data-cy on web
   onPress={handleCreate}
 >
   <Text>Create Element</Text>
-</TouchableOpacity>
+</TouchableOpacity>;
 
 // For web-specific attributes
 import { Platform } from 'react-native';
@@ -152,10 +158,11 @@ const getTestProps = (id: string) => {
   return { testID: id };
 };
 
-<TextInput {...getTestProps('element-title-input')} />
+<TextInput {...getTestProps('element-title-input')} />;
 ```
 
 ### Selector Priority Order
+
 1. **`data-cy`** - Preferred for all test selectors
 2. **`data-test`** - Alternative if data-cy not available
 3. **`data-testid`** - For compatibility with Testing Library
@@ -170,35 +177,35 @@ const getTestProps = (id: string) => {
 
 ```javascript
 // ❌ WRONG - This DOES NOT WORK
-const button = cy.get('[data-cy="submit"]') // Returns Cypress chain, not element!
-button.click() // FAILS!
+const button = cy.get('[data-cy="submit"]'); // Returns Cypress chain, not element!
+button.click(); // FAILS!
 
 // ❌ WRONG - Variables don't work as expected
-let username
+let username;
 cy.get('[data-cy="username"]').then($el => {
-  username = $el.text() // By the time this runs, too late
-})
-cy.visit(`/users/${username}`) // username is undefined!
+  username = $el.text(); // By the time this runs, too late
+});
+cy.visit(`/users/${username}`); // username is undefined!
 ```
 
 ### ✅ CORRECT: Use Cypress Patterns
 
 ```javascript
 // ✅ Use aliases
-cy.get('[data-cy="submit"]').as('submitButton')
-cy.get('@submitButton').click()
+cy.get('[data-cy="submit"]').as('submitButton');
+cy.get('@submitButton').click();
 
 // ✅ Use closures
 cy.get('[data-cy="username"]').then($username => {
-  cy.visit(`/users/${$username.text()}`)
-})
+  cy.visit(`/users/${$username.text()}`);
+});
 
 // ✅ Chain commands
 cy.get('[data-cy="username"]')
   .invoke('text')
   .then(username => {
-    cy.visit(`/users/${username}`)
-  })
+    cy.visit(`/users/${username}`);
+  });
 ```
 
 ---
@@ -212,39 +219,39 @@ Tests should not depend on the execution order or results of other tests:
 ```javascript
 // ✅ GOOD - Independent tests
 describe('Project Management', () => {
-  beforeEach(function() {
+  beforeEach(function () {
     // ! MANDATORY: Debug and clean state
     cy.comprehensiveDebug();
     cy.cleanState();
 
     // Create fresh state for each test
     cy.setupTestUser();
-    cy.visit('/projects')
-  })
+    cy.visit('/projects');
+  });
 
   it('creates a new project', () => {
-    cy.get('[data-cy="new-project-button"]').click()
+    cy.get('[data-cy="new-project-button"]').click();
     // Test continues...
-  })
+  });
 
   it('deletes a project', () => {
     // This test creates its own project to delete
-    cy.createProject({ name: 'Test Project' })
-    cy.get('[data-cy="delete-project-button"]').click()
+    cy.createProject({ name: 'Test Project' });
+    cy.get('[data-cy="delete-project-button"]').click();
     // Test continues...
-  })
-})
+  });
+});
 
 // ❌ BAD - Dependent tests
 it('creates a project', () => {
-  cy.get('[data-cy="new-project-button"]').click()
+  cy.get('[data-cy="new-project-button"]').click();
   // Creates project...
-})
+});
 
 it('edits the project created above', () => {
   // This assumes the previous test ran and succeeded
-  cy.get('[data-cy="edit-button"]').click()
-})
+  cy.get('[data-cy="edit-button"]').click();
+});
 ```
 
 ---
@@ -255,20 +262,20 @@ it('edits the project created above', () => {
 
 ```javascript
 // ✅ GOOD - Clean state in beforeEach
-beforeEach(function() {
+beforeEach(function () {
   // ! MANDATORY: Always include these
   cy.comprehensiveDebug();
   cy.cleanState();
 
   // For React Native Web with Zustand
   cy.setupTestData({ projects: 2, elements: 5 });
-})
+});
 
 // ❌ BAD - Don't clean in afterEach
 afterEach(() => {
   // Avoid cleanup here - if test fails, cleanup might not run
-  cy.task('db:clean')
-})
+  cy.task('db:clean');
+});
 ```
 
 ### Using Aliases and Closures
@@ -277,18 +284,18 @@ Avoid assigning return values directly:
 
 ```javascript
 // ❌ BAD - Don't do this
-const button = cy.get('[data-cy="submit-button"]')
-button.click()
+const button = cy.get('[data-cy="submit-button"]');
+button.click();
 
 // ✅ GOOD - Use aliases
-cy.get('[data-cy="submit-button"]').as('submitBtn')
-cy.get('@submitBtn').click()
+cy.get('[data-cy="submit-button"]').as('submitBtn');
+cy.get('@submitBtn').click();
 
 // ✅ GOOD - Use then() for accessing values
-cy.get('[data-cy="element-count"]').then(($count) => {
-  const count = parseInt($count.text())
-  expect(count).to.be.greaterThan(0)
-})
+cy.get('[data-cy="element-count"]').then($count => {
+  const count = parseInt($count.text());
+  expect(count).to.be.greaterThan(0);
+});
 ```
 
 ---
@@ -299,32 +306,32 @@ cy.get('[data-cy="element-count"]').then(($count) => {
 
 ```javascript
 // ❌ BAD - Fixed wait times
-cy.wait(3000) // Arbitrary wait
+cy.wait(3000); // Arbitrary wait
 
 // ✅ GOOD - Wait for specific conditions
-cy.get('[data-cy="loading-spinner"]').should('not.exist')
-cy.get('[data-cy="element-list"]').should('be.visible')
-cy.get('[data-cy="save-status"]').should('contain', 'Saved')
+cy.get('[data-cy="loading-spinner"]').should('not.exist');
+cy.get('[data-cy="element-list"]').should('be.visible');
+cy.get('[data-cy="save-status"]').should('contain', 'Saved');
 ```
 
 ### Don't Visit External Sites (Cypress.io Rule)
 
 ```javascript
 // ❌ BAD - Cypress.io explicitly forbids this
-cy.visit('https://google.com')           // Will fail - different origin
-cy.visit('https://external-api.com')     // Will fail - not your app
+cy.visit('https://google.com'); // Will fail - different origin
+cy.visit('https://external-api.com'); // Will fail - not your app
 
 // ✅ GOOD - Only test your application
-cy.visit('/')                            // Uses baseUrl
-cy.visit('/elements')                    // Relative to baseUrl
+cy.visit('/'); // Uses baseUrl
+cy.visit('/elements'); // Relative to baseUrl
 
 // ✅ For external APIs, use cy.request() or stub
-cy.request('https://api.external.com/data') // Direct API call
+cy.request('https://api.external.com/data'); // Direct API call
 
 // ✅ Or intercept and stub
 cy.intercept('GET', 'https://api.external.com/**', {
-  fixture: 'external-api-response.json'
-})
+  fixture: 'external-api-response.json',
+});
 ```
 
 **Cypress.io Quote**: "Don't try to visit or interact with sites you don't control"
@@ -358,6 +365,7 @@ cypress open                    // Terminal 2
 ### Server Management Best Practices
 
 #### Automatic Process Cleanup
+
 To prevent port conflicts and orphaned processes:
 
 ```json
@@ -372,12 +380,14 @@ To prevent port conflicts and orphaned processes:
 ```
 
 #### Key Points:
+
 - **Always clean before tests**: Kill existing processes before starting new ones
 - **Use `|| true`**: Prevents script failure if no processes found
 - **Add sleep delay**: Ensures ports are fully released before starting new server
 - **Chain commands**: Use `&&` to ensure cleanup runs before tests
 
 #### Manual Server Management:
+
 ```bash
 # Check for running processes on port 3002
 lsof -i :3002
@@ -407,28 +417,31 @@ Cypress.Commands.add('setupTestUser', (options = {}) => {
     email: `test_${Date.now()}@example.com`,
     projects: [],
     elements: [],
-    ...options
+    ...options,
   };
 
-  cy.window().then((win) => {
+  cy.window().then(win => {
     const storeData = {
       auth: { user: userData, isAuthenticated: true },
       projects: userData.projects,
-      elements: userData.elements
+      elements: userData.elements,
     };
-    win.localStorage.setItem('fantasy-writing-app-store', JSON.stringify(storeData));
+    win.localStorage.setItem(
+      'fantasy-writing-app-store',
+      JSON.stringify(storeData),
+    );
   });
 
   return cy.wrap(userData);
-})
+});
 
 // In tests
-beforeEach(function() {
+beforeEach(function () {
   cy.comprehensiveDebug();
   cy.cleanState();
   cy.setupTestUser();
-  cy.visit('/dashboard')
-})
+  cy.visit('/dashboard');
+});
 ```
 
 ### Using cy.session() for Login Caching (Cypress.io Pattern)
@@ -436,31 +449,31 @@ beforeEach(function() {
 ```javascript
 Cypress.Commands.add('login', (email = 'test@example.com') => {
   cy.session(
-    email,  // Unique session ID
+    email, // Unique session ID
     () => {
       // PREFER API login for speed (Cypress.io recommendation)
       cy.request('POST', '/api/login', {
         email,
-        password: 'password'
+        password: 'password',
       }).then(response => {
-        window.localStorage.setItem('authToken', response.body.token)
-      })
+        window.localStorage.setItem('authToken', response.body.token);
+      });
     },
     {
       validate() {
         // MANDATORY validation per Cypress.io
         cy.window().then(win => {
-          expect(win.localStorage.getItem('authToken')).to.not.be.null
-        })
+          expect(win.localStorage.getItem('authToken')).to.not.be.null;
+        });
       },
-      cacheAcrossSpecs: true  // Share session across test files
-    }
-  )
-})
+      cacheAcrossSpecs: true, // Share session across test files
+    },
+  );
+});
 
 // IMPORTANT: Always cy.visit() after cy.session()
-cy.login('user@example.com')
-cy.visit('/dashboard')  // Navigate after session restore
+cy.login('user@example.com');
+cy.visit('/dashboard'); // Navigate after session restore
 ```
 
 ---
@@ -472,18 +485,18 @@ cy.visit('/dashboard')  // Navigate after session restore
 ```javascript
 // ✅ GOOD - Wait for specific network requests
 it('saves element changes', () => {
-  cy.intercept('PUT', '/api/elements/*').as('saveElement')
-  
-  cy.get('[data-cy="element-title-input"]').clear().type('Updated Title')
-  cy.get('[data-cy="save-button"]').click()
-  
+  cy.intercept('PUT', '/api/elements/*').as('saveElement');
+
+  cy.get('[data-cy="element-title-input"]').clear().type('Updated Title');
+  cy.get('[data-cy="save-button"]').click();
+
   // Wait for the save request to complete
-  cy.wait('@saveElement').then((interception) => {
-    expect(interception.response.statusCode).to.equal(200)
-  })
-  
-  cy.get('[data-cy="save-status"]').should('contain', 'Saved')
-})
+  cy.wait('@saveElement').then(interception => {
+    expect(interception.response.statusCode).to.equal(200);
+  });
+
+  cy.get('[data-cy="save-status"]').should('contain', 'Saved');
+});
 ```
 
 ### Stubbing Network Responses
@@ -491,11 +504,11 @@ it('saves element changes', () => {
 ```javascript
 // Stub API responses for consistent testing
 cy.intercept('GET', '/api/elements', {
-  fixture: 'elements-list.json'
-}).as('getElements')
+  fixture: 'elements-list.json',
+}).as('getElements');
 
-cy.visit('/elements')
-cy.wait('@getElements')
+cy.visit('/elements');
+cy.wait('@getElements');
 ```
 
 ---
@@ -505,42 +518,42 @@ cy.wait('@getElements')
 ### cypress.config.ts Settings (Per Cypress.io)
 
 ```typescript
-import { defineConfig } from 'cypress'
+import { defineConfig } from 'cypress';
 
 export default defineConfig({
   e2e: {
     // MANDATORY per Cypress.io - Set baseUrl
-    baseUrl: 'http://localhost:3002',  // Enables cy.visit('/') instead of full URLs
-    viewportWidth: 375,   // Mobile-first for React Native
+    baseUrl: 'http://localhost:3002', // Enables cy.visit('/') instead of full URLs
+    viewportWidth: 375, // Mobile-first for React Native
     viewportHeight: 812,
 
     // Video & Screenshots
-    video: false,                    // Only enable for debugging
-    videoCompression: 32,            // If enabled, optimize size
+    video: false, // Only enable for debugging
+    videoCompression: 32, // If enabled, optimize size
     screenshotOnRunFailure: true,
-    trashAssetsBeforeRuns: true,    // Clean old screenshots/videos
+    trashAssetsBeforeRuns: true, // Clean old screenshots/videos
 
     // Timeouts (milliseconds)
-    defaultCommandTimeout: 10000,    // DOM-based commands
-    execTimeout: 60000,              // cy.exec() commands
-    taskTimeout: 60000,              // cy.task() commands
-    pageLoadTimeout: 60000,          // Page transitions
-    requestTimeout: 10000,           // HTTP requests
-    responseTimeout: 30000,          // cy.request() responses
+    defaultCommandTimeout: 10000, // DOM-based commands
+    execTimeout: 60000, // cy.exec() commands
+    taskTimeout: 60000, // cy.task() commands
+    pageLoadTimeout: 60000, // Page transitions
+    requestTimeout: 10000, // HTTP requests
+    responseTimeout: 30000, // cy.request() responses
 
     // Retries
     retries: {
-      runMode: 2,    // CI/CD pipeline
-      openMode: 0    // Local development
+      runMode: 2, // CI/CD pipeline
+      openMode: 0, // Local development
     },
 
     // Test Isolation
-    testIsolation: true,             // Clean context between tests
+    testIsolation: true, // Clean context between tests
 
     // Browser Settings
-    chromeWebSecurity: true,        // Keep enabled for security
-    blockHosts: null,                // Block external domains if needed
-    userAgent: null,                 // Override for mobile testing
+    chromeWebSecurity: true, // Keep enabled for security
+    blockHosts: null, // Block external domains if needed
+    userAgent: null, // Override for mobile testing
 
     // Folders Configuration
     downloadsFolder: 'cypress/downloads',
@@ -549,17 +562,17 @@ export default defineConfig({
     videosFolder: 'cypress/videos',
 
     // Experimental Features
-    experimentalStudio: true,       // Visual test recorder
-    experimentalRunAllSpecs: true,  // Run all specs button
+    experimentalStudio: true, // Visual test recorder
+    experimentalRunAllSpecs: true, // Run all specs button
 
     setupNodeEvents(on, config) {
       // Load environment-specific config
-      const environmentName = config.env.environmentName || 'local'
-      const environmentFilename = `./cypress/config/${environmentName}.json`
+      const environmentName = config.env.environmentName || 'local';
+      const environmentFilename = `./cypress/config/${environmentName}.json`;
 
       try {
-        const environmentConfig = require(environmentFilename)
-        config = { ...config, ...environmentConfig }
+        const environmentConfig = require(environmentFilename);
+        config = { ...config, ...environmentConfig };
       } catch (e) {
         // Environment config file not found, use defaults
       }
@@ -568,39 +581,39 @@ export default defineConfig({
       on('task', {
         'db:reset': () => {
           // Reset database
-          return null
+          return null;
         },
-        'db:seed': (data) => {
+        'db:seed': data => {
           // Seed database
-          return null
+          return null;
         },
         log(message) {
-          console.log(message)
-          return null
+          console.log(message);
+          return null;
         },
         table(message) {
-          console.table(message)
-          return null
-        }
-      })
+          console.table(message);
+          return null;
+        },
+      });
 
       // Code coverage
-      require('@cypress/code-coverage/task')(on, config)
+      require('@cypress/code-coverage/task')(on, config);
 
-      return config
-    }
+      return config;
+    },
   },
 
   component: {
     devServer: {
       framework: 'react',
       bundler: 'webpack',
-      webpackConfig: require('./webpack.config.js')
+      webpackConfig: require('./webpack.config.js'),
     },
     specPattern: 'cypress/component/**/*.cy.{js,jsx,ts,tsx}',
-    supportFile: 'cypress/support/component.ts'
-  }
-})
+    supportFile: 'cypress/support/component.ts',
+  },
+});
 ```
 
 ### Environment Variables
@@ -621,23 +634,29 @@ cy.request(`${apiUrl}/elements`)
 ### Configuration Precedence (Highest to Lowest)
 
 1. **Command Line Arguments**
+
    ```bash
    cypress run --env API_URL=https://staging.api.com
    ```
 
 2. **Environment Variables**
+
    ```bash
    CYPRESS_API_URL=https://staging.api.com cypress run
    ```
 
 3. **cypress.env.json**
+
    ```json
    { "API_URL": "http://localhost:3000/api" }
    ```
 
 4. **cypress.config.js**
+
    ```javascript
-   env: { API_URL: 'http://localhost:3000/api' }
+   env: {
+     API_URL: 'http://localhost:3000/api';
+   }
    ```
 
 5. **Default values**
@@ -652,99 +671,103 @@ cy.request(`${apiUrl}/elements`)
 // cypress/support/commands.js
 
 // Login with session caching for performance
-Cypress.Commands.add('login', (email = 'test@example.com', password = 'password123') => {
-  cy.session(
-    email, // Use email as session ID
-    () => {
-      cy.visit('/login')
-      cy.get('[data-cy="email-input"]').type(email)
-      cy.get('[data-cy="password-input"]').type(password)
-      cy.get('[data-cy="submit-button"]').click()
+Cypress.Commands.add(
+  'login',
+  (email = 'test@example.com', password = 'password123') => {
+    cy.session(
+      email, // Use email as session ID
+      () => {
+        cy.visit('/login');
+        cy.get('[data-cy="email-input"]').type(email);
+        cy.get('[data-cy="password-input"]').type(password);
+        cy.get('[data-cy="submit-button"]').click();
 
-      // Wait for successful login
-      cy.url().should('not.include', '/login')
-    },
-    {
-      validate() {
-        // Ensure session is still valid
-        cy.getCookie('auth-token').should('exist')
+        // Wait for successful login
+        cy.url().should('not.include', '/login');
       },
-      cacheAcrossSpecs: true // Share across all test files
-    }
-  )
-})
+      {
+        validate() {
+          // Ensure session is still valid
+          cy.getCookie('auth-token').should('exist');
+        },
+        cacheAcrossSpecs: true, // Share across all test files
+      },
+    );
+  },
+);
 
 // Fast API-based login
 Cypress.Commands.add('apiLogin', (email, password) => {
   cy.session(
     ['api', email],
     () => {
-      cy.request('POST', '/api/login', { email, password })
-        .then((response) => {
-          window.localStorage.setItem('auth-token', response.body.token)
-          window.localStorage.setItem('user', JSON.stringify(response.body.user))
-        })
+      cy.request('POST', '/api/login', { email, password }).then(response => {
+        window.localStorage.setItem('auth-token', response.body.token);
+        window.localStorage.setItem('user', JSON.stringify(response.body.user));
+      });
     },
     {
       validate() {
-        cy.window().then((win) => {
-          const token = win.localStorage.getItem('auth-token')
-          expect(token).to.not.be.null
-        })
+        cy.window().then(win => {
+          const token = win.localStorage.getItem('auth-token');
+          expect(token).to.not.be.null;
+        });
       },
-      cacheAcrossSpecs: true
-    }
-  )
-})
+      cacheAcrossSpecs: true,
+    },
+  );
+});
 
 // Role-based login
 const users = {
   admin: { email: 'admin@example.com', password: 'admin123' },
   editor: { email: 'editor@example.com', password: 'editor123' },
-  viewer: { email: 'viewer@example.com', password: 'viewer123' }
-}
+  viewer: { email: 'viewer@example.com', password: 'viewer123' },
+};
 
-Cypress.Commands.add('loginAs', (role) => {
-  const user = users[role]
+Cypress.Commands.add('loginAs', role => {
+  const user = users[role];
   cy.session(
     [role, user.email],
     () => {
-      cy.apiLogin(user.email, user.password)
+      cy.apiLogin(user.email, user.password);
     },
     {
       validate() {
-        cy.window().then((win) => {
-          const userData = JSON.parse(win.localStorage.getItem('user'))
-          expect(userData.role).to.equal(role)
-        })
+        cy.window().then(win => {
+          const userData = JSON.parse(win.localStorage.getItem('user'));
+          expect(userData.role).to.equal(role);
+        });
       },
-      cacheAcrossSpecs: true
-    }
-  )
-})
+      cacheAcrossSpecs: true,
+    },
+  );
+});
 ```
 
 ### Element and Project Commands
 
 ```javascript
 // Element creation helper
-Cypress.Commands.add('createElement', (elementData) => {
-  cy.get('[data-cy="new-element-button"]').click()
-  cy.get('[data-cy="element-title-input"]').type(elementData.title)
-  cy.get('[data-cy="element-type-select"]').select(elementData.type)
+Cypress.Commands.add('createElement', elementData => {
+  cy.get('[data-cy="new-element-button"]').click();
+  cy.get('[data-cy="element-title-input"]').type(elementData.title);
+  cy.get('[data-cy="element-type-select"]').select(elementData.type);
   if (elementData.description) {
-    cy.get('[data-cy="element-description-input"]').type(elementData.description)
+    cy.get('[data-cy="element-description-input"]').type(
+      elementData.description,
+    );
   }
-  cy.get('[data-cy="save-element-button"]').click()
-  cy.get('[data-cy="element-saved-notification"]').should('be.visible')
-})
+  cy.get('[data-cy="save-element-button"]').click();
+  cy.get('[data-cy="element-saved-notification"]').should('be.visible');
+});
 
 // Project navigation helper
-Cypress.Commands.add('navigateToProject', (projectName) => {
-  cy.visit('/projects')
-  cy.get(`[data-cy="project-card-${projectName}"]`).click()
-  cy.url().should('include', '/project/')
-})
+Cypress.Commands.add('navigateToProject', projectName => {
+  cy.visit('/projects');
+  cy.get(`[data-cy="project-card-${projectName}"]`).click();
+  cy.url().should('include', '/project/');
+});
 
 // Setup test data with session caching
 Cypress.Commands.add('setupTestData', (data = {}) => {
@@ -753,31 +776,31 @@ Cypress.Commands.add('setupTestData', (data = {}) => {
     () => {
       // Create test data once and cache it
       if (data.projects) {
-        cy.window().then((win) => {
-          win.localStorage.setItem('projects', JSON.stringify(data.projects))
-        })
+        cy.window().then(win => {
+          win.localStorage.setItem('projects', JSON.stringify(data.projects));
+        });
       }
       if (data.elements) {
-        cy.window().then((win) => {
-          win.localStorage.setItem('elements', JSON.stringify(data.elements))
-        })
+        cy.window().then(win => {
+          win.localStorage.setItem('elements', JSON.stringify(data.elements));
+        });
       }
     },
     {
       validate() {
-        cy.window().then((win) => {
+        cy.window().then(win => {
           if (data.projects) {
-            expect(win.localStorage.getItem('projects')).to.not.be.null
+            expect(win.localStorage.getItem('projects')).to.not.be.null;
           }
           if (data.elements) {
-            expect(win.localStorage.getItem('elements')).to.not.be.null
+            expect(win.localStorage.getItem('elements')).to.not.be.null;
           }
-        })
+        });
       },
-      cacheAcrossSpecs: true
-    }
-  )
-})
+      cacheAcrossSpecs: true,
+    },
+  );
+});
 ```
 
 ### TypeScript Definitions
@@ -788,23 +811,23 @@ declare global {
   namespace Cypress {
     interface Chainable {
       // Authentication
-      login(email?: string, password?: string): Chainable<void>
-      apiLogin(email: string, password: string): Chainable<void>
-      loginAs(role: 'admin' | 'editor' | 'viewer'): Chainable<void>
+      login(email?: string, password?: string): Chainable<void>;
+      apiLogin(email: string, password: string): Chainable<void>;
+      loginAs(role: 'admin' | 'editor' | 'viewer'): Chainable<void>;
 
       // Data setup
       setupTestData(data?: {
-        projects?: any[]
-        elements?: any[]
-      }): Chainable<void>
+        projects?: any[];
+        elements?: any[];
+      }): Chainable<void>;
 
       // Navigation
       createElement(elementData: {
-        title: string
-        type: string
-        description?: string
-      }): Chainable<void>
-      navigateToProject(projectName: string): Chainable<void>
+        title: string;
+        type: string;
+        description?: string;
+      }): Chainable<void>;
+      navigateToProject(projectName: string): Chainable<void>;
     }
   }
 }
@@ -814,36 +837,35 @@ declare global {
 
 ```javascript
 // 1. Include all unique parameters in session ID
-cy.session([userId, role, environment], setupFn)
+cy.session([userId, role, environment], setupFn);
 
 // 2. Always validate sessions
 cy.session('user', setup, {
   validate() {
     // Check if session is still valid
-    cy.getCookie('auth').should('exist')
-  }
-})
+    cy.getCookie('auth').should('exist');
+  },
+});
 
 // 3. Call cy.visit() after cy.session()
-cy.session('user', setup)
-cy.visit('/dashboard') // Navigate after session restore
+cy.session('user', setup);
+cy.visit('/dashboard'); // Navigate after session restore
 
 // 4. Use API login for speed
 cy.session('fast', () => {
   // Fast: Direct API call
-  cy.request('POST', '/api/login', credentials)
-    .then((res) => {
-      window.localStorage.setItem('token', res.body.token)
-    })
-})
+  cy.request('POST', '/api/login', credentials).then(res => {
+    window.localStorage.setItem('token', res.body.token);
+  });
+});
 
 // 5. Debug sessions when needed
 cy.session('debug', () => {
-  cy.task('log', 'Creating session')
+  cy.task('log', 'Creating session');
   // Setup
 }).then(() => {
-  cy.task('log', 'Session restored')
-})
+  cy.task('log', 'Session restored');
+});
 ```
 
 ---
@@ -856,27 +878,27 @@ cy.session('debug', () => {
 // Compare session vs no-session performance
 describe('Performance Comparison', () => {
   it('without session caching (slow)', () => {
-    const start = Date.now()
+    const start = Date.now();
 
     // Login every time
-    cy.visit('/login')
-    cy.get('[data-cy="email"]').type('test@example.com')
-    cy.get('[data-cy="password"]').type('password')
-    cy.get('[data-cy="submit"]').click()
+    cy.visit('/login');
+    cy.get('[data-cy="email"]').type('test@example.com');
+    cy.get('[data-cy="password"]').type('password');
+    cy.get('[data-cy="submit"]').click();
 
-    cy.task('log', `Login took ${Date.now() - start}ms`)
-  })
+    cy.task('log', `Login took ${Date.now() - start}ms`);
+  });
 
   it('with session caching (fast)', () => {
-    const start = Date.now()
+    const start = Date.now();
 
     // Use cached session
-    cy.login('test@example.com', 'password')
+    cy.login('test@example.com', 'password');
 
-    cy.task('log', `Session restore took ${Date.now() - start}ms`)
+    cy.task('log', `Session restore took ${Date.now() - start}ms`);
     // Typically 10-100x faster!
-  })
-})
+  });
+});
 ```
 
 ### Session Strategies by Test Type
@@ -885,31 +907,31 @@ describe('Performance Comparison', () => {
 // Smoke tests - Share single session
 describe('Smoke Tests', () => {
   beforeEach(() => {
-    cy.login() // Same session for all
-    cy.visit('/dashboard')
-  })
-})
+    cy.login(); // Same session for all
+    cy.visit('/dashboard');
+  });
+});
 
 // Feature tests - Isolated sessions
 describe('Feature Tests', () => {
   it('test with admin', () => {
-    cy.loginAs('admin')
+    cy.loginAs('admin');
     // Admin-specific tests
-  })
+  });
 
   it('test with user', () => {
-    cy.loginAs('viewer')
+    cy.loginAs('viewer');
     // User-specific tests
-  })
-})
+  });
+});
 
 // Data manipulation tests - Fresh sessions
 describe('Data Tests', () => {
   beforeEach(() => {
-    cy.session('fresh-' + Date.now(), setup)
+    cy.session('fresh-' + Date.now(), setup);
     // New session each time
-  })
-})
+  });
+});
 ```
 
 ---
@@ -922,37 +944,37 @@ describe('Data Tests', () => {
 describe('Responsive Design', () => {
   // Use Cypress device presets for consistency
   const viewports = [
-    'iphone-x',     // 375x812
-    'ipad-2',       // 768x1024
-    'macbook-15'    // 1440x900
-  ]
+    'iphone-x', // 375x812
+    'ipad-2', // 768x1024
+    'macbook-15', // 1440x900
+  ];
 
-  viewports.forEach((device) => {
+  viewports.forEach(device => {
     context(`${device} viewport`, () => {
-      beforeEach(function() {
+      beforeEach(function () {
         cy.comprehensiveDebug();
         cy.cleanState();
         cy.viewport(device); // Use preset
-        cy.visit('/elements')
-      })
+        cy.visit('/elements');
+      });
 
       it('displays properly on ' + device, () => {
         // Check viewport-specific elements
-        cy.window().then((win) => {
+        cy.window().then(win => {
           if (win.innerWidth < 768) {
             // Mobile specific assertions
-            cy.get('[data-cy="mobile-menu"]').should('be.visible')
-            cy.get('[data-cy="desktop-sidebar"]').should('not.exist')
+            cy.get('[data-cy="mobile-menu"]').should('be.visible');
+            cy.get('[data-cy="desktop-sidebar"]').should('not.exist');
           } else {
             // Desktop assertions
-            cy.get('[data-cy="desktop-sidebar"]').should('be.visible')
-            cy.get('[data-cy="mobile-menu"]').should('not.exist')
+            cy.get('[data-cy="desktop-sidebar"]').should('be.visible');
+            cy.get('[data-cy="mobile-menu"]').should('not.exist');
           }
-        })
-      })
-    })
-  })
-})
+        });
+      });
+    });
+  });
+});
 ```
 
 ---
@@ -971,12 +993,12 @@ describe('Responsive Design', () => {
 cy.get('[data-cy="element-card"]')
   .should('be.visible')
   .and('contain', 'Dragon')
-  .and('have.class', 'active')
+  .and('have.class', 'active');
 
 // ❌ LESS EFFICIENT - Multiple separate gets
-cy.get('[data-cy="element-card"]').should('be.visible')
-cy.get('[data-cy="element-card"]').should('contain', 'Dragon')
-cy.get('[data-cy="element-card"]').should('have.class', 'active')
+cy.get('[data-cy="element-card"]').should('be.visible');
+cy.get('[data-cy="element-card"]').should('contain', 'Dragon');
+cy.get('[data-cy="element-card"]').should('have.class', 'active');
 ```
 
 ---
@@ -986,111 +1008,119 @@ cy.get('[data-cy="element-card"]').should('have.class', 'active')
 ### Setting Up Code Coverage
 
 #### Installation
+
 ```bash
 npm install --save-dev @cypress/code-coverage babel-plugin-istanbul
 ```
 
 #### Basic Configuration
+
 ```javascript
 // cypress.config.js
 module.exports = defineConfig({
   e2e: {
     setupNodeEvents(on, config) {
-      require('@cypress/code-coverage/task')(on, config)
-      return config
-    }
-  }
-})
+      require('@cypress/code-coverage/task')(on, config);
+      return config;
+    },
+  },
+});
 
 // cypress/support/e2e.js
-import '@cypress/code-coverage/support'
+import '@cypress/code-coverage/support';
 ```
 
 ### Coverage Thresholds
 
 #### Set Realistic Targets
+
 ```json
 // .nycrc
 {
   "check-coverage": true,
-  "branches": 75,   // Good for complex logic
-  "lines": 80,      // Achievable target
-  "functions": 80,  // Most functions tested
-  "statements": 80  // Overall execution
+  "branches": 75, // Good for complex logic
+  "lines": 80, // Achievable target
+  "functions": 80, // Most functions tested
+  "statements": 80 // Overall execution
 }
 ```
 
 #### Component-Specific Goals
+
 ```javascript
 const coverageGoals = {
-  'authentication': 95,  // Critical
-  'payment': 95,        // Critical
-  'ui-components': 85,  // Medium
-  'utilities': 90,      // High
-  'navigation': 80      // Medium
-}
+  authentication: 95, // Critical
+  payment: 95, // Critical
+  'ui-components': 85, // Medium
+  utilities: 90, // High
+  navigation: 80, // Medium
+};
 ```
 
 ### Writing Tests for Coverage
 
 #### Cover All Branches
+
 ```javascript
 describe('Complete Branch Coverage', () => {
   it('tests all conditional paths', () => {
     // Test true condition
-    cy.visit('/?feature=enabled')
-    cy.get('[data-cy="feature"]').should('be.visible')
+    cy.visit('/?feature=enabled');
+    cy.get('[data-cy="feature"]').should('be.visible');
 
     // Test false condition
-    cy.visit('/?feature=disabled')
-    cy.get('[data-cy="feature"]').should('not.exist')
+    cy.visit('/?feature=disabled');
+    cy.get('[data-cy="feature"]').should('not.exist');
 
     // Test edge cases
-    cy.visit('/?feature=')
-    cy.get('[data-cy="default"]').should('be.visible')
-  })
-})
+    cy.visit('/?feature=');
+    cy.get('[data-cy="default"]').should('be.visible');
+  });
+});
 ```
 
 #### Test Error Paths
+
 ```javascript
 describe('Error Coverage', () => {
   it('covers error handling', () => {
     // Force network error
-    cy.intercept('GET', '/api/**', { statusCode: 500 })
-    cy.visit('/')
-    cy.get('[data-cy="error-message"]').should('be.visible')
+    cy.intercept('GET', '/api/**', { statusCode: 500 });
+    cy.visit('/');
+    cy.get('[data-cy="error-message"]').should('be.visible');
 
     // Force timeout
-    cy.intercept('GET', '/api/**', { delay: 10000 })
-    cy.visit('/')
-    cy.get('[data-cy="timeout-message"]').should('be.visible')
-  })
-})
+    cy.intercept('GET', '/api/**', { delay: 10000 });
+    cy.visit('/');
+    cy.get('[data-cy="timeout-message"]').should('be.visible');
+  });
+});
 ```
 
 #### Edge Case Testing
+
 ```javascript
 describe('Edge Case Coverage', () => {
   it('handles boundary conditions', () => {
     // Empty data
-    cy.test({ data: [] })
+    cy.test({ data: [] });
 
     // Maximum values
-    cy.test({ data: new Array(1000).fill(item) })
+    cy.test({ data: new Array(1000).fill(item) });
 
     // Special characters
-    cy.test({ name: '!@#$%^&*()' })
+    cy.test({ name: '!@#$%^&*()' });
 
     // Unicode
-    cy.test({ text: '你好世界🌍' })
-  })
-})
+    cy.test({ text: '你好世界🌍' });
+  });
+});
 ```
 
 ### Excluding Code from Coverage
 
 #### Valid Exclusions
+
 ```javascript
 // Platform-specific code
 /* istanbul ignore next */
@@ -1101,34 +1131,36 @@ if (Platform.OS === 'ios') {
 // Defensive programming
 /* istanbul ignore if */
 if (!should_never_happen) {
-  throw new Error('Impossible state')
+  throw new Error('Impossible state');
 }
 
 // Development only
 /* istanbul ignore next */
 if (__DEV__) {
-  console.log('Debug info')
+  console.log('Debug info');
 }
 ```
 
 ### Coverage Analysis
 
 #### Check Coverage in Tests
+
 ```javascript
 afterEach(() => {
-  cy.task('coverage').then((coverage) => {
+  cy.task('coverage').then(coverage => {
     if (coverage.lines.pct < 80) {
-      cy.log('⚠️ Coverage below 80%:', coverage.lines.pct)
+      cy.log('⚠️ Coverage below 80%:', coverage.lines.pct);
     }
-  })
-})
+  });
+});
 
 after(() => {
-  cy.checkCoverage(85) // Custom command
-})
+  cy.checkCoverage(85); // Custom command
+});
 ```
 
 #### View Reports
+
 ```bash
 # Generate HTML report
 npx nyc report --reporter=html
@@ -1141,6 +1173,7 @@ npx nyc report --reporter=text-summary
 ### CI/CD Integration
 
 #### GitHub Actions
+
 ```yaml
 - name: Test with Coverage
   run: |
@@ -1154,6 +1187,7 @@ npx nyc report --reporter=text-summary
 ```
 
 #### Coverage Badges
+
 ```markdown
 [![codecov](https://codecov.io/gh/user/repo/branch/main/graph/badge.svg)](https://codecov.io/gh/user/repo)
 ```
@@ -1161,6 +1195,7 @@ npx nyc report --reporter=text-summary
 ### Common Coverage Pitfalls
 
 #### ❌ Avoid These Mistakes
+
 ```javascript
 // Don't write tests just for coverage
 it('pointless test for coverage', () => {
@@ -1176,6 +1211,7 @@ it('pointless test for coverage', () => {
 ```
 
 #### ✅ Do These Instead
+
 ```javascript
 // Write meaningful tests
 it('validates user input correctly', () => {
@@ -1194,6 +1230,7 @@ if (Platform.OS === 'android') { }
 ### Coverage-Driven Development
 
 #### Workflow
+
 1. **Run coverage report** to find gaps
 2. **Identify untested code** in report
 3. **Write targeted tests** for gaps
@@ -1201,6 +1238,7 @@ if (Platform.OS === 'android') { }
 5. **Repeat** until threshold met
 
 #### Finding Coverage Gaps
+
 ```bash
 # Generate detailed report
 npx nyc report --reporter=html
@@ -1216,6 +1254,7 @@ npx nyc report --reporter=html
 ### Best Practices Summary
 
 ✅ **DO**:
+
 - Set realistic coverage goals (80-85%)
 - Focus on critical paths (95%+)
 - Test error conditions
@@ -1224,6 +1263,7 @@ npx nyc report --reporter=html
 - Track coverage trends
 
 ❌ **DON'T**:
+
 - Write meaningless tests for coverage
 - Set 100% coverage goals
 - Ignore coverage reports
@@ -1239,18 +1279,18 @@ npx nyc report --reporter=html
 
 ```javascript
 // Pause test execution
-cy.pause()
+cy.pause();
 
 // Debug specific elements
-cy.get('[data-cy="complex-element"]').debug()
+cy.get('[data-cy="complex-element"]').debug();
 
 // Log to console
-cy.log('Current state:', someVariable)
+cy.log('Current state:', someVariable);
 
 // Take screenshots for debugging
-cy.screenshot('before-action')
-cy.get('[data-cy="button"]').click()
-cy.screenshot('after-action')
+cy.screenshot('before-action');
+cy.get('[data-cy="button"]').click();
+cy.screenshot('after-action');
 ```
 
 ### Cypress Studio
@@ -1261,9 +1301,9 @@ Enable Cypress Studio for generating test code:
 // cypress.config.ts
 export default defineConfig({
   e2e: {
-    experimentalStudio: true
-  }
-})
+    experimentalStudio: true,
+  },
+});
 ```
 
 ---
@@ -1273,9 +1313,10 @@ export default defineConfig({
 ### Three Primary Approaches
 
 #### 1. cy.exec() - Run System Commands
+
 ```javascript
 describe('Elements with Fresh Data', () => {
-  beforeEach(function() {
+  beforeEach(function () {
     cy.comprehensiveDebug();
     // Reset and seed database
     cy.exec('npm run db:reset && npm run db:seed');
@@ -1284,13 +1325,13 @@ describe('Elements with Fresh Data', () => {
   });
 
   it('displays fresh test data', () => {
-    cy.get('[data-cy="element-list"]')
-      .should('contain', 'Seeded Element');
+    cy.get('[data-cy="element-list"]').should('contain', 'Seeded Element');
   });
 });
 ```
 
 #### 2. cy.task() - Run Node.js Code
+
 ```javascript
 // In cypress.config.js
 setupNodeEvents(on, config) {
@@ -1311,20 +1352,21 @@ beforeEach(function() {
 ```
 
 #### 3. cy.request() - HTTP API Seeding
+
 ```javascript
-beforeEach(function() {
+beforeEach(function () {
   cy.comprehensiveDebug();
   cy.cleanState();
 
   // Seed via API endpoints
   cy.request('POST', '/test/seed/user', {
     name: 'Test User',
-    email: 'test@example.com'
+    email: 'test@example.com',
   });
 
   cy.request('POST', '/test/seed/project', {
     title: 'Test Project',
-    userId: 1
+    userId: 1,
   });
 });
 ```
@@ -1332,6 +1374,7 @@ beforeEach(function() {
 ### Stubbing vs Real Data
 
 #### When to Use Stubbing
+
 - Testing error states and edge cases
 - Avoiding external dependencies
 - Faster test execution
@@ -1340,17 +1383,18 @@ beforeEach(function() {
 ```javascript
 // Stub API responses
 cy.intercept('GET', '/api/elements', {
-  fixture: 'elements.json'
+  fixture: 'elements.json',
 }).as('getElements');
 
 // Force error states
 cy.intercept('POST', '/api/elements', {
   statusCode: 500,
-  body: { error: 'Server Error' }
+  body: { error: 'Server Error' },
 }).as('serverError');
 ```
 
 #### When to Use Real Data
+
 - Integration testing
 - Testing actual data flow
 - Validating backend logic
@@ -1361,6 +1405,7 @@ cy.intercept('POST', '/api/elements', {
 ## Summary Checklist (Cypress.io Best Practices)
 
 **Critical Rules from Official Documentation:**
+
 - [ ] ✅ Start server BEFORE Cypress - never within tests
 - [ ] ✅ Set `baseUrl` in config - enables relative URLs
 - [ ] ✅ Use `data-cy` attributes - never CSS selectors
@@ -1373,6 +1418,7 @@ cy.intercept('POST', '/api/elements', {
 - [ ] ✅ Prefer API operations for setup - faster than UI
 
 **Additional Project Standards:**
+
 - [ ] Use `cy.comprehensiveDebug()` in beforeEach
 - [ ] Test across different viewports
 - [ ] Create custom commands for common operations
@@ -1382,4 +1428,4 @@ cy.intercept('POST', '/api/elements', {
 
 ---
 
-*This document is directly aligned with [Official Cypress Best Practices](https://docs.cypress.io/guides/references/best-practices) and adapted specifically for the FantasyWritingApp React Native project. When in doubt, refer to the official Cypress documentation.*
+_This document is directly aligned with [Official Cypress Best Practices](https://docs.cypress.io/guides/references/best-practices) and adapted specifically for the FantasyWritingApp React Native project. When in doubt, refer to the official Cypress documentation._
