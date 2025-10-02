@@ -80,7 +80,8 @@ describe('Sync Services E2E Tests', () => {
       cy.get('[data-cy="element-card-element-1"]').click();
 
       // * Update element fields
-      cy.get('[data-cy="element-name-input"]').clear().type('Dragonborn Warrior');
+      cy.get('[data-cy="element-name-input"]').clear();
+      cy.get('[data-cy="element-name-input"]').type('Dragonborn Warrior');
       cy.get('[data-cy="save-element-button"]').click();
 
       // * Check delta sync tracked only changed fields
@@ -122,7 +123,8 @@ describe('Sync Services E2E Tests', () => {
       // * Create multiple changes
       cy.get('[data-cy="navigate-to-projects"]').click();
       cy.get('[data-cy="project-card-project-1"]').click();
-      cy.get('[data-cy="project-title-input"]').clear().type('The Dragon Saga');
+      cy.get('[data-cy="project-title-input"]').clear();
+      cy.get('[data-cy="project-title-input"]').type('The Dragon Saga');
       cy.get('[data-cy="save-project-button"]').click();
 
       // * Verify checksums are generated
@@ -463,10 +465,8 @@ describe('Sync Services E2E Tests', () => {
 
       // Update existing project
       cy.get('[data-cy="navigate-to-projects"]').click();
-      cy.get('[data-cy="project-card-project-1"]').click();
-      cy.get('[data-cy="project-description-input"]')
-        .clear()
-        .type('Edited offline');
+      cy.get('[data-cy="project-description-input"]').clear();
+      cy.get('[data-cy="project-description-input"]').type('Edited offline');
       cy.get('[data-cy="save-project-button"]').click();
 
       // * Verify queue has multiple items
