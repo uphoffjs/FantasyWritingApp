@@ -10,7 +10,6 @@ describe('Authentication Example Tests', () => {
       setupAuth()
       cy.visit('/projects')
       // * Wait for page to load properly
-      cy.get('body').should('be.visible')
       cy.url().should('include', '/projects')
     })
 
@@ -19,33 +18,33 @@ describe('Authentication Example Tests', () => {
       cy.url().should('include', '/projects')
       
       // TODO: * Get started button should be visible for new users
-      cy.get('[data-testid="get-started"]').should('be.visible')
+      cy.get('[data-cy="get-started"]').should('be.visible')
     })
 
     it('should allow creating a project as authenticated user', () => {
       // * Click get started
-      cy.get('[data-testid="get-started"]').click()
+      cy.get('[data-cy="get-started"]').click()
       
       // * Fill in project details
-      cy.get('[data-testid="project-name"]').type('My Fantasy World')
-      cy.get('[data-testid="project-description"]').type('A world of magic and adventure')
-      cy.get('[data-testid="submit"]').click()
+      cy.get('[data-cy="project-name"]').type('My Fantasy World')
+      cy.get('[data-cy="project-description"]').type('A world of magic and adventure')
+      cy.get('[data-cy="submit"]').click()
       
       // * Verify project was created
-      cy.get('[data-testid="project-card"]').should('contain', 'My Fantasy World')
+      cy.get('[data-cy="project-card"]').should('contain', 'My Fantasy World')
     })
 
     it('should persist auth state across page reloads', () => {
       // * Create a project
-      cy.get('[data-testid="get-started"]').click()
-      cy.get('[data-testid="project-name"]').type('Test Project')
-      cy.get('[data-testid="submit"]').click()
+      cy.get('[data-cy="get-started"]').click()
+      cy.get('[data-cy="project-name"]').type('Test Project')
+      cy.get('[data-cy="submit"]').click()
       
       // * Reload the page
       cy.reload()
       
       // TODO: ! SECURITY: * Auth state should persist, project should still be visible
-      cy.get('[data-testid="project-card"]').should('contain', 'Test Project')
+      cy.get('[data-cy="project-card"]').should('contain', 'Test Project')
     })
   })
 
@@ -61,9 +60,8 @@ describe('Authentication Example Tests', () => {
       })
       cy.visit('/projects')
       // * Wait for page to load properly
-      cy.get('body').should('be.visible')
       cy.url().should('include', '/projects')
-      
+
       // TODO: * Should still see projects page
       cy.url().should('include', '/projects')
     })
@@ -79,9 +77,8 @@ describe('Authentication Example Tests', () => {
       })
       cy.visit('/projects')
       // * Wait for page to load properly
-      cy.get('body').should('be.visible')
       cy.url().should('include', '/projects')
-      
+
       // TODO: * Should still see projects page
       cy.url().should('include', '/projects')
     })
@@ -111,13 +108,12 @@ describe('Authentication Example Tests', () => {
       })
       cy.visit('/projects')
       // * Wait for page to load properly
-      cy.get('body').should('be.visible')
       cy.url().should('include', '/projects')
-      
+
       // * Create a project
-      cy.get('[data-testid="get-started"]').click()
-      cy.get('[data-testid="project-name"]').type('User Project')
-      cy.get('[data-testid="submit"]').click()
+      cy.get('[data-cy="get-started"]').click()
+      cy.get('[data-cy="project-name"]').type('User Project')
+      cy.get('[data-cy="submit"]').click()
       
       // ! SECURITY: * Clear auth and switch to admin
       clearAuth()
@@ -127,7 +123,7 @@ describe('Authentication Example Tests', () => {
       cy.reload()
       
       // * Projects are stored locally, so admin would see the same projects
-      cy.get('[data-testid="project-card"]').should('contain', 'User Project')
+      cy.get('[data-cy="project-card"]').should('contain', 'User Project')
     })
   })
 
@@ -137,16 +133,15 @@ describe('Authentication Example Tests', () => {
       setupAuth() // This sets up API mocks by default
       cy.visit('/projects')
       // * Wait for page to load properly
-      cy.get('body').should('be.visible')
       cy.url().should('include', '/projects')
       
       // * Create a project (will use mocked API if needed)
-      cy.get('[data-testid="get-started"]').click()
-      cy.get('[data-testid="project-name"]').type('API Test Project')
-      cy.get('[data-testid="submit"]').click()
+      cy.get('[data-cy="get-started"]').click()
+      cy.get('[data-cy="project-name"]').type('API Test Project')
+      cy.get('[data-cy="submit"]').click()
       
       // * Verify the project appears
-      cy.get('[data-testid="project-card"]').should('contain', 'API Test Project')
+      cy.get('[data-cy="project-card"]').should('contain', 'API Test Project')
     })
 
     it('should work without Supabase mocking', () => {
@@ -155,11 +150,10 @@ describe('Authentication Example Tests', () => {
       setupAuth({ skipSupabase: true })
       cy.visit('/projects')
       // * Wait for page to load properly
-      cy.get('body').should('be.visible')
       cy.url().should('include', '/projects')
       
       // TODO: * Should still work with offline mode
-      cy.get('[data-testid="get-started"]').should('be.visible')
+      cy.get('[data-cy="get-started"]').should('be.visible')
     })
   })
 })
