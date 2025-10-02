@@ -125,7 +125,7 @@ function createTestData(type, options = {}) {
     })
   };
 
-  const generator = testDataGenerators[type] || testDataGenerators['default'];
+  const generator = testDataGenerators[type] || testDataGenerators.default;
   return generator();
 }
 
