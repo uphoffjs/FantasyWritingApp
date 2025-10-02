@@ -24,11 +24,15 @@ Cypress.Commands.add('testResponsive', (callback: (viewport: {name: string; widt
 
 /**
  * Simulate touch interactions for React Native Web
- * @param selector - Element selector (data-cy)
+ * @param testId - Element test ID (data-cy attribute value)
  * @param gesture - Type of gesture to simulate
- * @example cy.simulateTouch('[data-cy="button"]', 'tap')
+ * @example cy.simulateTouch('button', 'tap')
  */
-Cypress.Commands.add('simulateTouch', (selector: string, gesture: 'tap' | 'longPress' | 'swipeLeft' | 'swipeRight' | 'swipeUp' | 'swipeDown') => {
+Cypress.Commands.add('simulateTouch', (testId: string, gesture: 'tap' | 'longPress' | 'swipeLeft' | 'swipeRight' | 'swipeUp' | 'swipeDown') => {
+  // * Function accepts testId and constructs data-cy selector internally
+   
+  const selector = `[data-cy="${testId}"]`;
+
   switch(gesture) {
     case 'tap':
       // * Simple tap/click
@@ -91,7 +95,8 @@ Cypress.Commands.add('simulateTouch', (selector: string, gesture: 'tap' | 'longP
       throw new Error(`Unknown gesture: ${gesture}`);
   }
 
-  cy.task('log', `Simulated ${gesture} on ${selector}`);
+  cy.task('log', `Simulated ${gesture} on ${testId}`);
+   
 });
 
 /**
@@ -153,14 +158,18 @@ Cypress.Commands.add('isDesktopViewport', () => {
 
 /**
  * Test element visibility across viewports
- * @param selector - Element selector (data-cy)
+ * @param testId - Element test ID (data-cy attribute value)
  * @param expectations - Visibility expectations for each viewport
- * @example cy.testVisibilityAcrossViewports('[data-cy="sidebar"]', { mobile: false, tablet: true, desktop: true })
+ * @example cy.testVisibilityAcrossViewports('sidebar', { mobile: false, tablet: true, desktop: true })
  */
 Cypress.Commands.add('testVisibilityAcrossViewports', (
-  selector: string,
+  testId: string,
   expectations: { mobile: boolean; tablet: boolean; desktop: boolean }
 ) => {
+  // * Function accepts testId and constructs data-cy selector internally
+   
+  const selector = `[data-cy="${testId}"]`;
+
   // * Test mobile viewport
   cy.setMobileViewport();
   if (expectations.mobile) {
@@ -184,15 +193,20 @@ Cypress.Commands.add('testVisibilityAcrossViewports', (
   } else {
     cy.get(selector).should('not.exist');
   }
+   
 });
 
 /**
  * Simulate pinch zoom gesture
- * @param selector - Element selector (data-cy)
+ * @param testId - Element test ID (data-cy attribute value)
  * @param scale - Scale factor (1.5 = zoom in, 0.5 = zoom out)
- * @example cy.pinch('[data-cy="image"]', 1.5)
+ * @example cy.pinch('image', 1.5)
  */
-Cypress.Commands.add('pinch', (selector: string, scale: number) => {
+Cypress.Commands.add('pinch', (testId: string, scale: number) => {
+  // * Function accepts testId and constructs data-cy selector internally
+   
+  const selector = `[data-cy="${testId}"]`;
+
   cy.get(selector).trigger('touchstart', {
     touches: [
       { identifier: 1, clientX: 100, clientY: 100 },
@@ -209,16 +223,20 @@ Cypress.Commands.add('pinch', (selector: string, scale: number) => {
   });
 
   cy.get(selector).trigger('touchend');
-  cy.task('log', `Simulated pinch ${scale > 1 ? 'zoom in' : 'zoom out'} on ${selector}`);
+  cy.task('log', `Simulated pinch ${scale > 1 ? 'zoom in' : 'zoom out'} on ${testId}`);
+   
 });
 
 /**
  * Simulate rotation gesture
- * @param selector - Element selector (data-cy)
+ * @param testId - Element test ID (data-cy attribute value)
  * @param degrees - Degrees to rotate
- * @example cy.rotate('[data-cy="image"]', 90)
+ * @example cy.rotate('image', 90)
  */
-Cypress.Commands.add('rotate', (selector: string, degrees: number) => {
+Cypress.Commands.add('rotate', (testId: string, degrees: number) => {
+  // * Function accepts testId and constructs data-cy selector internally
+   
+  const selector = `[data-cy="${testId}"]`;
   const radians = (degrees * Math.PI) / 180;
 
   cy.get(selector).trigger('touchstart', {
@@ -249,7 +267,8 @@ Cypress.Commands.add('rotate', (selector: string, degrees: number) => {
   });
 
   cy.get(selector).trigger('touchend');
-  cy.task('log', `Simulated rotation of ${degrees} degrees on ${selector}`);
+  cy.task('log', `Simulated rotation of ${degrees} degrees on ${testId}`);
+   
 });
 
 // * Export empty object to prevent TS errors
