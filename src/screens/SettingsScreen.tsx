@@ -12,7 +12,6 @@ import { ImportExportWeb } from '../components/ImportExportWeb';
 import { useWorldbuildingStore } from '../store/worldbuildingStore';
 import { useAuthStore } from '../store/authStore';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { fantasyTomeColors } from '@/constants/fantasyTomeColors';
 
 export function SettingsScreen() {
   const navigation = useNavigation();
