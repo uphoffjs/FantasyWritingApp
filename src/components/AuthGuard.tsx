@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { View, ActivityIndicator, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useAuthStore } from '../store/authStore';
+import { fantasyTomeColors } from '../constants/fantasyTomeColors';
 
 interface AuthGuardProps {
   children: React.ReactNode;
@@ -32,7 +33,7 @@ export default function AuthGuard({ children, requireAuth = true }: AuthGuardPro
   if (isLoading) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#C9A94F" />
+        <ActivityIndicator size="large" color={fantasyTomeColors.metals.gold} />
       </View>
     );
   }
@@ -58,6 +59,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#FAF7F2', // parchment-100
+    backgroundColor: fantasyTomeColors.parchment.aged,
   },
 });
