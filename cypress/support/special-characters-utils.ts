@@ -55,6 +55,7 @@ export const SpecialCharacters = {
     xss: [
       '<script>alert("XSS")</script>',
       '<img src=x onerror=alert("XSS")>',
+      // eslint-disable-next-line no-script-url
       'javascript:alert("XSS")',
       '<svg onload=alert("XSS")>',
       '<iframe src="javascript:alert(\'XSS\')">',
@@ -298,6 +299,7 @@ export const SpecialCharacterAssertions = {
       cy.get(selector).invoke('val').then(value => {
         // TODO: * Value should not contain script tags
         expect(value).to.not.include('<script');
+        // eslint-disable-next-line no-script-url
         expect(value).to.not.include('javascript:');
       });
     });
@@ -422,6 +424,7 @@ Cypress.Commands.add('testSecurityThreats', SpecialCharacterCommands.testSecurit
 
 // * Type declarations
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Cypress {
     interface Chainable {
       typeSpecialChars(selector: string, chars: string): Chainable<Element>;

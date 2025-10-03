@@ -3,6 +3,8 @@
  * Tests offline queue management, retry logic, and prioritization
  */
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import NetInfo, { NetInfoState } from '@react-native-community/netinfo';
 import { offlineQueueManager } from '../../src/services/offlineQueueManager';

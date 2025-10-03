@@ -137,7 +137,7 @@ function generateSummaryReport() {
 }
 
 if (require.main === module) {
-  const report = generateSummaryReport();
+  const _report = generateSummaryReport();
   process.exit(0);
 }
 

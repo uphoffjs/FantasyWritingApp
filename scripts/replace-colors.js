@@ -202,12 +202,24 @@ function replaceColorInLine(line, lineIndex, fileContent) {
   let replaced = false;
   let contextDecision = false;
 
+  // Helper function to replace quoted color values properly
+  const replaceQuotedColor = (text, oldColor, newColor) => {
+    // Replace both single and double quoted versions
+    // Patterns: 'color' or "color" → newColor (unquoted)
+    const singleQuotePattern = new RegExp(`'${oldColor.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}'`, 'g');
+    const doubleQuotePattern = new RegExp(`"${oldColor.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"`, 'g');
+
+    let result = text.replace(singleQuotePattern, newColor);
+    result = result.replace(doubleQuotePattern, newColor);
+    return result;
+  };
+
   // Handle context-dependent #F9FAFB
   if (line.includes('#F9FAFB')) {
     const isDarkParent = hasDarkParentBackground(fileContent, lineIndex);
     const replacement = isDarkParent ? contextRules.whiteGray50.onDark : contextRules.whiteGray50.onLight;
 
-    newLine = line.replace(/#F9FAFB/g, replacement);
+    newLine = replaceQuotedColor(line, '#F9FAFB', replacement);
     replaced = true;
     contextDecision = true;
     console.log(`    📋 Context decision: #F9FAFB → ${replacement} (${isDarkParent ? 'dark' : 'light'} parent)`);
@@ -218,7 +230,7 @@ function replaceColorInLine(line, lineIndex, fileContent) {
     for (const [tailwind, fantasy] of Object.entries(tailwindToFantasyMap.text)) {
       if (fantasy === 'CONTEXT') continue;
       if (line.includes(tailwind)) {
-        newLine = newLine.replace(new RegExp(tailwind, 'g'), fantasy);
+        newLine = replaceQuotedColor(newLine, tailwind, fantasy);
         replaced = true;
       }
     }
@@ -228,7 +240,7 @@ function replaceColorInLine(line, lineIndex, fileContent) {
   if (isBackgroundContext(line)) {
     for (const [tailwind, fantasy] of Object.entries(tailwindToFantasyMap.backgrounds)) {
       if (line.includes(tailwind)) {
-        newLine = newLine.replace(new RegExp(tailwind, 'g'), fantasy);
+        newLine = replaceQuotedColor(newLine, tailwind, fantasy);
         replaced = true;
       }
     }
@@ -238,7 +250,7 @@ function replaceColorInLine(line, lineIndex, fileContent) {
   if (isBorderContext(line)) {
     for (const [tailwind, fantasy] of Object.entries(tailwindToFantasyMap.borders)) {
       if (line.includes(tailwind)) {
-        newLine = newLine.replace(new RegExp(tailwind, 'g'), fantasy);
+        newLine = replaceQuotedColor(newLine, tailwind, fantasy);
         replaced = true;
       }
     }
@@ -247,22 +259,22 @@ function replaceColorInLine(line, lineIndex, fileContent) {
   // Handle semantic colors
   for (const [errorColor, fantasy] of Object.entries(tailwindToFantasyMap.semantic.error)) {
     if (line.includes(errorColor)) {
-      newLine = newLine.replace(new RegExp(errorColor, 'g'), fantasy);
+      newLine = replaceQuotedColor(newLine, errorColor, fantasy);
       replaced = true;
     }
   }
 
   for (const [infoColor, fantasy] of Object.entries(tailwindToFantasyMap.semantic.info)) {
     if (line.includes(infoColor)) {
-      newLine = newLine.replace(new RegExp(infoColor, 'g'), fantasy);
+      newLine = replaceQuotedColor(newLine, infoColor, fantasy);
       replaced = true;
     }
   }
 
   // Handle special cases
   for (const [special, fantasy] of Object.entries(tailwindToFantasyMap.special)) {
-    if (line.includes(special) && special !== 'transparent') {
-      newLine = newLine.replace(new RegExp(special.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'), fantasy);
+    if (line.includes(special) && special !== 'transparent' && special !== '#000') {
+      newLine = replaceQuotedColor(newLine, special, fantasy);
       replaced = true;
     }
   }

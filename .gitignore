@@ -111,3 +111,6 @@ mockups/
 superclaude/__pycache__/
 superclaude/**/*.pyc
 superclaude/**/__pycache__/
+
+# Color migration backup files
+.backup-color-migration/

@@ -160,6 +160,7 @@ export function setupTestEnvironment() {
 
 // * Register as Cypress commands
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Cypress {
     interface Chainable {
       setupAuth(options?: MockAuthOptions): Chainable<void>

@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-const { fantasyTomeColors } = require('./src/constants/fantasyTomeColors.js');
+const { fantasyTomeColors: _fantasyTomeColors } = require('./src/constants/fantasyTomeColors.js');
 const { tokens } = require('./src/design-tokens/tokens.js'); // Use unified tokens
 const { fantasyMasterColors } = require('./src/constants/fantasyMasterColors.js'); // Keep for backward compat
 

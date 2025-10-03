@@ -25,7 +25,7 @@ async function testDeletionFix() {
   try {
     // * Step 1: Check database schema to confirm columns
     console.log('\n1️⃣ Checking database schema...');
-    const { data: schemaInfo, error: schemaError } = await supabase
+    const { data: _schemaInfo, error: schemaError } = await supabase
       .from('projects')
       .select('*')
       .limit(0); // Just get schema, no data

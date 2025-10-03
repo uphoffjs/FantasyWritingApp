@@ -22,7 +22,7 @@ files.forEach(file => {
 
   // * Fix various malformed patterns
   // Pattern: ${testID)- should be ${testID}-
-  fixed = fixed.replace(/\$\{testID\)\-/g, '${testID}-');
+  fixed = fixed.replace(/\$\{testID\)-/g, '${testID}-');
 
   // Pattern: getTestProps(testID} should be getTestProps(testID)}
   fixed = fixed.replace(/getTestProps\(testID\}/g, 'getTestProps(testID)}');
@@ -34,7 +34,7 @@ files.forEach(file => {
   fixed = fixed.replace(/\$\{testID\)/g, '${testID}');
 
   // Pattern: fix incomplete closing in templates
-  fixed = fixed.replace(/getTestProps\(`\$\{testID\}\-([^`]+)`\}\)/g, 'getTestProps(`${testID}-$1`)}');
+  fixed = fixed.replace(/getTestProps\(`\$\{testID\}-([^`]+)`\}\)/g, 'getTestProps(`${testID}-$1`)}');
 
   if (fixed !== content) {
     fs.writeFileSync(file, fixed);

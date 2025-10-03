@@ -167,7 +167,7 @@ function fixConditionalStatements(content, filePath) {
 
   // 5. Convert conditional logic to cy.then() pattern when appropriate
   const ifElsePattern = /if\s*\(([^)]+)\)\s*{\s*([^}]+)\s*}\s*else\s*{\s*([^}]+)\s*}/g;
-  content = content.replace(ifElsePattern, (match, condition, trueBlock, falseBlock) => {
+  content = content.replace(ifElsePattern, (match, condition, trueBlock, _falseBlock) => {
     return `cy.then(() => { ${trueBlock}; });`;
   });
 

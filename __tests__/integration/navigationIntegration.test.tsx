@@ -420,15 +420,15 @@ describe('Navigation Integration', () => {
       const NavigationPersistence = () => {
         const [state, setState] = React.useState(navigationState);
 
-        const saveNavigationState = async () => {
+        const saveNavigationState = React.useCallback(async () => {
           // * In real app, would save to AsyncStorage
           const serialized = JSON.stringify(state);
           expect(serialized).toBeDefined();
-        };
+        }, [state]);
 
         React.useEffect(() => {
           saveNavigationState();
-        }, [state, saveNavigationState]);
+        }, [saveNavigationState]);
 
         return (
           <View testID="navigation-persistence">

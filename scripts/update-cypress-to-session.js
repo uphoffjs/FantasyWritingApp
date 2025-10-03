@@ -96,7 +96,7 @@ function updateFile(filePath) {
   }
 }
 
-function addBestPracticesComment(content) {
+function _addBestPracticesComment(content) {
   // * Add best practices comment at the top of the file if not already present
   if (!content.includes('cy.session()')) {
     const bestPracticesComment = `/**

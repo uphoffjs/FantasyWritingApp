@@ -55,7 +55,7 @@ function checkFileCompliance(filePath) {
   const errors = [];
 
   // Check each compliance rule
-  Object.entries(COMPLIANCE_RULES).forEach(([ruleName, rule]) => {
+  Object.entries(COMPLIANCE_RULES).forEach(([_ruleName, rule]) => {
     const matches = content.match(rule.pattern);
 
     if (rule.shouldNotMatch) {

@@ -5,7 +5,7 @@
  * Pushes the database schema to your Supabase instance
  */
 
-const { createClient } = require('@supabase/supabase-js');
+const { createClient: _createClient } = require('@supabase/supabase-js');
 const fs = require('fs');
 const path = require('path');
 const dotenv = require('dotenv');
@@ -14,8 +14,8 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const supabaseUrl = process.env.VITE_SUPABASE_URL;
-const supabaseServiceKey = process.env.SUPABASE_DB_PASSWORD;
-const supabaseAccessToken = process.env.SUPABASE_ACCESS_TOKEN;
+const _supabaseServiceKey = process.env.SUPABASE_DB_PASSWORD;
+const _supabaseAccessToken = process.env.SUPABASE_ACCESS_TOKEN;
 
 if (!supabaseUrl) {
   console.error('❌ VITE_SUPABASE_URL not found in .env file');
@@ -62,7 +62,7 @@ async function executeMigration() {
     
     // Login to Supabase using the access token
     console.log('🔐 Logging in to Supabase...');
-    await execPromise(`supabase login --token ${supabaseAccessToken}`);
+    await execPromise(`supabase login --token ${_supabaseAccessToken}`);
     
     // Link to the project
     console.log('🔗 Linking to project...');

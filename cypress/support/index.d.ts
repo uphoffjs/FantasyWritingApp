@@ -1,6 +1,8 @@
 // * TypeScript declarations for custom Cypress commands
 // * This file provides type definitions for all modular command files
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 /// <reference types="cypress" />
 
 declare namespace Cypress {

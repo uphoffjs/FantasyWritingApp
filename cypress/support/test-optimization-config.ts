@@ -1,6 +1,8 @@
 // ! PERFORMANCE: * Test optimization configuration and setup
 // TODO: ! PERFORMANCE: * Applies performance improvements, memory management, and anti-flakiness measures
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 /// <reference types="cypress" />
 import type * as React from 'react';
 import {
@@ -364,6 +366,7 @@ Cypress.Commands.add('benchmarkRender', BenchmarkHelpers.benchmarkRender);
 
 // * Type declarations
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Cypress {
     interface Chainable {
       optimizedMount(component: React.ReactElement, options?: any): Chainable<Element>;

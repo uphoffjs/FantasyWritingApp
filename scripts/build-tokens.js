@@ -121,10 +121,10 @@ console.log('✅ JSON export generated: build/json/tokens.json');
 
 // * Generate Tailwind colors config
 console.log('Building Tailwind config...');
-const tailwindColors = {};
+const _tailwindColors = {};
 
 // * Helper to extract just the color values for Tailwind
-function extractColors(obj, prefix = '') {
+function extractColors(obj, _prefix = '') {
   const result = {};
   
   for (const [key, value] of Object.entries(obj)) {

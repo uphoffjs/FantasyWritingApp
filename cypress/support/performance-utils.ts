@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 // ! PERFORMANCE: * Performance monitoring and optimization utilities for Cypress tests
 // TODO: * Prevents memory leaks, improves execution speed, and reduces flakiness
 
@@ -61,9 +63,11 @@ export const MemoryManagement = {
     cy.window().then(win => {
       // * Store original addEventListener
       const originalAddEventListener = win.addEventListener;
+      // eslint-disable-next-line no-undef
       const listeners: Array<{ type: string; listener: EventListener; options?: any }> = [];
-      
+
       // * Override addEventListener to track listeners
+      // eslint-disable-next-line no-undef
       win.addEventListener = function(type: string, listener: EventListener, options?: any) {
         listeners.push({ type, listener, options });
         return originalAddEventListener.call(this, type, listener, options);
@@ -217,26 +221,28 @@ export const TestOptimization = {
   /**
    * Debounce test actions
    */
-  debounce: (fn: Function, delay: number = 100) => {
-    let timeoutId: NodeJS.Timeout;
-    
+  debounce: (fn: (...args: unknown[]) => void, delay: number = 100) => {
+    let timeoutId: ReturnType<typeof setTimeout>;
+
     return (...args: any[]) => {
       clearTimeout(timeoutId);
       timeoutId = setTimeout(() => fn(...args), delay);
     };
   },
-  
+
   /**
    * Throttle test actions
    */
-  throttle: (fn: Function, limit: number = 100) => {
+  throttle: (fn: (...args: unknown[]) => void, limit: number = 100) => {
     let inThrottle: boolean = false;
     
     return (...args: any[]) => {
       if (!inThrottle) {
         fn(...args);
         inThrottle = true;
-        setTimeout(() => inThrottle = false, limit);
+        setTimeout(() => {
+          inThrottle = false;
+        }, limit);
       }
     };
   },
@@ -355,7 +361,7 @@ export const AntiFlakinessUtils = {
    */
   waitForNetworkIdle: (timeout: number = 3000, idleTime: number = 500) => {
     let pendingRequests = 0;
-    let idleTimer: NodeJS.Timeout;
+    let idleTimer: ReturnType<typeof setTimeout>;
     
     return new Cypress.Promise((resolve) => {
       cy.intercept('**/*', (req) => {
@@ -562,6 +568,7 @@ Cypress.Commands.add('ensureNoMemoryLeak', (threshold: number = 1000000) => {
 
 // * Type declarations
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Cypress {
     interface Chainable {
       measurePerformance(label: string, fn: () => void): void;

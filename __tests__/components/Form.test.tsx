@@ -4,6 +4,9 @@
  * ! Critical: Tests form submission flow with React Native components
  */
 
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable react-native/no-color-literals */
+
 import React, { useState } from 'react';
 import { render, fireEvent, waitFor, within } from '@testing-library/react-native';
 import { View, Text, TouchableOpacity, TextInput as RNTextInput, ActivityIndicator, Alert } from 'react-native';
