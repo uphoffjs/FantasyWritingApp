@@ -4,6 +4,7 @@
  */
 
 import React, { forwardRef } from 'react';
+import { fantasyTomeColors } from '@/constants/fantasyTomeColors';
 import {
   TextInput as RNTextInput,
   TextInputProps as RNTextInputProps,
@@ -67,7 +68,6 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 14,
-    fontWeight: '500', color: '#F9FAFB', // ! HARDCODED: Should use design tokens
     marginBottom: 6,
     fontFamily: Platform.select({
       ios: 'System',
@@ -75,12 +75,9 @@ const styles = StyleSheet.create({
       web: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
     }),
   },
-  input: { backgroundColor: '#1F2937', // ! HARDCODED: Should use design tokens
-    borderWidth: 1, borderColor: '#374151', // ! HARDCODED: Should use design tokens
     borderRadius: 8,
     paddingHorizontal: 12,
     paddingVertical: 10,
-    fontSize: 16, color: '#F9FAFB', // ! HARDCODED: Should use design tokens
     minHeight: 44,
     fontFamily: Platform.select({
       ios: 'System',
@@ -101,10 +98,8 @@ const styles = StyleSheet.create({
       default: {},
     }),
   },
-  errorInput: { borderColor: '#DC2626', // ! HARDCODED: Should use design tokens
   },
   errorText: {
-    fontSize: 12, color: '#DC2626', // ! HARDCODED: Should use design tokens
     marginTop: 4,
     fontFamily: Platform.select({
       ios: 'System',

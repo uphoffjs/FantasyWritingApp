@@ -243,10 +243,8 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   modalContent: {
-    backgroundColor: '#1F2937', // ! HARDCODED: Should use design tokens
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     maxHeight: '90%',
@@ -269,14 +267,12 @@ const styles = StyleSheet.create({
   dragIndicator: {
     width: 36,
     height: 4,
-    backgroundColor: '#4B5563', // ! HARDCODED: Should use design tokens
     borderRadius: 2,
     marginBottom: 16,
   },
   title: {
     fontSize: 20,
     fontWeight: '600',
-    color: '#F9FAFB', // ! HARDCODED: Should use design tokens
   },
   closeButton: {
     position: 'absolute',
@@ -286,11 +282,9 @@ const styles = StyleSheet.create({
   },
   closeIcon: {
     fontSize: 24,
-    color: '#9CA3AF', // ! HARDCODED: Should use design tokens
   },
   instructions: {
     fontSize: 14,
-    color: '#9CA3AF', // ! HARDCODED: Should use design tokens
     textAlign: 'center',
     marginBottom: 20,
     paddingHorizontal: 24,
@@ -307,7 +301,6 @@ const styles = StyleSheet.create({
   },
   categoryCard: {
     width: '48%',
-    backgroundColor: '#374151', // ! HARDCODED: Should use design tokens
     borderRadius: 12,
     padding: 16,
     alignItems: 'center',
@@ -315,8 +308,6 @@ const styles = StyleSheet.create({
     borderColor: 'transparent',
   },
   categoryCardSelected: {
-    borderColor: '#6366F1', // ! HARDCODED: Should use design tokens
-    backgroundColor: '#4338CA20', // ! HARDCODED: Should use design tokens
   },
   categoryIcon: {
     fontSize: 32,
@@ -325,21 +316,17 @@ const styles = StyleSheet.create({
   categoryLabel: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#F9FAFB', // ! HARDCODED: Should use design tokens
     marginBottom: 4,
     textAlign: 'center',
   },
   categoryLabelSelected: {
-    color: '#6366F1', // ! HARDCODED: Should use design tokens
   },
   categoryDescription: {
     fontSize: 11,
-    color: '#6B7280', // ! HARDCODED: Should use design tokens
     textAlign: 'center',
     lineHeight: 14,
   },
   categoryDescriptionSelected: {
-    color: '#9CA3AF', // ! HARDCODED: Should use design tokens
   },
   actions: {
     flexDirection: 'row',
@@ -356,20 +343,16 @@ const styles = StyleSheet.create({
     minHeight: 48,
   },
   cancelButton: {
-    backgroundColor: '#374151', // ! HARDCODED: Should use design tokens
   },
   cancelButtonText: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#F9FAFB', // ! HARDCODED: Should use design tokens
   },
   createButton: {
-    backgroundColor: '#6366F1', // ! HARDCODED: Should use design tokens
   },
   createButtonText: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#FFFFFF', // ! HARDCODED: Should use design tokens
   },
   buttonDisabled: {
     opacity: 0.5,

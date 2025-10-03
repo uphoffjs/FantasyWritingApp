@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react';
+import { fantasyTomeColors } from '@/constants/fantasyTomeColors';
 import {
   View,
   Text,
@@ -226,17 +227,13 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 14,
-    fontWeight: '500', color: '#F9FAFB', // ! HARDCODED: Should use design tokens
   },
   previewToggle: {
     paddingHorizontal: 8,
-    paddingVertical: 4, backgroundColor: '#374151', // ! HARDCODED: Should use design tokens
     borderRadius: 4,
   },
   previewToggleText: {
-    fontSize: 12, color: '#9CA3AF', // ! HARDCODED: Should use design tokens
   },
-  toolbar: { backgroundColor: '#1F2937', // ! HARDCODED: Should use design tokens
     borderRadius: 8,
     marginBottom: 8,
     maxHeight: 44,
@@ -249,22 +246,17 @@ const styles = StyleSheet.create({
   toolbarButton: {
     paddingHorizontal: 12,
     paddingVertical: 8,
-    marginRight: 4, backgroundColor: '#374151', // ! HARDCODED: Should use design tokens
     borderRadius: 4,
     minWidth: 36,
     alignItems: 'center',
   },
   toolbarButtonText: {
     fontSize: 14,
-    fontWeight: '600', color: '#F9FAFB', // ! HARDCODED: Should use design tokens
   },
-  editorContainer: { backgroundColor: '#1F2937', // ! HARDCODED: Should use design tokens
     borderRadius: 8,
-    borderWidth: 1, borderColor: '#374151', // ! HARDCODED: Should use design tokens
   },
   input: {
     padding: 12,
-    fontSize: 14, color: '#F9FAFB', // ! HARDCODED: Should use design tokens
     lineHeight: 20,
     fontFamily: Platform.OS === 'ios' ? 'Menlo' : 'monospace',
   },
@@ -272,16 +264,13 @@ const styles = StyleSheet.create({
     padding: 12,
   },
   previewText: {
-    fontSize: 14, color: '#F9FAFB', // ! HARDCODED: Should use design tokens
     lineHeight: 22,
   },
   error: {
-    fontSize: 12, color: '#EF4444', // ! HARDCODED: Should use design tokens
     marginTop: 4,
     marginLeft: 4,
   },
   helpText: {
-    fontSize: 11, color: '#6B7280', // ! HARDCODED: Should use design tokens
     marginTop: 4,
     marginLeft: 4,
   },
