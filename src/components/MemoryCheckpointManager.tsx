@@ -1,11 +1,15 @@
+/* eslint-disable react-native/no-color-literals */
 /**
  * Memory Checkpoint Manager
  *
  * Advanced UI for managing memory checkpoints
  * Provides detailed view and restore capabilities
+ *
+ * ! Note: This is a utility/debug component with custom styling
  */
 
 import React, { useState } from 'react';
+import { fantasyTomeColors } from '@/constants/fantasyTomeColors';
 import {
   View,
   Text,
@@ -259,11 +263,11 @@ const styles = StyleSheet.create({
     width: 56,
     height: 56,
     borderRadius: 28,
-    backgroundColor: '#3498db',
+    backgroundColor: fantasyTomeColors.elements.magic.primary,
     justifyContent: 'center',
     alignItems: 'center',
     elevation: 8,
-    shadowColor: '#000',
+    shadowColor: fantasyTomeColors.ink.scribe,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 4,
@@ -373,7 +377,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   restoreButton: {
-    backgroundColor: '#3498db',
+    backgroundColor: fantasyTomeColors.elements.magic.primary,
   },
   exportButton: {
     backgroundColor: '#9b59b6',
