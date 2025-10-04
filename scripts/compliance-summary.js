@@ -53,10 +53,10 @@ function getLintStats() {
     const output = error.stdout || error.message;
     const errorMatch = output.match(/(\d+) problems?/);
     return {
-      totalErrors: errorMatch ? parseInt(errorMatch[1]) : 0,
+      totalErrors: errorMatch ? parseInt(errorMatch[1], 10) : 0,
       parsingErrors: 0,
       otherErrors: 0,
-      hasErrors: errorMatch ? parseInt(errorMatch[1]) > 0 : false
+      hasErrors: errorMatch ? parseInt(errorMatch[1], 10) > 0 : false
     };
   }
 }

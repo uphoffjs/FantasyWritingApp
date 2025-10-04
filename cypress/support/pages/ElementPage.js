@@ -381,7 +381,7 @@ class ElementPage extends BasePage {
   // * Utility methods
   getCompletionPercentage() {
     return this.completionProgress.invoke('text').then(text => {
-      return parseInt(text.match(/\d+/)[0]);
+      return parseInt(text.match(/\d+/)[0], 10);
     });
   }
 

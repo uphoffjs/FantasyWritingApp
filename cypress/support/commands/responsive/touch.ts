@@ -9,6 +9,9 @@
  * - Provide mobile-first testing capabilities
  */
 
+ 
+// ! These are generic utility commands that accept any selector type and intentionally return elements
+
 // * Touch event types for React Native Web
 type TouchGesture = 'tap' | 'longPress' | 'doubleTap' | 'swipeLeft' | 'swipeRight' | 'swipeUp' | 'swipeDown' | 'pinch' | 'spreadGesture';
 
@@ -363,16 +366,19 @@ declare global {
       /**
        * Simulate a tap gesture
        */
+      // eslint-disable-next-line no-undef
       tap(selector: string, options?: TouchOptions): Chainable<JQuery<HTMLElement>>;
 
       /**
        * Simulate a long press gesture
        */
+      // eslint-disable-next-line no-undef
       longPress(selector: string, options?: TouchOptions): Chainable<JQuery<HTMLElement>>;
 
       /**
        * Simulate a double tap gesture
        */
+      // eslint-disable-next-line no-undef
       doubleTap(selector: string, options?: TouchOptions): Chainable<JQuery<HTMLElement>>;
 
       /**
@@ -382,16 +388,19 @@ declare global {
         selector: string,
         direction: 'left' | 'right' | 'up' | 'down',
         options?: TouchOptions
+      // eslint-disable-next-line no-undef
       ): Chainable<JQuery<HTMLElement>>;
 
       /**
        * Simulate a pinch gesture (zoom out)
        */
+      // eslint-disable-next-line no-undef
       pinch(selector: string, options?: TouchOptions): Chainable<JQuery<HTMLElement>>;
 
       /**
        * Simulate a spread gesture (zoom in)
        */
+      // eslint-disable-next-line no-undef
       spread(selector: string, options?: TouchOptions): Chainable<JQuery<HTMLElement>>;
 
       /**

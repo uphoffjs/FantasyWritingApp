@@ -18,7 +18,7 @@ export function registerFactoryHooks() {
 /**
  * Create test data using factories
  */
-export function createTestData(type: string, options?: any) {
+export function createTestData(type: string, options?: Record<string, unknown>) {
   return cy.task('factory:create', { type, options });
 }
 
@@ -45,6 +45,7 @@ export function seedTestData(options?: {
  * Custom Cypress commands for factories
  */
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Cypress {
     interface Chainable {
       /**
@@ -55,13 +56,13 @@ declare global {
       /**
        * Create test data for a specific test type
        */
-      createTestData(type: string, options?: any): Chainable<any>;
-      
+      createTestData(type: string, options?: Record<string, unknown>): Chainable<unknown>;
+
       /**
        * Create a test scenario
        */
-      createScenario(type?: 'minimal' | 'standard' | 'complete'): Chainable<any>;
-      
+      createScenario(type?: 'minimal' | 'standard' | 'complete'): Chainable<unknown>;
+
       /**
        * Seed test data
        */
@@ -70,7 +71,7 @@ declare global {
         characters?: number;
         projects?: number;
         elements?: number;
-      }): Chainable<any>;
+      }): Chainable<unknown>;
     }
   }
 }
@@ -80,7 +81,7 @@ Cypress.Commands.add('resetFactories', () => {
   cy.task('factory:reset');
 });
 
-Cypress.Commands.add('createTestData', (type: string, options?: any) => {
+Cypress.Commands.add('createTestData', (type: string, options?: Record<string, unknown>) => {
   return cy.task('factory:create', { type, options });
 });
 

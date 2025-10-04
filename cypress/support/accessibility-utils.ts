@@ -158,7 +158,7 @@ export const AccessibilityHelpers = {
   checkAccessibility: (
     context?: string,
     options?: {
-      rules?: Record<string, any>;
+      rules?: Record<string, unknown>;
       runOnly?: string[];
       exclude?: string[][];
     }
@@ -191,10 +191,10 @@ export const AccessibilityHelpers = {
   /**
    * Verify focus management
    */
-  verifyFocusManagement: (selector: string) => {
+  verifyFocusManagement: (testId: string) => {
     // * Check if element can receive focus
-    cy.get(selector).focus();
-    cy.focused().should('match', selector);
+    cy.get(`[data-cy="${testId}"]`).focus();
+    cy.get(`[data-cy="${testId}"]`).should("have.focus");
     
     // * Check focus visibility
     cy.focused().should('have.css', 'outline-style').and('not.eq', 'none');
@@ -203,32 +203,32 @@ export const AccessibilityHelpers = {
   /**
    * Test keyboard navigation flow
    */
-  testKeyboardNavigation: (elements: string[]) => {
+  testKeyboardNavigation: (testIds: string[]) => {
     // * Start from first element
-    cy.get(elements[0]).focus();
+    cy.get(`[data-cy="${testIds[0]}"]`).focus();
     
     // * Tab through all elements
-    elements.slice(1).forEach(element => {
+    testIds.slice(1).forEach(testId => {
       cy.realPress('Tab');
-      cy.focused().should('match', element);
+      cy.get(`[data-cy="${testId}"]`).should("have.focus");
     });
     
     // * Tab backwards
-    elements.slice(0, -1).reverse().forEach(element => {
+    testIds.slice(0, -1).reverse().forEach(testId => {
       cy.realPress(['Shift', 'Tab']);
-      cy.focused().should('match', element);
+      cy.get(`[data-cy="${testId}"]`).should("have.focus");
     });
   },
   
   /**
    * Verify ARIA attributes
    */
-  verifyARIAAttributes: (selector: string, attributes: Record<string, any>) => {
+  verifyARIAAttributes: (testId: string, attributes: Record<string, unknown>) => {
     Object.entries(attributes).forEach(([attr, value]) => {
       if (value !== null && value !== undefined) {
-        cy.get(selector).should('have.attr', attr, String(value));
+        cy.get(`[data-cy="${testId}"]`).should('have.attr', attr, String(value));
       } else {
-        cy.get(selector).should('have.attr', attr);
+        cy.get(`[data-cy="${testId}"]`).should('have.attr', attr);
       }
     });
   },
@@ -236,8 +236,8 @@ export const AccessibilityHelpers = {
   /**
    * Check color contrast ratio
    */
-  checkColorContrast: (selector: string, minRatio: number = 4.5) => {
-    cy.get(selector).then($el => {
+  checkColorContrast: (testId: string, minRatio: number = 4.5) => {
+    cy.get(`[data-cy="${testId}"]`).then($el => {
       const styles = window.getComputedStyle($el[0]);
       const color = styles.color;
       const backgroundColor = styles.backgroundColor;
@@ -246,7 +246,7 @@ export const AccessibilityHelpers = {
       cy.log(`Color: ${color}, Background: ${backgroundColor}`);
       
       // * Use axe to check color contrast
-      cy.checkA11y(selector, {
+      cy.checkA11y(`[data-cy="${testId}"]`, {
         runOnly: {
           type: 'rule',
           values: ['color-contrast']
@@ -258,8 +258,13 @@ export const AccessibilityHelpers = {
   /**
    * Verify screen reader announcements
    */
-  verifyScreenReaderAnnouncement: (text: string, selector: string = '[role="status"], [role="alert"], [aria-live]') => {
-    cy.get(selector).should('contain', text);
+  verifyScreenReaderAnnouncement: (text: string, testId?: string) => {
+    if (testId) {
+      cy.get(`[data-cy="${testId}"]`).should('contain', text);
+    } else {
+       
+      cy.get('[role="status"], [role="alert"], [aria-live]').should('contain', text);
+    }
   },
   
   /**
@@ -267,7 +272,7 @@ export const AccessibilityHelpers = {
    */
   testSkipLinks: () => {
     // * Focus on skip link
-    cy.get('body').type('{tab}');
+    cy.get('[data-cy="app-root"], body').type('{tab}');
     
     // * Check if skip link is visible
     cy.focused().should('contain', 'Skip to');
@@ -287,18 +292,18 @@ export const ComponentAccessibilityTests = {
   /**
    * Test button accessibility
    */
-  testButton: (selector: string) => {
-    cy.get(selector).should('have.attr', 'role', 'button')
+  testButton: (testId: string) => {
+    cy.get(`[data-cy="${testId}"]`).should('have.attr', 'role', 'button')
       .or('match', 'button');
-    
+
     // * Keyboard activation
-    cy.get(selector).focus().type('{enter}');
-    cy.get(selector).focus().type(' ');
-    
+    cy.get(`[data-cy="${testId}"]`).focus().type('{enter}');
+    cy.get(`[data-cy="${testId}"]`).focus().type(' ');
+
     // * Check disabled state
-    cy.get(selector).then($btn => {
+    cy.get(`[data-cy="${testId}"]`).then($btn => {
       if ($btn.prop('disabled')) {
-        cy.get(selector).should('have.attr', 'aria-disabled', 'true');
+        cy.get(`[data-cy="${testId}"]`).should('have.attr', 'aria-disabled', 'true');
       }
     });
   },
@@ -306,32 +311,32 @@ export const ComponentAccessibilityTests = {
   /**
    * Test form input accessibility
    */
-  testFormInput: (inputSelector: string, labelText?: string) => {
+  testFormInput: (inputTestId: string, labelText?: string) => {
     // * Check label association
     if (labelText) {
       cy.contains('label', labelText)
         .invoke('attr', 'for')
         .then(id => {
-          cy.get(inputSelector).should('have.id', id);
+          cy.get(`[data-cy="${inputTestId}"]`).should('have.id', id);
         });
     } else {
       // * Check aria-label or aria-labelledby
-      cy.get(inputSelector)
+      cy.get(`[data-cy="${inputTestId}"]`)
         .should('have.attr', 'aria-label')
         .or('have.attr', 'aria-labelledby');
     }
     
     // * Check required field
-    cy.get(inputSelector).then($input => {
+    cy.get(`[data-cy="${inputTestId}"]`).then($input => {
       if ($input.prop('required')) {
-        cy.get(inputSelector).should('have.attr', 'aria-required', 'true');
+        cy.get(`[data-cy="${inputTestId}"]`).should('have.attr', 'aria-required', 'true');
       }
     });
     
     // * Check error state
-    cy.get(inputSelector).then($input => {
+    cy.get(`[data-cy="${inputTestId}"]`).then($input => {
       if ($input.attr('aria-invalid') === 'true') {
-        cy.get(inputSelector).should('have.attr', 'aria-errormessage')
+        cy.get(`[data-cy="${inputTestId}"]`).should('have.attr', 'aria-errormessage')
           .or('have.attr', 'aria-describedby');
       }
     });
@@ -340,20 +345,21 @@ export const ComponentAccessibilityTests = {
   /**
    * Test modal dialog accessibility
    */
-  testModal: (modalSelector: string) => {
+  testModal: (modalTestId: string) => {
     // * Check role and aria-modal
-    cy.get(modalSelector)
+    cy.get(`[data-cy="${modalTestId}"]`)
       .should('have.attr', 'role', 'dialog')
       .and('have.attr', 'aria-modal', 'true');
     
     // * Check aria-label or aria-labelledby
-    cy.get(modalSelector)
+    cy.get(`[data-cy="${modalTestId}"]`)
       .should('have.attr', 'aria-label')
       .or('have.attr', 'aria-labelledby');
     
     // * Test focus trap
-    cy.get(modalSelector).within(() => {
+    cy.get(`[data-cy="${modalTestId}"]`).within(() => {
       // * Tab through all focusable elements
+       
       cy.get('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')
         .first()
         .focus();
@@ -365,24 +371,24 @@ export const ComponentAccessibilityTests = {
     
     // * Test escape key closes modal
     cy.realPress('Escape');
-    cy.get(modalSelector).should('not.be.visible');
+    cy.get(`[data-cy="${modalTestId}"]`).should('not.be.visible');
   },
   
   /**
    * Test dropdown/select accessibility
    */
-  testDropdown: (triggerSelector: string, menuSelector: string) => {
+  testDropdown: (triggerTestId: string, menuTestId: string) => {
     // * Check trigger attributes
-    cy.get(triggerSelector)
+    cy.get(`[data-cy="${triggerTestId}"]`)
       .should('have.attr', 'aria-haspopup', 'true')
       .and('have.attr', 'aria-expanded', 'false');
     
     // * Open dropdown
-    cy.get(triggerSelector).click();
-    cy.get(triggerSelector).should('have.attr', 'aria-expanded', 'true');
+    cy.get(`[data-cy="${triggerTestId}"]`).click();
+    cy.get(`[data-cy="${triggerTestId}"]`).should('have.attr', 'aria-expanded', 'true');
     
     // * Check menu role
-    cy.get(menuSelector).should('have.attr', 'role').and('match', /menu|listbox/);
+    cy.get(`[data-cy="${menuTestId}"]`).should('have.attr', 'role').and('match', /menu|listbox/);
     
     // * Test keyboard navigation
     cy.realPress('ArrowDown');
@@ -390,23 +396,24 @@ export const ComponentAccessibilityTests = {
     
     // * Select with Enter
     cy.realPress('Enter');
-    cy.get(menuSelector).should('not.be.visible');
-    cy.get(triggerSelector).should('have.attr', 'aria-expanded', 'false');
+    cy.get(`[data-cy="${menuTestId}"]`).should('not.be.visible');
+    cy.get(`[data-cy="${triggerTestId}"]`).should('have.attr', 'aria-expanded', 'false');
   },
   
   /**
    * Test navigation menu accessibility
    */
-  testNavigation: (navSelector: string) => {
+  testNavigation: (navTestId: string) => {
     // * Check navigation landmark
-    cy.get(navSelector).should('have.attr', 'role', 'navigation')
+    cy.get(`[data-cy="${navTestId}"]`).should('have.attr', 'role', 'navigation')
       .or('match', 'nav');
     
     // * Check aria-label
-    cy.get(navSelector).should('have.attr', 'aria-label');
+    cy.get(`[data-cy="${navTestId}"]`).should('have.attr', 'aria-label');
     
     // * Test keyboard navigation through links
-    cy.get(navSelector).within(() => {
+    cy.get(`[data-cy="${navTestId}"]`).within(() => {
+       
       cy.get('a, [role="link"]').first().focus();
       cy.realPress('Tab');
       cy.focused().should('match', 'a, [role="link"]');
@@ -466,25 +473,28 @@ export const ScreenReaderUtils = {
    */
   simulateScreenReaderNav: () => {
     // * Navigate by headings
+     
     cy.get('h1, h2, h3, h4, h5, h6').each(($heading) => {
       cy.wrap($heading).should('be.visible').and('not.be.empty');
     });
-    
+
     // * Navigate by landmarks
+     
     cy.get('[role="main"], [role="navigation"], [role="banner"], [role="contentinfo"]')
       .each(($landmark) => {
         cy.wrap($landmark).should('exist');
       });
-    
+
     // * Check for screen reader only content
+     
     cy.get('.sr-only, .visually-hidden, [aria-label]').should('exist');
   },
   
   /**
    * Verify live region announcements
    */
-  verifyLiveRegion: (selector: string, expectedText: string) => {
-    cy.get(selector)
+  verifyLiveRegion: (testId: string, expectedText: string) => {
+    cy.get(`[data-cy="${testId}"]`)
       .should('have.attr', 'aria-live')
       .and('contain', expectedText);
   },
@@ -526,13 +536,14 @@ Cypress.Commands.add('testKeyboardNavigation', AccessibilityHelpers.testKeyboard
 Cypress.Commands.add('verifyARIAAttributes', AccessibilityHelpers.verifyARIAAttributes);
 Cypress.Commands.add('testSkipLinks', AccessibilityHelpers.testSkipLinks);
 
-// * Type declarations
+// * Type declarations for Cypress custom commands
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Cypress {
     interface Chainable {
-      checkAccessibility(context?: string, options?: any): void;
+      checkAccessibility(context?: string, options?: Record<string, unknown>): void;
       testKeyboardNavigation(elements: string[]): void;
-      verifyARIAAttributes(selector: string, attributes: Record<string, any>): void;
+      verifyARIAAttributes(selector: string, attributes: Record<string, unknown>): void;
       testSkipLinks(): void;
     }
   }

@@ -76,7 +76,7 @@ export const BoundaryValues = {
     ),
     nested: { level1: { level2: { level3: { level4: 'deep' } } } },
     circular: (() => {
-      const obj: any = { prop: 'value' };
+      const obj: Record<string, unknown> = { prop: 'value' };
       obj.self = obj;
       return obj;
     })(),
@@ -118,7 +118,7 @@ export const BoundaryValues = {
   nullish: {
     null: null,
     undefined: undefined,
-    void0: void 0
+    void0: undefined
   }
 };
 
@@ -203,173 +203,6 @@ export const FormBoundaryData = {
   }
 };
 
-/**
- * Helper functions for boundary testing
- */
-export const BoundaryTestHelpers = {
-  /**
-   * Test a component with all boundary string values
-   */
-  testWithBoundaryStrings: (
-    mountComponent: (value: string) => void,
-    selector: string,
-    expectation: (value: string) => void
-  ) => {
-    Object.entries(BoundaryValues.strings).forEach(([key, value]) => {
-      it(`handles ${key} string`, () => {
-        mountComponent(value);
-        cy.get(selector).should('exist');
-        expectation(value);
-      });
-    });
-  },
-
-  /**
-   * Test a component with all boundary number values
-   */
-  testWithBoundaryNumbers: (
-    mountComponent: (value: number) => void,
-    selector: string,
-    expectation: (value: number) => void
-  ) => {
-    Object.entries(BoundaryValues.numbers).forEach(([key, value]) => {
-      it(`handles ${key} number`, () => {
-        mountComponent(value);
-        cy.get(selector).should('exist');
-        expectation(value);
-      });
-    });
-  },
-
-  /**
-   * Test input validation with boundary values
-   */
-  testInputValidation: (
-    inputSelector: string,
-    validValues: any[],
-    invalidValues: any[],
-    errorSelector?: string
-  ) => {
-    describe('Input Validation', () => {
-      validValues.forEach((value, index) => {
-        it(`accepts valid value ${index + 1}: ${JSON.stringify(value)}`, () => {
-          cy.get(inputSelector).clear().type(String(value));
-          if (errorSelector) {
-            cy.get(errorSelector).should('not.exist');
-          }
-        });
-      });
-
-      invalidValues.forEach((value, index) => {
-        it(`rejects invalid value ${index + 1}: ${JSON.stringify(value)}`, () => {
-          cy.get(inputSelector).clear().type(String(value));
-          if (errorSelector) {
-            cy.get(errorSelector).should('be.visible');
-          }
-        });
-      });
-    });
-  },
-
-  /**
-   * Test component performance with large data sets
-   */
-  testPerformanceWithLargeData: (
-    mountComponent: (data: any[]) => void,
-    sizes: number[] = [10, 100, 1000]
-  ) => {
-    sizes.forEach(size => {
-      it(`handles ${size} items efficiently`, () => {
-        const data = Array.from({ length: size }, (_, i) => ({
-          id: i,
-          name: `Item ${i}`,
-          value: Math.random()
-        }));
-        
-        const startTime = performance.now();
-        mountComponent(data);
-        const mountTime = performance.now() - startTime;
-        
-        // // DEPRECATED: ! PERFORMANCE: * Assert reasonable performance (adjust threshold as needed)
-        expect(mountTime).to.be.lessThan(size * 10); // 10ms per item max
-        
-        // * Verify all items rendered
-        cy.get('[data-testid*="item"]').should('have.length.at.least', Math.min(size, 100));
-      });
-    });
-  },
-
-  /**
-   * Test component with null/undefined props
-   */
-  testNullishProps: (
-    mountComponent: (props: any) => void,
-    requiredProps: string[],
-    optionalProps: string[]
-  ) => {
-    describe('Nullish Props Handling', () => {
-      requiredProps.forEach(prop => {
-        it(`handles null ${prop} (required)`, () => {
-          const props = { [prop]: null };
-          // TODO: * Should either handle gracefully or throw meaningful error
-          cy.wrap(() => mountComponent(props)).should('not.throw');
-        });
-
-        it(`handles undefined ${prop} (required)`, () => {
-          const props = { [prop]: undefined };
-          cy.wrap(() => mountComponent(props)).should('not.throw');
-        });
-      });
-
-      optionalProps.forEach(prop => {
-        it(`handles null ${prop} (optional)`, () => {
-          const props = { [prop]: null };
-          mountComponent(props);
-          cy.get('[data-testid="component-root"]').should('exist');
-        });
-
-        it(`handles undefined ${prop} (optional)`, () => {
-          const props = { [prop]: undefined };
-          mountComponent(props);
-          cy.get('[data-testid="component-root"]').should('exist');
-        });
-      });
-    });
-  }
-};
-
-/**
- * Custom commands for boundary testing
- */
-Cypress.Commands.add('testBoundaryConditions', (component: any, testConfig: any) => {
-  const { strings, numbers, arrays, objects } = testConfig;
-  
-  if (strings) {
-    BoundaryTestHelpers.testWithBoundaryStrings(
-      (value) => cy.mount(React.createElement(component, { value })),
-      strings.selector,
-      strings.expectation
-    );
-  }
-  
-  if (numbers) {
-    BoundaryTestHelpers.testWithBoundaryNumbers(
-      (value) => cy.mount(React.createElement(component, { value })),
-      numbers.selector,
-      numbers.expectation
-    );
-  }
-  
-  // * Add more boundary test configurations as needed
-});
-
-// * Type declarations for custom commands
-declare global {
-  namespace Cypress {
-    interface Chainable {
-      testBoundaryConditions(component: any, testConfig: any): Chainable<void>;
-    }
-  }
-}
-
-export default BoundaryTestHelpers;
+// * Note: Component testing helpers removed during E2E migration
+// * Only boundary data exports are retained for E2E input validation testing
+// * For component testing helpers, see git history before 2025-10-02

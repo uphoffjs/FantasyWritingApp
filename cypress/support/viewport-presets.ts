@@ -44,6 +44,7 @@ export const viewportPresets = {
  * Custom Cypress commands for viewport testing
  */
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Cypress {
     interface Chainable {
       /**

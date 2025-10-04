@@ -203,3 +203,27 @@ Cypress.Commands.add('loginAs', (userType: 'admin' | 'editor' | 'viewer' | 'user
 
 // * Export empty object to prevent TS errors
 export {};
+// TypeScript declarations
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace Cypress {
+    interface Chainable {
+      /**
+       * API-based login using cy.request() (faster than UI)
+       * @param email - User email
+       * @param password - User password
+       * @example
+       * cy.apiLogin('test@example.com', 'testpassword123');
+       */
+      apiLogin(email?: string, password?: string): Chainable<void>;
+
+      /**
+       * Login as a specific user type with predefined credentials
+       * @param userType - Type of user to login as
+       * @example
+       * cy.loginAs('admin');
+       */
+      loginAs(userType: 'admin' | 'editor' | 'viewer' | 'user'): Chainable<void>;
+    }
+  }
+}

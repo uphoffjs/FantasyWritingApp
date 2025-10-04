@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// ! Seeding utilities with intentional any types for flexibility
 /**
  * @fileoverview Data Seeding Commands for Cypress Tests
  * Implements comprehensive data seeding strategies using factories, fixtures, and tasks
@@ -284,6 +286,7 @@ Cypress.Commands.add('verifySeededData', (expectations: {
 
 // * Type definitions for TypeScript
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Cypress {
     interface Chainable {
       /**

@@ -1,18 +1,22 @@
 // * Index file for all custom Cypress commands
-// * This file exports all command modules for easy import
-// * Commands are organized by category for maintainability
+// * This file exports all command modules organized by category
 
-// * Authentication & Session Management
+// * Authentication & Session Management (includes mock auth)
 import './auth';
 
-// * Debug Utilities (root level as per TODO)
-import './debug';
-import './build-error-capture';
+// * Database Commands (includes mock database)
+import './database';
 
-// * Navigation (cross-cutting concern, stays at root)
+// * Debug & Testing Utilities
+import './debug';
+
+// * Error Mocking
+import './mocking';
+
+// * Navigation Commands
 import './navigation';
 
-// * Selectors (handles testID → data-testid conversion)
+// * Selector Commands (handles testID → data-testid conversion)
 import './selectors';
 
 // * Element Management
@@ -24,15 +28,17 @@ import './projects';
 // * Responsive & Mobile Testing
 import './responsive';
 
-// * Utility Commands
+// * Utility Commands (stub, spy)
 import './utility/index';
-import './utility'; // Stub and spy commands
 
 // * Performance Monitoring
 import './performance';
 
 // * Data Seeding Commands
 import './seeding';
+
+// * Wait Helpers
+import './wait';
 
 // * Export for TypeScript reference
 export * from './auth';

@@ -1,3 +1,5 @@
+ 
+// ! Generic utility commands that accept any selector type
 // * Utility Cypress commands for common operations
 
 /**

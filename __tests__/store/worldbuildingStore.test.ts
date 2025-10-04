@@ -311,7 +311,7 @@ describe('WorldbuildingStore', () => {
       });
 
       const element = result.current.projects[0].elements[0];
-      expect(element.answers['q1']).toBe('25');
+      expect(element.answers.q1).toBe('25');
     });
 
     it('handles different answer types', () => {
@@ -333,10 +333,10 @@ describe('WorldbuildingStore', () => {
       });
 
       const element = result.current.projects[0].elements[0];
-      expect(element.answers['q1']).toBe('Aragorn');
-      expect(element.answers['q2']).toBe(87);
-      expect(element.answers['q3']).toBe(true);
-      expect(element.answers['q4']).toEqual(['swordsmanship', 'tracking']);
+      expect(element.answers.q1).toBe('Aragorn');
+      expect(element.answers.q2).toBe(87);
+      expect(element.answers.q3).toBe(true);
+      expect(element.answers.q4).toEqual(['swordsmanship', 'tracking']);
     });
   });
 

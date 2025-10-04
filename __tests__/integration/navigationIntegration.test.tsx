@@ -170,7 +170,7 @@ describe('Navigation Integration', () => {
           if (currentProjectId) {
             navigation.navigate('Project', { projectId: currentProjectId });
           }
-        }, [currentProjectId]);
+        }, [currentProjectId, navigation]);
 
         return (
           <View testID="navigation-test">
@@ -233,7 +233,7 @@ describe('Navigation Integration', () => {
             const projectId = url.split('project/')[1];
             navigation.navigate('Project', { projectId });
           }
-        }, [url]);
+        }, [url, navigation]);
 
         return <View testID="deep-link-handler" />;
       };
@@ -261,7 +261,7 @@ describe('Navigation Integration', () => {
             const elementId = parts[parts.length - 1];
             navigation.navigate('Element', { projectId, elementId });
           }
-        }, [url]);
+        }, [url, navigation]);
 
         return <View testID="deep-link-handler" />;
       };
@@ -428,7 +428,7 @@ describe('Navigation Integration', () => {
 
         React.useEffect(() => {
           saveNavigationState();
-        }, [state]);
+        }, [state, saveNavigationState]);
 
         return (
           <View testID="navigation-persistence">

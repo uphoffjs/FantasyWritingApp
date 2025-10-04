@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-shadow */
+// ! Performance monitoring utilities with intentional any types
+ 
+// ! Performance monitoring commands that may use various selectors
 /**
  * @fileoverview Performance Monitoring Utilities for Cypress Tests
  * Provides comprehensive performance tracking for critical component tests
@@ -327,6 +331,7 @@ Cypress.Commands.add('assertPerformanceBudget', (
 
 // * TypeScript definitions
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Cypress {
     interface Chainable {
       startPerformanceMonitoring(componentName: string): void;

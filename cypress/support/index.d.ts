@@ -11,6 +11,7 @@ declare namespace Cypress {
     apiLogin(email?: string, password?: string): Chainable<void>;
     sessionLogin(email?: string, password?: string): Chainable<void>;
     loginAs(userType: 'admin' | 'editor' | 'viewer' | 'user'): Chainable<void>;
+    clearTestSessions(): Chainable<void>;
     
     // * Navigation commands (commands/navigation.ts)
     navigateToHome(): Chainable<void>;
@@ -240,5 +241,23 @@ declare namespace Cypress {
     selectPickerValue(selector: string, value: string): Chainable<void>;
     toggleSwitch(selector: string, state: boolean): Chainable<void>;
     waitForReactNative(): Chainable<void>;
+
+    // * Mock Supabase commands (commands/mock-supabase.ts)
+    mockSupabaseAuth(user?: {
+      id?: string;
+      email?: string;
+      username?: string;
+      display_name?: string;
+    }): Chainable<void>;
+    cleanMockAuth(): Chainable<void>;
+    mockSupabaseDatabase(fixtures?: {
+      profiles?: any[];
+      projects?: any[];
+      elements?: any[];
+    }): Chainable<void>;
+    mockSupabaseError(
+      endpoint: string,
+      errorType: 'auth' | 'network' | 'validation' | 'notFound'
+    ): Chainable<void>;
   }
 }

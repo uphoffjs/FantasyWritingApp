@@ -344,19 +344,19 @@ describe('Navigation', () => {
       const navigation = createMockNavigation();
       const route = createMockRoute('TestScreen', { testParam: 'value' });
 
-      const TestScreen = ({ navigation, route }: any) => (
+      const TestScreen = ({ navigation: nav, route: testRoute }: any) => (
         <View testID="test-screen">
-          <Button title="Navigate" onPress={() => navigation.navigate('Other')} />
-          <Button title="Go Back" onPress={() => navigation.goBack()} />
-          <Button title="Push" onPress={() => navigation.push('Other')} />
-          <Button title="Pop" onPress={() => navigation.pop()} />
-          <Button title="Pop To Top" onPress={() => navigation.popToTop()} />
-          <Button title="Replace" onPress={() => navigation.replace('Other')} />
-          <Button title="Reset" onPress={() => navigation.reset({ index: 0, routes: [] })} />
-          <Button title="Set Options" onPress={() => navigation.setOptions({ title: 'New' })} />
-          <Button title="Set Params" onPress={() => navigation.setParams({ new: 'param' })} />
-          <Text testID="route-name">{route.name}</Text>
-          <Text testID="route-param">{route.params?.testParam}</Text>
+          <Button testID="button-navigate" title="Navigate" onPress={() => nav.navigate('Other')} />
+          <Button testID="button-go-back" title="Go Back" onPress={() => nav.goBack()} />
+          <Button testID="button-push" title="Push" onPress={() => nav.push('Other')} />
+          <Button testID="button-pop" title="Pop" onPress={() => nav.pop()} />
+          <Button testID="button-pop-to-top" title="Pop To Top" onPress={() => nav.popToTop()} />
+          <Button testID="button-replace" title="Replace" onPress={() => nav.replace('Other')} />
+          <Button testID="button-reset" title="Reset" onPress={() => nav.reset({ index: 0, routes: [] })} />
+          <Button testID="button-set-options" title="Set Options" onPress={() => nav.setOptions({ title: 'New' })} />
+          <Button testID="button-set-params" title="Set Params" onPress={() => nav.setParams({ new: 'param' })} />
+          <Text testID="route-name">{testRoute.name}</Text>
+          <Text testID="route-param">{testRoute.params?.testParam}</Text>
         </View>
       );
 
