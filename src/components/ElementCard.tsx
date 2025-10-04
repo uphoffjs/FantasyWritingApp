@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, useMemo } from 'react';
 import {
   View,
   Text,
@@ -9,33 +9,102 @@ import {
 import { WorldElement } from '../types/models';
 import { getCategoryIcon } from '../utils/categoryMapping';
 import { getElementColor } from '../utils/elementColors';
+import { ProgressRing } from './ProgressRing';
+import { getTestProps } from '../utils/react-native-web-polyfills';
+import { useTheme } from '../providers/ThemeProvider';
+
+// * Helper to safely use theme context
+const useOptionalTheme = () => {
+  try {
+    // * Use the exported useTheme hook
+    return useTheme();
+  } catch {
+    return null;
+  }
+};
 
 interface ElementCardProps {
   element: WorldElement;
   icon?: string;
   onPress: () => void;
+  testID?: string;
 }
 
 export const ElementCard = memo(function ElementCard({
   element,
   icon,
   onPress,
+  testID = 'element-card',
 }: ElementCardProps) {
   const categoryIcon = icon || getCategoryIcon(element.category);
+  const themeContext = useOptionalTheme();
+  const theme = themeContext?.theme || {
+    // * Fallback theme values
+    colors: {
+      text: { primary: '#1A1613', secondary: '#6B5E52', muted: '#9B8C7D' },
+      surface: {
+        background: '#F5F2E8',
+        card: '#FFFFFF',
+        cardBorder: '#E5DCC7',
+        backgroundElevated: '#FDFCF8',
+      }
+    },
+    layout: { borderRadius: { medium: 12, small: 8 }, spacing: { md: 16 } }
+  };
   
+  // * Create dynamic styles based on theme
+  const styles = useMemo(() => createStyles(theme), [theme]);
+  
+  // * Use theme colors for completion states
   const getCompletionColor = (percentage: number) => {
-    if (percentage >= 80) return '#10B981'; // Green
-    if (percentage >= 50) return '#F59E0B'; // Amber
-    if (percentage > 0) return '#F97316'; // Orange
-    return '#6B7280'; // Gray
+    if (percentage >= 80) return theme.colors.semantic.success;
+    if (percentage >= 50) return theme.colors.semantic.warning;
+    if (percentage > 0) return theme.colors.semantic.error;
+    return theme.colors.text.tertiary;
   };
 
   const getCompletionBadge = (percentage: number) => {
-    if (percentage === 100) return { text: 'Complete', color: '#FBBF24', icon: '🏅' };
-    if (percentage >= 80) return { text: 'Nearly Done', color: '#E5E7EB', icon: '⭐' };
-    if (percentage >= 50) return { text: 'In Progress', color: '#D97706', icon: '⚡' };
-    if (percentage > 0) return { text: 'Started', color: '#B91C1C', icon: '✨' };
-    return { text: 'Not Started', color: '#374151', icon: '📋' };
+    if (percentage === 100) return { 
+      text: 'Complete', 
+      color: theme.colors.metal.gold, 
+      icon: '🏅' 
+    };
+    if (percentage >= 80) return { 
+      text: 'Nearly Done', 
+      color: theme.colors.metal.silver, 
+      icon: '⭐' 
+    };
+    if (percentage >= 50) return { 
+      text: 'In Progress', 
+      color: theme.colors.metal.bronze, 
+      icon: '⚡' 
+    };
+    if (percentage > 0) return { 
+      text: 'Started', 
+      color: theme.colors.accent.warmth, 
+      icon: '✨' 
+    };
+    return { 
+      text: 'Not Started', 
+      color: theme.colors.surface.backgroundElevated, 
+      icon: '📋' 
+    };
+  };
+  
+  // * Get the appropriate color preset for ProgressRing based on element category
+  const getProgressColorPreset = () => {
+    switch (element.category) {
+      case 'character':
+        return 'character';
+      case 'location':
+        return 'location';
+      case 'magic':
+        return 'magic';
+      case 'item':
+        return 'item';
+      default:
+        return 'default';
+    }
   };
 
   const formatDate = (date: Date) => {
@@ -58,47 +127,45 @@ export const ElementCard = memo(function ElementCard({
         pressed && styles.cardPressed,
         Platform.OS === 'web' && styles.cardWeb,
       ]}
-      data-cy="element-card"
+      {...getTestProps(testID)}
     >
       {/* Completion Badge */}
-      <View style={[styles.badge, { backgroundColor: badge.color }]}>
+      <View style={[styles.badge, { backgroundColor: badge.color + '20', borderColor: badge.color }]}>
         <Text style={styles.badgeIcon}>{badge.icon}</Text>
-        <Text style={styles.badgeText}>{badge.text}</Text>
+        <Text style={[styles.badgeText, { color: badge.color }]}>{badge.text}</Text>
       </View>
 
       {/* Header */}
       <View style={styles.header}>
         <View style={styles.headerLeft}>
-          <Text style={styles.categoryIcon} data-cy="category-icon">
-            {categoryIcon}
-          </Text>
+          <View style={[styles.categoryIconContainer, { backgroundColor: elementColors.bg }]}>
+            <Text style={styles.categoryIcon} {...getTestProps('category-icon')}>
+              {categoryIcon}
+            </Text>
+          </View>
           <View style={styles.headerInfo}>
             <Text
               style={[styles.elementName, { color: elementColors.text }]}
               numberOfLines={2}
-              data-cy="element-name"
+              {...getTestProps('element-name')}
             >
               {element.name}
             </Text>
-            <Text style={styles.categoryText} data-cy="element-category">
-              {element.category.replace('-', ' ')}
+            <Text style={styles.categoryText} {...getTestProps('element-category')}>
+              {element.category} • general
             </Text>
           </View>
         </View>
 
-        <View style={styles.completionContainer}>
-          <Text style={styles.completionIcon}>
-            {element.completionPercentage === 100 ? '✓' : '⏰'}
-          </Text>
-          <Text
-            style={[
-              styles.completionText,
-              { color: getCompletionColor(element.completionPercentage) },
-            ]}
-            data-cy="completion-text"
-          >
-            {element.completionPercentage}%
-          </Text>
+        {/* Replace completion text with ProgressRing */}
+        <View style={styles.progressRingContainer}>
+          <ProgressRing
+            progress={element.completionPercentage}
+            size="small"
+            showPercentage={true}
+            colorPreset={getProgressColorPreset()}
+            {...getTestProps('element-card-progress')}
+          />
         </View>
       </View>
 
@@ -107,26 +174,13 @@ export const ElementCard = memo(function ElementCard({
         <Text
           style={styles.description}
           numberOfLines={2}
-          data-cy="element-description"
+          {...getTestProps('element-description')}
         >
           {element.description}
         </Text>
       )}
 
-      {/* Progress Bar */}
-      <View style={styles.progressBarContainer}>
-        <View style={styles.progressBarBackground}>
-          <View
-            style={[
-              styles.progressBarFill,
-              {
-                width: `${element.completionPercentage}%`,
-                backgroundColor: getCompletionColor(element.completionPercentage),
-              },
-            ]}
-          />
-        </View>
-      </View>
+      {/* Remove the old progress bar - using ProgressRing instead */}
 
       {/* Footer */}
       <View style={styles.footer}>
@@ -137,7 +191,7 @@ export const ElementCard = memo(function ElementCard({
           <View style={styles.tags}>
             {element.tags.slice(0, 2).map((tag) => (
               <View key={tag} style={styles.tag}>
-                <Text style={styles.tagText} data-cy="element-tag">
+                <Text style={styles.tagText} {...getTestProps('element-tag')}>
                   {tag}
                 </Text>
               </View>
@@ -149,53 +203,77 @@ export const ElementCard = memo(function ElementCard({
         )}
       </View>
 
-      {/* Relationships */}
+      {/* Relationships Badge */}
       {element.relationships && element.relationships.length > 0 && (
         <View style={styles.relationships}>
-          <Text style={styles.relationshipsText}>
-            {element.relationships.length} connection
-            {element.relationships.length !== 1 ? 's' : ''}
-          </Text>
+          <View style={styles.relationshipBadge}>
+            <Text style={styles.relationshipIcon}>🔗</Text>
+            <Text style={styles.relationshipsText}>
+              {element.relationships.length} connection
+              {element.relationships.length !== 1 ? 's' : ''}
+            </Text>
+          </View>
         </View>
       )}
     </Pressable>
   );
 });
 
-const styles = StyleSheet.create({
+// * Dynamic style creation based on theme
+const createStyles = (theme: any) => StyleSheet.create({
   card: {
-    borderWidth: 2,
-    borderRadius: 8,
-    padding: 16,
-    marginBottom: 12,
+    borderWidth: 1,
+    borderRadius: theme.borderRadius.lg,
+    padding: theme.spacing.md,
+    marginBottom: theme.spacing.md,
     position: 'relative',
-    minHeight: 120,
+    minHeight: 140,
+    // * Fantasy theme shadows
+    shadowColor: theme.colors.effects.shadow,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   cardPressed: {
     opacity: 0.8,
   },
   cardWeb: {
-    transition: 'all 0.2s ease',
-    cursor: 'pointer',
+    ...Platform.select({
+      web: {
+        transition: 'all 0.3s ease',
+        cursor: 'pointer',
+        '&:hover': {
+          transform: 'translateY(-1px)',
+          shadowOpacity: 0.15,
+        },
+      } as any,
+      default: {},
+    }),
   },
   badge: {
     position: 'absolute',
-    top: 0,
-    right: 0,
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderBottomLeftRadius: 8,
+    top: -1,
+    right: -1,
+    paddingHorizontal: theme.spacing.sm,
+    paddingVertical: theme.spacing.xs,
+    borderBottomLeftRadius: theme.borderRadius.md,
+    borderTopRightRadius: theme.borderRadius.lg,
+    borderWidth: 1,
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
   },
   badgeIcon: {
-    fontSize: 12,
+    fontSize: theme.typography.fontSize.sm,
   },
   badgeText: {
-    fontSize: 10,
+    fontSize: theme.typography.fontSize.xs,
     fontWeight: '600',
-    color: '#111827',
+    fontFamily: theme.typography.fontFamily.bold,
   },
   header: {
     flexDirection: 'row',
@@ -207,7 +285,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-start',
     flex: 1,
-    gap: 8,
+    gap: theme.spacing.sm,
+  },
+  categoryIconContainer: {
+    width: 40,
+    height: 40,
+    borderRadius: theme.borderRadius.md,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: theme.colors.primary.borderLight,
   },
   categoryIcon: {
     fontSize: 24,
@@ -216,45 +303,24 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   elementName: {
-    fontSize: 16,
+    fontSize: theme.typography.fontSize.lg,
     fontWeight: '600',
     marginBottom: 2,
+    fontFamily: theme.typography.fontFamily.bold,
   },
   categoryText: {
-    fontSize: 12,
-    color: '#9CA3AF',
+    fontSize: theme.typography.fontSize.sm,
+    color: theme.colors.text.secondary,
     textTransform: 'capitalize',
   },
-  completionContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-  },
-  completionIcon: {
-    fontSize: 14,
-  },
-  completionText: {
-    fontSize: 14,
-    fontWeight: '500',
+  progressRingContainer: {
+    marginRight: theme.spacing.xs,
   },
   description: {
-    fontSize: 12,
-    color: '#9CA3AF',
+    fontSize: theme.typography.fontSize.sm,
+    color: theme.colors.text.secondary,
     lineHeight: 18,
-    marginBottom: 12,
-  },
-  progressBarContainer: {
-    marginBottom: 12,
-  },
-  progressBarBackground: {
-    height: 4,
-    backgroundColor: '#374151',
-    borderRadius: 2,
-    overflow: 'hidden',
-  },
-  progressBarFill: {
-    height: '100%',
-    borderRadius: 2,
+    marginBottom: theme.spacing.md,
   },
   footer: {
     flexDirection: 'row',
@@ -262,35 +328,45 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   updatedText: {
-    fontSize: 11,
-    color: '#6B7280',
+    fontSize: theme.typography.fontSize.xs,
+    color: theme.colors.text.tertiary,
   },
   tags: {
     flexDirection: 'row',
-    gap: 4,
+    gap: theme.spacing.xs,
   },
   tag: {
-    paddingHorizontal: 6,
+    paddingHorizontal: theme.spacing.xs + 2,
     paddingVertical: 2,
-    backgroundColor: '#374151',
-    borderRadius: 4,
+    backgroundColor: theme.colors.surface.backgroundElevated,
+    borderRadius: theme.borderRadius.sm,
+    borderWidth: 1,
+    borderColor: theme.colors.primary.borderLight,
   },
   tagText: {
-    fontSize: 10,
-    color: '#F9FAFB',
+    fontSize: theme.typography.fontSize.xs,
+    color: theme.colors.text.primary,
   },
   moreTagsText: {
-    fontSize: 11,
-    color: '#6B7280',
+    fontSize: theme.typography.fontSize.xs,
+    color: theme.colors.text.secondary,
   },
   relationships: {
-    marginTop: 12,
-    paddingTop: 12,
+    marginTop: theme.spacing.sm,
+    paddingTop: theme.spacing.sm,
     borderTopWidth: 1,
-    borderTopColor: '#374151',
+    borderTopColor: theme.colors.primary.borderLight,
+  },
+  relationshipBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: theme.spacing.xs,
+  },
+  relationshipIcon: {
+    fontSize: theme.typography.fontSize.sm,
   },
   relationshipsText: {
-    fontSize: 11,
-    color: '#6B7280',
+    fontSize: theme.typography.fontSize.xs,
+    color: theme.colors.text.secondary,
   },
 });

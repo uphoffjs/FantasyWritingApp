@@ -4,6 +4,7 @@
  */
 
 import React, { forwardRef } from 'react';
+import { fantasyTomeColors } from '@/constants/fantasyTomeColors';
 import {
   TextInput as RNTextInput,
   TextInputProps as RNTextInputProps,
@@ -47,11 +48,10 @@ export const TextInput = forwardRef<RNTextInput, TextInputProps>(
             error && styles.errorInput,
             Platform.OS === 'web' && styles.webInput,
             inputStyle,
-          ]}
-          placeholderTextColor="#6B7280"
+          ]} placeholderTextColor="#6B7280"
           multiline={multiline}
           numberOfLines={numberOfLines}
-          textAlignVertical={multiline ? 'top' : 'center'}
+          textAlignVertical={multiline ?  'top'  : 'center'}
           {...props}
         />
         {error && <Text style={styles.errorText}>{error}</Text>}
@@ -68,8 +68,6 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 14,
-    fontWeight: '500',
-    color: '#F9FAFB',
     marginBottom: 6,
     fontFamily: Platform.select({
       ios: 'System',
@@ -77,15 +75,9 @@ const styles = StyleSheet.create({
       web: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
     }),
   },
-  input: {
-    backgroundColor: '#1F2937',
-    borderWidth: 1,
-    borderColor: '#374151',
     borderRadius: 8,
     paddingHorizontal: 12,
     paddingVertical: 10,
-    fontSize: 16,
-    color: '#F9FAFB',
     minHeight: 44,
     fontFamily: Platform.select({
       ios: 'System',
@@ -106,12 +98,8 @@ const styles = StyleSheet.create({
       default: {},
     }),
   },
-  errorInput: {
-    borderColor: '#DC2626',
   },
   errorText: {
-    fontSize: 12,
-    color: '#DC2626',
     marginTop: 4,
     fontFamily: Platform.select({
       ios: 'System',

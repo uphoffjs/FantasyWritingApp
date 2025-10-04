@@ -1,0 +1,22 @@
+{
+  "description": "Configuration for files that are protected from modification",
+  "protected": [
+    {
+      "path": "cypress/e2e/login-page-tests/verify-login-page.cy.ts",
+      "reason": "Critical pre-commit test - modifications require special approval",
+      "allowedModifiers": []
+    },
+    {
+      "path": "scripts/check-protected-files.js",
+      "reason": "Protection enforcement script - must not be bypassed",
+      "allowedModifiers": []
+    },
+    {
+      "path": "scripts/pre-commit-test.sh",
+      "reason": "Pre-commit test runner - must not be bypassed",
+      "allowedModifiers": []
+    }
+  ],
+  "enforcementLevel": "strict",
+  "bypassEnabled": false
+}

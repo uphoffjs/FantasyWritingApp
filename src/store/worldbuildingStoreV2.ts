@@ -21,7 +21,7 @@ import {
   // CreateRelationshipInput
 } from '../types/models';
 
-// Import default templates (will need to be updated to use new structure)
+// TODO: TODO: * Import default templates (will need to be updated to use new structure)
 import { DEFAULT_TEMPLATES } from '../types/worldbuilding';
 
 interface WorldbuildingStoreV2 {
@@ -31,66 +31,66 @@ interface WorldbuildingStoreV2 {
   currentElementId: string | null;
   searchHistory: string[];
   
-  // Services (internal use)
+  // * Services (internal use)
   _services: {
     project: ProjectService;
     element: ElementService;
     relationship: RelationshipService;
   } | null;
   
-  // Initialization
+  // * Initialization
   initializeServices: () => void;
   
-  // Project actions (delegated to ProjectService)
+  // * Project actions (delegated to ProjectService)
   createProject: (name: string, description: string) => Promise<Project>;
   updateProject: (projectId: string, updates: Partial<Project>) => Promise<void>;
   deleteProject: (projectId: string) => Promise<void>;
   duplicateProject: (projectId: string) => Promise<Project | null>;
   setCurrentProject: (projectId: string | null) => void;
   
-  // Element actions (delegated to ElementService)
+  // * Element actions (delegated to ElementService)
   createElement: (projectId: string, name: string, category: ElementCategory, templateId?: string) => Promise<WorldElement>;
   updateElement: (projectId: string, elementId: string, updates: Partial<WorldElement>) => Promise<void>;
   deleteElement: (projectId: string, elementId: string) => Promise<void>;
   setCurrentElement: (elementId: string | null) => void;
   updateAnswers: (projectId: string, elementId: string, answers: Record<string, any>) => Promise<void>;
   
-  // Relationship actions (delegated to RelationshipService)
+  // * Relationship actions (delegated to RelationshipService)
   createRelationship: (projectId: string, fromId: string, toId: string, type: string) => Promise<Relationship>;
   deleteRelationship: (projectId: string, relationshipId: string) => Promise<void>;
   
-  // Utility actions
+  // * Utility actions
   getCurrentProject: () => Project | null;
   getCurrentElement: () => WorldElement | null;
   searchElements: (query: string) => WorldElement[];
   exportProject: (projectId: string) => string;
   importProject: (data: string) => Promise<Project>;
   
-  // New service-based methods
+  // * New service-based methods
   getElementsByCategory: (projectId: string, category: ElementCategory) => WorldElement[];
   getRacesByUsage: (projectId: string, limit?: number) => WorldElement[];
   quickCreateElement: (projectId: string, category: ElementCategory, name: string) => Promise<WorldElement>;
   incrementElementUsage: (projectId: string, elementId: string) => Promise<void>;
   
-  // Search history
+  // * Search history
   addSearchQuery: (query: string) => void;
   clearSearchHistory: () => void;
   
-  // Template management
+  // TODO: * Template management
   getTemplatesForCategory: (category: ElementCategory) => QuestionnaireTemplate[];
 }
 
 export const useWorldbuildingStoreV2 = create<WorldbuildingStoreV2>()(
   persist(
     (set, get) => ({
-      // Initial state
+      // * Initial state
       projects: [],
       currentProjectId: null,
       currentElementId: null,
       searchHistory: [],
       _services: null,
       
-      // Initialize services
+      // * Initialize services
       initializeServices: () => {
         const adapter = new ZustandStoreAdapter(() => get() as any);
         const validationService = new ValidationService();
@@ -109,7 +109,7 @@ export const useWorldbuildingStoreV2 = create<WorldbuildingStoreV2>()(
         });
       },
       
-      // Project actions
+      // * Project actions
       createProject: async (name: string, description: string) => {
         const services = get()._services;
         if (!services) {
@@ -158,7 +158,7 @@ export const useWorldbuildingStoreV2 = create<WorldbuildingStoreV2>()(
         set({ currentProjectId: projectId });
       },
       
-      // Element actions
+      // * Element actions
       createElement: async (projectId: string, name: string, category: ElementCategory, templateId?: string) => {
         const services = get()._services;
         if (!services) {
@@ -166,7 +166,7 @@ export const useWorldbuildingStoreV2 = create<WorldbuildingStoreV2>()(
           return get().createElement(projectId, name, category, templateId);
         }
         
-        // Get template if specified
+        // TODO: * Get template if specified
         let template: QuestionnaireTemplate | undefined;
         if (templateId) {
           const defaultTemplate = DEFAULT_TEMPLATES[category];
@@ -185,7 +185,7 @@ export const useWorldbuildingStoreV2 = create<WorldbuildingStoreV2>()(
           template
         );
         
-        // Update project in state
+        // * Update project in state
         set(state => ({
           projects: state.projects.map(p => 
             p.id === projectId 
@@ -263,7 +263,7 @@ export const useWorldbuildingStoreV2 = create<WorldbuildingStoreV2>()(
         }));
       },
       
-      // Relationship actions
+      // * Relationship actions
       createRelationship: async (projectId: string, fromId: string, toId: string, type: string) => {
         const services = get()._services;
         if (!services) return {} as Relationship;
@@ -286,7 +286,7 @@ export const useWorldbuildingStoreV2 = create<WorldbuildingStoreV2>()(
         // Note: Update state based on where relationships are stored
       },
       
-      // Utility actions
+      // * Utility actions
       getCurrentProject: () => {
         const state = get();
         return state.projects.find(p => p.id === state.currentProjectId) || null;
@@ -328,7 +328,7 @@ export const useWorldbuildingStoreV2 = create<WorldbuildingStoreV2>()(
         return project;
       },
       
-      // Service-based methods
+      // * Service-based methods
       getElementsByCategory: (projectId: string, category: ElementCategory) => {
         const services = get()._services;
         if (!services) return [];
@@ -366,7 +366,7 @@ export const useWorldbuildingStoreV2 = create<WorldbuildingStoreV2>()(
         
         await services.element.incrementElementUsage(projectId, elementId);
         
-        // Update element metadata in state
+        // * Update element metadata in state
         set(state => ({
           projects: state.projects.map(p => 
             p.id === projectId 
@@ -390,7 +390,7 @@ export const useWorldbuildingStoreV2 = create<WorldbuildingStoreV2>()(
         }));
       },
       
-      // Search history
+      // * Search history
       addSearchQuery: (query: string) => {
         set(state => ({
           searchHistory: [query, ...state.searchHistory.filter(q => q !== query)].slice(0, 10)
@@ -401,10 +401,10 @@ export const useWorldbuildingStoreV2 = create<WorldbuildingStoreV2>()(
         set({ searchHistory: [] });
       },
       
-      // Template management
+      // TODO: * Template management
       getTemplatesForCategory: (category: ElementCategory) => {
-        // For now, return default templates
-        // This will need to be updated when custom templates are supported
+        // TODO: * For now, return default templates
+        // TODO: TODO: * This will need to be updated when custom templates are supported
         const defaultTemplate = DEFAULT_TEMPLATES[category];
         if (!defaultTemplate) return [];
         
@@ -437,5 +437,5 @@ export const useWorldbuildingStoreV2 = create<WorldbuildingStoreV2>()(
   )
 );
 
-// Initialize services on store creation
+// * Initialize services on store creation
 useWorldbuildingStoreV2.getState().initializeServices();

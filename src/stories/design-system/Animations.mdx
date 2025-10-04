@@ -1,0 +1,383 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Design System/Animations" />
+
+# Animation System
+
+Consistent motion design creates a polished and professional user experience. Our animation system provides predictable, performant animations that enhance usability without being distracting.
+
+## Animation Principles
+
+### 1. **Purposeful**
+Every animation should have a clear purpose - guide attention, provide feedback, or show relationships between elements.
+
+### 2. **Fast and Responsive**
+Animations should be quick enough to feel responsive but slow enough to be perceived.
+
+### 3. **Natural Motion**
+Use easing curves that feel natural and match real-world physics.
+
+### 4. **Consistent**
+Similar actions should have similar animations across the entire application.
+
+## Duration Scale
+
+Our animation system uses a consistent duration scale based on the type and complexity of the animation:
+
+| Duration | Token | Use Case |
+|----------|-------|----------|
+| 100ms | `--duration-instant` | Hover states, micro-interactions |
+| 200ms | `--duration-quick` | Simple transitions, fades |
+| 300ms | `--duration-normal` | Most UI animations, slides |
+| 500ms | `--duration-slow` | Complex transitions, page changes |
+| 800ms | `--duration-deliberate` | Onboarding, emphasis animations |
+
+## Easing Functions
+
+We use standardized easing functions for consistent motion:
+
+### Standard Easing
+```css
+/* Default for most animations */
+--ease-standard: cubic-bezier(0.4, 0.0, 0.2, 1);
+```
+Use for: General UI animations, slides, reveals
+
+### Decelerate
+```css
+/* Objects entering the screen */
+--ease-decelerate: cubic-bezier(0.0, 0.0, 0.2, 1);
+```
+Use for: Elements appearing, modals opening
+
+### Accelerate
+```css
+/* Objects leaving the screen */
+--ease-accelerate: cubic-bezier(0.4, 0.0, 1, 1);
+```
+Use for: Elements disappearing, closing animations
+
+### Spring
+```css
+/* Playful, energetic motion */
+--ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+```
+Use for: Success states, delightful interactions
+
+## Common Animation Patterns
+
+### Fade In/Out
+```tsx
+// React Native
+import { Animated } from 'react-native';
+
+const fadeIn = () => {
+  Animated.timing(opacity, {
+    toValue: 1,
+    duration: 200,
+    useNativeDriver: true,
+  }).start();
+};
+
+// CSS (Web)
+.fade-in {
+  animation: fadeIn var(--duration-quick) var(--ease-standard);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+```
+
+### Slide
+```tsx
+// React Native
+import { Animated } from 'react-native';
+
+const slideIn = () => {
+  Animated.spring(translateX, {
+    toValue: 0,
+    tension: 40,
+    friction: 8,
+    useNativeDriver: true,
+  }).start();
+};
+
+// CSS (Web)
+.slide-in {
+  animation: slideIn var(--duration-normal) var(--ease-decelerate);
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+```
+
+### Scale
+```tsx
+// React Native
+const scalePress = () => {
+  Animated.sequence([
+    Animated.timing(scale, {
+      toValue: 0.95,
+      duration: 100,
+      useNativeDriver: true,
+    }),
+    Animated.timing(scale, {
+      toValue: 1,
+      duration: 100,
+      useNativeDriver: true,
+    }),
+  ]).start();
+};
+
+// CSS (Web)
+.scale-press:active {
+  transform: scale(0.95);
+  transition: transform var(--duration-instant) var(--ease-standard);
+}
+```
+
+### Stagger
+```tsx
+// React Native - Stagger animations for lists
+const staggerAnimation = () => {
+  const animations = items.map((item, index) => {
+    return Animated.timing(item.opacity, {
+      toValue: 1,
+      duration: 300,
+      delay: index * 50,
+      useNativeDriver: true,
+    });
+  });
+  
+  Animated.parallel(animations).start();
+};
+```
+
+## Component-Specific Animations
+
+### Buttons
+- **Hover**: Scale to 1.02 with instant duration
+- **Press**: Scale to 0.95 with instant duration
+- **Disabled**: Fade to 0.5 opacity with quick duration
+
+### Cards
+- **Enter**: Fade in + slight scale from 0.95 to 1
+- **Hover**: Elevate with shadow increase
+- **Press**: Scale to 0.98
+
+### Modals
+- **Open**: Fade backdrop + scale content from 0.9 to 1
+- **Close**: Fade out + scale to 0.9
+- **Duration**: Normal (300ms)
+
+### Navigation
+- **Page transition**: Slide with normal duration
+- **Tab switch**: Fade with quick duration
+- **Drawer**: Slide with normal duration
+
+### Loading States
+- **Skeleton**: Pulse animation with slow duration
+- **Spinner**: Continuous rotation
+- **Progress bar**: Linear progression with easing
+
+## Performance Guidelines
+
+### Do's ✅
+- Use `transform` and `opacity` for animations (GPU accelerated)
+- Enable `useNativeDriver: true` in React Native
+- Prefer CSS animations over JavaScript when possible
+- Use `will-change` sparingly for known animations
+- Test on lower-end devices
+
+### Don'ts ❌
+- Animate `width`, `height`, or `position` properties
+- Create animations longer than 1 second
+- Animate during scroll without throttling
+- Use too many simultaneous animations
+- Forget to clean up animation listeners
+
+## React Native Animation Examples
+
+### Animated Component
+```tsx
+import React, { useRef, useEffect } from 'react';
+import { Animated, View } from 'react-native';
+
+export const FadeInView = ({ children, delay = 0 }) => {
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 300,
+      delay,
+      useNativeDriver: true,
+    }).start();
+  }, [fadeAnim, delay]);
+
+  return (
+    <Animated.View style={{ opacity: fadeAnim }}>
+      {children}
+    </Animated.View>
+  );
+};
+```
+
+### Gesture Animation
+```tsx
+import { PanGestureHandler } from 'react-native-gesture-handler';
+import Animated, {
+  useAnimatedGestureHandler,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from 'react-native-reanimated';
+
+export const DraggableCard = ({ children }) => {
+  const translateX = useSharedValue(0);
+  const translateY = useSharedValue(0);
+
+  const gestureHandler = useAnimatedGestureHandler({
+    onActive: (event) => {
+      translateX.value = event.translationX;
+      translateY.value = event.translationY;
+    },
+    onEnd: () => {
+      translateX.value = withSpring(0);
+      translateY.value = withSpring(0);
+    },
+  });
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [
+        { translateX: translateX.value },
+        { translateY: translateY.value },
+      ],
+    };
+  });
+
+  return (
+    <PanGestureHandler onGestureEvent={gestureHandler}>
+      <Animated.View style={animatedStyle}>
+        {children}
+      </Animated.View>
+    </PanGestureHandler>
+  );
+};
+```
+
+## Web Animation Examples
+
+### CSS Animations
+```css
+/* Button hover animation */
+.button {
+  transition: all var(--duration-instant) var(--ease-standard);
+}
+
+.button:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Card entrance animation */
+.card {
+  animation: cardEnter var(--duration-normal) var(--ease-decelerate);
+}
+
+@keyframes cardEnter {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Loading skeleton pulse */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-background-secondary) 25%,
+    var(--color-background-tertiary) 50%,
+    var(--color-background-secondary) 75%
+  );
+  background-size: 200% 100%;
+  animation: loading var(--duration-slow) infinite;
+}
+
+@keyframes loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+```
+
+## Accessibility Considerations
+
+### Respect Motion Preferences
+Always respect the user's motion preferences:
+
+```css
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+```
+
+```tsx
+// React Native
+import { AccessibilityInfo } from 'react-native';
+
+const [reduceMotion, setReduceMotion] = useState(false);
+
+useEffect(() => {
+  AccessibilityInfo.isReduceMotionEnabled().then(setReduceMotion);
+}, []);
+
+// Use shorter durations or skip animations when reduceMotion is true
+const animationDuration = reduceMotion ? 0 : 300;
+```
+
+### Focus Indicators
+Ensure focus states are visible without relying solely on animation:
+
+```css
+.interactive-element:focus-visible {
+  outline: 2px solid var(--color-primary-500);
+  outline-offset: 2px;
+}
+```
+
+## Animation Tokens Reference
+
+```css
+:root {
+  /* Durations */
+  --duration-instant: 100ms;
+  --duration-quick: 200ms;
+  --duration-normal: 300ms;
+  --duration-slow: 500ms;
+  --duration-deliberate: 800ms;
+  
+  /* Easing Functions */
+  --ease-standard: cubic-bezier(0.4, 0.0, 0.2, 1);
+  --ease-decelerate: cubic-bezier(0.0, 0.0, 0.2, 1);
+  --ease-accelerate: cubic-bezier(0.4, 0.0, 1, 1);
+  --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  
+  /* Spring Physics (React Native) */
+  --spring-tension: 40;
+  --spring-friction: 8;
+  --spring-mass: 1;
+}
+```

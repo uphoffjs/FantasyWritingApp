@@ -9,9 +9,9 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { useWorldbuildingStore } from '../store/worldbuildingStore';
-// Types imported but not used in this file directly
+// * Types imported but not used in this file directly
 // Cross-platform import/export without native dependencies
-// Native modules will be conditionally imported only on native platforms
+// * Native modules will be conditionally imported only on native platforms
 
 interface ImportExportProps {
   projectId?: string; // If provided, export single project. Otherwise export all.
@@ -27,56 +27,59 @@ export function ImportExport({
   const { projects, importData, exportData, exportProject } = useWorldbuildingStore();
   const [isExporting, setIsExporting] = useState(false);
   const [isImporting, setIsImporting] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Web-specific file input handling
+  // * Web-specific file input handling using dynamic element creation
   const handleWebImport = () => {
-    if (Platform.OS === 'web' && fileInputRef.current) {
-      fileInputRef.current.click();
-    }
+    if (Platform.OS !== 'web') return;
+
+    // * Create file input dynamically without storing ref
+    const input = (globalThis as any).document?.createElement('input');
+    if (!input) return;
+
+    input.type = 'file';
+    input.accept = '.json';
+
+    input.onchange = async (event: any) => {
+      const file = event.target.files?.[0];
+      if (!file) return;
+
+      setIsImporting(true);
+      try {
+        const text = await file.text();
+        const data = JSON.parse(text);
+
+        // * Validate the data structure
+        if (!data.version || !data.projects) {
+          throw new Error('Invalid data format');
+        }
+
+        await importData(data);
+
+        Alert.alert(
+          'Import Successful',
+          `Imported ${data.projects.length} project(s) successfully.`
+        );
+
+        onImportSuccess?.();
+      } catch (error) {
+        console.error('Import failed:', error);
+        Alert.alert(
+          'Import Failed',
+          'Failed to import data. Please ensure the file is a valid Fantasy Writing App export.'
+        );
+      } finally {
+        setIsImporting(false);
+      }
+    };
+
+    input.click();
   };
 
-  const handleWebFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
-
-    setIsImporting(true);
-    try {
-      const text = await file.text();
-      const data = JSON.parse(text);
-      
-      // Validate the data structure
-      if (!data.version || !data.projects) {
-        throw new Error('Invalid data format');
-      }
-
-      await importData(data);
-      
-      Alert.alert(
-        'Import Successful',
-        `Imported ${data.projects.length} project(s) successfully.`
-      );
-      
-      onImportSuccess?.();
-    } catch (error) {
-      console.error('Import failed:', error);
-      Alert.alert(
-        'Import Failed',
-        'Failed to import data. Please ensure the file is a valid Fantasy Writing App export.'
-      );
-    } finally {
-      setIsImporting(false);
-      if (fileInputRef.current) {
-        fileInputRef.current.value = '';
-      }
-    }
-  };
-
-  // Native import handling
+  // * Native import handling
   const handleNativeImport = async () => {
     setIsImporting(true);
     try {
-      // Dynamic import for native modules
+      // * Dynamic import for native modules
       const DocumentPicker = require('react-native-document-picker');
       const RNFS = require('react-native-fs');
 
@@ -88,7 +91,7 @@ export function ImportExport({
         const fileContent = await RNFS.readFile(result[0].uri, 'utf8');
         const data = JSON.parse(fileContent);
 
-        // Validate the data structure
+        // * Validate the data structure
         if (!data.version || !data.projects) {
           throw new Error('Invalid data format');
         }
@@ -103,7 +106,7 @@ export function ImportExport({
         onImportSuccess?.();
       }
     } catch (error) {
-      // Handle dynamic import errors gracefully
+      // * Handle dynamic import errors gracefully
       if (error && typeof error === 'object' && 'code' in error) {
         // DocumentPicker.isCancel equivalent
         if (error.code !== 'DOCUMENT_PICKER_CANCELED') {
@@ -125,7 +128,7 @@ export function ImportExport({
     }
   };
 
-  // Export handling for web
+  // * Export handling for web
   const handleWebExport = async () => {
     setIsExporting(true);
     try {
@@ -165,11 +168,11 @@ export function ImportExport({
     }
   };
 
-  // Export handling for native
+  // * Export handling for native
   const handleNativeExport = async () => {
     setIsExporting(true);
     try {
-      // Dynamic import for native modules
+      // * Dynamic import for native modules
       const RNFS = require('react-native-fs');
       const Share = require('react-native-share');
 
@@ -220,7 +223,7 @@ export function ImportExport({
     }
   };
 
-  // Determine which handlers to use based on platform
+  // * Determine which handlers to use based on platform
   const handleImport = Platform.OS === 'web' ? handleWebImport : handleNativeImport;
   const handleExport = Platform.OS === 'web' ? handleWebExport : handleNativeExport;
 
@@ -257,28 +260,18 @@ export function ImportExport({
           disabled={isExporting}
         >
           {isExporting ? (
-            <ActivityIndicator size="small" color="#FFFFFF" />
+            <ActivityIndicator size="small"
+          color="#FFFFFF" />
           ) : (
             <>
               <Text style={styles.buttonIcon}>📤</Text>
               <Text style={styles.buttonText}>
-                {projectId ? 'Export Project' : 'Export All'}
+                {projectId ? ' // ! HARDCODED: Should use design tokensExport Project' : 'Export All'}
               </Text>
             </>
           )}
         </Pressable>
       </View>
-
-      {/* Hidden file input for web */}
-      {Platform.OS === 'web' && (
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept=".json"
-          style={styles.hiddenInput}
-          onChange={handleWebFileSelect}
-        />
-      )}
 
       <View style={styles.infoContainer}>
         <Text style={styles.infoTitle}>ℹ️ Export Format</Text>
@@ -311,13 +304,11 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 18,
-    fontWeight: '600',
-    color: '#F9FAFB',
+    fontWeight: '600', color: '#F9FAFB', // ! HARDCODED: Should use design tokens
     marginBottom: 8,
   },
   sectionDescription: {
-    fontSize: 14,
-    color: '#9CA3AF',
+    fontSize: 14, color: '#9CA3AF', // ! HARDCODED: Should use design tokens
     lineHeight: 20,
   },
   buttonContainer: {
@@ -335,11 +326,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     minHeight: 48,
   },
-  importButton: {
-    backgroundColor: '#059669',
+  importButton: { backgroundColor: '#059669', // ! HARDCODED: Should use design tokens
   },
-  exportButton: {
-    backgroundColor: '#6366F1',
+  exportButton: { backgroundColor: '#6366F1', // ! HARDCODED: Should use design tokens
   },
   buttonDisabled: {
     opacity: 0.5,
@@ -349,47 +338,35 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 16,
-    fontWeight: '600',
-    color: '#FFFFFF',
+    fontWeight: '600', color: '#FFFFFF', // ! HARDCODED: Should use design tokens
   },
-  infoContainer: {
-    backgroundColor: '#1F2937',
+  infoContainer: { backgroundColor: '#1F2937', // ! HARDCODED: Should use design tokens
     borderRadius: 8,
     padding: 16,
     marginBottom: 16,
-    borderWidth: 1,
-    borderColor: '#374151',
+    borderWidth: 1, borderColor: '#374151', // ! HARDCODED: Should use design tokens
   },
   infoTitle: {
     fontSize: 14,
-    fontWeight: '600',
-    color: '#F9FAFB',
+    fontWeight: '600', color: '#F9FAFB', // ! HARDCODED: Should use design tokens
     marginBottom: 8,
   },
   infoText: {
-    fontSize: 13,
-    color: '#9CA3AF',
+    fontSize: 13, color: '#9CA3AF', // ! HARDCODED: Should use design tokens
     lineHeight: 18,
   },
-  warningContainer: {
-    backgroundColor: '#7C2D1220',
+  warningContainer: { backgroundColor: '#7C2D1220', // ! HARDCODED: Should use design tokens
     borderRadius: 8,
     padding: 16,
-    borderWidth: 1,
-    borderColor: '#991B1B',
+    borderWidth: 1, borderColor: '#991B1B', // ! HARDCODED: Should use design tokens
   },
   warningTitle: {
     fontSize: 14,
-    fontWeight: '600',
-    color: '#FCA5A5',
+    fontWeight: '600', color: '#FCA5A5', // ! HARDCODED: Should use design tokens
     marginBottom: 8,
   },
   warningText: {
-    fontSize: 13,
-    color: '#FCA5A5',
+    fontSize: 13, color: '#FCA5A5', // ! HARDCODED: Should use design tokens
     lineHeight: 18,
-  },
-  hiddenInput: {
-    display: 'none',
   },
 });

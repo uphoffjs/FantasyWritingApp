@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#F5F0E6">
+    <title>Login - Fantasy Element Builder</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=EB+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/tokens.css"> <!-- Generated tokens from Storybook -->
+    <link rel="stylesheet" href="css/components.css">
+    
+    <style>
+        /* * Page-specific styles matching the actual app */
+        .min-h-screen {
+            min-height: 100vh;
+        }
+        
+        .bg-gradient-text {
+            background: linear-gradient(to right, var(--metals-gold), var(--metals-copper));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 1.5rem;
+            background-color: rgba(240, 233, 220, 0.5); /* parchment-200/50 */
+            border-radius: 0.5rem;
+            padding: 0.25rem;
+        }
+        
+        .auth-tab {
+            flex: 1;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            transition: all 0.2s;
+            background: transparent;
+            border: none;
+            color: var(--ink-secondary);
+            font-family: 'EB Garamond', Georgia, serif;
+            cursor: pointer;
+        }
+        
+        .auth-tab:hover:not(.active) {
+            color: var(--ink-primary);
+        }
+        
+        .auth-tab.active {
+            background-color: var(--parchment-400);
+            color: var(--ink-primary);
+        }
+        
+        .auth-card {
+            background-color: var(--parchment-300);
+            border: 1px solid var(--parchment-400);
+            border-radius: 0.5rem;
+            padding: 2rem;
+        }
+        
+        .error-message {
+            margin-bottom: 1rem;
+            padding: 0.75rem;
+            background-color: rgba(192, 48, 48, 0.1); /* dragonfire with opacity */
+            border: 1px solid rgba(115, 26, 26, 0.5); /* dragonfire-700/50 */
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            color: var(--dragonfire-base);
+            font-size: 0.875rem;
+        }
+        
+        .error-message svg {
+            width: 1rem;
+            height: 1rem;
+            margin-right: 0.5rem;
+            flex-shrink: 0;
+        }
+        
+        .input-group {
+            margin-bottom: 1rem;
+        }
+        
+        .input-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--ink-secondary);
+            margin-bottom: 0.25rem;
+        }
+        
+        .input-wrapper {
+            position: relative;
+        }
+        
+        .input-icon {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1rem;
+            height: 1rem;
+            color: var(--ink-secondary);
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 0.5rem 0.75rem 0.5rem 2.5rem;
+            background-color: var(--parchment-200);
+            border: 1px solid var(--parchment-400);
+            border-radius: 0.5rem;
+            color: var(--ink-primary);
+            transition: all 0.2s;
+        }
+        
+        .form-input::placeholder {
+            color: var(--ink-secondary);
+        }
+        
+        .form-input:focus {
+            border-color: var(--metals-gold);
+            outline: none;
+            box-shadow: 0 0 0 1px var(--metals-gold);
+        }
+        
+        .checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+        
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+        }
+        
+        .checkbox-label input[type="checkbox"] {
+            width: 1rem;
+            height: 1rem;
+            margin-right: 0.5rem;
+            background-color: var(--parchment-200);
+            border: 1px solid var(--parchment-400);
+            border-radius: 0.25rem;
+        }
+        
+        .checkbox-label span {
+            font-size: 0.875rem;
+            color: var(--ink-secondary);
+        }
+        
+        .forgot-password-link {
+            font-size: 0.875rem;
+            color: var(--metals-gold);
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        .forgot-password-link:hover {
+            color: var(--metals-brass);
+        }
+        
+        .submit-button {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: linear-gradient(to right, var(--might-base), var(--dragonfire-base));
+            color: white;
+            font-family: 'Cinzel', Georgia, serif;
+            font-weight: 500;
+            border-radius: 0.5rem;
+            border: none;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .submit-button:hover:not(:disabled) {
+            opacity: 0.9;
+        }
+        
+        .submit-button:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--metals-gold), 0 0 0 4px var(--parchment-100);
+        }
+        
+        .submit-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .submit-button svg {
+            width: 1rem;
+            height: 1rem;
+            margin-right: 0.5rem;
+        }
+        
+        .spinner {
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .benefits-section {
+            margin-top: 1.5rem;
+            text-align: center;
+            font-size: 0.875rem;
+            color: var(--ink-secondary);
+        }
+        
+        .benefits-list {
+            margin-top: 0.5rem;
+            list-style: none;
+            padding: 0;
+        }
+        
+        .benefits-list li {
+            margin: 0.25rem 0;
+        }
+        
+        /* Forgot Password Modal */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            z-index: 50;
+        }
+        
+        .modal-content {
+            background-color: var(--parchment-300);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            max-width: 28rem;
+            width: 100%;
+            border: 1px solid var(--parchment-400);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .modal-title {
+            font-size: 1.25rem;
+            font-family: 'Cinzel', Georgia, serif;
+            font-weight: 500;
+            color: var(--ink-primary);
+        }
+        
+        .close-button {
+            background: none;
+            border: none;
+            color: var(--ink-secondary);
+            cursor: pointer;
+            padding: 0;
+        }
+        
+        .close-button:hover {
+            color: var(--ink-primary);
+        }
+        
+        .modal-description {
+            color: var(--ink-secondary);
+            margin-bottom: 1rem;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            gap: 0.75rem;
+        }
+        
+        .modal-buttons button {
+            flex: 1;
+        }
+        
+        .cancel-button {
+            padding: 0.5rem 1rem;
+            background-color: var(--parchment-200);
+            color: var(--ink-secondary);
+            font-family: 'Cinzel', Georgia, serif;
+            font-weight: 500;
+            border-radius: 0.5rem;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .cancel-button:hover {
+            background-color: var(--parchment-300);
+        }
+        
+        .success-icon {
+            width: 4rem;
+            height: 4rem;
+            background-color: var(--might-base);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+        }
+        
+        .success-icon svg {
+            width: 2rem;
+            height: 2rem;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="min-h-screen bg-parchment-100 flex items-center justify-center p-4">
+        <div class="w-full" style="max-width: 28rem;">
+            <!-- Logo and Title -->
+            <div class="text-center mb-8">
+                <h1 class="text-4xl font-cinzel font-medium bg-gradient-text">
+                    Fantasy Element Builder
+                </h1>
+                <p class="text-ink-secondary mt-2">Build Your Fictional Worlds</p>
+            </div>
+            
+            <!-- Auth Card -->
+            <div class="auth-card">
+                <!-- Tab Switcher -->
+                <div class="auth-tabs">
+                    <button
+                        id="signin-tab"
+                        class="auth-tab active"
+                        onclick="switchAuthMode('signin')"
+                    >
+                        Sign In
+                    </button>
+                    <button
+                        id="signup-tab"
+                        class="auth-tab"
+                        onclick="switchAuthMode('signup')"
+                    >
+                        Sign Up
+                    </button>
+                </div>
+                
+                <!-- Error Message (hidden by default) -->
+                <div id="error-message" class="error-message" style="display: none;">
+                    <svg fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                    </svg>
+                    <span id="error-text"></span>
+                </div>
+                
+                <!-- Auth Form -->
+                <form id="auth-form" onsubmit="handleSubmit(event)">
+                    <!-- Email Input -->
+                    <div class="input-group">
+                        <label for="email" class="input-label">Email</label>
+                        <div class="input-wrapper">
+                            <svg class="input-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                            <input
+                                id="email"
+                                type="email"
+                                class="form-input"
+                                placeholder="you@example.com"
+                                required
+                            >
+                        </div>
+                    </div>
+                    
+                    <!-- Password Input -->
+                    <div class="input-group">
+                        <label for="password" class="input-label">Password</label>
+                        <div class="input-wrapper">
+                            <svg class="input-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                            </svg>
+                            <input
+                                id="password"
+                                type="password"
+                                class="form-input"
+                                placeholder="••••••••"
+                                required
+                            >
+                        </div>
+                    </div>
+                    
+                    <!-- Confirm Password (Sign Up only) -->
+                    <div id="confirm-password-group" class="input-group" style="display: none;">
+                        <label for="confirmPassword" class="input-label">Confirm Password</label>
+                        <div class="input-wrapper">
+                            <svg class="input-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                            </svg>
+                            <input
+                                id="confirmPassword"
+                                type="password"
+                                class="form-input"
+                                placeholder="••••••••"
+                            >
+                        </div>
+                    </div>
+                    
+                    <!-- Remember Me & Forgot Password (Sign In only) -->
+                    <div id="signin-options" class="checkbox-wrapper">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="rememberMe">
+                            <span>Remember me</span>
+                        </label>
+                        <a onclick="showForgotPassword()" class="forgot-password-link">
+                            Forgot password?
+                        </a>
+                    </div>
+                    
+                    <!-- Submit Button -->
+                    <button type="submit" class="submit-button" id="submit-button">
+                        <svg id="signin-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+                        </svg>
+                        <svg id="signup-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="display: none;">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+                        </svg>
+                        <svg id="loading-spinner" class="spinner" fill="none" viewBox="0 0 24 24" style="display: none;">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        <span id="submit-text">Sign In</span>
+                    </button>
+                </form>
+                
+                <!-- Benefits Message -->
+                <div class="benefits-section">
+                    <p>Create an account to:</p>
+                    <ul class="benefits-list">
+                        <li>• Save your worlds in the cloud</li>
+                        <li>• Access from any device</li>
+                        <li>• Collaborate with others</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Forgot Password Modal -->
+    <div id="forgot-password-modal" class="modal-backdrop" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Reset Password</h2>
+                <button onclick="closeForgotPassword()" class="close-button">
+                    <svg style="width: 1.25rem; height: 1.25rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            
+            <div id="forgot-password-form">
+                <p class="modal-description">
+                    Enter your email address and we'll send you a link to reset your password.
+                </p>
+                
+                <div id="forgot-error" class="error-message" style="display: none;">
+                    <svg fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                    </svg>
+                    <span id="forgot-error-text"></span>
+                </div>
+                
+                <div class="input-group">
+                    <label for="forgot-email" class="input-label">Email Address</label>
+                    <div class="input-wrapper">
+                        <svg class="input-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                        <input
+                            id="forgot-email"
+                            type="email"
+                            class="form-input"
+                            placeholder="Enter your email"
+                            required
+                        >
+                    </div>
+                </div>
+                
+                <div class="modal-buttons">
+                    <button type="button" onclick="sendResetLink()" class="submit-button">
+                        Send Reset Link
+                    </button>
+                    <button type="button" onclick="closeForgotPassword()" class="cancel-button">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+            
+            <div id="forgot-password-success" style="display: none; text-align: center;">
+                <div class="success-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                </div>
+                <h3 style="font-size: 1.125rem; font-family: 'Cinzel', Georgia, serif; font-weight: 500; color: var(--ink-primary); margin-bottom: 0.5rem;">
+                    Check Your Email
+                </h3>
+                <p style="color: var(--ink-secondary);">
+                    We've sent password reset instructions to <span id="reset-email"></span>
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" onclick="toggleTheme()" data-cy="theme-toggle">
+        <span class="theme-icon">🌞</span>
+    </button>
+    
+    <script src="js/mockup-helpers.js"></script>
+    <script>
+        let authMode = 'signin';
+        let isLoading = false;
+        
+        function switchAuthMode(mode) {
+            authMode = mode;
+            
+            // Update tabs
+            document.getElementById('signin-tab').classList.toggle('active', mode === 'signin');
+            document.getElementById('signup-tab').classList.toggle('active', mode === 'signup');
+            
+            // Show/hide confirm password
+            document.getElementById('confirm-password-group').style.display = 
+                mode === 'signup' ? 'block' : 'none';
+            
+            // Show/hide signin options
+            document.getElementById('signin-options').style.display = 
+                mode === 'signin' ? 'flex' : 'none';
+            
+            // Update button text and icon
+            document.getElementById('submit-text').textContent = 
+                mode === 'signin' ? 'Sign In' : 'Create Account';
+            document.getElementById('signin-icon').style.display = 
+                mode === 'signin' ? 'block' : 'none';
+            document.getElementById('signup-icon').style.display = 
+                mode === 'signup' ? 'block' : 'none';
+            
+            // Clear error
+            hideError();
+            
+            // Make confirm password required for signup
+            document.getElementById('confirmPassword').required = mode === 'signup';
+        }
+        
+        function showError(message) {
+            document.getElementById('error-text').textContent = message;
+            document.getElementById('error-message').style.display = 'flex';
+        }
+        
+        function hideError() {
+            document.getElementById('error-message').style.display = 'none';
+        }
+        
+        function validateForm() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (!email || !password) {
+                showError('Please enter your email and password');
+                return false;
+            }
+            
+            if (!email.includes('@')) {
+                showError('Please enter a valid email address');
+                return false;
+            }
+            
+            if (password.length < 6) {
+                showError('Password must be at least 6 characters');
+                return false;
+            }
+            
+            if (authMode === 'signup' && password !== confirmPassword) {
+                showError('Passwords do not match');
+                return false;
+            }
+            
+            return true;
+        }
+        
+        function handleSubmit(event) {
+            event.preventDefault();
+            
+            if (!validateForm()) return;
+            
+            setLoading(true);
+            hideError();
+            
+            // Simulate authentication
+            mockupHelpers.simulateDataLoad(() => {
+                setLoading(false);
+                
+                if (authMode === 'signup') {
+                    mockupHelpers.showNotification('Account Created! Please check your email to verify your account.', 'success');
+                } else {
+                    mockupHelpers.showNotification('Welcome back!', 'success');
+                }
+                
+                // Simulate navigation to projects page
+                setTimeout(() => {
+                    window.location.href = 'projects.html';
+                }, 1500);
+            }, 1500);
+        }
+        
+        function setLoading(loading) {
+            isLoading = loading;
+            const button = document.getElementById('submit-button');
+            const spinner = document.getElementById('loading-spinner');
+            const signinIcon = document.getElementById('signin-icon');
+            const signupIcon = document.getElementById('signup-icon');
+            const submitText = document.getElementById('submit-text');
+            
+            button.disabled = loading;
+            
+            if (loading) {
+                spinner.style.display = 'block';
+                signinIcon.style.display = 'none';
+                signupIcon.style.display = 'none';
+                submitText.textContent = authMode === 'signin' ? 'Signing in...' : 'Creating account...';
+            } else {
+                spinner.style.display = 'none';
+                if (authMode === 'signin') {
+                    signinIcon.style.display = 'block';
+                    signupIcon.style.display = 'none';
+                    submitText.textContent = 'Sign In';
+                } else {
+                    signinIcon.style.display = 'none';
+                    signupIcon.style.display = 'block';
+                    submitText.textContent = 'Create Account';
+                }
+            }
+        }
+        
+        function showForgotPassword() {
+            document.getElementById('forgot-password-modal').style.display = 'flex';
+        }
+        
+        function closeForgotPassword() {
+            document.getElementById('forgot-password-modal').style.display = 'none';
+            document.getElementById('forgot-email').value = '';
+            document.getElementById('forgot-error').style.display = 'none';
+            document.getElementById('forgot-password-form').style.display = 'block';
+            document.getElementById('forgot-password-success').style.display = 'none';
+        }
+        
+        function sendResetLink() {
+            const email = document.getElementById('forgot-email').value;
+            
+            if (!email) {
+                document.getElementById('forgot-error-text').textContent = 'Please enter your email address';
+                document.getElementById('forgot-error').style.display = 'flex';
+                return;
+            }
+            
+            if (!email.includes('@')) {
+                document.getElementById('forgot-error-text').textContent = 'Please enter a valid email address';
+                document.getElementById('forgot-error').style.display = 'flex';
+                return;
+            }
+            
+            // Simulate sending reset link
+            mockupHelpers.simulateDataLoad(() => {
+                document.getElementById('reset-email').textContent = email;
+                document.getElementById('forgot-password-form').style.display = 'none';
+                document.getElementById('forgot-password-success').style.display = 'block';
+                
+                mockupHelpers.showNotification('Password reset email sent!', 'success');
+                
+                setTimeout(() => {
+                    closeForgotPassword();
+                }, 3000);
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

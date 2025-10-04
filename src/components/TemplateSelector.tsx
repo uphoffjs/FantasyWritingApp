@@ -12,6 +12,7 @@ import {
 import { QuestionnaireTemplate, ElementCategory } from '../types/models';
 import { useWorldbuildingStore } from '../store/worldbuildingStore';
 import { DEFAULT_TEMPLATES } from '../types/worldbuilding';
+import { getTestProps } from '../utils/react-native-web-polyfills';
 
 interface TemplateSelectorProps {
   category: ElementCategory;
@@ -31,11 +32,11 @@ export function TemplateSelector({
   const [selectedTemplateId, setSelectedTemplateId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Filter templates by category and search query
+  // TODO: * Filter templates by category and search query
   const filteredTemplates = useMemo(() => {
     const categoryTemplates = templates.filter(t => t.category === category);
     
-    // Add default template if it exists
+    // TODO: * Add default template if it exists
     const defaultTemplate = DEFAULT_TEMPLATES[category];
     if (defaultTemplate && defaultTemplate.questions?.length > 0) {
       const defaultWithId: QuestionnaireTemplate = {
@@ -77,6 +78,7 @@ export function TemplateSelector({
       <Pressable
         key={template.id}
         style={[styles.templateCard, isSelected && styles.templateCardSelected]}
+        {...getTestProps(`template-card-${template.id}`)}
         onPress={() => setSelectedTemplateId(template.id)}
       >
         <View style={styles.templateHeader}>
@@ -141,7 +143,7 @@ export function TemplateSelector({
         <View style={styles.modalContent}>
           <View style={styles.header}>
             <Text style={styles.title}>Select Template</Text>
-            <Pressable onPress={onClose} style={styles.closeButton}>
+            <Pressable onPress={onClose} style={styles.closeButton} {...getTestProps('template-selector-close-button')}>
               <Text style={styles.closeIcon}>✕</Text>
             </Pressable>
           </View>
@@ -155,7 +157,7 @@ export function TemplateSelector({
             <TextInput
               style={styles.searchInput}
               placeholder="Search templates..."
-              placeholderTextColor="#6B7280"
+              {...getTestProps('template-search-input')} placeholderTextColor="#6B7280"
               value={searchQuery}
               onChangeText={setSearchQuery}
             />
@@ -163,7 +165,7 @@ export function TemplateSelector({
 
           {isLoading ? (
             <View style={styles.loadingContainer}>
-              <ActivityIndicator size="large" color="#6366F1" />
+              <ActivityIndicator size="large"
               <Text style={styles.loadingText}>Loading templates...</Text>
             </View>
           ) : (
@@ -180,7 +182,7 @@ export function TemplateSelector({
                   <Text style={styles.emptyTitle}>No Templates Found</Text>
                   <Text style={styles.emptyText}>
                     {searchQuery
-                      ? 'Try adjusting your search'
+                      ? ' // ! HARDCODED: Should use design tokensTry adjusting your search'
                       : `No templates available for ${category}`}
                   </Text>
                 </View>
@@ -192,6 +194,7 @@ export function TemplateSelector({
             <Pressable
               style={styles.cancelButton}
               onPress={onClose}
+              {...getTestProps('template-selector-cancel-button')}
             >
               <Text style={styles.cancelButtonText}>Cancel</Text>
             </Pressable>
@@ -203,6 +206,7 @@ export function TemplateSelector({
               ]}
               onPress={handleSelectTemplate}
               disabled={!selectedTemplateId}
+              {...getTestProps('template-selector-use-button')}
             >
               <Text style={styles.selectButtonText}>
                 Use Template
@@ -218,12 +222,9 @@ export function TemplateSelector({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  modalContent: {
-    backgroundColor: '#111827',
     borderRadius: 16,
     width: '90%',
     maxWidth: 600,
@@ -244,26 +245,18 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
-    fontWeight: '700',
-    color: '#F9FAFB',
   },
   closeButton: {
     padding: 8,
   },
   closeIcon: {
-    fontSize: 24,
-    color: '#6B7280',
   },
   subtitle: {
-    fontSize: 14,
-    color: '#9CA3AF',
     paddingHorizontal: 24,
     marginBottom: 20,
   },
   searchContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#1F2937',
     borderRadius: 8,
     marginHorizontal: 24,
     paddingHorizontal: 12,
@@ -275,8 +268,6 @@ const styles = StyleSheet.create({
     marginRight: 8,
   },
   searchInput: {
-    flex: 1,
-    color: '#F9FAFB',
     fontSize: 14,
   },
   templateList: {
@@ -286,17 +277,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingBottom: 20,
   },
-  templateCard: {
-    backgroundColor: '#1F2937',
     borderRadius: 12,
     padding: 16,
     marginBottom: 12,
     borderWidth: 2,
-    borderColor: 'transparent',
+    borderColor: transparent,
   },
-  templateCardSelected: {
-    borderColor: '#6366F1',
-    backgroundColor: '#1F293780',
   },
   templateHeader: {
     flexDirection: 'row',
@@ -306,24 +292,16 @@ const styles = StyleSheet.create({
   },
   templateName: {
     fontSize: 16,
-    fontWeight: '600',
-    color: '#F9FAFB',
     flex: 1,
   },
-  defaultBadge: {
-    backgroundColor: '#059669',
     borderRadius: 12,
     paddingHorizontal: 8,
     paddingVertical: 4,
   },
   defaultBadgeText: {
     fontSize: 11,
-    fontWeight: '600',
-    color: '#FFFFFF',
   },
   templateDescription: {
-    fontSize: 13,
-    color: '#9CA3AF',
     marginBottom: 12,
     lineHeight: 18,
   },
@@ -334,8 +312,6 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   templateMetaText: {
-    fontSize: 12,
-    color: '#6B7280',
   },
   templateTags: {
     flexDirection: 'row',
@@ -343,15 +319,11 @@ const styles = StyleSheet.create({
     gap: 6,
     marginTop: 8,
   },
-  tag: {
-    backgroundColor: '#374151',
     borderRadius: 12,
     paddingHorizontal: 8,
     paddingVertical: 4,
   },
   tagText: {
-    fontSize: 11,
-    color: '#9CA3AF',
   },
   difficultyContainer: {
     flexDirection: 'row',
@@ -360,22 +332,16 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   difficultyLabel: {
-    fontSize: 12,
-    color: '#6B7280',
   },
   difficultyText: {
     fontSize: 12,
     fontWeight: '600',
     textTransform: 'capitalize',
   },
-  difficultyBeginner: {
-    color: '#10B981',
+  difficultyBeginner: { color: '#10B981', // ! HARDCODED: Should use design tokens
   },
-  difficultyIntermediate: {
-    color: '#F59E0B',
+  difficultyIntermediate: { color: '#F59E0B', // ! HARDCODED: Should use design tokens
   },
-  difficultyAdvanced: {
-    color: '#EF4444',
   },
   loadingContainer: {
     flex: 1,
@@ -385,8 +351,6 @@ const styles = StyleSheet.create({
   },
   loadingText: {
     marginTop: 12,
-    fontSize: 14,
-    color: '#6B7280',
   },
   emptyContainer: {
     alignItems: 'center',
@@ -398,13 +362,9 @@ const styles = StyleSheet.create({
   },
   emptyTitle: {
     fontSize: 18,
-    fontWeight: '600',
-    color: '#F9FAFB',
     marginBottom: 8,
   },
   emptyText: {
-    fontSize: 14,
-    color: '#6B7280',
     textAlign: 'center',
   },
   footer: {
@@ -414,33 +374,22 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingVertical: 20,
     borderTopWidth: 1,
-    borderTopColor: '#374151',
   },
   cancelButton: {
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 8,
-    borderWidth: 1,
-    borderColor: '#4B5563',
   },
   cancelButtonText: {
     fontSize: 14,
-    fontWeight: '600',
-    color: '#D1D5DB',
   },
-  selectButton: {
-    backgroundColor: '#6366F1',
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 8,
   },
-  selectButtonDisabled: {
-    backgroundColor: '#4B5563',
     opacity: 0.5,
   },
   selectButtonText: {
     fontSize: 14,
-    fontWeight: '600',
-    color: '#FFFFFF',
   },
 });

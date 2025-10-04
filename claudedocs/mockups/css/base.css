@@ -1,0 +1,279 @@
+/* * Import shared design tokens */
+@import 'shared-tokens.css';
+
+/* * Base CSS - Reset and foundational styles */
+/* * Inspired by React Native's default styling behavior */
+
+/* * CSS Reset */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'EB Garamond', Georgia, serif;
+    line-height: 1.6;
+    color: var(--ink-primary);
+    background-color: var(--parchment-100);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* * Typography Base */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Cinzel', Georgia, serif;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--ink-primary);
+}
+
+h1 { font-size: 2.5rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.75rem; }
+h4 { font-size: 1.5rem; }
+h5 { font-size: 1.25rem; }
+h6 { font-size: 1.125rem; }
+
+p {
+    margin-bottom: 1rem;
+}
+
+a {
+    color: var(--mystic-base);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: var(--mystic-dark);
+}
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background: none;
+    transition: all 0.2s ease;
+}
+
+input, textarea, select {
+    font-family: inherit;
+    font-size: 1rem;
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--parchment-600);
+    border-radius: 0.5rem;
+    background-color: var(--parchment-50);
+    color: var(--ink-primary);
+    transition: all 0.2s ease;
+}
+
+input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: var(--mystic-base);
+    box-shadow: 0 0 0 3px var(--mystic-pale);
+}
+
+/* * Layout Utilities */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.flex {
+    display: flex;
+}
+
+.flex-col {
+    flex-direction: column;
+}
+
+.flex-row {
+    flex-direction: row;
+}
+
+.flex-1 {
+    flex: 1;
+}
+
+.items-center {
+    align-items: center;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.gap-1 { gap: 0.25rem; }
+.gap-2 { gap: 0.5rem; }
+.gap-3 { gap: 0.75rem; }
+.gap-4 { gap: 1rem; }
+.gap-6 { gap: 1.5rem; }
+.gap-8 { gap: 2rem; }
+
+/* * Spacing Utilities (8px grid system) */
+.p-1 { padding: 0.25rem; }
+.p-2 { padding: 0.5rem; }
+.p-3 { padding: 0.75rem; }
+.p-4 { padding: 1rem; }
+.p-6 { padding: 1.5rem; }
+.p-8 { padding: 2rem; }
+
+.m-1 { margin: 0.25rem; }
+.m-2 { margin: 0.5rem; }
+.m-3 { margin: 0.75rem; }
+.m-4 { margin: 1rem; }
+.m-6 { margin: 1.5rem; }
+.m-8 { margin: 2rem; }
+
+.mb-1 { margin-bottom: 0.25rem; }
+.mb-2 { margin-bottom: 0.5rem; }
+.mb-3 { margin-bottom: 0.75rem; }
+.mb-4 { margin-bottom: 1rem; }
+.mb-6 { margin-bottom: 1.5rem; }
+.mb-8 { margin-bottom: 2rem; }
+
+.mt-1 { margin-top: 0.25rem; }
+.mt-2 { margin-top: 0.5rem; }
+.mt-3 { margin-top: 0.75rem; }
+.mt-4 { margin-top: 1rem; }
+.mt-6 { margin-top: 1.5rem; }
+.mt-8 { margin-top: 2rem; }
+
+/* * Border Radius */
+.rounded { border-radius: 0.25rem; }
+.rounded-md { border-radius: 0.375rem; }
+.rounded-lg { border-radius: 0.5rem; }
+.rounded-xl { border-radius: 0.75rem; }
+.rounded-full { border-radius: 9999px; }
+
+/* * Shadows (matching React Native Web) */
+.shadow-sm {
+    box-shadow: 0 1px 2px 0 rgba(26, 22, 19, 0.05);
+}
+
+.shadow {
+    box-shadow: 0 1px 3px 0 rgba(26, 22, 19, 0.1),
+                0 1px 2px 0 rgba(26, 22, 19, 0.06);
+}
+
+.shadow-md {
+    box-shadow: 0 4px 6px -1px rgba(26, 22, 19, 0.1),
+                0 2px 4px -1px rgba(26, 22, 19, 0.06);
+}
+
+.shadow-lg {
+    box-shadow: 0 10px 15px -3px rgba(26, 22, 19, 0.1),
+                0 4px 6px -2px rgba(26, 22, 19, 0.05);
+}
+
+.shadow-xl {
+    box-shadow: 0 20px 25px -5px rgba(26, 22, 19, 0.1),
+                0 10px 10px -5px rgba(26, 22, 19, 0.04);
+}
+
+/* * Responsive Breakpoints */
+/* Mobile First Approach - matching React Native Web */
+@media (min-width: 768px) {
+    /* Tablet styles */
+    .container {
+        padding: 1.5rem;
+    }
+    
+    h1 { font-size: 3rem; }
+    h2 { font-size: 2.25rem; }
+    h3 { font-size: 1.875rem; }
+}
+
+@media (min-width: 1024px) {
+    /* Desktop styles */
+    .container {
+        padding: 2rem;
+    }
+    
+    h1 { font-size: 3.5rem; }
+    h2 { font-size: 2.5rem; }
+    h3 { font-size: 2rem; }
+}
+
+/* * Utility Classes */
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+.font-bold { font-weight: 700; }
+.font-semibold { font-weight: 600; }
+.font-medium { font-weight: 500; }
+.font-normal { font-weight: 400; }
+
+.uppercase { text-transform: uppercase; }
+.lowercase { text-transform: lowercase; }
+.capitalize { text-transform: capitalize; }
+
+.hidden { display: none; }
+.block { display: block; }
+.inline-block { display: inline-block; }
+
+.w-full { width: 100%; }
+.h-full { height: 100%; }
+
+/* * Accessibility */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* * Focus Visible - for keyboard navigation */
+:focus-visible {
+    outline: 2px solid var(--mystic-base);
+    outline-offset: 2px;
+}
+
+/* * Selection Color */
+::selection {
+    background-color: var(--mystic-pale);
+    color: var(--ink-primary);
+}
+
+/* * Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--parchment-200);
+    border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--parchment-600);
+    border-radius: 6px;
+    border: 2px solid var(--parchment-200);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--parchment-700);
+}

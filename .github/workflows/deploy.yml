@@ -1,0 +1,320 @@
+# GitHub Actions Workflow for Vite Deployment
+name: Deploy to Production
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy to'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - production
+
+env:
+  NODE_VERSION: '18'
+  VITE_APP_VERSION: ${{ github.sha }}
+
+jobs:
+  # Job 1: Run Tests
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run linting
+        run: npm run lint
+        continue-on-error: true
+
+      - name: Run component tests
+        run: npm run test:component
+        timeout-minutes: 10
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results
+          path: |
+            cypress/screenshots/
+            cypress/videos/
+          retention-days: 7
+
+  # Job 2: Build Application
+  build:
+    name: Build Application
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Set environment variables
+        run: |
+          echo "VITE_ENVIRONMENT=${{ github.event.inputs.environment || 'staging' }}" >> $GITHUB_ENV
+          echo "VITE_BUILD_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")" >> $GITHUB_ENV
+          echo "VITE_COMMIT_SHA=${{ github.sha }}" >> $GITHUB_ENV
+
+      - name: Build application
+        run: npm run build
+        env:
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+
+      - name: Generate bundle analysis
+        run: |
+          npm run build:analyze || true
+          if [ -f dist/stats.html ]; then
+            echo "Bundle analysis generated successfully"
+          fi
+
+      - name: Check bundle size
+        run: |
+          echo "Bundle size report:"
+          du -sh dist/
+          find dist -name "*.js" -size +500k -exec echo "Large file: {} - $(du -h {} | cut -f1)" \;
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: dist
+          path: dist/
+          retention-days: 7
+
+      - name: Upload bundle analysis
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: bundle-analysis
+          path: dist/stats.html
+          retention-days: 7
+
+  # Job 3: Deploy to Staging
+  deploy-staging:
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main' || github.event.inputs.environment == 'staging'
+    environment:
+      name: staging
+      url: ${{ steps.deploy.outputs.url }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: dist
+          path: dist/
+
+      - name: Deploy to Netlify (Staging)
+        id: deploy
+        uses: nwtgck/actions-netlify@v2.0
+        with:
+          publish-dir: './dist'
+          production-deploy: false
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: "Deploy staging from GitHub Actions - ${{ github.sha }}"
+          enable-pull-request-comment: true
+          enable-commit-comment: true
+          overwrites-pull-request-comment: true
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_STAGING_SITE_ID }}
+        timeout-minutes: 5
+
+      # Alternative: Deploy to Vercel (uncomment if using Vercel)
+      # - name: Deploy to Vercel (Staging)
+      #   uses: amondnet/vercel-action@v25
+      #   with:
+      #     vercel-token: ${{ secrets.VERCEL_TOKEN }}
+      #     vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+      #     vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+      #     vercel-args: '--prod=false'
+
+      # Alternative: Deploy to AWS S3 (uncomment if using AWS)
+      # - name: Configure AWS credentials
+      #   uses: aws-actions/configure-aws-credentials@v4
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: us-east-1
+      #
+      # - name: Deploy to S3
+      #   run: |
+      #     aws s3 sync dist/ s3://${{ secrets.STAGING_S3_BUCKET }} --delete
+      #     aws cloudfront create-invalidation --distribution-id ${{ secrets.STAGING_CF_DIST_ID }} --paths "/*"
+
+      - name: Run smoke tests
+        run: |
+          echo "Running smoke tests against staging..."
+          # Add actual smoke test commands here
+          # npx playwright test --config=playwright.config.staging.ts
+
+  # Job 4: Deploy to Production
+  deploy-production:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    needs: [build, deploy-staging]
+    if: github.ref == 'refs/heads/main' && github.event.inputs.environment == 'production'
+    environment:
+      name: production
+      url: ${{ steps.deploy.outputs.url }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: dist
+          path: dist/
+
+      - name: Deploy to Netlify (Production)
+        id: deploy
+        uses: nwtgck/actions-netlify@v2.0
+        with:
+          publish-dir: './dist'
+          production-deploy: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: "Deploy production from GitHub Actions - ${{ github.sha }}"
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_PRODUCTION_SITE_ID }}
+        timeout-minutes: 10
+
+      - name: Create GitHub Release
+        if: success()
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ github.run_number }}
+          release_name: Production Release v${{ github.run_number }}
+          body: |
+            Production deployment of commit ${{ github.sha }}
+
+            **Changes:**
+            - View commit: https://github.com/${{ github.repository }}/commit/${{ github.sha }}
+            - Build artifacts: Run #${{ github.run_number }}
+          draft: false
+          prerelease: false
+
+      - name: Notify team
+        if: always()
+        run: |
+          echo "Deployment status: ${{ job.status }}"
+          # Add Slack/Discord/email notification here
+
+  # Job 5: Lighthouse Performance Check
+  lighthouse:
+    name: Lighthouse Performance Check
+    runs-on: ubuntu-latest
+    needs: deploy-staging
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Lighthouse
+        uses: treosh/lighthouse-ci-action@v10
+        with:
+          urls: |
+            ${{ needs.deploy-staging.outputs.url }}
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+
+      - name: Comment PR with results
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const results = require('./lighthouse-results.json');
+            const comment = `
+            ## 🔦 Lighthouse Performance Results
+
+            | Metric | Score |
+            |--------|-------|
+            | Performance | ${results.performance} |
+            | Accessibility | ${results.accessibility} |
+            | Best Practices | ${results['best-practices']} |
+            | SEO | ${results.seo} |
+            `;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+
+  # Job 6: Clean up old deployments
+  cleanup:
+    name: Clean up old deployments
+    runs-on: ubuntu-latest
+    needs: deploy-production
+    if: success()
+
+    steps:
+      - name: Delete old artifacts
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const artifacts = await github.rest.actions.listArtifactsForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              per_page: 100
+            });
+
+            const oldArtifacts = artifacts.data.artifacts.filter(artifact => {
+              const createdAt = new Date(artifact.created_at);
+              const now = new Date();
+              const diffDays = (now - createdAt) / (1000 * 60 * 60 * 24);
+              return diffDays > 7;
+            });
+
+            for (const artifact of oldArtifacts) {
+              await github.rest.actions.deleteArtifact({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                artifact_id: artifact.id
+              });
+              console.log(`Deleted artifact: ${artifact.name}`);
+            }

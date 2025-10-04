@@ -23,7 +23,7 @@ interface RelationshipManagerProps {
 }
 
 const RELATIONSHIP_TYPES = [
-  // Character relationships
+  // * Character relationships
   { value: 'parent_of', label: 'Parent of', reverse: 'child_of' },
   { value: 'child_of', label: 'Child of', reverse: 'parent_of' },
   { value: 'sibling_of', label: 'Sibling of', reverse: 'sibling_of' },
@@ -35,19 +35,19 @@ const RELATIONSHIP_TYPES = [
   { value: 'ally_of', label: 'Ally of', reverse: 'ally_of' },
   { value: 'rival_of', label: 'Rival of', reverse: 'rival_of' },
   
-  // Location relationships
+  // * Location relationships
   { value: 'located_in', label: 'Located in', reverse: 'contains' },
   { value: 'contains', label: 'Contains', reverse: 'located_in' },
   { value: 'near', label: 'Near', reverse: 'near' },
   { value: 'connected_to', label: 'Connected to', reverse: 'connected_to' },
   
-  // Ownership relationships
+  // * Ownership relationships
   { value: 'owns', label: 'Owns', reverse: 'owned_by' },
   { value: 'owned_by', label: 'Owned by', reverse: 'owns' },
   { value: 'created_by', label: 'Created by', reverse: 'creator_of' },
   { value: 'creator_of', label: 'Creator of', reverse: 'created_by' },
   
-  // Organization relationships
+  // * Organization relationships
   { value: 'member_of', label: 'Member of', reverse: 'has_member' },
   { value: 'has_member', label: 'Has member', reverse: 'member_of' },
   { value: 'leads', label: 'Leads', reverse: 'led_by' },
@@ -55,7 +55,7 @@ const RELATIONSHIP_TYPES = [
   { value: 'works_for', label: 'Works for', reverse: 'employs' },
   { value: 'employs', label: 'Employs', reverse: 'works_for' },
   
-  // Generic relationships
+  // * Generic relationships
   { value: 'related_to', label: 'Related to', reverse: 'related_to' },
   { value: 'associated_with', label: 'Associated with', reverse: 'associated_with' },
   { value: 'influences', label: 'Influences', reverse: 'influenced_by' },
@@ -78,7 +78,7 @@ export function RelationshipManager({
   const project = projects.find((p) => p.id === projectId);
   const allElements = useMemo(() => project?.elements || [], [project?.elements]);
   
-  // Get existing relationships for this element
+  // * Get existing relationships for this element
   const elementRelationships = useMemo(() => {
     if (!project) return [];
     return project.relationships?.filter(
@@ -86,7 +86,7 @@ export function RelationshipManager({
     ) || [];
   }, [project, element.id]);
 
-  // Filter available elements (exclude self and search)
+  // * Filter available elements (exclude self and search)
   const availableElements = useMemo(() => {
     return allElements
       .filter((e) => e.id !== element.id)
@@ -101,7 +101,7 @@ export function RelationshipManager({
       });
   }, [allElements, element.id, searchQuery]);
 
-  // Convert elements to picker items
+  // * Convert elements to picker items
   const elementPickerItems: PickerItem[] = useMemo(() => 
     availableElements.map((elem) => ({
       label: `${getCategoryIcon(elem.category)} ${elem.name} (${elem.category})`,
@@ -109,7 +109,7 @@ export function RelationshipManager({
     })), [availableElements]
   );
 
-  // Convert relationship types to picker items
+  // * Convert relationship types to picker items
   const relationshipTypeItems: PickerItem[] = useMemo(() => 
     RELATIONSHIP_TYPES.map((type) => ({
       label: type.label,
@@ -126,7 +126,7 @@ export function RelationshipManager({
     const targetElement = allElements.find((e) => e.id === selectedElementId);
     if (!targetElement) return;
 
-    // Create the primary relationship
+    // * Create the primary relationship
     const newRelationship: Relationship = {
       id: uuidv4(),
       fromId: element.id,
@@ -143,7 +143,7 @@ export function RelationshipManager({
 
     createRelationship(projectId, newRelationship);
 
-    // Create bidirectional relationship if requested
+    // * Create bidirectional relationship if requested
     if (createBidirectional) {
       const relationshipDef = RELATIONSHIP_TYPES.find((r) => r.value === relationshipType);
       if (relationshipDef && relationshipDef.reverse !== relationshipType) {
@@ -164,7 +164,7 @@ export function RelationshipManager({
       }
     }
 
-    // Reset form
+    // * Reset form
     setSelectedElementId('');
     setCustomDescription('');
     Alert.alert('Success', 'Relationship created successfully');
@@ -208,8 +208,7 @@ export function RelationshipManager({
               {otherElement.name}
             </Text>
             <Text style={styles.relationshipType}>
-              {isOutgoing ? relationship.type.replace(/_/g, ' ') : `← ${relationship.type.replace(/_/g, ' ')}`}
-            </Text>
+              {isOutgoing ? relationship.type.replace(/_/g, ' ') : `← ${relationship.type.replace(/_/g, ' ')}`} </Text>
             {relationship.description && (
               <Text style={styles.relationshipDescription}>
                 {relationship.description}
@@ -262,8 +261,7 @@ export function RelationshipManager({
                   style={styles.input}
                   value={searchQuery}
                   onChangeText={setSearchQuery}
-                  placeholder="Search by name, category, or description..."
-                  placeholderTextColor="#6B7280"
+                  placeholder="Search by name, category, or description..." placeholderTextColor="#6B7280"
                 />
               </View>
 
@@ -275,7 +273,8 @@ export function RelationshipManager({
                     onValueChange={setSelectedElementId}
                     items={elementPickerItems}
                     style={styles.picker}
-                    dropdownIconColor="#9CA3AF"
+                    dropdownIconColor="
+      #9CA3AF"
                     placeholder="Choose an element..."
                     mode="dropdown"
                   />
@@ -290,7 +289,8 @@ export function RelationshipManager({
                     onValueChange={setRelationshipType}
                     items={relationshipTypeItems}
                     style={styles.picker}
-                    dropdownIconColor="#9CA3AF"
+                    dropdownIconColor="
+      #9CA3AF"
                     mode="dropdown"
                   />
                 </View>
@@ -303,7 +303,8 @@ export function RelationshipManager({
                   value={customDescription}
                   onChangeText={setCustomDescription}
                   placeholder="Add context or details about this relationship..."
-                  placeholderTextColor="#6B7280"
+                  // ! HARDCODED: Should use design tokens
+          placeholderTextColor="#6B7280"
                   multiline
                   numberOfLines={3}
                 />
@@ -354,12 +355,10 @@ export function RelationshipManager({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: ' // ! HARDCODED: Should use design tokens // ! HARDCODED: Should use design tokensrgba(0, 0, 0, 0.5)',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  modalContent: {
-    backgroundColor: '#111827',
     borderRadius: 16,
     width: '90%',
     maxWidth: 600,
@@ -380,24 +379,16 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
-    fontWeight: '700',
-    color: '#F9FAFB',
   },
   closeButton: {
     padding: 8,
   },
   closeIcon: {
-    fontSize: 24,
-    color: '#6B7280',
   },
   elementName: {
     fontSize: 16,
-    fontWeight: '600',
-    color: '#9CA3AF',
     paddingHorizontal: 24,
     paddingBottom: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#374151',
   },
   content: {
     flex: 1,
@@ -408,8 +399,6 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 18,
-    fontWeight: '600',
-    color: '#F9FAFB',
     marginBottom: 16,
   },
   field: {
@@ -417,60 +406,36 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 14,
-    fontWeight: '500',
-    color: '#D1D5DB',
     marginBottom: 8,
   },
-  input: {
-    backgroundColor: '#1F2937',
     borderRadius: 8,
-    padding: 12,
-    color: '#F9FAFB',
     fontSize: 14,
-    borderWidth: 1,
-    borderColor: '#374151',
   },
   textArea: {
     minHeight: 80,
     textAlignVertical: 'top',
   },
-  pickerContainer: {
-    backgroundColor: '#1F2937',
     borderRadius: 8,
-    borderWidth: 1,
-    borderColor: '#374151',
     overflow: 'hidden',
   },
-  picker: {
-    color: '#F9FAFB',
     height: 50,
   },
-  createButton: {
-    backgroundColor: '#6366F1',
     borderRadius: 8,
     paddingVertical: 12,
     alignItems: 'center',
     marginTop: 8,
   },
-  createButtonDisabled: {
-    backgroundColor: '#4B5563',
     opacity: 0.5,
   },
   createButtonText: {
     fontSize: 16,
-    fontWeight: '600',
-    color: '#FFFFFF',
   },
   relationshipsList: {
     gap: 12,
   },
-  relationshipCard: {
-    backgroundColor: '#1F2937',
     borderRadius: 12,
     padding: 16,
     marginBottom: 12,
-    borderWidth: 1,
-    borderColor: '#374151',
   },
   relationshipContent: {
     flexDirection: 'row',
@@ -479,8 +444,6 @@ const styles = StyleSheet.create({
   relationshipIcon: {
     width: 40,
     height: 40,
-    borderRadius: 8,
-    backgroundColor: '#374151',
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: 12,
@@ -493,19 +456,13 @@ const styles = StyleSheet.create({
   },
   relationshipName: {
     fontSize: 16,
-    fontWeight: '600',
-    color: '#F9FAFB',
     marginBottom: 2,
   },
   relationshipType: {
-    fontSize: 13,
-    color: '#6366F1',
     marginBottom: 4,
     textTransform: 'capitalize',
   },
   relationshipDescription: {
-    fontSize: 12,
-    color: '#9CA3AF',
     fontStyle: 'italic',
   },
   deleteButton: {
@@ -525,13 +482,9 @@ const styles = StyleSheet.create({
   },
   emptyTitle: {
     fontSize: 18,
-    fontWeight: '600',
-    color: '#F9FAFB',
     marginBottom: 8,
   },
   emptyText: {
-    fontSize: 14,
-    color: '#6B7280',
     textAlign: 'center',
     lineHeight: 20,
   },

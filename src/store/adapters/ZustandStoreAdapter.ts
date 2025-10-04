@@ -29,7 +29,7 @@ export class ZustandStoreAdapter implements IProjectStore, IElementStore, IRelat
 
   createProject(project: Project): void {
     const store = this.store();
-    // Use existing Zustand method but with prepared project object
+    // * Use existing Zustand method but with prepared project object
     store.projects.push(project);
   }
 
@@ -72,25 +72,25 @@ export class ZustandStoreAdapter implements IProjectStore, IElementStore, IRelat
 
   // IRelationshipStore implementation
   get relationships(): Relationship[] {
-    // Collect all relationships from all projects
+    // * Collect all relationships from all projects
     const allRelationships: Relationship[] = [];
     this.store().projects.forEach(project => {
       project.elements.forEach(_element => {
         // Note: This assumes relationships are stored within elements
-        // May need adjustment based on actual relationship storage
+        // * May need adjustment based on actual relationship storage
       });
     });
     return allRelationships;
   }
 
   getRelationship(_id: string): Relationship | null {
-    // Implementation depends on where relationships are stored
+    // * Implementation depends on where relationships are stored
     return null;
   }
 
   createRelationship(relationship: Relationship): void {
-    // Implementation depends on where relationships are stored
-    // For now, we'll use the existing addRelationship method
+    // * Implementation depends on where relationships are stored
+    // * For now, we'll use the existing addRelationship method
     const project = this.store().projects.find(p => 
       p.elements.some(e => e.id === relationship.fromId || e.id === relationship.toId)
     );
@@ -100,17 +100,17 @@ export class ZustandStoreAdapter implements IProjectStore, IElementStore, IRelat
   }
 
   deleteRelationship(id: string): void {
-    // Find the project containing this relationship and remove it
+    // * Find the project containing this relationship and remove it
     this.store().projects.forEach(project => {
       this.store().removeRelationship(project.id, id);
     });
   }
 
   getRelationshipsByElement(_elementId: string): Relationship[] {
-    // Implementation depends on where relationships are stored
+    // * Implementation depends on where relationships are stored
     return [];
   }
 
   // IElementProvider implementation (reuses IElementStore methods)
-  // Already implemented through IElementStore methods
+  // * Already implemented through IElementStore methods
 }

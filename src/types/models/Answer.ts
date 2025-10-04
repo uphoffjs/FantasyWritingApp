@@ -20,7 +20,7 @@ export interface BulkAnswerUpdate {
   answers: AnswerUpdate[];
 }
 
-// Type guards
+// * Type guards
 export function isTextAnswer(value: unknown): value is string {
   return typeof value === 'string';
 }

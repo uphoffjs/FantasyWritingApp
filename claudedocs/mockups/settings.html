@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - Fantasy Element Builder</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=EB+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Styles - Order matters for cascade -->
+    <link rel="stylesheet" href="css/tokens.css"> <!-- Design tokens from fantasyMasterColors -->
+    <link rel="stylesheet" href="css/base.css"> <!-- Reset and base styles -->
+    <link rel="stylesheet" href="css/theme.css"> <!-- Theme-specific styles -->
+    <link rel="stylesheet" href="css/components.css"> <!-- Component styles -->
+    <link rel="stylesheet" href="css/responsive.css"> <!-- Responsive breakpoints -->
+    
+    <style>
+        /* Settings Page Specific Styles */
+        .settings-header {
+            background: linear-gradient(135deg, var(--mystic-base) 0%, var(--mystic-dark) 100%);
+            color: white;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .back-button {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 0.5rem;
+            padding: 0.5rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .settings-title {
+            font-size: 1.75rem;
+            font-weight: bold;
+            font-family: 'Cinzel', serif;
+            flex: 1;
+            text-align: center;
+        }
+        
+        .placeholder {
+            width: 40px;
+        }
+        
+        /* Settings Sections */
+        .settings-section {
+            background: var(--parchment-200);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--parchment-400);
+        }
+        
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: var(--ink-primary);
+            margin-bottom: 1rem;
+            font-family: 'Cinzel', serif;
+        }
+        
+        /* Account Card */
+        .account-card {
+            background: var(--parchment-100);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            border: 1px solid var(--parchment-400);
+        }
+        
+        .account-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--might-base) 0%, var(--dragonfire-base) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .account-details {
+            flex: 1;
+        }
+        
+        .user-name {
+            font-size: 1.125rem;
+            font-weight: bold;
+            color: var(--ink-primary);
+            margin-bottom: 0.25rem;
+        }
+        
+        .user-email {
+            font-size: 0.875rem;
+            color: var(--ink-secondary);
+        }
+        
+        .sign-out-button {
+            background: var(--dragonfire-base);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .sign-out-button:hover {
+            background: var(--dragonfire-dark);
+        }
+        
+        /* Preference Items */
+        .preference-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--parchment-400);
+        }
+        
+        .preference-item:last-child {
+            border-bottom: none;
+        }
+        
+        .preference-label {
+            flex: 1;
+        }
+        
+        .preference-title {
+            font-weight: 600;
+            color: var(--ink-primary);
+            margin-bottom: 0.25rem;
+        }
+        
+        .preference-description {
+            font-size: 0.875rem;
+            color: var(--ink-secondary);
+        }
+        
+        /* Toggle Switch */
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 26px;
+            background: var(--parchment-600);
+            border-radius: 13px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .toggle-switch.active {
+            background: var(--elixir-base);
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+        
+        .toggle-switch.active .toggle-slider {
+            transform: translateX(24px);
+        }
+        
+        /* Import/Export Section */
+        .import-export-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .import-export-button {
+            flex: 1;
+            min-width: 150px;
+            background: var(--mystic-base);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .import-export-button:hover {
+            background: var(--mystic-dark);
+        }
+        
+        .import-export-button.export {
+            background: var(--elixir-base);
+        }
+        
+        .import-export-button.export:hover {
+            background: var(--elixir-dark);
+        }
+        
+        /* Storage Info */
+        .storage-info {
+            background: var(--parchment-100);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            border: 1px solid var(--parchment-400);
+        }
+        
+        .storage-stat {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+        }
+        
+        .storage-label {
+            color: var(--ink-secondary);
+        }
+        
+        .storage-value {
+            font-weight: 600;
+            color: var(--ink-primary);
+        }
+        
+        .storage-bar {
+            margin-top: 0.5rem;
+            height: 8px;
+            background: var(--parchment-500);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .storage-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--elixir-base) 0%, var(--sunburst-base) 50%, var(--dragonfire-base) 100%);
+            width: 35%;
+            transition: width 0.3s ease;
+        }
+        
+        /* Danger Zone */
+        .danger-zone {
+            background: var(--dragonfire-pale);
+            border: 2px solid var(--dragonfire-base);
+        }
+        
+        .danger-button {
+            background: var(--dragonfire-base);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .danger-button:hover {
+            background: var(--dragonfire-dark);
+        }
+        
+        .warning-text {
+            color: var(--dragonfire-dark);
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+        
+        /* About Section */
+        .about-info {
+            text-align: center;
+            padding: 1rem;
+        }
+        
+        .app-logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1rem;
+            background: linear-gradient(135deg, var(--metals-gold) 0%, var(--metals-brass) 100%);
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+        }
+        
+        .app-version {
+            font-size: 0.875rem;
+            color: var(--ink-secondary);
+            margin-top: 0.5rem;
+        }
+        
+        .about-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+        
+        .about-link {
+            color: var(--mystic-base);
+            text-decoration: none;
+            font-size: 0.875rem;
+        }
+        
+        .about-link:hover {
+            color: var(--mystic-dark);
+            text-decoration: underline;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .settings-header {
+                padding: 1rem;
+            }
+            
+            .settings-title {
+                font-size: 1.5rem;
+            }
+            
+            .import-export-buttons {
+                flex-direction: column;
+            }
+            
+            .import-export-button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="container mx-auto max-w-4xl">
+            <!-- Settings Header -->
+            <div class="settings-header">
+                <button class="back-button" onclick="window.history.back()" data-cy="back-button">
+                    <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+                    </svg>
+                </button>
+                <h1 class="settings-title">Settings</h1>
+                <div class="placeholder"></div>
+            </div>
+            
+            <!-- Account Section -->
+            <div class="settings-section">
+                <h2 class="section-title">Account</h2>
+                <div class="account-card">
+                    <div class="account-info">
+                        <div class="avatar">JD</div>
+                        <div class="account-details">
+                            <div class="user-name">John Doe</div>
+                            <div class="user-email">john.doe@example.com</div>
+                        </div>
+                    </div>
+                    <button class="sign-out-button" onclick="handleSignOut()" data-cy="sign-out-button">
+                        Sign Out
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Preferences Section -->
+            <div class="settings-section">
+                <h2 class="section-title">Preferences</h2>
+                
+                <div class="preference-item">
+                    <div class="preference-label">
+                        <div class="preference-title">Dark Mode</div>
+                        <div class="preference-description">Use dark theme for better visibility in low light</div>
+                    </div>
+                    <div class="toggle-switch active" onclick="togglePreference(this)" data-cy="dark-mode-toggle">
+                        <div class="toggle-slider"></div>
+                    </div>
+                </div>
+                
+                <div class="preference-item">
+                    <div class="preference-label">
+                        <div class="preference-title">Auto-Save</div>
+                        <div class="preference-description">Automatically save changes as you type</div>
+                    </div>
+                    <div class="toggle-switch active" onclick="togglePreference(this)" data-cy="auto-save-toggle">
+                        <div class="toggle-slider"></div>
+                    </div>
+                </div>
+                
+                <div class="preference-item">
+                    <div class="preference-label">
+                        <div class="preference-title">Notifications</div>
+                        <div class="preference-description">Receive alerts for important updates</div>
+                    </div>
+                    <div class="toggle-switch active" onclick="togglePreference(this)" data-cy="notifications-toggle">
+                        <div class="toggle-slider"></div>
+                    </div>
+                </div>
+                
+                <div class="preference-item">
+                    <div class="preference-label">
+                        <div class="preference-title">Analytics</div>
+                        <div class="preference-description">Help improve the app by sharing usage data</div>
+                    </div>
+                    <div class="toggle-switch" onclick="togglePreference(this)" data-cy="analytics-toggle">
+                        <div class="toggle-slider"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Data Management Section -->
+            <div class="settings-section">
+                <h2 class="section-title">Data Management</h2>
+                
+                <div class="storage-info">
+                    <div class="storage-stat">
+                        <span class="storage-label">Projects</span>
+                        <span class="storage-value">3</span>
+                    </div>
+                    <div class="storage-stat">
+                        <span class="storage-label">Elements</span>
+                        <span class="storage-value">73</span>
+                    </div>
+                    <div class="storage-stat">
+                        <span class="storage-label">Storage Used</span>
+                        <span class="storage-value">3.5 MB of 10 MB</span>
+                    </div>
+                    <div class="storage-bar">
+                        <div class="storage-fill"></div>
+                    </div>
+                </div>
+                
+                <div class="import-export-buttons" style="margin-top: 1rem;">
+                    <button class="import-export-button" onclick="handleImport()" data-cy="import-button">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                        </svg>
+                        Import Data
+                    </button>
+                    <button class="import-export-button export" onclick="handleExport()" data-cy="export-button">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19 12v7H5v-7H3v7c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zm-6 .67l2.59-2.58L17 11.5l-5 5-5-5 1.41-1.41L11 12.67V3h2v9.67z"/>
+                        </svg>
+                        Export Data
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Sync Status Section -->
+            <div class="settings-section">
+                <h2 class="section-title">Sync Status</h2>
+                <div class="storage-info">
+                    <div class="storage-stat">
+                        <span class="storage-label">Last Sync</span>
+                        <span class="storage-value" style="color: var(--elixir-base);">2 minutes ago</span>
+                    </div>
+                    <div class="storage-stat">
+                        <span class="storage-label">Sync Status</span>
+                        <span class="storage-value" style="color: var(--elixir-base);">✓ All changes saved</span>
+                    </div>
+                    <div class="storage-stat">
+                        <span class="storage-label">Cloud Backup</span>
+                        <span class="storage-value">Enabled</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Danger Zone -->
+            <div class="settings-section danger-zone">
+                <h2 class="section-title">Danger Zone</h2>
+                <p class="warning-text">
+                    ⚠️ Warning: This action will permanently delete all your projects and data. This cannot be undone.
+                </p>
+                <button class="danger-button" onclick="handleClearAllData()" data-cy="clear-data-button">
+                    Clear All Data
+                </button>
+            </div>
+            
+            <!-- About Section -->
+            <div class="settings-section">
+                <h2 class="section-title">About</h2>
+                <div class="about-info">
+                    <div class="app-logo">⚔️</div>
+                    <h3 style="font-family: 'Cinzel', serif;">Fantasy Element Builder</h3>
+                    <p class="app-version">Version 1.0.0</p>
+                    <div class="about-links">
+                        <a href="#" class="about-link" data-cy="privacy-link">Privacy Policy</a>
+                        <a href="#" class="about-link" data-cy="terms-link">Terms of Service</a>
+                        <a href="#" class="about-link" data-cy="support-link">Support</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Theme Toggle Button -->
+    <button class="theme-toggle" onclick="window.mockupHelpers.toggleTheme()">
+        <span class="theme-icon">🌞</span>
+    </button>
+    
+    <!-- Scripts -->
+    <script src="js/mockup-helpers.js"></script>
+    <script>
+        // Toggle preference switches
+        function togglePreference(element) {
+            element.classList.toggle('active');
+            const title = element.parentElement.querySelector('.preference-title').textContent;
+            const isActive = element.classList.contains('active');
+            
+            // Special handling for dark mode
+            if (title === 'Dark Mode') {
+                window.mockupHelpers.toggleTheme();
+            }
+            
+            window.mockupHelpers.showNotification(`${title} ${isActive ? 'enabled' : 'disabled'}`, 'info');
+        }
+        
+        // Handle sign out
+        function handleSignOut() {
+            if (confirm('Are you sure you want to sign out? Your data will remain saved.')) {
+                window.mockupHelpers.showNotification('Signed out successfully', 'success');
+                // In real app, would redirect to login
+            }
+        }
+        
+        // Handle import
+        function handleImport() {
+            window.mockupHelpers.showNotification('File picker would open for import', 'info');
+            // In real app, would open file picker
+        }
+        
+        // Handle export
+        function handleExport() {
+            window.mockupHelpers.showNotification('Exporting data as JSON...', 'success');
+            // In real app, would download JSON file
+        }
+        
+        // Handle clear all data
+        function handleClearAllData() {
+            if (confirm('Are you sure you want to delete all your projects and data? This action cannot be undone.')) {
+                if (confirm('This is your last chance. All data will be permanently deleted. Continue?')) {
+                    window.mockupHelpers.showNotification('All data has been cleared', 'info');
+                    // In real app, would clear all data
+                }
+            }
+        }
+    </script>
+</body>
+</html>

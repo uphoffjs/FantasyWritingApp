@@ -16,26 +16,26 @@ class CalculationService {
     const connectionCounts = new Map<string, number>();
     const orphanedElements: WorldElement[] = [];
 
-    // Count elements by category
+    // * Count elements by category
     elements.forEach(element => {
       elementsByCategory[element.category] = (elementsByCategory[element.category] || 0) + 1;
       connectionCounts.set(element.id, 0);
     });
 
-    // Count relationships for each element
+    // * Count relationships for each element
     relationships.forEach(rel => {
       connectionCounts.set(rel.from, (connectionCounts.get(rel.from) || 0) + 1);
       connectionCounts.set(rel.to, (connectionCounts.get(rel.to) || 0) + 1);
     });
 
-    // Find orphaned elements
+    // * Find orphaned elements
     elements.forEach(element => {
       if ((connectionCounts.get(element.id) || 0) === 0) {
         orphanedElements.push(element);
       }
     });
 
-    // Find most connected elements
+    // * Find most connected elements
     const mostConnectedElements = elements
       .map(element => ({
         element,
@@ -44,7 +44,7 @@ class CalculationService {
       .sort((a, b) => b.connectionCount - a.connectionCount)
       .slice(0, 5);
 
-    // Calculate average answers per element
+    // * Calculate average answers per element
     const totalAnswers = elements.reduce((acc, element) => {
       return acc + Object.keys(element.answers || {}).length;
     }, 0);
@@ -53,7 +53,7 @@ class CalculationService {
       ? totalAnswers / elements.length 
       : 0;
 
-    // Calculate completion percentage (simplified)
+    // * Calculate completion percentage (simplified)
     const expectedAnswersPerElement = 10; // Assuming 10 questions per element on average
     const completionPercentage = elements.length > 0
       ? Math.min(100, (avgAnswersPerElement / expectedAnswersPerElement) * 100)
@@ -82,7 +82,7 @@ class CalculationService {
       (rel.from === toElement.id && rel.to === fromElement.id)
     );
 
-    // Simple strength calculation based on number of relationships
+    // * Simple strength calculation based on number of relationships
     return Math.min(100, directRelationships.length * 25);
   }
 

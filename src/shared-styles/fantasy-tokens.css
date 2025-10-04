@@ -1,0 +1,216 @@
+/**
+ * * Shared Fantasy Design Tokens
+ * * This is the single source of truth for design tokens
+ * * Used by both HTML mockups and Storybook
+ * * Synchronized with React Native styles via build script
+ */
+
+:root {
+  /* * ========== COLOR TOKENS ========== */
+  
+  /* * Primary Colors - Attribute-based */
+  --color-might: #A31C1C;
+  --color-swiftness: #1C4FA3;
+  --color-vitality: #2E7D4F;
+  --color-finesse: #E3941C;
+  
+  /* * Neutral Colors - UI Base */
+  --color-parchment: #F5F0E6;
+  --color-obsidian: #1A1815;
+  --color-ink: #2D1C15;
+  --color-ink-secondary: #5B463C;
+  
+  /* * Metallic Accents */
+  --color-gold: #C9A94F;
+  --color-silver: #B0B4B9;
+  --color-bronze: #B08D57;
+  --color-copper: #B87333;
+  
+  /* * Semantic Colors */
+  --color-danger: #C03030;
+  --color-success: #4FA361;
+  --color-warning: #F59E0B;
+  --color-info: #3B82F6;
+  
+  /* * Element Type Colors */
+  --color-character: #A31C1C;
+  --color-location: #2E7D4F;
+  --color-magic: #5C2E91;
+  --color-item: #C9A94F;
+  --color-creature: #3A7F3C;
+  
+  /* * ========== TYPOGRAPHY ========== */
+  
+  /* * Font Families */
+  --font-family-primary: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-family-secondary: Georgia, "Times New Roman", serif;
+  --font-family-mono: "SF Mono", Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  
+  /* * Font Sizes */
+  --font-size-xs: 0.75rem;    /* 12px */
+  --font-size-sm: 0.875rem;   /* 14px */
+  --font-size-base: 1rem;     /* 16px */
+  --font-size-lg: 1.125rem;   /* 18px */
+  --font-size-xl: 1.25rem;    /* 20px */
+  --font-size-2xl: 1.5rem;    /* 24px */
+  --font-size-3xl: 1.875rem;  /* 30px */
+  --font-size-4xl: 2.25rem;   /* 36px */
+  --font-size-5xl: 3rem;      /* 48px */
+  
+  /* * Font Weights */
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  
+  /* * Line Heights */
+  --line-height-tight: 1.25;
+  --line-height-snug: 1.375;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.625;
+  --line-height-loose: 2;
+  
+  /* * ========== SPACING ========== */
+  /* * Based on 8px grid system */
+  
+  --space-0: 0;
+  --space-1: 0.25rem;   /* 4px */
+  --space-2: 0.5rem;    /* 8px */
+  --space-3: 0.75rem;   /* 12px */
+  --space-4: 1rem;      /* 16px */
+  --space-5: 1.25rem;   /* 20px */
+  --space-6: 1.5rem;    /* 24px */
+  --space-8: 2rem;      /* 32px */
+  --space-10: 2.5rem;   /* 40px */
+  --space-12: 3rem;     /* 48px */
+  --space-16: 4rem;     /* 64px */
+  --space-20: 5rem;     /* 80px */
+  --space-24: 6rem;     /* 96px */
+  --space-32: 8rem;     /* 128px */
+  
+  /* * ========== BORDERS ========== */
+  
+  /* * Border Width */
+  --border-width-0: 0;
+  --border-width-1: 1px;
+  --border-width-2: 2px;
+  --border-width-4: 4px;
+  --border-width-8: 8px;
+  
+  /* * Border Radius */
+  --radius-none: 0;
+  --radius-sm: 0.125rem;   /* 2px */
+  --radius-md: 0.25rem;    /* 4px */
+  --radius-lg: 0.5rem;     /* 8px */
+  --radius-xl: 0.75rem;    /* 12px */
+  --radius-2xl: 1rem;      /* 16px */
+  --radius-3xl: 1.5rem;    /* 24px */
+  --radius-full: 9999px;
+  
+  /* * ========== SHADOWS ========== */
+  
+  --shadow-xs: 0 0 0 1px rgba(26, 22, 19, 0.05);
+  --shadow-sm: 0 1px 2px 0 rgba(26, 22, 19, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(26, 22, 19, 0.1), 0 2px 4px -1px rgba(26, 22, 19, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(26, 22, 19, 0.1), 0 4px 6px -2px rgba(26, 22, 19, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(26, 22, 19, 0.1), 0 10px 10px -5px rgba(26, 22, 19, 0.04);
+  --shadow-2xl: 0 25px 50px -12px rgba(26, 22, 19, 0.25);
+  --shadow-inner: inset 0 2px 4px 0 rgba(26, 22, 19, 0.06);
+  --shadow-none: none;
+  
+  /* * Glow effects for fantasy elements */
+  --glow-gold: 0 0 20px rgba(201, 169, 79, 0.5);
+  --glow-magic: 0 0 20px rgba(92, 46, 145, 0.5);
+  --glow-fire: 0 0 20px rgba(192, 48, 48, 0.5);
+  
+  /* * ========== ANIMATIONS ========== */
+  
+  /* * Durations */
+  --duration-instant: 0ms;
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+  --duration-slow: 500ms;
+  --duration-slower: 750ms;
+  --duration-slowest: 1000ms;
+  
+  /* * Easing Functions */
+  --ease-linear: linear;
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  
+  /* * ========== Z-INDEX LAYERS ========== */
+  
+  --z-negative: -1;
+  --z-0: 0;
+  --z-10: 10;
+  --z-20: 20;
+  --z-30: 30;
+  --z-40: 40;
+  --z-50: 50;
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-modal: 1030;
+  --z-popover: 1040;
+  --z-tooltip: 1050;
+  
+  /* * ========== BREAKPOINTS ========== */
+  /* * For reference in JavaScript */
+  
+  --breakpoint-xs: 0;
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+}
+
+/* * ========== DARK MODE ========== */
+/* * Override tokens for dark theme */
+
+[data-theme="dark"] {
+  /* * Invert base colors */
+  --color-parchment: #1A1815;
+  --color-obsidian: #F5F0E6;
+  --color-ink: #F5F0E6;
+  --color-ink-secondary: #D9D0BE;
+  
+  /* * Adjust semantic colors for dark mode */
+  --color-danger: #E73333;
+  --color-success: #56AD75;
+  --color-warning: #FBBF24;
+  --color-info: #60A5FA;
+  
+  /* * Enhanced shadows for dark mode */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.25);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
+}
+
+/* * ========== UTILITY CLASSES ========== */
+/* * Common utilities that can be used in both mockups and Storybook */
+
+.fantasy-gradient-gold {
+  background: linear-gradient(135deg, var(--color-gold) 0%, #E0C952 100%);
+}
+
+.fantasy-gradient-magic {
+  background: linear-gradient(135deg, var(--color-magic) 0%, #A677DF 100%);
+}
+
+.fantasy-gradient-parchment {
+  background: linear-gradient(180deg, var(--color-parchment) 0%, #E5DCCC 100%);
+}
+
+.fantasy-text-shadow {
+  text-shadow: 2px 2px 4px rgba(26, 22, 19, 0.2);
+}
+
+.fantasy-border-ornate {
+  border: 2px solid var(--color-gold);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--glow-gold);
+}

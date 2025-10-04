@@ -1,0 +1,71 @@
+# Dependencies
+node_modules/
+bower_components/
+
+# Build outputs
+build/
+dist/
+out/
+.next/
+.expo/
+
+# Platform specific
+ios/
+android/
+windows/
+
+# Cache directories
+.cache/
+.parcel-cache/
+metro-cache/
+.turbo/
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Environment and configs
+.env*
+*.log
+*.pid
+*.seed
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Generated files
+*.generated.*
+*.min.js
+*.bundle.js
+
+# Vendor files
+vendor/
+
+# Documentation
+docs/
+storybook-static/
+
+# Temporary files
+temp/
+tmp/
+
+# Template files that intentionally have placeholder code
+**/COMPONENT-TEST-TEMPLATE.cy.tsx
+**/*-template.*
+**/*-TEMPLATE.*
+
+# Mock data and fixtures
+**/fixtures/**/*.json
+**/mocks/**/*.js
+
+# Legacy or archived code
+archive/
+legacy/
+
+# Third-party libraries
+public/lib/
+static/lib/

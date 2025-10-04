@@ -1,8 +1,10 @@
-// Centralized selectors for Cypress tests
-// Following the pattern: data-cy="component-element-action"
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+// * Centralized selectors for Cypress tests
+// * Following the pattern: data-cy="component-element-action"
 
 export const selectors = {
-  // Authentication
+  // ! SECURITY: * Authentication
   auth: {
     emailInput: '[data-cy=email-input]',
     passwordInput: '[data-cy=password-input]',
@@ -142,7 +144,7 @@ export const selectors = {
   },
 };
 
-// Helper functions for dynamic selectors
+// * Helper functions for dynamic selectors
 export const getStorySelector = (storyId: string) => 
   `[data-cy=story-${storyId}]`;
 
@@ -155,12 +157,12 @@ export const getChapterSelector = (chapterNum: number) =>
 export const getTabSelector = (tabName: string) => 
   `[data-cy=tab-${tabName.toLowerCase()}]`;
 
-// Selector validation helper
+// * Selector validation helper
 export const validateSelector = (selector: string): boolean => {
   return selector.includes('data-cy=');
 };
 
-// Get all selectors as a flat list (useful for testing coverage)
+// * Get all selectors as a flat list (useful for testing coverage)
 export const getAllSelectors = (): string[] => {
   const flatSelectors: string[] = [];
   
@@ -178,7 +180,7 @@ export const getAllSelectors = (): string[] => {
   return flatSelectors;
 };
 
-// Accessibility selectors (for ARIA attributes)
+// * Accessibility selectors (for ARIA attributes)
 export const a11y = {
   getByRole: (role: string) => `[role="${role}"]`,
   getByAriaLabel: (label: string) => `[aria-label="${label}"]`,

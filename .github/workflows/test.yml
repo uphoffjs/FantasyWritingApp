@@ -1,0 +1,284 @@
+# GitHub Actions Workflow for Continuous Integration Testing
+name: CI Tests
+
+on:
+  push:
+    branches:
+      - '**'
+      - '!main'
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+env:
+  NODE_VERSION: '20'  # * Updated to match package.json engine requirement
+  CYPRESS_CACHE_FOLDER: ~/.cache/Cypress
+  # ! CRITICAL: Cypress best practice - always set baseUrl via env var as backup
+  CYPRESS_BASE_URL: 'http://localhost:3002'
+
+jobs:
+  # Job 1: Lint and Type Check
+  lint-and-typecheck:
+    name: Lint and Type Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        run: npm run lint
+        continue-on-error: false
+
+      # ! Cypress-specific linting to enforce best practices
+      - name: Run Cypress ESLint rules
+        run: |
+          if [ -f ".eslintrc.cypress.js" ]; then
+            npm run lint:cypress || echo "Note: Install eslint-plugin-cypress for full linting"
+          fi
+        continue-on-error: true
+
+      - name: Run TypeScript type checking
+        run: npx tsc --noEmit
+        continue-on-error: false
+
+      - name: Check for console.log statements
+        run: |
+          # ! Skip console.log check in test files and Cypress files
+          if grep -r "console.log" --include="*.ts" --include="*.tsx" \
+            --exclude-dir=node_modules --exclude-dir=dist \
+            --exclude-dir=cypress --exclude-dir=__tests__ \
+            --exclude="*.test.*" --exclude="*.spec.*" src/; then
+            echo "Found console.log statements in source code. Please remove them."
+            exit 1
+          fi
+
+  # Job 2: Component Tests
+  component-tests:
+    name: Component Tests
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        browser: [electron, chrome]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Cache Cypress
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/Cypress
+          key: cypress-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run component tests (${{ matrix.browser }})
+        run: |
+          if [ "${{ matrix.browser }}" = "chrome" ]; then
+            npm run test:component:chrome
+          else
+            npm run test:component
+          fi
+        timeout-minutes: 15
+
+      - name: Upload test artifacts
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: cypress-component-${{ matrix.browser }}-artifacts
+          path: |
+            cypress/screenshots/
+            cypress/videos/
+          retention-days: 7
+
+  # Job 3: E2E Tests
+  e2e-tests:
+    name: E2E Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Cache Cypress
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/Cypress
+          key: cypress-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      # ! Following Cypress best practice - npm run test:e2e already handles server startup
+      # * The test:e2e script uses start-server-and-test to manage server lifecycle
+      - name: Run E2E tests with managed server
+        run: npm run test:e2e
+        timeout-minutes: 20
+        env:
+          CYPRESS_BASE_URL: http://localhost:3002
+
+      - name: Upload test artifacts
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: cypress-e2e-artifacts
+          path: |
+            cypress/screenshots/
+            cypress/videos/
+          retention-days: 7
+
+  # Job 4: Build Test
+  build-test:
+    name: Build Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Test development build
+        run: |
+          npm run build
+          echo "Build completed successfully"
+
+      - name: Check build size
+        run: |
+          echo "Checking build size..."
+          TOTAL_SIZE=$(du -sh dist/ | cut -f1)
+          echo "Total build size: $TOTAL_SIZE"
+
+          # Check if any JS file is larger than 500KB
+          LARGE_FILES=$(find dist -name "*.js" -size +500k)
+          if [ -n "$LARGE_FILES" ]; then
+            echo "Warning: Large JavaScript files detected:"
+            echo "$LARGE_FILES"
+            for file in $LARGE_FILES; do
+              echo "$(basename $file): $(du -h $file | cut -f1)"
+            done
+          fi
+
+      - name: Test production preview
+        run: |
+          npm run preview &
+          sleep 5
+          curl -f http://localhost:3002 || exit 1
+          echo "Production preview working"
+
+  # Job 5: Security Audit
+  security-audit:
+    name: Security Audit
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Run npm audit
+        run: npm audit --production
+        continue-on-error: true
+
+      - name: Check for known vulnerabilities
+        run: |
+          npm audit --json > audit-report.json
+          if [ $(jq '.metadata.vulnerabilities.high' audit-report.json) -gt 0 ] || [ $(jq '.metadata.vulnerabilities.critical' audit-report.json) -gt 0 ]; then
+            echo "High or critical vulnerabilities found!"
+            jq '.vulnerabilities' audit-report.json
+            exit 1
+          fi
+
+  # Job 6: Code Coverage
+  code-coverage:
+    name: Code Coverage
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests with coverage
+        run: |
+          # Add coverage command when configured
+          echo "Coverage reporting not yet configured"
+          # npm run test:coverage
+
+      - name: Upload coverage reports
+        if: success()
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-reports
+          path: coverage/
+          retention-days: 7
+
+  # Final Job: Status Check
+  status-check:
+    name: CI Status Check
+    runs-on: ubuntu-latest
+    needs: [lint-and-typecheck, component-tests, e2e-tests, build-test, security-audit]
+    if: always()
+
+    steps:
+      - name: Check job statuses
+        run: |
+          echo "CI Pipeline Summary:"
+          echo "Lint and Type Check: ${{ needs.lint-and-typecheck.result }}"
+          echo "Component Tests: ${{ needs.component-tests.result }}"
+          echo "E2E Tests: ${{ needs.e2e-tests.result }}"
+          echo "Build Test: ${{ needs.build-test.result }}"
+          echo "Security Audit: ${{ needs.security-audit.result }}"
+
+          if [ "${{ needs.lint-and-typecheck.result }}" != "success" ] || \
+             [ "${{ needs.component-tests.result }}" != "success" ] || \
+             [ "${{ needs.e2e-tests.result }}" != "success" ] || \
+             [ "${{ needs.build-test.result }}" != "success" ]; then
+            echo "CI Pipeline failed!"
+            exit 1
+          fi
+
+          echo "✅ All CI checks passed!"

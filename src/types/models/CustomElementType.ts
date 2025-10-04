@@ -51,7 +51,7 @@ export interface UpdateCustomTypeInput {
   metadata?: Partial<CustomTypeMetadata>;
 }
 
-// Type guards
+// * Type guards
 export function isCustomElementType(value: any): value is CustomElementType {
   return (
     typeof value === 'object' &&
@@ -65,12 +65,12 @@ export function isCustomElementType(value: any): value is CustomElementType {
   );
 }
 
-// Helper to check if element uses custom type
+// * Helper to check if element uses custom type
 export function usesCustomType(element: { category: string; customTypeId?: string }): boolean {
   return element.category === 'custom' && !!element.customTypeId;
 }
 
-// Validation helper
+// * Validation helper
 export function validateCustomTypeInput(input: CreateCustomTypeInput): void {
   if (!input.name || input.name.trim() === '') {
     throw new Error('Custom type name is required');

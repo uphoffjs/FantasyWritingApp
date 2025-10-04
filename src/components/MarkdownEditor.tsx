@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react';
+import { fantasyTomeColors } from '@/constants/fantasyTomeColors';
 import {
   View,
   Text,
@@ -70,24 +71,24 @@ export function MarkdownEditor({
     let newCursorPosition: number;
 
     if (button.suffix) {
-      // Wrap selected text
+      // * Wrap selected text
       if (selectedText) {
         newText = `${beforeText}${button.prefix}${selectedText}${button.suffix}${afterText}`;
         newCursorPosition = start + button.prefix.length + selectedText.length + button.suffix.length;
       } else {
-        // Insert with placeholder
+        // // DEPRECATED: * Insert with placeholder
         const placeholder = button.multiline ? 'code' : 'text';
         newText = `${beforeText}${button.prefix}${placeholder}${button.suffix}${afterText}`;
         newCursorPosition = start + button.prefix.length;
       }
     } else {
-      // Prefix only (like headings, lists)
+      // TODO: * Prefix only (like headings, lists)
       if (start === 0 || value[start - 1] === '\n') {
-        // At line start, just add prefix
+        // TODO: * At line start, just add prefix
         newText = `${beforeText}${button.prefix}${afterText}`;
         newCursorPosition = start + button.prefix.length;
       } else {
-        // Not at line start, add newline first
+        // * Not at line start, add newline first
         newText = `${beforeText}\n${button.prefix}${afterText}`;
         newCursorPosition = start + 1 + button.prefix.length;
       }
@@ -95,39 +96,39 @@ export function MarkdownEditor({
 
     onChange(newText);
     // Note: Setting cursor position directly doesn't work reliably in React Native
-    // This is a limitation we have to accept
+    // * This is a limitation we have to accept
   }, [value, selection, onChange]);
 
   const renderPreview = () => {
-    // Simple markdown to text conversion (very basic)
+    // * Simple markdown to text conversion (very basic)
     let previewText = value;
     
-    // Convert headers
+    // * Convert headers
     previewText = previewText.replace(/^### (.*?)$/gm, '🔹 $1');
     previewText = previewText.replace(/^## (.*?)$/gm, '🔸 $1');
     previewText = previewText.replace(/^# (.*?)$/gm, '🔶 $1');
     
-    // Convert bold and italic
+    // // DEPRECATED: * Convert bold and italic
     previewText = previewText.replace(/\*\*(.*?)\*\*/g, '$1');
     previewText = previewText.replace(/_(.*?)_/g, '$1');
     
-    // Convert lists
+    // * Convert lists
     previewText = previewText.replace(/^- \[ \] (.*?)$/gm, '☐ $1');
     previewText = previewText.replace(/^- \[x\] (.*?)$/gm, '☑ $1');
     previewText = previewText.replace(/^- (.*?)$/gm, '• $1');
     previewText = previewText.replace(/^\d+\. (.*?)$/gm, '• $1');
     
-    // Convert quotes
+    // * Convert quotes
     previewText = previewText.replace(/^> (.*?)$/gm, '│ $1');
     
-    // Convert code blocks
+    // * Convert code blocks
     previewText = previewText.replace(/```[\s\S]*?```/g, '[CODE BLOCK]');
     previewText = previewText.replace(/`(.*?)`/g, '$1');
     
-    // Convert links
+    // * Convert links
     previewText = previewText.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1');
     
-    // Convert horizontal rules
+    // * Convert horizontal rules
     previewText = previewText.replace(/^---$/gm, '━━━━━━━━━━━━━━━');
 
     return previewText;
@@ -186,8 +187,7 @@ export function MarkdownEditor({
             style={[styles.input, { height: Math.max(minHeight, Math.min(inputHeight, maxHeight)) }]}
             value={value}
             onChangeText={onChange}
-            placeholder={placeholder}
-            placeholderTextColor="#6B7280"
+            placeholder={placeholder} placeholderTextColor="#6B7280"
             multiline
             textAlignVertical="top"
             onSelectionChange={(event) => setSelection(event.nativeEvent.selection)}
@@ -205,9 +205,10 @@ export function MarkdownEditor({
       )}
 
       {/* Help Text */}
+      {/* ! HARDCODED: Should use design tokens */}
       {!isPreviewMode && (
         <Text style={styles.helpText}>
-          Tip: Use **bold**, _italic_, # headers, - lists, {'>'} quotes
+          Tip: Use **bold**, _italic_, # headers, - lists, &gt; quotes
         </Text>
       )}
     </KeyboardAvoidingView>
@@ -226,21 +227,13 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 14,
-    fontWeight: '500',
-    color: '#F9FAFB',
   },
   previewToggle: {
     paddingHorizontal: 8,
-    paddingVertical: 4,
-    backgroundColor: '#374151',
     borderRadius: 4,
   },
   previewToggleText: {
-    fontSize: 12,
-    color: '#9CA3AF',
   },
-  toolbar: {
-    backgroundColor: '#1F2937',
     borderRadius: 8,
     marginBottom: 8,
     maxHeight: 44,
@@ -253,27 +246,17 @@ const styles = StyleSheet.create({
   toolbarButton: {
     paddingHorizontal: 12,
     paddingVertical: 8,
-    marginRight: 4,
-    backgroundColor: '#374151',
     borderRadius: 4,
     minWidth: 36,
     alignItems: 'center',
   },
   toolbarButtonText: {
     fontSize: 14,
-    fontWeight: '600',
-    color: '#F9FAFB',
   },
-  editorContainer: {
-    backgroundColor: '#1F2937',
     borderRadius: 8,
-    borderWidth: 1,
-    borderColor: '#374151',
   },
   input: {
     padding: 12,
-    fontSize: 14,
-    color: '#F9FAFB',
     lineHeight: 20,
     fontFamily: Platform.OS === 'ios' ? 'Menlo' : 'monospace',
   },
@@ -281,19 +264,13 @@ const styles = StyleSheet.create({
     padding: 12,
   },
   previewText: {
-    fontSize: 14,
-    color: '#F9FAFB',
     lineHeight: 22,
   },
   error: {
-    fontSize: 12,
-    color: '#EF4444',
     marginTop: 4,
     marginLeft: 4,
   },
   helpText: {
-    fontSize: 11,
-    color: '#6B7280',
     marginTop: 4,
     marginLeft: 4,
   },

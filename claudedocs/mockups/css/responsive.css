@@ -1,0 +1,334 @@
+/* * Responsive Breakpoints for 1:1 App Mockups */
+/* * Mobile-first approach matching React Native Web implementation */
+
+/* * Base styles (Mobile First) - Default for < 768px */
+/* * All base styles should be written mobile-first */
+
+/* * Tablet Portrait - 768px to 1023px */
+@media screen and (min-width: 768px) {
+  /* * Container adjustments for tablet */
+  .container {
+    max-width: 768px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* * Grid layouts for tablet */
+  .project-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  /* * Navigation changes for tablet */
+  .mobile-header {
+    display: none;
+  }
+
+  .tablet-sidebar {
+    display: block;
+    width: 260px;
+  }
+
+  /* * Form layouts for tablet */
+  .form-container {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* * Typography adjustments */
+  h1 { font-size: 2.5rem; }
+  h2 { font-size: 2rem; }
+  h3 { font-size: 1.75rem; }
+}
+
+/* * Desktop - 1024px and up */
+@media screen and (min-width: 1024px) {
+  /* * Container adjustments for desktop */
+  .container {
+    max-width: 1200px;
+    padding: 0 32px;
+  }
+
+  /* * Grid layouts for desktop */
+  .project-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  /* * Navigation for desktop */
+  .desktop-sidebar {
+    display: block;
+    width: 280px;
+    position: sticky;
+    top: 0;
+  }
+
+  /* * Main content area with sidebar */
+  .main-content {
+    margin-left: 280px;
+    padding: 32px;
+  }
+
+  /* * Element editor layout */
+  .element-editor {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 32px;
+  }
+
+  .element-sidebar {
+    position: sticky;
+    top: 20px;
+  }
+
+  /* * Form layouts for desktop */
+  .form-container {
+    max-width: 720px;
+  }
+
+  /* * Typography adjustments */
+  h1 { font-size: 3rem; }
+  h2 { font-size: 2.25rem; }
+  h3 { font-size: 1.875rem; }
+}
+
+/* * Large Desktop - 1440px and up */
+@media screen and (min-width: 1440px) {
+  /* * Container adjustments for large screens */
+  .container {
+    max-width: 1440px;
+  }
+
+  /* * Grid layouts for large desktop */
+  .project-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  /* * More spacious layouts */
+  .main-content {
+    padding: 48px;
+  }
+}
+
+/* * Utility classes for responsive visibility */
+.mobile-only {
+  display: block;
+}
+
+.tablet-only {
+  display: none;
+}
+
+.desktop-only {
+  display: none;
+}
+
+@media screen and (min-width: 768px) {
+  .mobile-only {
+    display: none;
+  }
+
+  .tablet-only {
+    display: block;
+  }
+
+  .desktop-only {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .mobile-only {
+    display: none;
+  }
+
+  .tablet-only {
+    display: none;
+  }
+
+  .desktop-only {
+    display: block;
+  }
+}
+
+/* * Responsive spacing utilities */
+.p-mobile { padding: 16px; }
+.p-tablet { padding: 16px; }
+.p-desktop { padding: 16px; }
+
+@media screen and (min-width: 768px) {
+  .p-tablet { padding: 24px; }
+  .p-desktop { padding: 24px; }
+}
+
+@media screen and (min-width: 1024px) {
+  .p-desktop { padding: 32px; }
+}
+
+/* * Responsive flex utilities */
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-row-tablet {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-row-desktop {
+  display: flex;
+  flex-direction: column;
+}
+
+@media screen and (min-width: 768px) {
+  .flex-row-tablet {
+    flex-direction: row;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .flex-row-desktop {
+    flex-direction: row;
+  }
+}
+
+/* * Component-specific responsive styles */
+
+/* * Project Card responsive */
+.project-card {
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+@media screen and (min-width: 768px) {
+  .project-card {
+    padding: 20px;
+    margin-bottom: 0;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .project-card {
+    padding: 24px;
+  }
+}
+
+/* * Modal responsive */
+.modal-content {
+  width: calc(100% - 32px);
+  max-width: 500px;
+  margin: 16px;
+  max-height: calc(100vh - 32px);
+}
+
+@media screen and (min-width: 768px) {
+  .modal-content {
+    width: 90%;
+    max-width: 600px;
+    margin: 40px auto;
+    max-height: calc(100vh - 80px);
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .modal-content {
+    max-width: 720px;
+    max-height: calc(100vh - 120px);
+  }
+}
+
+/* * Navigation responsive */
+.nav-menu {
+  position: fixed;
+  left: -100%;
+  top: 0;
+  width: 280px;
+  height: 100vh;
+  transition: left 0.3s ease;
+}
+
+.nav-menu.active {
+  left: 0;
+}
+
+@media screen and (min-width: 768px) {
+  .nav-menu {
+    position: static;
+    left: auto;
+    width: 260px;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .nav-menu {
+    width: 280px;
+  }
+}
+
+/* * Form responsive */
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+@media screen and (min-width: 768px) {
+  .form-row {
+    flex-direction: row;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .form-group {
+    margin-bottom: 24px;
+  }
+}
+
+/* * Button responsive */
+.btn {
+  padding: 12px 20px;
+  font-size: 14px;
+}
+
+@media screen and (min-width: 768px) {
+  .btn {
+    padding: 14px 24px;
+    font-size: 15px;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .btn {
+    padding: 16px 28px;
+    font-size: 16px;
+  }
+}
+
+/* * Text responsive utilities */
+.text-sm { font-size: 12px; }
+.text-base { font-size: 14px; }
+.text-lg { font-size: 16px; }
+.text-xl { font-size: 18px; }
+
+@media screen and (min-width: 768px) {
+  .text-sm { font-size: 13px; }
+  .text-base { font-size: 15px; }
+  .text-lg { font-size: 18px; }
+  .text-xl { font-size: 20px; }
+}
+
+@media screen and (min-width: 1024px) {
+  .text-sm { font-size: 14px; }
+  .text-base { font-size: 16px; }
+  .text-lg { font-size: 20px; }
+  .text-xl { font-size: 24px; }
+}

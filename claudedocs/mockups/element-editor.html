@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Element Editor - Fantasy Element Builder</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=EB+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Styles - Order matters for cascade -->
+    <link rel="stylesheet" href="css/tokens.css"> <!-- Design tokens from fantasyMasterColors -->
+    <link rel="stylesheet" href="css/base.css"> <!-- Reset and base styles -->
+    <link rel="stylesheet" href="css/theme.css"> <!-- Theme-specific styles -->
+    <link rel="stylesheet" href="css/components.css"> <!-- Component styles -->
+    <link rel="stylesheet" href="css/responsive.css"> <!-- Responsive breakpoints -->
+    
+    <style>
+        /* Element Editor Specific Styles */
+        .editor-header {
+            background: var(--parchment-300);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 0.5rem;
+            border: 1px solid var(--parchment-400);
+        }
+        
+        .element-header-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .element-title-section {
+            flex: 1;
+        }
+        
+        .element-type-indicator {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: var(--attribute-might-lightest);
+            color: var(--attribute-might);
+            border-radius: 0.25rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+        
+        .element-name-input {
+            font-size: 1.75rem;
+            font-weight: bold;
+            font-family: 'Cinzel', serif;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid var(--parchment-600);
+            padding: 0.25rem 0;
+            width: 100%;
+            color: var(--ink-primary);
+        }
+        
+        .element-name-input:focus {
+            outline: none;
+            border-bottom-color: var(--might-base);
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 0.75rem;
+        }
+        
+        .btn-save {
+            background: var(--elixir-base);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            padding: 0.5rem 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .btn-save:hover {
+            background: var(--elixir-dark);
+        }
+        
+        .btn-delete {
+            background: var(--dragonfire-base);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            padding: 0.5rem 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .btn-delete:hover {
+            background: var(--dragonfire-dark);
+        }
+        
+        /* Progress Bar */
+        .progress-section {
+            margin-top: 1rem;
+        }
+        
+        .progress-label {
+            font-size: 0.875rem;
+            color: var(--ink-secondary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: var(--parchment-500);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--elixir-base) 0%, var(--might-base) 100%);
+            transition: width 0.3s ease;
+        }
+        
+        /* Tab Navigation */
+        .editor-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--parchment-400);
+        }
+        
+        .editor-tab {
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            border: none;
+            color: var(--ink-secondary);
+            font-family: 'Cinzel', serif;
+            font-weight: 600;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .editor-tab:hover {
+            color: var(--ink-primary);
+        }
+        
+        .editor-tab.active {
+            color: var(--might-base);
+        }
+        
+        .editor-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--might-base);
+        }
+        
+        /* Questionnaire Section */
+        .questionnaire-container {
+            max-width: 800px;
+        }
+        
+        .question-group {
+            background: var(--parchment-200);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid var(--parchment-400);
+        }
+        
+        .question-label {
+            display: block;
+            font-weight: 600;
+            color: var(--ink-primary);
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+        
+        .required-indicator {
+            color: var(--dragonfire-base);
+            margin-left: 0.25rem;
+        }
+        
+        .help-text {
+            font-size: 0.875rem;
+            color: var(--ink-secondary);
+            margin-bottom: 0.75rem;
+            font-style: italic;
+        }
+        
+        .question-input {
+            width: 100%;
+            background: var(--parchment-100);
+            border: 1px solid var(--parchment-600);
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            font-family: 'EB Garamond', serif;
+            font-size: 1rem;
+            color: var(--ink-primary);
+            transition: all 0.3s ease;
+        }
+        
+        .question-input:focus {
+            outline: none;
+            border-color: var(--might-base);
+            box-shadow: 0 0 0 3px var(--might-pale);
+        }
+        
+        .question-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .question-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            padding-right: 2.5rem;
+        }
+        
+        /* Checkbox and Radio Styles */
+        .option-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .option-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .option-input {
+            width: 1.25rem;
+            height: 1.25rem;
+            accent-color: var(--might-base);
+        }
+        
+        .option-label {
+            color: var(--ink-primary);
+        }
+        
+        /* Date Picker */
+        .date-input {
+            padding-right: 2.5rem;
+        }
+        
+        /* Relationships Tab */
+        .relationships-content {
+            display: none;
+        }
+        
+        .relationships-content.active {
+            display: block;
+        }
+        
+        .relationship-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .relationship-card {
+            background: var(--parchment-200);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            border: 1px solid var(--parchment-400);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .relationship-info {
+            flex: 1;
+        }
+        
+        .relationship-type {
+            font-size: 0.875rem;
+            color: var(--ink-secondary);
+            margin-bottom: 0.25rem;
+        }
+        
+        .relationship-target {
+            font-weight: 600;
+            color: var(--ink-primary);
+        }
+        
+        .add-relationship-btn {
+            background: var(--might-base);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .element-header-info {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .action-buttons {
+                margin-top: 1rem;
+                justify-content: stretch;
+            }
+            
+            .action-buttons button {
+                flex: 1;
+            }
+            
+            .editor-tabs {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .editor-container {
+                display: grid;
+                grid-template-columns: 1fr 320px;
+                gap: 2rem;
+            }
+            
+            .editor-sidebar {
+                position: sticky;
+                top: 1rem;
+                height: fit-content;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="container mx-auto max-w-6xl">
+            <!-- Breadcrumb Navigation -->
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+                <ol>
+                    <li><a href="projects.html">Projects</a></li>
+                    <li><a href="project-dashboard.html">The Last Kingdom</a></li>
+                    <li aria-current="page">Aldric Stormwind</li>
+                </ol>
+            </nav>
+            
+            <!-- Element Header -->
+            <div class="editor-header">
+                <div class="element-header-info">
+                    <div class="element-title-section">
+                        <span class="element-type-indicator">Character</span>
+                        <input 
+                            type="text" 
+                            class="element-name-input" 
+                            value="Aldric Stormwind"
+                            data-cy="element-name-input"
+                        />
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn-save" onclick="saveElement()" data-cy="save-element-btn">
+                            Save Changes
+                        </button>
+                        <button class="btn-delete" onclick="deleteElement()" data-cy="delete-element-btn">
+                            Delete
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="progress-section">
+                    <div class="progress-label">
+                        <span>Completion Progress</span>
+                        <span>12 of 15 questions answered (80%)</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 80%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tab Navigation -->
+            <div class="editor-tabs">
+                <button class="editor-tab active" onclick="switchTab('questionnaire')" data-cy="questionnaire-tab">
+                    Questionnaire
+                </button>
+                <button class="editor-tab" onclick="switchTab('relationships')" data-cy="relationships-tab">
+                    Relationships
+                </button>
+                <button class="editor-tab" onclick="switchTab('template')" data-cy="template-tab">
+                    Template
+                </button>
+            </div>
+            
+            <!-- Questionnaire Content -->
+            <div id="questionnaire-content" class="questionnaire-container">
+                <!-- Text Question -->
+                <div class="question-group">
+                    <label class="question-label">
+                        What is the character's full name?
+                        <span class="required-indicator">*</span>
+                    </label>
+                    <p class="help-text">Include any titles, nicknames, or aliases</p>
+                    <input 
+                        type="text" 
+                        class="question-input"
+                        value="Aldric Stormwind, The Northern Wolf"
+                        data-cy="question-fullname"
+                    />
+                </div>
+                
+                <!-- Textarea Question -->
+                <div class="question-group">
+                    <label class="question-label">
+                        Describe the character's backstory
+                        <span class="required-indicator">*</span>
+                    </label>
+                    <p class="help-text">What events shaped them? Where did they come from?</p>
+                    <textarea 
+                        class="question-input question-textarea"
+                        data-cy="question-backstory"
+                    >Born to nobility but raised in exile after his family was betrayed. Trained by the legendary swordmaster Vaelen in the harsh northern mountains. Returned to reclaim his birthright but discovered a greater threat to the realm...</textarea>
+                </div>
+                
+                <!-- Select Question -->
+                <div class="question-group">
+                    <label class="question-label">
+                        What is their primary role in the story?
+                    </label>
+                    <select class="question-input question-select" data-cy="question-role">
+                        <option value="">Select a role...</option>
+                        <option value="protagonist" selected>Protagonist</option>
+                        <option value="antagonist">Antagonist</option>
+                        <option value="mentor">Mentor</option>
+                        <option value="sidekick">Sidekick</option>
+                        <option value="love-interest">Love Interest</option>
+                    </select>
+                </div>
+                
+                <!-- Multi-select Checkboxes -->
+                <div class="question-group">
+                    <label class="question-label">
+                        What are their key personality traits?
+                    </label>
+                    <p class="help-text">Select all that apply</p>
+                    <div class="option-group">
+                        <label class="option-item">
+                            <input type="checkbox" class="option-input" checked data-cy="trait-honorable">
+                            <span class="option-label">Honorable</span>
+                        </label>
+                        <label class="option-item">
+                            <input type="checkbox" class="option-input" checked data-cy="trait-determined">
+                            <span class="option-label">Determined</span>
+                        </label>
+                        <label class="option-item">
+                            <input type="checkbox" class="option-input" data-cy="trait-cunning">
+                            <span class="option-label">Cunning</span>
+                        </label>
+                        <label class="option-item">
+                            <input type="checkbox" class="option-input" checked data-cy="trait-compassionate">
+                            <span class="option-label">Compassionate</span>
+                        </label>
+                        <label class="option-item">
+                            <input type="checkbox" class="option-input" data-cy="trait-ruthless">
+                            <span class="option-label">Ruthless</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Number Question -->
+                <div class="question-group">
+                    <label class="question-label">
+                        How old is the character?
+                    </label>
+                    <input 
+                        type="number" 
+                        class="question-input"
+                        value="28"
+                        min="0"
+                        max="500"
+                        data-cy="question-age"
+                    />
+                </div>
+                
+                <!-- Date Question -->
+                <div class="question-group">
+                    <label class="question-label">
+                        When were they born?
+                    </label>
+                    <p class="help-text">In your world's calendar system</p>
+                    <input 
+                        type="date" 
+                        class="question-input date-input"
+                        value="995-03-15"
+                        data-cy="question-birthdate"
+                    />
+                </div>
+                
+                <!-- Markdown/Long Text Question -->
+                <div class="question-group">
+                    <label class="question-label">
+                        What are their goals and motivations?
+                    </label>
+                    <p class="help-text">You can use markdown formatting</p>
+                    <textarea 
+                        class="question-input question-textarea"
+                        rows="6"
+                        data-cy="question-goals"
+                    >## Primary Goals
+- Reclaim his family's throne
+- Unite the fractured kingdoms against the northern threat
+- Find the truth about his father's death
+
+## Motivations
+- **Honor**: Driven by his family's legacy
+- **Duty**: Feels responsible for protecting the realm
+- **Love**: Secretly motivated by his feelings for Princess Lyanna</textarea>
+                </div>
+            </div>
+            
+            <!-- Relationships Content -->
+            <div id="relationships-content" class="relationships-content">
+                <div class="relationship-list">
+                    <div class="relationship-card">
+                        <div class="relationship-info">
+                            <div class="relationship-type">Mentor to</div>
+                            <div class="relationship-target">Kael Brightblade</div>
+                        </div>
+                        <button class="btn-delete" onclick="removeRelationship()">Remove</button>
+                    </div>
+                    
+                    <div class="relationship-card">
+                        <div class="relationship-info">
+                            <div class="relationship-type">Rival of</div>
+                            <div class="relationship-target">Lord Blackthorn</div>
+                        </div>
+                        <button class="btn-delete" onclick="removeRelationship()">Remove</button>
+                    </div>
+                    
+                    <div class="relationship-card">
+                        <div class="relationship-info">
+                            <div class="relationship-type">Loves</div>
+                            <div class="relationship-target">Princess Lyanna</div>
+                        </div>
+                        <button class="btn-delete" onclick="removeRelationship()">Remove</button>
+                    </div>
+                </div>
+                
+                <button class="add-relationship-btn" onclick="addRelationship()">
+                    <span>+</span>
+                    <span>Add Relationship</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Theme Toggle Button -->
+    <button class="theme-toggle" onclick="window.mockupHelpers.toggleTheme()">
+        <span class="theme-icon">🌞</span>
+    </button>
+    
+    <!-- Scripts -->
+    <script src="js/mockup-helpers.js"></script>
+    <script>
+        // Tab switching
+        function switchTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.editor-tab').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Show/hide content
+            document.getElementById('questionnaire-content').style.display = 
+                tabName === 'questionnaire' ? 'block' : 'none';
+            document.getElementById('relationships-content').classList.toggle('active', 
+                tabName === 'relationships');
+            
+            if (tabName === 'template') {
+                window.mockupHelpers.showNotification('Template selection modal would open', 'info');
+            }
+        }
+        
+        // Element actions
+        function saveElement() {
+            window.mockupHelpers.showNotification('Element saved successfully!', 'success');
+        }
+        
+        function deleteElement() {
+            if (confirm('Are you sure you want to delete this element? This action cannot be undone.')) {
+                window.mockupHelpers.showNotification('Element deleted', 'info');
+            }
+        }
+        
+        function removeRelationship() {
+            window.mockupHelpers.showNotification('Relationship removed', 'info');
+        }
+        
+        function addRelationship() {
+            window.mockupHelpers.showNotification('Relationship modal would open', 'info');
+        }
+        
+        // Auto-save simulation
+        let saveTimeout;
+        document.querySelectorAll('.question-input').forEach(input => {
+            input.addEventListener('input', () => {
+                clearTimeout(saveTimeout);
+                saveTimeout = setTimeout(() => {
+                    window.mockupHelpers.showNotification('Auto-saved', 'success');
+                }, 2000);
+            });
+        });
+    </script>
+</body>
+</html>

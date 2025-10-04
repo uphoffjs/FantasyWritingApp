@@ -12,7 +12,10 @@ import {
 } from 'react-native';
 import { TextInput } from './TextInput';
 import { Button } from './Button';
+import { ImagePicker } from './ImagePicker';
 import { useWorldbuildingStore } from '../store/worldbuildingStore';
+import { useTheme } from '../providers/ThemeProvider';
+import { getTestProps } from '../utils/react-native-web-polyfills';
 
 interface CreateProjectModalProps {
   visible: boolean;
@@ -43,18 +46,74 @@ const statuses = [
   { value: 'completed', label: 'Completed' },
 ];
 
+// * Project templates for quick start
+const projectTemplates = [
+  { 
+    id: 'fantasy-epic', 
+    name: 'Epic Fantasy', 
+    description: 'Multi-book saga with complex world-building',
+    icon: '⚔️',
+    genre: 'Fantasy',
+    starter: true,
+  },
+  { 
+    id: 'urban-fantasy', 
+    name: 'Urban Fantasy', 
+    description: 'Modern world with hidden magic',
+    icon: '🏙️',
+    genre: 'Urban Fantasy',
+    starter: true,
+  },
+  { 
+    id: 'sci-fi-space', 
+    name: 'Space Opera', 
+    description: 'Galactic adventures and alien civilizations',
+    icon: '🚀',
+    genre: 'Sci-Fi',
+    starter: true,
+  },
+  { 
+    id: 'mystery', 
+    name: 'Mystery Thriller', 
+    description: 'Crime solving and suspenseful investigations',
+    icon: '🔍',
+    genre: 'Mystery',
+    starter: false,
+  },
+  { 
+    id: 'dystopian', 
+    name: 'Dystopian Future', 
+    description: 'Post-apocalyptic or oppressive societies',
+    icon: '🏚️',
+    genre: 'Dystopian',
+    starter: false,
+  },
+  { 
+    id: 'blank', 
+    name: 'Blank Project', 
+    description: 'Start from scratch with no template',
+    icon: '📝',
+    genre: '',
+    starter: false,
+  },
+];
+
 export function CreateProjectModal({
   visible,
   onClose,
   onProjectCreated,
 }: CreateProjectModalProps) {
+  const { theme } = useTheme();
   const { createProject } = useWorldbuildingStore();
   const [isCreating, setIsCreating] = useState(false);
+  const [selectedTemplate, setSelectedTemplate] = useState<string>('');
   const [formData, setFormData] = useState({
     name: '',
     description: '',
     genre: '',
     status: 'planning',
+    coverImage: undefined as string | undefined,
+    template: '',
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -84,12 +143,11 @@ export function CreateProjectModal({
 
     setIsCreating(true);
     try {
-      const projectId = createProject({
-        name: formData.name.trim(),
-        description: formData.description.trim(),
-        genre: formData.genre,
-        status: formData.status,
-      });
+      // * Fix: createProject expects two arguments (name, description), not an object
+      const projectId = createProject(
+        formData.name.trim(),
+        formData.description.trim()
+      );
       
       onProjectCreated?.(projectId);
       handleClose();
@@ -111,10 +169,28 @@ export function CreateProjectModal({
       description: '',
       genre: '',
       status: 'planning',
+      coverImage: undefined,
+      template: '',
     });
+    setSelectedTemplate('');
     setErrors({});
     onClose();
   };
+
+  // * Handle template selection
+  const handleTemplateSelect = (templateId: string) => {
+    setSelectedTemplate(templateId);
+    const template = projectTemplates.find(t => t.id === templateId);
+    if (template) {
+      setFormData({
+        ...formData,
+        template: templateId,
+        genre: template.genre || formData.genre,
+      });
+    }
+  };
+
+  const styles = getStyles(theme);
 
   return (
     <Modal
@@ -122,22 +198,63 @@ export function CreateProjectModal({
       animationType="slide"
       transparent={true}
       onRequestClose={handleClose}
+      {...getTestProps('create-project-modal')}
     >
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.keyboardView}
       >
         <View style={styles.modalOverlay}>
-          <Pressable style={styles.backdrop} onPress={handleClose} />
+          <Pressable style={styles.backdrop} onPress={handleClose} {...getTestProps('create-project-backdrop')} />
           
           <View style={styles.modalContent}>
             <ScrollView showsVerticalScrollIndicator={false}>
               {/* Header */}
               <View style={styles.header}>
-                <Text style={styles.title}>Create New Project</Text>
-                <Pressable onPress={handleClose} style={styles.closeButton}>
+                <Text style={styles.title}>✨ Create New Project</Text>
+                <Pressable onPress={handleClose} style={styles.closeButton} {...getTestProps('create-project-close-button')}>
                   <Text style={styles.closeIcon}>✕</Text>
                 </Pressable>
+              </View>
+
+              {/* Template Selection */}
+              <View style={styles.templateSection}>
+                <Text style={styles.sectionTitle}>Choose a Template</Text>
+                <ScrollView
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  style={styles.templateScroll}
+                >
+                  <View style={styles.templateContainer}>
+                    {projectTemplates.map((template) => (
+                      <Pressable
+                        key={template.id}
+                        style={[
+                          styles.templateCard,
+                          selectedTemplate === template.id && styles.templateCardSelected,
+                        ]}
+                        onPress={() => handleTemplateSelect(template.id)}
+                        {...getTestProps(`template-${template.id}`)}
+                      >
+                        <Text style={styles.templateIcon}>{template.icon}</Text>
+                        <Text style={[
+                          styles.templateName,
+                          selectedTemplate === template.id && styles.templateNameSelected,
+                        ]}>{template.name}</Text>
+                        {template.starter && (
+                          <View style={styles.starterBadge}>
+                            <Text style={styles.starterBadgeText}>STARTER</Text>
+                          </View>
+                        )}
+                      </Pressable>
+                    ))}
+                  </View>
+                </ScrollView>
+                {selectedTemplate && (
+                  <Text style={styles.templateDescription}>
+                    {projectTemplates.find(t => t.id === selectedTemplate)?.description}
+                  </Text>
+                )}
               </View>
 
               {/* Form */}
@@ -155,6 +272,7 @@ export function CreateProjectModal({
                   placeholder="Enter project name"
                   error={errors.name}
                   autoFocus
+                  {...getTestProps('create-project-name-input')}
                 />
 
                 {/* Description */}
@@ -171,6 +289,16 @@ export function CreateProjectModal({
                   multiline
                   numberOfLines={4}
                   error={errors.description}
+                  {...getTestProps('create-project-description-input')}
+                />
+
+                {/* Cover Image */}
+                <ImagePicker
+                  value={formData.coverImage}
+                  onChange={(imageUri) => setFormData({ ...formData, coverImage: imageUri })}
+                  label="Cover Image (Optional)"
+                  placeholder="Add a cover image"
+                  {...getTestProps('create-project-cover-image')}
                 />
 
                 {/* Genre Selection */}
@@ -190,6 +318,7 @@ export function CreateProjectModal({
                             formData.genre === genre && styles.genreChipSelected,
                           ]}
                           onPress={() => setFormData({ ...formData, genre })}
+                          {...getTestProps(`genre-chip-${genre.toLowerCase().replace(/\s+/g, '-')}`)}
                         >
                           <Text
                             style={[
@@ -217,6 +346,7 @@ export function CreateProjectModal({
                           formData.status === status.value && styles.statusOptionSelected,
                         ]}
                         onPress={() => setFormData({ ...formData, status: status.value })}
+                        {...getTestProps(`status-option-${status.value}`)}
                       >
                         <View style={styles.radioCircle}>
                           {formData.status === status.value && (
@@ -237,6 +367,7 @@ export function CreateProjectModal({
                   onPress={handleClose}
                   variant="secondary"
                   size="medium"
+                  {...getTestProps('create-project-cancel-button')}
                 />
                 <Button
                   title={isCreating ? 'Creating...' : 'Create Project'}
@@ -245,6 +376,7 @@ export function CreateProjectModal({
                   size="medium"
                   loading={isCreating}
                   disabled={!formData.name.trim() || isCreating}
+                  {...getTestProps('create-project-submit-button')}
                 />
               </View>
             </ScrollView>
@@ -255,7 +387,8 @@ export function CreateProjectModal({
   );
 }
 
-const styles = StyleSheet.create({
+// * Create theme-aware styles
+const getStyles = (theme: any) => StyleSheet.create({
   keyboardView: {
     flex: 1,
   },
@@ -270,89 +403,166 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: theme.colors.surface.overlay,
   },
   modalContent: {
-    backgroundColor: '#1F2937',
-    borderRadius: 16,
+    backgroundColor: theme.colors.surface.card,
+    borderRadius: theme.borderRadius.lg,
     width: '90%',
-    maxWidth: 500,
-    maxHeight: '80%',
-    padding: 24,
-    shadowColor: '#000',
+    maxWidth: 600,
+    maxHeight: '90%',
+    padding: theme.spacing.lg,
+    shadowColor: theme.colors.effects.shadow,
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 4,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 8,
-    elevation: 5,
+    shadowOpacity: 0.3,
+    shadowRadius: 12,
+    elevation: 8,
+    borderWidth: 1,
+    borderColor: theme.colors.primary.borderLight,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: theme.spacing.lg,
+    borderBottomWidth: 1,
+    borderBottomColor: theme.colors.primary.borderLight,
+    paddingBottom: theme.spacing.md,
   },
   title: {
-    fontSize: 20,
-    fontWeight: '600',
-    color: '#F9FAFB',
+    fontSize: theme.typography.fontSize.xl,
+    fontWeight: theme.typography.fontWeight.bold as any,
+    color: theme.colors.text.primary,
+    fontFamily: theme.typography.fontFamily.heading,
   },
   closeButton: {
-    padding: 4,
+    padding: theme.spacing.xs,
   },
   closeIcon: {
     fontSize: 24,
-    color: '#9CA3AF',
+    color: theme.colors.text.secondary,
   },
+  // * Template section styles
+  templateSection: {
+    marginBottom: theme.spacing.lg,
+  },
+  sectionTitle: {
+    fontSize: theme.typography.fontSize.md,
+    fontWeight: theme.typography.fontWeight.semibold as any,
+    color: theme.colors.text.primary,
+    marginBottom: theme.spacing.md,
+    fontFamily: theme.typography.fontFamily.heading,
+  },
+  templateScroll: {
+    maxHeight: 120,
+  },
+  templateContainer: {
+    flexDirection: 'row',
+    gap: theme.spacing.sm,
+    paddingBottom: theme.spacing.xs,
+  },
+  templateCard: {
+    backgroundColor: theme.colors.surface.backgroundAlt,
+    borderRadius: theme.borderRadius.md,
+    padding: theme.spacing.md,
+    alignItems: 'center',
+    borderWidth: 2,
+    borderColor: 'transparent',
+    minWidth: 100,
+  },
+  templateCardSelected: {
+    borderColor: theme.colors.metal.gold,
+    backgroundColor: theme.colors.surface.cardHover,
+  },
+  templateIcon: {
+    fontSize: 32,
+    marginBottom: theme.spacing.xs,
+  },
+  templateName: {
+    fontSize: theme.typography.fontSize.xs,
+    fontWeight: theme.typography.fontWeight.medium as any,
+    color: theme.colors.text.secondary,
+    textAlign: 'center',
+    fontFamily: theme.typography.fontFamily.ui,
+  },
+  templateNameSelected: {
+    color: theme.colors.text.primary,
+    fontWeight: theme.typography.fontWeight.semibold as any,
+  },
+  starterBadge: {
+    backgroundColor: theme.colors.attributes.vitality,
+    borderRadius: theme.borderRadius.sm,
+    paddingHorizontal: theme.spacing.xs,
+    paddingVertical: 2,
+    marginTop: theme.spacing.xs,
+  },
+  starterBadgeText: {
+    fontSize: theme.typography.fontSize.xxs,
+    fontWeight: theme.typography.fontWeight.bold as any,
+    color: theme.colors.text.onPrimary,
+    fontFamily: theme.typography.fontFamily.ui,
+  },
+  templateDescription: {
+    fontSize: theme.typography.fontSize.sm,
+    color: theme.colors.text.secondary,
+    fontStyle: 'italic',
+    marginTop: theme.spacing.sm,
+    paddingHorizontal: theme.spacing.xs,
+    fontFamily: theme.typography.fontFamily.body,
+  },
+  // * Form styles
   form: {
-    gap: 20,
+    gap: theme.spacing.md,
   },
   fieldContainer: {
-    marginTop: 16,
+    marginTop: theme.spacing.md,
   },
   label: {
-    fontSize: 14,
-    fontWeight: '500',
-    color: '#F9FAFB',
-    marginBottom: 8,
+    fontSize: theme.typography.fontSize.sm,
+    fontWeight: theme.typography.fontWeight.medium as any,
+    color: theme.colors.text.primary,
+    marginBottom: theme.spacing.xs,
+    fontFamily: theme.typography.fontFamily.ui,
   },
   genreScroll: {
     maxHeight: 40,
   },
   genreContainer: {
     flexDirection: 'row',
-    gap: 8,
+    gap: theme.spacing.xs,
   },
   genreChip: {
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 16,
-    backgroundColor: '#374151',
+    paddingHorizontal: theme.spacing.sm,
+    paddingVertical: theme.spacing.xs,
+    borderRadius: theme.borderRadius.full,
+    backgroundColor: theme.colors.surface.backgroundElevated,
     borderWidth: 1,
-    borderColor: '#4B5563',
+    borderColor: theme.colors.primary.borderLight,
   },
   genreChipSelected: {
-    backgroundColor: '#6366F1',
-    borderColor: '#6366F1',
+    backgroundColor: theme.colors.attributes.swiftness,
+    borderColor: theme.colors.attributes.swiftness,
   },
   genreText: {
-    fontSize: 12,
-    color: '#9CA3AF',
+    fontSize: theme.typography.fontSize.xs,
+    color: theme.colors.text.secondary,
+    fontFamily: theme.typography.fontFamily.ui,
   },
   genreTextSelected: {
-    color: '#FFFFFF',
-    fontWeight: '500',
+    color: theme.colors.text.onPrimary,
+    fontWeight: theme.typography.fontWeight.semibold as any,
   },
   statusContainer: {
-    gap: 8,
+    gap: theme.spacing.xs,
   },
   statusOption: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
-    paddingVertical: 4,
+    gap: theme.spacing.xs,
+    paddingVertical: theme.spacing.xs,
   },
   statusOptionSelected: {
     opacity: 1,
@@ -362,7 +572,7 @@ const styles = StyleSheet.create({
     height: 20,
     borderRadius: 10,
     borderWidth: 2,
-    borderColor: '#6366F1',
+    borderColor: theme.colors.metal.gold,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -370,16 +580,20 @@ const styles = StyleSheet.create({
     width: 10,
     height: 10,
     borderRadius: 5,
-    backgroundColor: '#6366F1',
+    backgroundColor: theme.colors.metal.gold,
   },
   statusText: {
-    fontSize: 14,
-    color: '#F9FAFB',
+    fontSize: theme.typography.fontSize.sm,
+    color: theme.colors.text.primary,
+    fontFamily: theme.typography.fontFamily.ui,
   },
   actions: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    gap: 12,
-    marginTop: 24,
+    gap: theme.spacing.sm,
+    marginTop: theme.spacing.lg,
+    borderTopWidth: 1,
+    borderTopColor: theme.colors.primary.borderLight,
+    paddingTop: theme.spacing.lg,
   },
 });

@@ -204,7 +204,7 @@ export interface Database {
   }
 }
 
-// Element categories enum to match the database constraint
+// * Element categories enum to match the database constraint
 export type ElementCategory = 
   | 'character'
   | 'location'
@@ -219,7 +219,7 @@ export type ElementCategory =
   | 'item'
   | 'custom'
 
-// Helper types for easier usage
+// * Helper types for easier usage
 export type Profile = Database['public']['Tables']['profiles']['Row']
 export type Project = Database['public']['Tables']['projects']['Row']
 export type WorldElement = Database['public']['Tables']['world_elements']['Row']
@@ -227,7 +227,7 @@ export type Answer = Database['public']['Tables']['answers']['Row']
 export type Relationship = Database['public']['Tables']['relationships']['Row']
 export type QuestionnaireTemplate = Database['public']['Tables']['questionnaire_templates']['Row']
 
-// Insert types
+// * Insert types
 export type ProfileInsert = Database['public']['Tables']['profiles']['Insert']
 export type ProjectInsert = Database['public']['Tables']['projects']['Insert']
 export type WorldElementInsert = Database['public']['Tables']['world_elements']['Insert']
@@ -235,7 +235,7 @@ export type AnswerInsert = Database['public']['Tables']['answers']['Insert']
 export type RelationshipInsert = Database['public']['Tables']['relationships']['Insert']
 export type QuestionnaireTemplateInsert = Database['public']['Tables']['questionnaire_templates']['Insert']
 
-// Update types
+// * Update types
 export type ProfileUpdate = Database['public']['Tables']['profiles']['Update']
 export type ProjectUpdate = Database['public']['Tables']['projects']['Update']
 export type WorldElementUpdate = Database['public']['Tables']['world_elements']['Update']

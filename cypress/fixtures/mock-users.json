@@ -1,0 +1,14 @@
+{
+  "testUser": {
+    "id": "mock-user-001",
+    "email": "test@fantasyapp.com",
+    "username": "testuser",
+    "display_name": "Test User"
+  },
+  "adminUser": {
+    "id": "mock-user-002",
+    "email": "admin@fantasyapp.com",
+    "username": "adminuser",
+    "display_name": "Admin User"
+  }
+}

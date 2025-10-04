@@ -28,7 +28,7 @@ export function CrossPlatformDatePicker({
   const [showPicker, setShowPicker] = useState(false);
   const [tempDate, setTempDate] = useState<Date>(value || new Date());
 
-  // Format date for display
+  // * Format date for display
   const formatDate = (date: Date | null): string => {
     if (!date) return placeholder;
     
@@ -41,7 +41,7 @@ export function CrossPlatformDatePicker({
     }
   };
 
-  // Handle date change for web
+  // * Handle date change for web
   const handleWebDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const dateValue = event.target.value;
     if (dateValue) {
@@ -52,7 +52,7 @@ export function CrossPlatformDatePicker({
     }
   };
 
-  // Handle native date confirmation
+  // * Handle native date confirmation
   const handleConfirm = () => {
     onChange(tempDate);
     setShowPicker(false);
@@ -63,7 +63,7 @@ export function CrossPlatformDatePicker({
     setShowPicker(false);
   };
 
-  // For web, use native HTML date input
+  // * For web, use native HTML date input
   if (Platform.OS === 'web') {
     const inputType = mode === 'time' ? 'time' : mode === 'datetime' ? 'datetime-local' : 'date';
     const inputValue = value ? 
@@ -89,7 +89,7 @@ export function CrossPlatformDatePicker({
     );
   }
 
-  // For native, use custom modal picker
+  // * For native, use custom modal picker
   return (
     <>
       <Pressable
@@ -124,7 +124,7 @@ export function CrossPlatformDatePicker({
                     <Pressable 
                       style={styles.dateInput}
                       onPress={() => {
-                        // Simple year picker - could be enhanced
+                        // * Simple year picker - could be enhanced
                         const currentYear = tempDate.getFullYear();
                         const newYear = currentYear + 1;
                         const newDate = new Date(tempDate);
@@ -233,7 +233,7 @@ export function CrossPlatformDatePicker({
 }
 
 const styles = StyleSheet.create({
-  // Web styles
+  // * Web styles
   webContainer: {
     position: 'relative',
     width: '100%',
@@ -243,11 +243,10 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     padding: 12,
-    fontSize: 14,
-    color: '#F9FAFB',
-    backgroundColor: 'transparent',
+    backgroundColor: transparent,
     border: 'none',
-    outline: 'none',
+    // * React Native doesn't support outline property - removed
+    // * For accessibility, rely on focus styles instead
     appearance: 'none',
     WebkitAppearance: 'none',
     MozAppearance: 'none',
@@ -260,12 +259,10 @@ const styles = StyleSheet.create({
     left: 12,
     top: '50%',
     transform: 'translateY(-50%)',
-    fontSize: 14,
-    color: '#6B7280',
     pointerEvents: 'none',
   },
 
-  // Native styles
+  // * Native styles
   nativeButton: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -276,11 +273,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     flex: 1,
-    fontSize: 14,
-    color: '#F9FAFB',
   },
-  placeholderText: {
-    color: '#6B7280',
   },
   dateIcon: {
     fontSize: 16,
@@ -290,15 +283,12 @@ const styles = StyleSheet.create({
     opacity: 0.5,
   },
 
-  // Modal styles
+  // * Modal styles
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  modalContent: {
-    backgroundColor: '#111827',
     borderRadius: 12,
     width: '90%',
     maxWidth: 400,
@@ -311,13 +301,10 @@ const styles = StyleSheet.create({
   modalHeader: {
     padding: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '#374151',
     alignItems: 'center',
   },
   modalTitle: {
     fontSize: 18,
-    fontWeight: '600',
-    color: '#F9FAFB',
     textTransform: 'capitalize',
   },
   datePickerContainer: {
@@ -334,32 +321,23 @@ const styles = StyleSheet.create({
     minWidth: 60,
   },
   dateLabel: {
-    fontSize: 12,
-    color: '#9CA3AF',
     marginBottom: 8,
     textTransform: 'capitalize',
   },
-  dateInput: {
-    backgroundColor: '#1F2937',
     borderRadius: 8,
     paddingVertical: 12,
     paddingHorizontal: 16,
-    borderWidth: 1,
-    borderColor: '#374151',
     minWidth: 60,
     alignItems: 'center',
   },
   dateInputText: {
     fontSize: 16,
-    fontWeight: '600',
-    color: '#F9FAFB',
   },
   modalActions: {
     flexDirection: 'row',
     gap: 12,
     padding: 16,
     borderTopWidth: 1,
-    borderTopColor: '#374151',
   },
   modalButton: {
     flex: 1,
@@ -367,20 +345,12 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     alignItems: 'center',
   },
-  cancelButton: {
-    backgroundColor: '#374151',
   },
   cancelButtonText: {
     fontSize: 16,
-    fontWeight: '600',
-    color: '#F9FAFB',
   },
-  confirmButton: {
-    backgroundColor: '#6366F1',
   },
   confirmButtonText: {
     fontSize: 16,
-    fontWeight: '600',
-    color: '#FFFFFF',
   },
 });

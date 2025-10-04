@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Dashboard - Fantasy Element Builder</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=EB+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Styles - Order matters for cascade -->
+    <link rel="stylesheet" href="css/tokens.css"> <!-- Design tokens from fantasyMasterColors -->
+    <link rel="stylesheet" href="css/base.css"> <!-- Reset and base styles -->
+    <link rel="stylesheet" href="css/theme.css"> <!-- Theme-specific styles -->
+    <link rel="stylesheet" href="css/components.css"> <!-- Component styles -->
+    <link rel="stylesheet" href="css/responsive.css"> <!-- Responsive breakpoints -->
+    
+    <style>
+        /* Project Dashboard Specific Styles */
+        .dashboard-header {
+            background: linear-gradient(135deg, var(--might-base) 0%, var(--dragonfire-base) 100%);
+            color: white;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 0.5rem;
+        }
+        
+        .project-title {
+            font-size: 2rem;
+            font-weight: bold;
+            font-family: 'Cinzel', serif;
+            margin-bottom: 0.5rem;
+        }
+        
+        .project-description {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+        
+        .project-stats {
+            display: flex;
+            gap: 2rem;
+            font-size: 0.875rem;
+        }
+        
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .stat-label {
+            opacity: 0.8;
+        }
+        
+        .stat-value {
+            font-weight: bold;
+        }
+        
+        /* Tab Navigation */
+        .tab-navigation {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--parchment-400);
+        }
+        
+        .tab-button {
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            border: none;
+            color: var(--ink-secondary);
+            font-family: 'Cinzel', serif;
+            font-weight: 600;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .tab-button:hover {
+            color: var(--ink-primary);
+        }
+        
+        .tab-button.active {
+            color: var(--might-base);
+        }
+        
+        .tab-button.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--might-base);
+        }
+        
+        /* Elements Grid */
+        .elements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .element-card {
+            background: var(--parchment-200);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            border: 1px solid var(--parchment-400);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .element-card:hover {
+            background: var(--parchment-300);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .element-type-badge {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .type-character { background: var(--attribute-might-lightest); color: var(--attribute-might); }
+        .type-location { background: var(--attribute-vitality-lightest); color: var(--attribute-vitality); }
+        .type-magic { background: var(--class-guardian-50); color: var(--class-guardian-600); }
+        .type-organization { background: var(--attribute-swiftness-lightest); color: var(--attribute-swiftness); }
+        .type-item { background: var(--attribute-finesse-lightest); color: var(--attribute-finesse); }
+        
+        .element-name {
+            font-size: 1.125rem;
+            font-weight: bold;
+            color: var(--ink-primary);
+            margin-bottom: 0.5rem;
+            font-family: 'Cinzel', serif;
+        }
+        
+        .element-summary {
+            font-size: 0.875rem;
+            color: var(--ink-secondary);
+            margin-bottom: 0.75rem;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .element-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--ink-secondary);
+        }
+        
+        .completion-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.125rem 0.5rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+        }
+        
+        .completion-high { background: var(--elixir-pale); color: var(--elixir-base); }
+        .completion-medium { background: var(--sunburst-pale); color: var(--sunburst-base); }
+        .completion-low { background: var(--dragonfire-pale); color: var(--dragonfire-base); }
+        
+        /* Add Element Button */
+        .add-element-card {
+            background: transparent;
+            border: 2px dashed var(--parchment-600);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 150px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .add-element-card:hover {
+            background: var(--parchment-200);
+            border-color: var(--might-base);
+        }
+        
+        .add-icon {
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            background: var(--might-base);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .add-text {
+            color: var(--ink-secondary);
+            font-weight: 600;
+        }
+        
+        /* Relationships Tab Content */
+        .relationships-container {
+            display: none;
+        }
+        
+        .relationships-container.active {
+            display: block;
+        }
+        
+        .relationship-graph {
+            background: var(--parchment-200);
+            border-radius: 0.5rem;
+            padding: 2rem;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--ink-secondary);
+            font-style: italic;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .project-stats {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .elements-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tab-navigation {
+                overflow-x: auto;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .elements-grid {
+                grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="container mx-auto max-w-6xl">
+            <!-- Breadcrumb Navigation -->
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+                <ol>
+                    <li><a href="projects.html">Projects</a></li>
+                    <li aria-current="page">The Last Kingdom</li>
+                </ol>
+            </nav>
+            
+            <!-- Project Header -->
+            <div class="dashboard-header">
+                <h1 class="project-title">The Last Kingdom</h1>
+                <p class="project-description">
+                    A high-fantasy world with ancient magic, warring kingdoms, and forgotten prophecies. The realm faces its greatest threat as darkness rises from the north.
+                </p>
+                <div class="project-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">Elements:</span>
+                        <span class="stat-value">24</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Relationships:</span>
+                        <span class="stat-value">18</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Completion:</span>
+                        <span class="stat-value">67%</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Last Updated:</span>
+                        <span class="stat-value">2 hours ago</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tab Navigation -->
+            <div class="tab-navigation">
+                <button class="tab-button active" onclick="switchTab('elements')" data-cy="elements-tab">
+                    Elements
+                </button>
+                <button class="tab-button" onclick="switchTab('relationships')" data-cy="relationships-tab">
+                    Relationships
+                </button>
+            </div>
+            
+            <!-- Elements Tab Content -->
+            <div id="elements-content" class="elements-container">
+                <div class="elements-grid">
+                    <!-- Character Element -->
+                    <div class="element-card" onclick="navigateToElement('char-1')" data-cy="element-card-char-1">
+                        <span class="element-type-badge type-character">Character</span>
+                        <h3 class="element-name">Aldric Stormwind</h3>
+                        <p class="element-summary">
+                            The reluctant heir to the Northern throne, torn between duty and his desire for freedom. Master swordsman with a mysterious past.
+                        </p>
+                        <div class="element-meta">
+                            <span>12 questions answered</span>
+                            <span class="completion-badge completion-high">92%</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Location Element -->
+                    <div class="element-card" onclick="navigateToElement('loc-1')" data-cy="element-card-loc-1">
+                        <span class="element-type-badge type-location">Location</span>
+                        <h3 class="element-name">Winterhold Citadel</h3>
+                        <p class="element-summary">
+                            Ancient fortress at the edge of the frozen wastes. Last bastion against the darkness spreading from the north.
+                        </p>
+                        <div class="element-meta">
+                            <span>8 questions answered</span>
+                            <span class="completion-badge completion-medium">75%</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Magic System Element -->
+                    <div class="element-card" onclick="navigateToElement('magic-1')" data-cy="element-card-magic-1">
+                        <span class="element-type-badge type-magic">Magic</span>
+                        <h3 class="element-name">Runic Binding</h3>
+                        <p class="element-summary">
+                            Ancient form of magic using carved runes to channel elemental forces. Requires years of study and a natural affinity.
+                        </p>
+                        <div class="element-meta">
+                            <span>15 questions answered</span>
+                            <span class="completion-badge completion-high">100%</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Organization Element -->
+                    <div class="element-card" onclick="navigateToElement('org-1')" data-cy="element-card-org-1">
+                        <span class="element-type-badge type-organization">Organization</span>
+                        <h3 class="element-name">Order of the Silver Dawn</h3>
+                        <p class="element-summary">
+                            Elite knight order sworn to protect the realm. Known for their silver armor and unwavering loyalty.
+                        </p>
+                        <div class="element-meta">
+                            <span>5 questions answered</span>
+                            <span class="completion-badge completion-low">45%</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Item Element -->
+                    <div class="element-card" onclick="navigateToElement('item-1')" data-cy="element-card-item-1">
+                        <span class="element-type-badge type-item">Item</span>
+                        <h3 class="element-name">Frostmourne</h3>
+                        <p class="element-summary">
+                            Legendary sword forged in dragonfire, said to cut through any armor. Its whereabouts have been unknown for centuries.
+                        </p>
+                        <div class="element-meta">
+                            <span>6 questions answered</span>
+                            <span class="completion-badge completion-medium">60%</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Add New Element Card -->
+                    <div class="element-card add-element-card" onclick="createNewElement()" data-cy="add-element-button">
+                        <div class="add-icon">+</div>
+                        <span class="add-text">Add New Element</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Relationships Tab Content -->
+            <div id="relationships-content" class="relationships-container">
+                <div class="relationship-graph">
+                    <p>Interactive relationship graph visualization would appear here</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Theme Toggle Button -->
+    <button class="theme-toggle" onclick="window.mockupHelpers.toggleTheme()">
+        <span class="theme-icon">🌞</span>
+    </button>
+    
+    <!-- Scripts -->
+    <script src="js/mockup-helpers.js"></script>
+    <script>
+        // Tab switching
+        function switchTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Show/hide content
+            if (tabName === 'elements') {
+                document.getElementById('elements-content').style.display = 'block';
+                document.getElementById('relationships-content').style.display = 'none';
+            } else {
+                document.getElementById('elements-content').style.display = 'none';
+                document.getElementById('relationships-content').style.display = 'block';
+            }
+        }
+        
+        // Navigation functions
+        function navigateToElement(elementId) {
+            window.mockupHelpers.showNotification(`Navigating to element: ${elementId}`, 'info');
+            // In real app, would navigate to element-editor.html with element data
+        }
+        
+        function createNewElement() {
+            window.mockupHelpers.showNotification('Opening element creation modal...', 'info');
+            // In real app, would open modal to create new element
+        }
+    </script>
+</body>
+</html>

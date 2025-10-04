@@ -1,0 +1,303 @@
+import { Meta, Typeset } from '@storybook/blocks';
+
+<Meta title="Design System/Typography" />
+
+# Typography System
+
+Our typography creates a fantasy-inspired reading experience while maintaining excellent legibility across all platforms.
+
+## Type Scale
+
+Based on a modular scale with a 1.25 ratio for harmonious proportions:
+
+<Typeset
+  fontSizes={[
+    12, 14, 16, 18, 20, 24, 30, 36, 48
+  ]}
+  fontWeight={400}
+  sampleText="The quick brown fox jumps over the lazy dog"
+  fontFamily="Crimson Text, serif"
+/>
+
+## Font Families
+
+### Headings - Cinzel
+Fantasy-inspired serif for titles and headers
+
+<Typeset
+  fontSizes={[24, 30, 36, 48]}
+  fontWeight={600}
+  sampleText="Chapter One: The Journey Begins"
+  fontFamily="Cinzel, serif"
+/>
+
+### Body Text - Crimson Text
+Readable serif for long-form content
+
+<Typeset
+  fontSizes={[14, 16, 18]}
+  fontWeight={400}
+  sampleText="In a hole in the ground there lived a hobbit. Not a nasty, dirty, wet hole, filled with the ends of worms and an oozy smell, nor yet a dry, bare, sandy hole with nothing in it to sit down on or to eat."
+  fontFamily="Crimson Text, serif"
+/>
+
+### UI Elements - System Fonts
+Native system fonts for interface elements
+
+<Typeset
+  fontSizes={[12, 14, 16]}
+  fontWeight={400}
+  sampleText="Button • Label • Navigation • Form Input"
+  fontFamily="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
+/>
+
+### Monospace - Fira Code
+For code, technical content, and special formatting
+
+<Typeset
+  fontSizes={[12, 14, 16]}
+  fontWeight={400}
+  sampleText="const spell = cast('fireball', { damage: '8d6' });"
+  fontFamily="'Fira Code', monospace"
+/>
+
+## Typography Tokens
+
+```tsx
+// Font Sizes
+--font-size-xs: 0.75rem;    // 12px - Small labels, captions
+--font-size-sm: 0.875rem;   // 14px - Secondary text
+--font-size-base: 1rem;     // 16px - Body text default
+--font-size-lg: 1.125rem;   // 18px - Emphasized body
+--font-size-xl: 1.25rem;    // 20px - Small headings
+--font-size-2xl: 1.5rem;    // 24px - Section headings
+--font-size-3xl: 1.875rem;  // 30px - Page headings
+--font-size-4xl: 2.25rem;   // 36px - Hero headings
+--font-size-5xl: 3rem;      // 48px - Display text
+
+// Line Heights
+--line-height-tight: 1.25;
+--line-height-snug: 1.375;
+--line-height-normal: 1.5;
+--line-height-relaxed: 1.625;
+--line-height-loose: 2;
+
+// Font Weights
+--font-weight-normal: 400;
+--font-weight-medium: 500;
+--font-weight-semibold: 600;
+--font-weight-bold: 700;
+
+// Letter Spacing
+--letter-spacing-tight: -0.025em;
+--letter-spacing-normal: 0;
+--letter-spacing-wide: 0.025em;
+--letter-spacing-wider: 0.05em;
+--letter-spacing-widest: 0.1em;
+```
+
+## Text Styles
+
+### Headings
+
+```tsx
+// H1 - Hero/Page Title
+fontSize: tokens.typography.heading1.fontSize,    // 36px
+fontFamily: tokens.typography.heading1.fontFamily, // Cinzel
+fontWeight: tokens.typography.heading1.fontWeight, // 600
+lineHeight: tokens.typography.heading1.lineHeight, // 1.25
+
+// H2 - Section Title
+fontSize: tokens.typography.heading2.fontSize,    // 30px
+fontFamily: tokens.typography.heading2.fontFamily, // Cinzel
+fontWeight: tokens.typography.heading2.fontWeight, // 600
+lineHeight: tokens.typography.heading2.lineHeight, // 1.3
+
+// H3 - Subsection
+fontSize: tokens.typography.heading3.fontSize,    // 24px
+fontFamily: tokens.typography.heading3.fontFamily, // Cinzel
+fontWeight: tokens.typography.heading3.fontWeight, // 600
+lineHeight: tokens.typography.heading3.lineHeight, // 1.35
+```
+
+### Body Text
+
+```tsx
+// Body Large
+fontSize: tokens.typography.bodyLarge.fontSize,    // 18px
+fontFamily: tokens.typography.body.fontFamily,     // Crimson Text
+lineHeight: tokens.typography.bodyLarge.lineHeight,// 1.625
+
+// Body Regular
+fontSize: tokens.typography.body.fontSize,         // 16px
+fontFamily: tokens.typography.body.fontFamily,     // Crimson Text
+lineHeight: tokens.typography.body.lineHeight,     // 1.5
+
+// Body Small
+fontSize: tokens.typography.bodySmall.fontSize,    // 14px
+fontFamily: tokens.typography.body.fontFamily,     // Crimson Text
+lineHeight: tokens.typography.bodySmall.lineHeight,// 1.5
+```
+
+### Special Text
+
+```tsx
+// Caption
+fontSize: tokens.typography.caption.fontSize,      // 12px
+fontFamily: tokens.typography.ui.fontFamily,       // System
+lineHeight: tokens.typography.caption.lineHeight,  // 1.375
+
+// Label
+fontSize: tokens.typography.label.fontSize,        // 14px
+fontFamily: tokens.typography.ui.fontFamily,       // System
+fontWeight: tokens.typography.label.fontWeight,    // 500
+letterSpacing: tokens.typography.label.letterSpacing, // 0.025em
+
+// Button
+fontSize: tokens.typography.button.fontSize,       // 14px
+fontFamily: tokens.typography.ui.fontFamily,       // System
+fontWeight: tokens.typography.button.fontWeight,   // 600
+letterSpacing: tokens.typography.button.letterSpacing, // 0.05em
+textTransform: 'uppercase',
+```
+
+## Platform Adaptations
+
+### iOS
+```tsx
+// San Francisco for UI elements
+Platform.select({
+  ios: {
+    fontFamily: 'SF Pro Display',
+  },
+});
+```
+
+### Android
+```tsx
+// Roboto for UI elements
+Platform.select({
+  android: {
+    fontFamily: 'Roboto',
+  },
+});
+```
+
+### Web
+```tsx
+// System font stack
+fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif';
+```
+
+## Responsive Typography
+
+### Mobile Scaling
+```tsx
+// Smaller sizes on mobile
+const styles = StyleSheet.create({
+  heading: {
+    fontSize: Platform.select({
+      web: 36,
+      default: 28, // Mobile
+    }),
+  },
+});
+```
+
+### Dynamic Type (iOS)
+```tsx
+// Support iOS Dynamic Type
+Text.defaultProps = Text.defaultProps || {};
+Text.defaultProps.allowFontScaling = true;
+```
+
+### Fluid Typography (Web)
+```css
+/* Responsive font sizes */
+.heading {
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+}
+```
+
+## Best Practices
+
+### Readability
+- **Line Length**: 45-75 characters for body text
+- **Line Height**: 1.5x for body, 1.25x for headings
+- **Paragraph Spacing**: 1em between paragraphs
+- **Contrast**: Minimum 4.5:1 for body text
+
+### Hierarchy
+- Use consistent type scale
+- Limit to 2-3 font families
+- Create clear visual hierarchy
+- Use weight and size for emphasis
+
+### Accessibility
+- Support font scaling
+- Minimum 16px for body text
+- Clear font weights (400+)
+- Adequate line spacing
+
+### Performance
+- Use system fonts for UI
+- Load web fonts efficiently
+- Subset custom fonts
+- Cache font files
+
+## Implementation Examples
+
+### React Native
+```tsx
+import { Text, StyleSheet } from 'react-native';
+import { tokens } from '@/shared-styles/fantasy-tokens';
+
+const styles = StyleSheet.create({
+  heading: {
+    fontFamily: tokens.typography.heading1.fontFamily,
+    fontSize: tokens.typography.heading1.fontSize,
+    fontWeight: tokens.typography.heading1.fontWeight,
+    lineHeight: tokens.typography.heading1.lineHeight,
+    color: tokens.colors.text.primary,
+  },
+  body: {
+    fontFamily: tokens.typography.body.fontFamily,
+    fontSize: tokens.typography.body.fontSize,
+    lineHeight: tokens.typography.body.lineHeight,
+    color: tokens.colors.text.primary,
+  },
+});
+
+<Text style={styles.heading}>Chapter Title</Text>
+<Text style={styles.body}>Story content goes here...</Text>
+```
+
+### Web CSS
+```css
+.heading {
+  font-family: var(--font-family-heading);
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+}
+
+.body-text {
+  font-family: var(--font-family-body);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-normal);
+}
+```
+
+## Typography Pairing
+
+### Recommended Combinations
+- **Cinzel + Crimson Text**: Fantasy elegance
+- **System + Crimson Text**: Modern readability
+- **Cinzel + System**: Clean contrast
+- **All System**: Maximum performance
+
+### Avoid
+- Too many font families (max 3)
+- Similar fonts together
+- Decorative fonts for body text
+- Ultra-light weights on mobile

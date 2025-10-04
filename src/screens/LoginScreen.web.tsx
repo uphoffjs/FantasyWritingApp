@@ -3,6 +3,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useAuthStore } from '../store/authStore';
 import { authService } from '../services/auth';
 import { useToastStore } from '../store/toastStore';
+import { getTestProps } from '../utils/react-native-web-polyfills';
 
 type AuthMode = 'signin' | 'signup';
 
@@ -11,7 +12,7 @@ export default function LoginScreen() {
   const { signIn, signUp, isLoading } = useAuthStore();
   const { showToast } = useToastStore();
   
-  // Form state
+  // * Form state
   const [mode, setMode] = useState<AuthMode>('signin');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -24,13 +25,18 @@ export default function LoginScreen() {
   
   // Validation
   const validateForm = () => {
-    if (!email || !password) {
-      setError('Please enter your email and password');
+    if (!email) {
+      setError('Email is required');
+      return false;
+    }
+    
+    if (!password) {
+      setError('Password is required');
       return false;
     }
     
     if (!email.includes('@')) {
-      setError('Please enter a valid email address');
+      setError('Enter a valid email');
       return false;
     }
     
@@ -47,7 +53,7 @@ export default function LoginScreen() {
     return true;
   };
   
-  // Handle form submission
+  // * Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
@@ -81,13 +87,13 @@ export default function LoginScreen() {
   };
   
   
-  // Switch between sign in and sign up
+  // * Switch between sign in and sign up
   const switchMode = () => {
     setMode(mode === 'signin' ? 'signup' : 'signin');
     setError(null);
   };
   
-  // Handle forgot password
+  // ! SECURITY: * Handle forgot password
   const handleForgotPassword = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -103,14 +109,14 @@ export default function LoginScreen() {
     }
     
     try {
-      const { error } = await authService.resetPassword(forgotPasswordEmail);
-      
-      if (error) {
-        setError(error.message);
+      const { error: resetError } = await authService.resetPassword(forgotPasswordEmail);
+
+      if (resetError) {
+        setError(resetError.message);
         showToast({
           type: 'error',
           title: 'Password Reset Failed',
-          message: error.message,
+          message: resetError.message,
         });
       } else {
         setForgotPasswordSent(true);
@@ -136,7 +142,7 @@ export default function LoginScreen() {
   };
   
   return (
-    <div className="min-h-screen bg-parchment-100 flex items-center justify-center px-4">
+    <div {...getTestProps('login-page')} className="min-h-screen bg-parchment-100 flex items-center justify-center px-4">
       <div className="w-full max-w-md">
         {/* Logo and Title */}
         <div className="text-center mb-8">
@@ -151,6 +157,7 @@ export default function LoginScreen() {
           {/* Tab Switcher */}
           <div className="flex mb-6 bg-parchment-200/50 rounded-lg p-1">
             <button
+              {...getTestProps('signin-tab-button')}
               onClick={() => mode !== 'signin' && switchMode()}
               className={`flex-1 py-2 px-4 rounded-md transition-all ${
                 mode === 'signin'
@@ -161,6 +168,7 @@ export default function LoginScreen() {
               Sign In
             </button>
             <button
+              {...getTestProps('signup-tab-button')}
               onClick={() => mode !== 'signup' && switchMode()}
               className={`flex-1 py-2 px-4 rounded-md transition-all ${
                 mode === 'signup'
@@ -174,7 +182,7 @@ export default function LoginScreen() {
           
           {/* Error Message */}
           {error && (
-            <div className="mb-4 p-3 bg-dragonfire-100/20 border border-dragonfire-700/50 rounded-lg flex items-center text-dragonfire text-sm">
+            <div {...getTestProps('login-error')} className="mb-4 p-3 bg-dragonfire-100/20 border border-dragonfire-700/50 rounded-lg flex items-center text-dragonfire text-sm">
               <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
               </svg>
@@ -195,6 +203,7 @@ export default function LoginScreen() {
                 </svg>
                 <input
                   id="email"
+                  {...getTestProps('email-input')}
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -203,6 +212,9 @@ export default function LoginScreen() {
                   required
                 />
               </div>
+              {error && error.toLowerCase().includes('email') && (
+                <div {...getTestProps('email-error')} className="text-xs text-dragonfire mt-1">{error}</div>
+              )}
             </div>
             
             {/* Password Input */}
@@ -216,6 +228,7 @@ export default function LoginScreen() {
                 </svg>
                 <input
                   id="password"
+                  {...getTestProps('password-input')}
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -224,6 +237,9 @@ export default function LoginScreen() {
                   required
                 />
               </div>
+              {error && error.toLowerCase().includes('password') && (
+                <div {...getTestProps('password-error')} className="text-xs text-dragonfire mt-1">{error}</div>
+              )}
             </div>
             
             {/* Confirm Password (Sign Up only) */}
@@ -254,6 +270,7 @@ export default function LoginScreen() {
               <div className="flex items-center justify-between">
                 <label className="flex items-center">
                   <input
+                    {...getTestProps('remember-me-switch')}
                     type="checkbox"
                     checked={rememberMe}
                     onChange={(e) => setRememberMe(e.target.checked)}
@@ -262,6 +279,7 @@ export default function LoginScreen() {
                   <span className="ml-2 text-sm text-ink-secondary">Remember me</span>
                 </label>
                 <button
+                  {...getTestProps('forgot-password-link')}
                   type="button"
                   onClick={() => setShowForgotPassword(true)}
                   className="text-sm text-metals-gold hover:text-metals-brass"
@@ -273,6 +291,7 @@ export default function LoginScreen() {
             
             {/* Submit Button */}
             <button
+              {...getTestProps('submit-button')}
               type="submit"
               disabled={isLoading}
               className="w-full py-3 px-4 bg-gradient-to-r from-might to-dragonfire text-white font-cinzel font-medium rounded-lg hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-metals-gold focus:ring-offset-2 focus:ring-offset-parchment-100 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
@@ -280,8 +299,8 @@ export default function LoginScreen() {
               {isLoading ? (
                 <span className="flex items-center justify-center">
                   <svg className="animate-spin w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                   </svg>
                   {mode === 'signin' ? 'Signing in...' : 'Creating account...'}
                 </span>

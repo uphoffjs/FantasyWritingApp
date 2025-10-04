@@ -16,7 +16,7 @@ import {
   DEFAULT_TEMPLATES
   // ImageWithCaption removed from MVP
 } from '../types/worldbuilding';
-// DEPRECATED - This file is replaced by rootStore.ts
+// // DEPRECATED: DEPRECATED - This file is replaced by rootStore.ts
 // import type { RelationshipType } from '../types/models/Relationship';
 import type { SyncStatus } from '../store/authStore';
 import { calculationService as CalculationService } from '../services/core/CalculationService';
@@ -28,7 +28,7 @@ import {
   validateExternalData 
 } from '../utils/typeGuards';
 
-// Helper function to convert string[] options to SelectOption[]
+// * Helper function to convert string[] options to SelectOption[]
 function convertQuestionOptions(questions: any[]): Question[] {
   return questions.map(q => ({
     ...q,
@@ -40,7 +40,7 @@ function convertQuestionOptions(questions: any[]): Question[] {
   }));
 }
 
-// Sync metadata for tracking cloud sync status
+// * Sync metadata for tracking cloud sync status
 interface SyncMetadata {
   projectId: string;
   lastSyncedAt: Date | null;
@@ -56,18 +56,18 @@ export interface WorldbuildingStore {
   currentElementId: string | null;
   searchHistory: string[];
   
-  // Sync tracking
+  // * Sync tracking
   syncMetadata: Record<string, SyncMetadata>; // projectId -> metadata
   lastSyncAttempt: Date | null;
 
-  // Project actions
+  // * Project actions
   createProject: (name: string, description: string) => Project;
   updateProject: (projectId: string, updates: Partial<Project>) => void;
   deleteProject: (projectId: string) => void;
   duplicateProject: (projectId: string) => Project | null;
   setCurrentProject: (projectId: string | null) => void;
 
-  // Element actions
+  // * Element actions
   createElement: (projectId: string, name: string, category: ElementCategory, templateId?: string) => WorldElement;
   updateElement: (projectId: string, elementId: string, updates: Partial<WorldElement>) => void;
   deleteElement: (projectId: string, elementId: string) => void;
@@ -77,18 +77,18 @@ export interface WorldbuildingStore {
   addQuestion: (projectId: string, elementId: string, question: Question) => void;
   updateAnswer: (projectId: string, elementId: string, questionId: string, value: string | string[] | number | boolean | Date) => void;
   
-  // Relationship actions
+  // * Relationship actions
   addRelationship: (projectId: string, relationship: Omit<Relationship, 'id'>) => void;
   removeRelationship: (projectId: string, relationshipId: string) => void;
 
-  // Template actions
+  // TODO: * Template actions
   createTemplate: (projectId: string, template: Omit<QuestionnaireTemplate, 'id'>) => void;
   deleteTemplate: (projectId: string, templateId: string) => void;
   getTemplatesForCategory: (category: ElementCategory) => QuestionnaireTemplate[];
   exportTemplate: (projectId: string, templateId: string) => string;
   importTemplate: (projectId: string, templateData: string) => boolean;
   
-  // Utility actions
+  // * Utility actions
   getCurrentProject: () => Project | null;
   getCurrentElement: () => WorldElement | null;
   searchElements: (query: string) => WorldElement[];
@@ -98,21 +98,21 @@ export interface WorldbuildingStore {
   exportProject: (projectId: string) => string;
   importProject: (data: string) => boolean;
   
-  // Element category selectors
+  // * Element category selectors
   getElementsByCategory: (projectId: string, category: ElementCategory) => WorldElement[];
   getRacesByUsage: (projectId: string, limit?: number) => WorldElement[];
   
-  // Quick creation
+  // * Quick creation
   quickCreateElement: (projectId: string, category: ElementCategory, name: string) => WorldElement;
   
-  // Usage tracking
+  // * Usage tracking
   incrementElementUsage: (projectId: string, elementId: string) => void;
   
-  // Search history actions
+  // * Search history actions
   addSearchQuery: (query: string) => void;
   clearSearchHistory: () => void;
   
-  // Sync actions
+  // * Sync actions
   updateProjectSyncStatus: (projectId: string, status: SyncStatus, cloudId?: string) => void;
   markProjectAsSynced: (projectId: string, cloudId: string) => void;
   markProjectAsModified: (projectId: string) => void;
@@ -120,7 +120,7 @@ export interface WorldbuildingStore {
   updateSyncMetadata: (projectId: string, updates: Partial<SyncMetadata>) => void;
   clearSyncMetadata: () => void;
   
-  // Supabase sync methods
+  // * Supabase sync methods
   syncWithSupabase: () => Promise<void>;
   fetchFromSupabase: () => Promise<void>;
   syncProjectToSupabase: (projectId: string) => Promise<void>;
@@ -138,13 +138,16 @@ export const useWorldbuildingStore = create<WorldbuildingStore>()(
       lastSyncAttempt: null,
 
       createProject: (name, description) => {
-        console.log("[worldbuildingStore] createProject called with:", { name, description });
-        console.log("[worldbuildingStore] DEFAULT_TEMPLATES:", DEFAULT_TEMPLATES);
+        // ! CRITICAL: Validate inputs to prevent sync errors
+        if (typeof name !== 'string' || !name.trim()) {
+          console.error('❌ createProject called with invalid name:', { name, type: typeof name });
+          throw new Error('Project name must be a non-empty string');
+        }
         
         const project: Project = {
           id: uuidv4(),
-          name,
-          description,
+          name: name.trim(),
+          description: description || '',
           elements: [],
           templates: Object.entries(DEFAULT_TEMPLATES).map(([category, template]) => ({
             id: uuidv4(),
@@ -158,22 +161,16 @@ export const useWorldbuildingStore = create<WorldbuildingStore>()(
           updatedAt: new Date()
         };
 
-        console.log("[worldbuildingStore] Created project object:", project);
-        console.log("[worldbuildingStore] Current state before set:");
         const currentState = get();
-        console.log("[worldbuildingStore] Current projects count:", currentState.projects.length);
         
         set((state) => {
-          console.log("[worldbuildingStore] Setting new state...");
           const newState = {
             projects: [...state.projects, project],
             currentProjectId: project.id
           };
-          console.log("[worldbuildingStore] New projects count:", newState.projects.length);
           return newState;
         });
 
-        console.log("[worldbuildingStore] Returning project:", project);
         return project;
       },
       updateProject: (projectId, updates) => {
@@ -185,7 +182,7 @@ export const useWorldbuildingStore = create<WorldbuildingStore>()(
           )
         }));
         
-        // Mark project as modified for sync
+        // * Mark project as modified for sync
         get().markProjectAsModified(projectId);
       },
 
@@ -200,14 +197,14 @@ export const useWorldbuildingStore = create<WorldbuildingStore>()(
         const project = get().projects.find((p) => p.id === projectId);
         if (!project) return null;
 
-        // Create a deep copy of the project
+        // * Create a deep copy of the project
         const newProject: Project = {
           ...project,
           id: uuidv4(),
           name: `${project.name} (Copy)`,
           createdAt: new Date(),
           updatedAt: new Date(),
-          // Deep copy elements with new IDs
+          // * Deep copy elements with new IDs
           elements: project.elements.map(element => ({
             ...element,
             id: uuidv4(),
@@ -216,7 +213,7 @@ export const useWorldbuildingStore = create<WorldbuildingStore>()(
             questions: [...element.questions],
             tags: [...(element.tags || [])]
           })),
-          // Deep copy templates
+          // TODO: * Deep copy templates
           templates: project.templates.map(template => ({
             ...template,
             id: uuidv4(),
@@ -224,13 +221,13 @@ export const useWorldbuildingStore = create<WorldbuildingStore>()(
           })),
         };
 
-        // Create a mapping of old element IDs to new ones
+        // // DEPRECATED: * Create a mapping of old element IDs to new ones
         const elementIdMap = new Map<string, string>();
         project.elements.forEach((oldEl, index) => {
           elementIdMap.set(oldEl.id, newProject.elements[index].id);
         });
 
-        // Rebuild relationships with new IDs
+        // * Rebuild relationships with new IDs
         project.elements.forEach((oldElement, elementIndex) => {
           const newElement = newProject.elements[elementIndex];
           newElement.relationships = (oldElement.relationships || []).map(rel => ({
@@ -257,21 +254,24 @@ export const useWorldbuildingStore = create<WorldbuildingStore>()(
         const project = get().projects.find((p) => p.id === projectId);
         if (!project) throw new Error('Project not found');
 
+        // * Ensure category is never null for database operations
+        const validCategory = category || 'custom';
+
         let questions: Question[] = [];
-        
+
         if (templateId) {
           const template = project.templates.find((t) => t.id === templateId);
           if (template) {
             questions = [...template.questions];
           }
-        } else if (DEFAULT_TEMPLATES[category]) {
-          questions = convertQuestionOptions(DEFAULT_TEMPLATES[category].questions || []);
+        } else if (DEFAULT_TEMPLATES[validCategory]) {
+          questions = convertQuestionOptions(DEFAULT_TEMPLATES[validCategory].questions || []);
         }
 
         const element: WorldElement = {
           id: uuidv4(),
           name,
-          category,
+          category: validCategory,
           description: '',
           questions,
           answers: {},
@@ -295,14 +295,14 @@ export const useWorldbuildingStore = create<WorldbuildingStore>()(
           currentElementId: element.id
         }));
         
-        // Mark project as modified for sync
+        // * Mark project as modified for sync
         get().markProjectAsModified(projectId);
 
         return element;
       },
 
       updateElement: (projectId, elementId, updates) => {
-        // Remove deprecated properties
+        // // DEPRECATED: * Remove deprecated properties
         const { images, ...cleanUpdates } = updates as any;
         const normalizedUpdates = cleanUpdates;
         
@@ -327,7 +327,7 @@ export const useWorldbuildingStore = create<WorldbuildingStore>()(
           )
         }));
         
-        // Mark project as modified for sync
+        // * Mark project as modified for sync
         get().markProjectAsModified(projectId);
       },
 
@@ -500,7 +500,7 @@ export const useWorldbuildingStore = create<WorldbuildingStore>()(
         const template = project.templates.find((t) => t.id === templateId);
         if (!template) return '';
         
-        // Create a clean export object without IDs
+        // * Create a clean export object without IDs
         const exportData = {
           name: template.name,
           description: template.description,
@@ -517,7 +517,7 @@ export const useWorldbuildingStore = create<WorldbuildingStore>()(
         try {
           const data = JSON.parse(templateData);
           
-          // Build a template object to validate
+          // TODO: * Build a template object to validate
           const templateToValidate: QuestionnaireTemplate = {
             id: data.id || uuidv4(),
             name: data.name,
@@ -526,14 +526,14 @@ export const useWorldbuildingStore = create<WorldbuildingStore>()(
             description: data.description,
           };
           
-          // Validate using type guard
+          // * Validate using type guard
           const validatedTemplate = validateExternalData(
             templateToValidate, 
             isQuestionnaireTemplate, 
             'Template import'
           );
           
-          // Create the template with validated data
+          // TODO: * Create the template with validated data
           const template: Omit<QuestionnaireTemplate, 'id'> = {
             name: validatedTemplate.name,
             description: validatedTemplate.description || '',
@@ -561,22 +561,22 @@ export const useWorldbuildingStore = create<WorldbuildingStore>()(
       },
 
       searchElements: (query) => {
-        // Check cache first
+        // ! PERFORMANCE: * Check cache first
         const cached = searchCache.get(query);
         if (cached) {
           return cached as WorldElement[];
         }
 
-        // Use Fuse.js search service for better performance and fuzzy matching
+        // ! PERFORMANCE: Use Fuse.js search service for better performance and fuzzy matching
         const results = searchService.search(query, {
           limit: 100,
           threshold: 0.4
         }) as WorldElement[];
 
-        // Cache the results
+        // ! PERFORMANCE: * Cache the results
         searchCache.set(query, results);
         
-        // Add to search history if results found
+        // * Add to search history if results found
         if (results.length > 0 && query.trim()) {
           get().addSearchQuery(query.trim());
         }
@@ -585,7 +585,7 @@ export const useWorldbuildingStore = create<WorldbuildingStore>()(
       },
 
       searchElementsInProject: (projectId, query) => {
-        // Cache key includes projectId for project-specific caching
+        // ! PERFORMANCE: * Cache key includes projectId for project-specific caching
         const cacheKey = `${projectId}:${query}`;
         const cached = searchCache.get(cacheKey);
         if (cached) {
@@ -602,7 +602,7 @@ export const useWorldbuildingStore = create<WorldbuildingStore>()(
       },
 
       searchElementsByCategory: (category, query) => {
-        // Cache key includes category for category-specific caching
+        // ! PERFORMANCE: * Cache key includes category for category-specific caching
         const cacheKey = `cat:${category}:${query}`;
         const cached = searchCache.get(cacheKey);
         if (cached) {
@@ -636,19 +636,19 @@ export const useWorldbuildingStore = create<WorldbuildingStore>()(
           const parsedData = JSON.parse(data);
           const project = validateExternalData(parsedData, isProject, 'Project import');
           
-          // Create new project with fresh IDs to avoid conflicts
+          // * Create new project with fresh IDs to avoid conflicts
           const newProject: Project = {
             ...project,
             id: uuidv4(),
             createdAt: new Date(),
             updatedAt: new Date(),
-            // Regenerate element IDs
+            // * Regenerate element IDs
             elements: project.elements.map(element => ({
               ...element,
               id: uuidv4(),
               createdAt: new Date(element.createdAt),
               updatedAt: new Date(element.updatedAt),
-              // Ensure relationships have proper date objects
+              // * Ensure relationships have proper date objects
               relationships: element.relationships?.map(rel => ({
                 ...rel,
                 createdAt: new Date(rel.createdAt)
@@ -680,7 +680,7 @@ export const useWorldbuildingStore = create<WorldbuildingStore>()(
         
         const races = project.elements.filter((e) => e.category === 'race-species');
         
-        // Sort by usage count (descending) and then by last used date
+        // * Sort by usage count (descending) and then by last used date
         const sortedRaces = races.sort((a, b) => {
           const aCount = a.metadata?.usageCount || 0;
           const bCount = b.metadata?.usageCount || 0;
@@ -689,7 +689,7 @@ export const useWorldbuildingStore = create<WorldbuildingStore>()(
             return bCount - aCount; // Higher usage count first
           }
           
-          // If usage counts are equal, sort by last used date
+          // * If usage counts are equal, sort by last used date
           const aLastUsed = a.metadata?.lastUsed ? new Date(a.metadata.lastUsed).getTime() : 0;
           const bLastUsed = b.metadata?.lastUsed ? new Date(b.metadata.lastUsed).getTime() : 0;
           
@@ -701,7 +701,7 @@ export const useWorldbuildingStore = create<WorldbuildingStore>()(
 
       quickCreateElement: (projectId, category, name) => {
         const element = get().createElement(projectId, name, category);
-        // Initialize usage count for races
+        // * Initialize usage count for races
         if (category === 'race-species' && element) {
           get().updateElement(projectId, element.id, {
             metadata: {
@@ -736,16 +736,16 @@ export const useWorldbuildingStore = create<WorldbuildingStore>()(
         set((state) => {
           const history = [...state.searchHistory];
           
-          // Remove the query if it already exists
+          // * Remove the query if it already exists
           const existingIndex = history.indexOf(query);
           if (existingIndex > -1) {
             history.splice(existingIndex, 1);
           }
           
-          // Add to the beginning
+          // * Add to the beginning
           history.unshift(query);
           
-          // Keep only the last 10 searches
+          // * Keep only the last 10 searches
           if (history.length > 10) {
             history.pop();
           }
@@ -758,7 +758,7 @@ export const useWorldbuildingStore = create<WorldbuildingStore>()(
         set({ searchHistory: [] });
       },
       
-      // Sync actions
+      // * Sync actions
       updateProjectSyncStatus: (projectId, status, cloudId) => {
         set((state) => ({
           syncMetadata: {
@@ -832,7 +832,6 @@ export const useWorldbuildingStore = create<WorldbuildingStore>()(
       syncWithSupabase: async () => {
         const { user } = useAuthStore.getState();
         if (!user?.id) {
-          console.log('No authenticated user, skipping sync');
           return;
         }
         
@@ -841,10 +840,10 @@ export const useWorldbuildingStore = create<WorldbuildingStore>()(
         try {
           set({ lastSyncAttempt: new Date() });
           
-          // Sync all local projects to Supabase
+          // * Sync all local projects to Supabase
           await supabaseSyncService.syncProjects(state.projects, user.id);
           
-          // Mark all projects as synced
+          // * Mark all projects as synced
           const newSyncMetadata: Record<string, SyncMetadata> = {};
           state.projects.forEach(project => {
             newSyncMetadata[project.id] = {
@@ -854,7 +853,8 @@ export const useWorldbuildingStore = create<WorldbuildingStore>()(
             };
           });
           
-          set({ syncMetadata: newSyncMetadata });
+          // ! CRITICAL: Use skipSync to prevent re-syncing during metadata update
+          (set as any)({ syncMetadata: newSyncMetadata }, false, { skipSync: true });
         } catch (error) {
           console.error('Error syncing with Supabase:', error);
           throw error;
@@ -864,26 +864,25 @@ export const useWorldbuildingStore = create<WorldbuildingStore>()(
       fetchFromSupabase: async () => {
         const { user } = useAuthStore.getState();
         if (!user?.id) {
-          console.log('No authenticated user, skipping fetch');
           return;
         }
         
         try {
-          // Fetch all projects from Supabase
+          // * Fetch all projects from Supabase
           const remoteProjects = await supabaseSyncService.fetchProjects(user.id);
           
-          // Merge with local projects (remote takes precedence)
+          // * Merge with local projects (remote takes precedence)
           const state = get();
           const localProjectMap = new Map(state.projects.map(p => [p.id, p]));
           
-          // Update or add remote projects
+          // * Update or add remote projects
           remoteProjects.forEach(remoteProject => {
             localProjectMap.set(remoteProject.id, remoteProject);
           });
           
           const mergedProjects = Array.from(localProjectMap.values());
           
-          // Update sync metadata
+          // * Update sync metadata
           const newSyncMetadata: Record<string, SyncMetadata> = {};
           mergedProjects.forEach(project => {
             newSyncMetadata[project.id] = {
@@ -893,11 +892,12 @@ export const useWorldbuildingStore = create<WorldbuildingStore>()(
             };
           });
           
-          set({ 
+          // ! CRITICAL: Set a flag to prevent middleware from re-syncing fetched data
+          (set as any)({ 
             projects: mergedProjects,
             syncMetadata: newSyncMetadata,
             lastSyncAttempt: new Date()
-          });
+          }, false, { skipSync: true });
         } catch (error) {
           console.error('Error fetching from Supabase:', error);
           throw error;
@@ -907,7 +907,6 @@ export const useWorldbuildingStore = create<WorldbuildingStore>()(
       syncProjectToSupabase: async (projectId) => {
         const { user } = useAuthStore.getState();
         if (!user?.id) {
-          console.log('No authenticated user, skipping sync');
           return;
         }
         
@@ -920,10 +919,10 @@ export const useWorldbuildingStore = create<WorldbuildingStore>()(
         }
         
         try {
-          // Sync single project
+          // * Sync single project
           await supabaseSyncService.syncProjects([project], user.id);
           
-          // Update sync metadata for this project
+          // * Update sync metadata for this project
           set((state) => ({
             syncMetadata: {
               ...state.syncMetadata,
@@ -946,12 +945,12 @@ export const useWorldbuildingStore = create<WorldbuildingStore>()(
       version: 2,
       migrate: (state: any, version: number) => {
         if (version === 0) {
-          // Images were removed from MVP - no migration needed for version 0
-          // Legacy image data will be ignored
+          // * Images were removed from MVP - no migration needed for version 0
+          // // DEPRECATED: * Legacy image data will be ignored
         }
         
         if (version < 2) {
-          // Migrate relationships from old format (fromElementId, toElementId, relationshipType) 
+          // // DEPRECATED: * Migrate relationships from old format (fromElementId, toElementId, relationshipType) 
           // to new format (fromId, toId, type)
           if (state.projects) {
             state.projects = state.projects.map((project: any) => ({
@@ -959,11 +958,11 @@ export const useWorldbuildingStore = create<WorldbuildingStore>()(
               elements: project.elements?.map((element: any) => ({
                 ...element,
                 relationships: element.relationships?.map((rel: any) => {
-                  // Check if already in new format
+                  // * Check if already in new format
                   if ('fromId' in rel && 'toId' in rel && 'type' in rel) {
                     return rel;
                   }
-                  // Migrate from old format
+                  // // DEPRECATED: * Migrate from old format
                   return migrateRelationship({
                     ...rel,
                     fromName: undefined,
@@ -984,21 +983,21 @@ export const useWorldbuildingStore = create<WorldbuildingStore>()(
   )
 );
 
-// Subscribe to store changes to update search index
+// * Subscribe to store changes to update search index
 useWorldbuildingStore.subscribe((state, prevState) => {
   if (state.projects !== prevState.projects) {
-    // Update search index whenever projects change
-    // TODO: Implement updateSearchIndex method in searchService
+    // * Update search index whenever projects change
+    // TODO: TODO: Implement updateSearchIndex method in searchService
     // searchService.updateSearchIndex(state.projects);
-    // Clear search cache when index is updated
+    // ! PERFORMANCE: * Clear search cache when index is updated
     searchCache.clear();
   }
 });
 
-// Initialize search index with existing data on store creation
+// * Initialize search index with existing data on store creation
 const initialState = useWorldbuildingStore.getState();
 if (initialState.projects.length > 0) {
-  // TODO: Implement updateSearchIndex method in searchService
+  // TODO: TODO: Implement updateSearchIndex method in searchService
   // searchService.updateSearchIndex(initialState.projects);
 }
 

@@ -1,6 +1,6 @@
 // Fantasy Tome Theme Color System - WCAG Compliant
 // A high fantasy color palette inspired by medieval manuscripts and magical tomes
-// All colors ensure WCAG AA compliance (4.5:1 for normal text, 3:1 for large text)
+// * All colors ensure WCAG AA compliance (4.5:1 for normal text, 3:1 for large text)
 
 const fantasyTomeColors = {
   // Base Parchment Colors - Light backgrounds with proper contrast
@@ -22,8 +22,8 @@ const fantasyTomeColors = {
   },
   
   // Element Type Colors - WCAG compliant with proper contrast
-  // Primary colors have 4.5:1+ contrast on parchment backgrounds
-  // Light variants have lower contrast for subtle backgrounds
+  // * Primary colors have 4.5:1+ contrast on parchment backgrounds
+  // * Light variants have lower contrast for subtle backgrounds
   elements: {
     character: { 
       primary: '#6B1414',   // Deep Burgundy (5.8:1 on vellum)
@@ -99,7 +99,7 @@ const fantasyTomeColors = {
     error: '#6B0000',       // Blood Error (8.0:1 on vellum)
     info: '#215B8C',        // Sky Info (7.3:1 on vellum)
     
-    // Light backgrounds for status messages
+    // * Light backgrounds for status messages
     successLight: '#E8F3E0',
     warningLight: '#FFF0E0',
     errorLight: '#FFE8E8',
@@ -116,7 +116,7 @@ const fantasyTomeColors = {
   }
 };
 
-// Export all colors for Tailwind configuration
+// * Export all colors for Tailwind configuration
 module.exports = {
   fantasyTomeColors,
   colors: fantasyTomeColors

@@ -1,7 +1,7 @@
 // Development service worker - passthrough mode, no caching
-const CACHE_NAME = 'fantasy-writer-dev-v1';
+const _CACHE_NAME = 'fantasy-writer-dev-v1'; // Unused but kept for reference
 
-self.addEventListener('install', (event) => {
+self.addEventListener('install', (_event) => {
   console.log('[ServiceWorker] Installing development service worker...');
   // Force the new service worker to activate immediately
   self.skipWaiting();
@@ -25,7 +25,7 @@ self.addEventListener('activate', (event) => {
 });
 
 // In development, just pass through all requests without caching
-self.addEventListener('fetch', (event) => {
+self.addEventListener('fetch', (_event) => {
   // For development, we don't want the service worker to interfere
   // Just pass the request through to the network
   return;

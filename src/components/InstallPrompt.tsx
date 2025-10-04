@@ -20,37 +20,38 @@ export function InstallPrompt() {
   const fadeAnim = useState(new Animated.Value(0))[0];
 
   useEffect(() => {
-    // Only run on web platform
+    // * Only run on web platform
     if (Platform.OS !== 'web') return;
 
-    // Check if app is already installed
+    // * Check if app is already installed
     if (window.matchMedia('(display-mode: standalone)').matches) {
       setIsInstalled(true);
       return;
     }
 
-    // Check if running as PWA
+    // * Check if running as PWA
     if (window.navigator && (window.navigator as any).standalone) {
       setIsInstalled(true);
       return;
     }
 
     const handleBeforeInstallPrompt = (event: Event) => {
-      // Prevent the default browser install prompt
+      // * Prevent the default browser install prompt
       event.preventDefault();
       
-      // Store the event for later use
+      // * Store the event for later use
       setDeferredPrompt(event as BeforeInstallPromptEvent);
       
-      // Check if user has previously dismissed
-      const dismissed = localStorage.getItem('pwa-install-dismissed');
+      // * Check if user has previously dismissed
+      const dismissed = // ! SECURITY: Using localStorage
+      localStorage.getItem('pwa-install-dismissed');
       const dismissedTime = dismissed ? parseInt(dismissed, 10) : 0;
       const daysSinceDismissed = (Date.now() - dismissedTime) / (1000 * 60 * 60 * 24);
       
-      // Show prompt if not recently dismissed (wait 7 days)
+      // ? * Show prompt if not recently dismissed (wait 7 days)
       if (!dismissed || daysSinceDismissed > 7) {
         setShowInstallPrompt(true);
-        // Animate in
+        // * Animate in
         Animated.timing(fadeAnim, {
           toValue: 1,
           duration: 300,
@@ -60,13 +61,12 @@ export function InstallPrompt() {
     };
 
     const handleAppInstalled = () => {
-      console.log('PWA was installed');
       setIsInstalled(true);
       setShowInstallPrompt(false);
       setDeferredPrompt(null);
     };
 
-    // Listen for install prompt
+    // * Listen for install prompt
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
     window.addEventListener('appinstalled', handleAppInstalled);
 
@@ -80,21 +80,18 @@ export function InstallPrompt() {
     if (!deferredPrompt) return;
 
     try {
-      // Show the browser install prompt
+      // ? * Show the browser install prompt
       await deferredPrompt.prompt();
       
-      // Wait for the user to respond
+      // * Wait for the user to respond
       const { outcome } = await deferredPrompt.userChoice;
       
-      console.log(`User response to install prompt: ${outcome}`);
       
       if (outcome === 'accepted') {
-        console.log('User accepted the install prompt');
-        // Clear the deferred prompt
+        // * Clear the deferred prompt
         setDeferredPrompt(null);
         setShowInstallPrompt(false);
       } else {
-        console.log('User dismissed the install prompt');
         handleDismiss();
       }
     } catch (error) {
@@ -103,10 +100,10 @@ export function InstallPrompt() {
   };
 
   const handleDismiss = () => {
-    // Store dismissal time
+    // * Store dismissal time
     localStorage.setItem('pwa-install-dismissed', Date.now().toString());
     
-    // Animate out
+    // * Animate out
     Animated.timing(fadeAnim, {
       toValue: 0,
       duration: 300,
@@ -117,11 +114,11 @@ export function InstallPrompt() {
   };
 
   const handleRemindLater = () => {
-    // Store a shorter dismissal time (1 day instead of 7)
+    // * Store a shorter dismissal time (1 day instead of 7)
     const oneDayFromNow = Date.now() - (6 * 24 * 60 * 60 * 1000); // 6 days ago = remind in 1 day
     localStorage.setItem('pwa-install-dismissed', oneDayFromNow.toString());
     
-    // Animate out
+    // * Animate out
     Animated.timing(fadeAnim, {
       toValue: 0,
       duration: 300,
@@ -131,7 +128,7 @@ export function InstallPrompt() {
     });
   };
 
-  // Don't show on non-web platforms or if already installed
+  // ? Don't show on non-web platforms or if already installed
   if (Platform.OS !== 'web' || isInstalled || !showInstallPrompt) {
     return null;
   }
@@ -205,19 +202,19 @@ export function InstallPrompt() {
   );
 }
 
-// Standalone component for showing install status
+// ? * Standalone component for showing install status
 export function InstallStatus() {
   const [installStatus, setInstallStatus] = useState<'prompt' | 'installing' | 'installed' | null>(null);
 
   useEffect(() => {
     if (Platform.OS !== 'web') return;
 
-    // Check current status
+    // * Check current status
     if (window.matchMedia('(display-mode: standalone)').matches) {
       setInstallStatus('installed');
     }
 
-    // Listen for status changes
+    // * Listen for status changes
     const handleBeforeInstall = () => setInstallStatus('prompt');
     const handleInstalling = () => setInstallStatus('installing');
     const handleInstalled = () => setInstallStatus('installed');
@@ -250,8 +247,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 20,
     left: 20,
-    right: 20,
-    backgroundColor: '#1F2937',
+    right: 20, backgroundColor: '#1F2937', // ! HARDCODED: Should use design tokens
     borderRadius: 16,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
@@ -261,8 +257,7 @@ const styles = StyleSheet.create({
     zIndex: 1000,
     maxWidth: 480,
     alignSelf: 'center',
-    borderWidth: 1,
-    borderColor: '#374151',
+    borderWidth: 1, borderColor: '#374151', // ! HARDCODED: Should use design tokens
   },
   content: {
     padding: 20,
@@ -279,14 +274,12 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    fontWeight: '700',
-    color: '#F9FAFB',
+    fontWeight: '700', color: '#F9FAFB', // ! HARDCODED: Should use design tokens
     marginBottom: 8,
     textAlign: 'center',
   },
   description: {
-    fontSize: 14,
-    color: '#9CA3AF',
+    fontSize: 14, color: '#9CA3AF', // ! HARDCODED: Should use design tokens
     textAlign: 'center',
     lineHeight: 20,
   },
@@ -304,29 +297,23 @@ const styles = StyleSheet.create({
   },
   dismissButton: {
     backgroundColor: 'transparent',
-    borderWidth: 1,
-    borderColor: '#4B5563',
+    borderWidth: 1, borderColor: '#4B5563', // ! HARDCODED: Should use design tokens
   },
   dismissButtonText: {
     fontSize: 14,
-    fontWeight: '600',
-    color: '#9CA3AF',
+    fontWeight: '600', color: '#9CA3AF', // ! HARDCODED: Should use design tokens
   },
-  remindButton: {
-    backgroundColor: '#374151',
+  remindButton: { backgroundColor: '#374151', // ! HARDCODED: Should use design tokens
   },
   remindButtonText: {
     fontSize: 14,
-    fontWeight: '600',
-    color: '#D1D5DB',
+    fontWeight: '600', color: '#D1D5DB', // ! HARDCODED: Should use design tokens
   },
-  installButton: {
-    backgroundColor: '#6366F1',
+  installButton: { backgroundColor: '#6366F1', // ! HARDCODED: Should use design tokens
   },
   installButtonText: {
     fontSize: 14,
-    fontWeight: '600',
-    color: '#FFFFFF',
+    fontWeight: '600', color: '#FFFFFF', // ! HARDCODED: Should use design tokens
   },
   closeButton: {
     position: 'absolute',
@@ -335,36 +322,29 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   closeIcon: {
-    fontSize: 20,
-    color: '#6B7280',
+    fontSize: 20, color: '#6B7280', // ! HARDCODED: Should use design tokens
   },
-  iosInstructions: {
-    backgroundColor: '#374151',
+  iosInstructions: { backgroundColor: '#374151', // ! HARDCODED: Should use design tokens
     padding: 12,
     borderBottomLeftRadius: 16,
     borderBottomRightRadius: 16,
-    borderTopWidth: 1,
-    borderTopColor: '#4B5563',
+    borderTopWidth: 1, borderTopColor: '#4B5563', // ! HARDCODED: Should use design tokens
   },
   iosInstructionsText: {
-    fontSize: 12,
-    color: '#9CA3AF',
+    fontSize: 12, color: '#9CA3AF', // ! HARDCODED: Should use design tokens
     textAlign: 'center',
     lineHeight: 18,
   },
   statusContainer: {
     position: 'absolute',
     top: 10,
-    right: 10,
-    backgroundColor: '#1F2937',
+    right: 10, backgroundColor: '#1F2937', // ! HARDCODED: Should use design tokens
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 6,
-    borderWidth: 1,
-    borderColor: '#374151',
+    borderWidth: 1, borderColor: '#374151', // ! HARDCODED: Should use design tokens
   },
   statusText: {
-    fontSize: 12,
-    color: '#9CA3AF',
+    fontSize: 12, color: '#9CA3AF', // ! HARDCODED: Should use design tokens
   },
 });

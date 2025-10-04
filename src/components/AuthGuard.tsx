@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
-import { View, ActivityIndicator } from 'react-native';
+import { View, ActivityIndicator, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useAuthStore } from '../store/authStore';
+import { fantasyTomeColors } from '../constants/fantasyTomeColors';
 
 interface AuthGuardProps {
   children: React.ReactNode;
@@ -19,36 +20,45 @@ export default function AuthGuard({ children, requireAuth = true }: AuthGuardPro
   useEffect(() => {
     if (!isLoading) {
       if (requireAuth && !isAuthenticated) {
-        // Redirect to login if authentication is required but user is not authenticated
+        // ! SECURITY: * Redirect to login if authentication is required but user is not authenticated
         navigation.navigate('Login' as never);
       } else if (!requireAuth && isAuthenticated) {
-        // Redirect to projects if user is authenticated but on a non-auth page (like login)
+        // ! SECURITY: * Redirect to projects if user is authenticated but on a non-auth page (like login)
         navigation.navigate('Projects' as never);
       }
     }
   }, [isAuthenticated, isLoading, requireAuth, navigation]);
   
-  // Show loading spinner while checking authentication
+  // ? ! SECURITY: * Show loading spinner while checking authentication
   if (isLoading) {
     return (
-      <View className="flex-1 justify-center items-center bg-parchment-100">
-        <ActivityIndicator size="large" color="#C9A94F" />
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color={fantasyTomeColors.metals.gold} />
       </View>
     );
   }
   
-  // If authentication requirements are met, render children
+  // ! SECURITY: * If authentication requirements are met, render children
   if (requireAuth) {
     if (isAuthenticated) {
       return <>{children}</>;
     }
-    // Will redirect in useEffect, return null for now
+    // * Will redirect in useEffect, return null for now
     return null;
   } else {
     if (!isAuthenticated) {
       return <>{children}</>;
     }
-    // Will redirect in useEffect, return null for now
+    // * Will redirect in useEffect, return null for now
     return null;
   }
 }
+
+const styles = StyleSheet.create({
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: fantasyTomeColors.parchment.aged,
+  },
+});

@@ -1,0 +1,577 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Patterns/Interaction Patterns" />
+
+# Interaction Patterns Library
+
+Common interaction patterns and UX behaviors used throughout the FantasyWritingApp. These patterns ensure consistency and familiarity for users across different features.
+
+## Core Interaction Principles
+
+1. **Immediate Feedback** - Every user action should have immediate visual feedback
+2. **Progressive Disclosure** - Show only necessary information, reveal complexity gradually
+3. **Consistent Behavior** - Similar elements behave similarly throughout the app
+4. **Error Prevention** - Prevent errors rather than just handling them
+5. **User Control** - Users should always feel in control and able to undo actions
+
+## Common Patterns
+
+### 1. Form Interactions
+
+#### Input Validation
+Show validation in real-time but be forgiving:
+
+```tsx
+// * Validate on blur, not on every keystroke for the first time
+// * Show success states, not just errors
+// * Provide helpful error messages with solutions
+
+const FormInput = () => {
+  const [value, setValue] = useState('');
+  const [touched, setTouched] = useState(false);
+  const [error, setError] = useState('');
+
+  const validate = (text: string) => {
+    if (!text) return 'This field is required';
+    if (text.length < 3) return 'Must be at least 3 characters';
+    return '';
+  };
+
+  return (
+    <Input
+      value={value}
+      onChangeText={(text) => {
+        setValue(text);
+        // * Only validate if already touched
+        if (touched) setError(validate(text));
+      }}
+      onBlur={() => {
+        setTouched(true);
+        setError(validate(value));
+      }}
+      error={error}
+      success={touched && !error}
+    />
+  );
+};
+```
+
+#### Auto-Save Pattern
+Save drafts automatically to prevent data loss:
+
+```tsx
+// * Auto-save after user stops typing for 2 seconds
+// * Show saving indicator
+// * Confirm successful saves
+
+const AutoSaveEditor = () => {
+  const [content, setContent] = useState('');
+  const [saveStatus, setSaveStatus] = useState('saved');
+  const saveTimeoutRef = useRef<NodeJS.Timeout>();
+
+  const handleChange = (text: string) => {
+    setContent(text);
+    setSaveStatus('typing');
+    
+    // * Clear existing timeout
+    if (saveTimeoutRef.current) {
+      clearTimeout(saveTimeoutRef.current);
+    }
+    
+    // * Set new timeout
+    saveTimeoutRef.current = setTimeout(() => {
+      setSaveStatus('saving');
+      saveContent(text).then(() => {
+        setSaveStatus('saved');
+      });
+    }, 2000);
+  };
+
+  return (
+    <>
+      <TextEditor value={content} onChange={handleChange} />
+      <SaveIndicator status={saveStatus} />
+    </>
+  );
+};
+```
+
+### 2. Navigation Patterns
+
+#### Breadcrumb Navigation
+Show user's location and provide easy navigation:
+
+```tsx
+const Breadcrumbs = ({ path }: { path: string[] }) => (
+  <View style={styles.breadcrumbs}>
+    {path.map((item, index) => (
+      <React.Fragment key={item}>
+        <TouchableOpacity
+          onPress={() => navigateToLevel(index)}
+          disabled={index === path.length - 1}
+        >
+          <Text style={[
+            styles.breadcrumbText,
+            index === path.length - 1 && styles.currentBreadcrumb
+          ]}>
+            {item}
+          </Text>
+        </TouchableOpacity>
+        {index < path.length - 1 && <Text> / </Text>}
+      </React.Fragment>
+    ))}
+  </View>
+);
+```
+
+#### Tab Navigation with Swipe
+Allow both tap and swipe for tab navigation:
+
+```tsx
+const SwipeableTabs = ({ tabs, activeTab, onTabChange }) => {
+  const [translateX] = useState(new Animated.Value(0));
+
+  return (
+    <PanGestureHandler
+      onGestureEvent={handleSwipe}
+      onHandlerStateChange={handleSwipeEnd}
+    >
+      <View>
+        <TabBar 
+          tabs={tabs} 
+          activeTab={activeTab} 
+          onPress={onTabChange}
+        />
+        <Animated.View
+          style={{
+            transform: [{ translateX }],
+            flexDirection: 'row',
+            width: '300%',
+          }}
+        >
+          {tabs.map(tab => (
+            <TabContent key={tab.id} tab={tab} />
+          ))}
+        </Animated.View>
+      </View>
+    </PanGestureHandler>
+  );
+};
+```
+
+### 3. List Interactions
+
+#### Pull to Refresh
+Standard mobile pattern for refreshing content:
+
+```tsx
+const RefreshableList = ({ data, onRefresh }) => {
+  const [refreshing, setRefreshing] = useState(false);
+
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    await onRefresh();
+    setRefreshing(false);
+  };
+
+  return (
+    <FlatList
+      data={data}
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={handleRefresh}
+          colors={['#2da888']}
+          tintColor="#2da888"
+        />
+      }
+      renderItem={renderItem}
+    />
+  );
+};
+```
+
+#### Swipe Actions
+Reveal actions by swiping list items:
+
+```tsx
+const SwipeableListItem = ({ item, onDelete, onArchive }) => {
+  const translateX = useSharedValue(0);
+
+  const panGesture = useAnimatedGestureHandler({
+    onActive: (event) => {
+      translateX.value = Math.max(-150, Math.min(0, event.translationX));
+    },
+    onEnd: () => {
+      if (translateX.value < -75) {
+        translateX.value = withSpring(-150);
+      } else {
+        translateX.value = withSpring(0);
+      }
+    },
+  });
+
+  return (
+    <View style={styles.swipeContainer}>
+      <View style={styles.actionsContainer}>
+        <TouchableOpacity 
+          style={[styles.action, styles.archiveAction]}
+          onPress={onArchive}
+        >
+          <Icon name="archive" />
+        </TouchableOpacity>
+        <TouchableOpacity 
+          style={[styles.action, styles.deleteAction]}
+          onPress={onDelete}
+        >
+          <Icon name="trash" />
+        </TouchableOpacity>
+      </View>
+      
+      <PanGestureHandler onGestureEvent={panGesture}>
+        <Animated.View style={[
+          styles.listItem,
+          useAnimatedStyle(() => ({
+            transform: [{ translateX: translateX.value }]
+          }))
+        ]}>
+          <ListItemContent item={item} />
+        </Animated.View>
+      </PanGestureHandler>
+    </View>
+  );
+};
+```
+
+### 4. Modal & Dialog Patterns
+
+#### Confirmation Dialog
+Always confirm destructive actions:
+
+```tsx
+const ConfirmationDialog = ({ 
+  visible, 
+  title, 
+  message, 
+  onConfirm, 
+  onCancel,
+  destructive = false 
+}) => (
+  <Modal visible={visible} transparent animationType="fade">
+    <View style={styles.backdrop}>
+      <Animated.View style={[styles.dialog, animatedStyle]}>
+        <Text style={styles.dialogTitle}>{title}</Text>
+        <Text style={styles.dialogMessage}>{message}</Text>
+        
+        <View style={styles.dialogActions}>
+          <Button
+            title="Cancel"
+            variant="secondary"
+            onPress={onCancel}
+          />
+          <Button
+            title="Confirm"
+            variant={destructive ? 'danger' : 'primary'}
+            onPress={onConfirm}
+          />
+        </View>
+      </Animated.View>
+    </View>
+  </Modal>
+);
+
+// Usage
+const handleDelete = () => {
+  showConfirmation({
+    title: 'Delete Story?',
+    message: 'This action cannot be undone. Your story and all its content will be permanently deleted.',
+    destructive: true,
+    onConfirm: performDelete,
+  });
+};
+```
+
+#### Bottom Sheet
+For mobile-friendly action selection:
+
+```tsx
+const BottomSheet = ({ visible, options, onClose }) => {
+  const translateY = useSharedValue(300);
+
+  useEffect(() => {
+    translateY.value = withSpring(visible ? 0 : 300);
+  }, [visible]);
+
+  return (
+    <Modal visible={visible} transparent>
+      <TouchableOpacity 
+        style={styles.backdrop} 
+        onPress={onClose}
+        activeOpacity={1}
+      >
+        <Animated.View style={[
+          styles.bottomSheet,
+          useAnimatedStyle(() => ({
+            transform: [{ translateY: translateY.value }]
+          }))
+        ]}>
+          {options.map(option => (
+            <TouchableOpacity
+              key={option.id}
+              style={styles.bottomSheetOption}
+              onPress={() => {
+                option.onPress();
+                onClose();
+              }}
+            >
+              <Icon name={option.icon} />
+              <Text>{option.label}</Text>
+            </TouchableOpacity>
+          ))}
+          
+          <TouchableOpacity
+            style={[styles.bottomSheetOption, styles.cancelOption]}
+            onPress={onClose}
+          >
+            <Text>Cancel</Text>
+          </TouchableOpacity>
+        </Animated.View>
+      </TouchableOpacity>
+    </Modal>
+  );
+};
+```
+
+### 5. Feedback Patterns
+
+#### Toast Notifications
+Non-intrusive feedback for user actions:
+
+```tsx
+const ToastManager = () => {
+  const [toasts, setToasts] = useState<Toast[]>([]);
+
+  const showToast = (message: string, type: 'success' | 'error' | 'info' = 'info') => {
+    const id = Date.now().toString();
+    const newToast = { id, message, type };
+    
+    setToasts(prev => [...prev, newToast]);
+    
+    // * Auto-dismiss after 3 seconds
+    setTimeout(() => {
+      setToasts(prev => prev.filter(t => t.id !== id));
+    }, 3000);
+  };
+
+  return (
+    <View style={styles.toastContainer}>
+      {toasts.map(toast => (
+        <Animated.View
+          key={toast.id}
+          entering={FadeIn}
+          exiting={FadeOut}
+          style={[styles.toast, styles[`toast-${toast.type}`]]}
+        >
+          <Icon name={getIconForType(toast.type)} />
+          <Text style={styles.toastText}>{toast.message}</Text>
+          <TouchableOpacity onPress={() => dismissToast(toast.id)}>
+            <Icon name="close" />
+          </TouchableOpacity>
+        </Animated.View>
+      ))}
+    </View>
+  );
+};
+```
+
+#### Loading States
+Show progress for long-running operations:
+
+```tsx
+const LoadingStates = {
+  // * Skeleton loader for content
+  SkeletonLoader: () => (
+    <View style={styles.skeleton}>
+      <View style={[styles.skeletonLine, styles.skeletonTitle]} />
+      <View style={[styles.skeletonLine, styles.skeletonText]} />
+      <View style={[styles.skeletonLine, styles.skeletonText]} />
+    </View>
+  ),
+  
+  // * Progress bar for determinate operations
+  ProgressBar: ({ progress }: { progress: number }) => (
+    <View style={styles.progressContainer}>
+      <View style={styles.progressTrack}>
+        <Animated.View 
+          style={[
+            styles.progressFill,
+            { width: `${progress * 100}%` }
+          ]} 
+        />
+      </View>
+      <Text style={styles.progressText}>{Math.round(progress * 100)}%</Text>
+    </View>
+  ),
+  
+  // * Spinner for indeterminate operations
+  Spinner: ({ message }: { message?: string }) => (
+    <View style={styles.spinnerContainer}>
+      <ActivityIndicator size="large" color="#2da888" />
+      {message && <Text style={styles.spinnerMessage}>{message}</Text>}
+    </View>
+  ),
+};
+```
+
+### 6. Gesture Patterns
+
+#### Long Press Actions
+Reveal contextual actions on long press:
+
+```tsx
+const LongPressMenu = ({ item, actions }) => {
+  const scale = useSharedValue(1);
+  const [menuVisible, setMenuVisible] = useState(false);
+
+  const longPressGesture = Gesture.LongPress()
+    .minDuration(500)
+    .onBegin(() => {
+      scale.value = withSpring(0.95);
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    })
+    .onFinalize(() => {
+      scale.value = withSpring(1);
+      runOnJS(setMenuVisible)(true);
+    });
+
+  return (
+    <>
+      <GestureDetector gesture={longPressGesture}>
+        <Animated.View style={useAnimatedStyle(() => ({
+          transform: [{ scale: scale.value }]
+        }))}>
+          <ItemCard item={item} />
+        </Animated.View>
+      </GestureDetector>
+      
+      <ContextMenu
+        visible={menuVisible}
+        actions={actions}
+        onClose={() => setMenuVisible(false)}
+      />
+    </>
+  );
+};
+```
+
+#### Pinch to Zoom
+For images and detailed content:
+
+```tsx
+const ZoomableImage = ({ source }) => {
+  const scale = useSharedValue(1);
+  const savedScale = useSharedValue(1);
+
+  const pinchGesture = Gesture.Pinch()
+    .onUpdate((e) => {
+      scale.value = savedScale.value * e.scale;
+    })
+    .onEnd(() => {
+      if (scale.value < 1) {
+        scale.value = withSpring(1);
+        savedScale.value = 1;
+      } else if (scale.value > 3) {
+        scale.value = withSpring(3);
+        savedScale.value = 3;
+      } else {
+        savedScale.value = scale.value;
+      }
+    });
+
+  return (
+    <GestureDetector gesture={pinchGesture}>
+      <Animated.Image
+        source={source}
+        style={[
+          styles.image,
+          useAnimatedStyle(() => ({
+            transform: [{ scale: scale.value }]
+          }))
+        ]}
+      />
+    </GestureDetector>
+  );
+};
+```
+
+## Accessibility Patterns
+
+### Focus Management
+Properly manage focus for keyboard navigation:
+
+```tsx
+const AccessibleForm = () => {
+  const inputRefs = useRef<TextInput[]>([]);
+
+  return (
+    <View>
+      <TextInput
+        ref={el => inputRefs.current[0] = el}
+        placeholder="Title"
+        returnKeyType="next"
+        onSubmitEditing={() => inputRefs.current[1]?.focus()}
+      />
+      <TextInput
+        ref={el => inputRefs.current[1] = el}
+        placeholder="Description"
+        returnKeyType="done"
+        onSubmitEditing={handleSubmit}
+      />
+    </View>
+  );
+};
+```
+
+### Screen Reader Support
+Provide proper labels and hints:
+
+```tsx
+<TouchableOpacity
+  accessible={true}
+  accessibilityRole="button"
+  accessibilityLabel="Delete story"
+  accessibilityHint="Double tap to permanently delete this story"
+  accessibilityState={{ disabled: false }}
+  onPress={handleDelete}
+>
+  <Icon name="trash" />
+</TouchableOpacity>
+```
+
+## Platform-Specific Patterns
+
+### iOS Patterns
+- Use native iOS gestures (swipe back to navigate)
+- Respect safe areas
+- Use iOS-style navigation transitions
+
+### Android Patterns
+- Handle back button properly
+- Use Material Design ripple effects
+- Show Android-style toasts
+
+### Web Patterns
+- Support keyboard shortcuts
+- Provide hover states
+- Enable right-click context menus
+- Support browser navigation
+
+## Best Practices
+
+1. **Be Predictable** - Users should be able to predict what will happen
+2. **Provide Feedback** - Every action should have a reaction
+3. **Be Forgiving** - Allow users to undo actions
+4. **Optimize for Touch** - Minimum touch target of 44x44 points
+5. **Test on Real Devices** - Simulators don't show all interaction issues
+6. **Consider Handedness** - Important actions should be reachable with one hand
+7. **Respect Platform Conventions** - Follow iOS and Android guidelines

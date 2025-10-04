@@ -9,7 +9,7 @@ import {
   // hasCustomType,
   // CustomElementType
 } from '../../types/worldbuilding';
-import { CalculationService } from '../../services/core/CalculationService';
+import { calculationService } from '../../services/core/CalculationService';
 import { ProjectSlice } from './projectStore';
 import { AsyncSlice, AsyncActionTypes } from './asyncStore';
 // import { createOptimisticUpdate } from '../../utils/async';
@@ -19,7 +19,7 @@ export interface ElementSlice {
   // State
   currentElementId: string | null;
   
-  // Element actions
+  // * Element actions
   createElement: (projectId: string, name: string, category: ElementCategory, templateId?: string, customTypeId?: string) => Promise<WorldElement>;
   updateElement: (projectId: string, elementId: string, updates: Partial<WorldElement>) => Promise<void>;
   deleteElement: (projectId: string, elementId: string) => Promise<void>;
@@ -30,18 +30,18 @@ export interface ElementSlice {
   addQuestion: (projectId: string, elementId: string, question: Question) => Promise<void>;
   updateAnswer: (projectId: string, elementId: string, questionId: string, value: string | string[] | number | boolean | Date) => Promise<void>;
   
-  // Category selectors
+  // * Category selectors
   getElementsByCategory: (projectId: string, category: ElementCategory) => WorldElement[];
   getRacesByUsage: (projectId: string, limit?: number) => WorldElement[];
   
-  // Quick creation
+  // * Quick creation
   quickCreateElement: (projectId: string, category: ElementCategory, name: string) => Promise<WorldElement>;
   
-  // Usage tracking
+  // * Usage tracking
   incrementElementUsage: (projectId: string, elementId: string) => void;
 }
 
-// Create a combined interface for slices that depend on each other
+// * Create a combined interface for slices that depend on each other
 interface ElementStoreWithDependencies extends ElementSlice, ProjectSlice, AsyncSlice {}
 
 export const createElementSlice: StateCreator<
@@ -53,7 +53,7 @@ export const createElementSlice: StateCreator<
   // State
   currentElementId: null,
 
-  // Element actions
+  // * Element actions
   createElement: async (projectId, name, category, templateId, customTypeId) => {
     return get().executeAsync(
       AsyncActionTypes.CREATE_ELEMENT,
@@ -61,7 +61,7 @@ export const createElementSlice: StateCreator<
         const project = get().projects.find((p) => p.id === projectId);
         if (!project) throw new Error('Project not found');
 
-        // Validate input
+        // * Validate input
         const input: CreateElementInput = {
           name,
           category,
@@ -78,7 +78,7 @@ export const createElementSlice: StateCreator<
             questions = [...template.questions];
           }
         } else if (customTypeId) {
-          // Get questions from custom type if available
+          // * Get questions from custom type if available
           const customType = project.customTypes?.find(t => t.id === customTypeId);
           if (customType) {
             questions = [...customType.baseQuestions];
@@ -123,7 +123,7 @@ export const createElementSlice: StateCreator<
     return get().executeAsync(
       AsyncActionTypes.UPDATE_ELEMENT,
       async () => {
-        // Validate name if it's being updated
+        // * Validate name if it's being updated
         if (updates.name !== undefined && (!updates.name || updates.name.trim() === '')) {
           throw new Error('Element name cannot be empty');
         }
@@ -141,7 +141,7 @@ export const createElementSlice: StateCreator<
                           ...element, 
                           ...normalizedUpdates, 
                           updatedAt: new Date(),
-                          completionPercentage: CalculationService.calculateElementCompletion({ ...element, ...normalizedUpdates })
+                          completionPercentage: calculationService.calculateElementCompletion({ ...element, ...normalizedUpdates })
                         }
                       : element
                   ),
@@ -234,7 +234,7 @@ export const createElementSlice: StateCreator<
                             }
                           },
                           updatedAt: new Date(),
-                          completionPercentage: CalculationService.calculateElementCompletion({
+                          completionPercentage: calculationService.calculateElementCompletion({
                             ...element,
                             answers: {
                               ...element.answers,
@@ -253,7 +253,7 @@ export const createElementSlice: StateCreator<
     );
   },
 
-  // Category selectors
+  // * Category selectors
   getElementsByCategory: (projectId, category) => {
     const project = get().projects.find((p) => p.id === projectId);
     if (!project) return [];
@@ -266,7 +266,7 @@ export const createElementSlice: StateCreator<
     
     const races = project.elements.filter((e) => e.category === 'race-species');
     
-    // Sort by usage count (descending) and then by last used date
+    // * Sort by usage count (descending) and then by last used date
     const sortedRaces = races.sort((a, b) => {
       const aCount = a.metadata?.usageCount || 0;
       const bCount = b.metadata?.usageCount || 0;
@@ -275,7 +275,7 @@ export const createElementSlice: StateCreator<
         return bCount - aCount; // Higher usage count first
       }
       
-      // If usage counts are equal, sort by last used date
+      // * If usage counts are equal, sort by last used date
       const aLastUsed = a.metadata?.lastUsed ? new Date(a.metadata.lastUsed).getTime() : 0;
       const bLastUsed = b.metadata?.lastUsed ? new Date(b.metadata.lastUsed).getTime() : 0;
       
@@ -285,10 +285,10 @@ export const createElementSlice: StateCreator<
     return sortedRaces.slice(0, limit);
   },
 
-  // Quick creation
+  // * Quick creation
   quickCreateElement: async (projectId, category, name) => {
     const element = await get().createElement(projectId, name, category);
-    // Initialize usage count for races
+    // * Initialize usage count for races
     if (category === 'race-species' && element) {
       await get().updateElement(projectId, element.id, {
         metadata: {
@@ -300,7 +300,7 @@ export const createElementSlice: StateCreator<
     return element;
   },
 
-  // Usage tracking
+  // * Usage tracking
   incrementElementUsage: (projectId, elementId) => {
     const project = get().projects.find((p) => p.id === projectId);
     if (!project) return;

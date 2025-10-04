@@ -4,11 +4,11 @@ import { authService, type AuthUser } from '../services/auth'
 import type { Profile } from '../types/supabase'
 import type { User } from '@supabase/supabase-js'
 
-// Sync status types
+// * Sync status types for offline/online state management
 export type SyncStatus = 'synced' | 'syncing' | 'error' | 'offline'
 
 interface AuthStore {
-  // Auth state
+  // ! SECURITY: * Authentication state properties
   user: AuthUser | null
   profile: Profile | null
   isLoading: boolean
@@ -16,12 +16,12 @@ interface AuthStore {
   isOfflineMode: boolean
   isEmailVerified: boolean
   
-  // Sync state
+  // * Synchronization state tracking
   syncStatus: SyncStatus
   lastSyncedAt: Date | null
   syncError: string | null
   
-  // Auth actions
+  // ! SECURITY: * Authentication action methods
   initialize: () => Promise<void>
   signIn: (email: string, password: string) => Promise<{ success: boolean; error?: string }>
   signUp: (email: string, password: string) => Promise<{ success: boolean; error?: string }>
@@ -30,18 +30,18 @@ interface AuthStore {
   resendVerificationEmail: () => Promise<{ success: boolean; error?: string }>
   checkEmailVerification: () => Promise<void>
   
-  // Profile actions
+  // * User profile management actions
   loadProfile: () => Promise<void>
   updateProfile: (updates: Partial<Profile>) => Promise<{ success: boolean; error?: string }>
   
-  // Mode actions
+  // * Application mode toggles
   setOfflineMode: (offline: boolean) => void
   
-  // Sync actions
+  // * Synchronization control actions
   setSyncStatus: (status: SyncStatus, error?: string) => void
   updateLastSyncedAt: () => void
   
-  // Internal actions
+  // ! INTERNAL: Direct state setters - avoid using externally
   _setUser: (user: User | null) => void
   _setProfile: (profile: Profile | null) => void
   _setLoading: (loading: boolean) => void
@@ -50,25 +50,27 @@ interface AuthStore {
 export const useAuthStore = create<AuthStore>()(
   persist(
     (set, get) => ({
-      // Initial state
+      // ! SECURITY: * Initial authentication state
       user: null,
       profile: null,
       isLoading: true,
       isAuthenticated: false,
-      isOfflineMode: localStorage.getItem('fantasy-element-builder-offline-mode') === 'true',
+      // ! SECURITY: ! SECURITY: Storing offline mode preference in localStorage
+      isOfflineMode: // ! SECURITY: Using localStorage
+      localStorage.getItem('fantasy-element-builder-offline-mode') === 'true',
       isEmailVerified: false,
       
-      // Sync state
+      // * Initial sync state
       syncStatus: 'offline',
       lastSyncedAt: null,
       syncError: null,
       
-      // Initialize auth state on app start
+      // ! SECURITY: * Initialize auth state on app start - critical startup flow
       initialize: async () => {
         set({ isLoading: true })
         
         try {
-          // Check if user is in offline mode
+          // * Handle offline mode initialization
           if (get().isOfflineMode) {
             set({ 
               isLoading: false,
@@ -78,7 +80,7 @@ export const useAuthStore = create<AuthStore>()(
             return
           }
           
-          // Get current user from Supabase
+          // ! SECURITY: * Fetch current authenticated user from Supabase
           const user = await authService.getCurrentUser()
           
           if (user) {
@@ -88,10 +90,10 @@ export const useAuthStore = create<AuthStore>()(
               syncStatus: 'synced'
             })
             
-            // Load profile
+            // * Load profile
             await get().loadProfile()
             
-            // Check email verification status
+            // * Check email verification status
             await get().checkEmailVerification()
           } else {
             set({ 
@@ -111,7 +113,7 @@ export const useAuthStore = create<AuthStore>()(
           set({ isLoading: false })
         }
         
-        // Set up auth state change listener
+        // ! SECURITY: * Set up auth state change listener
         authService.onAuthStateChange((user) => {
           if (user) {
             set({ 
@@ -133,7 +135,7 @@ export const useAuthStore = create<AuthStore>()(
         })
       },
       
-      // Sign in with email and password
+      // ! SECURITY: * Sign in with email and password
       signIn: async (email: string, password: string) => {
         set({ isLoading: true })
         
@@ -154,13 +156,13 @@ export const useAuthStore = create<AuthStore>()(
               syncStatus: 'synced'
             })
             
-            // Load profile
+            // * Load profile
             await get().loadProfile()
             
-            // Check email verification status
+            // * Check email verification status
             await get().checkEmailVerification()
             
-            // Update last synced time
+            // * Update last synced time
             get().updateLastSyncedAt()
           }
           
@@ -170,7 +172,7 @@ export const useAuthStore = create<AuthStore>()(
         }
       },
       
-      // Sign up with email and password
+      // ! SECURITY: * Sign up with email and password
       signUp: async (email: string, password: string) => {
         set({ isLoading: true })
         
@@ -191,10 +193,10 @@ export const useAuthStore = create<AuthStore>()(
               syncStatus: 'synced'
             })
             
-            // Profile is created automatically in the service
+            // * Profile is created automatically in the service
             await get().loadProfile()
             
-            // Check email verification status
+            // * Check email verification status
             await get().checkEmailVerification()
           }
           
@@ -204,7 +206,7 @@ export const useAuthStore = create<AuthStore>()(
         }
       },
       
-      // Sign out
+      // * Sign out
       signOut: async () => {
         set({ isLoading: true })
         
@@ -232,7 +234,7 @@ export const useAuthStore = create<AuthStore>()(
         }
       },
       
-      // Reset password
+      // ! SECURITY: * Reset password
       resetPassword: async (email: string) => {
         try {
           const { error } = await authService.resetPassword(email)
@@ -253,7 +255,7 @@ export const useAuthStore = create<AuthStore>()(
         }
       },
       
-      // Resend verification email
+      // * Resend verification email
       resendVerificationEmail: async () => {
         const { user } = get()
         
@@ -283,13 +285,13 @@ export const useAuthStore = create<AuthStore>()(
         }
       },
       
-      // Check email verification status
+      // * Check email verification status
       checkEmailVerification: async () => {
         const isVerified = await authService.isEmailVerified()
         set({ isEmailVerified: isVerified })
       },
       
-      // Load user profile
+      // * Load user profile
       loadProfile: async () => {
         const { user } = get()
         
@@ -306,7 +308,7 @@ export const useAuthStore = create<AuthStore>()(
         }
       },
       
-      // Update user profile
+      // * Update user profile
       updateProfile: async (updates: Partial<Profile>) => {
         const { user } = get()
         
@@ -340,7 +342,7 @@ export const useAuthStore = create<AuthStore>()(
         }
       },
       
-      // Set offline mode
+      // * Set offline mode
       setOfflineMode: (offline: boolean) => {
         localStorage.setItem('fantasy-element-builder-offline-mode', offline.toString())
         set({ 
@@ -349,7 +351,7 @@ export const useAuthStore = create<AuthStore>()(
         })
       },
       
-      // Set sync status
+      // * Set sync status
       setSyncStatus: (status: SyncStatus, error?: string) => {
         set({ 
           syncStatus: status,
@@ -357,19 +359,19 @@ export const useAuthStore = create<AuthStore>()(
         })
       },
       
-      // Update last synced timestamp
+      // * Update last synced timestamp
       updateLastSyncedAt: () => {
         set({ lastSyncedAt: new Date() })
       },
       
-      // Internal actions
+      // * Internal actions
       _setUser: (user: User | null) => set({ user }),
       _setProfile: (profile: Profile | null) => set({ profile }),
       _setLoading: (loading: boolean) => set({ isLoading: loading })
     }),
     {
       name: 'fantasy-element-builder-auth-store',
-      // Only persist offline mode preference and sync status
+      // * Only persist offline mode preference and sync status
       partialize: (state) => ({ 
         isOfflineMode: state.isOfflineMode,
         lastSyncedAt: state.lastSyncedAt

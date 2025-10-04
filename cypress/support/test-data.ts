@@ -1,5 +1,7 @@
-// Mock test data for Cypress tests in Writing App
-// Adapted from fantasy-element-builder for writing domain
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+// * Mock test data for Cypress tests in Writing App
+// * Adapted from fantasy-element-builder for writing domain
 
 export interface Story {
   id: string;
@@ -206,7 +208,7 @@ export const createMockRelationship = (overrides?: Partial<Relationship>): Relat
   ...overrides
 });
 
-// Character development templates
+// TODO: * Character development templates
 export const characterQuestions = {
   basic: [
     { id: 'name', label: 'Full Name', type: 'text', required: true },
@@ -238,7 +240,7 @@ export const characterQuestions = {
   ]
 };
 
-// Story outline templates
+// TODO: * Story outline templates
 export const storyStructure = {
   threeAct: {
     act1: ['Hook', 'Inciting Incident', 'Plot Point 1'],
@@ -277,6 +279,27 @@ export const genreOptions = [
   'Urban Fantasy'
 ];
 
+// Mock Project for worldbuilding tests
+export interface Project {
+  id: string;
+  name: string;
+  description: string;
+  genre?: string;
+  isArchived?: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export const mockProject: Project = {
+  id: 'project-1',
+  name: 'Fantasy World',
+  description: 'A magical realm filled with dragons and wizards',
+  genre: 'Fantasy',
+  isArchived: false,
+  createdAt: new Date('2024-01-01').toISOString(),
+  updatedAt: new Date('2024-01-01').toISOString()
+};
+
 export const characterTypes = [
   'protagonist',
   'antagonist',
@@ -297,3 +320,28 @@ export const relationshipTypes = [
   'neighbor',
   'acquaintance'
 ];
+
+// Element-related mock data for worldbuilding tests
+export const mockElement = {
+  id: 'element-1',
+  name: 'Test Element',
+  category: 'character',
+  type: 'character',
+  description: 'Test element description',
+  projectId: 'project-1',
+  relationships: [],
+  completionPercentage: 75,
+  createdAt: new Date('2024-01-01').toISOString(),
+  updatedAt: new Date('2024-01-01').toISOString(),
+  tags: ['test'],
+  answers: {}
+};
+
+export const createMockElements = (count: number = 3) => {
+  return Array.from({ length: count }, (_, i) => ({
+    ...mockElement,
+    id: `element-${i + 1}`,
+    name: `Test Element ${i + 1}`,
+    completionPercentage: Math.floor(Math.random() * 100)
+  }));
+};

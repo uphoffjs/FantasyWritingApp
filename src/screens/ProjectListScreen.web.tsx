@@ -8,6 +8,7 @@ import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import type { NavigationProp } from '../navigation/types';
 import { useWorldbuildingStore } from '../store/worldbuildingStore';
+import { getTestProps } from '../utils/react-native-web-polyfills';
 
 export function ProjectListScreen() {
   const navigation = useNavigation<NavigationProp>();
@@ -16,30 +17,20 @@ export function ProjectListScreen() {
   const [newProjectName, setNewProjectName] = useState('');
   const [newProjectDescription, setNewProjectDescription] = useState('');
 
-  console.log('[ProjectListScreen.web] Component rendered, projects count:', projects.length);
-  console.log('[ProjectListScreen.web] Store functions:', { createProject: !!createProject, deleteProject: !!deleteProject });
 
   const handleCreateProject = () => {
-    console.log('[ProjectListScreen.web] handleCreateProject called');
-    console.log('[ProjectListScreen.web] Project name:', newProjectName);
-    console.log('[ProjectListScreen.web] Project description:', newProjectDescription);
     
     if (!newProjectName.trim()) {
-      console.log('[ProjectListScreen.web] Empty project name, showing alert');
       alert('Please enter a project name');
       return;
     }
 
     try {
-      console.log('[ProjectListScreen.web] Calling createProject function...');
       const result = createProject(newProjectName, newProjectDescription);
-      console.log('[ProjectListScreen.web] createProject result:', result);
       
-      console.log('[ProjectListScreen.web] Clearing form fields...');
       setNewProjectName('');
       setNewProjectDescription('');
       setShowCreateModal(false);
-      console.log('[ProjectListScreen.web] Form cleared and modal hidden');
     } catch (error) {
       console.error('[ProjectListScreen.web] Failed to create project:', error);
       alert('Failed to create project. Please try again.');
@@ -47,19 +38,13 @@ export function ProjectListScreen() {
   };
 
   const handleDeleteProject = (projectId: string, projectName: string) => {
-    console.log('[ProjectListScreen.web] handleDeleteProject called for:', projectId, projectName);
     if (window.confirm(`Are you sure you want to delete "${projectName}"? This action cannot be undone.`)) {
-      console.log('[ProjectListScreen.web] Calling deleteProject...');
       deleteProject(projectId);
-      console.log('[ProjectListScreen.web] deleteProject called');
     }
   };
 
   const handleNewProjectClick = () => {
-    console.log('[ProjectListScreen.web] New Project button clicked');
-    console.log('[ProjectListScreen.web] Current showCreateModal state:', showCreateModal);
     setShowCreateModal(!showCreateModal);
-    console.log('[ProjectListScreen.web] showCreateModal toggled to:', !showCreateModal);
   };
 
   return (
@@ -73,7 +58,7 @@ export function ProjectListScreen() {
           <button
             onClick={handleNewProjectClick}
             className="bg-might hover:bg-dragonfire transition-colors rounded-lg px-4 py-2 flex items-center text-white"
-            data-cy="new-project-button"
+            {...getTestProps('new-project-button')}
           >
             <span className="text-white font-semibold font-cinzel">
               + New Project
@@ -94,10 +79,9 @@ export function ProjectListScreen() {
                 placeholder="Enter project name..."
                 value={newProjectName}
                 onChange={(e) => {
-                  console.log('[ProjectListScreen.web] Project name changed to:', e.target.value);
                   setNewProjectName(e.target.value);
                 }}
-                data-cy="project-name-input"
+                {...getTestProps('project-name-input')}
               />
             </div>
             <div className="mb-4">
@@ -107,29 +91,27 @@ export function ProjectListScreen() {
                 placeholder="Enter project description..."
                 value={newProjectDescription}
                 onChange={(e) => {
-                  console.log('[ProjectListScreen.web] Project description changed to:', e.target.value);
                   setNewProjectDescription(e.target.value);
                 }}
-                data-cy="project-description-input"
+                {...getTestProps('project-description-input')}
               />
             </div>
             <div className="flex justify-end gap-3">
               <button
                 onClick={() => {
-                  console.log('[ProjectListScreen.web] Cancel button clicked');
                   setShowCreateModal(false);
                   setNewProjectName('');
                   setNewProjectDescription('');
                 }}
                 className="bg-parchment-200 hover:bg-parchment-400 transition-colors rounded-lg px-4 py-2"
-                data-cy="cancel-project-button"
+                {...getTestProps('cancel-project-button')}
               >
                 <span className="text-ink-secondary font-semibold">Cancel</span>
               </button>
               <button
                 onClick={handleCreateProject}
                 className="bg-might hover:bg-dragonfire transition-colors rounded-lg px-4 py-2"
-                data-cy="create-project-button"
+                {...getTestProps('create-project-button')}
               >
                 <span className="text-white font-semibold">Create</span>
               </button>
@@ -152,12 +134,16 @@ export function ProjectListScreen() {
           </div>
         ) : (
           <div className="space-y-3">
-            {projects.map((item) => (
+            {projects.map((item, index) => {
+              // Warn if project doesn't have an ID
+              if (!item.id) {
+                console.warn('[ProjectListScreen.web] Project missing ID:', item);
+              }
+              return (
               <div
-                key={item.id}
+                key={item.id || `project-${index}`}
                 className="bg-parchment-200 hover:bg-parchment-300 transition-colors rounded-lg p-4 border border-parchment-400 cursor-pointer"
                 onClick={() => {
-                  console.log('[ProjectListScreen.web] Project clicked:', item.id);
                   navigation.navigate('Project', { projectId: item.id });
                 }}
               >
@@ -171,7 +157,7 @@ export function ProjectListScreen() {
                       handleDeleteProject(item.id, item.name);
                     }}
                     className="p-2 hover:bg-parchment-400 rounded transition-colors"
-                    data-cy="delete-project-button"
+                    {...getTestProps('delete-project-button')}
                   >
                     <svg className="w-5 h-5 text-dragonfire" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
@@ -192,7 +178,8 @@ export function ProjectListScreen() {
                   </span>
                 </div>
               </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </div>

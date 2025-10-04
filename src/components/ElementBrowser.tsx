@@ -23,7 +23,7 @@ interface ElementBrowserProps {
   onRefresh?: () => void;
 }
 
-// Category filter options
+// * Category filter options
 const CATEGORY_FILTERS: Array<{ value: ElementCategory | 'all'; label: string; icon: string }> = [
   { value: 'all', label: 'All', icon: '📚' },
   { value: 'character', label: 'Characters', icon: '👤' },
@@ -39,7 +39,7 @@ const CATEGORY_FILTERS: Array<{ value: ElementCategory | 'all'; label: string; i
   { value: 'technology', label: 'Technology', icon: '⚙️' },
 ];
 
-// Sort options
+// * Sort options
 const SORT_OPTIONS = [
   { value: 'name', label: 'Name' },
   { value: 'updated', label: 'Recently Updated' },
@@ -60,16 +60,16 @@ export function ElementBrowser({
   const [sortBy, setSortBy] = useState<'name' | 'updated' | 'created' | 'completion'>('updated');
   const [showSortOptions, setShowSortOptions] = useState(false);
 
-  // Filter and sort elements
+  // * Filter and sort elements
   const filteredElements = useMemo(() => {
     let filtered = [...elements];
 
-    // Apply category filter
+    // * Apply category filter
     if (selectedCategory !== 'all') {
       filtered = filtered.filter((e) => e.category === selectedCategory);
     }
 
-    // Apply search filter
+    // * Apply search filter
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
       filtered = filtered.filter(
@@ -80,7 +80,7 @@ export function ElementBrowser({
       );
     }
 
-    // Apply sorting
+    // * Apply sorting
     filtered.sort((a, b) => {
       switch (sortBy) {
         case 'name':
@@ -114,7 +114,6 @@ export function ElementBrowser({
     if (loading) {
       return (
         <View style={styles.emptyContainer}>
-          <ActivityIndicator size="large" color="#6366F1" />
           <Text style={styles.emptyText}>Loading elements...</Text>
         </View>
       );
@@ -124,7 +123,7 @@ export function ElementBrowser({
       <View style={styles.emptyContainer}>
         <Text style={styles.emptyIcon}>📝</Text>
         <Text style={styles.emptyTitle}>
-          {searchQuery || selectedCategory !== 'all'
+          {searchQuery || selectedCategory !== 'all' // ! HARDCODED: Should use design tokens
             ? 'No elements found'
             : 'No elements yet'}
         </Text>
@@ -149,8 +148,7 @@ export function ElementBrowser({
         <Text style={styles.searchIcon}>🔍</Text>
         <TextInput
           style={styles.searchInput}
-          placeholder="Search elements..."
-          placeholderTextColor="#6B7280"
+          placeholder="Search elements..." placeholderTextColor="#6B7280"
           value={searchQuery}
           onChangeText={setSearchQuery}
           autoCorrect={false}
@@ -258,9 +256,6 @@ export function ElementBrowser({
           onRefresh ? (
             <RefreshControl
               refreshing={refreshing}
-              onRefresh={onRefresh}
-              tintColor="#6366F1"
-              colors={['#6366F1']}
             />
           ) : undefined
         }
@@ -285,7 +280,6 @@ export function ElementBrowser({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#111827',
   },
   header: {
     paddingTop: 16,
@@ -295,7 +289,6 @@ const styles = StyleSheet.create({
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#1F2937',
     borderRadius: 8,
     paddingHorizontal: 12,
     marginBottom: 12,
@@ -307,7 +300,6 @@ const styles = StyleSheet.create({
   searchInput: {
     flex: 1,
     height: 40,
-    color: '#F9FAFB',
     fontSize: 14,
   },
   clearButton: {
@@ -315,7 +307,6 @@ const styles = StyleSheet.create({
   },
   clearIcon: {
     fontSize: 16,
-    color: '#6B7280',
   },
   filterContainer: {
     marginBottom: 12,
@@ -328,15 +319,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 12,
     paddingVertical: 6,
-    backgroundColor: '#1F2937',
     borderRadius: 16,
     marginRight: 8,
     borderWidth: 1,
     borderColor: 'transparent',
   },
   filterChipSelected: {
-    backgroundColor: '#4338CA20',
-    borderColor: '#6366F1',
   },
   filterIcon: {
     fontSize: 14,
@@ -344,11 +332,9 @@ const styles = StyleSheet.create({
   },
   filterLabel: {
     fontSize: 12,
-    color: '#9CA3AF',
     fontWeight: '500',
   },
   filterLabelSelected: {
-    color: '#6366F1',
   },
   sortContainer: {
     flexDirection: 'row',
@@ -361,7 +347,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 12,
     paddingVertical: 6,
-    backgroundColor: '#1F2937',
     borderRadius: 6,
   },
   sortIcon: {
@@ -370,20 +355,16 @@ const styles = StyleSheet.create({
   },
   sortText: {
     fontSize: 12,
-    color: '#F9FAFB',
   },
   resultCount: {
     fontSize: 12,
-    color: '#6B7280',
   },
   sortDropdown: {
     position: 'absolute',
     top: 140,
     left: 16,
-    backgroundColor: '#1F2937',
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: '#374151',
     paddingVertical: 4,
     minWidth: 150,
     shadowColor: '#000',
@@ -401,19 +382,15 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
   },
   sortOptionSelected: {
-    backgroundColor: '#374151',
   },
   sortOptionText: {
     fontSize: 14,
-    color: '#9CA3AF',
   },
   sortOptionTextSelected: {
-    color: '#6366F1',
     fontWeight: '600',
   },
   checkIcon: {
     fontSize: 12,
-    color: '#6366F1',
   },
   listContent: {
     paddingHorizontal: 16,
@@ -435,25 +412,21 @@ const styles = StyleSheet.create({
   emptyTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#F9FAFB',
     marginBottom: 8,
   },
   emptyText: {
     fontSize: 14,
-    color: '#6B7280',
     textAlign: 'center',
     marginBottom: 24,
   },
   createButton: {
     paddingHorizontal: 24,
     paddingVertical: 12,
-    backgroundColor: '#6366F1',
     borderRadius: 8,
   },
   createButtonText: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#FFFFFF',
   },
   fab: {
     position: 'absolute',
@@ -461,8 +434,6 @@ const styles = StyleSheet.create({
     right: 24,
     width: 56,
     height: 56,
-    borderRadius: 28,
-    backgroundColor: '#6366F1',
     justifyContent: 'center',
     alignItems: 'center',
     shadowColor: '#000',
@@ -472,8 +443,6 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   fabIcon: {
-    fontSize: 28,
-    color: '#FFFFFF',
     fontWeight: '300',
   },
 });

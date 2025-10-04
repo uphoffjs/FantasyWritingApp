@@ -1,0 +1,38 @@
+{
+  "defaultElement": {
+    "id": "test-element-1",
+    "name": "Test Element",
+    "description": "Default test element for Cypress tests",
+    "type": "character"
+  },
+  "defaultQuestions": [
+    {
+      "id": "q1",
+      "text": "Name",
+      "type": "text",
+      "required": true,
+      "category": "General"
+    },
+    {
+      "id": "q2",
+      "text": "Description",
+      "type": "textarea",
+      "category": "General"
+    }
+  ],
+  "defaultAnswers": {
+    "q1": {
+      "value": "Test Name",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
+    },
+    "q2": {
+      "value": "Test Description",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
+    }
+  },
+  "testUser": {
+    "id": "user-1",
+    "email": "test@example.com",
+    "name": "Test User"
+  }
+}

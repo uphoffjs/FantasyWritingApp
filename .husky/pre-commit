@@ -1,0 +1,29 @@
+#!/bin/sh
+
+# * Pre-commit hook with multiple quality gates
+# ! This prevents broken imports, lint errors, protected file modifications, and failing tests
+
+# * Step 1: Check for protected file modifications
+echo "🛡️  Step 1/3: Checking protected files..."
+node scripts/check-protected-files.js
+if [ $? -ne 0 ]; then
+  exit 1
+fi
+
+# * Step 2: Run lint-staged for code quality
+echo "🔍 Step 2/3: Running lint checks..."
+npx lint-staged
+if [ $? -ne 0 ]; then
+  exit 1
+fi
+
+# * Step 3: Run critical pre-commit test
+echo "🧪 Step 3/3: Running critical test suite..."
+bash scripts/pre-commit-test.sh
+if [ $? -ne 0 ]; then
+  exit 1
+fi
+
+echo ""
+echo "✅ All pre-commit checks passed!"
+echo ""

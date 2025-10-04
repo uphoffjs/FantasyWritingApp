@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#F5F0E6">
+    <title>Fantasy Writing App - Design Mockups</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=EB+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles - Order matters for cascade -->
+    <link rel="stylesheet" href="css/tokens.css"> <!-- Design tokens from fantasyMasterColors -->
+    <link rel="stylesheet" href="css/base.css"> <!-- Reset and base styles -->
+    <link rel="stylesheet" href="css/theme.css"> <!-- Theme-specific styles -->
+    <link rel="stylesheet" href="css/components.css"> <!-- Component styles -->
+    <link rel="stylesheet" href="css/responsive.css"> <!-- Responsive breakpoints -->
+</head>
+<body>
+    <div class="container">
+        <header class="header-hero">
+            <h1 class="title-primary">Fantasy Writing App</h1>
+            <p class="subtitle">Design System Mockups</p>
+        </header>
+
+        <nav class="nav-grid">
+            <h2 class="section-title">Page Mockups</h2>
+            <div class="mockup-grid">
+                <a href="login.html" class="mockup-card" data-cy="login-mockup-link">
+                    <div class="mockup-icon">🔐</div>
+                    <h3>Login Page</h3>
+                    <p>Authentication and onboarding</p>
+                </a>
+                
+                <a href="projects.html" class="mockup-card" data-cy="projects-mockup-link">
+                    <div class="mockup-icon">📚</div>
+                    <h3>Projects List</h3>
+                    <p>Browse and manage writing projects</p>
+                </a>
+                
+                <a href="project-dashboard.html" class="mockup-card" data-cy="dashboard-mockup-link">
+                    <div class="mockup-icon">🏰</div>
+                    <h3>Project Dashboard</h3>
+                    <p>Project overview and elements</p>
+                </a>
+                
+                <a href="element-editor.html" class="mockup-card" data-cy="element-mockup-link">
+                    <div class="mockup-icon">✍️</div>
+                    <h3>Element Editor</h3>
+                    <p>Edit world-building elements</p>
+                </a>
+                
+                <a href="settings.html" class="mockup-card" data-cy="settings-mockup-link">
+                    <div class="mockup-icon">⚙️</div>
+                    <h3>Settings</h3>
+                    <p>App preferences and account</p>
+                </a>
+                
+                <a href="navigation-example.html" class="mockup-card" data-cy="navigation-mockup-link">
+                    <div class="mockup-icon">🧭</div>
+                    <h3>Navigation Example</h3>
+                    <p>Responsive navigation patterns</p>
+                </a>
+            </div>
+        </nav>
+
+        <section class="info-section">
+            <h2 class="section-title">Design System Info</h2>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>🎨 Color Palette</h3>
+                    <p>Fantasy-themed colors based on RPG attributes and classes</p>
+                </div>
+                <div class="info-card">
+                    <h3>📝 Typography</h3>
+                    <p>Cinzel for headers, EB Garamond for body text</p>
+                </div>
+                <div class="info-card">
+                    <h3>📱 Responsive</h3>
+                    <p>Mobile-first design with tablet and desktop layouts</p>
+                </div>
+                <div class="info-card">
+                    <h3>🌙 Dark Mode</h3>
+                    <p>Toggle between light parchment and dark obsidian themes</p>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <p>Fantasy Writing App © 2024 - Design Mockups v1.0</p>
+        </footer>
+    </div>
+
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" onclick="toggleTheme()" data-cy="theme-toggle">
+        <span class="theme-icon">🌞</span>
+    </button>
+
+    <script src="js/mockup-helpers.js"></script>
+</body>
+</html>

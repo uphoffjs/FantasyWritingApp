@@ -1,6 +1,6 @@
 import { Project, WorldElement, Relationship } from '../types/models'
 
-// Types for tracking optimistic updates
+// * Types for tracking optimistic updates
 export interface OptimisticUpdate {
   id: string // Unique ID for this update
   timestamp: Date
@@ -13,7 +13,7 @@ export interface OptimisticUpdate {
   syncOperationId?: string // Links to sync queue operation
 }
 
-// Rollback data structure
+// * Rollback data structure
 export interface RollbackData {
   updateId: string
   type: 'create' | 'update' | 'delete'
@@ -23,12 +23,12 @@ export interface RollbackData {
   previousState?: unknown
 }
 
-// Optimistic update manager
+// * Optimistic update manager
 export class OptimisticUpdateManager {
   private updates: Map<string, OptimisticUpdate> = new Map()
   private operationToUpdateMap: Map<string, string> = new Map() // syncOperationId -> updateId
 
-  // Track an optimistic update
+  // * Track an optimistic update
   trackUpdate(update: Omit<OptimisticUpdate, 'id' | 'timestamp'>): string {
     const updateId = `opt_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
     const fullUpdate: OptimisticUpdate = {
@@ -46,7 +46,7 @@ export class OptimisticUpdateManager {
     return updateId
   }
 
-  // Link an update to a sync operation
+  // * Link an update to a sync operation
   linkToSyncOperation(updateId: string, syncOperationId: string) {
     const update = this.updates.get(updateId)
     if (update) {
@@ -55,7 +55,7 @@ export class OptimisticUpdateManager {
     }
   }
 
-  // Get rollback data for a sync operation
+  // * Get rollback data for a sync operation
   getRollbackData(syncOperationId: string): RollbackData | null {
     const updateId = this.operationToUpdateMap.get(syncOperationId)
     if (!updateId) return null
@@ -73,7 +73,7 @@ export class OptimisticUpdateManager {
     }
   }
 
-  // Complete an update (sync succeeded)
+  // * Complete an update (sync succeeded)
   completeUpdate(syncOperationId: string) {
     const updateId = this.operationToUpdateMap.get(syncOperationId)
     if (updateId) {
@@ -82,7 +82,7 @@ export class OptimisticUpdateManager {
     }
   }
 
-  // Clear old updates (cleanup)
+  // // DEPRECATED: * Clear old updates (cleanup)
   clearOldUpdates(maxAgeMs: number = 3600000) { // 1 hour default
     const cutoffTime = new Date(Date.now() - maxAgeMs)
     
@@ -96,7 +96,7 @@ export class OptimisticUpdateManager {
     }
   }
 
-  // Get all pending updates for a project
+  // * Get all pending updates for a project
   getPendingUpdates(projectId: string): OptimisticUpdate[] {
     const updates: OptimisticUpdate[] = []
     
@@ -109,17 +109,17 @@ export class OptimisticUpdateManager {
     return updates.sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime())
   }
 
-  // Clear all updates (for logout/reset)
+  // * Clear all updates (for logout/reset)
   clearAll() {
     this.updates.clear()
     this.operationToUpdateMap.clear()
   }
 }
 
-// Global instance
+// * Global instance
 export const optimisticUpdateManager = new OptimisticUpdateManager()
 
-// Helper to capture state before modification
+// * Helper to capture state before modification
 export function captureEntityState(
   entity: 'project' | 'element' | 'answer' | 'relationship',
   entityId: string,
@@ -140,7 +140,7 @@ export function captureEntityState(
       return null
     }
     case 'answer': {
-      // For answers, we need to capture the entire answers object from the element
+      // TODO: * For answers, we need to capture the entire answers object from the element
       const projects = (state as any).projects as Project[]
       for (const project of projects || []) {
         for (const element of project.elements || []) {
@@ -152,7 +152,7 @@ export function captureEntityState(
       return null
     }
     case 'relationship': {
-      // Relationships are stored in elements
+      // * Relationships are stored in elements
       const projects = (state as any).projects as Project[]
       for (const project of projects || []) {
         for (const element of project.elements || []) {
@@ -167,7 +167,7 @@ export function captureEntityState(
   }
 }
 
-// Helper to apply rollback
+// * Helper to apply rollback
 export function applyRollback(
   rollbackData: RollbackData,
   setState: (fn: (state: any) => any) => void
@@ -176,14 +176,14 @@ export function applyRollback(
     switch (rollbackData.entity) {
       case 'project': {
         if (rollbackData.type === 'create') {
-          // Remove the created project
+          // * Remove the created project
           return {
             ...state,
             projects: (state.projects || []).filter((p: Project) => p.id !== rollbackData.entityId),
             currentProjectId: state.currentProjectId === rollbackData.entityId ? null : state.currentProjectId
           }
         } else if (rollbackData.type === 'update' && rollbackData.previousState) {
-          // Restore previous state
+          // * Restore previous state
           return {
             ...state,
             projects: (state.projects || []).map((p: Project) =>
@@ -202,7 +202,7 @@ export function applyRollback(
       
       case 'element': {
         if (rollbackData.type === 'create') {
-          // Remove created element
+          // * Remove created element
           return {
             ...state,
             projects: (state.projects || []).map((p: Project) => ({
@@ -211,7 +211,7 @@ export function applyRollback(
             }))
           }
         } else if (rollbackData.type === 'update' && rollbackData.previousState) {
-          // Restore previous element state
+          // * Restore previous element state
           return {
             ...state,
             projects: (state.projects || []).map((p: Project) => ({
@@ -236,7 +236,7 @@ export function applyRollback(
       }
       
       case 'answer': {
-        // For answers, restore the entire answers object on the element
+        // * For answers, restore the entire answers object on the element
         if (rollbackData.previousState) {
           return {
             ...state,
@@ -254,9 +254,9 @@ export function applyRollback(
       }
       
       case 'relationship': {
-        // Handle relationship rollbacks
+        // * Handle relationship rollbacks
         if (rollbackData.type === 'create') {
-          // Remove created relationship
+          // * Remove created relationship
           return {
             ...state,
             projects: (state.projects || []).map((p: Project) => ({
@@ -268,7 +268,7 @@ export function applyRollback(
             }))
           }
         } else if (rollbackData.type === 'update' && rollbackData.previousState) {
-          // Restore previous relationship state
+          // * Restore previous relationship state
           return {
             ...state,
             projects: (state.projects || []).map((p: Project) => ({

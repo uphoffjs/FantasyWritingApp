@@ -1,6 +1,7 @@
 /**
- * Generic debounce function that delays execution until after wait milliseconds
- * have elapsed since the last time the debounced function was invoked
+ * * Generic debounce function that delays execution until after wait milliseconds
+ * * have elapsed since the last time the debounced function was invoked
+ * ! PERFORMANCE: Use this to prevent excessive API calls or expensive operations
  */
 export function debounce<T extends (...args: any[]) => any>(
   func: T,
@@ -21,7 +22,8 @@ export function debounce<T extends (...args: any[]) => any>(
 }
 
 /**
- * Debounce with cancel functionality
+ * * Debounce with cancel functionality
+ * * Useful when you need to abort pending debounced operations
  */
 export function debounceWithCancel<T extends (...args: any[]) => any>(
   func: T,

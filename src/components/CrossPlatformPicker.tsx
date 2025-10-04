@@ -31,13 +31,12 @@ export function CrossPlatformPicker({
   items,
   style,
   enabled = true,
-  placeholder = "Select an option...",
-  dropdownIconColor = "#9CA3AF",
+  placeholder = "Select an option...", dropdownIconColor = "#9CA3AF",
   mode = "dropdown", // eslint-disable-line @typescript-eslint/no-unused-vars
 }: CrossPlatformPickerProps) {
   const [isOpen, setIsOpen] = useState(false);
 
-  // For web, use native select element
+  // * For web, use native select element
   if (Platform.OS === 'web') {
     return (
       <select
@@ -58,7 +57,7 @@ export function CrossPlatformPicker({
     );
   }
 
-  // For native, use custom dropdown
+  // * For native, use custom dropdown
   const selectedItem = items.find(item => item.value === selectedValue);
   const displayText = selectedItem ? selectedItem.label : placeholder;
 
@@ -124,34 +123,33 @@ export function CrossPlatformPicker({
 }
 
 const styles = StyleSheet.create({
-  // Web styles
+  // * Web styles
   webSelect: {
     appearance: 'none',
     WebkitAppearance: 'none',
     MozAppearance: 'none',
     paddingRight: 30,
     paddingLeft: 12,
-    backgroundImage: `url("data:image/svg+xml;charset=US-ASCII,${encodeURIComponent(
-      '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><path fill="#9CA3AF" d="M6 9L1 4h10z"/></svg>'
+    backgroundImage: `url("data:image/svg+xml;charset=US-ASCII,${encodeURIComponent( '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><path fill="#9CA3AF" d="M6 9L1 4h10z"/></svg>' // ! HARDCODED: Should use design tokens
     )}")`,
     backgroundRepeat: 'no-repeat',
-    backgroundPosition: 'right 12px center',
-    backgroundSize: '12px 12px',
-    color: '#F9FAFB',
+    // ! React Native Web doesn't support complex backgroundPosition values
+    // * Using Platform.select to apply web-specific styles would be better
+    backgroundPositionX: 'right',
+    backgroundPositionY: 'center', backgroundSize: '12px 12px', // ! HARDCODED: Should use design tokens color: '#F9FAFB', // ! HARDCODED: Should use design tokens
     backgroundColor: 'transparent',
     border: 'none',
-    outline: 'none',
+    // * React Native doesn't support outline property - removed
+    // * For accessibility, rely on focus styles instead
     width: '100%',
     height: 50,
     fontSize: 14,
   },
-  webOption: {
-    backgroundColor: '#1F2937',
-    color: '#F9FAFB',
+  webOption: { backgroundColor: '#1F2937', // ! HARDCODED: Should use design tokens color: '#F9FAFB', // ! HARDCODED: Should use design tokens
     padding: 8,
   },
 
-  // Native styles
+  // * Native styles
   nativeButton: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -162,11 +160,9 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     flex: 1,
-    fontSize: 14,
-    color: '#F9FAFB',
+    fontSize: 14, color: '#F9FAFB', // ! HARDCODED: Should use design tokens
   },
-  placeholderText: {
-    color: '#6B7280',
+  placeholderText: { color: '#6B7280', // ! HARDCODED: Should use design tokens
   },
   arrow: {
     fontSize: 12,
@@ -176,15 +172,14 @@ const styles = StyleSheet.create({
     opacity: 0.5,
   },
 
-  // Modal styles
+  // * Modal styles
   modalOverlay: {
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  modalContent: {
-    backgroundColor: '#111827',
+  modalContent: { backgroundColor: '#111827', // ! HARDCODED: Should use design tokens
     borderRadius: 12,
     width: '90%',
     maxWidth: 400,
@@ -205,15 +200,13 @@ const styles = StyleSheet.create({
   },
   modalTitle: {
     fontSize: 18,
-    fontWeight: '600',
-    color: '#F9FAFB',
+    fontWeight: '600', color: '#F9FAFB', // ! HARDCODED: Should use design tokens
   },
   closeButton: {
     padding: 4,
   },
   closeButtonText: {
-    fontSize: 18,
-    color: '#6B7280',
+    fontSize: 18, color: '#6B7280', // ! HARDCODED: Should use design tokens
   },
   optionsList: {
     maxHeight: 300,
@@ -227,20 +220,16 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#374151',
   },
-  optionSelected: {
-    backgroundColor: '#374151',
+  optionSelected: { backgroundColor: '#374151', // ! HARDCODED: Should use design tokens
   },
   optionText: {
-    fontSize: 14,
-    color: '#F9FAFB',
+    fontSize: 14, color: '#F9FAFB', // ! HARDCODED: Should use design tokens
     flex: 1,
   },
-  optionSelectedText: {
-    color: '#6366F1',
+  optionSelectedText: { color: '#6366F1', // ! HARDCODED: Should use design tokens
     fontWeight: '500',
   },
-  checkmark: {
-    color: '#6366F1',
+  checkmark: { color: '#6366F1', // ! HARDCODED: Should use design tokens
     fontSize: 16,
     fontWeight: 'bold',
   },

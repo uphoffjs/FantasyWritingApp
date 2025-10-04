@@ -14,6 +14,7 @@ import {
 import { useWorldbuildingStore } from '../store/worldbuildingStore';
 import { ElementCategory } from '../types/models';
 import { getCategoryIcon } from '../utils/categoryMapping';
+import { getTestProps } from '../utils/react-native-web-polyfills';
 
 interface CreateElementModalProps {
   visible: boolean;
@@ -22,7 +23,7 @@ interface CreateElementModalProps {
   onSuccess?: (elementId: string) => void;
 }
 
-// Element categories with icons
+// * Element categories with icons
 const ELEMENT_CATEGORIES = [
   { value: 'character', label: 'Character', icon: '👤', description: 'Protagonists, antagonists, supporting characters' },
   { value: 'location', label: 'Location', icon: '📍', description: 'Cities, buildings, landmarks' },
@@ -38,7 +39,7 @@ const ELEMENT_CATEGORIES = [
   { value: 'custom', label: 'Custom', icon: '📝', description: 'Create your own category' },
 ];
 
-// Generate a unique default name for an element
+// * Generate a unique default name for an element
 function generateDefaultElementName(
   projectId: string,
   category: ElementCategory | 'custom'
@@ -51,7 +52,7 @@ function generateDefaultElementName(
   const categoryInfo = ELEMENT_CATEGORIES.find((c) => c.value === category);
   const categoryLabel = categoryInfo?.label || 'Element';
 
-  // Get all existing numbers for this category type
+  // * Get all existing numbers for this category type
   const existingNumbers = elements
     .map((e) => {
       const match = e.name.match(new RegExp(`^Untitled ${categoryLabel} (\\d+)$`));
@@ -59,7 +60,7 @@ function generateDefaultElementName(
     })
     .filter((n) => n > 0);
 
-  // Find the next available number
+  // * Find the next available number
   let nextNumber = 1;
   if (existingNumbers.length > 0) {
     const maxNumber = Math.max(...existingNumbers);
@@ -90,13 +91,13 @@ export function CreateElementModal({
     setIsCreating(true);
     try {
       const defaultName = generateDefaultElementName(projectId, selectedCategory);
-      // For now, treat 'custom' as 'item-object' until we have proper custom type support
+      // * For now, treat 'custom' as 'item-object' until we have proper custom type support
       const elementCategory: ElementCategory =
         selectedCategory === 'custom' ? 'item-object' : selectedCategory;
       
       const newElement = await createElement(projectId, defaultName, elementCategory);
       
-      // Small delay for visual feedback
+      // * Small delay for visual feedback
       await new Promise((resolve) => setTimeout(resolve, 300));
       
       onSuccess?.(newElement.id);
@@ -141,7 +142,11 @@ export function CreateElementModal({
             <View style={styles.header}>
               <View style={styles.dragIndicator} />
               <Text style={styles.title}>Create New Element</Text>
-              <Pressable onPress={handleClose} style={styles.closeButton}>
+              <Pressable
+                onPress={handleClose}
+                style={styles.closeButton}
+                {...getTestProps('modal-close-button')}
+              >
                 <Text style={styles.closeIcon}>✕</Text>
               </Pressable>
             </View>
@@ -165,7 +170,7 @@ export function CreateElementModal({
                       selectedCategory === category.value && styles.categoryCardSelected,
                     ]}
                     onPress={() => handleCategoryPress(category.value as ElementCategory | 'custom')}
-                    data-cy={`category-${category.value}`}
+                    {...getTestProps(`category-${category.value}`)}
                   >
                     <Text style={styles.categoryIcon}>{category.icon}</Text>
                     <Text
@@ -238,10 +243,8 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   modalContent: {
-    backgroundColor: '#1F2937',
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     maxHeight: '90%',
@@ -264,14 +267,12 @@ const styles = StyleSheet.create({
   dragIndicator: {
     width: 36,
     height: 4,
-    backgroundColor: '#4B5563',
     borderRadius: 2,
     marginBottom: 16,
   },
   title: {
     fontSize: 20,
     fontWeight: '600',
-    color: '#F9FAFB',
   },
   closeButton: {
     position: 'absolute',
@@ -281,11 +282,9 @@ const styles = StyleSheet.create({
   },
   closeIcon: {
     fontSize: 24,
-    color: '#9CA3AF',
   },
   instructions: {
     fontSize: 14,
-    color: '#9CA3AF',
     textAlign: 'center',
     marginBottom: 20,
     paddingHorizontal: 24,
@@ -302,7 +301,6 @@ const styles = StyleSheet.create({
   },
   categoryCard: {
     width: '48%',
-    backgroundColor: '#374151',
     borderRadius: 12,
     padding: 16,
     alignItems: 'center',
@@ -310,8 +308,6 @@ const styles = StyleSheet.create({
     borderColor: 'transparent',
   },
   categoryCardSelected: {
-    borderColor: '#6366F1',
-    backgroundColor: '#4338CA20',
   },
   categoryIcon: {
     fontSize: 32,
@@ -320,21 +316,17 @@ const styles = StyleSheet.create({
   categoryLabel: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#F9FAFB',
     marginBottom: 4,
     textAlign: 'center',
   },
   categoryLabelSelected: {
-    color: '#6366F1',
   },
   categoryDescription: {
     fontSize: 11,
-    color: '#6B7280',
     textAlign: 'center',
     lineHeight: 14,
   },
   categoryDescriptionSelected: {
-    color: '#9CA3AF',
   },
   actions: {
     flexDirection: 'row',
@@ -351,20 +343,16 @@ const styles = StyleSheet.create({
     minHeight: 48,
   },
   cancelButton: {
-    backgroundColor: '#374151',
   },
   cancelButtonText: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#F9FAFB',
   },
   createButton: {
-    backgroundColor: '#6366F1',
   },
   createButtonText: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#FFFFFF',
   },
   buttonDisabled: {
     opacity: 0.5,

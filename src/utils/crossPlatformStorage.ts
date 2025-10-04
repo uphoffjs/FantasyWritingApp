@@ -5,14 +5,14 @@
 
 import { Platform } from 'react-native';
 
-// Define the storage interface
+// * Define the storage interface
 export interface CrossPlatformStorage {
   getItem: (name: string) => Promise<string | null> | string | null;
   setItem: (name: string, value: string) => Promise<void> | void;
   removeItem: (name: string) => Promise<void> | void;
 }
 
-// Dynamically import AsyncStorage only for native platforms
+// * Dynamically import AsyncStorage only for native platforms
 let AsyncStorage: any = null;
 if (Platform.OS !== 'web') {
   AsyncStorage = require('@react-native-async-storage/async-storage').default;
@@ -23,12 +23,13 @@ if (Platform.OS !== 'web') {
  * Uses localStorage for web and AsyncStorage for native
  */
 export const createCrossPlatformStorage = (): CrossPlatformStorage => {
-  // Check if we're running on web or native
+  // * Check if we're running on web or native
   if (Platform.OS === 'web') {
-    // Web environment - use localStorage
+    // * Web environment - use localStorage
     return {
       getItem: (name: string) => {
         try {
+          // ! SECURITY: Using localStorage
           return localStorage.getItem(name);
         } catch (error) {
           console.error('Error reading from localStorage:', error);
@@ -51,7 +52,7 @@ export const createCrossPlatformStorage = (): CrossPlatformStorage => {
       },
     };
   } else {
-    // Native environment - use AsyncStorage
+    // * Native environment - use AsyncStorage
     return {
       getItem: async (name: string) => {
         try {
@@ -79,7 +80,7 @@ export const createCrossPlatformStorage = (): CrossPlatformStorage => {
   }
 };
 
-// Create a single instance of the storage
+// * Create a single instance of the storage
 const storageInstance = createCrossPlatformStorage();
 
 /**
@@ -90,7 +91,7 @@ export const crossPlatformStorage = {
   getItem: async (name: string): Promise<string | null> => {
     const result = storageInstance.getItem(name);
     
-    // Handle both sync and async returns
+    // * Handle both sync and async returns
     if (result instanceof Promise) {
       return result;
     }
@@ -99,7 +100,7 @@ export const crossPlatformStorage = {
   setItem: async (name: string, value: string): Promise<void> => {
     const result = storageInstance.setItem(name, value);
     
-    // Handle both sync and async returns
+    // * Handle both sync and async returns
     if (result instanceof Promise) {
       return result;
     }
@@ -108,7 +109,7 @@ export const crossPlatformStorage = {
   removeItem: async (name: string): Promise<void> => {
     const result = storageInstance.removeItem(name);
     
-    // Handle both sync and async returns
+    // * Handle both sync and async returns
     if (result instanceof Promise) {
       return result;
     }
@@ -127,22 +128,19 @@ export const migrateStorageData = async (
   try {
     const storage = createCrossPlatformStorage();
     
-    // Check if data already exists in new storage
+    // * Check if data already exists in new storage
     const existingData = await crossPlatformStorage.getItem(storageKey);
     
     if (!existingData && oldData) {
-      // Migrate old data to new storage
+      // // DEPRECATED: * Migrate old data to new storage
       await crossPlatformStorage.setItem(storageKey, oldData);
-      console.log(`Successfully migrated data for key: ${storageKey}`);
       return true;
     }
     
     if (existingData) {
-      console.log(`Data already exists for key: ${storageKey}`);
       return false;
     }
     
-    console.log(`No data to migrate for key: ${storageKey}`);
     return false;
   } catch (error) {
     console.error('Error migrating storage data:', error);

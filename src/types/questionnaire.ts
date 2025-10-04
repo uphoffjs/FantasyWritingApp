@@ -7,7 +7,7 @@ export interface QuestionnaireConfig {
   basicQuestionIds: string[];
 }
 
-// Define which questions are essential for the basic mode for each element type
+// * Define which questions are essential for the basic mode for each element type
 export const BASIC_QUESTIONS_CONFIG: Record<ElementCategory | 'custom', string[]> = {
   'character': [
     'name',

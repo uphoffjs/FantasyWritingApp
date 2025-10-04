@@ -25,7 +25,7 @@ export function ElementScreen() {
   const element = project?.elements?.find(e => e.id === route.params.elementId);
 
   useEffect(() => {
-    // If element doesn't have questions, show template selector
+    // ? TODO: * If element doesn't have questions, show template selector
     if (element && (!element.questions || element.questions.length === 0)) {
       setShowTemplateSelector(true);
     }
@@ -68,7 +68,7 @@ export function ElementScreen() {
   };
 
   const handleSelectTemplate = (template: any) => {
-    // Template will be applied to the element through the store
+    // TODO: * Template will be applied to the element through the store
     setShowTemplateSelector(false);
   };
 

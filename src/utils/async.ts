@@ -86,12 +86,12 @@ export function createDebouncedAsync<TArgs extends any[], TResult>(
   let currentOperation: AsyncOperation<TResult> | null = null;
 
   return (...args: TArgs) => {
-    // Cancel previous operation
+    // * Cancel previous operation
     if (currentOperation) {
       currentOperation.cancel();
     }
 
-    // Clear previous timeout
+    // * Clear previous timeout
     if (timeoutId) {
       clearTimeout(timeoutId);
     }
@@ -162,7 +162,7 @@ export async function retryAsync<T>(
         throw error;
       }
 
-      // Wait before retrying with exponential backoff
+      // * Wait before retrying with exponential backoff
       await new Promise((resolve) => setTimeout(resolve, delay));
       delay = Math.min(delay * 2, maxDelay);
     }
@@ -188,7 +188,7 @@ export function createOptimisticUpdate<T, TResult>(
     const optimisticState = optimisticUpdate(currentState);
 
     const promise = asyncFn().catch((error) => {
-      // On error, we'll need to rollback
+      // TODO: * On error, we'll need to rollback
       throw error;
     });
 
