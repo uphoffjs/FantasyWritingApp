@@ -8,7 +8,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const glob = require('glob');
+const _glob = require('glob');
 
 // * Files that need to be updated according to CYPRESS_BEST_PRACTICES_TODO.md
 const filesToUpdate = [
@@ -35,7 +35,7 @@ function updateFile(filePath) {
   }
 
   let content = fs.readFileSync(fullPath, 'utf8');
-  let originalContent = content;
+  const originalContent = content;
 
   // * Remove setupAuth import if exists
   content = content.replace(/import\s+{\s*setupAuth[^}]*}\s+from\s+['"][^'"]+['"]\n?/g, '');

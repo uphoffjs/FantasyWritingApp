@@ -30,7 +30,7 @@ const colors = {
 // * Initialize Supabase client with environment variables
 const supabaseUrl = process.env.VITE_SUPABASE_URL;
 const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY;
-const supabaseAccessToken = process.env.SUPABASE_ACCESS_TOKEN;
+const _supabaseAccessToken = process.env.SUPABASE_ACCESS_TOKEN;
 
 if (!supabaseUrl || !supabaseKey) {
   console.error(`${colors.red}❌ Missing Supabase credentials in .env file${colors.reset}`);
@@ -157,7 +157,7 @@ async function executeTableOperation(query) {
       }
       
       if (limit) {
-        queryBuilder = queryBuilder.limit(parseInt(limit));
+        queryBuilder = queryBuilder.limit(parseInt(limit, 10));
       }
       
       const { data, error } = await queryBuilder;
@@ -262,7 +262,7 @@ ${colors.yellow}Or enter any SQL query${colors.reset}
     
     if (input === 'tables') {
       // * List tables (requires introspection)
-      const { data, error } = await supabase.from('projects').select('*').limit(0);
+      const { data: _data, error } = await supabase.from('projects').select('*').limit(0);
       if (!error) {
         console.log(`${colors.green}Available tables: projects, world_elements, relationships, questionnaire_templates${colors.reset}`);
       }

@@ -50,7 +50,7 @@ function processFile(filePath) {
 
     // * Add the getTestProps import after the last import
     if (lastImportIndex > 0) {
-      const importStatement = "\nimport { getTestProps } from '../utils/react-native-web-polyfills';";
+      const _importStatement = "\nimport { getTestProps } from '../utils/react-native-web-polyfills';";
 
       // * Adjust path based on file location
       const depth = (filePath.match(/\//g) || []).length - (path.join(__dirname, '..', 'src/components').match(/\//g) || []).length - 1;

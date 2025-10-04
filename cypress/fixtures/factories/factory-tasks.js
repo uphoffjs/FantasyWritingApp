@@ -186,7 +186,7 @@ function createScenario(type = 'standard') {
           id: `story-${baseId}-${i}`,
           title: `Story ${i + 1}`,
           status: ['published', 'draft', 'in-progress'][i % 3],
-          chapters: Array.from({ length: 10 }, (_, j) => ({
+          chapters: Array.from({ length: 10 }, (_ch, j) => ({
             id: `chapter-${baseId}-${i}-${j}`,
             title: `Chapter ${j + 1}`,
             wordCount: 2500 + (j * 100)

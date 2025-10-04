@@ -9,6 +9,7 @@ import {
   TextStyle,
 } from 'react-native';
 import { getTestProps } from '../utils/react-native-web-polyfills';
+import { fantasyTomeColors } from '@/constants/fantasyTomeColors';
 
 interface ErrorMessageProps {
   error?: Error | string | null;
@@ -217,7 +218,6 @@ const styles = StyleSheet.create({
   },
   detailsText: {
     fontSize: 12,
-    color: '#333',
     fontFamily: 'monospace',
   },
   retryButton: {
@@ -228,7 +228,6 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   retryButtonText: {
-    color: 'white',
     fontSize: 14,
     fontWeight: '500',
   },

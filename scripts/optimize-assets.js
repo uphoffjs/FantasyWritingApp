@@ -17,8 +17,8 @@ const ICONS_DIR = path.join(ASSETS_DIR, 'icons');
 const MOCKUPS_ASSETS = path.join(ASSETS_DIR, 'mockup-assets');
 
 // * Platform-specific output directories
-const IOS_IMAGES = path.join(__dirname, '../ios/FantasyWritingApp/Images.xcassets');
-const ANDROID_IMAGES = path.join(__dirname, '../android/app/src/main/res');
+const _IOS_IMAGES = path.join(__dirname, '../ios/FantasyWritingApp/Images.xcassets');
+const _ANDROID_IMAGES = path.join(__dirname, '../android/app/src/main/res');
 const WEB_PUBLIC = path.join(__dirname, '../public/assets');
 
 // * Image resolutions for React Native
@@ -77,8 +77,8 @@ function processImage(inputPath, baseName) {
     .toString()
     .trim()
     .split('x');
-  const width = parseInt(dimensions[0]);
-  const height = parseInt(dimensions[1]);
+  const width = parseInt(dimensions[0], 10);
+  const height = parseInt(dimensions[1], 10);
   
   // * Generate each resolution
   Object.entries(RESOLUTIONS).forEach(([res, multiplier]) => {

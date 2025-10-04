@@ -119,7 +119,6 @@ export function ProjectList({
     if (loading) {
       return (
         <View style={styles.emptyContainer}>
-          <ActivityIndicator size="large" color="#6366F1" />
           <Text style={styles.emptyText}>Loading projects...</Text>
         </View>
       );
@@ -233,8 +232,6 @@ export function ProjectList({
           onRefresh ? (
             <RefreshControl
               refreshing={refreshing}
-              onRefresh={onRefresh} tintColor="#6366F1"
-              colors={['#6366F1']} // ! HARDCODED: Should use design tokens
             />
           ) : undefined
         }
@@ -259,7 +256,6 @@ export function ProjectList({
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1, backgroundColor: '#111827', // ! HARDCODED: Should use design tokens
   },
   header: {
     paddingTop: 16,
@@ -268,7 +264,6 @@ const styles = StyleSheet.create({
   },
   searchContainer: {
     flexDirection: 'row',
-    alignItems: 'center', backgroundColor: '#1F2937', // ! HARDCODED: Should use design tokens
     borderRadius: 8,
     paddingHorizontal: 12,
     marginBottom: 12,
@@ -279,14 +274,12 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     flex: 1,
-    height: 40, color: '#F9FAFB', // ! HARDCODED: Should use design tokens
     fontSize: 14,
   },
   clearButton: {
     padding: 4,
   },
   clearIcon: {
-    fontSize: 16, color: '#6B7280', // ! HARDCODED: Should use design tokens
   },
   controlsContainer: {
     flexDirection: 'row',
@@ -298,7 +291,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 12,
-    paddingVertical: 6, backgroundColor: '#1F2937', // ! HARDCODED: Should use design tokens
     borderRadius: 6,
   },
   sortIcon: {
@@ -306,17 +298,13 @@ const styles = StyleSheet.create({
     marginRight: 4,
   },
   sortText: {
-    fontSize: 12, color: '#F9FAFB', // ! HARDCODED: Should use design tokens
   },
   projectCount: {
-    fontSize: 12, color: '#6B7280', // ! HARDCODED: Should use design tokens
   },
   sortDropdown: {
     position: 'absolute',
     top: 100,
-    left: 16, backgroundColor: '#1F2937', // ! HARDCODED: Should use design tokens
     borderRadius: 8,
-    borderWidth: 1, borderColor: '#374151', // ! HARDCODED: Should use design tokens
     paddingVertical: 4,
     minWidth: 150,
     shadowColor: '#000',
@@ -333,16 +321,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 8,
   },
-  sortOptionSelected: { backgroundColor: '#374151', // ! HARDCODED: Should use design tokens
   },
   sortOptionText: {
-    fontSize: 14, color: '#9CA3AF', // ! HARDCODED: Should use design tokens
   },
-  sortOptionTextSelected: { color: '#6366F1', // ! HARDCODED: Should use design tokens
     fontWeight: '600',
   },
   checkIcon: {
-    fontSize: 12, color: '#6366F1', // ! HARDCODED: Should use design tokens
   },
   listContent: {
     paddingHorizontal: 16,
@@ -366,22 +350,18 @@ const styles = StyleSheet.create({
   },
   emptyTitle: {
     fontSize: 18,
-    fontWeight: '600', color: '#F9FAFB', // ! HARDCODED: Should use design tokens
     marginBottom: 8,
   },
   emptyText: {
-    fontSize: 14, color: '#6B7280', // ! HARDCODED: Should use design tokens
     textAlign: 'center',
     marginBottom: 24,
   },
   createButton: {
     paddingHorizontal: 24,
-    paddingVertical: 12, backgroundColor: '#6366F1', // ! HARDCODED: Should use design tokens
     borderRadius: 8,
   },
   createButtonText: {
     fontSize: 14,
-    fontWeight: '600', color: '#FFFFFF', // ! HARDCODED: Should use design tokens
   },
   fab: {
     position: 'absolute',
@@ -389,7 +369,6 @@ const styles = StyleSheet.create({
     right: 24,
     width: 56,
     height: 56,
-    borderRadius: 28, backgroundColor: '#6366F1', // ! HARDCODED: Should use design tokens
     justifyContent: 'center',
     alignItems: 'center',
     shadowColor: '#000',
@@ -399,7 +378,6 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   fabIcon: {
-    fontSize: 28, color: '#FFFFFF', // ! HARDCODED: Should use design tokens
     fontWeight: '300',
   },
 });

@@ -46,7 +46,7 @@ function updateThemeIcon(theme) {
 function setupEventListeners() {
     // * Add click animation to cards
     document.querySelectorAll('.mockup-card, .story-card, .character-card').forEach(card => {
-        card.addEventListener('click', function(e) {
+        card.addEventListener('click', function() {
             if (this.classList.contains('mockup-card')) return; // Let links work normally
             
             // Add pressed animation

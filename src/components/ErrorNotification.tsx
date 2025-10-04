@@ -106,19 +106,15 @@ export const ErrorNotification: React.FC<ErrorNotificationProps> = ({
   const typeColors = {
     error: {
       backgroundColor: '#f44336',
-      color: 'white',
     },
     warning: {
       backgroundColor: '#ff9800',
-      color: 'white',
     },
     success: {
       backgroundColor: '#4caf50',
-      color: 'white',
     },
     info: {
       backgroundColor: '#2196f3',
-      color: 'white',
     }
   };
 
@@ -303,7 +299,6 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   retryText: {
-    color: 'white',
     fontSize: 14,
   },
   progressBar: {

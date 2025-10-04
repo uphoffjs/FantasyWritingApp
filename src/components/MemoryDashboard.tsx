@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-color-literals */
 /**
  * Memory Dashboard Component
  *
@@ -6,9 +7,12 @@
  * - Checkpoint creation/restoration
  * - Task tracking
  * - Memory analysis
+ *
+ * ! Note: This is a utility/debug component with custom styling
  */
 
 import React, { useState } from 'react';
+import { fantasyTomeColors } from '@/constants/fantasyTomeColors';
 import {
   View,
   Text,
@@ -355,7 +359,7 @@ export const MemoryDashboard: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: fantasyTomeColors.parchment.vellum,
   },
   header: {
     backgroundColor: '#2c3e50',

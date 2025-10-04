@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 // * Mock test data for Cypress tests in Writing App
 // * Adapted from fantasy-element-builder for writing domain
 

@@ -58,6 +58,32 @@ export default defineConfig({
           console.log(message);
           return null;
         },
+        // ==========================================
+        // 🔴 ERROR LOGGING TASK
+        // ==========================================
+        logError(errorInfo: {
+          type: string;
+          message: string;
+          stack?: string;
+          test?: string;
+          timestamp: string;
+        }) {
+          console.error('\n=== 🔴 LOGGED ERROR ===');
+          console.error('Type:', errorInfo.type);
+          console.error('Message:', errorInfo.message);
+          if (errorInfo.stack) console.error('Stack:', errorInfo.stack);
+          if (errorInfo.test) console.error('Test:', errorInfo.test);
+          console.error('Timestamp:', errorInfo.timestamp);
+          console.error('======================\n');
+
+          // Optional: Write to file for later analysis
+          // const fs = require('fs');
+          // const path = require('path');
+          // const logPath = path.join(__dirname, 'cypress-errors.log');
+          // fs.appendFileSync(logPath, JSON.stringify(errorInfo) + '\n');
+
+          return null;
+        },
         // Register factory tasks for data seeding
         ...factoryTasks
       });
@@ -89,6 +115,7 @@ export default defineConfig({
       MOCK_AUTH_ENABLED: true,
       TEST_USER_EMAIL: "test@example.com",
       TEST_USER_PASSWORD: "testpassword123",
+      LOG_ERRORS: true, // Enable comprehensive error logging
     },
   },
 
@@ -217,6 +244,25 @@ export default defineConfig({
         // Clear React Native cache
         clearRNCache() {
           // Could implement cache clearing logic here
+          return null;
+        },
+        // ==========================================
+        // 🔴 ERROR LOGGING TASK (Component Tests)
+        // ==========================================
+        logError(errorInfo: {
+          type: string;
+          message: string;
+          stack?: string;
+          test?: string;
+          timestamp: string;
+        }) {
+          console.error('\n=== 🔴 LOGGED ERROR ===');
+          console.error('Type:', errorInfo.type);
+          console.error('Message:', errorInfo.message);
+          if (errorInfo.stack) console.error('Stack:', errorInfo.stack);
+          if (errorInfo.test) console.error('Test:', errorInfo.test);
+          console.error('Timestamp:', errorInfo.timestamp);
+          console.error('======================\n');
           return null;
         },
         // Register factory tasks for data seeding

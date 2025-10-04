@@ -26,7 +26,7 @@ console.log('🚀 Starting Supabase schema push...');
 console.log(`📍 Target: ${supabaseUrl}`);
 
 // Initialize Supabase client
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
+const _supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 // Read the migration file
 const migrationPath = path.join(__dirname, '..', 'supabase', 'migrations', '001_worldbuilding_schema.sql');

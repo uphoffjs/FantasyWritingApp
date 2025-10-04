@@ -36,7 +36,7 @@ function findFiles(dir, pattern) {
 // Fix malformed template literals in getTestProps calls
 function fixFile(filePath) {
   let content = fs.readFileSync(filePath, 'utf8');
-  let originalContent = content;
+  const originalContent = content;
   let changes = 0;
 
   // Pattern 1: Fix template literals with missing closing parenthesis

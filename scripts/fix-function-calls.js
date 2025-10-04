@@ -36,7 +36,7 @@ function findFiles(dir, pattern) {
 // Fix malformed function calls
 function fixFile(filePath) {
   let content = fs.readFileSync(filePath, 'utf8');
-  let originalContent = content;
+  const originalContent = content;
   let changes = 0;
 
   // Pattern 1: Fix arrow function calls with object property missing closing parenthesis

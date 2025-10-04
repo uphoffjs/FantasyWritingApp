@@ -68,7 +68,6 @@ export function SettingsScreen() {
           onPress={() => navigation.goBack()}
           style={styles.backButton}
         >
-          <Icon name="arrow-back" size={24} color="#F9FAFB" />
         </TouchableOpacity>
         <Text style={styles.title}>Settings</Text>
         <View style={styles.placeholder} />
@@ -82,7 +81,6 @@ export function SettingsScreen() {
             <Icon 
               name={isAuthenticated ? "account-circle" : "person-outline"} 
               size={48} 
-              color="#6366F1" 
             />
             <View style={styles.accountDetails}>
               <Text style={styles.accountName}>
@@ -116,7 +114,6 @@ export function SettingsScreen() {
           <Switch
             value={preferences.autoSave}
             onValueChange={(value) => setPreferences(prev => ({ ...prev, autoSave: value }))}
-            trackColor={{ false: '#374151', true: '#6366F1' }}
             thumbColor={preferences.autoSave ? '#FFFFFF' : '#9CA3AF'}
           />
         </View>
@@ -131,7 +128,6 @@ export function SettingsScreen() {
           <Switch
             value={preferences.notifications}
             onValueChange={(value) => setPreferences(prev => ({ ...prev, notifications: value }))}
-            trackColor={{ false: '#374151', true: '#6366F1' }}
             thumbColor={preferences.notifications ? '#FFFFFF' : '#9CA3AF'}
           />
         </View>
@@ -146,7 +142,6 @@ export function SettingsScreen() {
           <Switch
             value={preferences.analytics}
             onValueChange={(value) => setPreferences(prev => ({ ...prev, analytics: value }))}
-            trackColor={{ false: '#374151', true: '#6366F1' }}
             thumbColor={preferences.analytics ? '#FFFFFF' : '#9CA3AF'}
           />
         </View>
@@ -211,11 +206,9 @@ export function SettingsScreen() {
           </Text>
           <View style={styles.aboutLinks}>
             <TouchableOpacity style={styles.linkButton}>
-              <Icon name="help" size={20} color="#6366F1" />
               <Text style={styles.linkText}>Help & Support</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.linkButton}>
-              <Icon name="privacy-tip" size={20} color="#6366F1" />
               <Text style={styles.linkText}>Privacy Policy</Text>
             </TouchableOpacity>
           </View>
@@ -228,7 +221,6 @@ export function SettingsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#111827',
   },
   header: {
     flexDirection: 'row',
@@ -236,9 +228,7 @@ const styles = StyleSheet.create({
     paddingTop: Platform.OS === 'ios' ? 44 : 24,
     paddingHorizontal: 16,
     paddingBottom: 20,
-    backgroundColor: '#1F2937',
     borderBottomWidth: 1,
-    borderBottomColor: '#374151',
   },
   backButton: {
     padding: 8,
@@ -247,7 +237,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#F9FAFB',
     flex: 1,
   },
   placeholder: {
@@ -263,15 +252,12 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#F9FAFB',
     marginBottom: 16,
   },
   accountCard: {
-    backgroundColor: '#1F2937',
     borderRadius: 12,
     padding: 16,
     borderWidth: 1,
-    borderColor: '#374151',
   },
   accountInfo: {
     flexDirection: 'row',
@@ -285,23 +271,19 @@ const styles = StyleSheet.create({
   accountName: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#F9FAFB',
     marginBottom: 4,
   },
   accountStatus: {
     fontSize: 14,
-    color: '#9CA3AF',
   },
   settingItem: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 16,
     paddingHorizontal: 16,
-    backgroundColor: '#1F2937',
     borderRadius: 8,
     marginBottom: 8,
     borderWidth: 1,
-    borderColor: '#374151',
   },
   settingInfo: {
     flex: 1,
@@ -310,12 +292,10 @@ const styles = StyleSheet.create({
   settingLabel: {
     fontSize: 16,
     fontWeight: '500',
-    color: '#F9FAFB',
     marginBottom: 4,
   },
   settingDescription: {
     fontSize: 13,
-    color: '#9CA3AF',
     lineHeight: 18,
   },
   statsGrid: {
@@ -324,30 +304,24 @@ const styles = StyleSheet.create({
   },
   statCard: {
     flex: 1,
-    backgroundColor: '#1F2937',
     borderRadius: 8,
     padding: 16,
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#374151',
   },
   statNumber: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#6366F1',
     marginBottom: 4,
   },
   statLabel: {
     fontSize: 12,
-    color: '#9CA3AF',
     textAlign: 'center',
   },
   dangerCard: {
-    backgroundColor: '#7C2D1220',
     borderRadius: 8,
     padding: 16,
     borderWidth: 1,
-    borderColor: '#991B1B',
     flexDirection: 'row',
     alignItems: 'center',
   },
@@ -358,39 +332,31 @@ const styles = StyleSheet.create({
   dangerTitle: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#FCA5A5',
     marginBottom: 4,
   },
   dangerDescription: {
     fontSize: 13,
-    color: '#FCA5A5',
     lineHeight: 18,
   },
   dangerButton: {
-    backgroundColor: '#DC2626',
   },
   aboutCard: {
-    backgroundColor: '#1F2937',
     borderRadius: 12,
     padding: 20,
     borderWidth: 1,
-    borderColor: '#374151',
     alignItems: 'center',
   },
   appName: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#F9FAFB',
     marginBottom: 4,
   },
   version: {
     fontSize: 14,
-    color: '#9CA3AF',
     marginBottom: 12,
   },
   description: {
     fontSize: 14,
-    color: '#9CA3AF',
     textAlign: 'center',
     lineHeight: 20,
     marginBottom: 20,
@@ -407,7 +373,6 @@ const styles = StyleSheet.create({
   },
   linkText: {
     fontSize: 14,
-    color: '#6366F1',
     fontWeight: '500',
   },
 });

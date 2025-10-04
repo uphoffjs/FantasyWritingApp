@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 // * Centralized selectors for Cypress tests
 // * Following the pattern: data-cy="component-element-action"
 

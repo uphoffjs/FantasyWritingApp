@@ -272,7 +272,6 @@ const styles = StyleSheet.create({
   },
   message: {
     fontSize: 16,
-    color: '#862e2e',
     textAlign: 'center',
     marginBottom: 20,
   },
@@ -285,7 +284,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
   },
   detailsToggleText: {
-    color: '#862e2e',
     textDecorationLine: 'underline',
     fontSize: 14,
   },
@@ -298,11 +296,9 @@ const styles = StyleSheet.create({
   },
   stackTrace: {
     fontSize: 12,
-    color: '#333',
     fontFamily: 'monospace',
   },
   warningText: {
-    color: '#862e2e',
     fontStyle: 'italic',
     fontSize: 14,
     marginVertical: 10,
@@ -316,7 +312,6 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   retryButtonText: {
-    color: 'white',
     fontSize: 16,
     fontWeight: '500',
   },

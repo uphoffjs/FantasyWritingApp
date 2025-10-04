@@ -13,7 +13,7 @@ const path = require('path');
 const SHARED_STYLES_DIR = path.join(__dirname, '../src/shared-styles');
 const MOCKUPS_CSS_DIR = path.join(__dirname, '../mockups/css');
 const TS_TOKENS_FILE = path.join(SHARED_STYLES_DIR, 'fantasy-tokens.ts');
-const CSS_TOKENS_FILE = path.join(SHARED_STYLES_DIR, 'fantasy-tokens.css');
+const _CSS_TOKENS_FILE = path.join(SHARED_STYLES_DIR, 'fantasy-tokens.css');
 const MOCKUPS_SHARED_CSS = path.join(MOCKUPS_CSS_DIR, 'shared-tokens.css');
 
 // * Colors mapping - maps TS color names to CSS variable names

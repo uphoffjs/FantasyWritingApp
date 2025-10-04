@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 // * Data seeding strategies for test data management
 // ! All commands follow Cypress best practices documentation
 

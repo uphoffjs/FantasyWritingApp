@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { fantasyTomeColors } from './constants/fantasyTomeColors';
 
 export const ViteTest: React.FC = () => {
   const [count, setCount] = React.useState(0);
@@ -30,12 +31,12 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   button: {
-    backgroundColor: '#007AFF',
+    backgroundColor: fantasyTomeColors.elements.culture.primary,
     padding: 10,
     borderRadius: 5,
   },
   buttonText: {
-    color: 'white',
+    color: fantasyTomeColors.parchment.vellum,
     fontSize: 16,
   },
 });

@@ -1,8 +1,11 @@
+/* eslint-disable react-native/no-color-literals */
 /**
  * Checkpoint Restore Example
  *
  * This example demonstrates how to use the memory checkpoint system
  * to save and restore application state
+ *
+ * ! Note: This is an example file that uses color literals for illustration
  */
 
 import React, { useState } from 'react';

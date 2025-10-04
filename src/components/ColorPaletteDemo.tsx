@@ -1,3 +1,5 @@
+/* eslint-disable react-native/no-color-literals */
+// * This is a demo/showcase file that intentionally uses color literals for illustration
 import React from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
 

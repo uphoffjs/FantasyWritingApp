@@ -119,7 +119,7 @@ async function testSync() {
     metadata: {}
   };
 
-  const { data: rel, error: relError } = await supabase
+  const { data: _rel, error: relError } = await supabase
     .from('relationships')
     .insert([relationship])
     .select()
@@ -176,7 +176,7 @@ async function testSync() {
 
   // Step 6: Test update sync
   console.log('6️⃣ Testing update sync...');
-  const { data: updatedElement, error: updateError } = await supabase
+  const { data: _updatedElement, error: updateError } = await supabase
     .from('world_elements')
     .update({ description: 'Updated: The rightful king of Gondor and Arnor' })
     .eq('id', elements[0].id)

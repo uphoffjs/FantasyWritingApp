@@ -1,6 +1,6 @@
 // * Script to update asset imports for Vite
 const fs = require('fs');
-const path = require('path');
+const _path = require('path');
 const glob = require('glob');
 
 // Find all TypeScript/JavaScript files

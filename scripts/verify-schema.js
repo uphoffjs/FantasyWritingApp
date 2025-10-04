@@ -31,7 +31,7 @@ async function verifySchema() {
   for (const table of tables) {
     try {
       // Try to select from the table
-      const { data, error } = await supabase
+      const { data: _data, error } = await supabase
         .from(table)
         .select('*')
         .limit(0);

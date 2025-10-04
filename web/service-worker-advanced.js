@@ -14,7 +14,7 @@ const STATIC_ASSETS = [
 ];
 
 // Cache strategies
-const CACHE_STRATEGIES = {
+const _CACHE_STRATEGIES = {
   CACHE_FIRST: 'cache-first',
   NETWORK_FIRST: 'network-first',
   STALE_WHILE_REVALIDATE: 'stale-while-revalidate',
@@ -23,7 +23,7 @@ const CACHE_STRATEGIES = {
 };
 
 // Offline queue for background sync
-const offlineQueue = [];
+const _offlineQueue = [];
 
 // Install event - cache static assets
 self.addEventListener('install', (event) => {

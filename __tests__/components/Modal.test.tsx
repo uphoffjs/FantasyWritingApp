@@ -4,6 +4,9 @@
  * ! Critical: Tests modal lifecycle, user interactions, and accessibility
  */
 
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable react-native/no-color-literals */
+
 import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react-native';
 import { Modal, View, Text, TouchableOpacity } from 'react-native';
