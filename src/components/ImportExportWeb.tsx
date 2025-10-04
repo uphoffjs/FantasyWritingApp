@@ -8,6 +8,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { useWorldbuildingStore } from '../store/worldbuildingStore';
+import { fantasyTomeColors } from '../constants/fantasyTomeColors';
 
 interface ImportExportWebProps {
   projectId?: string; // If provided, export single project. Otherwise export all.
@@ -147,7 +148,7 @@ export function ImportExportWeb({
             <>
               <Text style={styles.buttonIcon}>📤</Text>
               <Text style={styles.buttonText}>
-                {projectId ? ' // ! HARDCODED: Should use design tokensExport Project' : 'Export All'}
+                {projectId ? 'Export Project' : 'Export All'}
               </Text>
             </>
           )}
@@ -194,11 +195,13 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 18,
-    fontWeight: '600', color: '#F9FAFB', // ! HARDCODED: Should use design tokens
+    fontWeight: '600',
+    color: fantasyTomeColors.ink.black,
     marginBottom: 8,
   },
   sectionDescription: {
-    fontSize: 14, color: '#9CA3AF', // ! HARDCODED: Should use design tokens
+    fontSize: 14,
+    color: fantasyTomeColors.ink.light,
     lineHeight: 20,
   },
   buttonContainer: {
@@ -216,9 +219,11 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     minHeight: 48,
   },
-  importButton: { backgroundColor: '#059669', // ! HARDCODED: Should use design tokens
+  importButton: {
+    backgroundColor: fantasyTomeColors.semantic.success,
   },
-  exportButton: { backgroundColor: '#6366F1', // ! HARDCODED: Should use design tokens
+  exportButton: {
+    backgroundColor: fantasyTomeColors.elements.magic.primary,
   },
   buttonDisabled: {
     opacity: 0.5,
@@ -228,35 +233,44 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 16,
-    fontWeight: '600', color: '#FFFFFF', // ! HARDCODED: Should use design tokens
+    fontWeight: '600',
+    color: fantasyTomeColors.parchment.vellum,
   },
-  infoContainer: { backgroundColor: '#1F2937', // ! HARDCODED: Should use design tokens
+  infoContainer: {
+    backgroundColor: fantasyTomeColors.ink.black,
     borderRadius: 8,
     padding: 16,
     marginBottom: 16,
-    borderWidth: 1, borderColor: '#374151', // ! HARDCODED: Should use design tokens
+    borderWidth: 1,
+    borderColor: fantasyTomeColors.parchment.border,
   },
   infoTitle: {
     fontSize: 14,
-    fontWeight: '600', color: '#F9FAFB', // ! HARDCODED: Should use design tokens
+    fontWeight: '600',
+    color: fantasyTomeColors.parchment.vellum,
     marginBottom: 8,
   },
   infoText: {
-    fontSize: 13, color: '#9CA3AF', // ! HARDCODED: Should use design tokens
+    fontSize: 13,
+    color: fantasyTomeColors.ink.light,
     lineHeight: 18,
   },
-  warningContainer: { backgroundColor: '#7C2D1220', // ! HARDCODED: Should use design tokens
+  warningContainer: {
+    backgroundColor: fantasyTomeColors.semantic.errorLight,
     borderRadius: 8,
     padding: 16,
-    borderWidth: 1, borderColor: '#991B1B', // ! HARDCODED: Should use design tokens
+    borderWidth: 1,
+    borderColor: fantasyTomeColors.semantic.error,
   },
   warningTitle: {
     fontSize: 14,
-    fontWeight: '600', color: '#FCA5A5', // ! HARDCODED: Should use design tokens
+    fontWeight: '600',
+    color: fantasyTomeColors.semantic.errorLight,
     marginBottom: 8,
   },
   warningText: {
-    fontSize: 13, color: '#FCA5A5', // ! HARDCODED: Should use design tokens
+    fontSize: 13,
+    color: fantasyTomeColors.semantic.errorLight,
     lineHeight: 18,
   },
 });

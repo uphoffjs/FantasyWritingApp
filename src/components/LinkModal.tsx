@@ -3,7 +3,7 @@ import React from 'react';
 import { View, Text, Modal, TouchableOpacity, StyleSheet } from 'react-native';
 
 import { getTestProps } from '../utils/react-native-web-polyfills';
-import { fantasyTomeColors } from '@/constants/fantasyTomeColors';
+
 interface LinkModalProps {
   visible: boolean;
   onClose: () => void;

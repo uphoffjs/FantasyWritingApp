@@ -4,7 +4,6 @@
  */
 
 import React, { forwardRef } from 'react';
-import { fantasyTomeColors } from '@/constants/fantasyTomeColors';
 import {
   TextInput as RNTextInput,
   TextInputProps as RNTextInputProps,
@@ -75,6 +74,7 @@ const styles = StyleSheet.create({
       web: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
     }),
   },
+  input: {
     borderRadius: 8,
     paddingHorizontal: 12,
     paddingVertical: 10,
@@ -97,7 +97,6 @@ const styles = StyleSheet.create({
       },
       default: {},
     }),
-  },
   },
   errorText: {
     marginTop: 4,

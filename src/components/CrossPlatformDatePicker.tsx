@@ -243,7 +243,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     padding: 12,
-    backgroundColor: transparent,
+    backgroundColor: 'transparent',
     border: 'none',
     // * React Native doesn't support outline property - removed
     // * For accessibility, rely on focus styles instead
@@ -274,7 +274,6 @@ const styles = StyleSheet.create({
   buttonText: {
     flex: 1,
   },
-  },
   dateIcon: {
     fontSize: 16,
     marginLeft: 8,
@@ -289,6 +288,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  modalContent: {
     borderRadius: 12,
     width: '90%',
     maxWidth: 400,
@@ -324,6 +324,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     textTransform: 'capitalize',
   },
+  dateInput: {
     borderRadius: 8,
     paddingVertical: 12,
     paddingHorizontal: 16,
@@ -345,10 +346,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     alignItems: 'center',
   },
-  },
   cancelButtonText: {
     fontSize: 16,
-  },
   },
   confirmButtonText: {
     fontSize: 16,

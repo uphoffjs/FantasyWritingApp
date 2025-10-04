@@ -13,7 +13,6 @@ import {
 } from 'react-native';
 import { useWorldbuildingStore } from '../store/worldbuildingStore';
 import { ElementCategory } from '../types/models';
-import { getCategoryIcon } from '../utils/categoryMapping';
 import { getTestProps } from '../utils/react-native-web-polyfills';
 
 interface CreateElementModalProps {
@@ -112,6 +111,7 @@ export function CreateElementModal({
     } finally {
       setIsCreating(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedCategory, projectId, createElement, onSuccess, isCreating]);
 
   const handleClose = () => {

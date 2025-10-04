@@ -355,10 +355,11 @@ export function RelationshipManager({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: ' // ! HARDCODED: Should use design tokens // ! HARDCODED: Should use design tokensrgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
     justifyContent: 'center',
     alignItems: 'center',
   },
+  modalContent: {
     borderRadius: 16,
     width: '90%',
     maxWidth: 600,
@@ -408,6 +409,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginBottom: 8,
   },
+  input: {
     borderRadius: 8,
     fontSize: 14,
   },
@@ -415,16 +417,20 @@ const styles = StyleSheet.create({
     minHeight: 80,
     textAlignVertical: 'top',
   },
+  typeSelector: {
     borderRadius: 8,
     overflow: 'hidden',
   },
+  typeOption: {
     height: 50,
   },
+  submitButton: {
     borderRadius: 8,
     paddingVertical: 12,
     alignItems: 'center',
     marginTop: 8,
   },
+  submitButtonDisabled: {
     opacity: 0.5,
   },
   createButtonText: {
@@ -433,6 +439,7 @@ const styles = StyleSheet.create({
   relationshipsList: {
     gap: 12,
   },
+  relationshipCard: {
     borderRadius: 12,
     padding: 16,
     marginBottom: 12,

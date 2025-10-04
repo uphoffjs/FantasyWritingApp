@@ -1,5 +1,4 @@
 import React, { useState, useCallback } from 'react';
-import { fantasyTomeColors } from '@/constants/fantasyTomeColors';
 import {
   View,
   Text,
@@ -68,29 +67,24 @@ export function MarkdownEditor({
     const afterText = value.substring(end);
 
     let newText: string;
-    let newCursorPosition: number;
 
     if (button.suffix) {
       // * Wrap selected text
       if (selectedText) {
         newText = `${beforeText}${button.prefix}${selectedText}${button.suffix}${afterText}`;
-        newCursorPosition = start + button.prefix.length + selectedText.length + button.suffix.length;
       } else {
         // // DEPRECATED: * Insert with placeholder
         const placeholder = button.multiline ? 'code' : 'text';
         newText = `${beforeText}${button.prefix}${placeholder}${button.suffix}${afterText}`;
-        newCursorPosition = start + button.prefix.length;
       }
     } else {
       // TODO: * Prefix only (like headings, lists)
       if (start === 0 || value[start - 1] === '\n') {
         // TODO: * At line start, just add prefix
         newText = `${beforeText}${button.prefix}${afterText}`;
-        newCursorPosition = start + button.prefix.length;
       } else {
         // * Not at line start, add newline first
         newText = `${beforeText}\n${button.prefix}${afterText}`;
-        newCursorPosition = start + 1 + button.prefix.length;
       }
     }
 
@@ -233,7 +227,6 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   previewToggleText: {
-  },
     borderRadius: 8,
     marginBottom: 8,
     maxHeight: 44,
@@ -252,8 +245,6 @@ const styles = StyleSheet.create({
   },
   toolbarButtonText: {
     fontSize: 14,
-  },
-    borderRadius: 8,
   },
   input: {
     padding: 12,

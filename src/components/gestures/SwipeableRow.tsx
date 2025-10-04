@@ -21,6 +21,7 @@ import {
 import { useTheme } from '../../providers/ThemeProvider';
 
 import { getTestProps } from '../utils/react-native-web-polyfills';
+import { fantasyTomeColors } from '../../constants/fantasyTomeColors';
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 interface SwipeableRowProps {
@@ -353,7 +354,7 @@ export const SwipeableRow: React.FC<SwipeableRowProps> = ({
               style={styles.actionButton}
               {...getTestProps(`${testID}-archive-action`)}
             >
-              <Text style={[styles.actionText, { color: '#FFFFFF' }]}>
+              <Text style={[styles.actionText, { color: fantasyTomeColors.parchment.vellum }]}>
                 📦 {archiveText}
               </Text>
             </TouchableOpacity>
@@ -379,7 +380,7 @@ export const SwipeableRow: React.FC<SwipeableRowProps> = ({
               style={styles.actionButton}
               {...getTestProps(`${testID}-delete-action`)}
             >
-              <Text style={[styles.actionText, { color: '#FFFFFF' }]}>
+              <Text style={[styles.actionText, { color: fantasyTomeColors.parchment.vellum }]}>
                 🗑️ {deleteText}
               </Text>
             </TouchableOpacity>

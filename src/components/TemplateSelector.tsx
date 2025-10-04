@@ -30,7 +30,7 @@ export function TemplateSelector({
   const { templates = [] } = useWorldbuildingStore();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTemplateId, setSelectedTemplateId] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [_isLoading, _setIsLoading] = useState(false);
 
   // TODO: * Filter templates by category and search query
   const filteredTemplates = useMemo(() => {
@@ -163,9 +163,9 @@ export function TemplateSelector({
             />
           </View>
 
-          {isLoading ? (
+          {_isLoading ? (
             <View style={styles.loadingContainer}>
-              <ActivityIndicator size="large"
+              <ActivityIndicator size="large" />
               <Text style={styles.loadingText}>Loading templates...</Text>
             </View>
           ) : (
@@ -225,6 +225,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  modalContent: {
     borderRadius: 16,
     width: '90%',
     maxWidth: 600,
@@ -277,12 +278,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingBottom: 20,
   },
+  templateCard: {
     borderRadius: 12,
     padding: 16,
     marginBottom: 12,
     borderWidth: 2,
-    borderColor: transparent,
-  },
+    borderColor: 'transparent',
   },
   templateHeader: {
     flexDirection: 'row',
@@ -294,6 +295,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     flex: 1,
   },
+  defaultBadge: {
     borderRadius: 12,
     paddingHorizontal: 8,
     paddingVertical: 4,
@@ -319,11 +321,13 @@ const styles = StyleSheet.create({
     gap: 6,
     marginTop: 8,
   },
+  tag: {
     borderRadius: 12,
     paddingHorizontal: 8,
     paddingVertical: 4,
   },
   tagText: {
+    fontSize: 12,
   },
   difficultyContainer: {
     flexDirection: 'row',
@@ -338,10 +342,14 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     textTransform: 'capitalize',
   },
-  difficultyBeginner: { color: '#10B981', // ! HARDCODED: Should use design tokens
+  difficultyBeginner: {
+    color: '#10B981',
   },
-  difficultyIntermediate: { color: '#F59E0B', // ! HARDCODED: Should use design tokens
+  difficultyIntermediate: {
+    color: '#F59E0B',
   },
+  difficultyAdvanced: {
+    color: '#EF4444',
   },
   loadingContainer: {
     flex: 1,
@@ -383,10 +391,12 @@ const styles = StyleSheet.create({
   cancelButtonText: {
     fontSize: 14,
   },
+  selectButton: {
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 8,
   },
+  selectButtonDisabled: {
     opacity: 0.5,
   },
   selectButtonText: {

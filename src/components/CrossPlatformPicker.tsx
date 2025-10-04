@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { fantasyTomeColors } from '../constants/fantasyTomeColors';
 import {
   View,
   Text,
@@ -136,7 +137,7 @@ const styles = StyleSheet.create({
     // ! React Native Web doesn't support complex backgroundPosition values
     // * Using Platform.select to apply web-specific styles would be better
     backgroundPositionX: 'right',
-    backgroundPositionY: 'center', backgroundSize: '12px 12px', // ! HARDCODED: Should use design tokens color: '#F9FAFB', // ! HARDCODED: Should use design tokens
+    backgroundPositionY: 'center', backgroundSize: '12px 12px', // ! HARDCODED: Should use design tokens color: fantasyTomeColors.ink.black, // ! HARDCODED: Should use design tokens
     backgroundColor: 'transparent',
     border: 'none',
     // * React Native doesn't support outline property - removed
@@ -145,7 +146,7 @@ const styles = StyleSheet.create({
     height: 50,
     fontSize: 14,
   },
-  webOption: { backgroundColor: '#1F2937', // ! HARDCODED: Should use design tokens color: '#F9FAFB', // ! HARDCODED: Should use design tokens
+  webOption: { backgroundColor: fantasyTomeColors.ink.black, // ! HARDCODED: Should use design tokens color: fantasyTomeColors.ink.black, // ! HARDCODED: Should use design tokens
     padding: 8,
   },
 
@@ -160,9 +161,9 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     flex: 1,
-    fontSize: 14, color: '#F9FAFB', // ! HARDCODED: Should use design tokens
+    fontSize: 14, color: fantasyTomeColors.ink.black, // ! HARDCODED: Should use design tokens
   },
-  placeholderText: { color: '#6B7280', // ! HARDCODED: Should use design tokens
+  placeholderText: { color: fantasyTomeColors.ink.faded, // ! HARDCODED: Should use design tokens
   },
   arrow: {
     fontSize: 12,
@@ -175,11 +176,11 @@ const styles = StyleSheet.create({
   // * Modal styles
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: fantasyTomeColors.states.active,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  modalContent: { backgroundColor: '#111827', // ! HARDCODED: Should use design tokens
+  modalContent: { backgroundColor: fantasyTomeColors.ink.scribe, // ! HARDCODED: Should use design tokens
     borderRadius: 12,
     width: '90%',
     maxWidth: 400,
@@ -196,17 +197,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '#374151',
+    borderBottomColor: fantasyTomeColors.parchment.border,
   },
   modalTitle: {
     fontSize: 18,
-    fontWeight: '600', color: '#F9FAFB', // ! HARDCODED: Should use design tokens
+    fontWeight: '600', color: fantasyTomeColors.parchment.vellum, // ! HARDCODED: Should use design tokens
   },
   closeButton: {
     padding: 4,
   },
   closeButtonText: {
-    fontSize: 18, color: '#6B7280', // ! HARDCODED: Should use design tokens
+    fontSize: 18, color: fantasyTomeColors.ink.faded, // ! HARDCODED: Should use design tokens
   },
   optionsList: {
     maxHeight: 300,
@@ -218,18 +219,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#374151',
+    borderBottomColor: fantasyTomeColors.parchment.border,
   },
-  optionSelected: { backgroundColor: '#374151', // ! HARDCODED: Should use design tokens
+  optionSelected: { backgroundColor: fantasyTomeColors.ink.brown, // ! HARDCODED: Should use design tokens
   },
   optionText: {
-    fontSize: 14, color: '#F9FAFB', // ! HARDCODED: Should use design tokens
+    fontSize: 14, color: fantasyTomeColors.parchment.vellum, // ! HARDCODED: Should use design tokens
     flex: 1,
   },
-  optionSelectedText: { color: '#6366F1', // ! HARDCODED: Should use design tokens
+  optionSelectedText: { color: fantasyTomeColors.elements.magic.primary, // ! HARDCODED: Should use design tokens
     fontWeight: '500',
   },
-  checkmark: { color: '#6366F1', // ! HARDCODED: Should use design tokens
+  checkmark: { color: fantasyTomeColors.elements.magic.primary, // ! HARDCODED: Should use design tokens
     fontSize: 16,
     fontWeight: 'bold',
   },

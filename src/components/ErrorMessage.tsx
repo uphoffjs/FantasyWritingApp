@@ -9,7 +9,6 @@ import {
   TextStyle,
 } from 'react-native';
 import { getTestProps } from '../utils/react-native-web-polyfills';
-import { fantasyTomeColors } from '@/constants/fantasyTomeColors';
 
 interface ErrorMessageProps {
   error?: Error | string | null;

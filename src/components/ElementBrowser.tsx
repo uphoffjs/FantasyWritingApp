@@ -8,7 +8,6 @@ import {
   TextInput,
   Platform,
   RefreshControl,
-  ActivityIndicator,
 } from 'react-native';
 import { WorldElement, ElementCategory } from '../types/models';
 import { ElementCard } from './ElementCard';
@@ -123,7 +122,7 @@ export function ElementBrowser({
       <View style={styles.emptyContainer}>
         <Text style={styles.emptyIcon}>📝</Text>
         <Text style={styles.emptyTitle}>
-          {searchQuery || selectedCategory !== 'all' // ! HARDCODED: Should use design tokens
+          {searchQuery || selectedCategory !== 'all'
             ? 'No elements found'
             : 'No elements yet'}
         </Text>

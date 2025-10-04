@@ -13,6 +13,7 @@ import { ElementBrowser } from '../components/ElementBrowser';
 import { CreateElementModal } from '../components/CreateElementModal';
 import { RelationshipManager } from '../components/RelationshipManager';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { fantasyTomeColors } from '../constants/fantasyTomeColors';
 
 export function ProjectScreen() {
   const route = useRoute<RootStackScreenProps<'Project'>['route']>();
@@ -27,7 +28,7 @@ export function ProjectScreen() {
     return (
       <View style={styles.container}>
         <View style={styles.errorContainer}>
-          <Icon name="error-outline" size={64} color="#EF4444" />
+          <Icon name="error-outline" size={64} color={fantasyTomeColors.semantic.error} />
           <Text style={styles.errorText}>Project not found</Text>
           <Button 
             title="Back to Projects" 
@@ -66,7 +67,7 @@ export function ProjectScreen() {
             onPress={() => navigation.goBack()}
             style={styles.backButton}
           >
-            <Icon name="arrow-back" size={24} color="#F9FAFB" />
+            <Icon name="arrow-back" size={24} color={fantasyTomeColors.ink.black} />
           </TouchableOpacity>
           <View style={styles.titleContainer}>
             <Text style={styles.title} numberOfLines={1}>{project.name}</Text>
@@ -158,15 +159,15 @@ export function ProjectScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#111827',
+    backgroundColor: fantasyTomeColors.ink.scribe,
   },
   header: {
-    backgroundColor: '#1F2937',
+    backgroundColor: fantasyTomeColors.ink.black,
     paddingTop: Platform.OS === 'ios' ? 44 : 24,
     paddingBottom: 16,
     paddingHorizontal: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '#374151',
+    borderBottomColor: fantasyTomeColors.parchment.border,
   },
   headerContent: {
     flexDirection: 'row',
@@ -184,16 +185,16 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#F9FAFB',
+    color: fantasyTomeColors.ink.black,
     marginBottom: 4,
   },
   description: {
     fontSize: 14,
-    color: '#9CA3AF',
+    color: fantasyTomeColors.ink.light,
     lineHeight: 20,
   },
   addButton: {
-    backgroundColor: '#6366F1',
+    backgroundColor: fantasyTomeColors.elements.magic.primary,
     borderRadius: 20,
     width: 40,
     height: 40,
@@ -212,16 +213,16 @@ const styles = StyleSheet.create({
   statNumber: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#F9FAFB',
+    color: fantasyTomeColors.ink.black,
     marginBottom: 4,
   },
   statLabel: {
     fontSize: 12,
-    color: '#6B7280',
+    color: fantasyTomeColors.ink.faded,
   },
   tabContainer: {
     flexDirection: 'row',
-    backgroundColor: '#374151',
+    backgroundColor: fantasyTomeColors.ink.brown,
     borderRadius: 8,
     padding: 4,
   },
@@ -232,15 +233,15 @@ const styles = StyleSheet.create({
     borderRadius: 6,
   },
   activeTab: {
-    backgroundColor: '#6366F1',
+    backgroundColor: fantasyTomeColors.elements.magic.primary,
   },
   tabText: {
     fontSize: 14,
     fontWeight: '500',
-    color: '#9CA3AF',
+    color: fantasyTomeColors.ink.light,
   },
   activeTabText: {
-    color: '#FFFFFF',
+    color: fantasyTomeColors.parchment.vellum,
   },
   content: {
     flex: 1,
@@ -253,7 +254,7 @@ const styles = StyleSheet.create({
   },
   errorText: {
     fontSize: 18,
-    color: '#EF4444',
+    color: fantasyTomeColors.semantic.error,
     textAlign: 'center',
     marginVertical: 16,
   },

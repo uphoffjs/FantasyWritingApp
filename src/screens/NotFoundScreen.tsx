@@ -7,6 +7,7 @@ import React from 'react';
 import { View, Text, StyleSheet, Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Button } from '../components/Button';
+import { fantasyTomeColors } from '../constants/fantasyTomeColors';
 
 export function NotFoundScreen() {
   const navigation = useNavigation();
@@ -30,7 +31,7 @@ export function NotFoundScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#111827',
+    backgroundColor: fantasyTomeColors.ink.scribe,
     justifyContent: 'center',
     alignItems: 'center',
     padding: Platform.OS === 'web' ? 24 : 16,
@@ -38,19 +39,19 @@ const styles = StyleSheet.create({
   errorCode: {
     fontSize: 72,
     fontWeight: 'bold',
-    color: '#6366F1',
+    color: fantasyTomeColors.elements.magic.primary,
     marginBottom: 16,
   },
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#F9FAFB',
+    color: fantasyTomeColors.ink.black,
     marginBottom: 12,
     textAlign: 'center',
   },
   message: {
     fontSize: 16,
-    color: '#9CA3AF',
+    color: fantasyTomeColors.ink.light,
     textAlign: 'center',
     marginBottom: 32,
     maxWidth: 400,

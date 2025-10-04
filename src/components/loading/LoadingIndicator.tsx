@@ -20,6 +20,7 @@ import {
 import { useTheme } from '../../providers/ThemeProvider';
 
 import { getTestProps } from '../../utils/react-native-web-polyfills';
+import { fantasyTomeColors } from '../../constants/fantasyTomeColors';
 // * Helper to safely use theme context
 // * Returns null if not within a ThemeProvider
 const useOptionalTheme = () => {
@@ -35,7 +36,7 @@ const useOptionalTheme = () => {
 const getFallbackTheme = () => ({
   colors: {
     accent: {
-      swiftness: '#C9A94F', // gold accent color
+      swiftness: fantasyTomeColors.metals.gold, // gold accent color
     },
     surface: {
       background: '#F3E9D2',

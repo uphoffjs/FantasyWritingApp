@@ -16,6 +16,7 @@ import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useAuthStore } from '../store/authStore';
 import { authService } from '../services/auth';
+import { fantasyTomeColors } from '../constants/fantasyTomeColors';
 
 type AuthMode = 'signin' | 'signup';
 
@@ -296,7 +297,7 @@ export default function LoginScreen() {
                         testID="remember-me-switch"
                         value={rememberMe}
                         onValueChange={setRememberMe}
-                        trackColor={{ false: '#E8DCC0', true: '#A31C1C' }}
+                        trackColor={{ false: '#E8DCC0', true: fantasyTomeColors.semantic.error }}
                         thumbColor={rememberMe ? '#fff' : '#f4f3f4'}
                       />
                       <Text style={styles.rememberMeText}>Remember me</Text>
@@ -352,7 +353,7 @@ export default function LoginScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FAF7F2', // parchment-100
+    backgroundColor: fantasyTomeColors.parchment.aged, // parchment-100
   },
   scrollView: {
     flex: 1,
@@ -370,11 +371,11 @@ const styles = StyleSheet.create({
   logoTitle: {
     fontSize: 36,
     fontWeight: 'bold',
-    color: '#C9A94F', // metals-gold
+    color: fantasyTomeColors.metals.gold, // metals-gold
     fontFamily: Platform.OS === 'ios' ? 'System' : 'sans-serif', // font-cinzel replacement
   },
   logoSubtitle: {
-    color: '#5C4A3A', // ink-secondary
+    color: fantasyTomeColors.ink.light, // ink-secondary
     marginTop: 8,
     textAlign: 'center',
   },
@@ -410,10 +411,10 @@ const styles = StyleSheet.create({
   tabButtonText: {
     textAlign: 'center',
     fontWeight: '500',
-    color: '#5C4A3A', // ink-secondary
+    color: fantasyTomeColors.ink.light, // ink-secondary
   },
   tabButtonTextActive: {
-    color: '#4A3C30', // ink-primary
+    color: fantasyTomeColors.ink.faded, // ink-primary
   },
   errorContainer: {
     backgroundColor: 'rgba(220, 38, 38, 0.1)', // dragonfire-100/20
@@ -426,7 +427,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   errorText: {
-    color: '#DC2626', // dragonfire
+    color: fantasyTomeColors.semantic.error, // dragonfire
     fontSize: 14,
     marginLeft: 8,
     flex: 1,
@@ -438,7 +439,7 @@ const styles = StyleSheet.create({
   resetPasswordTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#4A3C30', // ink-primary
+    color: fantasyTomeColors.ink.faded, // ink-primary
     marginBottom: 16,
   },
   inputWrapper: {
@@ -447,7 +448,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#FAF7F2', // parchment-100
+    backgroundColor: fantasyTomeColors.parchment.aged, // parchment-100
     borderRadius: 8,
     paddingHorizontal: 16,
     paddingVertical: 12,
@@ -457,16 +458,16 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     marginLeft: 12,
-    color: '#4A3C30', // ink-primary
+    color: fantasyTomeColors.ink.faded, // ink-primary
     fontSize: 16,
   },
   submitButton: {
-    backgroundColor: '#A31C1C', // might
+    backgroundColor: fantasyTomeColors.semantic.error, // might
     borderRadius: 8,
     paddingVertical: 16,
   },
   submitButtonMain: {
-    backgroundColor: '#A31C1C', // might
+    backgroundColor: fantasyTomeColors.semantic.error, // might
     borderRadius: 8,
     paddingVertical: 12,
     paddingHorizontal: 16,
@@ -478,13 +479,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   submitButtonText: {
-    color: 'white',
+    color: fantasyTomeColors.parchment.vellum,
     textAlign: 'center',
     fontWeight: '600',
     fontFamily: Platform.OS === 'ios' ? 'System' : 'sans-serif',
   },
   submitButtonMainText: {
-    color: 'white',
+    color: fantasyTomeColors.parchment.vellum,
     textAlign: 'center',
     fontWeight: '600',
     marginLeft: 8,
@@ -504,11 +505,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   rememberMeText: {
-    color: '#5C4A3A', // ink-secondary
+    color: fantasyTomeColors.ink.light, // ink-secondary
     marginLeft: 8,
   },
   forgotPasswordText: {
-    color: '#C9A94F', // metals-gold
+    color: fantasyTomeColors.metals.gold, // metals-gold
   },
   benefitsContainer: {
     marginTop: 32,
@@ -516,13 +517,13 @@ const styles = StyleSheet.create({
   },
   benefitsTitle: {
     fontSize: 14,
-    color: '#5C4A3A', // ink-secondary
+    color: fantasyTomeColors.ink.light, // ink-secondary
   },
   benefitsList: {
     marginTop: 8,
   },
   benefitsText: {
     fontSize: 14,
-    color: '#5C4A3A', // ink-secondary
+    color: fantasyTomeColors.ink.light, // ink-secondary
   },
 });

@@ -24,6 +24,7 @@ import { useTheme } from '../providers/ThemeProvider';
 import { fantasyMasterColors } from '../constants/fantasyMasterColors';
 
 import { getTestProps } from '../utils/react-native-web-polyfills';
+import { fantasyTomeColors } from '../constants/fantasyTomeColors';
 interface VirtualizedElementListProps {
   elements: WorldElement[];
   onElementPress?: (element: WorldElement) => void;
@@ -611,7 +612,7 @@ const createStyles = (theme: any) => StyleSheet.create({
     borderRadius: theme.borderRadius.md,
   },
   createButtonText: {
-    color: '#fff',
+    color: fantasyTomeColors.parchment.vellum,
     fontSize: theme.typography.fontSize.md,
     fontWeight: '600',
   },
@@ -640,6 +641,6 @@ const createStyles = (theme: any) => StyleSheet.create({
   },
   fabIcon: {
     fontSize: 24,
-    color: '#fff',
+    color: fantasyTomeColors.parchment.vellum,
   },
 });

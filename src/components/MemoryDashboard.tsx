@@ -12,7 +12,7 @@
  */
 
 import React, { useState } from 'react';
-import { fantasyTomeColors } from '@/constants/fantasyTomeColors';
+import { fantasyTomeColors } from '../constants/fantasyTomeColors';
 import {
   View,
   Text,
