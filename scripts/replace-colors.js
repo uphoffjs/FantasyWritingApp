@@ -98,6 +98,7 @@ const contextRules = {
 };
 
 const affectedFiles = [
+  // Original migration files (Phase 1)
   'src/ViteTest.tsx',
   'src/components/AuthGuard.tsx',
   'src/components/CreateElementModal.tsx',
@@ -116,6 +117,18 @@ const affectedFiles = [
   'src/components/TemplateSelector.tsx',
   'src/components/TextInput.tsx',
   'src/screens/SettingsScreen.tsx',
+  // Remaining files with color literals (Phase 2)
+  'src/components/Button.tsx',
+  'src/components/CrossPlatformPicker.tsx',
+  'src/components/DevMemoryTools.tsx',
+  'src/components/ImportExportWeb.tsx',
+  'src/components/VirtualizedElementListV2.tsx',
+  'src/components/gestures/SwipeableRow.tsx',
+  'src/components/layout/Inspector.tsx',
+  'src/components/loading/LoadingIndicator.tsx',
+  'src/screens/LoginScreen.tsx',
+  'src/screens/NotFoundScreen.tsx',
+  'src/screens/ProjectScreen.tsx',
 ];
 
 // ===================================================================
