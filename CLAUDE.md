@@ -94,8 +94,16 @@
    - Project structure
    - Platform handling
    - React Native pitfalls
-   - Git workflow
    - TODO archive guide
+
+### Git Workflow Reference
+
+4. **[claudedocs/GIT_WORKFLOW.md](claudedocs/GIT_WORKFLOW.md)** (~570 lines)
+   - GitHub Flow workflow
+   - Branch naming conventions
+   - Commit message standards
+   - Pre-commit quality gates
+   - Common operations & troubleshooting
 
 ### Context Savings
 
@@ -182,6 +190,43 @@ SPEC=path/to/test.cy.ts npm run cypress:docker:test:spec
 ```
 
 **⚠️ CRITICAL**: Always use `npm run` scripts, NEVER `npx cypress` or direct `cypress` commands!
+
+---
+
+## 🌿 Git Workflow (GitHub Flow)
+
+**Active Workflow:** Feature branches → main
+
+```bash
+# Start new feature
+git checkout main && git pull
+git checkout -b feature/my-feature
+
+# Develop with frequent commits
+git add -A
+git commit -m "feat(scope): description"
+
+# Merge when complete
+git checkout main
+git merge --no-ff feature/my-feature
+git push origin main
+git branch -d feature/my-feature
+```
+
+**Branch naming:**
+
+- `feature/descriptive-name` - New features
+- `fix/bug-description` - Bug fixes
+- `docs/documentation` - Documentation
+- `refactor/component-name` - Code refactoring
+
+**Pre-commit quality gates:**
+
+1. ✅ Protected files check
+2. ✅ ESLint validation (max 0 warnings)
+3. ✅ Critical E2E test (Docker, ~30-60s)
+
+**See:** [claudedocs/GIT_WORKFLOW.md](claudedocs/GIT_WORKFLOW.md) for complete workflow guide
 
 ---
 
@@ -276,11 +321,13 @@ Use these prefixes for clear, categorized comments throughout the codebase:
 ### For Pre-Commit (IMPORTANT)
 
 Every commit automatically runs three quality gates:
+
 1. **Protected Files Check** - Blocks modification of critical files
 2. **Lint Checks** - Ensures code quality
 3. **Critical Test** - Runs login verification in Docker (~30-60 sec)
 
 **Protected Files (DO NOT MODIFY)**:
+
 - `cypress/e2e/login-page-tests/verify-login-page.cy.ts`
 - `scripts/check-protected-files.js`
 - `scripts/pre-commit-test.sh`
