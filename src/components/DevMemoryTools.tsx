@@ -5,9 +5,12 @@
  * Add this to your app during development for easy checkpoint management
  */
 
+/* eslint-disable react-native/no-color-literals */
+
 import React from 'react';
 import { View, TouchableOpacity, Text, StyleSheet, Alert } from 'react-native';
 import { memoryHelpers } from '../store/memoryStore';
+import { fantasyTomeColors } from '../constants/fantasyTomeColors';
 import { useMemoryStore } from '../store/memoryStore';
 
 import { getTestProps } from '../utils/react-native-web-polyfills';
@@ -182,7 +185,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 50,
     right: 10,
-    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    backgroundColor: fantasyTomeColors.states.active,
     borderRadius: 10,
     padding: 10,
     zIndex: 9999,
@@ -213,7 +216,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#34495e',
   },
   buttonText: {
-    color: '#ffffff',
+    color: fantasyTomeColors.parchment.vellum,
     fontSize: 12,
     fontWeight: '600',
   },

@@ -6,6 +6,7 @@
 import React, { memo } from 'react';
 import { WorldElement } from '../types/models';
 import { getCategoryIcon } from '../utils/categoryMapping';
+// eslint-disable-next-line no-restricted-imports
 import { ProgressRing } from './ProgressRing.web';
 import { getTestProps } from '../utils/react-native-web-polyfills';
 

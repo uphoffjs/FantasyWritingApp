@@ -5,7 +5,7 @@
  * ! IMPORTANT: Essential for search and filter input optimization
  */
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback, DependencyList } from 'react';
 
 /**
  * * Hook that debounces a value
@@ -41,14 +41,15 @@ export function useDebounce<T>(value: T, delay: number = 500): T {
 export function useDebouncedCallback<T extends (...args: any[]) => any>(
   callback: T,
   delay: number = 500,
-  dependencies?: React.DependencyList
+  dependencies?: DependencyList
 ): T {
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const callbackRef = useRef(callback);
 
   // * Update callback ref when it changes
   useEffect(() => {
     callbackRef.current = callback;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, dependencies || [callback]);
 
   const debouncedCallback = useCallback(
@@ -130,6 +131,7 @@ export function useFilterDebounce<T extends object>(
   return {
     filters,            // * Immediate filters for UI
     debouncedFilters,   // * Debounced filters for queries
+    setFilters,         // * Direct setter for complex updates
     updateFilter,       // * Update function
     resetFilters,       // * Reset function
     isPending,          // * Loading state
@@ -143,7 +145,7 @@ export function useFilterDebounce<T extends object>(
 export function useThrottle<T>(value: T, interval: number = 500): T {
   const [throttledValue, setThrottledValue] = useState<T>(value);
   const lastUpdated = useRef<number>(Date.now());
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     const now = Date.now();

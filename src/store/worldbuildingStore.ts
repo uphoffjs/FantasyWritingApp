@@ -161,7 +161,7 @@ export const useWorldbuildingStore = create<WorldbuildingStore>()(
           updatedAt: new Date()
         };
 
-        const currentState = get();
+        const _currentState = get();
         
         set((state) => {
           const newState = {

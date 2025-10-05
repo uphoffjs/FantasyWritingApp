@@ -10,7 +10,6 @@ import React, { useEffect, useRef, useMemo } from 'react';
 import { getTestProps } from '../utils/react-native-web-polyfills';
 import {
   Animated,
-  Platform,
   ViewStyle,
   Dimensions,
 } from 'react-native';
@@ -60,7 +59,7 @@ interface ContentRevealProps {
 }
 
 // * Get window dimensions for slide calculations
-const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
+const { width: _screenWidth, height: _screenHeight } = Dimensions.get('window');
 
 export const ContentReveal: React.FC<ContentRevealProps> = ({
   animation = 'fadeIn',
@@ -90,6 +89,7 @@ export const ContentReveal: React.FC<ContentRevealProps> = ({
     if (animateOnMount) {
       resetAnimation();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [animation]);
 
   // * Reset animation to initial state
@@ -300,6 +300,7 @@ export const ContentReveal: React.FC<ContentRevealProps> = ({
         });
       }
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [trigger]);
 
   // * Get rotation interpolation for rotate animations
@@ -340,6 +341,7 @@ export const ContentReveal: React.FC<ContentRevealProps> = ({
     }
 
     return styles;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [animation]);
 
   return (

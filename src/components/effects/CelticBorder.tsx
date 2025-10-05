@@ -190,7 +190,7 @@ export const CelticBorder = memo(function CelticBorder({
 });
 
 // * Dynamic styles based on theme
-const createStyles = (theme: any) => StyleSheet.create({
+const _createStyles = (_theme: any) => StyleSheet.create({
   container: {
     position: 'relative',
     overflow: 'hidden',

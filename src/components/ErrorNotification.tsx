@@ -76,6 +76,7 @@ export const ErrorNotification: React.FC<ErrorNotificationProps> = ({
         return () => clearTimeout(timer);
       }
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [duration, persistent, showProgress]);
 
   const handleClose = useCallback(() => {

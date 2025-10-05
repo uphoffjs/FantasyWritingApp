@@ -61,7 +61,10 @@ module.exports = {
     // React Native specific - STRENGTHENED
     'react-native/no-inline-styles': 'warn', // Enforce StyleSheet.create()
     'react-native/no-raw-text': 'off', // Disabled due to template literal crash
-    'react-native/no-color-literals': 'warn', // Prefer color constants
+    // ! Color literals: Disabled after Phase 8 migration to fantasyTomeColors
+    // * Remaining literals ('transparent', shadowColor: '#000') are intentional platform requirements
+    // * See TODO-COLOR-MAPPING.md Phase 8 for details
+    'react-native/no-color-literals': 'off',
     'react/react-in-jsx-scope': 'off',
     'react/no-unstable-nested-components': 'off',
 

@@ -32,6 +32,7 @@ const tailwindToFantasyMap = {
     '#FFFFFF': 'fantasyTomeColors.parchment.vellum',
     'white': 'fantasyTomeColors.parchment.vellum',
     '#fff': 'fantasyTomeColors.parchment.vellum',
+    '#ffffff': 'fantasyTomeColors.parchment.vellum',
     '#9CA3AF': 'fantasyTomeColors.ink.light',
     '#6B7280': 'fantasyTomeColors.ink.faded',
     '#D1D5DB': 'fantasyTomeColors.ink.light',
@@ -39,6 +40,7 @@ const tailwindToFantasyMap = {
     '#4A3C30': 'fantasyTomeColors.ink.faded',
     '#333': 'fantasyTomeColors.ink.brown',
     '#666': 'fantasyTomeColors.ink.faded',
+    '#EF4444': 'fantasyTomeColors.semantic.error',
   },
   backgrounds: {
     '#374151': 'fantasyTomeColors.ink.brown',
@@ -82,6 +84,7 @@ const tailwindToFantasyMap = {
   },
   special: {
     'rgba(0, 0, 0, 0.5)': 'fantasyTomeColors.states.active',
+    'rgba(0, 0, 0, 0.8)': 'fantasyTomeColors.states.active',
     '#000': 'fantasyTomeColors.ink.scribe',
     'transparent': 'transparent',
     '#4338CA20': 'fantasyTomeColors.elements.magic.secondary',
@@ -126,9 +129,12 @@ const affectedFiles = [
   'src/components/gestures/SwipeableRow.tsx',
   'src/components/layout/Inspector.tsx',
   'src/components/loading/LoadingIndicator.tsx',
+  'src/screens/ElementScreen.tsx',
   'src/screens/LoginScreen.tsx',
   'src/screens/NotFoundScreen.tsx',
   'src/screens/ProjectScreen.tsx',
+  'src/components/TemplateEditor.tsx',
+  'src/components/InstallPrompt.tsx',
 ];
 
 // ===================================================================
@@ -202,6 +208,10 @@ function isBorderContext(line) {
   );
 }
 
+function isShadowContext(line) {
+  return line.includes('shadowColor:');
+}
+
 function hasDarkParentBackground(content, lineIndex) {
   const startLine = Math.max(0, lineIndex - 10);
   const lines = content.split('\n');
@@ -217,6 +227,11 @@ function replaceColorInLine(line, lineIndex, fileContent) {
 
   // Helper function to replace quoted color values properly
   const replaceQuotedColor = (text, oldColor, newColor) => {
+    // Special handling for 'transparent' - keep it quoted
+    if (newColor === 'transparent') {
+      return text; // Don't replace - keep as-is
+    }
+
     // Replace both single and double quoted versions
     // Patterns: 'color' or "color" → newColor (unquoted)
     const singleQuotePattern = new RegExp(`'${oldColor.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}'`, 'g');
@@ -226,6 +241,11 @@ function replaceColorInLine(line, lineIndex, fileContent) {
     result = result.replace(doubleQuotePattern, newColor);
     return result;
   };
+
+  // Skip shadowColor - keep as '#000' (standard shadow color)
+  if (isShadowContext(line)) {
+    return { newLine, replaced: false, contextDecision: false };
+  }
 
   // Handle context-dependent #F9FAFB
   if (line.includes('#F9FAFB')) {

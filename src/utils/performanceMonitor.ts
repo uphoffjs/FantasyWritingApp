@@ -180,7 +180,7 @@ export function usePerformanceTracking(componentName: string, props?: Record<str
 }
 
 // ! PERFORMANCE: HOC for performance tracking
-export function withPerformanceTracking<T extends {}>(
+export function withPerformanceTracking<T extends Record<string, unknown>>(
   Component: React.ComponentType<T>,
   componentName?: string
 ) {

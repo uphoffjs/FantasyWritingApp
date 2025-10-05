@@ -148,7 +148,7 @@ export const SyncQueueStatus: React.FC<SyncQueueStatusProps> = ({
         useNativeDriver: true,
       }).start();
     }
-  }, [syncQueue.length, isSyncing, syncError, autoHide, autoHideDelay]);
+  }, [syncQueue.length, isSyncing, syncError, autoHide, autoHideDelay, fadeAnim]);
 
   // * Sync animation
   useEffect(() => {
@@ -163,7 +163,7 @@ export const SyncQueueStatus: React.FC<SyncQueueStatusProps> = ({
     } else {
       rotateAnim.setValue(0);
     }
-  }, [isSyncing]);
+  }, [isSyncing, rotateAnim]);
 
   // * Handle manual sync
   const handleSync = useCallback(async () => {
@@ -197,10 +197,10 @@ export const SyncQueueStatus: React.FC<SyncQueueStatusProps> = ({
     } finally {
       setIsSyncing(false);
     }
-  }, [isOnline, manualSync]);
+  }, [isOnline, manualSync, scaleAnim]);
 
   // * Handle conflict resolution
-  const handleResolveConflict = useCallback((conflict: SyncQueueItem, resolution: 'local' | 'remote' | 'merge') => {
+  const handleResolveConflict = useCallback((conflict: SyncQueueItem, _resolution: 'local' | 'remote' | 'merge') => {
     // TODO: Implement actual conflict resolution logic
     setConflicts(prev => prev.filter(c => c.id !== conflict.id));
     setShowConflictModal(false);
@@ -508,7 +508,7 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.1,
         shadowRadius: 4,
-        // @ts-ignore - boxShadow is web-specific
+        // @ts-expect-error - boxShadow is web-specific
         boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
       },
       default: {},

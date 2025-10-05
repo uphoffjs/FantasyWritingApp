@@ -58,6 +58,7 @@ export const SessionExample = () => {
       // End session when component unmounts
       session.end(['Continue with chapter 6', 'Finalize magic system']);
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const recordImportantDecision = () => {
@@ -354,9 +355,10 @@ export const CompleteIntegrationExample: React.FC = () => {
       // Save session summary on unmount
       memorySystem.session.end(['Continue tomorrow']);
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleProjectChange = (projectId: string) => {
+  const _handleProjectChange = (projectId: string) => {
     // Remember current context
     memorySystem.remember('current_project', projectId);
     memorySystem.session.recordDecision(
@@ -365,12 +367,12 @@ export const CompleteIntegrationExample: React.FC = () => {
     );
   };
 
-  const handleError = (error: Error) => {
+  const _handleError = (error: Error) => {
     // Record errors as blockers
     memorySystem.session.recordBlocker(`Error: ${error.message}`);
   };
 
-  const handleMilestone = (milestone: string) => {
+  const _handleMilestone = (milestone: string) => {
     // Record achievements
     memorySystem.session.addAchievement(milestone);
     // Create checkpoint for important milestones
@@ -399,14 +401,14 @@ export const ClaudeIntegrationExample = () => {
   // Claude can use these patterns to maintain context:
 
   // 1. At session start
-  const initializeSession = () => {
+  const _initializeSession = () => {
     memory.session.start(['Implement authentication', 'Fix navigation bugs']);
     const lastContext = memory.recall('last_working_context');
     console.log('Resuming from:', lastContext);
   };
 
   // 2. During development
-  const recordProgress = () => {
+  const _recordProgress = () => {
     memory.remember('current_file', 'src/components/Auth.tsx');
     memory.remember('implementation_notes', {
       approach: 'Using JWT tokens',
@@ -420,7 +422,7 @@ export const ClaudeIntegrationExample = () => {
   };
 
   // 3. When encountering issues
-  const recordIssue = () => {
+  const _recordIssue = () => {
     memory.session.recordBlocker('TypeScript error in auth middleware');
     memory.session.recordDecision(
       'Use type assertion for now',
@@ -429,7 +431,7 @@ export const ClaudeIntegrationExample = () => {
   };
 
   // 4. Before ending session
-  const saveSessionState = () => {
+  const _saveSessionState = () => {
     memory.checkpoints.create('End of session checkpoint');
     const summary = memory.analysis.getSummary();
     memory.remember('session_summary', summary);

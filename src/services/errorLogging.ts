@@ -212,7 +212,7 @@ class ErrorLoggingService {
     });
   }
 
-  private getConsoleMethod(severity: ErrorSeverity): Function {
+  private getConsoleMethod(severity: ErrorSeverity): (...args: unknown[]) => void {
     switch (severity) {
       case ErrorSeverity.LOW:
         return console.info;

@@ -6,7 +6,7 @@
  */
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Project, WorldElement, Template } from '../types/models';
+import { Project as _Project, WorldElement as _WorldElement, Template as _Template } from '../types/models';
 
 // * Types for tracking changes
 export interface DeltaChange {

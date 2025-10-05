@@ -1,4 +1,4 @@
-import { ComponentType, lazy } from 'react';
+import { ComponentType, lazy, LazyExoticComponent } from 'react';
 
 /**
  * Named export lazy loading utility
@@ -23,7 +23,7 @@ export function lazyImport<
  */
 export function lazyImportWithRetry<T extends ComponentType<any>>(
   componentImport: () => Promise<{ default: T }>
-): React.LazyExoticComponent<T> {
+): LazyExoticComponent<T> {
   return lazy(async () => {
     const pageHasAlreadyBeenForceRefreshed = JSON.parse(
       window.sessionStorage.getItem('page-has-been-force-refreshed') || 'false'

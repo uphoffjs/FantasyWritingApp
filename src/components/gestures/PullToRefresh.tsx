@@ -47,7 +47,7 @@ export const PullToRefresh: React.FC<PullToRefreshProps> = ({
   enabled = true,
   progressViewOffset = 0,
   pullingText = 'Pull to sync',
-  readyText = 'Release to sync',
+  readyText: _readyText = 'Release to sync',
   refreshingText = 'Syncing...',
   successText = 'Sync complete',
   errorText = 'Sync failed',
@@ -82,7 +82,7 @@ export const PullToRefresh: React.FC<PullToRefreshProps> = ({
       // * Show success animation
       handleRefreshComplete();
     }
-  }, [refreshing]);
+  }, [refreshing, handleRefreshComplete]);
 
   // * Update status message based on sync status
   useEffect(() => {
@@ -103,7 +103,7 @@ export const PullToRefresh: React.FC<PullToRefreshProps> = ({
         setStatusMessage(pullingText);
         break;
     }
-  }, [syncStatus, refreshingText, successText, errorText, pullingText]);
+  }, [syncStatus, refreshingText, successText, errorText, pullingText, showSuccessAnimation, startRefreshAnimation, stopRefreshAnimation]);
 
   // * Start refresh animation
   const startRefreshAnimation = useCallback(() => {

@@ -29,7 +29,7 @@ export const useSupabaseSync = () => {
         console.error('Error fetching from Supabase:', error);
       });
     }
-  }, [isAuthenticated, user?.id]); // Only re-run when auth state changes
+  }, [isAuthenticated, user?.id, fetchFromSupabase, projects.length, syncWithSupabase]); // Only re-run when auth state changes
   
   // Auto-sync periodically (every 5 minutes)
   useEffect(() => {

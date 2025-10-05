@@ -15,6 +15,7 @@ import { getCategoryIcon } from '../../utils/categoryMapping';
 import { getElementColor } from '../../utils/elementColors';
 import { ProgressRing } from '../ProgressRing';
 import { getTestProps } from '../../utils/react-native-web-polyfills';
+import { fantasyTomeColors } from '@/constants/fantasyTomeColors';
 
 // ! Inspector Panel Component for Element Details
 // * Contextual content that changes based on selected element

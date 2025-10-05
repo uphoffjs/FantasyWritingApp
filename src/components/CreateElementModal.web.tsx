@@ -7,7 +7,7 @@
 import React, { useState, useCallback } from 'react';
 import { useWorldbuildingStore } from '../store/worldbuildingStore';
 import { ElementCategory } from '../types/models';
-import { getCategoryIcon } from '../utils/categoryMapping';
+import { getCategoryIcon as _getCategoryIcon } from '../utils/categoryMapping';
 import { getTestProps } from '../utils/react-native-web-polyfills';
 
 interface CreateElementModalProps {
@@ -79,6 +79,11 @@ export function CreateElementModal({
   const [selectedCategory, setSelectedCategory] = useState<ElementCategory | 'custom' | null>(null);
   const [isCreating, setIsCreating] = useState(false);
 
+  const handleClose = useCallback(() => {
+    setSelectedCategory(null);
+    onClose();
+  }, [onClose]);
+
   const handleCreate = useCallback(async () => {
     if (!selectedCategory || isCreating) return;
 
@@ -102,12 +107,7 @@ export function CreateElementModal({
     } finally {
       setIsCreating(false);
     }
-  }, [selectedCategory, projectId, createElement, onSuccess, isCreating]);
-
-  const handleClose = () => {
-    setSelectedCategory(null);
-    onClose();
-  };
+  }, [selectedCategory, projectId, createElement, onSuccess, isCreating, handleClose]);
 
   const handleCategoryPress = (category: ElementCategory | 'custom') => {
     setSelectedCategory(category);

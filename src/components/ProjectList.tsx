@@ -7,7 +7,6 @@ import {
   Pressable,
   TextInput,
   RefreshControl,
-  ActivityIndicator,
   Platform,
 } from 'react-native';
 import { Project } from '../types/models';
@@ -38,7 +37,7 @@ type SortOption = typeof SORT_OPTIONS[number]['value'];
 
 export function ProjectList({
   projects,
-  onProjectSelect,
+  onProjectSelect: _onProjectSelect,
   onProjectDelete,
   onProjectArchive,
   onCreateProject,
@@ -321,9 +320,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 8,
   },
-  },
   sortOptionText: {
-  },
     fontWeight: '600',
   },
   checkIcon: {

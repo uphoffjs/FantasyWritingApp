@@ -5,7 +5,7 @@
  * ! IMPORTANT: Integrates with AppShell for responsive behavior
  */
 
-import React, { useState, useCallback, useRef, useEffect } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 import {
   View,
   Text,
@@ -61,23 +61,23 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const rotationAnimations = useRef<{ [key: string]: Animated.Value }>({});
   
   // * Initialize animation values for each section
-  const getSectionAnimation = (sectionId: string) => {
+  const getSectionAnimation = useCallback((sectionId: string) => {
     if (!sectionAnimations.current[sectionId]) {
       sectionAnimations.current[sectionId] = new Animated.Value(
         expandedSections.has(sectionId) ? 1 : 0
       );
     }
     return sectionAnimations.current[sectionId];
-  };
+  }, [expandedSections]);
 
-  const getRotationAnimation = (sectionId: string) => {
+  const getRotationAnimation = useCallback((sectionId: string) => {
     if (!rotationAnimations.current[sectionId]) {
       rotationAnimations.current[sectionId] = new Animated.Value(
         expandedSections.has(sectionId) ? 1 : 0
       );
     }
     return rotationAnimations.current[sectionId];
-  };
+  }, [expandedSections]);
 
   React.useEffect(() => {
     Animated.timing(slideAnimation, {
@@ -129,7 +129,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       
       return newSet;
     });
-  }, []);
+  }, [getSectionAnimation, getRotationAnimation]);
 
   // * Navigation handler
   const handleNavigation = useCallback((route?: string, action?: () => void) => {
@@ -203,7 +203,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   // * Render collapsible section with smooth animations
   const renderSection = (sectionId: string, title: string, items: MenuItem[]) => {
-    const isExpanded = expandedSections.has(sectionId);
+    const _isExpanded = expandedSections.has(sectionId);
     const sectionAnim = getSectionAnimation(sectionId);
     const rotationAnim = getRotationAnimation(sectionId);
     

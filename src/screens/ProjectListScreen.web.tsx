@@ -26,7 +26,7 @@ export function ProjectListScreen() {
     }
 
     try {
-      const result = createProject(newProjectName, newProjectDescription);
+      const _result = createProject(newProjectName, newProjectDescription);
       
       setNewProjectName('');
       setNewProjectDescription('');

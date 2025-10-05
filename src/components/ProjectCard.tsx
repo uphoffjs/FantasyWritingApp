@@ -21,8 +21,9 @@ import { getTestProps } from '../utils/react-native-web-polyfills';
 // * Helper to safely use theme context
 const useOptionalTheme = () => {
   try {
-     
+
     const { useTheme } = require('../providers/ThemeProvider');
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     return useTheme();
   } catch {
     return null;
@@ -49,7 +50,7 @@ export const ProjectCard = memo(function ProjectCard({
   const navigation = useNavigation<NavigationProp>();
   const { setCurrentProject } = useWorldbuildingStore();
   const themeContext = useOptionalTheme();
-  const theme = themeContext?.theme || {
+  const theme = useMemo(() => themeContext?.theme || {
     // * Fallback theme values
     colors: {
       text: { primary: '#1A1613', secondary: '#6B5E52', muted: '#9B8C7D' },
@@ -64,12 +65,12 @@ export const ProjectCard = memo(function ProjectCard({
       status: { success: '#2E7D4F', warning: '#E67E22', error: '#E74C3C' }
     },
     layout: { borderRadius: { medium: 16, small: 12 }, spacing: { md: 16, sm: 12, xs: 8 } }
-  };
+  }, [themeContext]);
   const [showActions, setShowActions] = useState(false);
   const [isDuplicating, setIsDuplicating] = useState(false);
   const [imageError, setImageError] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
-  
+
   // * Create dynamic styles based on theme
   const styles = useMemo(() => createStyles(theme), [theme]);
   

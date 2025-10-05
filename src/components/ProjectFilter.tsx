@@ -11,7 +11,6 @@ import {
   Pressable,
   ScrollView,
   StyleSheet,
-  Platform,
 } from 'react-native';
 import { useTheme } from '../providers/ThemeProvider';
 import { Project } from '../types/models';
@@ -78,9 +77,10 @@ export function ProjectFilter({
   const {
     filters,
     debouncedFilters,
-    updateFilter,
-    resetFilters,
-    isPending
+    setFilters,
+    updateFilter: _updateFilter,
+    resetFilters: _resetFilters,
+    isPending: _isPending
   } = useFilterDebounce<ProjectFilterOptions>({
     genres: initialFilters.genres || [],
     status: initialFilters.status || [],
@@ -169,7 +169,7 @@ export function ProjectFilter({
         ? prev.genres.filter(g => g !== genre)
         : [...prev.genres, genre],
     }));
-  }, []);
+  }, [setFilters]);
 
   // * Toggle status selection
   const toggleStatus = useCallback((status: string) => {
@@ -179,7 +179,7 @@ export function ProjectFilter({
         ? prev.status.filter(s => s !== status)
         : [...prev.status, status as any],
     }));
-  }, []);
+  }, [setFilters]);
 
   // * Clear all filters
   const clearFilters = useCallback(() => {
@@ -190,7 +190,7 @@ export function ProjectFilter({
       sortBy: 'modified',
       sortOrder: 'desc',
     });
-  }, []);
+  }, [setFilters]);
 
   // * Check if any filters are active
   const hasActiveFilters = filters.genres.length > 0 || 

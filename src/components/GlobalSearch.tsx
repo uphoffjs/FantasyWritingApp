@@ -9,7 +9,6 @@ import {
   Modal,
   Platform,
   KeyboardAvoidingView,
-  ScrollView,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -42,7 +41,7 @@ export function GlobalSearch({ visible, onClose }: GlobalSearchProps) {
     searchTerm,
     debouncedSearchTerm,
     setSearchTerm,
-    isSearching: isDebouncing
+    isSearching: _isDebouncing
   } = useSearchDebounce(searchQuery, 300);
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [isSearching, setIsSearching] = useState(false);
@@ -89,7 +88,7 @@ export function GlobalSearch({ visible, onClose }: GlobalSearchProps) {
       setSearchResults([]);
       setShowRecent(true);
     }
-  }, [debouncedSearchTerm]);
+  }, [debouncedSearchTerm, performSearch]);
 
   // * Load recent searches from AsyncStorage
   const loadRecentSearches = async () => {
@@ -105,9 +104,9 @@ export function GlobalSearch({ visible, onClose }: GlobalSearchProps) {
   };
 
   // * Save recent searches to AsyncStorage
-  const saveRecentSearch = async (query: string) => {
+  const saveRecentSearch = useCallback(async (query: string) => {
     if (!query.trim()) return;
-    
+
     try {
       const updated = [query, ...recentSearches.filter(s => s !== query)].slice(0, MAX_RECENT_SEARCHES);
       setRecentSearches(updated);
@@ -116,7 +115,7 @@ export function GlobalSearch({ visible, onClose }: GlobalSearchProps) {
       // ! Failed to save recent search
       console.error('Failed to save recent search:', error);
     }
-  };
+  }, [recentSearches]);
 
   // * Clear recent searches
   const clearRecentSearches = async () => {
@@ -147,7 +146,7 @@ export function GlobalSearch({ visible, onClose }: GlobalSearchProps) {
     if (debouncedSearchTerm.trim() && results.length > 0) {
       saveRecentSearch(debouncedSearchTerm.trim());
     }
-  }, [debouncedSearchTerm, searchAll, setSearchQuery]);
+  }, [debouncedSearchTerm, searchAll, setSearchQuery, saveRecentSearch]);
 
   const handleResultPress = (result: SearchResult) => {
     onClose();

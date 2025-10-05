@@ -349,7 +349,7 @@ const styles = StyleSheet.create({
     color: '#F59E0B',
   },
   difficultyAdvanced: {
-    color: '#EF4444',
+    color: fantasyTomeColors.semantic.error,
   },
   loadingContainer: {
     flex: 1,

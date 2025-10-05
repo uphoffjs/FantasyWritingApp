@@ -218,7 +218,7 @@ class OptimisticSyncQueue {
 
 // * Create the queue manager with additional methods for the middleware
 class OptimisticSyncQueueManager extends OptimisticSyncQueue {
-  linkToSyncOperation(optimisticUpdateId: string, syncOperationId: string): void {
+  linkToSyncOperation(_optimisticUpdateId: string, _syncOperationId: string): void {
     // * Link optimistic update to sync operation for rollback purposes
     // * This could be implemented with a Map if needed
   }

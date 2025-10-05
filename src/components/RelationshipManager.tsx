@@ -355,7 +355,7 @@ export function RelationshipManager({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: fantasyTomeColors.states.active,
     justifyContent: 'center',
     alignItems: 'center',
   },

@@ -23,8 +23,8 @@ const ERROR_MESSAGES: Record<string, string> = {
   'ValidationError': 'Please check your input and try again.',
   'Required field missing': 'Please fill in all required fields.',
   'Invalid email format': 'Please enter a valid email address.',
-  
-  // * Database errors  
+
+  // * Database errors
   'UniqueConstraintError': 'This item already exists. Please use a different name.',
   'ForeignKeyConstraintError': 'Cannot delete this item because it\'s being used elsewhere.',
   'DatabaseError': 'A database error occurred. Please try again later.',

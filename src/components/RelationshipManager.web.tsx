@@ -53,16 +53,16 @@ const RELATIONSHIP_TYPES = [
 ];
 
 export function RelationshipManager({ elements, projectId }: RelationshipManagerProps) {
-  const { projects, createRelationship, updateRelationship, deleteRelationship } = useWorldbuildingStore();
+  const { projects, createRelationship, updateRelationship: _updateRelationship, deleteRelationship } = useWorldbuildingStore();
   const [showAddModal, setShowAddModal] = useState(false);
   const [selectedSource, setSelectedSource] = useState<string>('');
   const [selectedTarget, setSelectedTarget] = useState<string>('');
   const [selectedType, setSelectedType] = useState<string>('');
   const [description, setDescription] = useState('');
-  const [editingRelationship, setEditingRelationship] = useState<Relationship | null>(null);
+  const [_editingRelationship, _setEditingRelationship] = useState<Relationship | null>(null);
 
   const project = projects.find(p => p.id === projectId);
-  const relationships = project?.relationships || [];
+  const relationships = useMemo(() => project?.relationships || [], [project]);
 
   // * Group relationships by source element
   const relationshipsByElement = useMemo(() => {

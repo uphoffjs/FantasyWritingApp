@@ -16,7 +16,7 @@ import {
   ElementCategory,
   QuestionType,
 } from '../types/models';
-import { useWorldbuildingStore } from '../store/worldbuildingStore';
+import { useWorldbuildingStore as _useWorldbuildingStore } from '../store/worldbuildingStore';
 import { v4 as uuidv4 } from 'uuid';
 
 interface TemplateEditorProps {
@@ -92,8 +92,8 @@ function QuestionEditor({ question, onChange, onDelete }: QuestionEditorProps) {
           <Switch
             value={question.required || false}
             onValueChange={(required) => onChange({ ...question, required })}
-            trackColor={{ false: '#374151', true: '#6366F1' }}
-            thumbColor="#F9FAFB"
+            trackColor={{ false: '#374151', true: fantasyTomeColors.elements.magic.primary }}
+            thumbColor=fantasyTomeColors.parchment.vellum
           />
         </View>
       </View>
@@ -378,11 +378,11 @@ export function TemplateEditor({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: fantasyTomeColors.states.active,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  modalContent: { backgroundColor: '#111827', // ! HARDCODED: Should use design tokens
+  modalContent: { backgroundColor: fantasyTomeColors.ink.scribe, // ! HARDCODED: Should use design tokens
     borderRadius: 16,
     width: '90%',
     maxWidth: 800,
@@ -401,17 +401,17 @@ const styles = StyleSheet.create({
     paddingTop: 24,
     paddingBottom: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '#374151',
+    borderBottomColor: fantasyTomeColors.parchment.border,
   },
   title: {
     fontSize: 24,
-    fontWeight: '700', color: '#F9FAFB', // ! HARDCODED: Should use design tokens
+    fontWeight: '700', color: fantasyTomeColors.parchment.vellum, // ! HARDCODED: Should use design tokens
   },
   closeButton: {
     padding: 8,
   },
   closeIcon: {
-    fontSize: 24, color: '#6B7280', // ! HARDCODED: Should use design tokens
+    fontSize: 24, color: fantasyTomeColors.ink.faded, // ! HARDCODED: Should use design tokens
   },
   content: {
     flex: 1,
@@ -431,7 +431,7 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 18,
-    fontWeight: '600', color: '#F9FAFB', // ! HARDCODED: Should use design tokens
+    fontWeight: '600', color: fantasyTomeColors.ink.black, // ! HARDCODED: Should use design tokens
     marginBottom: 16,
   },
   field: {
@@ -439,14 +439,14 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 14,
-    fontWeight: '500', color: '#D1D5DB', // ! HARDCODED: Should use design tokens
+    fontWeight: '500', color: fantasyTomeColors.ink.light, // ! HARDCODED: Should use design tokens
     marginBottom: 8,
   },
-  input: { backgroundColor: '#1F2937', // ! HARDCODED: Should use design tokens
+  input: { backgroundColor: fantasyTomeColors.ink.black, // ! HARDCODED: Should use design tokens
     borderRadius: 8,
-    padding: 12, color: '#F9FAFB', // ! HARDCODED: Should use design tokens
+    padding: 12, color: fantasyTomeColors.parchment.vellum, // ! HARDCODED: Should use design tokens
     fontSize: 14,
-    borderWidth: 1, borderColor: '#374151', // ! HARDCODED: Should use design tokens
+    borderWidth: 1, borderColor: fantasyTomeColors.parchment.border, // ! HARDCODED: Should use design tokens
   },
   textArea: {
     minHeight: 80,
@@ -458,22 +458,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 16,
   },
-  addButton: { backgroundColor: '#6366F1', // ! HARDCODED: Should use design tokens
+  addButton: { backgroundColor: fantasyTomeColors.elements.magic.primary, // ! HARDCODED: Should use design tokens
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 6,
   },
-  addButtonText: { color: '#FFFFFF', // ! HARDCODED: Should use design tokens
+  addButtonText: { color: fantasyTomeColors.parchment.vellum, // ! HARDCODED: Should use design tokens
     fontSize: 14,
     fontWeight: '600',
   },
-  emptyQuestions: { backgroundColor: '#1F2937', // ! HARDCODED: Should use design tokens
+  emptyQuestions: { backgroundColor: fantasyTomeColors.ink.black, // ! HARDCODED: Should use design tokens
     borderRadius: 8,
     padding: 24,
     alignItems: 'center',
   },
   emptyText: {
-    fontSize: 14, color: '#6B7280', // ! HARDCODED: Should use design tokens
+    fontSize: 14, color: fantasyTomeColors.ink.faded, // ! HARDCODED: Should use design tokens
     textAlign: 'center',
   },
   questionWrapper: {
@@ -482,18 +482,18 @@ const styles = StyleSheet.create({
   basicModeRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center', backgroundColor: '#374151', // ! HARDCODED: Should use design tokens
+    alignItems: 'center', backgroundColor: fantasyTomeColors.ink.brown, // ! HARDCODED: Should use design tokens
     padding: 12,
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
   },
   basicModeLabel: {
-    fontSize: 13, color: '#D1D5DB', // ! HARDCODED: Should use design tokens
+    fontSize: 13, color: fantasyTomeColors.ink.light, // ! HARDCODED: Should use design tokens
   },
-  questionCard: { backgroundColor: '#1F2937', // ! HARDCODED: Should use design tokens
+  questionCard: { backgroundColor: fantasyTomeColors.ink.black, // ! HARDCODED: Should use design tokens
     borderRadius: 8,
     padding: 16,
-    borderWidth: 1, borderColor: '#374151', // ! HARDCODED: Should use design tokens
+    borderWidth: 1, borderColor: fantasyTomeColors.parchment.border, // ! HARDCODED: Should use design tokens
   },
   questionHeader: {
     flexDirection: 'row',
@@ -501,11 +501,11 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   questionTextInput: {
-    flex: 1, backgroundColor: '#111827', // ! HARDCODED: Should use design tokens
+    flex: 1, backgroundColor: fantasyTomeColors.ink.scribe, // ! HARDCODED: Should use design tokens
     borderRadius: 6,
-    padding: 10, color: '#F9FAFB', // ! HARDCODED: Should use design tokens
+    padding: 10, color: fantasyTomeColors.parchment.vellum, // ! HARDCODED: Should use design tokens
     fontSize: 14,
-    borderWidth: 1, borderColor: '#374151', // ! HARDCODED: Should use design tokens
+    borderWidth: 1, borderColor: fantasyTomeColors.parchment.border, // ! HARDCODED: Should use design tokens
   },
   deleteQuestionButton: {
     marginLeft: 8,
@@ -523,14 +523,14 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   fieldLabel: {
-    fontSize: 12, color: '#9CA3AF', // ! HARDCODED: Should use design tokens
+    fontSize: 12, color: fantasyTomeColors.ink.light, // ! HARDCODED: Should use design tokens
     marginBottom: 6,
   },
-  fieldInput: { backgroundColor: '#111827', // ! HARDCODED: Should use design tokens
+  fieldInput: { backgroundColor: fantasyTomeColors.ink.scribe, // ! HARDCODED: Should use design tokens
     borderRadius: 6,
-    padding: 8, color: '#F9FAFB', // ! HARDCODED: Should use design tokens
+    padding: 8, color: fantasyTomeColors.parchment.vellum, // ! HARDCODED: Should use design tokens
     fontSize: 13,
-    borderWidth: 1, borderColor: '#374151', // ! HARDCODED: Should use design tokens
+    borderWidth: 1, borderColor: fantasyTomeColors.parchment.border, // ! HARDCODED: Should use design tokens
   },
   typeSelector: {
     flexDirection: 'row',
@@ -540,17 +540,17 @@ const styles = StyleSheet.create({
   typeOption: {
     paddingHorizontal: 10,
     paddingVertical: 6,
-    borderRadius: 4, backgroundColor: '#374151', // ! HARDCODED: Should use design tokens
+    borderRadius: 4, backgroundColor: fantasyTomeColors.ink.brown, // ! HARDCODED: Should use design tokens
     borderWidth: 1,
     borderColor: 'transparent',
   },
   typeOptionSelected: {
-    backgroundColor: '#6366F120', borderColor: '#6366F1', // ! HARDCODED: Should use design tokens
+    backgroundColor: '#6366F120', borderColor: fantasyTomeColors.elements.magic.primary, // ! HARDCODED: Should use design tokens
   },
   typeOptionText: {
-    fontSize: 11, color: '#9CA3AF', // ! HARDCODED: Should use design tokens
+    fontSize: 11, color: fantasyTomeColors.ink.light, // ! HARDCODED: Should use design tokens
   },
-  typeOptionTextSelected: { color: '#6366F1', // ! HARDCODED: Should use design tokens
+  typeOptionTextSelected: { color: fantasyTomeColors.elements.magic.primary, // ! HARDCODED: Should use design tokens
   },
   footer: {
     flexDirection: 'row',
@@ -559,25 +559,25 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingVertical: 20,
     borderTopWidth: 1,
-    borderTopColor: '#374151',
+    borderTopColor: fantasyTomeColors.parchment.border,
   },
   cancelButton: {
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 8,
-    borderWidth: 1, borderColor: '#4B5563', // ! HARDCODED: Should use design tokens
+    borderWidth: 1, borderColor: fantasyTomeColors.parchment.border, // ! HARDCODED: Should use design tokens
   },
   cancelButtonText: {
     fontSize: 14,
-    fontWeight: '600', color: '#D1D5DB', // ! HARDCODED: Should use design tokens
+    fontWeight: '600', color: fantasyTomeColors.ink.light, // ! HARDCODED: Should use design tokens
   },
-  saveButton: { backgroundColor: '#6366F1', // ! HARDCODED: Should use design tokens
+  saveButton: { backgroundColor: fantasyTomeColors.elements.magic.primary, // ! HARDCODED: Should use design tokens
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 8,
   },
   saveButtonText: {
     fontSize: 14,
-    fontWeight: '600', color: '#FFFFFF', // ! HARDCODED: Should use design tokens
+    fontWeight: '600', color: fantasyTomeColors.parchment.vellum, // ! HARDCODED: Should use design tokens
   },
 });

@@ -33,7 +33,7 @@ export function SearchProvider({ children }: SearchProviderProps) {
   const { projects } = useWorldbuildingStore();
 
   // Configure Fuse.js for elements
-  const elementFuseOptions: Fuse.IFuseOptions<WorldElement> = {
+  const elementFuseOptions: Fuse.IFuseOptions<WorldElement> = useMemo(() => ({
     keys: [
       { name: 'name', weight: 0.4 },
       { name: 'description', weight: 0.3 },
@@ -46,10 +46,10 @@ export function SearchProvider({ children }: SearchProviderProps) {
     minMatchCharLength: 2,
     findAllMatches: true,
     ignoreLocation: true,
-  };
+  }), []);
 
   // Configure Fuse.js for projects
-  const projectFuseOptions: Fuse.IFuseOptions<Project> = {
+  const projectFuseOptions: Fuse.IFuseOptions<Project> = useMemo(() => ({
     keys: [
       { name: 'name', weight: 0.4 },
       { name: 'description', weight: 0.3 },
@@ -62,7 +62,7 @@ export function SearchProvider({ children }: SearchProviderProps) {
     minMatchCharLength: 2,
     findAllMatches: true,
     ignoreLocation: true,
-  };
+  }), []);
 
   // * Search elements
   const searchElements = useCallback(

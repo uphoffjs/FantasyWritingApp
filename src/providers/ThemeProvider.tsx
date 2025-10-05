@@ -5,7 +5,7 @@
  */
 
 import React, { createContext, useContext, useEffect, useState, useMemo, ReactNode } from 'react';
-import { Appearance, Platform, useColorScheme } from 'react-native';
+import { Appearance,  useColorScheme } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { fantasyMasterColors } from '../constants/fantasyMasterColors';
 import { fontFamilies, fontSizes, fontWeights, lineHeights, letterSpacing, textStyles } from '../styles/typography';

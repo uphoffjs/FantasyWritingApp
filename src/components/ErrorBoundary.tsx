@@ -42,7 +42,7 @@ interface ErrorBoundaryState {
 }
 
 export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
-  private resetTimeoutId: NodeJS.Timeout | null = null;
+  private resetTimeoutId: ReturnType<typeof setTimeout> | null = null;
   private previousResetKeys: Array<string | number> = [];
   private _errorId: string | null = null;
 

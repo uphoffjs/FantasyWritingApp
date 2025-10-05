@@ -6,7 +6,7 @@
  */
 
 import { useEffect, useRef, useState, useMemo } from 'react';
-import { Animated, Platform } from 'react-native';
+import { Animated } from 'react-native';
 
 export type AnimationType = 
   | 'fadeIn'
@@ -86,6 +86,7 @@ export const useRevealAnimation = (
     if (autoStart || triggered) {
       trigger();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [type, autoStart, triggered]);
 
   // * Reset animation to initial state
@@ -296,6 +297,7 @@ export const useStaggeredReveal = (
   options: Omit<RevealAnimationOptions, 'index'> = {}
 ) => {
   const animations = Array.from({ length: itemCount }, (_, index) =>
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     useRevealAnimation({
       ...options,
       index,

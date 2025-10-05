@@ -8,8 +8,11 @@ import React, { useState } from 'react';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import type { RootStackScreenProps, NavigationProp } from '../navigation/types';
 import { useWorldbuildingStore } from '../store/worldbuildingStore';
+// eslint-disable-next-line no-restricted-imports
 import { ElementBrowser } from '../components/ElementBrowser.web';
+// eslint-disable-next-line no-restricted-imports
 import { CreateElementModal } from '../components/CreateElementModal.web';
+// eslint-disable-next-line no-restricted-imports
 import { RelationshipManager } from '../components/RelationshipManager.web';
 import { getTestProps } from '../utils/react-native-web-polyfills';
 

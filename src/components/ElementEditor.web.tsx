@@ -5,7 +5,7 @@
  */
 
 import React, { useState, useCallback, useEffect, useMemo } from 'react';
-import { WorldElement, Question, Answer } from '../types/models';
+import { WorldElement, Question, Answer as _Answer } from '../types/models';
 import { useWorldbuildingStore } from '../store/worldbuildingStore';
 import { getTestProps } from '../utils/react-native-web-polyfills';
 
@@ -199,7 +199,7 @@ export function ElementEditor({
   element,
   projectId,
   onSave,
-  onCancel,
+  onCancel: _onCancel,
   autoSave = false,
 }: ElementEditorProps) {
   const { updateElement, updateAnswer } = useWorldbuildingStore();
@@ -237,7 +237,7 @@ export function ElementEditor({
 
       return () => clearTimeout(timer);
     }
-  }, [hasChanges, elementData, answers, autoSave]);
+  }, [hasChanges, elementData, answers, autoSave, handleSave]);
 
   const handleElementChange = (field: string, value: string) => {
     setElementData((prev) => ({
@@ -376,7 +376,7 @@ export function ElementEditor({
           </div>
 
           <div className="space-y-6">
-            {element.questions.map((question, index) => (
+            {element.questions.map((question, _index) => (
               <div key={question.id} className="border-b border-gray-700 last:border-b-0 pb-6 last:pb-0">
                 <QuestionField
                   question={question}

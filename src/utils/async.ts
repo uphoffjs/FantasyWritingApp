@@ -82,7 +82,7 @@ export function createDebouncedAsync<TArgs extends any[], TResult>(
   asyncFn: (...args: TArgs) => Promise<TResult>,
   delay: number
 ): (...args: TArgs) => AsyncOperation<TResult> {
-  let timeoutId: NodeJS.Timeout | null = null;
+  let timeoutId: ReturnType<typeof setTimeout> | null = null;
   let currentOperation: AsyncOperation<TResult> | null = null;
 
   return (...args: TArgs) => {

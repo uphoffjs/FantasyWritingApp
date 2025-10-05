@@ -64,10 +64,10 @@ const breakpoints = {
 };
 
 // * Component to display spacing examples
-const SpacingExample = ({ 
-  label, 
-  value, 
-  pixels 
+const SpacingExample = ({
+  label,
+  value: _value,
+  pixels
 }: { 
   label: string; 
   value: number; 
@@ -209,7 +209,7 @@ const SpacingLayoutStory = () => {
             Common Spacing Values
           </h3>
           {Object.entries(spacing)
-            .filter(([key, value]) => [0, 4, 8, 16, 24, 32, 48, 64, 96, 128].includes(value))
+            .filter(([_key, value]) => [0, 4, 8, 16, 24, 32, 48, 64, 96, 128].includes(value))
             .map(([key, value]) => (
               <SpacingExample 
                 key={key}

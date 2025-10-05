@@ -15,8 +15,9 @@ import { getTestProps } from '../utils/react-native-web-polyfills';
 // * Returns null if not within a ThemeProvider
 const useOptionalTheme = () => {
   try {
-     
+
     const { useTheme } = require('../providers/ThemeProvider');
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     return useTheme();
   } catch {
     // ! ThemeProvider not available

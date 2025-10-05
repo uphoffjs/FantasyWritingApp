@@ -11,7 +11,7 @@ import {
   View, 
   StyleSheet, 
   Animated, 
-  Platform,
+  
   ViewStyle 
 } from 'react-native';
 import { useTheme } from '../../providers/ThemeProvider';

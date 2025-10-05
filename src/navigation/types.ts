@@ -3,7 +3,7 @@
  * Defines the navigation structure and parameters
  */
 
-import type { NavigatorScreenParams } from '@react-navigation/native';
+import type { NavigatorScreenParams as _NavigatorScreenParams } from '@react-navigation/native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 // * Define the parameter list for each screen

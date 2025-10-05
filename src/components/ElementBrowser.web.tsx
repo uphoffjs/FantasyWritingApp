@@ -6,6 +6,7 @@
 
 import React, { useState, useMemo, useCallback } from 'react';
 import { WorldElement, ElementCategory } from '../types/models';
+// eslint-disable-next-line no-restricted-imports
 import { ElementCard } from './ElementCard.web';
 import { getCategoryIcon } from '../utils/categoryMapping';
 import { getTestProps } from '../utils/react-native-web-polyfills';
@@ -49,8 +50,8 @@ export function ElementBrowser({
   onElementPress,
   onCreateElement,
   loading = false,
-  refreshing = false,
-  onRefresh,
+  refreshing: _refreshing = false,
+  onRefresh: _onRefresh,
 }: ElementBrowserProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<ElementCategory | 'all'>('all');

@@ -126,8 +126,8 @@ export const migrateStorageData = async (
   oldData?: string
 ): Promise<boolean> => {
   try {
-    const storage = createCrossPlatformStorage();
-    
+    const _storage = createCrossPlatformStorage();
+
     // * Check if data already exists in new storage
     const existingData = await crossPlatformStorage.getItem(storageKey);
     

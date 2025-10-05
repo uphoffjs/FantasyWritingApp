@@ -8,7 +8,7 @@ import React, { useState, useMemo } from 'react';
 import { QuestionnaireTemplate, ElementCategory } from '../types/models';
 import { useWorldbuildingStore } from '../store/worldbuildingStore';
 import { DEFAULT_TEMPLATES } from '../types/worldbuilding';
-import { getCategoryIcon } from '../utils/categoryMapping';
+import { getCategoryIcon as _getCategoryIcon } from '../utils/categoryMapping';
 import { getTestProps } from '../utils/react-native-web-polyfills';
 
 interface TemplateSelectorProps {

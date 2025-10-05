@@ -38,7 +38,7 @@ export const ElementCard = memo(function ElementCard({
 }: ElementCardProps) {
   const categoryIcon = icon || getCategoryIcon(element.category);
   const themeContext = useOptionalTheme();
-  const theme = themeContext?.theme || {
+  const theme = useMemo(() => themeContext?.theme || {
     // * Fallback theme values
     colors: {
       text: { primary: '#1A1613', secondary: '#6B5E52', muted: '#9B8C7D' },
@@ -50,13 +50,13 @@ export const ElementCard = memo(function ElementCard({
       }
     },
     layout: { borderRadius: { medium: 12, small: 8 }, spacing: { md: 16 } }
-  };
-  
+  }, [themeContext?.theme]);
+
   // * Create dynamic styles based on theme
   const styles = useMemo(() => createStyles(theme), [theme]);
-  
+
   // * Use theme colors for completion states
-  const getCompletionColor = (percentage: number) => {
+  const _getCompletionColor = (percentage: number) => {
     if (percentage >= 80) return theme.colors.semantic.success;
     if (percentage >= 50) return theme.colors.semantic.warning;
     if (percentage > 0) return theme.colors.semantic.error;

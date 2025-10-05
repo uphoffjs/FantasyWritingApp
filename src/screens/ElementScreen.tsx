@@ -35,7 +35,7 @@ export function ElementScreen() {
     return (
       <View style={styles.container}>
         <View style={styles.errorContainer}>
-          <Icon name="error-outline" size={64} color="#EF4444" />
+          <Icon name="error-outline" size={64} color=fantasyTomeColors.semantic.error />
           <Text style={styles.errorText}>
             {!project ? 'Project not found' : 'Element not found'}
           </Text>
@@ -67,7 +67,7 @@ export function ElementScreen() {
     );
   };
 
-  const handleSelectTemplate = (template: any) => {
+  const handleSelectTemplate = (_template: any) => {
     // TODO: * Template will be applied to the element through the store
     setShowTemplateSelector(false);
   };
@@ -81,7 +81,7 @@ export function ElementScreen() {
             onPress={() => navigation.goBack()}
             style={styles.backButton}
           >
-            <Icon name="arrow-back" size={24} color="#F9FAFB" />
+            <Icon name="arrow-back" size={24} color=fantasyTomeColors.ink.black />
           </TouchableOpacity>
           <View style={styles.titleContainer}>
             <Text style={styles.title} numberOfLines={1}>{element.name}</Text>
@@ -93,7 +93,7 @@ export function ElementScreen() {
             onPress={handleDeleteElement}
             style={styles.deleteButton}
           >
-            <Icon name="delete" size={24} color="#EF4444" />
+            <Icon name="delete" size={24} color=fantasyTomeColors.semantic.error />
           </TouchableOpacity>
         </View>
         
@@ -175,15 +175,15 @@ export function ElementScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#111827',
+    backgroundColor: fantasyTomeColors.ink.scribe,
   },
   header: {
-    backgroundColor: '#1F2937',
+    backgroundColor: fantasyTomeColors.ink.black,
     paddingTop: Platform.OS === 'ios' ? 44 : 24,
     paddingBottom: 16,
     paddingHorizontal: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '#374151',
+    borderBottomColor: fantasyTomeColors.parchment.border,
   },
   headerContent: {
     flexDirection: 'row',
@@ -201,12 +201,12 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#F9FAFB',
+    color: fantasyTomeColors.ink.black,
     marginBottom: 4,
   },
   subtitle: {
     fontSize: 14,
-    color: '#9CA3AF',
+    color: fantasyTomeColors.ink.light,
   },
   deleteButton: {
     padding: 8,
@@ -216,23 +216,23 @@ const styles = StyleSheet.create({
   },
   progressBar: {
     height: 4,
-    backgroundColor: '#374151',
+    backgroundColor: fantasyTomeColors.ink.brown,
     borderRadius: 2,
     overflow: 'hidden',
     marginBottom: 4,
   },
   progressFill: {
     height: '100%',
-    backgroundColor: '#10B981',
+    backgroundColor: fantasyTomeColors.semantic.success,
   },
   progressText: {
     fontSize: 12,
-    color: '#9CA3AF',
+    color: fantasyTomeColors.ink.light,
     textAlign: 'right',
   },
   tabContainer: {
     flexDirection: 'row',
-    backgroundColor: '#374151',
+    backgroundColor: fantasyTomeColors.ink.brown,
     borderRadius: 8,
     padding: 4,
   },
@@ -243,15 +243,15 @@ const styles = StyleSheet.create({
     borderRadius: 6,
   },
   activeTab: {
-    backgroundColor: '#6366F1',
+    backgroundColor: fantasyTomeColors.elements.magic.primary,
   },
   tabText: {
     fontSize: 14,
     fontWeight: '500',
-    color: '#9CA3AF',
+    color: fantasyTomeColors.ink.light,
   },
   activeTabText: {
-    color: '#FFFFFF',
+    color: fantasyTomeColors.parchment.vellum,
   },
   content: {
     flex: 1,
@@ -264,7 +264,7 @@ const styles = StyleSheet.create({
   },
   errorText: {
     fontSize: 18,
-    color: '#EF4444',
+    color: fantasyTomeColors.semantic.error,
     textAlign: 'center',
     marginVertical: 16,
   },
@@ -277,13 +277,13 @@ const styles = StyleSheet.create({
   noQuestionsTitle: {
     fontSize: 20,
     fontWeight: '600',
-    color: '#F9FAFB',
+    color: fantasyTomeColors.ink.black,
     marginTop: 16,
     marginBottom: 8,
   },
   noQuestionsText: {
     fontSize: 14,
-    color: '#9CA3AF',
+    color: fantasyTomeColors.ink.light,
     textAlign: 'center',
     marginBottom: 24,
     lineHeight: 20,

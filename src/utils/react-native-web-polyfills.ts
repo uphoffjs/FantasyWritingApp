@@ -18,6 +18,7 @@ export function initializePolyfills() {
     
     // RequestAnimationFrame polyfill
     if (!window.requestAnimationFrame) {
+      // eslint-disable-next-line no-undef
       window.requestAnimationFrame = (callback: FrameRequestCallback) => {
         return window.setTimeout(callback, 1000 / 60);
       };
@@ -67,7 +68,7 @@ export function createWebCompatibleEvent(type: string, detail?: any) {
 }
 
 // * Helper to handle synthetic events properly
-export function handleSyntheticEvent(callback: Function) {
+export function handleSyntheticEvent(callback: (event: any) => void) {
   return (event: any) => {
     // For React Native Web, ensure the event has the expected properties
     if (Platform.OS === 'web') {

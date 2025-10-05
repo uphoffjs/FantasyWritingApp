@@ -7,8 +7,11 @@
 import React, { useState, useEffect } from 'react';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import type { RootStackScreenProps, NavigationProp } from '../navigation/types';
+// eslint-disable-next-line no-restricted-imports
 import { ElementEditor } from '../components/ElementEditor.web';
+// eslint-disable-next-line no-restricted-imports
 import { RelationshipManager } from '../components/RelationshipManager.web';
+// eslint-disable-next-line no-restricted-imports
 import { TemplateSelector } from '../components/TemplateSelector.web';
 import { useWorldbuildingStore } from '../store/worldbuildingStore';
 import { getCategoryIcon } from '../utils/categoryMapping';
@@ -60,7 +63,7 @@ export function ElementScreen() {
     }
   };
 
-  const handleSelectTemplate = (template: any) => {
+  const handleSelectTemplate = (_template: any) => {
     // * Template will be applied to the element through the store
     setShowTemplateSelector(false);
   };

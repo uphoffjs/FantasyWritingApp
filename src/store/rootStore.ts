@@ -1,8 +1,8 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 // import { v4 as uuidv4 } from 'uuid';
-import { optimisticSyncMiddleware } from './middleware/optimisticSyncMiddleware';
-import { performanceMiddleware } from './middleware/performanceMiddleware';
+import { optimisticSyncMiddleware as _optimisticSyncMiddleware } from './middleware/optimisticSyncMiddleware';
+import { performanceMiddleware as _performanceMiddleware } from './middleware/performanceMiddleware';
 import { searchService } from '../services/searchService';
 import { searchCache } from '../utils/cache';
 // * Images removed from MVP - no longer importing ImageWithCaption
@@ -22,7 +22,7 @@ export interface WorldbuildingStore extends ProjectSlice, ElementSlice, Relation
 
 // * Create the root store with proper typing
 export const useWorldbuildingStore = create<WorldbuildingStore>()(
-  // ! PERFORMANCE: performanceMiddleware(
+  // ! PERFORMANCE: performanceMiddleware as _performanceMiddleware(
     // optimisticSyncMiddleware(
       persist(
       (set, get, api) => ({

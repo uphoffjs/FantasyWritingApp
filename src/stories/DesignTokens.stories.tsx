@@ -37,7 +37,7 @@ const ColorSwatch = ({ name, value, path }: { name: string; value: string; path:
 // * Component to display a color palette section
 const ColorPalette = ({ title, colors, prefix }: { title: string; colors: any; prefix: string }) => {
   const renderColors = (obj: any, path = '') => {
-    const items: JSX.Element[] = [];
+    const items: React.JSX.Element[] = [];
     
     Object.entries(obj).forEach(([key, value]) => {
       const currentPath = path ? `${path}-${key}` : key;
