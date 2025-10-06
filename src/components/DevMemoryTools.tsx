@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// * Dev tools require flexible typing for memory inspection and debugging data structures
+
 /**
  * Developer Memory Tools
  *
@@ -5,7 +8,7 @@
  * Add this to your app during development for easy checkpoint management
  */
 
-/* eslint-disable react-native/no-color-literals */
+ 
 
 import React from 'react';
 import { View, TouchableOpacity, Text, StyleSheet, Alert } from 'react-native';

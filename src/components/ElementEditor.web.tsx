@@ -4,6 +4,10 @@
  * Uses HTML elements and Tailwind for web rendering
  */
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// * Dynamic form editor requires 'any' for flexible question/answer value types
+// * Question values can be string | string[] | number | boolean | Date - any provides necessary flexibility
+
 import React, { useState, useCallback, useEffect, useMemo } from 'react';
 import { WorldElement, Question, Answer as _Answer } from '../types/models';
 import { useWorldbuildingStore } from '../store/worldbuildingStore';
@@ -275,6 +279,7 @@ export function ElementEditor({
       onSave?.();
     } catch (error) {
       console.error('Failed to save element:', error);
+      // eslint-disable-next-line no-alert -- Error notification appropriate for web platform
       alert('Failed to save changes. Please try again.');
     } finally {
       setIsSaving(false);

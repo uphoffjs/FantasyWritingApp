@@ -6,8 +6,8 @@ import {
   StyleSheet,
   Platform,
 } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useTheme } from '../providers/ThemeProvider';
+import { useSafeAreaInsets, EdgeInsets } from 'react-native-safe-area-context';
+import { useTheme, Theme } from '../providers/ThemeProvider';
 
 import { getTestProps } from '../utils/react-native-web-polyfills';
 interface TabItem {
@@ -105,7 +105,7 @@ export const BottomNavigation = React.memo(function BottomNavigation({
 });
 
 // * Dynamic style creation with theme and safe area support
-const createStyles = (theme: any, insets: any) => StyleSheet.create({
+const createStyles = (theme: Theme, insets: EdgeInsets) => StyleSheet.create({
   container: {
     flexDirection: 'row',
     backgroundColor: theme.colors.surface.background,

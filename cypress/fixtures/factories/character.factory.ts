@@ -3,6 +3,8 @@
  * Adapted from fantasy-element-builder patterns
  */
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// Cypress fixture factories require 'any' type for test data flexibility
 export interface Character {
   id: string;
   name: string;

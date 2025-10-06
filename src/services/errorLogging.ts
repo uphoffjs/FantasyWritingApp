@@ -32,6 +32,7 @@ export interface ErrorLog {
   category: ErrorCategory;
   severity: ErrorSeverity;
   message: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Error details can be any type depending on error context
   details?: any;
   stack?: string;
   userId?: string;
@@ -45,6 +46,7 @@ export interface ErrorContext {
   severity?: ErrorSeverity;
   userId?: string;
   sessionId?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Additional data can be any type for error context
   additionalData?: any;
 }
 
@@ -93,6 +95,7 @@ class ErrorLoggingService {
   /**
    * Log a validation error
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Value can be any type for validation error logging
   logValidationError(message: string, field?: string, value?: any): string {
     return this.logError(message, {
       category: ErrorCategory.VALIDATION,
@@ -115,6 +118,7 @@ class ErrorLoggingService {
   /**
    * Log a business logic error
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Data can be any type for business error logging
   logBusinessError(message: string, operation?: string, data?: any): string {
     return this.logError(message, {
       category: ErrorCategory.BUSINESS,
@@ -256,6 +260,7 @@ class ErrorLoggingService {
       const existingLogs = localStorage.getItem('errorLogs');
       if (existingLogs) {
         const logs = JSON.parse(existingLogs);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- JSON parsing returns any type for log entries
         const deserializedLogs = logs.map((log: any) => ({
           ...log,
           timestamp: new Date(log.timestamp) // Deserialize date

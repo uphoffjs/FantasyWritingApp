@@ -1,4 +1,4 @@
-/* eslint-disable react-native/no-color-literals */
+ 
 /**
  * Memory Checkpoint Manager
  *

@@ -4,6 +4,10 @@
  * Supports web file input and mobile image selection
  */
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// * Cross-platform image picker requires 'any' for DOM event handlers and file input types
+// * Web file input events and React Native image picker responses don't have unified TypeScript types
+
 import React, { useState } from 'react';
 import {
   View,
@@ -14,7 +18,7 @@ import {
   Platform,
   Alert,
 } from 'react-native';
-import { useTheme } from '../providers/ThemeProvider';
+import { useTheme, Theme } from '../providers/ThemeProvider';
 
 import { getTestProps } from '../utils/react-native-web-polyfills';
 interface ImagePickerProps {
@@ -162,7 +166,7 @@ export function ImagePicker({
 }
 
 // * Create theme-aware styles
-const getStyles = (theme: any) => StyleSheet.create({
+const getStyles = (theme: Theme) => StyleSheet.create({
   container: {
     marginVertical: theme.spacing.sm,
   },

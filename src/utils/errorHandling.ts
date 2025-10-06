@@ -1,9 +1,9 @@
 import { useNotificationStore } from '../store/notificationStore';
-import { errorLoggingService } from '../services/errorLogging';
+import { errorLoggingService, ErrorSeverity } from '../services/errorLogging';
 
 export interface ErrorContext {
   operation: string;
-  details?: Record<string, any>;
+  details?: Record<string, unknown>;
 }
 
 // User-friendly error messages mapping
@@ -48,23 +48,23 @@ const ERROR_MESSAGES: Record<string, string> = {
 /**
  * Get a user-friendly error message from an error object
  */
-export function getUserFriendlyMessage(error: any): string {
+export function getUserFriendlyMessage(error: unknown): string {
   // * Check for specific error messages
-  if (error.message) {
+  if (error && typeof error === 'object' && 'message' in error && typeof error.message === 'string') {
     for (const [key, message] of Object.entries(ERROR_MESSAGES)) {
       if (error.message.includes(key)) {
         return message;
       }
     }
   }
-  
+
   // * Check error type/name
-  if (error.name && ERROR_MESSAGES[error.name]) {
+  if (error && typeof error === 'object' && 'name' in error && typeof error.name === 'string' && ERROR_MESSAGES[error.name]) {
     return ERROR_MESSAGES[error.name];
   }
-  
+
   // * Check error code
-  if (error.code && ERROR_MESSAGES[error.code]) {
+  if (error && typeof error === 'object' && 'code' in error && typeof error.code === 'string' && ERROR_MESSAGES[error.code]) {
     return ERROR_MESSAGES[error.code];
   }
   
@@ -104,12 +104,11 @@ export async function handleAsyncOperation<T>(
     }
     
     return result;
-  } catch (error: any) {
+  } catch (error: unknown) {
     // * Log the error
-    errorLoggingService.logError({
-      error,
-      errorInfo: {} as any,
-      level: 'error' as any
+    const err = error instanceof Error ? error : new Error(String(error));
+    errorLoggingService.logError(err, {
+      severity: ErrorSeverity.HIGH
     });
     
     // ? * Show user-friendly notification
@@ -130,18 +129,18 @@ export async function handleAsyncOperation<T>(
 /**
  * Wrap an async function with error handling
  */
-export function withErrorHandling<T extends (...args: any[]) => Promise<any>>(
-  fn: T,
+export function withErrorHandling<TArgs extends unknown[], TReturn>(
+  fn: (...args: TArgs) => Promise<TReturn>,
   context: string,
   options: Parameters<typeof handleAsyncOperation>[2] = {}
-): T {
-  return (async (...args: Parameters<T>) => {
+): (...args: TArgs) => Promise<TReturn | null> {
+  return async (...args: TArgs) => {
     return handleAsyncOperation(
       () => fn(...args),
       { operation: context, details: { args } },
       options
     );
-  }) as T;
+  };
 }
 
 /**
@@ -165,9 +164,10 @@ export function useAsyncOperation<T>(
         rethrow: true,
       });
       return result;
-    } catch (err: any) {
-      setError(err);
-      throw err;
+    } catch (err: unknown) {
+      const caughtError = err instanceof Error ? err : new Error(String(err));
+      setError(caughtError);
+      throw caughtError;
     } finally {
       setIsLoading(false);
     }

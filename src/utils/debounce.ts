@@ -3,6 +3,7 @@
  * * have elapsed since the last time the debounced function was invoked
  * ! PERFORMANCE: Use this to prevent excessive API calls or expensive operations
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Generic utility requires maximum flexibility for any function signature
 export function debounce<T extends (...args: any[]) => any>(
   func: T,
   wait: number
@@ -25,6 +26,7 @@ export function debounce<T extends (...args: any[]) => any>(
  * * Debounce with cancel functionality
  * * Useful when you need to abort pending debounced operations
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Generic utility requires maximum flexibility for any function signature
 export function debounceWithCancel<T extends (...args: any[]) => any>(
   func: T,
   wait: number

@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// * Sidebar navigation requires flexible typing for route params and navigation state
+
 /**
  * Sidebar.tsx
  * * Responsive sidebar component for navigation and app features
@@ -19,7 +22,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NavigationProp } from '../../navigation/types';
-import { useTheme } from '../../providers/ThemeProvider';
+import { useTheme, Theme } from '../../providers/ThemeProvider';
 import { useWorldbuildingStore } from '../../store/worldbuildingStore';
 
 import { getTestProps } from '../utils/react-native-web-polyfills';
@@ -240,9 +243,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
             ▶
           </Animated.Text>
         </Pressable>
-        <Animated.View 
+        <Animated.View
           style={[
             styles.sectionContent,
+            // eslint-disable-next-line react-native/no-inline-styles -- Animated values require inline styles
             {
               height: animatedHeight,
               opacity: animatedOpacity,
@@ -251,7 +255,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           ]}
         >
           {/* * Always render content but control visibility with animation */}
-          <View style={{ paddingVertical: 8 }}>
+          <View style={styles.sectionInner}>
             {items.map(renderMenuItem)}
           </View>
         </Animated.View>
@@ -331,9 +335,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
   // * Tablet: Render as collapsible sidebar
   if (deviceType === 'tablet') {
     return (
-      <Animated.View 
+      <Animated.View
         style={[
           styles.tabletSidebar,
+          // eslint-disable-next-line react-native/no-inline-styles -- Dynamic visibility animation
           { width: isVisible ? 280 : 60, opacity: isVisible ? 1 : 0.9 }
         ]}
         {...getTestProps('sidebar-tablet')}
@@ -360,7 +365,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 };
 
 // * Style creation function
-const createStyles = (theme: any) => StyleSheet.create({
+const createStyles = (theme: Theme) => StyleSheet.create({
   // * Container styles
   overlay: {
     position: 'absolute',
@@ -451,7 +456,10 @@ const createStyles = (theme: any) => StyleSheet.create({
   sectionContent: {
     // * Padding handled inside animated view for smooth transitions
   },
-  
+  sectionInner: {
+    paddingVertical: 8,
+  },
+
   // * Menu items
   menuItem: {
     flexDirection: 'row',

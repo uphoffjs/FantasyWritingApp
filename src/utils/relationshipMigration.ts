@@ -135,9 +135,10 @@ export function migrateRelationships(
 /**
  * Check if a relationship is in the old format
  */
-export function isOldFormatRelationship(relationship: any): relationship is OldRelationship {
+export function isOldFormatRelationship(relationship: unknown): relationship is OldRelationship {
   return (
-    relationship &&
+    relationship !== null &&
+    relationship !== undefined &&
     typeof relationship === 'object' &&
     'fromElementId' in relationship &&
     'toElementId' in relationship &&
@@ -148,29 +149,30 @@ export function isOldFormatRelationship(relationship: any): relationship is OldR
 /**
  * Check if a relationship is in the new format
  */
-export function isNewFormatRelationship(relationship: any): relationship is NewRelationship {
+export function isNewFormatRelationship(relationship: unknown): relationship is NewRelationship {
   return (
-    relationship &&
+    relationship !== null &&
+    relationship !== undefined &&
     typeof relationship === 'object' &&
     'fromId' in relationship &&
     'toId' in relationship &&
     'type' in relationship &&
-    typeof relationship.type === 'string'
+    typeof (relationship as NewRelationship).type === 'string'
   );
 }
 
 /**
  * Migrate relationship if needed (handles both old and new formats)
  */
-export function ensureNewRelationshipFormat(relationship: any): NewRelationship {
+export function ensureNewRelationshipFormat(relationship: unknown): NewRelationship {
   if (isNewFormatRelationship(relationship)) {
     return relationship;
   }
-  
+
   if (isOldFormatRelationship(relationship)) {
     return migrateRelationship(relationship);
   }
-  
+
   throw new Error('Invalid relationship format');
 }
 
@@ -178,7 +180,7 @@ export function ensureNewRelationshipFormat(relationship: any): NewRelationship 
  * Batch migrate relationships with validation
  */
 export function batchMigrateRelationships(
-  relationships: any[]
+  relationships: unknown[]
 ): { migrated: NewRelationship[], errors: Array<{ index: number; error: string }> } {
   const migrated: NewRelationship[] = [];
   const errors: Array<{ index: number; error: string }> = [];

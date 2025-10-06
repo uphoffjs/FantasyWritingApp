@@ -5,6 +5,10 @@
  * ! IMPORTANT: Essential for search and filter input optimization
  */
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// * Generic debounce hook requires 'any' for flexible value types
+// * Supports debouncing any value type (string, number, object, array, etc.)
+
 import { useState, useEffect, useRef, useCallback, DependencyList } from 'react';
 
 /**

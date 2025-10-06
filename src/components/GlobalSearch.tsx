@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// * Global search with navigation requires 'any' for flexible route params and navigation state
+// * Search results and AsyncStorage serialization need flexible typing for various element types
+
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import {
   View,
@@ -16,7 +20,7 @@ import { NavigationProp } from '../navigation/types';
 import { useSearch } from './SearchProvider';
 import { WorldElement, Project } from '../types/models';
 import { getCategoryIcon } from '../utils/categoryMapping';
-import { useTheme } from '../providers/ThemeProvider';
+import { useTheme, Theme } from '../providers/ThemeProvider';
 import { useSearchDebounce } from '../hooks/useDebounce';
 import { getTestProps } from '../utils/react-native-web-polyfills';
 
@@ -401,7 +405,7 @@ export function GlobalSearch({ visible, onClose }: GlobalSearchProps) {
 }
 
 // * Create theme-aware styles
-const getStyles = (theme: any) => StyleSheet.create({
+const getStyles = (theme: Theme) => StyleSheet.create({
   container: {
     flex: 1,
   },

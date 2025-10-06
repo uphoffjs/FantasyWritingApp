@@ -14,6 +14,7 @@ import { WorldElement, Relationship } from '../types/models';
 import { useWorldbuildingStore } from '../store/worldbuildingStore';
 import { v4 as uuidv4 } from 'uuid';
 import { getCategoryIcon } from '../utils/categoryMapping';
+import { fantasyTomeColors } from '../design-tokens/fantasyTomeColors';
 
 interface RelationshipManagerProps {
   element: WorldElement;

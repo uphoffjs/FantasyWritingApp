@@ -12,9 +12,9 @@ import {
   StyleSheet, 
   Animated, 
   
-  ViewStyle 
+  ViewStyle
 } from 'react-native';
-import { useTheme } from '../../providers/ThemeProvider';
+import { useTheme, Theme } from '../../providers/ThemeProvider';
 
 import { getTestProps } from '../utils/react-native-web-polyfills';
 interface SkeletonCardProps {
@@ -190,7 +190,7 @@ export const SkeletonCard: React.FC<SkeletonCardProps> = ({
 };
 
 // * Style creation function
-const createStyles = (theme: any) => StyleSheet.create({
+const createStyles = (theme: Theme) => StyleSheet.create({
   container: {
     backgroundColor: theme.colors.surface.card,
     borderRadius: theme.borderRadius.lg,

@@ -319,18 +319,18 @@ const styles = StyleSheet.create({
 
 // Higher-order component for wrapping components with error boundary
 export function withErrorBoundary<P extends object>(
-  Component: React.ComponentType<P>,
+  WrappedComponent: React.ComponentType<P>,
   errorBoundaryProps?: Omit<ErrorBoundaryProps, 'children'>
 ) {
-  const WrappedComponent = (props: P) => (
+  const ComponentWithErrorBoundary = (props: P) => (
     <ErrorBoundary {...errorBoundaryProps}>
-      <Component {...props} />
+      <WrappedComponent {...props} />
     </ErrorBoundary>
   );
 
-  WrappedComponent.displayName = `withErrorBoundary(${Component.displayName || Component.name})`;
+  ComponentWithErrorBoundary.displayName = `withErrorBoundary(${WrappedComponent.displayName || WrappedComponent.name})`;
 
-  return WrappedComponent;
+  return ComponentWithErrorBoundary;
 }
 
 // * Export for convenience

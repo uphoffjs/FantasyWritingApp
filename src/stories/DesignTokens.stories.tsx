@@ -3,6 +3,10 @@
  * Visual showcase of the Fantasy Master color palette and design system
  */
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// * Storybook stories require 'any' for flexible component props and story args
+// * Design token display components need flexible typing for various token structures
+
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { tokens } from '../design-tokens/tokens';

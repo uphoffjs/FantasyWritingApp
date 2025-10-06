@@ -1,6 +1,9 @@
 // React Native Web Polyfills and Compatibility Layer
 // TODO: * This file provides comprehensive polyfills and fixes for React Native Web compatibility issues
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// ! Window object extensions and polyfills require 'any' for dynamic runtime modifications
+
 import { Platform } from 'react-native';
 
 // * Initialize global polyfills

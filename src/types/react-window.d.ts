@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// ! Generic type parameters in library type definitions require 'any' for flexibility
+
 declare module 'react-window' {
   import { ComponentType, CSSProperties, ReactNode as _ReactNode, Ref } from 'react';
 

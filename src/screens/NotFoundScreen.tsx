@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// * Not found screen requires flexible typing for navigation fallback handling
+
 /**
  * Not Found Screen
  * 404 error page

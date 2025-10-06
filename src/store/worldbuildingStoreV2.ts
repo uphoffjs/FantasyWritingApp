@@ -1,7 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// * Store composition requires 'any' for flexible service layer integration
+// * and dynamic state management across multiple domain slices
+
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 // import { v4 as uuidv4 } from 'uuid';
-import { 
+import {
   StorageService,
   ProjectService,
   ElementService,

@@ -35,7 +35,7 @@ export interface Question {
   options?: SelectOption[];
   dependsOn?: {
     questionId: string;
-    value: any;  // The expected value for the condition
+    value: unknown;  // The expected value for the condition
   };
   validation?: QuestionValidation;  // Comprehensive validation
 }

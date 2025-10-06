@@ -9,6 +9,9 @@
  * - Cross-session continuity
  */
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// ! Memory store requires flexible typing for cached data structures
+
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -262,10 +265,10 @@ export const useMemoryStore = create<MemoryStore>()(
           },
         };
 
-        set((state) => {
-          const newCheckpoints = [...state.checkpoints, checkpoint];
+        set((currentState) => {
+          const newCheckpoints = [...currentState.checkpoints, checkpoint];
           // Prune old checkpoints if exceeding max
-          if (newCheckpoints.length > state.maxCheckpoints) {
+          if (newCheckpoints.length > currentState.maxCheckpoints) {
             newCheckpoints.shift();
           }
           return {

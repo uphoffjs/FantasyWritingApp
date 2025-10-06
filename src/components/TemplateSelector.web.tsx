@@ -75,6 +75,7 @@ export function TemplateSelector({
         onClose();
       } catch (error) {
         console.error('Failed to apply template:', error);
+        // eslint-disable-next-line no-alert -- Error notification appropriate for web platform
         alert('Failed to apply template. Please try again.');
       } finally {
         setIsLoading(false);

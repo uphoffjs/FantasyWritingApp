@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// * Middleware requires 'any' for flexible operation types and to avoid circular dependencies
+// * with store type definitions. Operations are dynamically typed at runtime.
+
 import { StateCreator, StoreMutatorIdentifier } from 'zustand'
 // * Avoiding circular dependency - WorldbuildingStore type is defined inline
 type WorldbuildingStore = any // This will be properly typed at runtime

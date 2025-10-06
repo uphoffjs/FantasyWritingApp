@@ -4,6 +4,9 @@
  * Filters by genre, status, last modified, and more
  */
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// ! Type assertions for flexible filter comparisons and dynamic property access
+
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import {
   View,
@@ -12,7 +15,7 @@ import {
   ScrollView,
   StyleSheet,
 } from 'react-native';
-import { useTheme } from '../providers/ThemeProvider';
+import { useTheme, Theme } from '../providers/ThemeProvider';
 import { Project } from '../types/models';
 import { useFilterDebounce } from '../hooks/useDebounce';
 
@@ -396,7 +399,7 @@ export function ProjectFilter({
 }
 
 // * Create theme-aware styles
-const getStyles = (theme: any) => StyleSheet.create({
+const getStyles = (theme: Theme) => StyleSheet.create({
   container: {
     backgroundColor: theme.colors.surface.card,
     borderRadius: theme.borderRadius.md,

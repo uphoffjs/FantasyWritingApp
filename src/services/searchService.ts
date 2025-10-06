@@ -10,6 +10,7 @@ export interface SearchOptions {
 }
 
 class SearchService {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Fuse instances can hold different item types
   private fuseInstances: Map<string, Fuse<any>> = new Map();
 
   createIndex<T>(items: T[], options?: Fuse.IFuseOptions<T>): string {
@@ -85,7 +86,7 @@ class SearchService {
       ignoreLocation: true,
       getFn: (obj, path) => {
         if (typeof path === 'string' && path.includes('answers.value')) {
-          const answers = (obj as any).answers;
+          const answers = (obj as WorldElement).answers;
           if (answers && typeof answers === 'object') {
             return Object.values(answers).join(' ');
           }

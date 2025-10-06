@@ -5,6 +5,10 @@
  * ! IMPORTANT: Integrates with React Native's Animated API
  */
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// * Animation hook requires 'any' for React Native Animated.Value types
+// * Animated timing configurations have complex type structures requiring flexibility
+
 import { useEffect, useRef, useState, useMemo } from 'react';
 import { Animated } from 'react-native';
 

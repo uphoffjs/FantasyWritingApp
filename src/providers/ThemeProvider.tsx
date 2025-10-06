@@ -126,7 +126,7 @@ interface ThemeColors {
   };
 }
 
-interface Theme {
+export interface Theme {
   mode: 'light' | 'dark';
   colors: ThemeColors;
   spacing: {

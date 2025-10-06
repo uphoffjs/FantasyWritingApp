@@ -16,7 +16,7 @@ import {
   TextStyle,
   Animated,
 } from 'react-native';
-import { useTheme } from '../providers/ThemeProvider';
+import { useTheme, Theme } from '../providers/ThemeProvider';
 import { LoadingIndicator } from './loading/LoadingIndicator';
 import { getTestProps } from '../utils/react-native-web-polyfills';
 
@@ -194,7 +194,7 @@ export function Button({
 }
 
 // * Dynamic style creation based on theme
-const createStyles = (theme: any) => StyleSheet.create({
+const createStyles = (theme: Theme) => StyleSheet.create({
   base: {
     borderRadius: theme.borderRadius.md,
     alignItems: 'center',

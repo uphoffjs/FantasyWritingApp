@@ -257,7 +257,7 @@ export interface CreateElementInput {
   customTypeId?: string;
   templateId?: string;
   tags?: string[];
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 // * Validation helpers

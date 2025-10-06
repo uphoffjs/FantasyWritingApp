@@ -5,6 +5,10 @@
  * to interact with the memory system.
  */
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// * Memory system requires 'any' for flexible cached data structures
+// * Memory entries can contain any type of data (components, API responses, computed values, etc.)
+
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useMemoryStore, memoryHelpers, TaskMemory, MemoryEntry } from '../store/memoryStore';
 

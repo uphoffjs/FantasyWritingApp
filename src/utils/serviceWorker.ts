@@ -18,6 +18,7 @@ export async function registerServiceWorker() {
           newWorker.addEventListener('statechange', () => {
             if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
               // * New service worker available
+              // eslint-disable-next-line no-alert -- User confirmation for service worker update is appropriate UX
               if (confirm('A new version is available! Reload to update?')) {
                 window.location.reload();
               }
@@ -50,6 +51,7 @@ export async function requestBackgroundSync(tag: string = 'sync-worldbuilding-da
     const registration = await navigator.serviceWorker.ready;
     try {
       // Background Sync API is not in TypeScript types yet
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Background Sync API not yet in TypeScript service worker types
       await (registration as any).sync?.register(tag);
     } catch (error) {
       console.error('Background sync registration failed:', error);

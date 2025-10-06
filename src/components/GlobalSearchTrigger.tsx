@@ -4,6 +4,10 @@
  * Also provides a search button for mobile/touch interfaces
  */
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// * Global keyboard event handling requires 'any' for cross-platform event types
+// * Web KeyboardEvent and React Native gesture handlers have different type structures
+
 import React, { useState, useEffect } from 'react';
 import {
   View,
@@ -13,7 +17,7 @@ import {
   Platform,
 } from 'react-native';
 import { GlobalSearch } from './GlobalSearch';
-import { useTheme } from '../providers/ThemeProvider';
+import { useTheme, Theme } from '../providers/ThemeProvider';
 import { getTestProps } from '../utils/react-native-web-polyfills';
 
 interface GlobalSearchTriggerProps {
@@ -123,7 +127,7 @@ export function HeaderSearchButton() {
 }
 
 // * Create theme-aware styles
-const getStyles = (theme: any, position: string) => {
+const getStyles = (theme: Theme, position: string) => {
   const floatingPositions: any = {
     'bottom-right': { bottom: 24, right: 24 },
     'bottom-left': { bottom: 24, left: 24 },

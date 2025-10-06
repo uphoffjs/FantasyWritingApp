@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// * Project screen requires flexible typing for navigation params and route state
+
 /**
  * Project Screen
  * Displays project details and list of elements

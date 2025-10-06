@@ -3,6 +3,8 @@
  * For the fantasy element builder domain
  */
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// Cypress fixture factories require 'any' type for test data flexibility
 export interface Project {
   id: string;
   name: string;

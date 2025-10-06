@@ -4,6 +4,8 @@
  * ! Critical: Tests form submission, validation, and error handling
  */
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// Test files require 'any' type for mock flexibility and test data setup
 import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react-native';
 import { TextInput } from '../../src/components/TextInput';

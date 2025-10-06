@@ -3,6 +3,8 @@
  * Adapted from fantasy-element-builder's element.factory.ts
  */
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// Cypress fixture factories require 'any' type for test data flexibility
 export interface Story {
   id: string;
   title: string;

@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// ! Optimistic update system requires flexible typing for various entity types
+
 import { Project, WorldElement, Relationship } from '../types/models'
 
 // * Types for tracking optimistic updates

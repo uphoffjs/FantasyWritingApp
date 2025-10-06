@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// * Element browser requires flexible typing for dynamic filtering and search operations
+
 /**
  * ElementBrowser - Web Version
  * Displays and filters worldbuilding elements

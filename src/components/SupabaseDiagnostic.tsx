@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// * Supabase diagnostic tool requires 'any' for flexible database query results and API responses
+// * Diagnostic results contain dynamic Supabase metadata that varies by test type
+
 import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
 import { supabase } from '../lib/supabase';

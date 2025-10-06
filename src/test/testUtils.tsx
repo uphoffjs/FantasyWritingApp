@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// * Test utilities require 'any' for flexible mock types and test helper functions
+// * to support various component testing scenarios
+
 // * Test utilities for React Native Testing Library
 // * Provides helpers for rendering components with context providers
 

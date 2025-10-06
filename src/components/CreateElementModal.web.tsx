@@ -103,6 +103,7 @@ export function CreateElementModal({
       handleClose();
     } catch (error) {
       console.error('Failed to create element:', error);
+      // eslint-disable-next-line no-alert -- Error notification appropriate for web platform
       alert('Failed to create element. Please try again.');
     } finally {
       setIsCreating(false);

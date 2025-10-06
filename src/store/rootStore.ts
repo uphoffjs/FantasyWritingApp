@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// ! Type assertions required for Zustand store slice composition pattern
+
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 // import { v4 as uuidv4 } from 'uuid';

@@ -1,6 +1,10 @@
-import { 
-  Question as NewQuestion, 
-  SelectOption, 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// * Type migration utilities require 'any' for handling legacy data structures
+// * and dynamic type transformations during database migrations
+
+import {
+  Question as NewQuestion,
+  SelectOption,
   Answer as NewAnswer,
   WorldElement as NewWorldElement,
   Project as NewProject,

@@ -28,7 +28,7 @@ export function createAsyncState<T>(initialData: T | null = null): AsyncState<T>
 /**
  * Wraps an async function with cancellation support
  */
-export function createCancellableAsync<TArgs extends any[], TResult>(
+export function createCancellableAsync<TArgs extends unknown[], TResult>(
   asyncFn: (...args: TArgs) => Promise<TResult>
 ): (...args: TArgs) => AsyncOperation<TResult> {
   return (...args: TArgs) => {
@@ -71,14 +71,14 @@ export class CancelledError extends Error {
 /**
  * Checks if an error is a cancellation error
  */
-export function isCancelledError(error: any): error is CancelledError {
-  return error instanceof CancelledError || error?.message === 'Operation cancelled';
+export function isCancelledError(error: unknown): error is CancelledError {
+  return error instanceof CancelledError || (error as Error)?.message === 'Operation cancelled';
 }
 
 /**
  * Creates a debounced async function that cancels previous calls
  */
-export function createDebouncedAsync<TArgs extends any[], TResult>(
+export function createDebouncedAsync<TArgs extends unknown[], TResult>(
   asyncFn: (...args: TArgs) => Promise<TResult>,
   delay: number
 ): (...args: TArgs) => AsyncOperation<TResult> {
@@ -139,7 +139,7 @@ export async function retryAsync<T>(
     maxRetries?: number;
     initialDelay?: number;
     maxDelay?: number;
-    shouldRetry?: (error: any) => boolean;
+    shouldRetry?: (error: unknown) => boolean;
   } = {}
 ): Promise<T> {
   const {
@@ -149,7 +149,7 @@ export async function retryAsync<T>(
     shouldRetry = () => true,
   } = options;
 
-  let lastError: any;
+  let lastError: unknown;
   let delay = initialDelay;
 
   for (let attempt = 0; attempt <= maxRetries; attempt++) {

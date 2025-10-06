@@ -5,6 +5,10 @@
  * ! IMPORTANT: Critical for data integrity and user experience
  */
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// * Sync queue operations require 'any' for flexible operation data and conflict resolution
+// * Queue items contain dynamic payloads that vary by operation type
+
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import {
   View,

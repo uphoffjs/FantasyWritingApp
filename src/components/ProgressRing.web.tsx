@@ -10,6 +10,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Text, StyleSheet, Animated, Platform, Easing } from 'react-native';
 import Svg, { Circle, G } from 'react-native-svg';
 import { getTestProps } from '../utils/react-native-web-polyfills';
+import { Theme } from '../providers/ThemeProvider';
 
 interface ProgressRingProps {
   // * Progress value between 0 and 100
@@ -408,7 +409,7 @@ export const ProgressRing: React.FC<ProgressRingProps> = ({
 };
 
 // * Style creation function with hardcoded theme
-const createStyles = (theme: any, diameter: number, size: string) => {
+const createStyles = (theme: Theme, diameter: number, size: string) => {
   // * Font sizes based on ring size
   const fontSizeMap = {
     small: 12,

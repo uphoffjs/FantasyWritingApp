@@ -7,14 +7,14 @@
  */
 
 import React from 'react';
-import { 
-  View, 
+import {
+  View,
   ScrollView,
   StyleSheet,
   useWindowDimensions,
   ViewStyle
 } from 'react-native';
-import { useTheme } from '../../providers/ThemeProvider';
+import { useTheme, Theme } from '../../providers/ThemeProvider';
 import { SkeletonCard } from './SkeletonCard';
 
 import { getTestProps } from '../utils/react-native-web-polyfills';
@@ -130,7 +130,7 @@ export const SkeletonList: React.FC<SkeletonListProps> = ({
 };
 
 // * Style creation function
-const createStyles = (theme: any, direction: string, columns: number) => {
+const createStyles = (theme: Theme, direction: string, columns: number) => {
   const itemWidth = direction === 'grid' 
     ? `${Math.floor(100 / columns) - 2}%` 
     : '100%';

@@ -17,7 +17,7 @@ import {
   ViewStyle,
   TextStyle,
 } from 'react-native';
-import { useTheme } from '../../providers/ThemeProvider';
+import { useTheme, Theme } from '../../providers/ThemeProvider';
 
 import { getTestProps } from '../../utils/react-native-web-polyfills';
 import { fantasyTomeColors } from '../../constants/fantasyTomeColors';
@@ -353,7 +353,7 @@ export const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({
 
 // * Style creation function
 const createStyles = (
-  theme: any,
+  theme: Theme,
   dimensions: { indicator: number; container: number; fontSize: number },
   color: string,
   inline: boolean,

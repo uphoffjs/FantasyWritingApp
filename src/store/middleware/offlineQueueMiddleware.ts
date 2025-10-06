@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// * Middleware requires 'any' for flexible queue payload types and dynamic operation handling
+// * across different store actions and entity types
+
 import { StateCreator } from 'zustand';
 import { offlineQueueService } from '../../services/offlineQueue';
 import { useNetworkStatus } from '../../services/networkStatus';

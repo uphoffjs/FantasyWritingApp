@@ -5,6 +5,9 @@
  * ! IMPORTANT: Critical for performance and bandwidth optimization
  */
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// ! Delta sync requires flexible typing for dynamic entity changes and CRDT operations
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Project as _Project, WorldElement as _WorldElement, Template as _Template } from '../types/models';
 
@@ -225,7 +228,9 @@ class DeltaSyncService {
     let hash = 0;
     for (let i = 0; i < str.length; i++) {
       const char = str.charCodeAt(i);
+      // eslint-disable-next-line no-bitwise -- Required for CRC32 hash calculation
       hash = ((hash << 5) - hash) + char;
+      // eslint-disable-next-line no-bitwise -- Required for 32-bit integer conversion
       hash = hash & hash; // Convert to 32bit integer
     }
     return hash.toString(36);

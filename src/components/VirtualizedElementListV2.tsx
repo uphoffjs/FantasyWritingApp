@@ -20,7 +20,7 @@ import {
 } from 'react-native';
 import { WorldElement } from '../types/models';
 import { ElementCard } from './ElementCard';
-import { useTheme } from '../providers/ThemeProvider';
+import { useTheme, Theme } from '../providers/ThemeProvider';
 import { fantasyMasterColors } from '../constants/fantasyMasterColors';
 
 import { getTestProps } from '../utils/react-native-web-polyfills';
@@ -397,7 +397,7 @@ export const VirtualizedElementList = memo(function VirtualizedElementList({
 });
 
 // * Dynamic style creation based on theme
-const createStyles = (theme: any) => StyleSheet.create({
+const createStyles = (theme: Theme) => StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: theme.colors.background,

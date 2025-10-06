@@ -12,7 +12,7 @@ interface ImageWithCaption {
 /**
  * Check if images are in the old format (array of strings)
  */
-export function isLegacyImageFormat(images: any): images is string[] {
+export function isLegacyImageFormat(images: unknown): images is string[] {
   if (!Array.isArray(images)) return false;
   return images.every(img => typeof img === 'string');
 }
@@ -20,14 +20,14 @@ export function isLegacyImageFormat(images: any): images is string[] {
 /**
  * Check if images are in the new format (array of ImageWithCaption)
  */
-export function isNewImageFormat(images: any): images is ImageWithCaption[] {
+export function isNewImageFormat(images: unknown): images is ImageWithCaption[] {
   if (!Array.isArray(images)) return false;
-  return images.every(img => 
-    typeof img === 'object' && 
-    img !== null && 
-    'id' in img && 
+  return images.every(img =>
+    typeof img === 'object' &&
+    img !== null &&
+    'id' in img &&
     'data' in img &&
-    typeof img.data === 'string'
+    typeof (img as ImageWithCaption).data === 'string'
   );
 }
 
@@ -70,6 +70,6 @@ export function getImageDataArray(images: ImageWithCaption[]): string[] {
 /**
  * Ensure images are in the correct format (for type safety)
  */
-export function ensureImageFormat(images: any): ImageWithCaption[] {
-  return normalizeImages(images);
+export function ensureImageFormat(images: unknown): ImageWithCaption[] {
+  return normalizeImages(images as string[] | ImageWithCaption[] | undefined);
 }

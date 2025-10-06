@@ -80,11 +80,13 @@ export function RelationshipManager({ elements, projectId }: RelationshipManager
 
   const handleAddRelationship = () => {
     if (!selectedSource || !selectedTarget || !selectedType) {
+      // eslint-disable-next-line no-alert -- Simple validation feedback appropriate for web form
       alert('Please select source, target, and relationship type');
       return;
     }
 
     if (selectedSource === selectedTarget) {
+      // eslint-disable-next-line no-alert -- Simple validation feedback appropriate for web form
       alert('An element cannot have a relationship with itself');
       return;
     }
@@ -108,6 +110,7 @@ export function RelationshipManager({ elements, projectId }: RelationshipManager
   };
 
   const handleDeleteRelationship = (relationshipId: string) => {
+    // eslint-disable-next-line no-alert -- User confirmation for destructive action is appropriate
     if (confirm('Are you sure you want to delete this relationship?')) {
       deleteRelationship(projectId, relationshipId);
     }

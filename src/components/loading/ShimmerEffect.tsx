@@ -17,7 +17,7 @@ import {
 } from 'react-native';
 // * LinearGradient would be imported here if available
 // import LinearGradient from 'react-native-linear-gradient';
-import { useTheme } from '../../providers/ThemeProvider';
+import { useTheme, Theme } from '../../providers/ThemeProvider';
 
 import { getTestProps } from '../utils/react-native-web-polyfills';
 interface ShimmerEffectProps {
@@ -170,6 +170,7 @@ export const ShimmerEffect: React.FC<ShimmerEffectProps> = ({
             <View
               style={[
                 StyleSheet.absoluteFillObject,
+                // eslint-disable-next-line react-native/no-inline-styles -- Shimmer gradient effect requires layered opacity
                 {
                   backgroundColor: colors.highlight,
                   opacity: 0.8,
@@ -179,6 +180,7 @@ export const ShimmerEffect: React.FC<ShimmerEffectProps> = ({
             <View
               style={[
                 StyleSheet.absoluteFillObject,
+                // eslint-disable-next-line react-native/no-inline-styles -- Shimmer gradient effect requires layered opacity
                 {
                   backgroundColor: colors.base,
                   opacity: 0.3,
@@ -226,7 +228,7 @@ export const ShimmerEffect: React.FC<ShimmerEffectProps> = ({
 };
 
 // * Style creation function
-const createStyles = (theme: any, borderRadius?: number) => {
+const createStyles = (theme: Theme, borderRadius?: number) => {
   // * No need for CSS keyframes - using Animated API instead
   return StyleSheet.create({
     container: {
