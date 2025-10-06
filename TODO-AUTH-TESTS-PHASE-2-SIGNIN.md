@@ -47,12 +47,28 @@ This phase implements the critical path for authentication - the sign-in flow. T
   - [ ] Assert localStorage has `authToken`
 
 - [ ] **Run Test Individually**
+
   ```bash
   SPEC=cypress/e2e/authentication/signin-flow.cy.ts npm run cypress:run:spec
   ```
+
   - [ ] Test passes on first run
   - [ ] Test passes 3 times consecutively
   - [ ] Execution time <10 seconds
+
+- [ ] **Validate Test Catches Failures**
+
+  1. ✅ Test passes with current code
+  2. 🔧 `git checkout -b validate/signin-happy-path`
+  3. 💥 Break code:
+     - Comment out email validation in `LoginScreen`
+     - Remove `authService.signIn()` call
+     - Break navigation to `/projects`
+     - Remove `data-cy="email-input"` attribute
+  4. 🧪 Run test and verify it fails
+  5. ❌ Check error message is clear
+  6. ↩️ `git checkout main && git branch -D validate/signin-happy-path`
+  7. 📝 Add comment: `// * Validated: catches missing auth logic`
 
 ### Task 2.3: Test 2.2 - Reject Invalid Credentials
 
@@ -67,12 +83,28 @@ This phase implements the critical path for authentication - the sign-in flow. T
   - [ ] Assert URL does NOT include `/projects`
 
 - [ ] **Run Test**
+
   ```bash
   SPEC=cypress/e2e/authentication/signin-flow.cy.ts npm run cypress:run:spec
   ```
+
   - [ ] Test passes
   - [ ] Error message displayed correctly
   - [ ] No false positives
+
+- [ ] **Validate Test Catches Failures**
+
+  1. ✅ Test passes with current code
+  2. 🔧 `git checkout -b validate/signin-invalid-creds`
+  3. 💥 Break code:
+     - Remove error display logic in `LoginScreen`
+     - Remove `data-cy="error-container"` attribute
+     - Change auth error to return success (wrong status code)
+     - Remove credential validation
+  4. 🧪 Run test and verify it fails
+  5. ❌ Check error message is clear
+  6. ↩️ `git checkout main && git branch -D validate/signin-invalid-creds`
+  7. 📝 Add comment: `// * Validated: catches missing error display`
 
 ### Task 2.4: Test 2.3 - Remember Me Persistence
 
@@ -88,12 +120,28 @@ This phase implements the critical path for authentication - the sign-in flow. T
   - [ ] Assert still on `/projects` (session persisted)
 
 - [ ] **Run Test**
+
   ```bash
   SPEC=cypress/e2e/authentication/signin-flow.cy.ts npm run cypress:run:spec
   ```
+
   - [ ] Test passes
   - [ ] Session persists after reload
   - [ ] No flakiness
+
+- [ ] **Validate Test Catches Failures**
+
+  1. ✅ Test passes with current code
+  2. 🔧 `git checkout -b validate/remember-me`
+  3. 💥 Break code:
+     - Remove session persistence logic in `authStore`
+     - Break localStorage save on "remember me"
+     - Remove `data-cy="remember-me-switch"` attribute
+     - Skip session restoration on reload
+  4. 🧪 Run test and verify it fails
+  5. ❌ Check error message is clear
+  6. ↩️ `git checkout main && git branch -D validate/remember-me`
+  7. 📝 Add comment: `// * Validated: catches broken session persistence`
 
 ---
 
@@ -103,6 +151,8 @@ This phase implements the critical path for authentication - the sign-in flow. T
 - [ ] Suite execution time <30 seconds
 - [ ] Tests pass 5x consecutively (flakiness check)
 - [ ] All assertions working correctly
+- [ ] **Test validation complete** (All 3 tests verified to catch failures)
+- [ ] **Validation comments added** (Test file documents what failures each test catches)
 - [ ] Docker compatibility verified:
   ```bash
   SPEC=cypress/e2e/authentication/signin-flow.cy.ts npm run cypress:docker:test:spec
@@ -113,13 +163,13 @@ This phase implements the critical path for authentication - the sign-in flow. T
 
 ## 📊 Phase 2 Status
 
-**Started**: ********\_********
-**Completed**: ********\_********
-**Duration**: ****\_**** hours
+**Started**: **\*\*\*\***\_**\*\*\*\***
+**Completed**: **\*\*\*\***\_**\*\*\*\***
+**Duration**: \***\*\_\*\*** hours
 **Tests Implemented**: **\_** / 3
 **Tests Passing**: **\_** / 3
-**Blockers**: ********\_********
-**Notes**: ********\_********
+**Blockers**: **\*\*\*\***\_**\*\*\*\***
+**Notes**: **\*\*\*\***\_**\*\*\*\***
 
 ---
 

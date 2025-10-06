@@ -47,12 +47,28 @@ This phase implements user registration testing, including:
   - [ ] (Optional) Assert "Account Created" message
 
 - [ ] **Run Test**
+
   ```bash
   SPEC=cypress/e2e/authentication/signup-flow.cy.ts npm run cypress:run:spec
   ```
+
   - [ ] Test passes
   - [ ] Account created successfully
   - [ ] No errors
+
+- [ ] **Validate Test Catches Failures**
+
+  1. ✅ Test passes with current code
+  2. 🔧 `git checkout -b validate/signup-happy-path`
+  3. 💥 Break code:
+     - Remove `authService.signUp()` call
+     - Break navigation to `/projects` after signup
+     - Remove `data-cy="signup-tab-button"` attribute
+     - Comment out account creation logic
+  4. 🧪 Run test and verify it fails
+  5. ❌ Check error message is clear
+  6. ↩️ `git checkout main && git branch -D validate/signup-happy-path`
+  7. 📝 Add comment: `// * Validated: catches missing signup logic`
 
 ### Task 3.3: Test 1.2 - Prevent Duplicate Email
 
@@ -67,12 +83,28 @@ This phase implements user registration testing, including:
   - [ ] Assert still on login page
 
 - [ ] **Run Test**
+
   ```bash
   SPEC=cypress/e2e/authentication/signup-flow.cy.ts npm run cypress:run:spec
   ```
+
   - [ ] Test passes
   - [ ] Duplicate prevention works
   - [ ] Error message clear
+
+- [ ] **Validate Test Catches Failures**
+
+  1. ✅ Test passes with current code
+  2. 🔧 `git checkout -b validate/duplicate-email`
+  3. 💥 Break code:
+     - Remove duplicate email check in signup logic
+     - Remove error display for "already registered"
+     - Allow duplicate emails to create accounts
+     - Skip email uniqueness validation
+  4. 🧪 Run test and verify it fails
+  5. ❌ Check error message is clear
+  6. ↩️ `git checkout main && git branch -D validate/duplicate-email`
+  7. 📝 Add comment: `// * Validated: catches missing duplicate check`
 
 ### Task 3.4: Test 1.3 - Validate Password Requirements
 
@@ -86,9 +118,24 @@ This phase implements user registration testing, including:
   - [ ] Assert error: "at least 6 characters"
 
 - [ ] **Run Test**
+
   - [ ] Test passes
   - [ ] Validation working correctly
   - [ ] Error message accurate
+
+- [ ] **Validate Test Catches Failures**
+
+  1. ✅ Test passes with current code
+  2. 🔧 `git checkout -b validate/password-requirements`
+  3. 💥 Break code:
+     - Remove password length validation (6 char minimum)
+     - Remove error display for password requirements
+     - Allow passwords shorter than 6 characters
+     - Skip password strength check
+  4. 🧪 Run test and verify it fails
+  5. ❌ Check error message is clear
+  6. ↩️ `git checkout main && git branch -D validate/password-requirements`
+  7. 📝 Add comment: `// * Validated: catches missing password validation`
 
 ### Task 3.5: Test 1.4 - Password Match Validation
 
@@ -102,9 +149,24 @@ This phase implements user registration testing, including:
   - [ ] Assert error: "do not match"
 
 - [ ] **Run Test**
+
   - [ ] Test passes
   - [ ] Mismatch detected correctly
   - [ ] Error displayed properly
+
+- [ ] **Validate Test Catches Failures**
+
+  1. ✅ Test passes with current code
+  2. 🔧 `git checkout -b validate/password-match`
+  3. 💥 Break code:
+     - Remove password confirmation match check
+     - Remove error display for "passwords do not match"
+     - Allow mismatched passwords to proceed
+     - Skip password comparison logic
+  4. 🧪 Run test and verify it fails
+  5. ❌ Check error message is clear
+  6. ↩️ `git checkout main && git branch -D validate/password-match`
+  7. 📝 Add comment: `// * Validated: catches missing password match check`
 
 ---
 
@@ -119,19 +181,21 @@ This phase implements user registration testing, including:
 - [ ] 7 total tests passing
 - [ ] Combined execution time <70 seconds
 - [ ] Tests pass 5x consecutively
+- [ ] **Test validation complete** (All 4 tests verified to catch failures)
+- [ ] **Validation comments added** (Test file documents what failures each test catches)
 - [ ] **READY TO PROCEED TO PHASE 4**
 
 ---
 
 ## 📊 Phase 3 Status
 
-**Started**: ********\_********
-**Completed**: ********\_********
-**Duration**: ****\_**** hours
+**Started**: **\*\*\*\***\_**\*\*\*\***
+**Completed**: **\*\*\*\***\_**\*\*\*\***
+**Duration**: \***\*\_\*\*** hours
 **Tests Implemented**: **\_** / 4
 **Tests Passing**: **\_** / 4
-**Blockers**: ********\_********
-**Notes**: ********\_********
+**Blockers**: **\*\*\*\***\_**\*\*\*\***
+**Notes**: **\*\*\*\***\_**\*\*\*\***
 
 ---
 

@@ -260,18 +260,54 @@ npm run cypress:docker:test   # All tests with auto-server
 
 ---
 
+## 🧪 Mutation Testing Quick Reference
+
+**Purpose**: Validate tests catch real failures by intentionally breaking code
+
+**5-Step Quick Workflow:**
+
+```bash
+# 1. Start mutation session
+./scripts/mutation-test-helper.sh start
+
+# 2. Break component (e.g., remove email input from LoginScreen.tsx)
+
+# 3. Run test - should FAIL
+SPEC=cypress/e2e/login-page-tests/verify-login-page.cy.ts npm run cypress:docker:test:spec
+
+# 4. Document result:
+#    ✅ Test failed? GOOD - mutation caught
+#    ❌ Test passed? BAD - test gap identified
+
+# 5. Restore immediately
+./scripts/mutation-test-helper.sh restore src/screens/LoginScreen.tsx
+```
+
+**Common Mutations:**
+
+- Remove UI elements (inputs, buttons)
+- Remove `data-cy` attributes
+- Change button text
+- Break event handlers
+- Remove error displays
+
+**See Full Guide**: [MUTATION-TESTING-GUIDE.md](../../../claudedocs/MUTATION-TESTING-GUIDE.md)
+
+---
+
 ## 📚 Full Documentation
 
 **For detailed explanations, see:**
 
 - [cypress-writing-organizing-tests.md](./cypress-writing-organizing-tests.md) - Complete test structure guide
 - [cypress-best-practices.md](./cypress-best-practices.md) - Comprehensive best practices
+- **[MUTATION-TESTING-GUIDE.md](../../../claudedocs/MUTATION-TESTING-GUIDE.md)** - Mutation testing guide
 - [CLAUDE.md](../../CLAUDE.md) - Project quick reference
 - [CUSTOM-COMMANDS-REFERENCE.md](./CUSTOM-COMMANDS-REFERENCE.md) - Custom commands
 - [SELECTOR-PATTERNS.md](./SELECTOR-PATTERNS.md) - Selector strategies
 
 ---
 
-**Version**: 1.0
-**Last Updated**: 2025-10-02
+**Version**: 1.1
+**Last Updated**: 2025-10-06
 **For**: FantasyWritingApp Cypress Testing

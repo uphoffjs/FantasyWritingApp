@@ -115,3 +115,8 @@ superclaude/**/__pycache__/
 
 # Color migration backup files
 .backup-color-migration/
+
+# Environment variables (contains sensitive credentials)
+.env
+.env.local
+.env.*.local

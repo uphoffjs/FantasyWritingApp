@@ -3,6 +3,7 @@
 
 // * Import commands
 import './commands';
+import './authCommands';
 
 // * Import cypress-axe for accessibility testing
 import 'cypress-axe';

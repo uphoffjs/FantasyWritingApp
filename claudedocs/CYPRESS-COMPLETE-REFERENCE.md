@@ -15,6 +15,7 @@
 5. [Session Management](#session-management)
 6. [Data Seeding](#data-seeding)
 7. [Debug Process](#debug-process)
+8. [Mutation Testing](#mutation-testing)
 
 ---
 
@@ -500,6 +501,326 @@ cy.wait('@apiCall').its('response.statusCode').should('eq', 200);
 
 ---
 
+## Mutation Testing
+
+### Overview
+
+**Mutation Testing** validates test quality by intentionally breaking source code and verifying tests catch the failures.
+
+**Purpose**: Ensure tests detect real component failures, not just pass when code is working.
+
+**When to Use**:
+
+- ✅ After implementing new test suites
+- ✅ For critical path components (auth, payments, data)
+- ✅ During test quality audits
+- ✅ Before major releases
+
+**See Complete Guide**: [MUTATION-TESTING-GUIDE.md](./MUTATION-TESTING-GUIDE.md)
+
+---
+
+### Quick Mutation Testing Workflow
+
+**5-Step Process:**
+
+```bash
+# 1. Start mutation testing session
+./scripts/mutation-test-helper.sh start
+
+# 2. Edit component (introduce mutation - break something intentionally)
+# Example: Remove email input field from LoginScreen.tsx
+
+# 3. Run test - should FAIL if test is good
+SPEC=cypress/e2e/login-page-tests/verify-login-page.cy.ts npm run cypress:docker:test:spec
+
+# 4. Document result
+# ✅ Test failed? GOOD - test caught the mutation
+# ❌ Test passed? BAD - test gap identified
+
+# 5. Restore immediately
+./scripts/mutation-test-helper.sh restore src/screens/LoginScreen.tsx
+
+# Repeat for each mutation
+```
+
+---
+
+### Common Mutation Types
+
+#### 1. UI Element Removal
+
+**What to break**: Remove inputs, buttons, text displays
+**Expected**: Test fails with "element not found" error
+
+```tsx
+// BEFORE
+<TextInput data-cy="email-input" />;
+
+// AFTER (mutation)
+{
+  /* REMOVED: email input */
+}
+```
+
+**Test should fail:**
+
+```
+CypressError: Timed out retrying: Expected to find element: [data-cy="email-input"]
+```
+
+#### 2. Data Attribute Changes
+
+**What to break**: Remove or change `data-cy` attributes
+**Expected**: Test fails with selector not found
+
+```tsx
+// BEFORE
+<Button data-cy="submit-btn">Login</Button>
+
+// AFTER (mutation)
+<Button>Login</Button>  // Removed data-cy
+```
+
+#### 3. Text Content Changes
+
+**What to break**: Change button text, labels, error messages
+**Expected**: Test fails with text assertion error
+
+```tsx
+// BEFORE
+<Button>Login</Button>
+
+// AFTER (mutation)
+<Button>Sign In</Button>  // Changed text
+```
+
+#### 4. Behavior Breaking
+
+**What to break**: Disable handlers, remove navigation, break validation
+**Expected**: Test times out or fails navigation
+
+```tsx
+// BEFORE
+<Button onPress={handleSubmit}>Login</Button>
+
+// AFTER (mutation)
+<Button onPress={() => {}}>Login</Button>  // Broken handler
+```
+
+#### 5. Conditional Rendering
+
+**What to break**: Remove error displays, loading states, empty states
+**Expected**: Test fails when asserting visibility
+
+```tsx
+// BEFORE
+{
+  error && <Text data-cy="error-message">{error}</Text>;
+}
+
+// AFTER (mutation)
+{
+  false && <Text data-cy="error-message">{error}</Text>;
+}
+```
+
+---
+
+### Mutation Testing Commands
+
+```bash
+# Start session (creates mutation-testing branch)
+./scripts/mutation-test-helper.sh start
+
+# Run test after mutation
+./scripts/mutation-test-helper.sh test cypress/e2e/path/to/test.cy.ts
+
+# Restore file (undo mutation)
+./scripts/mutation-test-helper.sh restore src/path/to/Component.tsx
+
+# Restore all files
+./scripts/mutation-test-helper.sh restore-all
+
+# Check status
+./scripts/mutation-test-helper.sh status
+
+# End session (cleanup)
+./scripts/mutation-test-helper.sh end
+
+# Help
+./scripts/mutation-test-helper.sh help
+```
+
+---
+
+### Safety Guarantees
+
+**Git-Based Protection:**
+
+- ✅ All work on temporary `mutation-testing` branch
+- ✅ Instant restoration via `git checkout`
+- ✅ No risk of committing broken code
+- ✅ Complete audit trail of mutations
+
+**Safety Checklist:**
+
+- [ ] On mutation-testing branch
+- [ ] Restore after EVERY mutation
+- [ ] Verify restoration with `git diff`
+- [ ] Never commit on mutation-testing branch
+- [ ] Delete branch when complete
+
+---
+
+### Documentation & Reports
+
+**Per-Component Reports**: `claudedocs/mutation-testing/reports/`
+
+- Detailed mutation-by-mutation results
+- Test quality scores
+- Identified gaps and improvements
+
+**Aggregate Summary**: `claudedocs/mutation-testing/SUMMARY.md`
+
+- Overall statistics
+- Test quality by component
+- Common gap patterns
+- Improvement recommendations
+
+**Helper Script Logs**: `claudedocs/mutation-testing/logs/`
+
+- Session logs
+- Test execution output
+- Mutation diffs (before restoration)
+
+---
+
+### Integration with Test Phases
+
+Mutation testing is integrated into authentication test phases:
+
+- **[Phase 1](../TODO-AUTH-TESTS-PHASE-1-INFRASTRUCTURE.md)**: Infrastructure mutation validation
+- **[Phase 2](../TODO-AUTH-TESTS-PHASE-2-SIGNIN.md)**: Sign-in flow mutation testing
+- **[Phase 3](../TODO-AUTH-TESTS-PHASE-3-SIGNUP.md)**: Sign-up flow mutation testing
+- **[Phase 4](../TODO-AUTH-TESTS-PHASE-4-SESSION.md)**: Session management mutation testing
+- **[Phase 5](../TODO-AUTH-TESTS-PHASE-5-RECOVERY.md)**: Password recovery mutation testing
+
+Each phase includes component-specific mutation testing validation.
+
+---
+
+### Example: LoginScreen Email Input Mutation
+
+**Component**: `src/screens/LoginScreen.tsx`
+
+**Mutation**: Remove email input field
+
+```tsx
+// BEFORE
+<TextInput
+  data-cy="email-input"
+  placeholder="Email"
+  value={email}
+  onChangeText={setEmail}
+/>;
+
+// AFTER (mutation)
+{
+  /* MUTATION: Removed email input */
+}
+```
+
+**Test Command**:
+
+```bash
+SPEC=cypress/e2e/login-page-tests/verify-login-page.cy.ts npm run cypress:docker:test:spec
+```
+
+**Expected Result**: Test should FAIL
+
+**Actual Result**: ❌ TEST FAILED (Good!)
+
+```
+CypressError: Timed out retrying after 4000ms: Expected to find element: [data-cy="email-input"]
+```
+
+**Analysis**: ✅ Test correctly validates email input existence
+
+**Restoration**:
+
+```bash
+./scripts/mutation-test-helper.sh restore src/screens/LoginScreen.tsx
+```
+
+---
+
+### Test Quality Scoring
+
+| Score | Percentage | Description                     |
+| ----- | ---------- | ------------------------------- |
+| A+    | 95-100%    | Exceptional coverage            |
+| A     | 90-94%     | Excellent coverage              |
+| B     | 80-89%     | Good coverage, minor gaps       |
+| C     | 70-79%     | Acceptable, needs improvement   |
+| D     | 60-69%     | Poor coverage, significant gaps |
+| F     | <60%       | Failing, critical gaps          |
+
+**Targets:**
+
+- Critical components (auth, payments): >90% (A grade)
+- Standard components: >80% (B grade)
+
+---
+
+### Common Test Gaps
+
+**Gap Pattern #1: Error Message Validation**
+
+- **Issue**: Tests don't validate error message visibility
+- **Fix**: Add `cy.get('[data-cy="error-message"]').should('be.visible')`
+- **Priority**: P1
+
+**Gap Pattern #2: Loading State Validation**
+
+- **Issue**: Tests don't wait for loading completion
+- **Fix**: Add loading indicator assertions
+- **Priority**: P2
+
+**Gap Pattern #3: Empty State Handling**
+
+- **Issue**: Tests don't validate empty state display
+- **Fix**: Add empty state visibility checks
+- **Priority**: P2
+
+---
+
+### Troubleshooting
+
+**Issue**: Test passes despite obvious mutation
+
+- **Cause**: Test doesn't actually validate that element
+- **Solution**: Add missing assertion, document as test gap
+
+**Issue**: Cannot restore file
+
+- **Cause**: File not tracked by Git or wrong path
+- **Solution**: `git checkout .` to restore all changes
+
+**Issue**: Lost track of which mutations completed
+
+- **Solution**: Use helper script (auto-logs) or maintain checklist
+
+---
+
+### Related Documentation
+
+- **[MUTATION-TESTING-GUIDE.md](./MUTATION-TESTING-GUIDE.md)**: Complete mutation testing guide
+- **[TEST-VALIDATION-GUIDE.md](./TEST-VALIDATION-GUIDE.md)**: Test validation workflows
+- **[QUICK-TEST-REFERENCE.md](../cypress/docs/QUICK-TEST-REFERENCE.md)**: Quick testing reference
+
+---
+
 ## Additional Resources
 
 ### Official Cypress Documentation
@@ -517,9 +838,11 @@ cy.wait('@apiCall').its('response.statusCode').should('eq', 200);
 - [DOCKER-CYPRESS-GUIDE.md](../cypress/docs/DOCKER-CYPRESS-GUIDE.md) - Docker setup
 - [CUSTOM-COMMANDS-REFERENCE.md](../cypress/docs/CUSTOM-COMMANDS-REFERENCE.md) - Custom commands
 - [SELECTOR-PATTERNS.md](../cypress/docs/SELECTOR-PATTERNS.md) - Selector strategies
+- [MUTATION-TESTING-GUIDE.md](./MUTATION-TESTING-GUIDE.md) - Mutation testing validation
+- [TEST-VALIDATION-GUIDE.md](./TEST-VALIDATION-GUIDE.md) - Test quality validation
 
 ---
 
-**Version**: 1.0
-**Last Updated**: 2025-10-02
+**Version**: 1.1
+**Last Updated**: 2025-10-06
 **For**: FantasyWritingApp Cypress Testing

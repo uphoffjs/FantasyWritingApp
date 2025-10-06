@@ -47,12 +47,28 @@ This final phase implements:
   - [ ] Assert form closes or success shown
 
 - [ ] **Run Test**
+
   ```bash
   SPEC=cypress/e2e/authentication/password-recovery.cy.ts npm run cypress:run:spec
   ```
+
   - [ ] Test passes
   - [ ] Email sent (or mocked)
   - [ ] Success feedback shown
+
+- [ ] **Validate Test Catches Failures**
+
+  1. ✅ Test passes with current code
+  2. 🔧 `git checkout -b validate/password-reset-send`
+  3. 💥 Break code:
+     - Remove `authService.resetPasswordForEmail()` call
+     - Break success message display after email sent
+     - Remove `data-cy="forgot-password-link"` attribute
+     - Skip email sending logic
+  4. 🧪 Run test and verify it fails
+  5. ❌ Check error message is clear
+  6. ↩️ `git checkout main && git branch -D validate/password-reset-send`
+  7. 📝 Add comment: `// * Validated: catches missing reset email logic`
 
 ### Task 5.3: Test 4.2 - Validate Email Format
 
@@ -66,9 +82,24 @@ This final phase implements:
   - [ ] Assert form still visible
 
 - [ ] **Run Test**
+
   - [ ] Test passes
   - [ ] Validation working
   - [ ] Error message clear
+
+- [ ] **Validate Test Catches Failures**
+
+  1. ✅ Test passes with current code
+  2. 🔧 `git checkout -b validate/password-reset-email-validation`
+  3. 💥 Break code:
+     - Remove email format validation in forgot password flow
+     - Remove error display for invalid email
+     - Allow invalid email formats to submit
+     - Skip email validation regex check
+  4. 🧪 Run test and verify it fails
+  5. ❌ Check error message is clear
+  6. ↩️ `git checkout main && git branch -D validate/password-reset-email-validation`
+  7. 📝 Add comment: `// * Validated: catches missing email validation`
 
 ### Task 5.4: Full Suite Validation
 
@@ -136,10 +167,16 @@ This final phase implements:
   - [ ] Docker compatible
 
 - [ ] **Quality**
+
   - [ ] Only `data-cy` selectors used
   - [ ] Relative URLs only
   - [ ] Proper cleanup in beforeEach
   - [ ] Mandatory test template followed
+
+- [ ] **Test Validation**
+  - [ ] All 12 tests validated to catch failures (mutation testing complete)
+  - [ ] Validation comments added to all test files
+  - [ ] Zero false-positive tests (all tests proven effective)
 
 ---
 
@@ -288,9 +325,9 @@ This final phase implements:
 
 ---
 
-**Completed Date**: ********\_********
-**Completed By**: ********\_********
-**Total Time**: ****\_**** hours
+**Completed Date**: **\*\*\*\***\_**\*\*\*\***
+**Completed By**: **\*\*\*\***\_**\*\*\*\***
+**Total Time**: \***\*\_\*\*** hours
 **Final Test Count**: **\_** / 12 passing
 **Final Execution Time**: **\_** seconds
 
@@ -298,13 +335,13 @@ This final phase implements:
 
 ## 📊 Phase 5 Status
 
-**Started**: ********\_********
-**Completed**: ********\_********
-**Duration**: ****\_**** hours
+**Started**: **\*\*\*\***\_**\*\*\*\***
+**Completed**: **\*\*\*\***\_**\*\*\*\***
+**Duration**: \***\*\_\*\*** hours
 **Tests Implemented**: **\_** / 2
 **Tests Passing**: **\_** / 2
-**Blockers**: ********\_********
-**Notes**: ********\_********
+**Blockers**: **\*\*\*\***\_**\*\*\*\***
+**Notes**: **\*\*\*\***\_**\*\*\*\***
 
 ---
 

@@ -44,12 +44,28 @@ This phase implements session management testing, including:
   - [ ] Assert still on `/projects`
 
 - [ ] **Run Test**
+
   ```bash
   SPEC=cypress/e2e/authentication/session-management.cy.ts npm run cypress:run:spec
   ```
+
   - [ ] Test passes
   - [ ] Session persists correctly
   - [ ] No unexpected redirects
+
+- [ ] **Validate Test Catches Failures**
+
+  1. ✅ Test passes with current code
+  2. 🔧 `git checkout -b validate/session-persistence`
+  3. 💥 Break code:
+     - Remove session restoration logic on page load
+     - Clear localStorage on page reload
+     - Break `cy.session()` validation function
+     - Remove session persistence in authStore
+  4. 🧪 Run test and verify it fails
+  5. ❌ Check error message is clear
+  6. ↩️ `git checkout main && git branch -D validate/session-persistence`
+  7. 📝 Add comment: `// * Validated: catches broken session persistence`
 
 ### Task 4.3: Test 3.2 - Session Timeout Handling
 
@@ -62,9 +78,24 @@ This phase implements session management testing, including:
   - [ ] Assert redirected to `/` (login)
 
 - [ ] **Run Test**
+
   - [ ] Test passes
   - [ ] Timeout handling works
   - [ ] Redirect behavior correct
+
+- [ ] **Validate Test Catches Failures**
+
+  1. ✅ Test passes with current code
+  2. 🔧 `git checkout -b validate/session-timeout`
+  3. 💥 Break code:
+     - Remove auth check/redirect logic for expired sessions
+     - Allow accessing protected routes without valid token
+     - Skip session timeout detection
+     - Remove redirect to login on invalid session
+  4. 🧪 Run test and verify it fails
+  5. ❌ Check error message is clear
+  6. ↩️ `git checkout main && git branch -D validate/session-timeout`
+  7. 📝 Add comment: `// * Validated: catches missing timeout handling`
 
 ### Task 4.4: Test 3.3 - Multi-Tab Auth Sync
 
@@ -77,9 +108,24 @@ This phase implements session management testing, including:
   - [ ] Assert current tab reacts (redirects or shows logged out)
 
 - [ ] **Run Test**
+
   - [ ] Test passes
   - [ ] Multi-tab sync works (if implemented)
   - [ ] OR document that feature not yet implemented
+
+- [ ] **Validate Test Catches Failures**
+
+  1. ✅ Test passes with current code
+  2. 🔧 `git checkout -b validate/multi-tab-sync`
+  3. 💥 Break code:
+     - Remove storage event listener in authStore
+     - Skip cross-tab auth state synchronization
+     - Remove `onAuthStateChange()` listener
+     - Break Zustand persist middleware sync
+  4. 🧪 Run test and verify it fails
+  5. ❌ Check error message is clear
+  6. ↩️ `git checkout main && git branch -D validate/multi-tab-sync`
+  7. 📝 Add comment: `// * Validated: catches missing multi-tab sync`
 
 ---
 
@@ -91,19 +137,21 @@ This phase implements session management testing, including:
 - [ ] 10 total tests passing
 - [ ] Combined execution time <100 seconds
 - [ ] Tests pass 5x consecutively
+- [ ] **Test validation complete** (All 3 tests verified to catch failures)
+- [ ] **Validation comments added** (Test file documents what failures each test catches)
 - [ ] **READY TO PROCEED TO PHASE 5**
 
 ---
 
 ## 📊 Phase 4 Status
 
-**Started**: ********\_********
-**Completed**: ********\_********
-**Duration**: ****\_**** hours
+**Started**: **\*\*\*\***\_**\*\*\*\***
+**Completed**: **\*\*\*\***\_**\*\*\*\***
+**Duration**: \***\*\_\*\*** hours
 **Tests Implemented**: **\_** / 3
 **Tests Passing**: **\_** / 3
-**Blockers**: ********\_********
-**Notes**: ********\_********
+**Blockers**: **\*\*\*\***\_**\*\*\*\***
+**Notes**: **\*\*\*\***\_**\*\*\*\***
 
 ---
 
@@ -154,9 +202,9 @@ This phase implements session management testing, including:
 
 From Phase 0 Q2:
 
-- `authToken`: ********\_********
-- `authUser`: ********\_********
-- Other: ********\_********
+- `authToken`: **\*\*\*\***\_**\*\*\*\***
+- `authUser`: **\*\*\*\***\_**\*\*\*\***
+- Other: **\*\*\*\***\_**\*\*\*\***
 
 ---
 

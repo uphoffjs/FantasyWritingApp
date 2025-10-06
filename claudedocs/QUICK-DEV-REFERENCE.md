@@ -632,6 +632,150 @@ const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>(
 
 ---
 
+## 🧪 TDD Workflow with Test Validation
+
+### Test-Driven Development Cycle
+
+```
+1. Write Test (Red) → 2. Implement Feature (Green) → 3. Validate Test → 4. Refactor (Clean)
+       ↓                        ↓                            ↓                      ↓
+   Test fails            Test passes               Test catches failures      Still passes
+```
+
+### Standard TDD Workflow
+
+```typescript
+// 1. WRITE TEST FIRST (Red Phase)
+describe('User Authentication', () => {
+  it('should sign in with valid credentials', () => {
+    // Write test before implementation
+    cy.visit('/');
+    cy.get('[data-cy="email-input"]').type('test@example.com');
+    cy.get('[data-cy="submit-button"]').click();
+    cy.url().should('include', '/dashboard');
+  });
+});
+// Test fails ❌ - Feature not implemented yet
+
+// 2. IMPLEMENT FEATURE (Green Phase)
+// Write minimum code to make test pass
+const handleSignIn = async credentials => {
+  const result = await authService.signIn(credentials);
+  if (result.success) {
+    navigate('/dashboard');
+  }
+};
+// Test passes ✅
+
+// 3. VALIDATE TEST (Mutation Check)
+// Break code to ensure test catches failures
+// See validation workflow below
+
+// 4. REFACTOR (Clean Phase)
+// Improve code quality while keeping tests green
+```
+
+### Test Validation Workflow (2 min per test)
+
+**For E2E Tests:**
+
+```bash
+# 1. Test passes
+SPEC=cypress/e2e/auth/signin.cy.ts npm run cypress:run:spec
+
+# 2. Create validation branch
+git checkout -b validate/signin-test
+
+# 3. Break code (try each mutation):
+# - Remove authService.signIn() call
+# - Break navigation logic
+# - Remove data-cy="submit-button"
+
+# 4. Run test - verify it FAILS
+SPEC=cypress/e2e/auth/signin.cy.ts npm run cypress:run:spec
+
+# 5. Revert safely
+git checkout main && git branch -D validate/signin-test
+
+# 6. Document validation
+// * Validated: catches missing auth logic
+```
+
+**For Unit Tests:**
+
+```typescript
+// Test for store action
+describe('authStore', () => {
+  it('updates user state on login', () => {
+    // * Validated: catches missing state update
+    const { result } = renderHook(() => useAuthStore());
+
+    act(() => {
+      result.current.login({ email: 'test@test.com', id: '123' });
+    });
+
+    expect(result.current.user).toEqual({ email: 'test@test.com', id: '123' });
+    expect(result.current.isAuthenticated).toBe(true);
+  });
+});
+
+// Validation mutations:
+// - Remove state update in login()
+// - Skip isAuthenticated flag update
+// - Return wrong user object
+```
+
+### Common Mutation Patterns
+
+#### Component Tests (Unit)
+
+- Remove conditional rendering logic
+- Skip prop validation
+- Break event handlers
+- Remove error boundaries
+- Skip loading state updates
+
+#### Store Tests (Unit)
+
+- Remove state updates
+- Skip action dispatching
+- Return wrong data shape
+- Break computed values
+- Remove middleware logic
+
+#### E2E Integration Tests
+
+- Remove API calls
+- Break navigation/routing
+- Skip validation logic
+- Remove data-cy attributes
+- Break error handling
+
+### When to Validate Tests
+
+**✅ Always Validate:**
+
+- New test suites for untested features
+- Critical user flows (auth, payments, data operations)
+- Complex business logic
+- Tests added during bug fixes
+
+**⚠️ Consider Skipping:**
+
+- Simple component rendering tests
+- Proven stable tests (years in production)
+- Obvious failure scenarios
+
+### TDD Benefits
+
+- **Design First**: Tests guide API design
+- **Documentation**: Tests show intended behavior
+- **Confidence**: Proven test coverage
+- **Refactoring Safety**: Change code without fear
+- **Bug Prevention**: Catch issues before production
+
+---
+
 ## ✅ Pre-Commit Checklist
 
 Before committing component code, verify:
@@ -646,6 +790,8 @@ Before committing component code, verify:
 - [ ] Screen components wrapped in error boundaries
 - [ ] `npm run lint` passes without errors
 - [ ] Component follows the standard template structure
+- [ ] **Tests validated** (for new test files: mutation testing completed)
+- [ ] **Validation comments added** (test files document what failures they catch)
 
 ---
 

@@ -146,6 +146,11 @@ echo "🌐 Server: http://host.docker.internal:3002"
 echo "🎯 Spec: $SPEC"
 echo ""
 
+# Load environment variables from .env file
+if [ -f .env ]; then
+  export $(cat .env | grep -v '^#' | xargs)
+fi
+
 # Run Cypress in Docker with specific test file
 # The cleanup trap will handle Docker cleanup automatically
 docker run --rm \
@@ -153,6 +158,8 @@ docker run --rm \
   -v "$PWD:/e2e" \
   -w /e2e \
   -e CYPRESS_baseUrl=http://host.docker.internal:3002 \
+  -e CYPRESS_VITE_SUPABASE_URL="$VITE_SUPABASE_URL" \
+  -e CYPRESS_SUPABASE_SERVICE_ROLE_KEY="$SUPABASE_SERVICE_ROLE_KEY" \
   cypress/included:14.5.4 \
   --browser electron --headless --spec "$SPEC"
 

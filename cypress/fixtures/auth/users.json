@@ -1,0 +1,74 @@
+{
+  "validUser": {
+    "id": "valid-user-001",
+    "email": "valid.user@fantasy-app.test",
+    "password": "ValidPass123!",
+    "profile": {
+      "username": "ValidTestUser",
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  "newUser": {
+    "id": "new-user-002",
+    "email": "new.user@fantasy-app.test",
+    "password": "NewUser123!",
+    "profile": {
+      "username": "NewTestUser",
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  "existingUser": {
+    "id": "existing-user-003",
+    "email": "existing.user@fantasy-app.test",
+    "password": "ExistingPass123!",
+    "profile": {
+      "username": "ExistingTestUser",
+      "created_at": "2024-12-01T00:00:00Z"
+    }
+  },
+  "rememberUser": {
+    "id": "remember-user-004",
+    "email": "remember.me@fantasy-app.test",
+    "password": "RememberMe123!",
+    "profile": {
+      "username": "RememberMeUser",
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  "sessionUser": {
+    "id": "session-user-005",
+    "email": "session.test@fantasy-app.test",
+    "password": "SessionTest123!",
+    "profile": {
+      "username": "SessionTestUser",
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  "expiredUser": {
+    "id": "expired-user-006",
+    "email": "expired.session@fantasy-app.test",
+    "password": "ExpiredPass123!",
+    "profile": {
+      "username": "ExpiredSessionUser",
+      "created_at": "2024-11-01T00:00:00Z"
+    }
+  },
+  "multiTabUser": {
+    "id": "multitab-user-007",
+    "email": "multitab.test@fantasy-app.test",
+    "password": "MultiTab123!",
+    "profile": {
+      "username": "MultiTabTestUser",
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  "forgotUser": {
+    "id": "forgot-pass-008",
+    "email": "forgot.password@fantasy-app.test",
+    "password": "ForgotPass123!",
+    "profile": {
+      "username": "ForgotPasswordUser",
+      "created_at": "2024-12-15T00:00:00Z"
+    }
+  }
+}
