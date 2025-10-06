@@ -19,8 +19,9 @@ export function ProjectListScreen() {
 
 
   const handleCreateProject = () => {
-    
+
     if (!newProjectName.trim()) {
+      // eslint-disable-next-line no-alert -- Simple validation feedback appropriate for web form
       alert('Please enter a project name');
       return;
     }
@@ -33,11 +34,13 @@ export function ProjectListScreen() {
       setShowCreateModal(false);
     } catch (error) {
       console.error('[ProjectListScreen.web] Failed to create project:', error);
+      // eslint-disable-next-line no-alert -- Error notification appropriate for web platform
       alert('Failed to create project. Please try again.');
     }
   };
 
   const handleDeleteProject = (projectId: string, projectName: string) => {
+    // eslint-disable-next-line no-alert -- User confirmation for destructive action is appropriate
     if (window.confirm(`Are you sure you want to delete "${projectName}"? This action cannot be undone.`)) {
       deleteProject(projectId);
     }

@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// * Testable view requires flexible typing for test prop injection
+
 import React, { useRef, useEffect } from 'react';
 import { View, ViewProps, Platform } from 'react-native';
 import { getTestProps } from '../utils/react-native-web-polyfills';

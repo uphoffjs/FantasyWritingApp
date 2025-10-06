@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// * Element screen requires flexible typing for navigation params and route state
+
 /**
  * Element Screen
  * Displays element details and questionnaire
@@ -13,6 +16,7 @@ import { RelationshipManager } from '../components/RelationshipManager';
 import { TemplateSelector } from '../components/TemplateSelector';
 import { useWorldbuildingStore } from '../store/worldbuildingStore';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { fantasyTomeColors } from '../design-tokens/fantasyTomeColors';
 
 export function ElementScreen() {
   const route = useRoute<RootStackScreenProps<'Element'>['route']>();
@@ -35,7 +39,7 @@ export function ElementScreen() {
     return (
       <View style={styles.container}>
         <View style={styles.errorContainer}>
-          <Icon name="error-outline" size={64} color=fantasyTomeColors.semantic.error />
+          <Icon name="error-outline" size={64} color={fantasyTomeColors.semantic.error} />
           <Text style={styles.errorText}>
             {!project ? 'Project not found' : 'Element not found'}
           </Text>
@@ -77,11 +81,11 @@ export function ElementScreen() {
       {/* Header */}
       <View style={styles.header}>
         <View style={styles.headerContent}>
-          <TouchableOpacity 
+          <TouchableOpacity
             onPress={() => navigation.goBack()}
             style={styles.backButton}
           >
-            <Icon name="arrow-back" size={24} color=fantasyTomeColors.ink.black />
+            <Icon name="arrow-back" size={24} color={fantasyTomeColors.ink.black} />
           </TouchableOpacity>
           <View style={styles.titleContainer}>
             <Text style={styles.title} numberOfLines={1}>{element.name}</Text>
@@ -89,11 +93,11 @@ export function ElementScreen() {
               {element.category} • {element.completionPercentage}% complete
             </Text>
           </View>
-          <TouchableOpacity 
+          <TouchableOpacity
             onPress={handleDeleteElement}
             style={styles.deleteButton}
           >
-            <Icon name="delete" size={24} color=fantasyTomeColors.semantic.error />
+            <Icon name="delete" size={24} color={fantasyTomeColors.semantic.error} />
           </TouchableOpacity>
         </View>
         

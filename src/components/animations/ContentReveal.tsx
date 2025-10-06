@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// * Content reveal animation requires flexible typing for React Native Animated values
+
 /**
  * ContentReveal.tsx
  * * Smooth content reveal animation component
@@ -269,12 +272,12 @@ export const ContentReveal: React.FC<ContentRevealProps> = ({
   // * Trigger animation when conditions are met
   useEffect(() => {
     if (trigger) {
-      const animation = createAnimation();
-      
+      const animatedSequence = createAnimation();
+
       if (loop) {
         const loopAnimation = Animated.loop(
           Animated.sequence([
-            animation,
+            animatedSequence,
             Animated.delay(500), // * Pause between loops
             Animated.parallel([
               Animated.timing(fadeAnim, {
@@ -293,7 +296,7 @@ export const ContentReveal: React.FC<ContentRevealProps> = ({
         );
         loopAnimation.start();
       } else {
-        animation.start(() => {
+        animatedSequence.start(() => {
           if (onAnimationComplete) {
             onAnimationComplete();
           }

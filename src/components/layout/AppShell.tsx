@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// * App shell layout requires flexible typing for navigation state and route params
+
 /**
  * AppShell.tsx
  * Responsive layout component providing adaptive layouts for desktop, tablet, and mobile
@@ -17,7 +20,7 @@ import {
   ScrollView,
   Animated,
 } from 'react-native';
-import { useTheme } from '../../providers/ThemeProvider';
+import { useTheme, Theme } from '../../providers/ThemeProvider';
 
 import { getTestProps } from '../utils/react-native-web-polyfills';
 // * Breakpoint constants for responsive layout
@@ -255,7 +258,7 @@ export const AppShell: React.FC<AppShellProps> = ({
 };
 
 // * Dynamic style creation based on theme and device type
-const createStyles = (theme: any, deviceType: string) => {
+const createStyles = (theme: Theme, deviceType: string) => {
   const baseStyles = {
     container: {
       flex: 1,

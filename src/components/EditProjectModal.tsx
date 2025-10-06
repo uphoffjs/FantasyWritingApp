@@ -4,6 +4,9 @@
  * Includes cover image editing and all project metadata
  */
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// ! fontWeight type assertions required due to React Native TypeScript limitations
+
 import React, { useState, useEffect } from 'react';
 import {
   View,
@@ -20,7 +23,7 @@ import { TextInput } from './TextInput';
 import { Button } from './Button';
 import { ImagePicker } from './ImagePicker';
 import { useWorldbuildingStore } from '../store/worldbuildingStore';
-import { useTheme } from '../providers/ThemeProvider';
+import { useTheme, Theme } from '../providers/ThemeProvider';
 import { getTestProps } from '../utils/react-native-web-polyfills';
 
 interface EditProjectModalProps {
@@ -361,7 +364,7 @@ export function EditProjectModal({
 }
 
 // * Create theme-aware styles
-const getStyles = (theme: any) => StyleSheet.create({
+const getStyles = (theme: Theme) => StyleSheet.create({
   keyboardView: {
     flex: 1,
   },

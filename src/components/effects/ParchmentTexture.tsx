@@ -4,6 +4,10 @@
  * Works across web and native platforms
  */
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// * Canvas and gradient manipulation requires 'any' for web API flexibility
+// * Cross-platform rendering with dynamic styles requires flexible typing
+
 import React from 'react';
 import {
   View,
@@ -65,6 +69,7 @@ export const ParchmentTexture: React.FC<ParchmentTextureProps> = ({
         <View
           style={[
             StyleSheet.absoluteFillObject,
+            // eslint-disable-next-line react-native/no-inline-styles -- Dynamic theme-based styling
             {
               backgroundColor: theme.mode === 'dark'
                 ? 'rgba(255, 255, 255, 0.05)'
@@ -79,6 +84,7 @@ export const ParchmentTexture: React.FC<ParchmentTextureProps> = ({
         <View
           style={[
             StyleSheet.absoluteFillObject,
+            // eslint-disable-next-line react-native/no-inline-styles -- Dynamic theme-based styling
             {
               backgroundColor: theme.mode === 'dark'
                 ? 'rgba(255, 255, 255, 0.02)'

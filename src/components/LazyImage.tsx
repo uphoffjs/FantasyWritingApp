@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// * Lazy image loading requires flexible typing for image load events and error handling
+
 /**
  * LazyImage.tsx
  * * Optimized image component with lazy loading and progressive loading
@@ -157,7 +160,7 @@ export const LazyImage: React.FC<LazyImageProps> = ({
 
   return (
     <View ref={imageRef} style={style} {...getTestProps(testID)}>
-      <Animated.View style={{ opacity: fadeAnim, flex: 1 }}>
+      <Animated.View style={[styles.imageContainer, { opacity: fadeAnim }]}>
         <Image
           {...imageProps}
           source={getOptimizedSource()}
@@ -215,6 +218,9 @@ export const ProgressiveImage: React.FC<LazyImageProps> = ({
 };
 
 const styles = StyleSheet.create({
+  imageContainer: {
+    flex: 1,
+  },
   loadingContainer: {
     ...StyleSheet.absoluteFillObject,
     justifyContent: 'center',

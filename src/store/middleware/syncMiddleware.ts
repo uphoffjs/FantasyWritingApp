@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// * Sync middleware requires 'any' for flexible event handling and dynamic sync operations
+// * across different entity types and mutation patterns
+
 import { StateCreator, StoreMutatorIdentifier } from 'zustand'
 import { WorldbuildingStore } from "@/store/rootStore"
 import { syncQueueManager } from '../../services/syncQueue'

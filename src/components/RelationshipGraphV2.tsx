@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   Dimensions,
 } from 'react-native';
-import { useTheme } from '../providers/ThemeProvider';
+import { useTheme, Theme } from '../providers/ThemeProvider';
 import { WorldElement } from '../types/models';
 import { getCategoryIcon } from '../utils/categoryMapping';
 import { getElementColor } from '../utils/elementColors';
@@ -393,7 +393,7 @@ export const RelationshipGraphV2: React.FC<RelationshipGraphProps> = ({
 };
 
 // * Dynamic styles based on theme and device type
-const createStyles = (theme: any, isTablet: boolean, isDesktop: boolean) =>
+const createStyles = (theme: Theme, isTablet: boolean, isDesktop: boolean) =>
   StyleSheet.create({
     container: {
       flex: 1,

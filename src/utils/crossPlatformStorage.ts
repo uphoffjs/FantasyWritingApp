@@ -13,6 +13,7 @@ export interface CrossPlatformStorage {
 }
 
 // * Dynamically import AsyncStorage only for native platforms
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Dynamic require for platform-specific storage module
 let AsyncStorage: any = null;
 if (Platform.OS !== 'web') {
   AsyncStorage = require('@react-native-async-storage/async-storage').default;

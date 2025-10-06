@@ -74,8 +74,8 @@ export function MarkdownEditor({
         newText = `${beforeText}${button.prefix}${selectedText}${button.suffix}${afterText}`;
       } else {
         // // DEPRECATED: * Insert with placeholder
-        const placeholder = button.multiline ? 'code' : 'text';
-        newText = `${beforeText}${button.prefix}${placeholder}${button.suffix}${afterText}`;
+        const placeholderText = button.multiline ? 'code' : 'text';
+        newText = `${beforeText}${button.prefix}${placeholderText}${button.suffix}${afterText}`;
       }
     } else {
       // TODO: * Prefix only (like headings, lists)

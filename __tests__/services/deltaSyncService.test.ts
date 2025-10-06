@@ -3,6 +3,8 @@
  * Tests delta synchronization functionality for efficient data syncing
  */
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// Test files require 'any' type for mock flexibility and test data setup
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { deltaSyncService } from '../../src/services/deltaSyncService';
 import type { DeltaChange, ConflictResolution } from '../../src/services/deltaSyncService';

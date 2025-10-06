@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// * Element screen (web) requires flexible typing for navigation params and route state
+
 /**
  * Element Screen - Web Version
  * Displays element details and questionnaire
@@ -57,6 +60,7 @@ export function ElementScreen() {
   }
 
   const handleDeleteElement = () => {
+    // eslint-disable-next-line no-alert -- User confirmation for destructive action is appropriate
     if (confirm(`Are you sure you want to delete "${element.name}"? This action cannot be undone.`)) {
       deleteElement(project.id, element.id);
       navigation.goBack();

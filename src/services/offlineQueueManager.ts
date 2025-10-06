@@ -18,6 +18,7 @@ export interface QueueItem {
   action: 'create' | 'update' | 'delete';
   entityType: 'project' | 'element' | 'template';
   entityId: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Payload varies by entity type (Project | WorldElement | Template)
   payload: any;
   timestamp: Date;
   retryCount: number;
@@ -173,6 +174,7 @@ class OfflineQueueManager {
     action: QueueItem['action'],
     entityType: QueueItem['entityType'],
     entityId: string,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Payload varies by entity type (Project | WorldElement | Template)
     payload: any,
     priority: QueueItem['priority'] = 'normal',
     dependencies?: string[]

@@ -102,14 +102,14 @@ export const createElementSlice: StateCreator<
         };
 
         set((state) => ({
-          projects: state.projects.map((project) =>
-            project.id === projectId
+          projects: state.projects.map((p) =>
+            p.id === projectId
               ? {
-                  ...project,
-                  elements: [...project.elements, element],
+                  ...p,
+                  elements: [...p.elements, element],
                   updatedAt: new Date()
                 }
-              : project
+              : p
           ),
           currentElementId: element.id
         }));

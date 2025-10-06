@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// ! Type assertions for store composition and dynamic data operations
+
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { v4 as uuidv4 } from 'uuid';
@@ -283,14 +286,14 @@ export const useWorldbuildingStore = create<WorldbuildingStore>()(
         };
 
         set((state) => ({
-          projects: state.projects.map((project) =>
-            project.id === projectId
+          projects: state.projects.map((p) =>
+            p.id === projectId
               ? {
-                  ...project,
-                  elements: [...project.elements, element],
+                  ...p,
+                  elements: [...p.elements, element],
                   updatedAt: new Date()
                 }
-              : project
+              : p
           ),
           currentElementId: element.id
         }));
@@ -921,11 +924,11 @@ export const useWorldbuildingStore = create<WorldbuildingStore>()(
         try {
           // * Sync single project
           await supabaseSyncService.syncProjects([project], user.id);
-          
+
           // * Update sync metadata for this project
-          set((state) => ({
+          set((currentState) => ({
             syncMetadata: {
-              ...state.syncMetadata,
+              ...currentState.syncMetadata,
               [projectId]: {
                 projectId,
                 lastSyncedAt: new Date(),

@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// * Project card requires flexible typing for dynamic project data display
+
 import React, { useState, memo, useMemo, useRef, useCallback } from 'react';
 import {
   View,
@@ -17,6 +20,7 @@ import { useWorldbuildingStore } from '../store/worldbuildingStore';
 import { ProgressRing } from './ProgressRing';
 import { LazyImage } from './LazyImage';
 import { getTestProps } from '../utils/react-native-web-polyfills';
+import { Theme } from '../providers/ThemeProvider';
 
 // * Helper to safely use theme context
 const useOptionalTheme = () => {
@@ -536,7 +540,7 @@ export const ProjectCard = memo(function ProjectCard({
 });
 
 // * Dynamic style creation based on theme
-const createStyles = (theme: any) => StyleSheet.create({
+const createStyles = (theme: Theme) => StyleSheet.create({
   textureWrapper: {
     borderRadius: theme.borderRadius.lg,
     marginBottom: theme.spacing.md,

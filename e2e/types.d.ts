@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// * E2E test types require flexible typing for Detox matcher extensions
+
 /**
  * Detox Type Definitions for E2E Tests
  *

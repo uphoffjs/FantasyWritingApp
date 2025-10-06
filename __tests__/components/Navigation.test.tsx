@@ -4,6 +4,8 @@
  * ! Critical: Tests navigation flow, state management, and user journey
  */
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// Test files require 'any' type for mock flexibility and test data setup
 import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react-native';
 import { NavigationContainer } from '@react-navigation/native';

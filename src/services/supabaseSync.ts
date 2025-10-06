@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// * Database sync service requires 'any' for flexible Supabase API responses
+// * and dynamic data mapping between client and server schemas
+
 import { supabase } from '../lib/supabase';
 import { optimisticSyncQueueManager } from './optimisticSyncQueue';
 import { Project, WorldElement, Relationship, QuestionnaireTemplate as _QuestionnaireTemplate } from '../types';

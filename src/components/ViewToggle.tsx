@@ -7,7 +7,7 @@ import {
   Animated,
   Platform,
 } from 'react-native';
-import { useTheme } from '../providers/ThemeProvider';
+import { useTheme, Theme } from '../providers/ThemeProvider';
 
 import { getTestProps } from '../utils/react-native-web-polyfills';
 type ViewMode = 'grid' | 'list';
@@ -172,7 +172,7 @@ const getSizeConfig = (size: 'small' | 'medium' | 'large') => {
 };
 
 // * Dynamic style creation based on theme and size
-const createStyles = (theme: any, size: 'small' | 'medium' | 'large') => {
+const createStyles = (theme: Theme, size: 'small' | 'medium' | 'large') => {
   const sizeConfig = getSizeConfig(size);
   
   return StyleSheet.create({

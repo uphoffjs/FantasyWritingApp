@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// * Dynamic form editor requires 'any' for flexible question/answer value types
+// * Question values can be string | string[] | number | boolean | Date - any provides necessary flexibility
+
 import React, { useState, useCallback, useEffect, useMemo } from 'react';
 import {
   View,

@@ -52,6 +52,7 @@ export interface UpdateCustomTypeInput {
 }
 
 // * Type guards
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Type guard requires runtime checking of unknown value properties
 export function isCustomElementType(value: any): value is CustomElementType {
   return (
     typeof value === 'object' &&

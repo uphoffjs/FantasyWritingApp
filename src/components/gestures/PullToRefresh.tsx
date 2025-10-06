@@ -5,6 +5,10 @@
  * ! IMPORTANT: Works with ScrollView and FlatList components
  */
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// * Pan gesture handling requires 'any' for cross-platform gesture event types
+// * ScrollView and FlatList refs have varying type structures that benefit from flexible typing
+
 import React, { useRef, useCallback, useState, useEffect } from 'react';
 import {
   View,
@@ -220,6 +224,7 @@ export const PullToRefresh: React.FC<PullToRefreshProps> = ({
       <Animated.View
         style={[
           styles.webIndicatorContent,
+          // eslint-disable-next-line react-native/no-inline-styles -- Dynamic opacity based on refresh state
           {
             opacity: isRefreshing ? 1 : 0.7,
             transform: [

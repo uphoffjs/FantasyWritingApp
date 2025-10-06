@@ -6,7 +6,7 @@
 
 import React, { memo } from 'react';
 import { View, StyleSheet, Platform, ViewStyle } from 'react-native';
-import { useTheme } from '../../providers/ThemeProvider';
+import { useTheme, Theme } from '../../providers/ThemeProvider';
 
 import { getTestProps } from '../utils/react-native-web-polyfills';
 interface CelticBorderProps {
@@ -190,7 +190,7 @@ export const CelticBorder = memo(function CelticBorder({
 });
 
 // * Dynamic styles based on theme
-const _createStyles = (_theme: any) => StyleSheet.create({
+const _createStyles = (_theme: Theme) => StyleSheet.create({
   container: {
     position: 'relative',
     overflow: 'hidden',

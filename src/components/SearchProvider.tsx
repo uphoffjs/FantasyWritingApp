@@ -82,14 +82,14 @@ export function SearchProvider({ children }: SearchProviderProps) {
 
   // * Search projects
   const searchProjects = useCallback(
-    (projects: Project[], query?: string) => {
+    (projectList: Project[], query?: string) => {
       const searchTerm = query || searchQuery;
-      
+
       if (!searchTerm || searchTerm.trim() === '') {
-        return projects;
+        return projectList;
       }
 
-      const fuse = new Fuse(projects, projectFuseOptions);
+      const fuse = new Fuse(projectList, projectFuseOptions);
       const results = fuse.search(searchTerm);
       return results.map(result => result.item);
     },

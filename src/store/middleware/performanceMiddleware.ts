@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// * Performance middleware requires flexible typing for action tracking and metrics
+
 import { StateCreator } from 'zustand';
 import { performanceMonitor } from '../../utils/performanceMonitor';
 

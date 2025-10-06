@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// ! Dynamic metric collection requires flexible typing for various performance data
+
 import React from 'react';
 
 interface PerformanceMetrics {

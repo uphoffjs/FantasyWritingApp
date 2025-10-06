@@ -18,6 +18,7 @@ import {
 } from '../types/models';
 import { useWorldbuildingStore as _useWorldbuildingStore } from '../store/worldbuildingStore';
 import { v4 as uuidv4 } from 'uuid';
+import { fantasyTomeColors } from '../design-tokens/fantasyTomeColors';
 
 interface TemplateEditorProps {
   template?: QuestionnaireTemplate;
@@ -77,7 +78,7 @@ function QuestionEditor({ question, onChange, onDelete }: QuestionEditorProps) {
       </View>
 
       <View style={styles.questionRow}>
-        <View style={[styles.questionField, { flex: 1 }]}>
+        <View style={[styles.questionField, styles.flexField]}>
           <Text style={styles.fieldLabel}>Category</Text>
           <TextInput
             style={styles.fieldInput}
@@ -93,7 +94,7 @@ function QuestionEditor({ question, onChange, onDelete }: QuestionEditorProps) {
             value={question.required || false}
             onValueChange={(required) => onChange({ ...question, required })}
             trackColor={{ false: '#374151', true: fantasyTomeColors.elements.magic.primary }}
-            thumbColor=fantasyTomeColors.parchment.vellum
+            thumbColor={fantasyTomeColors.parchment.vellum}
           />
         </View>
       </View>
@@ -579,5 +580,8 @@ const styles = StyleSheet.create({
   saveButtonText: {
     fontSize: 14,
     fontWeight: '600', color: fantasyTomeColors.parchment.vellum, // ! HARDCODED: Should use design tokens
+  },
+  flexField: {
+    flex: 1,
   },
 });

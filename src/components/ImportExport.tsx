@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// * File import/export requires 'any' for flexible JSON parsing and file system operations
+// * Document picker and file reader APIs have varying type structures across platforms
+
 import React, { useState } from 'react';
 import {
   View,

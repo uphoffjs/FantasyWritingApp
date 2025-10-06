@@ -7,7 +7,7 @@
 
 import React, { useEffect, useRef, memo } from 'react';
 import { View, Text, StyleSheet, Animated, TouchableOpacity, Platform } from 'react-native';
-import { useTheme } from '../providers/ThemeProvider';
+import { useTheme, Theme } from '../providers/ThemeProvider';
 
 import { getTestProps } from '../utils/react-native-web-polyfills';
 interface StatsCardProps {
@@ -240,7 +240,7 @@ const AnimatedNumber: React.FC<{ value: Animated.Value }> = ({ value }) => {
 
 // * Style creation function
 const createStyles = (
-  theme: any,
+  theme: Theme,
   size: string,
   categoryColor: string,
   backgroundColor?: string,

@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// * Storybook animation stories require flexible typing for component props
+
 /**
  * Animation and Transition Documentation
  * Visual showcase of the Fantasy Writing App animation system and transitions

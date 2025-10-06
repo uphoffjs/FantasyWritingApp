@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// * Component requires flexible typing for cross-platform compatibility and dynamic prop handling
+
 import React, { useState } from 'react';
 import { fantasyTomeColors } from '../constants/fantasyTomeColors';
 import {

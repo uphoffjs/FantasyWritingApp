@@ -9,13 +9,12 @@ import {
   Animated,
   Dimensions,
 } from 'react-native';
-import { useTheme } from '../../providers/ThemeProvider';
+import { useTheme, Theme } from '../../providers/ThemeProvider';
 import { WorldElement } from '../../types/models';
 import { getCategoryIcon } from '../../utils/categoryMapping';
 import { getElementColor } from '../../utils/elementColors';
 import { ProgressRing } from '../ProgressRing';
 import { getTestProps } from '../../utils/react-native-web-polyfills';
-import { fantasyTomeColors } from '@/constants/fantasyTomeColors';
 
 // ! Inspector Panel Component for Element Details
 // * Contextual content that changes based on selected element
@@ -396,7 +395,7 @@ export const Inspector: React.FC<InspectorProps> = ({
 };
 
 // * Dynamic styles based on theme and device type
-const createStyles = (theme: any, isTablet: boolean, _isDesktop: boolean) =>
+const createStyles = (theme: Theme, isTablet: boolean, _isDesktop: boolean) =>
   StyleSheet.create({
     container: {
       backgroundColor: theme.colors.surface.primary,

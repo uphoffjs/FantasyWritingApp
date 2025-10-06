@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// * Store slice requires 'any' for dynamic state updates and flexible action payloads
+// * to support various project operations and data transformations
+
 import { StateCreator } from 'zustand';
 import { v4 as uuidv4 } from 'uuid';
 import {

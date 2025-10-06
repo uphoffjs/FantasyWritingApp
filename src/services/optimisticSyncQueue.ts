@@ -6,6 +6,7 @@ export type SyncOperation = {
   entity: 'project' | 'element' | 'answer' | 'relationship';
   entityId: string;
   projectId: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Operation data can be any entity type (Project | WorldElement | Relationship)
   data: any;
   localId?: string;
   remoteId?: string;
@@ -90,6 +91,7 @@ class OptimisticSyncQueue {
     switch (type) {
       case 'create':
         // * Build the insert data
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Insert data structure varies by entity type
         const insertData: any = {
           ...data,
           client_id: entityId,  // * Use client_id to match database schema

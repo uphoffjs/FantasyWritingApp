@@ -13,6 +13,7 @@ import { QuestionnaireTemplate, ElementCategory } from '../types/models';
 import { useWorldbuildingStore } from '../store/worldbuildingStore';
 import { DEFAULT_TEMPLATES } from '../types/worldbuilding';
 import { getTestProps } from '../utils/react-native-web-polyfills';
+import { fantasyTomeColors } from '../design-tokens/fantasyTomeColors';
 
 interface TemplateSelectorProps {
   category: ElementCategory;

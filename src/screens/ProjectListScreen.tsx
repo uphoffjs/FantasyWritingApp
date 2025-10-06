@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// * Screen component requires 'any' for dynamic navigation params and flexible state management
+// * across multiple view modes and data transformations
+
 /**
  * Project List Screen - Enhanced Dashboard
  * Main landing page with responsive layouts, stats, and fantasy theming

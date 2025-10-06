@@ -3,6 +3,8 @@
  * Tests error handling and recovery functionality using React Native Testing Library
  */
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// Test files require 'any' type for mock flexibility and test data setup
 import React from 'react';
 import { View, Text } from 'react-native';
 import { render, fireEvent, waitFor } from '@testing-library/react-native';

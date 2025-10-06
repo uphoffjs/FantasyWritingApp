@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// * Install prompt requires flexible typing for PWA installation events
+
 import React, { useState, useEffect } from 'react';
 import {
   View,

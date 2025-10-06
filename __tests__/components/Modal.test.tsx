@@ -4,8 +4,10 @@
  * ! Critical: Tests modal lifecycle, user interactions, and accessibility
  */
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// Test files require 'any' type for mock flexibility and test data setup
 /* eslint-disable react-native/no-inline-styles */
-/* eslint-disable react-native/no-color-literals */
+ 
 
 import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react-native';

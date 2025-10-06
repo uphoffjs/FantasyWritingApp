@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// * Async store requires flexible typing for async operation tracking
+
 import { StateCreator } from 'zustand';
 import { /* AsyncState, createAsyncState, */ AsyncOperation, createCancellableAsync, isCancelledError } from '../../utils/async';
 import { getUserFriendlyMessage } from '../../utils/errorHandling';

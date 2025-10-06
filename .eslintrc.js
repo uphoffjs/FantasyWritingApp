@@ -128,7 +128,7 @@ module.exports = {
   overrides: [
     {
       // Web-specific platform files
-      files: ['*.web.tsx', '*.web.ts', '*.web.jsx', '*.web.js'],
+      files: ['*.web.tsx', '*.web.ts', '*.web.jsx', '*.web.js', '**/*Web.tsx', '**/*Web.ts'],
       env: {
         browser: true
       },
@@ -311,6 +311,14 @@ module.exports = {
       files: ['**/mockups/**/*.js'],
       env: {
         browser: true
+      }
+    },
+    {
+      // Storybook story files
+      files: ['**/*.stories.tsx', '**/*.stories.ts', '**/*.stories.jsx', '**/*.stories.js'],
+      rules: {
+        // Allow inline styles in Storybook stories for documentation and examples
+        'react-native/no-inline-styles': 'off'
       }
     }
   ],

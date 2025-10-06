@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// * Element card requires flexible typing for dynamic element data display
+
 import React, { memo, useMemo } from 'react';
 import {
   View,
@@ -11,7 +14,7 @@ import { getCategoryIcon } from '../utils/categoryMapping';
 import { getElementColor } from '../utils/elementColors';
 import { ProgressRing } from './ProgressRing';
 import { getTestProps } from '../utils/react-native-web-polyfills';
-import { useTheme } from '../providers/ThemeProvider';
+import { useTheme, Theme } from '../providers/ThemeProvider';
 
 // * Helper to safely use theme context
 const useOptionalTheme = () => {
@@ -220,7 +223,7 @@ export const ElementCard = memo(function ElementCard({
 });
 
 // * Dynamic style creation based on theme
-const createStyles = (theme: any) => StyleSheet.create({
+const createStyles = (theme: Theme) => StyleSheet.create({
   card: {
     borderWidth: 1,
     borderRadius: theme.borderRadius.lg,
