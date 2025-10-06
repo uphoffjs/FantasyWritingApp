@@ -6,7 +6,7 @@
 import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react-native';
 import { CreateElementModal } from '../../src/components/CreateElementModal';
-import { renderWithProviders, mockNavigation } from '../../src/test/testUtils';
+import { renderWithProviders, mockNavigation } from '../../src/test/test-utils';
 import { ElementType } from '../../src/types/models';
 
 // * Mock the worldbuilding store

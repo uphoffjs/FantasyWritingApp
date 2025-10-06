@@ -6,7 +6,7 @@
 import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react-native';
 import { ProjectCard } from '../../src/components/ProjectCard';
-import { renderWithProviders, mockNavigation } from '../../src/test/testUtils';
+import { renderWithProviders, mockNavigation } from '../../src/test/test-utils';
 import { Project } from '../../src/types/models';
 
 // * Mock navigation

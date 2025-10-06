@@ -14,7 +14,7 @@ import { render, fireEvent, waitFor, within } from '@testing-library/react-nativ
 import { View, Text, TouchableOpacity, TextInput as RNTextInput, ActivityIndicator, Alert } from 'react-native';
 import { TextInput } from '../../src/components/TextInput';
 import { Button } from '../../src/components/Button';
-import { renderWithProviders } from '../../src/test/testUtils';
+import { renderWithProviders } from '../../src/test/test-utils';
 
 // * Mock form component for testing
 const TestForm: React.FC<{ onSubmit?: (data: any) => Promise<void> }> = ({ onSubmit }) => {

@@ -12,7 +12,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Text, View, TouchableOpacity } from 'react-native';
 import { useWorldbuildingStore } from '../../src/store/worldbuildingStore';
 import { useAuthStore } from '../../src/store/authStore';
-import { renderWithNavigation, mockNavigation } from '../../src/test/testUtils';
+import { renderWithNavigation, mockNavigation } from '../../src/test/test-utils';
 
 // * Mock screens for testing
 const HomeScreen = ({ navigation }: any) => (

@@ -6,7 +6,7 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
 import { ErrorMessage } from '../../src/components/ErrorMessage';
-import { renderWithProviders } from '../../src/test/testUtils';
+import { renderWithProviders } from '../../src/test/test-utils';
 
 describe('ErrorMessage', () => {
   describe('Basic Display', () => {

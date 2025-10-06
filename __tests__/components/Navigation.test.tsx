@@ -12,7 +12,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Text, View, TouchableOpacity, Button } from 'react-native';
-import { renderWithNavigation, createMockNavigation, createMockRoute } from '../../src/test/testUtils';
+import { renderWithNavigation, createMockNavigation, createMockRoute } from '../../src/test/test-utils';
 
 // * Test Screens
 const HomeScreen = ({ navigation }: any) => (
