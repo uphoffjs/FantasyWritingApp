@@ -3,7 +3,8 @@
 // * Data seeding strategies for test data management
 // ! All commands follow Cypress best practices documentation
 
-import { seedUser, cleanupUsers, deleteUserByEmail, getUserByEmail, SeedUserData } from '../../seedHelpers';
+// * Import only the type definition, actual functions called via cy.task()
+import type { SeedUserData } from '../../seedHelpers';
 
 /**
  * Method 1: Seed data using cy.exec() - Run system commands
@@ -200,38 +201,42 @@ Cypress.Commands.add('clearTestData', () => {
 
 /**
  * Seed a user into Supabase using Admin API
+ * Uses cy.task() to run in Node.js environment (Cypress best practice)
  * @param userData - User email, password, and optional metadata
  * @example cy.seedSupabaseUser({ email: 'test@example.com', password: 'Test1234!' })
  */
 Cypress.Commands.add('seedSupabaseUser', (userData: SeedUserData) => {
-  return cy.wrap(seedUser(userData), { log: false });
+  return cy.task('supabase:seedUser', userData, { log: false });
 });
 
 /**
  * Clean up all test users from Supabase
  * Removes users with 'test' or 'cypress' in their email
+ * Uses cy.task() to run in Node.js environment (Cypress best practice)
  * @example cy.cleanupSupabaseUsers()
  */
 Cypress.Commands.add('cleanupSupabaseUsers', () => {
-  return cy.wrap(cleanupUsers(), { log: false });
+  return cy.task('supabase:cleanupUsers', null, { log: false });
 });
 
 /**
  * Delete a specific user by email from Supabase
+ * Uses cy.task() to run in Node.js environment (Cypress best practice)
  * @param email - User email to delete
  * @example cy.deleteSupabaseUser('test@example.com')
  */
 Cypress.Commands.add('deleteSupabaseUser', (email: string) => {
-  return cy.wrap(deleteUserByEmail(email), { log: false });
+  return cy.task('supabase:deleteUser', email, { log: false });
 });
 
 /**
  * Get a user by email from Supabase
+ * Uses cy.task() to run in Node.js environment (Cypress best practice)
  * @param email - User email to retrieve
  * @example cy.getSupabaseUser('test@example.com')
  */
 Cypress.Commands.add('getSupabaseUser', (email: string) => {
-  return cy.wrap(getUserByEmail(email), { log: false });
+  return cy.task('supabase:getUser', email, { log: false });
 });
 
 // * Export empty object to prevent TS errors

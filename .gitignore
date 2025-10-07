@@ -71,6 +71,10 @@ yarn-error.log
 /cypress/results
 /.nyc_output
 
+# Test results and reports
+claudedocs/test-results/
+/tmp/cypress-flakiness-test
+
 # Build output
 /dist
 

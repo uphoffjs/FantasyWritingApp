@@ -4,49 +4,61 @@ This directory contains the database schema for the Fantasy Writing App.
 
 ## Quick Setup
 
-### Method 1: Manual via Supabase Dashboard (Recommended)
+### Method 1: Automated via npm scripts (Recommended)
+
+```bash
+# Apply all pending migrations automatically
+npm run db:migrate
+
+# Alternative command
+npm run supabase:migrate
+```
+
+The script will:
+
+- Connect directly to PostgreSQL using credentials from .env
+- Track which migrations have been applied
+- Execute only new migrations in order
+- Provide detailed feedback and error handling
+- Support automatic rollback on failure
+
+**First-time setup**: If you've already applied migrations manually, mark them as applied:
+
+```bash
+npm run db:migrate:mark 20250916171739_worldbuilding_schema.sql
+```
+
+### Method 2: Manual via Supabase Dashboard
 
 1. **Go to your Supabase Dashboard:**
+
    ```
-   https://app.supabase.com/project/cbyvpuqisqmepubzrwuo
+   https://app.supabase.com/project/cbyvpuqisqmepubzrwuo/sql
    ```
 
 2. **Navigate to SQL Editor** (in the left sidebar)
 
 3. **Click "New Query"**
 
-4. **Copy the entire contents** of `migrations/001_worldbuilding_schema.sql`
+4. **Copy the entire contents** of migration file from `supabase/migrations/`
 
 5. **Paste** into the SQL Editor and click **"Run"**
-
-### Method 2: Using npm scripts
-
-```bash
-# This will generate instructions and save the SQL file
-npm run db:push
-
-# Alternative command
-npm run supabase:push
-```
-
-The script will:
-- Check your Supabase credentials
-- Parse the migration SQL
-- Provide manual instructions since DDL needs to be run via SQL Editor
-- Save a copy of the migration to `scripts/push-to-supabase.sql`
 
 ## Database Schema
 
 The schema includes the following tables:
 
 ### Core Tables
+
 - **projects** - User's writing projects
 - **world_elements** - Characters, locations, objects, etc.
 - **relationships** - Connections between elements
 - **questionnaire_templates** - Template questions for elements
+- **custom_element_types** - User-defined worldbuilding categories
 - **sync_metadata** - Track sync status
 
 ### Features
+
 - **Row Level Security (RLS)** - Users can only access their own data
 - **Client ID tracking** - For offline/online sync
 - **Automatic timestamps** - created_at, updated_at triggers
@@ -55,6 +67,7 @@ The schema includes the following tables:
 ## Environment Variables
 
 Make sure your `.env` file contains:
+
 ```env
 VITE_SUPABASE_URL=your_supabase_url
 VITE_SUPABASE_ANON_KEY=your_anon_key
@@ -70,7 +83,10 @@ If you encounter issues:
 
 ## Migration Files
 
-- `001_worldbuilding_schema.sql` - Initial schema with all tables and policies
+- `20250916171739_worldbuilding_schema.sql` - Initial schema with core tables
+- `20251006000000_add_custom_element_types.sql` - Adds custom_element_types table for user-defined categories
+
+**Note**: Run migrations in order by timestamp
 
 ## Testing the Schema
 

@@ -1,13 +1,21 @@
 import { createClient } from '@supabase/supabase-js';
 
-// * Get environment variables from Cypress config
+// * Get environment variables from process.env (for cy.task() Node.js context)
 // ! Service role key bypasses Row Level Security (RLS) - use only for testing
 const getSupabaseUrl = () => {
-  return Cypress.env('VITE_SUPABASE_URL') || 'https://cbyvpuqisqmepubzrwuo.supabase.co';
+  // Try process.env first (cy.task()), fallback to Cypress.env() (browser context)
+  const url = process.env.VITE_SUPABASE_URL ||
+              (typeof Cypress !== 'undefined' ? Cypress.env('VITE_SUPABASE_URL') : '') ||
+              'https://cbyvpuqisqmepubzrwuo.supabase.co';
+  return url;
 };
 
 const getServiceRoleKey = () => {
-  return Cypress.env('SUPABASE_SERVICE_ROLE_KEY') || '';
+  // Try process.env first (cy.task()), fallback to Cypress.env() (browser context)
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY ||
+              (typeof Cypress !== 'undefined' ? Cypress.env('SUPABASE_SERVICE_ROLE_KEY') : '') ||
+              '';
+  return key;
 };
 
 // * Create Supabase admin client with service role key
@@ -22,13 +30,71 @@ export interface SeedUserData {
   metadata?: Record<string, unknown>;
 }
 
+// * ==========================================
+// * Utility Functions
+// * ==========================================
+
+/**
+ * Sleep utility for adding delays
+ * @param ms - Milliseconds to sleep
+ */
+function sleep(ms: number): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+/**
+ * Retry an async operation with exponential backoff
+ * @param operation - Async function to retry
+ * @param maxRetries - Maximum number of retry attempts
+ * @param baseDelay - Base delay in milliseconds
+ */
+async function retryWithBackoff<T>(
+  operation: () => Promise<T>,
+  maxRetries = 3,
+  baseDelay = 1000
+): Promise<T> {
+  let lastError: Error | undefined;
+
+  for (let attempt = 0; attempt <= maxRetries; attempt++) {
+    try {
+      return await operation();
+    } catch (error) {
+      lastError = error as Error;
+
+      // * Don't retry if it's the last attempt
+      if (attempt === maxRetries) {
+        break;
+      }
+
+      // * Calculate exponential backoff delay: 1s, 2s, 4s
+      const delay = baseDelay * Math.pow(2, attempt);
+      console.log(`⚠️ Attempt ${attempt + 1} failed, retrying in ${delay}ms...`);
+      await sleep(delay);
+    }
+  }
+
+  throw lastError;
+}
+
 /**
  * Seeds a test user into Supabase using the Admin API
+ * NOTE: Fails if user already exists. Call cleanup before seeding if needed.
  * @param userData - User email, password, and optional metadata
  * @returns Created user object
  */
 export async function seedUser(userData: SeedUserData) {
   try {
+    // * Check if user already exists
+    const existingUser = await getUserByEmail(userData.email);
+    if (existingUser) {
+      const error = new Error(
+        `User ${userData.email} already exists. Call deleteUserByEmail() or cleanupUsers() first to remove existing users.`
+      );
+      console.error('❌ Cannot seed user:', error.message);
+      throw error;
+    }
+
+    // * Create the user
     const { data, error } = await supabaseAdmin.auth.admin.createUser({
       email: userData.email,
       password: userData.password,
@@ -52,6 +118,7 @@ export async function seedUser(userData: SeedUserData) {
 /**
  * Cleans up test users from Supabase
  * Removes users whose emails contain 'test' or 'cypress'
+ * NOTE: Silently continues on deletion errors (users might have dependencies)
  */
 export async function cleanupUsers() {
   try {
@@ -60,7 +127,9 @@ export async function cleanupUsers() {
 
     if (listError) {
       console.error('❌ Failed to list users:', listError);
-      throw listError;
+      // * Don't throw - return silently so tests can continue
+      console.log('⚠️ Continuing without cleanup...');
+      return;
     }
 
     // * Filter test users by email pattern
@@ -69,23 +138,40 @@ export async function cleanupUsers() {
       u.email?.toLowerCase().includes('cypress')
     );
 
-    console.log(`🧹 Cleaning up ${testUsers.length} test users...`);
+    if (testUsers.length === 0) {
+      console.log('✨ No test users to clean up');
+      return;
+    }
 
-    // * Delete each test user
+    console.log(`🧹 Found ${testUsers.length} test users to clean up`);
+
+    // * Attempt to delete each test user
+    // * Silently continue on errors (users might have active sessions or dependencies)
+    let successCount = 0;
+    let failCount = 0;
+
     for (const user of testUsers) {
-      const { error: deleteError } = await supabaseAdmin.auth.admin.deleteUser(user.id);
+      try {
+        const { error: deleteError } = await supabaseAdmin.auth.admin.deleteUser(user.id);
 
-      if (deleteError) {
-        console.error(`❌ Failed to delete user ${user.email}:`, deleteError);
-      } else {
-        console.log(`✅ Deleted user: ${user.email}`);
+        if (deleteError) {
+          console.log(`⚠️ Could not delete user ${user.email} (may have dependencies)`);
+          failCount++;
+        } else {
+          console.log(`✅ Deleted user: ${user.email}`);
+          successCount++;
+        }
+      } catch (err) {
+        console.log(`⚠️ Error deleting user ${user.email}, skipping...`);
+        failCount++;
       }
     }
 
-    console.log('✅ Cleanup completed');
+    console.log(`✅ Cleanup completed: ${successCount} deleted, ${failCount} skipped`);
   } catch (err) {
-    console.error('❌ Unexpected error during cleanup:', err);
-    throw err;
+    // * Don't throw - just log and continue
+    // * Tests should be able to run even if cleanup fails
+    console.warn('⚠️ Cleanup encountered an error, continuing anyway:', err);
   }
 }
 
@@ -112,6 +198,7 @@ export async function getUserByEmail(email: string) {
 
 /**
  * Deletes a specific user by email
+ * Uses hard delete (shouldSoftDelete: false) with retry logic
  * @param email - User email to delete
  */
 export async function deleteUserByEmail(email: string) {
@@ -123,20 +210,27 @@ export async function deleteUserByEmail(email: string) {
       return; // * Silent success - user doesn't exist
     }
 
-    const { error } = await supabaseAdmin.auth.admin.deleteUser(user.id);
+    // * Use retry logic with exponential backoff for deletion
+    await retryWithBackoff(async () => {
+      // ! CRITICAL: In Supabase v2, deleteUser() performs hard delete by default
+      // ! No shouldSoftDelete parameter needed
+      const { error } = await supabaseAdmin.auth.admin.deleteUser(user.id);
 
-    if (error) {
-      // * If user doesn't exist error, treat as success
-      if (error.message?.includes('not found') || error.message?.includes('does not exist')) {
-        console.log(`⚠️ User already deleted: ${email}`);
-        return;
+      if (error) {
+        // * If user doesn't exist error, treat as success
+        if (error.message?.includes('not found') || error.message?.includes('does not exist')) {
+          console.log(`⚠️ User already deleted: ${email}`);
+          return;
+        }
+
+        // * Throw error to trigger retry
+        console.error(`❌ Delete attempt failed for ${email}:`, error.message);
+        throw error;
       }
 
-      console.error(`❌ Failed to delete user ${email}:`, error);
-      throw error;
-    }
+      console.log(`✅ Deleted user: ${email}`);
+    }, 3, 1000); // 3 retries with 1s, 2s, 4s delays
 
-    console.log(`✅ Deleted user: ${email}`);
   } catch (err) {
     // * Handle "user not found" errors gracefully
     const error = err as Error;
@@ -145,7 +239,7 @@ export async function deleteUserByEmail(email: string) {
       return;
     }
 
-    console.error('❌ Unexpected error deleting user:', err);
+    console.error('❌ Unexpected error deleting user after retries:', err);
     throw err;
   }
 }

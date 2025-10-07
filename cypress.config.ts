@@ -84,6 +84,25 @@ export default defineConfig({
 
           return null;
         },
+        // ==========================================
+        // 🗄️ SUPABASE SEEDING TASKS
+        // ==========================================
+        async 'supabase:seedUser'(userData: { email: string; password: string; metadata?: Record<string, unknown> }) {
+          const { seedUser } = require('./cypress/support/seedHelpers');
+          return await seedUser(userData);
+        },
+        async 'supabase:cleanupUsers'() {
+          const { cleanupUsers } = require('./cypress/support/seedHelpers');
+          return await cleanupUsers();
+        },
+        async 'supabase:getUser'(email: string) {
+          const { getUserByEmail } = require('./cypress/support/seedHelpers');
+          return await getUserByEmail(email);
+        },
+        async 'supabase:deleteUser'(email: string) {
+          const { deleteUserByEmail } = require('./cypress/support/seedHelpers');
+          return await deleteUserByEmail(email);
+        },
         // Register factory tasks for data seeding
         ...factoryTasks
       });
