@@ -55,9 +55,9 @@ for i in $(seq 1 $ITERATIONS); do
     end_time=$(date +%s)
     duration=$((end_time - start_time))
 
-    # Extract test results from log
-    pass_count=$(grep -oP '\d+(?= passing)' "$ITERATION_LOG" | head -1 || echo "0")
-    fail_count=$(grep -oP '\d+(?= failing)' "$ITERATION_LOG" | head -1 || echo "0")
+    # Extract test results from log (BSD grep compatible)
+    pass_count=$(grep -o '[0-9]* passing' "$ITERATION_LOG" | grep -o '[0-9]*' | head -1 || echo "0")
+    fail_count=$(grep -o '[0-9]* failing' "$ITERATION_LOG" | grep -o '[0-9]*' | head -1 || echo "0")
 
     # Store results
     exit_codes+=($exit_code)
@@ -68,9 +68,10 @@ for i in $(seq 1 $ITERATIONS); do
     # Display iteration result
     echo -e "${BLUE}[Iteration $i/$ITERATIONS]${NC} Status: $status | Pass: $pass_count | Fail: $fail_count | Duration: ${duration}s"
 
-    # Small delay between iterations
+    # Longer delay between iterations for complete cleanup
     if [ $i -lt $ITERATIONS ]; then
-        sleep 2
+        echo "Waiting 10 seconds for complete cleanup..."
+        sleep 10
     fi
 done
 
