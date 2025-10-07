@@ -242,6 +242,7 @@
     "vite-plugin-react-native-web": "^2.2.1",
     "vite-plugin-svgr": "^4.5.0",
     "vite-tsconfig-paths": "^4.3.2",
+    "wait-on": "^9.0.1",
     "webpack": "^5.101.3",
     "webpack-bundle-analyzer": "^4.10.2",
     "webpack-cli": "^6.0.1",
