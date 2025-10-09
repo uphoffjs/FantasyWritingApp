@@ -92,46 +92,97 @@ declare global {
       // * Utility commands
       waitForLoad(): Chainable<void>;
       checkAccessibility(): Chainable<void>;
+
+      // * Debug commands
+      dumpConsoleLogs(): Chainable<void>;
     }
   }
 }
+
+// ==========================================
+// 🔍 CAPTURE ALL BROWSER CONSOLE OUTPUT
+// ==========================================
+// * Must happen BEFORE window loads to catch all logs
+Cypress.on('window:before:load', (win) => {
+  // Store originals
+  const originalLog = win.console.log;
+  const originalError = win.console.error;
+  const originalWarn = win.console.warn;
+
+  // Override console.log to output to terminal via direct console output
+  win.console.log = function(...args: unknown[]) {
+    // Format message
+    const message = args.map(arg => {
+      try {
+        return typeof arg === 'object' ? JSON.stringify(arg) : String(arg);
+      } catch {
+        return String(arg);
+      }
+    }).join(' ');
+
+    // Store for later retrieval
+    interface WindowWithLogs extends Window {
+      __cypressLogs?: Array<{ type: string; message: string; timestamp: number }>;
+    }
+    const winWithLogs = win as WindowWithLogs;
+    if (!winWithLogs.__cypressLogs) {
+      winWithLogs.__cypressLogs = [];
+    }
+    winWithLogs.__cypressLogs.push({ type: 'log', message, timestamp: Date.now() });
+
+    // Call original so it appears in browser console
+    originalLog.apply(win.console, args);
+  };
+
+  // Override console.error
+  win.console.error = function(...args: unknown[]) {
+    const message = args.map(arg => {
+      try {
+        return typeof arg === 'object' ? JSON.stringify(arg) : String(arg);
+      } catch {
+        return String(arg);
+      }
+    }).join(' ');
+
+    console.error('🔴 BROWSER ERROR:', message);
+    originalError.apply(win.console, args);
+  };
+
+  // Override console.warn
+  win.console.warn = function(...args: unknown[]) {
+    const message = args.map(arg => {
+      try {
+        return typeof arg === 'object' ? JSON.stringify(arg) : String(arg);
+      } catch {
+        return String(arg);
+      }
+    }).join(' ');
+
+    console.warn('⚠️ BROWSER WARN:', message);
+    originalWarn.apply(win.console, args);
+  };
+});
 
 // * Configure test environment
 beforeEach(() => {
   // * Clear any existing test data
   cy.clearLocalStorage();
   cy.clearCookies();
+});
 
-  // ==========================================
-  // 🔴 CAPTURE BROWSER CONSOLE ERRORS
-  // ==========================================
+// * Custom command to dump console logs
+Cypress.Commands.add('dumpConsoleLogs', () => {
   cy.window().then((win) => {
-    // Store original console.error
-    const originalError = win.console.error;
-
-    // Override console.error to capture runtime errors
-    win.console.error = function(...args) {
-      // Log to terminal immediately
-      console.error('🔴 BROWSER CONSOLE ERROR:', ...args);
-
-      // Call original console.error
-      originalError.apply(win.console, args);
-
-      // Store error for test access
-      win.cypressErrors = win.cypressErrors || [];
-      win.cypressErrors.push({
-        type: 'console_error',
-        args: args,
-        timestamp: new Date().toISOString()
-      });
-    };
-
-    // Also capture console.warn for visibility
-    const originalWarn = win.console.warn;
-    win.console.warn = function(...args) {
-      console.warn('⚠️  BROWSER CONSOLE WARN:', ...args);
-      originalWarn.apply(win.console, args);
-    };
+    interface WindowWithLogs extends Window {
+      __cypressLogs?: Array<{ type: string; message: string; timestamp: number }>;
+    }
+    const winWithLogs = win as WindowWithLogs;
+    const logs = winWithLogs.__cypressLogs || [];
+    cy.task('log', `\n========== CAPTURED CONSOLE LOGS (${logs.length} total) ==========`);
+    logs.forEach((log: { type: string; message: string; timestamp: number }, index: number) => {
+      cy.task('log', `[${index + 1}] ${log.type.toUpperCase()}: ${log.message}`);
+    });
+    cy.task('log', `========== END CONSOLE LOGS ==========\n`);
   });
 });
 
@@ -140,6 +191,9 @@ beforeEach(() => {
 Cypress.on('fail', (error, runnable) => {
   // * Capture failure debug information
   cy.captureFailureDebug?.();
+
+  // * Dump console logs on failure
+  cy.dumpConsoleLogs();
 
   // * Take a screenshot on failure
   const testTitle = runnable.title || 'unknown-test';
