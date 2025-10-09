@@ -1,3 +1,7 @@
+// * Load environment variables from .env file FIRST
+import * as dotenv from 'dotenv';
+dotenv.config();
+
 import { defineConfig } from "cypress";
 import codeCoverageTask from "@cypress/code-coverage/task";
 // * Import factory tasks from JavaScript file to avoid TypeScript compilation issues
@@ -87,11 +91,23 @@ export default defineConfig({
         // ==========================================
         // 🗄️ SUPABASE SEEDING TASKS
         // ==========================================
+        // Debug task to check environment variables
+        'supabase:checkEnv'() {
+          console.log('🔍 Environment Variable Check:');
+          console.log('  VITE_SUPABASE_URL:', process.env.VITE_SUPABASE_URL ? '✅ SET' : '❌ NOT SET');
+          console.log('  SUPABASE_SERVICE_ROLE_KEY:', process.env.SUPABASE_SERVICE_ROLE_KEY ? '✅ SET' : '❌ NOT SET');
+          return {
+            url: !!process.env.VITE_SUPABASE_URL,
+            key: !!process.env.SUPABASE_SERVICE_ROLE_KEY
+          };
+        },
         async 'supabase:seedUser'(userData: { email: string; password: string; metadata?: Record<string, unknown> }) {
+          console.log('🌱 Seeding user:', userData.email);
           const { seedUser } = require('./cypress/support/seedHelpers');
           return await seedUser(userData);
         },
         async 'supabase:cleanupUsers'() {
+          console.log('🧹 Cleaning up test users...');
           const { cleanupUsers } = require('./cypress/support/seedHelpers');
           return await cleanupUsers();
         },

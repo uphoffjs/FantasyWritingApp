@@ -170,6 +170,41 @@ This phase implements user registration testing, including:
 
 ---
 
+### Task 3.6: Comprehensive Mutation Testing (Final Validation)
+
+**Objective**: Validate that all sign-up tests catch application code failures
+
+**Application Code Mutations to Test**:
+
+**Test 3.1: Successful Sign-Up**
+
+- [ ] Mutation 3.1a: Remove sign-up tab button
+- [ ] Mutation 3.1b: Comment out `authService.signUp()` call
+- [ ] Mutation 3.1c: Break post-signup navigation
+
+**Test 3.2: Duplicate Email Prevention**
+
+- [ ] Mutation 3.2a: Remove duplicate email check
+- [ ] Mutation 3.2b: Remove "already registered" error display
+
+**Test 3.3: Password Requirements**
+
+- [ ] Mutation 3.3a: Remove password length validation
+- [ ] Mutation 3.3b: Allow short passwords to proceed
+
+**Test 3.4: Password Match Validation**
+
+- [ ] Mutation 3.4a: Remove password confirmation check
+- [ ] Mutation 3.4b: Allow mismatched passwords
+
+**Documentation**:
+
+- [ ] Create mutation testing report
+- [ ] Add validation comments to test file
+- [ ] Calculate quality score (target: >85%)
+
+---
+
 ## ✅ Phase 3 Validation Checklist
 
 - [ ] All 4 signup tests passing
@@ -181,8 +216,9 @@ This phase implements user registration testing, including:
 - [ ] 7 total tests passing
 - [ ] Combined execution time <70 seconds
 - [ ] Tests pass 5x consecutively
-- [ ] **Test validation complete** (All 4 tests verified to catch failures)
+- [ ] **Mutation testing complete** (All sign-up tests verified to catch application failures)
 - [ ] **Validation comments added** (Test file documents what failures each test catches)
+- [ ] **Mutation testing report created** (Quality score calculated and documented)
 - [ ] **READY TO PROCEED TO PHASE 4**
 
 ---

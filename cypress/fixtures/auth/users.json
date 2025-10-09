@@ -1,4 +1,6 @@
 {
+  "_description": "User data templates for authentication tests. Users are created dynamically via cy.task('seedUser', userKey) to ensure test isolation and clean state. Each fixture provides consistent credentials that tests can rely on.",
+  "_usage": "beforeEach(() => { cy.task('seedUser', 'validUser'); }), then cy.fixture('auth/users').then((users) => { const { email, password } = users.validUser; })",
   "validUser": {
     "id": "valid-user-001",
     "email": "valid.user@fantasy-app.test",

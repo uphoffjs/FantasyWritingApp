@@ -9,66 +9,68 @@ type AuthMode = 'signin' | 'signup';
 
 export default function LoginScreen() {
   const navigation = useNavigation();
-  const { signIn, signUp, isLoading } = useAuthStore();
+  const { signIn, signUp, isLoading, authError, clearAuthError } = useAuthStore();
   const { showToast } = useToastStore();
-  
+
   // * Form state
   const [mode, setMode] = useState<AuthMode>('signin');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [forgotPasswordEmail, setForgotPasswordEmail] = useState('');
   const [forgotPasswordSent, setForgotPasswordSent] = useState(false);
-  
+  const [validationError, setValidationError] = useState<string | null>(null);  // * Local validation errors
+
+  // * Combined error from auth store or local validation
+  const error = authError || validationError;
+
+
   // Validation
   const validateForm = () => {
     if (!email) {
-      setError('Email is required');
+      setValidationError('Email is required');
       return false;
     }
-    
+
     if (!password) {
-      setError('Password is required');
+      setValidationError('Password is required');
       return false;
     }
-    
+
     if (!email.includes('@')) {
-      setError('Enter a valid email');
+      setValidationError('Enter a valid email');
       return false;
     }
-    
+
     if (password.length < 6) {
-      setError('Password must be at least 6 characters');
+      setValidationError('Password must be at least 6 characters');
       return false;
     }
-    
+
     if (mode === 'signup' && password !== confirmPassword) {
-      setError('Passwords do not match');
+      setValidationError('Passwords do not match');
       return false;
     }
-    
+
     return true;
   };
   
   // * Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null);
-    
+
+    // Clear validation errors
+    setValidationError(null);
+
     if (!validateForm()) return;
-    
+
     try {
-      let result;
-      
-      if (mode === 'signin') {
-        result = await signIn(email, password);
-      } else {
-        result = await signUp(email, password);
-      }
-      
+      const result = mode === 'signin'
+        ? await signIn(email, password)
+        : await signUp(email, password);
+
       if (result.success) {
         if (mode === 'signup') {
           showToast({
@@ -78,11 +80,10 @@ export default function LoginScreen() {
           });
         }
         navigation.navigate('Projects' as never);
-      } else {
-        setError(result.error || 'An error occurred');
       }
-    } catch {
-      setError('An unexpected error occurred. Please try again.');
+      // * authError is automatically set in authStore on failure
+    } catch (err) {
+      setValidationError('An unexpected error occurred. Please try again.');
     }
   };
   
@@ -90,7 +91,8 @@ export default function LoginScreen() {
   // * Switch between sign in and sign up
   const switchMode = () => {
     setMode(mode === 'signin' ? 'signup' : 'signin');
-    setError(null);
+    clearAuthError();
+    setValidationError(null);
   };
   
   // ! SECURITY: * Handle forgot password
@@ -98,21 +100,21 @@ export default function LoginScreen() {
     e.preventDefault();
     
     if (!forgotPasswordEmail) {
-      setError('Please enter your email address');
+      setValidationError('Please enter your email address');
       return;
     }
-    
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(forgotPasswordEmail)) {
-      setError('Please enter a valid email address');
+      setValidationError('Please enter a valid email address');
       return;
     }
-    
+
     try {
       const { error: resetError } = await authService.resetPassword(forgotPasswordEmail);
 
       if (resetError) {
-        setError(resetError.message);
+        setValidationError(resetError.message);
         showToast({
           type: 'error',
           title: 'Password Reset Failed',
@@ -132,7 +134,7 @@ export default function LoginScreen() {
         }, 3000);
       }
     } catch {
-      setError('An error occurred. Please try again.');
+      setValidationError('An error occurred. Please try again.');
       showToast({
         type: 'error',
         title: 'Error',
@@ -350,7 +352,8 @@ export default function LoginScreen() {
                   setShowForgotPassword(false);
                   setForgotPasswordEmail('');
                   setForgotPasswordSent(false);
-                  setError(null);
+                  clearAuthError();
+                  setValidationError(null);
                 }}
                 className="text-ink-secondary hover:text-ink-primary"
               >
@@ -407,7 +410,8 @@ export default function LoginScreen() {
                     onClick={() => {
                       setShowForgotPassword(false);
                       setForgotPasswordEmail('');
-                      setError(null);
+                      clearAuthError();
+                      setValidationError(null);
                     }}
                     className="px-4 py-2 bg-parchment-200 text-ink-secondary font-cinzel font-medium rounded-lg hover:bg-parchment-300 focus:outline-none focus:ring-2 focus:ring-ink-primary focus:ring-offset-2 focus:ring-offset-parchment-100 transition-all"
                   >

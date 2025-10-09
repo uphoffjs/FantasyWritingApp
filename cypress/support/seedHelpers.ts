@@ -145,25 +145,43 @@ export async function cleanupUsers() {
 
     console.log(`🧹 Found ${testUsers.length} test users to clean up`);
 
-    // * Attempt to delete each test user
-    // * Silently continue on errors (users might have active sessions or dependencies)
+    // * Attempt to delete each test user with retry logic
+    // * Use exponential backoff for each user deletion
     let successCount = 0;
     let failCount = 0;
 
     for (const user of testUsers) {
       try {
-        const { error: deleteError } = await supabaseAdmin.auth.admin.deleteUser(user.id);
+        // * Use retry logic with exponential backoff for each user
+        await retryWithBackoff(async () => {
+          // ! Supabase v2: deleteUser() performs hard delete by default, removing all related data
+          const { error: deleteError } = await supabaseAdmin.auth.admin.deleteUser(user.id);
 
-        if (deleteError) {
-          console.log(`⚠️ Could not delete user ${user.email} (may have dependencies)`);
-          failCount++;
-        } else {
+          if (deleteError) {
+            // * If user doesn't exist error, treat as success
+            if (deleteError.message?.includes('not found') || deleteError.message?.includes('does not exist')) {
+              console.log(`⚠️ User already deleted: ${user.email}`);
+              return;
+            }
+
+            // * Throw error to trigger retry
+            throw deleteError;
+          }
+
           console.log(`✅ Deleted user: ${user.email}`);
-          successCount++;
-        }
+        }, 3, 1000);
+
+        successCount++;
       } catch (err) {
-        console.log(`⚠️ Error deleting user ${user.email}, skipping...`);
-        failCount++;
+        const error = err as Error;
+        // * Handle "user not found" errors gracefully
+        if (error.message?.includes('not found') || error.message?.includes('does not exist')) {
+          console.log(`⚠️ User not found: ${user.email}`);
+          successCount++; // Count as success since user doesn't exist anyway
+        } else {
+          console.log(`⚠️ Could not delete user ${user.email} after retries:`, error.message);
+          failCount++;
+        }
       }
     }
 

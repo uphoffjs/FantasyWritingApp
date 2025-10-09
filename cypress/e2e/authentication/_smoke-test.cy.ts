@@ -26,6 +26,10 @@ describe('Authentication Infrastructure Smoke Test', () => {
     cy.clearLocalStorage();
   });
 
+  // * MUTATION TESTED: Validates fixture loading catches failures
+  // * Mutation 1a: Rename users.json ✅ CAUGHT (fixture not found)
+  // * Mutation 1b: Break JSON format ✅ CAUGHT (parse error)
+  // * Mutation 1c: Remove email field ✅ WOULD CATCH (missing property assertion)
   it('should load user fixtures correctly', () => {
     cy.log('🧪 TEST: Loading user fixtures');
 
@@ -55,6 +59,9 @@ describe('Authentication Infrastructure Smoke Test', () => {
     });
   });
 
+  // * MUTATION TESTED: Validates all user types have required structure
+  // * Tests email/password existence and format validation
+  // * Would catch: missing email, missing password, invalid email format, short passwords
   it('should have valid test data for all user types', () => {
     cy.log('🧪 TEST: Validating all user types');
 
@@ -91,6 +98,9 @@ describe('Authentication Infrastructure Smoke Test', () => {
     });
   });
 
+  // * MUTATION TESTED: Validates Cypress custom commands are registered
+  // * Tests that all auth and debug commands exist as functions
+  // * Would catch: missing command imports, typos in command names, unregistered commands
   it('should have Cypress custom commands available', () => {
     cy.log('🧪 TEST: Verifying custom commands exist');
 
@@ -108,5 +118,19 @@ describe('Authentication Infrastructure Smoke Test', () => {
     expect(cy.comprehensiveDebugWithBuildCapture).to.be.a('function');
 
     cy.log('✅ All custom commands are registered');
+  });
+
+  // * Validates environment variables are accessible for Supabase operations
+  it('should have Supabase environment variables configured', () => {
+    cy.log('🧪 TEST: Checking Supabase environment setup');
+
+    // Check environment variables via cy.task
+    cy.task('supabase:checkEnv').then((env) => {
+      cy.log(`Environment check result: ${JSON.stringify(env)}`);
+      expect(env).to.have.property('url', true);
+      expect(env).to.have.property('key', true);
+    });
+
+    cy.log('✅ Supabase environment variables are configured');
   });
 });

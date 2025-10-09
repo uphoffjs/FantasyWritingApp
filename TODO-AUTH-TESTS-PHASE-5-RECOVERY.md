@@ -145,6 +145,33 @@ This final phase implements:
 
 ---
 
+### Task 5.6: Comprehensive Mutation Testing (Final Validation)
+
+**Objective**: Validate that all password recovery tests catch application code failures
+
+**Application Code Mutations to Test**:
+
+**Test 5.1: Request Password Reset**
+
+- [ ] Mutation 5.1a: Remove forgot password link/button
+- [ ] Mutation 5.1b: Comment out password reset request API call
+- [ ] Mutation 5.1c: Break success message display
+
+**Test 5.2: Invalid Email Handling**
+
+- [ ] Mutation 5.2a: Remove email validation for reset
+- [ ] Mutation 5.2b: Skip error display for invalid emails
+- [ ] Mutation 5.2c: Allow non-existent emails to show success (security issue)
+
+**Documentation**:
+
+- [ ] Create comprehensive mutation testing report for ALL phases
+- [ ] Add validation comments to recovery test file
+- [ ] Calculate overall auth suite quality score
+- [ ] Document complete mutation testing coverage
+
+---
+
 ## ✅ Phase 5 Final Validation Checklist
 
 - [ ] **Test Coverage**
@@ -170,6 +197,13 @@ This final phase implements:
 
   - [ ] Only `data-cy` selectors used
   - [ ] Relative URLs only
+
+- [ ] **Mutation Testing**
+
+  - [ ] All 12 tests verified to catch application failures
+  - [ ] Comprehensive mutation testing report created
+  - [ ] Overall quality score calculated (target: >85%)
+  - [ ] All validation comments added to test files
   - [ ] Proper cleanup in beforeEach
   - [ ] Mandatory test template followed
 

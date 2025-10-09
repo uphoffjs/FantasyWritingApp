@@ -129,6 +129,38 @@ This phase implements session management testing, including:
 
 ---
 
+### Task 4.4: Comprehensive Mutation Testing (Final Validation)
+
+**Objective**: Validate that all session tests catch application code failures
+
+**Application Code Mutations to Test**:
+
+**Test 4.1: Session Persistence**
+
+- [ ] Mutation 4.1a: Remove localStorage persistence logic
+- [ ] Mutation 4.1b: Break session restoration on reload
+- [ ] Mutation 4.1c: Skip auth state rehydration
+
+**Test 4.2: Session Expiration**
+
+- [ ] Mutation 4.2a: Remove session expiration check
+- [ ] Mutation 4.2b: Allow expired sessions to stay active
+- [ ] Mutation 4.2c: Break automatic logout on expiry
+
+**Test 4.3: Multi-Tab Synchronization**
+
+- [ ] Mutation 4.3a: Remove storage event listener
+- [ ] Mutation 4.3b: Skip cross-tab state synchronization
+- [ ] Mutation 4.3c: Break onAuthStateChange listener
+
+**Documentation**:
+
+- [ ] Create mutation testing report
+- [ ] Add validation comments to test file
+- [ ] Calculate quality score (target: >85%)
+
+---
+
 ## ✅ Phase 4 Validation Checklist
 
 - [ ] All 3 session tests passing
@@ -137,8 +169,9 @@ This phase implements session management testing, including:
 - [ ] 10 total tests passing
 - [ ] Combined execution time <100 seconds
 - [ ] Tests pass 5x consecutively
-- [ ] **Test validation complete** (All 3 tests verified to catch failures)
+- [ ] **Mutation testing complete** (All session tests verified to catch application failures)
 - [ ] **Validation comments added** (Test file documents what failures each test catches)
+- [ ] **Mutation testing report created** (Quality score calculated and documented)
 - [ ] **READY TO PROCEED TO PHASE 5**
 
 ---

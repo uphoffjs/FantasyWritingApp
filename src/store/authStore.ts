@@ -15,7 +15,8 @@ interface AuthStore {
   isAuthenticated: boolean
   isOfflineMode: boolean
   isEmailVerified: boolean
-  
+  authError: string | null  // * Authentication error message for UI display
+
   // * Synchronization state tracking
   syncStatus: SyncStatus
   lastSyncedAt: Date | null
@@ -33,7 +34,10 @@ interface AuthStore {
   // * User profile management actions
   loadProfile: () => Promise<void>
   updateProfile: (updates: Partial<Profile>) => Promise<{ success: boolean; error?: string }>
-  
+
+  // * Error management
+  clearAuthError: () => void
+
   // * Application mode toggles
   setOfflineMode: (offline: boolean) => void
   
@@ -59,7 +63,8 @@ export const useAuthStore = create<AuthStore>()(
       isOfflineMode: // ! SECURITY: Using localStorage
       localStorage.getItem('fantasy-element-builder-offline-mode') === 'true',
       isEmailVerified: false,
-      
+      authError: null,  // * Authentication error message
+
       // * Initial sync state
       syncStatus: 'offline',
       lastSyncedAt: null,
@@ -137,36 +142,47 @@ export const useAuthStore = create<AuthStore>()(
       
       // ! SECURITY: * Sign in with email and password
       signIn: async (email: string, password: string) => {
-        set({ isLoading: true })
-        
+        set({ isLoading: true, authError: null })  // * Clear any previous auth errors
+
         try {
-          const { user, error } = await authService.signIn(email, password)
-          
-          if (error) {
-            return { 
-              success: false, 
-              error: error.message 
-            }
-          }
-          
+          const data = await authService.signIn(email, password)
+          const user = data.user
+
           if (user) {
-            set({ 
+            set({
               user,
               isAuthenticated: true,
-              syncStatus: 'synced'
+              syncStatus: 'synced',
+              authError: null  // * Clear error on success
             })
-            
+
             // * Load profile
             await get().loadProfile()
-            
+
             // * Check email verification status
             await get().checkEmailVerification()
-            
+
             // * Update last synced time
             get().updateLastSyncedAt()
+
+            return { success: true }
+          } else {
+            // * No user returned - authentication failed
+            const errorMessage = 'Invalid email or password'
+            set({ authError: errorMessage })  // * Set error in store
+            return {
+              success: false,
+              error: errorMessage
+            }
           }
-          
-          return { success: true }
+        } catch (error) {
+          // * Handle authentication errors thrown by authService
+          const errorMessage = error instanceof Error ? error.message : 'Authentication failed'
+          set({ authError: errorMessage })  // * Set error in store
+          return {
+            success: false,
+            error: errorMessage
+          }
         } finally {
           set({ isLoading: false })
         }
@@ -175,32 +191,33 @@ export const useAuthStore = create<AuthStore>()(
       // ! SECURITY: * Sign up with email and password
       signUp: async (email: string, password: string) => {
         set({ isLoading: true })
-        
+
         try {
-          const { user, error } = await authService.signUp(email, password)
-          
-          if (error) {
-            return { 
-              success: false, 
-              error: error.message 
-            }
-          }
-          
+          const data = await authService.signUp(email, password)
+          const user = data.user
+
           if (user) {
-            set({ 
+            set({
               user,
               isAuthenticated: true,
               syncStatus: 'synced'
             })
-            
+
             // * Profile is created automatically in the service
             await get().loadProfile()
-            
+
             // * Check email verification status
             await get().checkEmailVerification()
           }
-          
+
           return { success: true }
+        } catch (error) {
+          // * Handle authentication errors thrown by authService
+          const errorMessage = error instanceof Error ? error.message : 'Sign up failed'
+          return {
+            success: false,
+            error: errorMessage
+          }
         } finally {
           set({ isLoading: false })
         }
@@ -343,9 +360,14 @@ export const useAuthStore = create<AuthStore>()(
       },
       
       // * Set offline mode
+      // * Clear authentication error
+      clearAuthError: () => {
+        set({ authError: null })
+      },
+
       setOfflineMode: (offline: boolean) => {
         localStorage.setItem('fantasy-element-builder-offline-mode', offline.toString())
-        set({ 
+        set({
           isOfflineMode: offline,
           syncStatus: offline ? 'offline' : 'synced'
         })
