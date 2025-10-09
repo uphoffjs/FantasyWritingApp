@@ -61,12 +61,18 @@ describe('User Sign In Flow', () => {
       // * Verify on signin tab (default state)
       cy.get('[data-cy="signin-tab-button"]').should('be.visible');
 
+      // * QUALITY IMPROVEMENT: Verify form elements exist before interaction
+      // * This ensures test fails if UI elements are missing (catches mutation 2.1a)
+      cy.get('[data-cy="email-input"]').should('exist').and('be.visible');
+      cy.get('[data-cy="password-input"]').should('exist').and('be.visible');
+      cy.get('[data-cy="submit-button"]').should('exist').and('be.visible');
+
       // Type credentials
-      cy.get('[data-cy="email-input"]').should('be.visible').type(email);
-      cy.get('[data-cy="password-input"]').should('be.visible').type(password);
+      cy.get('[data-cy="email-input"]').type(email);
+      cy.get('[data-cy="password-input"]').type(password);
 
       // Submit form
-      cy.get('[data-cy="submit-button"]').should('be.visible').click();
+      cy.get('[data-cy="submit-button"]').click();
 
       // * Assert successful navigation to projects (proves authentication succeeded)
       cy.url({ timeout: 10000 }).should('include', '/projects');
