@@ -24,6 +24,96 @@ This phase implements user registration testing, including:
 
 ---
 
+## 🧪 Testing Strategy: Stub vs Integration
+
+### ✅ **STUB-BASED TESTS** (Recommended for Phase 3)
+
+Use **stub-based testing** for all signup flow frontend validation:
+
+**Test 3.1: Successful Sign-Up (Happy Path)**
+
+- ✅ **Stub**: `stubSuccessfulSignup()` + `stubGetProjects()`
+- 🎯 **Tests**: Form validation, UI flow, password matching, navigation after signup
+- ⚡ **Why**: Fast execution, tests frontend registration logic
+
+**Test 3.2: Duplicate Email Prevention**
+
+- ✅ **Stub**: `stubFailedSignup('User already registered')`
+- 🎯 **Tests**: Error display, duplicate email error message, no navigation
+- ⚡ **Why**: Deterministic error simulation, no database dependency
+
+**Test 3.3: Password Requirements Validation**
+
+- ✅ **Stub**: `stubFailedSignup('Password does not meet requirements')`
+- 🎯 **Tests**: Password strength indicators, validation errors, UX feedback
+- ⚡ **Why**: Frontend validation logic, no backend needed
+
+**Test 3.4: Password Confirmation Mismatch**
+
+- ✅ **Stub**: No stub needed (pure frontend validation)
+- 🎯 **Tests**: Client-side validation, error message, disabled submit button
+- ⚡ **Why**: Frontend-only logic, instant feedback
+
+### 🔄 **INTEGRATION TESTS** (Future - When Supabase Configured)
+
+Create separate integration tests for backend signup validation:
+
+**Integration Test 3.1: Real User Creation**
+
+- 🔌 **Supabase**: Real `supabase.auth.signUp()` call
+- 🎯 **Tests**: Database user record creation, email verification system, welcome email sent
+- 📁 **Location**: `cypress/e2e/integration/authentication/signup-integration.cy.ts`
+- ⏱️ **When**: Run nightly (requires email service, database)
+
+**Integration Test 3.2: Real Duplicate Email Check**
+
+- 🔌 **Supabase**: Real database constraint violation
+- 🎯 **Tests**: Database-level duplicate prevention, race conditions, concurrent signups
+- 📁 **Location**: `cypress/e2e/integration/authentication/signup-errors-integration.cy.ts`
+
+**Integration Test 3.3: Email Verification Flow**
+
+- 🔌 **Supabase**: Real email service, verification tokens
+- 🎯 **Tests**: Verification email sent, token validation, account activation
+- 📁 **Location**: `cypress/e2e/integration/authentication/email-verification-integration.cy.ts`
+- ⚠️ **Complex**: Requires email service integration, token extraction
+
+### 📊 Test Coverage Matrix
+
+| Test Aspect             | Stub Tests    | Integration Tests      |
+| ----------------------- | ------------- | ---------------------- |
+| **Form Validation**     | ✅ Primary    | ❌ Not needed          |
+| **Password Matching**   | ✅ Primary    | ❌ Not needed          |
+| **Password Strength**   | ✅ Primary    | ❌ Not needed          |
+| **Error Display**       | ✅ Primary    | ❌ Not needed          |
+| **Navigation**          | ✅ Primary    | ✅ Secondary           |
+| **API Calls**           | ✅ Mocked     | 🔌 **Real (Primary)**  |
+| **Database Insert**     | ❌ Bypassed   | 🔌 **Real (Primary)**  |
+| **Duplicate Check**     | ✅ Simulated  | 🔌 **Real (Primary)**  |
+| **Email Service**       | ❌ Not tested | 🔌 **Real (Primary)**  |
+| **Verification Tokens** | ❌ Not tested | 🔌 **Real (Primary)**  |
+| **Rate Limiting**       | ❌ Not tested | 🔌 **Real (Optional)** |
+
+### 🎯 Recommended Approach
+
+**Use Stubs For**:
+
+- ✅ Form validation logic
+- ✅ Password matching
+- ✅ Error message display
+- ✅ Navigation flows
+- ✅ UX feedback (loading states, success messages)
+
+**Use Integration For**:
+
+- 🔌 Database user creation
+- 🔌 Email verification system
+- 🔌 Duplicate email at database level
+- 🔌 Rate limiting policies
+- 🔌 Security policies (RLS, constraints)
+
+---
+
 ## 📅 Day 3: Sign-Up Flow (4-5 hours)
 
 ### Task 3.1: Create signup-flow.cy.ts

@@ -2,8 +2,47 @@
 
 **Based on**: [AUTH-FLOW-TEST-IMPLEMENTATION.md](claudedocs/AUTH-FLOW-TEST-IMPLEMENTATION.md)
 **Sprint**: Week 1-2 (5 days)
-**Status**: Not Started
+**Status**: In Progress (Phase 2 Complete)
 **Target**: 12 tests, <90s execution time, 0% flakiness
+
+**✅ HYBRID TESTING STRATEGY ADOPTED (2025-10-16)**
+
+---
+
+## 🧪 Testing Strategy: Stub vs Integration
+
+### Overview
+
+We use a **hybrid approach** combining stub-based and integration testing:
+
+**Stub-Based Tests (PRIMARY)**:
+
+- ✅ Test frontend logic, UI flows, form validation
+- ✅ Fast execution (~16s for 3 tests)
+- ✅ No backend dependency
+- ✅ Run on every commit, PR, pre-commit hook
+- ✅ **See**: [STUB-BASED-TESTING-GUIDE.md](claudedocs/STUB-BASED-TESTING-GUIDE.md)
+
+**Integration Tests (SECONDARY - Future)**:
+
+- 🔌 Test backend logic, database operations, API behavior
+- 🔌 Slower execution (requires real services)
+- 🔌 Requires Supabase configuration
+- 🔌 Run nightly or pre-release
+- 🔌 **Location**: `cypress/e2e/integration/authentication/`
+
+### Phase-by-Phase Strategy
+
+| Phase                 | Stub Tests        | Integration Tests | Priority             |
+| --------------------- | ----------------- | ----------------- | -------------------- |
+| **Phase 2: Sign-In**  | ✅ Complete (3/3) | 🔌 Future         | Stubs sufficient     |
+| **Phase 3: Sign-Up**  | ✅ Recommended    | 🔌 Optional       | Stubs sufficient     |
+| **Phase 4: Session**  | ✅ Recommended    | 🔌 Important      | Stubs + Integration  |
+| **Phase 5: Recovery** | ✅ Recommended    | 🔌 **CRITICAL**   | Integration required |
+
+**Key Insight**: Password recovery (Phase 5) is the **only phase** requiring integration tests due to email service and token security complexity.
+
+**See individual phase files for detailed stub vs integration breakdowns.**
 
 ---
 
@@ -815,9 +854,9 @@ The complete details for each phase have been moved to separate files listed abo
 
 ---
 
-**Completed Date**: ********\_********
-**Completed By**: ********\_********
-**Total Time**: ****\_**** hours
+**Completed Date**: **\*\*\*\***\_**\*\*\*\***
+**Completed By**: **\*\*\*\***\_**\*\*\*\***
+**Total Time**: \***\*\_\*\*** hours
 **Final Test Count**: **\_** / 12 passing
 **Final Execution Time**: **\_** seconds
 

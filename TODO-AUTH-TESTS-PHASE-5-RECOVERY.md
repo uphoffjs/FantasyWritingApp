@@ -24,6 +24,113 @@ This final phase implements:
 
 ---
 
+## 🧪 Testing Strategy: Stub vs Integration
+
+### ✅ **STUB-BASED TESTS** (Recommended for Phase 5)
+
+Use **stub-based testing** for password recovery UI flow:
+
+**Test 5.1: Send Password Reset Email**
+
+- ✅ **Stub**: `stubPasswordResetRequest()`
+- 🎯 **Tests**: Form display, email validation, success message, UI flow
+- ⚡ **Why**: Tests frontend reset request flow without email service
+
+**Test 5.2: Invalid Email Handling**
+
+- ✅ **Stub**: `stubPasswordResetRequest()` with error
+- 🎯 **Tests**: Error message display, invalid email format, user not found handling
+- ⚡ **Why**: Frontend validation and error handling
+
+**Test 5.3: Reset Form UI**
+
+- ✅ **Stub**: No stub needed (pure UI test)
+- 🎯 **Tests**: Modal/page display, form fields, cancel button, validation
+- ⚡ **Why**: Pure frontend UI testing
+
+### 🔄 **INTEGRATION TESTS** (Future - When Supabase Configured)
+
+Password recovery requires **significant integration testing** due to email and token complexity:
+
+**Integration Test 5.1: Real Password Reset Email**
+
+- 🔌 **Supabase**: Real `supabase.auth.resetPasswordForEmail()` call
+- 🎯 **Tests**: Email actually sent, reset link generated, token created in database
+- 📁 **Location**: `cypress/e2e/integration/authentication/password-reset-integration.cy.ts`
+- ⏱️ **When**: Run nightly (requires email service)
+- ⚠️ **Complex**: Requires email service integration
+
+**Integration Test 5.2: Complete Reset Flow End-to-End**
+
+- 🔌 **Supabase**: Full flow (request → email → token → reset → login)
+- 🎯 **Tests**:
+  - Request reset email
+  - Extract token from email
+  - Click reset link
+  - Enter new password
+  - Verify password changed
+  - Login with new password
+- 📁 **Location**: `cypress/e2e/integration/authentication/full-reset-flow-integration.cy.ts`
+- ⚠️ **Very Complex**: Requires email parsing, token extraction, multiple API calls
+
+**Integration Test 5.3: Token Expiration**
+
+- 🔌 **Supabase**: Real token expiration (1-24 hours)
+- 🎯 **Tests**: Expired token rejection, error messaging, re-request flow
+- 📁 **Location**: `cypress/e2e/integration/authentication/reset-token-expiration-integration.cy.ts`
+- ⚠️ **Very Slow**: Requires waiting for token expiration or time manipulation
+
+### 📊 Test Coverage Matrix
+
+| Test Aspect          | Stub Tests    | Integration Tests     |
+| -------------------- | ------------- | --------------------- |
+| **Form UI**          | ✅ Primary    | ❌ Not needed         |
+| **Email Validation** | ✅ Primary    | ❌ Not needed         |
+| **Success Message**  | ✅ Primary    | ❌ Not needed         |
+| **Error Display**    | ✅ Primary    | ❌ Not needed         |
+| **API Call**         | ✅ Mocked     | 🔌 **Real (Primary)** |
+| **Email Service**    | ❌ Not tested | 🔌 **Real (PRIMARY)** |
+| **Reset Token**      | ❌ Not tested | 🔌 **Real (PRIMARY)** |
+| **Token Expiration** | ❌ Not tested | 🔌 **Real (PRIMARY)** |
+| **Password Change**  | ❌ Not tested | 🔌 **Real (PRIMARY)** |
+| **Complete Flow**    | ❌ Not tested | 🔌 **Real (PRIMARY)** |
+
+### 🎯 Recommended Approach
+
+**Use Stubs For**:
+
+- ✅ Password reset request form
+- ✅ Email validation UI
+- ✅ Success/error message display
+- ✅ Modal/page navigation
+- ✅ Frontend validation logic
+
+**Use Integration For** (HIGH PRIORITY):
+
+- 🔌 **Email delivery** (PRIMARY - cannot be stubbed effectively)
+- 🔌 **Reset token generation** (PRIMARY - backend logic)
+- 🔌 **Token validation** (PRIMARY - security critical)
+- 🔌 **Password update** (PRIMARY - database operation)
+- 🔌 **Complete reset flow** (PRIMARY - end-to-end validation)
+
+**Special Considerations**:
+
+- ⚠️ **Email Service**: Password recovery is **heavily dependent on integration testing** due to email service
+- ⚠️ **Token Security**: Token generation, validation, and expiration **must be tested with real backend**
+- ⚠️ **Complete Flow**: Consider this a **required integration test** (not optional)
+- ✅ **Stub Tests**: Focus only on frontend UI/UX, not the actual recovery mechanism
+
+**Integration Priority**: ⭐⭐⭐ **HIGHEST PRIORITY FOR INTEGRATION TESTS**
+
+Password recovery is one area where integration tests are **essential** because:
+
+1. Email service interaction cannot be effectively stubbed
+2. Token security is critical and must be validated end-to-end
+3. Password change affects database state
+4. Complete flow requires multiple systems working together
+
+---
+
 ## 📅 Day 5: Password Recovery + Final Validation (4-5 hours)
 
 ### Task 5.1: Create password-recovery.cy.ts

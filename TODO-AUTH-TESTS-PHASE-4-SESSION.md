@@ -23,6 +23,98 @@ This phase implements session management testing, including:
 
 ---
 
+## 🧪 Testing Strategy: Stub vs Integration
+
+### ✅ **STUB-BASED TESTS** (Recommended for Phase 4)
+
+Use **stub-based testing** for frontend session management logic:
+
+**Test 4.1: Session Persistence Across Reload**
+
+- ✅ **Stub**: `stubValidSession()` + `stubGetProjects()`
+- 🎯 **Tests**: Session restoration from localStorage, UI state preservation, no re-login prompt
+- ⚡ **Why**: Tests frontend session management, localStorage integration
+
+**Test 4.2: Session Timeout Handling**
+
+- ✅ **Stub**: `stubExpiredSession()` (returns 401 error)
+- 🎯 **Tests**: Redirect to login on expired session, error message display, cleanup of stale data
+- ⚡ **Why**: Simulates timeout without waiting for real expiration
+
+**Test 4.3: Multi-Tab Synchronization**
+
+- ✅ **Stub**: `stubSuccessfulLogin()` + `stubSuccessfulLogout()`
+- 🎯 **Tests**: localStorage events across tabs, logout propagation, login state sync
+- ⚡ **Why**: Tests frontend cross-tab communication
+- 📝 **Note**: Can simulate multiple tabs using `cy.visit()` in multiple windows
+
+### 🔄 **INTEGRATION TESTS** (Future - When Supabase Configured)
+
+Create separate integration tests for backend session behavior:
+
+**Integration Test 4.1: Real Token Refresh**
+
+- 🔌 **Supabase**: Real JWT token expiration and refresh
+- 🎯 **Tests**: Automatic token refresh, refresh token rotation, session extension
+- 📁 **Location**: `cypress/e2e/integration/authentication/token-refresh-integration.cy.ts`
+- ⏱️ **When**: Run nightly (requires real token expiration time)
+- ⚠️ **Slow**: May need to mock system time or use short-lived tokens
+
+**Integration Test 4.2: Real Session Timeout**
+
+- 🔌 **Supabase**: Real session expiration (24 hours default)
+- 🎯 **Tests**: Actual session invalidation, cleanup of expired sessions, database state
+- 📁 **Location**: `cypress/e2e/integration/authentication/session-timeout-integration.cy.ts`
+- ⚠️ **Very Slow**: Requires waiting for real timeout or time manipulation
+
+**Integration Test 4.3: Cross-Device Session Management**
+
+- 🔌 **Supabase**: Real sessions across different devices
+- 🎯 **Tests**: Login from multiple devices, session limit enforcement, concurrent sessions
+- 📁 **Location**: `cypress/e2e/integration/authentication/multi-device-integration.cy.ts`
+- ⚠️ **Complex**: Requires multiple browser contexts or devices
+
+### 📊 Test Coverage Matrix
+
+| Test Aspect             | Stub Tests         | Integration Tests      |
+| ----------------------- | ------------------ | ---------------------- |
+| **Session Restoration** | ✅ Primary         | ✅ Secondary           |
+| **localStorage**        | ✅ Primary         | ❌ Not needed          |
+| **Timeout UI**          | ✅ Primary         | ❌ Not needed          |
+| **Logout Propagation**  | ✅ Primary         | ❌ Not needed          |
+| **Cross-Tab Events**    | ✅ Primary         | ❌ Not needed          |
+| **JWT Tokens**          | ✅ Fake tokens     | 🔌 **Real (Primary)**  |
+| **Token Refresh**       | ❌ Not tested      | 🔌 **Real (Primary)**  |
+| **Token Expiration**    | ✅ Simulated (401) | 🔌 **Real (Primary)**  |
+| **Session Limits**      | ❌ Not tested      | 🔌 **Real (Optional)** |
+| **Database Cleanup**    | ❌ Not tested      | 🔌 **Real (Primary)**  |
+
+### 🎯 Recommended Approach
+
+**Use Stubs For**:
+
+- ✅ Session restoration from storage
+- ✅ Timeout detection and UI response
+- ✅ Cross-tab synchronization logic
+- ✅ Logout flow and cleanup
+- ✅ Session state management
+
+**Use Integration For**:
+
+- 🔌 Real JWT token behavior
+- 🔌 Token refresh mechanism
+- 🔌 Actual session expiration
+- 🔌 Cross-device session limits
+- 🔌 Database session cleanup
+
+**Special Considerations**:
+
+- ⚠️ **Token Refresh**: Very difficult to test with stubs (requires real time-based behavior)
+- ⚠️ **Session Timeout**: Use `stubExpiredSession()` for fast testing, integration for real behavior
+- ✅ **Multi-Tab**: Can be fully tested with stubs using localStorage events
+
+---
+
 ## 📅 Day 4: Session Management (4-5 hours)
 
 ### Task 4.1: Create session-management.cy.ts
