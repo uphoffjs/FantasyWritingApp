@@ -126,7 +126,108 @@ This phase uses **stub-based testing** for frontend session management logic usi
 
 - [ ] **Run Test**
 
-- [ ] **Validate Test Catches Failures**
+- [ ] **Validate Test Catches Failures** (See Mutation Testing section below)
+
+---
+
+## 🧬 Mutation Testing (Test Validation)
+
+**Purpose**: Verify tests catch real application failures by intentionally breaking code.
+
+### Test 4.1: Session Persistence - Mutations
+
+**Mutation 4.1a: Remove localStorage Persistence**
+
+- [ ] **Break**: Remove logic that saves session to localStorage
+- [ ] **Expected**: Test should FAIL (session not persisted after reload)
+- [ ] **What This Validates**: Test catches broken session persistence
+
+**Mutation 4.1b: Break Session Restoration**
+
+- [ ] **Break**: Remove logic that restores session from localStorage on page load
+- [ ] **Expected**: Test should FAIL (redirect to login after reload)
+- [ ] **What This Validates**: Test validates session restoration logic
+
+**Mutation 4.1c: Skip Auth State Rehydration**
+
+- [ ] **Break**: Remove auth state rehydration logic in authStore
+- [ ] **Expected**: Test should FAIL (user appears logged out after reload)
+- [ ] **What This Validates**: Test catches missing state management logic
+
+**Mutation 4.1d: Break cy.session() Validation**
+
+- [ ] **Break**: Return false from cy.session() validation function
+- [ ] **Expected**: Test should recreate session (may still pass, but less efficient)
+- [ ] **What This Validates**: Session caching optimization
+
+### Test 4.2: Session Timeout - Mutations
+
+**Mutation 4.2a: Remove Session Expiration Check**
+
+- [ ] **Break**: Remove logic that checks if session is expired
+- [ ] **Expected**: Test should FAIL (no redirect to login when token removed)
+- [ ] **What This Validates**: Test validates timeout detection
+
+**Mutation 4.2b: Allow Expired Sessions**
+
+- [ ] **Break**: Allow accessing protected routes with invalid/missing token
+- [ ] **Expected**: Test should FAIL (no redirect when it should occur)
+- [ ] **What This Validates**: Test catches security bypass
+
+**Mutation 4.2c: Break Automatic Logout**
+
+- [ ] **Break**: Remove automatic logout logic on session expiry
+- [ ] **Expected**: Test should FAIL (user not logged out properly)
+- [ ] **What This Validates**: Test validates expiry handling
+
+**Mutation 4.2d: Skip Session Cleanup**
+
+- [ ] **Break**: Remove localStorage cleanup on logout/expiry
+- [ ] **Expected**: Test may still PASS (stub focuses on redirect)
+- [ ] **Note**: Cleanup validation requires additional assertions
+
+### Test 4.3: Multi-Tab Sync - Mutations
+
+**Mutation 4.3a: Remove Storage Event Listener**
+
+- [ ] **Break**: Remove `window.addEventListener('storage', ...)` listener
+- [ ] **Expected**: Test should FAIL (no cross-tab sync)
+- [ ] **What This Validates**: Test validates event listener setup
+
+**Mutation 4.3b: Skip Cross-Tab Synchronization**
+
+- [ ] **Break**: Remove logic that synchronizes auth state across tabs
+- [ ] **Expected**: Test should FAIL (tabs don't react to logout)
+- [ ] **What This Validates**: Test catches broken sync logic
+
+**Mutation 4.3c: Break onAuthStateChange Listener**
+
+- [ ] **Break**: Remove Zustand or Supabase `onAuthStateChange()` subscription
+- [ ] **Expected**: Test should FAIL (state changes not detected)
+- [ ] **What This Validates**: Test validates state change detection
+
+**Mutation 4.3d: Disable Zustand Persist Middleware**
+
+- [ ] **Break**: Remove or break Zustand persist middleware configuration
+- [ ] **Expected**: Test may FAIL (depends on implementation)
+- [ ] **What This Validates**: Test validates state persistence mechanism
+
+### Mutation Testing Workflow
+
+```bash
+# For each mutation:
+# 1. Create validation branch
+git checkout -b validate/session-mutation-[id]
+
+# 2. Break application code (remove/comment out logic)
+# 3. Run test
+SPEC=cypress/e2e/authentication/session-management.cy.ts npm run cypress:run:spec
+
+# 4. Verify test FAILS (or document expected behavior)
+# 5. Restore code
+git checkout feature/cypress-test-coverage
+git branch -D validate/session-mutation-[id]
+```
 
 ---
 
@@ -137,16 +238,20 @@ This phase uses **stub-based testing** for frontend session management logic usi
 - [ ] Combined auth suite (signin + signup + session stubs) passing
 - [ ] 10 total stub tests passing
 - [ ] Tests pass 5x consecutively
-- [ ] Mutation testing complete
+- [ ] **Mutation testing complete** (See Mutation Testing section above)
+  - [ ] Test 4.1: 4 mutations to validate
+  - [ ] Test 4.2: 4 mutations to validate
+  - [ ] Test 4.3: 4 mutations to validate
+  - [ ] Total: 12 mutations to validate session test quality
 
 ---
 
 ## 📊 Phase 4 Stub Tests Status
 
-**Started**: **_
-**Completed**: _**
-**Duration**: **_ hours
-**Tests Implemented**: _** / 3
+**Started**: **\_
+**Completed**: \_**
+**Duration**: **\_ hours
+**Tests Implemented**: \_** / 3
 **Tests Passing**: \_\_\_ / 3
 
 ---

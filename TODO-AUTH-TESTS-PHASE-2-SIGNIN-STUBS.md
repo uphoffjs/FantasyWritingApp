@@ -133,6 +133,91 @@ This phase uses **stub-based testing** to validate frontend sign-in logic using 
 
 ---
 
+## 🧬 Mutation Testing (Test Validation)
+
+**Purpose**: Verify tests catch real application failures by intentionally breaking code.
+
+### Mutation Testing Strategy
+
+For each test, break the application code to ensure the test **fails**. If test still passes, there's a quality gap.
+
+### Test 2.1: Successful Sign-In - Mutations
+
+**Mutation 2.1a: Remove Form Elements** ✅ FIXED
+
+- [x] **Break**: Remove `[data-cy="email-input"]` from LoginScreen
+- [x] **Expected**: Test should FAIL (element not found)
+- [x] **Fix Applied**: Added `.should('exist')` checks for form elements
+- [x] **Status**: Quality gap fixed in commit `593995d`
+
+**Mutation 2.1b: Remove Authentication Call**
+
+- [ ] **Break**: Comment out `authService.signIn()` call in LoginScreen
+- [ ] **Expected**: Test should FAIL (no navigation to `/projects`)
+- [ ] **Validation Method**:
+
+  ```bash
+  # 1. Create validation branch
+  git checkout -b validate/signin-mutation-2.1b
+
+  # 2. Break code: Comment out authService.signIn() in LoginScreen.tsx
+  # 3. Run test
+  SPEC=cypress/e2e/authentication/signin-flow.cy.ts npm run cypress:run:spec
+
+  # 4. Verify test FAILS
+  # 5. Restore code
+  git checkout feature/cypress-test-coverage
+  git branch -D validate/signin-mutation-2.1b
+  ```
+
+**Mutation 2.1c: Break Navigation**
+
+- [ ] **Break**: Remove navigation to `/projects` after successful login
+- [ ] **Expected**: Test should FAIL (wrong URL)
+- [ ] **What This Validates**: Test catches broken post-login navigation
+
+**Mutation 2.1d: Remove data-cy Attributes**
+
+- [ ] **Break**: Remove `data-cy="submit-button"` from LoginScreen
+- [ ] **Expected**: Test should FAIL (button not found)
+- [ ] **What This Validates**: Test uses correct selectors
+
+### Test 2.2: Invalid Credentials - Mutations
+
+**Mutation 2.2a: Remove Error Display**
+
+- [ ] **Break**: Remove error display logic in LoginScreen (no error shown)
+- [ ] **Expected**: Test should FAIL (error container not visible)
+- [ ] **What This Validates**: Test catches missing error UI
+
+**Mutation 2.2b: Show Success on Failure**
+
+- [ ] **Break**: Change failed login to show success message instead
+- [ ] **Expected**: Test should FAIL (wrong error message)
+- [ ] **What This Validates**: Test catches incorrect error handling
+
+**Mutation 2.2c: Navigate on Error**
+
+- [ ] **Break**: Navigate to `/projects` even with invalid credentials
+- [ ] **Expected**: Test should FAIL (unexpected navigation)
+- [ ] **What This Validates**: Test catches security bypass
+
+### Test 2.3: Remember Me - Mutations (When Re-enabled)
+
+**Mutation 2.3a: Remove Session Persistence**
+
+- [ ] **Break**: Remove localStorage save logic for remember me
+- [ ] **Expected**: Test should FAIL (session lost on reload)
+- [ ] **What This Validates**: Test catches broken persistence
+
+**Mutation 2.3b: Ignore Remember Me Toggle**
+
+- [ ] **Break**: Remove logic that checks remember me switch state
+- [ ] **Expected**: Test should FAIL (state not saved correctly)
+- [ ] **What This Validates**: Test validates remember me functionality
+
+---
+
 ## ✅ Phase 2 Stub Tests Validation Checklist
 
 - [x] All active signin tests passing (2/2) ✅
@@ -142,7 +227,10 @@ This phase uses **stub-based testing** to validate frontend sign-in logic using 
 - [x] Error display fix validated and documented ✅
 - [x] Docker compatibility verified ✅
 - [ ] Test 2.3 re-enabled (tracked separately)
-- [ ] Mutation testing complete (PENDING)
+- [ ] **Mutation testing complete** (See Mutation Testing section above)
+  - [x] Test 2.1: 1 mutation validated, 3 pending
+  - [ ] Test 2.2: 3 mutations pending
+  - [ ] Test 2.3: 2 mutations pending (deferred until re-enabled)
 
 ---
 

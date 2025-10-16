@@ -119,7 +119,104 @@ This phase uses **stub-based testing** for password recovery UI flow using `cy.i
 
 - [ ] **Run Test**
 
-- [ ] **Validate Test Catches Failures**
+- [ ] **Validate Test Catches Failures** (See Mutation Testing section below)
+
+---
+
+## 🧬 Mutation Testing (Test Validation)
+
+**Purpose**: Verify tests catch real application failures by intentionally breaking code.
+
+**⚠️ IMPORTANT**: Phase 5 stub tests only validate **frontend UI**. Backend validation (email service, token security) requires integration tests.
+
+### Test 5.1: Send Password Reset - Mutations
+
+**Mutation 5.1a: Remove Forgot Password Link**
+
+- [ ] **Break**: Remove `[data-cy="forgot-password-link"]` from LoginScreen
+- [ ] **Expected**: Test should FAIL (link not found)
+- [ ] **What This Validates**: Test uses correct selector for password reset entry point
+
+**Mutation 5.1b: Remove Reset Request API Call**
+
+- [ ] **Break**: Comment out `authService.resetPasswordForEmail()` call
+- [ ] **Expected**: Test may still PASS (stub intercepts API call)
+- [ ] **Note**: Stub tests don't validate actual API calls - only UI flow
+
+**Mutation 5.1c: Break Success Message**
+
+- [ ] **Break**: Remove success message display after reset request
+- [ ] **Expected**: Test should FAIL (success message not shown)
+- [ ] **What This Validates**: Test validates success feedback to user
+
+**Mutation 5.1d: Skip Form Close**
+
+- [ ] **Break**: Keep forgot password form open after successful submission
+- [ ] **Expected**: Test may FAIL (form doesn't close/hide)
+- [ ] **What This Validates**: Test validates UI state transition
+
+### Test 5.2: Email Validation - Mutations
+
+**Mutation 5.2a: Remove Email Format Validation**
+
+- [ ] **Break**: Remove email regex validation in forgot password form
+- [ ] **Expected**: Test should FAIL (no error for invalid email)
+- [ ] **What This Validates**: Test validates frontend email validation
+
+**Mutation 5.2b: Remove Error Display**
+
+- [ ] **Break**: Remove error message display for invalid email
+- [ ] **Expected**: Test should FAIL (error not shown)
+- [ ] **What This Validates**: Test catches missing error UI
+
+**Mutation 5.2c: Allow Empty Email**
+
+- [ ] **Break**: Allow form submission with empty email field
+- [ ] **Expected**: Test should FAIL (no validation error)
+- [ ] **What This Validates**: Test validates required field validation
+
+**Mutation 5.2d: Remove Form Validation**
+
+- [ ] **Break**: Skip all form validation and allow any input
+- [ ] **Expected**: Test should FAIL (validation bypassed)
+- [ ] **What This Validates**: Test ensures validation exists
+
+### Mutation Testing Workflow
+
+```bash
+# For each mutation:
+# 1. Create validation branch
+git checkout -b validate/recovery-mutation-[id]
+
+# 2. Break application code (remove/comment out logic)
+# 3. Run test
+SPEC=cypress/e2e/authentication/password-recovery.cy.ts npm run cypress:run:spec
+
+# 4. Verify test FAILS (or document if test passes when it shouldn't)
+# 5. Restore code
+git checkout feature/cypress-test-coverage
+git branch -D validate/recovery-mutation-[id]
+```
+
+### What Stub Tests DON'T Validate
+
+**❌ Email Service** - Stub doesn't send real emails
+
+- **Solution**: Requires integration test with email service API
+
+**❌ Reset Token Generation** - Stub doesn't create real tokens
+
+- **Solution**: Requires integration test with Supabase
+
+**❌ Token Expiration** - Stub doesn't validate token timing
+
+- **Solution**: Requires integration test with real token lifecycle
+
+**❌ Password Change** - Stub doesn't update database
+
+- **Solution**: Requires integration test with database validation
+
+**See**: [Phase 5 Integration Tests](./integration-tests/TODO-AUTH-TESTS-PHASE-5-RECOVERY-INTEGRATION.md) for complete password recovery validation
 
 ---
 
@@ -130,16 +227,20 @@ This phase uses **stub-based testing** for password recovery UI flow using `cy.i
 - [ ] Combined auth suite (all stubs) passing
 - [ ] 12 total stub tests passing
 - [ ] Tests pass 5x consecutively
-- [ ] Mutation testing complete
+- [ ] **Mutation testing complete** (See Mutation Testing section above)
+  - [ ] Test 5.1: 4 mutations to validate
+  - [ ] Test 5.2: 4 mutations to validate
+  - [ ] Total: 8 mutations to validate password recovery UI tests
+  - [ ] **Note**: Backend validation requires integration tests ⭐⭐⭐
 
 ---
 
 ## 📊 Phase 5 Stub Tests Status
 
-**Started**: **_
-**Completed**: _**
-**Duration**: **_ hours
-**Tests Implemented**: _** / 2
+**Started**: **\_
+**Completed**: \_**
+**Duration**: **\_ hours
+**Tests Implemented**: \_** / 2
 **Tests Passing**: \_\_\_ / 2
 
 ---
