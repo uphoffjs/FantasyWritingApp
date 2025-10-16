@@ -53,13 +53,62 @@
 
 **Quality Engineer Approach**: Think beyond the happy path to discover hidden failure modes. Focus on preventing defects early through systematic edge case coverage and risk-based prioritization.
 
+### Hybrid Testing Strategy (ADOPTED 2025-10-16)
+
+**Option 3: Stub-Based Frontend Testing + Future Integration Tests**
+
+We've adopted a hybrid approach to enable rapid test development while maintaining path to integration testing:
+
+**Phase 1: Stub-Based Tests (CURRENT)**
+
+- Use `cy.intercept()` to stub all Supabase API calls
+- Test frontend behavior without backend dependency
+- Fast, reliable, no environment configuration needed
+- Focus on UI logic, form validation, navigation, error handling
+- **See**: [STUB-BASED-TESTING-GUIDE.md](./STUB-BASED-TESTING-GUIDE.md) for complete implementation guide
+
+**Phase 2: Integration Tests (FUTURE)**
+
+- Add separate integration test suites when Supabase is configured
+- Test full stack with real backend
+- Validate data persistence, sync, and authentication flows
+- Run less frequently (nightly or pre-release)
+
+**Benefits of Hybrid Approach**:
+
+- ✅ Unblocked test development (no Supabase credentials needed)
+- ✅ Fast test execution (~50% faster than integration tests)
+- ✅ Reliable tests (no network timeouts or external dependencies)
+- ✅ Clear separation of concerns (frontend vs. integration)
+- ✅ Easy migration path to integration tests later
+
+**Implementation Pattern**:
+
+```typescript
+// Import stub helpers
+import { stubSuccessfulLogin, stubGetProjects } from '../../support/stubs';
+
+beforeEach(() => {
+  // Stub API responses
+  stubSuccessfulLogin('user@test.com');
+  stubGetProjects();
+});
+
+it('should display projects', () => {
+  cy.visit('/projects');
+  cy.wait('@login');
+  cy.wait('@getProjects');
+  cy.get('[data-cy="project-card"]').should('be.visible');
+});
+```
+
 ### Test Pyramid Application
 
 ```
     /\        E2E Tests (12 suites)
-   /  \       - Critical user journeys
-  /    \      - Cross-feature integration
- /------\     Integration Tests (existing)
+   /  \       - Critical user journeys (stubbed)
+  /    \      - Cross-feature integration (stubbed)
+ /------\     Integration Tests (future - real backend)
 /--------\    Unit Tests (existing)
 ```
 
@@ -71,7 +120,7 @@ All tests will follow [CYPRESS-COMPLETE-REFERENCE.md](./CYPRESS-COMPLETE-REFEREN
 - ✅ `data-cy` selectors exclusively
 - ✅ Session management with validation
 - ✅ Independent, isolated tests
-- ✅ API seeding for speed
+- ✅ **cy.intercept() stubbing** for API calls (hybrid approach)
 - ✅ No arbitrary waits
 - ✅ Docker compatibility
 
@@ -812,13 +861,17 @@ describe('Import Data', () => {
 
 ## Data Seeding Strategy
 
-### Seeding Approach
+### Seeding Approach (Updated 2025-10-16)
 
-Following [CYPRESS-COMPLETE-REFERENCE.md](./CYPRESS-COMPLETE-REFERENCE.md) best practices:
+**Current Strategy: Stub-Based Testing**
 
-1. **API Seeding** (PREFERRED) - Fast, reliable
-2. **cy.task()** - Complex operations requiring Node.js
-3. **cy.intercept()** - Stubbing for edge cases
+Following the hybrid testing strategy, we use `cy.intercept()` to stub API responses instead of seeding real data:
+
+1. **cy.intercept() Stubbing** (PRIMARY) - Fast, reliable, no backend needed
+2. **Fixture Data** (SUPPORTING) - Test credentials and expected responses
+3. **Future: API Seeding** - For integration tests when Supabase is configured
+
+**See**: [STUB-BASED-TESTING-GUIDE.md](./STUB-BASED-TESTING-GUIDE.md) for complete stubbing implementation
 
 ### Seed Data Requirements
 
@@ -882,12 +935,60 @@ Following [CYPRESS-COMPLETE-REFERENCE.md](./CYPRESS-COMPLETE-REFERENCE.md) best 
 }
 ```
 
-### Seeding Implementation
+### Stub Implementation (Current Approach)
 
-**API Seeding Helper**:
+**Stub Helper Library**:
 
 ```typescript
-// cypress/support/seedHelpers.ts
+// cypress/support/stubs/index.ts
+export {
+  stubSuccessfulLogin,
+  stubFailedLogin,
+  stubValidSession,
+} from './authStubs';
+
+export {
+  stubGetProjects,
+  stubCreateProject,
+  stubUpdateProject,
+} from './projectStubs';
+
+export {
+  stubGetElements,
+  stubCreateElement,
+  stubUpdateElement,
+} from './elementStubs';
+```
+
+**Usage in Tests**:
+
+```typescript
+import { stubSuccessfulLogin, stubGetProjects } from '../../support/stubs';
+
+beforeEach(() => {
+  cy.clearCookies();
+  cy.clearLocalStorage();
+
+  // Stub API responses (no backend needed)
+  stubSuccessfulLogin('test@example.com');
+  stubGetProjects(); // Returns 3 sample projects by default
+
+  cy.visit('/projects');
+});
+
+it('should display projects', () => {
+  cy.wait('@login');
+  cy.wait('@getProjects');
+  cy.get('[data-cy="project-card"]').should('have.length', 3);
+});
+```
+
+**Future: API Seeding for Integration Tests**:
+
+When Supabase is configured, we'll add integration tests using real API seeding:
+
+```typescript
+// cypress/support/integration/seedHelpers.ts (future)
 export const seedUser = userData => {
   return cy.request('POST', '/api/seed/user', userData);
 };
@@ -895,38 +996,6 @@ export const seedUser = userData => {
 export const seedProject = projectData => {
   return cy.request('POST', '/api/seed/project', projectData);
 };
-
-export const seedElement = elementData => {
-  return cy.request('POST', '/api/seed/element', elementData);
-};
-
-export const seedFullScenario = scenarioName => {
-  return cy.task('seedScenario', scenarioName);
-};
-```
-
-**Usage in Tests**:
-
-```typescript
-beforeEach(() => {
-  cy.clearCookies();
-  cy.clearLocalStorage();
-
-  // Seed authenticated user with project
-  seedUser(fixtures.testUser);
-  seedProject(fixtures.sampleProject);
-  seedElement(fixtures.character);
-
-  // Authenticate session
-  cy.session('testUser', () => {
-    cy.request('POST', '/api/login', {
-      email: fixtures.testUser.email,
-      password: fixtures.testUser.password,
-    });
-  });
-
-  cy.visit('/projects');
-});
 ```
 
 ---
