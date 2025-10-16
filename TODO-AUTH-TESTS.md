@@ -48,9 +48,23 @@ We use a **hybrid approach** combining stub-based and integration testing:
 
 ## 📋 Implementation Phases
 
-This test implementation has been split into separate phase files for better context management during implementation. **Complete each phase in order.**
+This test implementation has been **reorganized into stub and integration test documentation** for better clarity and context management.
 
-### Phase Files
+### Documentation Structure
+
+**Stub Tests** (Primary - Frontend Validation):
+
+- ✅ Fast execution, no backend dependency
+- ✅ Run on every commit, PR, pre-commit hook
+- 📁 Located in project root: `TODO-AUTH-TESTS-PHASE-*-STUBS.md`
+
+**Integration Tests** (Secondary - Backend Validation):
+
+- 🔌 Slower execution, requires Supabase environment
+- 🔌 Run nightly or pre-release
+- 📁 Located in: `integration-tests/TODO-AUTH-TESTS-PHASE-*-INTEGRATION.md`
+
+### Phase Files (Stub Tests)
 
 1. **[Phase 0: Pre-Implementation Setup](./TODO-AUTH-TESTS-PHASE-0-SETUP.md)** (1-2 hours)
 
@@ -60,44 +74,41 @@ This test implementation has been split into separate phase files for better con
 
 2. **[Phase 1: Infrastructure](./TODO-AUTH-TESTS-PHASE-1-INFRASTRUCTURE.md)** (3-4 hours)
 
-   - User fixtures
-   - Seeding strategy implementation
-   - Custom auth commands
-   - Smoke test
+   - User fixtures, seeding strategy, custom commands, smoke test
    - Prerequisites: Phase 0 complete
 
-3. **[Phase 2: Sign-In Flow](./TODO-AUTH-TESTS-PHASE-2-SIGNIN.md)** (4-5 hours)
+3. **[Phase 2: Sign-In Flow (Stubs)](./TODO-AUTH-TESTS-PHASE-2-SIGNIN-STUBS.md)** (4-5 hours) ✅ COMPLETE
 
-   - Successful sign-in (happy path) ⭐
-   - Reject invalid credentials
-   - Remember me persistence
-   - **3 tests**
+   - ✅ 3 stub tests: Happy path, invalid credentials, remember me
+   - 🔌 Integration tests: [Phase 2 Integration](./integration-tests/TODO-AUTH-TESTS-PHASE-2-SIGNIN-INTEGRATION.md)
    - Prerequisites: Phase 1 complete
 
-4. **[Phase 3: Sign-Up Flow](./TODO-AUTH-TESTS-PHASE-3-SIGNUP.md)** (4-5 hours)
+4. **[Phase 3: Sign-Up Flow (Stubs)](./TODO-AUTH-TESTS-PHASE-3-SIGNUP-STUBS.md)** (4-5 hours)
 
-   - Successful sign-up (happy path) ⭐
-   - Prevent duplicate email
-   - Password requirements validation
-   - Password match validation
-   - **4 tests**
+   - ✅ 4 stub tests: Happy path, duplicate email, password validation, password match
+   - 🔌 Integration tests: [Phase 3 Integration](./integration-tests/TODO-AUTH-TESTS-PHASE-3-SIGNUP-INTEGRATION.md)
    - Prerequisites: Phase 2 complete
 
-5. **[Phase 4: Session Management](./TODO-AUTH-TESTS-PHASE-4-SESSION.md)** (4-5 hours)
+5. **[Phase 4: Session Management (Stubs)](./TODO-AUTH-TESTS-PHASE-4-SESSION-STUBS.md)** (4-5 hours)
 
-   - Session persistence across reload
-   - Session timeout handling
-   - Multi-tab auth sync
-   - **3 tests**
+   - ✅ 3 stub tests: Session persistence, timeout, multi-tab sync
+   - 🔌 Integration tests: [Phase 4 Integration](./integration-tests/TODO-AUTH-TESTS-PHASE-4-SESSION-INTEGRATION.md) (Important - token refresh)
    - Prerequisites: Phase 3 complete
 
-6. **[Phase 5: Password Recovery & Final Validation](./TODO-AUTH-TESTS-PHASE-5-RECOVERY.md)** (4-5 hours)
-   - Send reset email
-   - Validate email format
-   - Full suite validation
-   - Flakiness testing (10 consecutive runs)
-   - **2 tests**
+6. **[Phase 5: Password Recovery (Stubs)](./TODO-AUTH-TESTS-PHASE-5-RECOVERY-STUBS.md)** (4-5 hours)
+   - ✅ 2 stub tests: Reset email request, email validation
+   - 🔌 Integration tests: [Phase 5 Integration](./integration-tests/TODO-AUTH-TESTS-PHASE-5-RECOVERY-INTEGRATION.md) ⭐⭐⭐ **CRITICAL**
    - Prerequisites: Phase 4 complete
+
+### Integration Tests Folder
+
+📁 **[integration-tests/](./integration-tests/README.md)** - Backend validation tests
+
+- Complete documentation for all integration test phases
+- Environment setup guides
+- Email service integration
+- Token refresh testing
+- **See**: [integration-tests/README.md](./integration-tests/README.md)
 
 ---
 
