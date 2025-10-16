@@ -810,3 +810,238 @@ import {
 
 **Status**: ✅ Ready for Implementation
 **Next Action**: Create stub helper files and update Phase 2 tests
+
+---
+
+## Spy Enhancement Pattern (Quality Improvement)
+
+**Version**: 2.0
+**Date**: 2025-10-16
+**Status**: Active
+
+### Overview
+
+**Problem Identified**: Mutation testing revealed that stub-based tests using `cy.intercept()` cannot detect if authentication functions are commented out or removed from application code.
+
+**Solution**: Enhance stub tests with `cy.spy()` to validate that authentication functions are actually invoked, not just that the UI handles API responses.
+
+### The Quality Gap
+
+**Mutation 2.1b Analysis**:
+
+```typescript
+// Original Code (Working):
+result = await signIn(email, password);
+
+// Mutated Code (Broken):
+// result = await signIn(email, password); // Commented out
+result = { success: false, error: 'Bypassed' };
+
+// Test Result:
+// ❌ PASSED (should have FAILED!)
+// Stub returned success regardless of whether signIn() was called
+```
+
+**Root Cause**: `cy.intercept()` stubs the **HTTP layer**, not the **function layer**. Tests validate HTTP response handling, not whether functions execute.
+
+### Spy Enhancement Solution
+
+**Pattern**: Combine `cy.intercept()` (API stubs) + `cy.spy()` (function validation)
+
+```typescript
+describe('Test 2.1 - Successful Sign-In', () => {
+  beforeEach(() => {
+    // 1. Stub API responses (existing pattern)
+    stubSuccessfulLogin(testEmail);
+    stubGetProjects();
+  });
+
+  it('should successfully login', () => {
+    cy.visit('/');
+
+    // 2. NEW: Spy on auth store function
+    cy.spyOnAuthStore('signIn');
+
+    // 3. Perform login
+    cy.get('[data-cy="email-input"]').type(testEmail);
+    cy.get('[data-cy="password-input"]').type(testPassword);
+    cy.get('[data-cy="submit-button"]').click();
+
+    // 4. NEW: Validate function was called
+    cy.get('@authStoreSpy').should('have.been.calledOnce');
+    cy.get('@authStoreSpy').should(
+      'have.been.calledWith',
+      testEmail,
+      testPassword,
+    );
+
+    // 5. Validate UI behavior (existing assertions)
+    cy.wait('@login');
+    cy.url().should('include', '/projects');
+  });
+});
+```
+
+### Implementation
+
+**1. Custom Cypress Command** (`cypress/support/commands/auth/spyAuthStore.ts`):
+
+```typescript
+Cypress.Commands.add(
+  'spyOnAuthStore',
+  (method: string, alias = 'authStoreSpy') => {
+    cy.window().then(win => {
+      // @ts-expect-error - Accessing internal app state for testing
+      const authStore = win.__APP_STATE__.authStore;
+
+      // Create spy on the specified method
+      const spy = cy.spy(authStore, method);
+
+      // Store spy reference with alias
+      cy.wrap(spy).as(alias);
+    });
+  },
+);
+```
+
+**2. Expose Auth Store** (`App.tsx`):
+
+```typescript
+// * Expose auth store for Cypress testing (test environment only)
+useEffect(() => {
+  if (Platform.OS === 'web' && typeof window !== 'undefined') {
+    // @ts-expect-error - Exposing store for Cypress spy testing
+    window.__APP_STATE__ = {
+      authStore: useAuthStore.getState(),
+    };
+  }
+}, []);
+```
+
+**3. Usage in Tests**:
+
+All Phase 2 authentication tests now include spy validation:
+
+- ✅ Test 2.1: Validates `signIn()` called with correct credentials
+- ✅ Test 2.2: Validates `signIn()` called even for failed login
+- ✅ Test 2.3: Validates `signIn()` called for remember-me flow
+
+### What Spy Enhancement Validates
+
+**With Spies, Tests Now Catch**:
+
+- ✅ Authentication function is invoked
+- ✅ Function called with correct parameters
+- ✅ Function called correct number of times
+- ✅ Function execution order (if multiple auth calls)
+
+**Spies Still Don't Validate** (Requires Integration Tests):
+
+- ❌ Real JWT token generation
+- ❌ Actual database operations
+- ❌ Backend authentication logic
+- ❌ Token refresh with real expiration
+- ❌ Email service integration
+
+### Benefits
+
+| Aspect                  | Stub Only    | Stub + Spy   | Integration |
+| ----------------------- | ------------ | ------------ | ----------- |
+| **Speed**               | ⚡ Very Fast | ⚡ Very Fast | 🐢 Slow     |
+| **Function Validation** | ❌ No        | ✅ Yes       | ✅ Yes      |
+| **Backend Validation**  | ❌ No        | ❌ No        | ✅ Yes      |
+| **Mutation Detection**  | ⚠️ Limited   | ✅ Improved  | ✅ Complete |
+| **Setup Complexity**    | ✅ Simple    | ⚠️ Moderate  | ❌ Complex  |
+
+### Trade-offs
+
+**Pros**:
+
+- ✅ Catches function-level mutations
+- ✅ Minimal performance impact
+- ✅ No backend dependency
+- ✅ Validates function invocation
+- ✅ Tests parameter passing
+
+**Cons**:
+
+- ⚠️ Requires exposing store (test-only)
+- ⚠️ More complex test setup
+- ⚠️ Maintenance overhead (keep spies updated)
+- ⚠️ Still doesn't validate backend logic
+
+### Best Practices
+
+**When to Use Spies**:
+
+- ✅ Authentication flows (signIn, signUp, signOut)
+- ✅ Critical business logic functions
+- ✅ Functions with specific parameter requirements
+- ✅ Functions that should be called in specific order
+
+**When Spies Aren't Needed**:
+
+- ❌ Simple UI interactions (button clicks, form validation)
+- ❌ Pure rendering logic
+- ❌ CSS/styling tests
+- ❌ Navigation (URL changes are sufficient)
+
+**Spy Naming Convention**:
+
+```typescript
+// Use descriptive aliases for multiple spies
+cy.spyOnAuthStore('signIn', 'signInSpy');
+cy.spyOnAuthStore('signOut', 'signOutSpy');
+
+// Validate each spy independently
+cy.get('@signInSpy').should('have.been.calledOnce');
+cy.get('@signOutSpy').should('not.have.been.called');
+```
+
+### Migration Guide
+
+**Step 1: Add Spy Command**
+
+- Copy `spyAuthStore.ts` to `cypress/support/commands/auth/`
+- Import in `cypress/support/commands/auth/index.ts`
+
+**Step 2: Expose Auth Store**
+
+- Add `__APP_STATE__` exposure in App.tsx
+- Test environment only, guarded by Platform.OS check
+
+**Step 3: Enhance Tests**
+
+- Add `cy.spyOnAuthStore()` after `cy.visit()`
+- Add spy assertions after user interaction
+- Keep existing stub and UI assertions
+
+**Step 4: Validate**
+
+- Run mutation testing to verify spies catch mutations
+- Ensure test performance remains fast (<500ms/test)
+
+### Mutation Testing Results
+
+**Before Spy Enhancement**:
+
+- Mutation 2.1b: ❌ **MISSED** (test passed when signIn() commented out)
+
+**After Spy Enhancement**:
+
+- Mutation 2.1b: ✅ **CAUGHT** (test fails when signIn() not invoked)
+
+### Future Enhancements
+
+**Potential Improvements**:
+
+1. **Auto-spy Pattern**: Wrapper that auto-spies common auth functions
+2. **Spy Assertions Library**: Reusable assertion patterns
+3. **Performance Monitoring**: Track spy overhead in CI/CD
+4. **Type-Safe Spies**: TypeScript support for spy validation
+
+**Not Recommended**:
+
+- ❌ Spying on internal React hooks (too fragile)
+- ❌ Spying on third-party library internals
+- ❌ Over-spying (creates brittle tests)

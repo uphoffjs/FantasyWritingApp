@@ -49,13 +49,23 @@ function App() {
   // * Initialize Supabase sync when authenticated
   useSupabaseSync();
 
+  // * Expose auth store for Cypress testing (test environment only)
+  useEffect(() => {
+    if (Platform.OS === 'web' && typeof window !== 'undefined') {
+      // @ts-expect-error - Exposing store for Cypress spy testing
+      window.__APP_STATE__ = {
+        authStore: useAuthStore.getState(),
+      };
+    }
+  }, []);
+
   // * Initialize the app
   useEffect(() => {
     const initializeApp = async () => {
       try {
         // * Initialize authentication first
         await initAuth();
-        
+
         // * Check if there's existing data to migrate
         if (Platform.OS === 'web') {
           // ! SECURITY: Checking localStorage for existing data

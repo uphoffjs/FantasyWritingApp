@@ -54,6 +54,10 @@ describe('User Sign In Flow', () => {
       // Visit login page
       cy.visit('/');
 
+      // * SPY ENHANCEMENT: Validate signIn() function is actually invoked
+      // * This catches mutations where auth logic is commented out (Mutation 2.1b)
+      cy.spyOnAuthStore('signIn');
+
       // * Verify on signin tab (default state)
       cy.get('[data-cy="signin-tab-button"]').should('be.visible');
 
@@ -69,6 +73,11 @@ describe('User Sign In Flow', () => {
 
       // Submit form
       cy.get('[data-cy="submit-button"]').click();
+
+      // * SPY VALIDATION: Verify signIn() was called with correct parameters
+      // * Ensures authentication logic actually executes (not just stub response)
+      cy.get('@authStoreSpy').should('have.been.calledOnce');
+      cy.get('@authStoreSpy').should('have.been.calledWith', testEmail, testPassword);
 
       // * Wait for login API call to complete
       cy.wait('@login');
@@ -95,12 +104,19 @@ describe('User Sign In Flow', () => {
       // Visit login page
       cy.visit('/');
 
+      // * SPY ENHANCEMENT: Validate signIn() function is invoked even for failed login
+      // * This catches mutations where auth logic is commented out
+      cy.spyOnAuthStore('signIn');
+
       // Type invalid credentials
       cy.get('[data-cy="email-input"]').should('be.visible').type('invalid.user@fantasy-app.test');
       cy.get('[data-cy="password-input"]').should('be.visible').type('WrongPassword123!');
 
       // Submit form
       cy.get('[data-cy="submit-button"]').should('be.visible').click();
+
+      // * SPY VALIDATION: Verify signIn() was called (validates auth logic execution)
+      cy.get('@authStoreSpy').should('have.been.calledOnce');
 
       // * Wait for failed login API call
       cy.wait('@loginFailed');
@@ -132,6 +148,9 @@ describe('User Sign In Flow', () => {
       // Visit login page
       cy.visit('/');
 
+      // * SPY ENHANCEMENT: Validate signIn() function is invoked
+      cy.spyOnAuthStore('signIn');
+
       // Type credentials
       cy.get('[data-cy="email-input"]').should('be.visible').type(rememberEmail);
       cy.get('[data-cy="password-input"]').should('be.visible').type(rememberPassword);
@@ -141,6 +160,10 @@ describe('User Sign In Flow', () => {
 
       // Submit form
       cy.get('[data-cy="submit-button"]').should('be.visible').click();
+
+      // * SPY VALIDATION: Verify signIn() was called with correct parameters
+      cy.get('@authStoreSpy').should('have.been.calledOnce');
+      cy.get('@authStoreSpy').should('have.been.calledWith', rememberEmail, rememberPassword);
 
       // * Wait for login API call
       cy.wait('@login');
