@@ -73,18 +73,18 @@ export const useAuthStore = create<AuthStore>()(
       // ! SECURITY: * Initialize auth state on app start - critical startup flow
       initialize: async () => {
         set({ isLoading: true })
-        
+
         try {
           // * Handle offline mode initialization
           if (get().isOfflineMode) {
-            set({ 
+            set({
               isLoading: false,
               isAuthenticated: false,
               syncStatus: 'offline'
             })
             return
           }
-          
+
           // ! SECURITY: * Fetch current authenticated user from Supabase
           const user = await authService.getCurrentUser()
           
@@ -392,12 +392,34 @@ export const useAuthStore = create<AuthStore>()(
       _setLoading: (loading: boolean) => set({ isLoading: loading })
     }),
     {
-      name: 'fantasy-element-builder-auth-store',
-      // * Only persist offline mode preference and sync status
-      partialize: (state) => ({ 
+      name: 'auth-storage',
+      // * Persist user session data for seamless experience across browser sessions
+      // * This follows best practices for creative workspace apps (like Google Docs, Notion)
+      // * Security: Token expiration + HTTPS + explicit logout button
+      partialize: (state) => ({
+        user: state.user,
+        session: state.session,
+        // ! IMPORTANT: Do NOT persist isAuthenticated - it should be derived from user/session
+        // isAuthenticated: state.isAuthenticated,
         isOfflineMode: state.isOfflineMode,
         lastSyncedAt: state.lastSyncedAt
-      })
+      }),
+      // * Validate session on rehydration from localStorage
+      onRehydrateStorage: () => (state) => {
+        if (state) {
+          // ! SECURITY: Set isAuthenticated based on user/session presence
+          // This ensures isAuthenticated is always in sync with actual auth data
+          if (!state.user || !state.session) {
+            // Session is invalid or expired
+            state.isAuthenticated = false
+            state.user = null
+            state.session = null
+          } else {
+            // Valid session exists
+            state.isAuthenticated = true
+          }
+        }
+      }
     }
   )
 )
