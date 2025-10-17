@@ -9,7 +9,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import { render, fireEvent, waitFor } from '@testing-library/react-native';
 import { ErrorBoundary, useErrorHandler } from '../../src/components/ErrorBoundary';
-import { renderWithProviders } from '../../src/test/testUtils';
+import { renderWithProviders } from '../../src/test/test-utils';
 
 // * Test component that throws an error
 const ThrowError = ({ shouldThrow = false, errorMessage = 'Test error' }) => {

@@ -1402,6 +1402,173 @@ cy.intercept('POST', '/api/elements', {
 
 ---
 
+## Test Validation (Mutation Testing)
+
+### Purpose
+
+Ensure tests actually catch the failures they're meant to protect against by intentionally breaking code and verifying tests fail appropriately.
+
+### The 7-Step Validation Workflow
+
+**Execute after writing each test** (2 minutes per test):
+
+```bash
+# 1. ✅ Verify test passes with current code
+SPEC=cypress/e2e/authentication/signin-flow.cy.ts npm run cypress:run:spec
+
+# 2. 🔧 Create validation branch (safe mutations)
+git checkout -b validate/test-name
+
+# 3. 💥 Break target code (see mutation patterns below)
+# Edit source file to remove/break tested functionality
+
+# 4. 🧪 Run test and verify it FAILS
+SPEC=cypress/e2e/authentication/signin-flow.cy.ts npm run cypress:run:spec
+
+# 5. ❌ Check failure message is clear and actionable
+# Review error output for clarity
+
+# 6. ↩️ Revert immediately (bulletproof safety)
+git checkout main && git branch -D validate/test-name
+
+# 7. 📝 Document validation in test file
+# Add comment: // * Validated: catches [specific failure]
+```
+
+### Common E2E Mutation Patterns
+
+#### Authentication Tests
+
+```typescript
+// * Validated mutations for signin tests:
+// - Remove authService.signIn() call
+// - Remove data-cy="email-input" attribute
+// - Break navigation to /projects
+// - Remove error display logic
+// - Skip session persistence
+
+// * Validated mutations for signup tests:
+// - Remove authService.signUp() call
+// - Skip duplicate email check
+// - Remove password length validation
+// - Break password match comparison
+```
+
+#### Form Validation Tests
+
+```typescript
+// * Validated mutations for form tests:
+// - Remove required field validation
+// - Skip email format regex check
+// - Remove error message display
+// - Allow empty form submission
+// - Break data-cy attributes
+```
+
+#### Navigation/Routing Tests
+
+```typescript
+// * Validated mutations for navigation tests:
+// - Remove route guard logic
+// - Break redirect on invalid session
+// - Skip authentication check
+// - Remove protected route enforcement
+```
+
+#### Data Persistence Tests
+
+```typescript
+// * Validated mutations for persistence tests:
+// - Remove localStorage save logic
+// - Break state restoration on reload
+// - Skip database write operations
+// - Remove session persistence middleware
+```
+
+### When to Validate
+
+**✅ Always validate:**
+
+- New test suites for existing untested features
+- Critical user flows (auth, payments, data operations)
+- Complex business logic tests
+- High-risk failure scenarios
+
+**⚠️ Consider skipping:**
+
+- Simple rendering tests (obvious failures)
+- Tests with proven track record (years in production)
+- Trivial assertions (element exists checks)
+
+### Benefits
+
+- **Zero False Positives**: Every test proven to catch intended failures
+- **Documentation**: Validation comments explain test purpose
+- **Confidence**: Trust tests during refactoring and changes
+- **Quality Gate**: Prevents "test theater" (tests that look good but don't protect)
+
+### Git Safety Pattern
+
+```bash
+# NEVER commit broken code - always use validation branches
+git checkout -b validate/temp  # Create throwaway branch
+# ... break code, run test, verify failure ...
+git checkout main              # Return to main
+git branch -D validate/temp    # Delete validation branch
+
+# The broken code never touches main branch
+```
+
+### Integration with TDD
+
+```
+Write Test (Red) → Implement Feature (Green) → Validate Test (Mutation Check) → Refactor (Clean)
+       ↓                    ↓                            ↓                           ↓
+   Test fails         Test passes              Test catches broken code      Still passes
+```
+
+### Example: Complete Validation Flow
+
+```typescript
+// Test: User can sign in with valid credentials
+describe('Sign In', () => {
+  it('authenticates with valid credentials', () => {
+    // * Validated: catches missing auth logic, broken navigation, missing error handling
+    cy.fixture('auth/users').then(users => {
+      cy.task('seedUser', users.validUser);
+    });
+
+    cy.visit('/');
+    cy.get('[data-cy="email-input"]').type('test@example.com');
+    cy.get('[data-cy="password-input"]').type('password123');
+    cy.get('[data-cy="submit-button"]').click();
+
+    cy.url().should('include', '/projects');
+    cy.window()
+      .its('localStorage')
+      .invoke('getItem', 'authToken')
+      .should('exist');
+  });
+});
+
+// Validation performed:
+// 1. Removed authService.signIn() → Test failed ✓
+// 2. Removed data-cy="email-input" → Test failed ✓
+// 3. Broke navigation to /projects → Test failed ✓
+// 4. All reverted, test passes again ✓
+```
+
+### Validation Documentation Standard
+
+```typescript
+// * Validated: [what failure this test catches]
+//   - Mutation 1: [specific code break tested]
+//   - Mutation 2: [specific code break tested]
+//   - Expected failure: [what error message appears]
+```
+
+---
+
 ## Summary Checklist (Cypress.io Best Practices)
 
 **Critical Rules from Official Documentation:**
@@ -1425,6 +1592,8 @@ cy.intercept('POST', '/api/elements', {
 - [ ] Configure appropriate timeouts
 - [ ] Use environment-specific configurations
 - [ ] Run linting before committing test code
+- [ ] **Validate tests catch failures** (mutation testing for new test suites)
+- [ ] **Document validation** (add validation comments to test files)
 
 ---
 

@@ -101,6 +101,16 @@ declare namespace Cypress {
     }>): Chainable<any[]>;
     clearTestData(): Chainable<void>;
 
+    // * Supabase Admin API seeding commands (RECOMMENDED)
+    seedSupabaseUser(userData: {
+      email: string;
+      password: string;
+      metadata?: Record<string, any>;
+    }): Chainable<any>;
+    cleanupSupabaseUsers(): Chainable<void>;
+    deleteSupabaseUser(email: string): Chainable<void>;
+    getSupabaseUser(email: string): Chainable<any>;
+
     // * Responsive/viewport commands (commands/responsive.ts)
     testResponsive(callback: (viewport: {name: string; width: number; height: number}) => void): Chainable<void>;
     simulateTouch(selector: string, gesture: 'tap' | 'longPress' | 'swipeLeft' | 'swipeRight' | 'swipeUp' | 'swipeDown'): Chainable<void>;

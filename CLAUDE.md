@@ -251,7 +251,210 @@ Use these prefixes for clear, categorized comments throughout the codebase:
 
 ---
 
-## 📁 File Paths Reference
+## 📁 File and Folder Naming Conventions
+
+**Consistency is critical for maintainability and navigation.**
+
+### Folder Naming Standards
+
+**Primary Conventions:**
+
+- **kebab-case** for feature/domain folders: `element-editor/`, `login-page-tests/`
+- **kebab-case** for multi-word directories: `design-tokens/`, `shared-styles/`
+- **kebab-case** for documentation: `claudedocs/`, `test-results/`
+- **camelCase** for utility folders when single concept: `utils/`, `hooks/`, `services/`
+
+**Examples:**
+
+```
+✅ Good:
+cypress/e2e/authentication/
+cypress/e2e/login-page-tests/
+src/components/element-editor/
+src/design-tokens/
+src/shared-styles/
+claudedocs/mutation-testing/
+
+❌ Wrong:
+cypress/e2e/Authentication/
+src/components/ElementEditor/
+src/designTokens/
+src/SharedStyles/
+```
+
+### File Naming Standards
+
+**By File Type:**
+
+#### TypeScript/JavaScript Files
+
+- **Components**: PascalCase - `LoginScreen.tsx`, `ElementCard.tsx`, `AuthGuard.tsx`
+- **Utilities**: camelCase - `errorHandling.ts`, `imageOptimization.ts`, `typeGuards.ts`
+- **Stores**: camelCase with "Store" suffix - `authStore.ts`, `projectStore.ts`, `worldbuildingStore.ts`
+- **Services**: camelCase with "Service" suffix - `searchService.ts`, `supabaseSync.ts`
+- **Hooks**: camelCase with "use" prefix - `useMemory.ts`, `useDebounce.ts`, `useSupabaseSync.ts`
+- **Types**: camelCase or PascalCase - `worldbuilding.ts`, `Project.ts`, `CustomElementType.ts`
+
+#### Test Files
+
+- **E2E Tests**: kebab-case with `.cy.ts` - `verify-login-page.cy.ts`, `_smoke-test.cy.ts`
+- **Component Tests**: Match component name - `Button.test.tsx`, `LoginScreen.spec.tsx`
+- **Test Utilities**: kebab-case - `test-helpers.ts`, `factory-helpers.ts`, `test-data.ts`
+
+#### Documentation Files
+
+- **ALL CAPS for primary docs**: `README.md`, `CLAUDE.md`, `TODO-*.md`
+- **ALL CAPS for guides**: `TESTING_GUIDE.md`, `GIT_WORKFLOW.md`
+- **kebab-case for secondary docs**: `cypress-best-practices.md`, `mutation-testing-guide.md`
+
+#### Configuration Files
+
+- **Dotfiles**: `.eslintrc.js`, `.prettierrc.js`, `.gitignore`
+- **Config files**: `package.json`, `tsconfig.json`, `cypress.config.ts`
+- **kebab-case configs**: `jest.config.js`, `webpack.config.js`, `tailwind.config.js`
+
+### Platform-Specific Files
+
+Use `.web` and `.native` suffixes for platform-specific implementations:
+
+```typescript
+// ✅ Correct platform-specific naming:
+LoginScreen.tsx; // Shared implementation
+LoginScreen.web.tsx; // Web-specific overrides
+LoginScreen.native.tsx; // React Native-specific overrides
+
+ElementCard.tsx;
+ElementCard.web.tsx;
+
+ProgressRing.tsx;
+ProgressRing.web.tsx;
+```
+
+### Special File Patterns
+
+**Index Files:**
+
+- Use `index.ts` or `index.tsx` for barrel exports
+- Always export from feature folders
+
+**Factory Files:**
+
+- Pattern: `[entity].factory.ts` - `user.factory.ts`, `project.factory.ts`
+
+**Mock Files:**
+
+- Pattern: `mock-[entity].json` or `[entity]-mock.js`
+- Examples: `mock-users.json`, `navigation-mock.js`
+
+**Page Objects (Cypress):**
+
+- Pattern: `[Entity]Page.ts` (PascalCase)
+- Examples: `LoginPage.ts`, `ProjectsPage.ts`, `ElementsPage.ts`
+
+### Directory Organization Patterns
+
+**Group by Feature, Not Type:**
+
+```
+✅ Good (Feature-based):
+src/components/element-editor/
+  ElementHeader.tsx
+  ElementEditor.tsx
+  ElementEditor.web.tsx
+
+src/components/loading/
+  LoadingIndicator.tsx
+  SkeletonCard.tsx
+  ShimmerEffect.tsx
+
+❌ Wrong (Type-based):
+src/components/headers/
+src/components/editors/
+src/web-components/
+src/loading-components/
+```
+
+**Store Organization:**
+
+```
+src/store/
+  slices/           # Feature slices
+  middleware/       # Middleware functions
+  adapters/         # Store adapters
+  selectors/        # Memoized selectors
+  authStore.ts      # Standalone stores
+  rootStore.ts      # Root store composition
+```
+
+**Test Organization:**
+
+```
+cypress/
+  e2e/
+    authentication/           # Feature group
+    login-page-tests/        # Specific test suite
+  support/
+    commands/
+      auth/                  # Command groups
+      projects/
+      elements/
+    pages/                   # Page objects
+  fixtures/
+    auth/                    # Fixture groups
+    factories/               # Data factories
+```
+
+### Quick Reference Table
+
+| Type              | Convention        | Example                                |
+| ----------------- | ----------------- | -------------------------------------- |
+| **Folders**       | kebab-case        | `element-editor/`, `login-page-tests/` |
+| **Components**    | PascalCase.tsx    | `LoginScreen.tsx`, `ElementCard.tsx`   |
+| **Utilities**     | camelCase.ts      | `errorHandling.ts`, `typeGuards.ts`    |
+| **Stores**        | camelCase + Store | `authStore.ts`, `projectStore.ts`      |
+| **Hooks**         | use + camelCase   | `useMemory.ts`, `useDebounce.ts`       |
+| **Tests**         | kebab-case.cy.ts  | `verify-login-page.cy.ts`              |
+| **Docs (main)**   | SCREAMING_CASE.md | `README.md`, `CLAUDE.md`               |
+| **Docs (guides)** | kebab-case.md     | `cypress-best-practices.md`            |
+| **Platform**      | .web/.native      | `LoginScreen.web.tsx`                  |
+| **Page Objects**  | PascalCase + Page | `LoginPage.ts`, `ProjectsPage.ts`      |
+
+### Common Mistakes to Avoid
+
+```typescript
+// ❌ Wrong: Mixed conventions
+src / ElementEditor / element - editor.tsx;
+src / loginScreen / LoginScreen.tsx;
+
+// ✅ Right: Consistent conventions
+src / components / element - editor / ElementEditor.tsx;
+src / screens / LoginScreen.tsx;
+
+// ❌ Wrong: Type-based organization
+src / tsx -
+  files / src / hooks -
+  folder / src / store -
+  files /
+    // ✅ Right: Feature-based organization
+    src /
+    components /
+    src /
+    hooks /
+    src /
+    store /
+    slices /
+    // ❌ Wrong: Inconsistent test naming
+    loginPage.test.cy.ts;
+verify_login_page.cy.ts;
+
+// ✅ Right: Consistent test naming
+verify - login - page.cy.ts;
+authentication - flow.cy.ts;
+```
+
+---
+
+## 📂 File Paths Reference
 
 - `/cypress/e2e/` - E2E tests
 - `/cypress/support/` - Custom commands
@@ -269,7 +472,9 @@ Use these prefixes for clear, categorized comments throughout the codebase:
 ### Testing References
 
 - [QUICK-TEST-REFERENCE.md](cypress/docs/QUICK-TEST-REFERENCE.md) - Test template (269 lines)
-- [CYPRESS-COMPLETE-REFERENCE.md](claudedocs/CYPRESS-COMPLETE-REFERENCE.md) - Complete Cypress guide (~500 lines)
+- [CYPRESS-COMPLETE-REFERENCE.md](claudedocs/CYPRESS-COMPLETE-REFERENCE.md) - Complete Cypress guide (~800 lines)
+- **[MUTATION-TESTING-GUIDE.md](claudedocs/MUTATION-TESTING-GUIDE.md)** - Test validation guide (~600 lines)
+- **[TEST-VALIDATION-GUIDE.md](claudedocs/TEST-VALIDATION-GUIDE.md)** - Quick mutation testing (~700 lines)
 - [cypress-best-practices.md](cypress/docs/cypress-best-practices.md) - Comprehensive practices
 - [cypress-writing-organizing-tests.md](cypress/docs/cypress-writing-organizing-tests.md) - Complete test guide
 - [DOCKER-CYPRESS-GUIDE.md](cypress/docs/DOCKER-CYPRESS-GUIDE.md) - Docker setup
@@ -318,6 +523,35 @@ Use these prefixes for clear, categorized comments throughout the codebase:
 3. Use conventional commits
 4. Archive completed TODOs
 
+### For Mutation Testing (Test Validation)
+
+**Purpose**: Validate tests catch real failures by breaking code
+
+**Quick Workflow:**
+
+```bash
+# 1. Start session
+./scripts/mutation-test-helper.sh start
+
+# 2. Break component (remove email input, change text, etc.)
+
+# 3. Run test - should FAIL
+SPEC=path/to/test.cy.ts npm run cypress:docker:test:spec
+
+# 4. Document: Test failed = ✅ Good | Test passed = ❌ Gap
+# 5. Restore
+./scripts/mutation-test-helper.sh restore src/path/to/Component.tsx
+```
+
+**When to use:**
+
+- After completing test suites
+- For critical paths (auth, payments, data)
+- Before major releases
+- During test quality audits
+
+**See**: [MUTATION-TESTING-GUIDE.md](claudedocs/MUTATION-TESTING-GUIDE.md)
+
 ### For Pre-Commit (IMPORTANT)
 
 Every commit automatically runs three quality gates:
@@ -356,8 +590,13 @@ Every commit automatically runs three quality gates:
 
 ---
 
-**Version**: 2.0
-**Last Updated**: 2025-10-02
+**Version**: 2.2
+**Last Updated**: 2025-10-06
 **Previous Version**: [claudedocs/archive/CLAUDE-v1-backup.md](claudedocs/archive/CLAUDE-v1-backup.md)
+
+**Changelog**:
+
+- v2.2: Added comprehensive File and Folder Naming Conventions section
+- v2.1: Streamlined documentation strategy with context-efficient workflow
 
 **After compacting: Re-read this file for context**

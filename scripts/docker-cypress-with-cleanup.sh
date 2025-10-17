@@ -146,6 +146,54 @@ echo "🌐 Server: http://host.docker.internal:3002"
 echo "🎯 Spec: $SPEC"
 echo ""
 
+# Load environment variables from .env file
+if [ -f .env ]; then
+  echo -e "${BLUE}📋 Loading environment variables from .env...${NC}"
+
+  # Use set -a to automatically export all variables
+  set -a
+  source .env
+  set +a
+
+  # Verify critical variables are set
+  missing_vars=()
+
+  if [ -z "$SUPABASE_SERVICE_ROLE_KEY" ]; then
+    missing_vars+=("SUPABASE_SERVICE_ROLE_KEY")
+  fi
+
+  if [ -z "$VITE_SUPABASE_URL" ]; then
+    missing_vars+=("VITE_SUPABASE_URL")
+  fi
+
+  # Check if any critical variables are missing
+  if [ ${#missing_vars[@]} -gt 0 ]; then
+    echo -e "${RED}❌ Error: Missing required environment variables in .env:${NC}"
+    for var in "${missing_vars[@]}"; do
+      echo "  - $var"
+    done
+    echo ""
+    echo "Please add these variables to your .env file"
+    exit 1
+  fi
+
+  echo -e "${GREEN}✅ Environment variables loaded successfully${NC}"
+  echo ""
+else
+  echo -e "${YELLOW}⚠️  Warning: .env file not found${NC}"
+  echo "Using existing environment variables (if set)"
+  echo ""
+
+  # Still validate that critical variables exist
+  if [ -z "$SUPABASE_SERVICE_ROLE_KEY" ] || [ -z "$VITE_SUPABASE_URL" ]; then
+    echo -e "${RED}❌ Error: Required environment variables not set${NC}"
+    echo "Please create a .env file with:"
+    echo "  - SUPABASE_SERVICE_ROLE_KEY"
+    echo "  - VITE_SUPABASE_URL"
+    exit 1
+  fi
+fi
+
 # Run Cypress in Docker with specific test file
 # The cleanup trap will handle Docker cleanup automatically
 docker run --rm \
@@ -153,6 +201,10 @@ docker run --rm \
   -v "$PWD:/e2e" \
   -w /e2e \
   -e CYPRESS_baseUrl=http://host.docker.internal:3002 \
+  -e CYPRESS_VITE_SUPABASE_URL="$VITE_SUPABASE_URL" \
+  -e CYPRESS_SUPABASE_SERVICE_ROLE_KEY="$SUPABASE_SERVICE_ROLE_KEY" \
+  -e VITE_SUPABASE_URL="$VITE_SUPABASE_URL" \
+  -e SUPABASE_SERVICE_ROLE_KEY="$SUPABASE_SERVICE_ROLE_KEY" \
   cypress/included:14.5.4 \
   --browser electron --headless --spec "$SPEC"
 

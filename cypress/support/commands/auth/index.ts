@@ -4,6 +4,8 @@
 // * Import authentication commands
 import './auth';
 import './mock-auth';
+import './spyAuthStore';
 
 // * Export for TypeScript reference
 export * from './auth';
+export * from './spyAuthStore';

@@ -200,7 +200,8 @@ module.exports = {
     historyApiFallback: true,
     hot: true,  // Enable hot module replacement
     liveReload: true, // Enable live reloading
-    open: {
+    // * Only auto-open browser during manual development, not during automated tests
+    open: process.env.CI || process.env.CYPRESS_TEST ? false : {
       // * Configure to open in Chrome browser
       app: {
         name: process.platform === 'darwin'

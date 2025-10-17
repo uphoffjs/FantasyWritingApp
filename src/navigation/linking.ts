@@ -38,10 +38,10 @@ const linking: LinkingOptions<RootStackParamList> = {
   config: {
     screens: {
       // ! SECURITY: * Auth routes
+      // * Map both root path ('') and '/login' to Login screen
+      // * This ensures proper URL tracking when navigating from root
       Login: {
-        path: 'login',
-        // * Root path ('') should also route to Login initially, then AuthGuard will redirect if authenticated
-        exact: true,
+        path: '',  // Maps to root '/' for proper deep linking
       },
       
       // * Main app routes

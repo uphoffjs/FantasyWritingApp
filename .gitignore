@@ -71,6 +71,10 @@ yarn-error.log
 /cypress/results
 /.nyc_output
 
+# Test results and reports
+claudedocs/test-results/
+/tmp/cypress-flakiness-test
+
 # Build output
 /dist
 
@@ -115,3 +119,8 @@ superclaude/**/__pycache__/
 
 # Color migration backup files
 .backup-color-migration/
+
+# Environment variables (contains sensitive credentials)
+.env
+.env.local
+.env.*.local

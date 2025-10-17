@@ -91,8 +91,8 @@ module.exports = {
   },
 
   // * Global setup/teardown - disabled due to nativewind/PostCSS conflict
-  // globalSetup: '<rootDir>/src/test/globalSetup.js',
-  // globalTeardown: '<rootDir>/src/test/globalTeardown.js',
+  // globalSetup: '<rootDir>/src/test/global-setup.js',
+  // globalTeardown: '<rootDir>/src/test/global-teardown.js',
 
   // * Verbose output for better debugging
   verbose: true,

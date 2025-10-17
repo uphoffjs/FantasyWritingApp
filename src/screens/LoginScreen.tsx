@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -34,7 +34,17 @@ export default function LoginScreen() {
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [forgotPasswordEmail, setForgotPasswordEmail] = useState('');
   const [forgotPasswordSent, setForgotPasswordSent] = useState(false);
-  
+
+  // Debug: Log error state changes
+  useEffect(() => {
+    console.log('[LoginScreen] Error state changed to:', error);
+    if (error) {
+      console.log('[LoginScreen] Error is truthy - error display should be visible');
+    } else {
+      console.log('[LoginScreen] Error is null/falsy - error display should be hidden');
+    }
+  }, [error]);
+
   // Validation
   const validateForm = () => {
     if (!email || !password) {
@@ -62,20 +72,32 @@ export default function LoginScreen() {
   
   // * Handle form submission
   const handleSubmit = async () => {
+    console.log('[LoginScreen] ========== HANDLESUBMIT CALLED ==========');
+    console.log('[LoginScreen] handleSubmit called - mode:', mode);
     setError(null);
-    
-    if (!validateForm()) return;
-    
+    console.log('[LoginScreen] Error cleared');
+
+    if (!validateForm()) {
+      console.log('[LoginScreen] Validation failed');
+      return;
+    }
+    console.log('[LoginScreen] Validation passed');
+
     try {
       let result;
-      
+
       if (mode === 'signin') {
+        console.log('[LoginScreen] Calling signIn...');
         result = await signIn(email, password);
+        console.log('[LoginScreen] signIn returned:', result);
       } else {
+        console.log('[LoginScreen] Calling signUp...');
         result = await signUp(email, password);
+        console.log('[LoginScreen] signUp returned:', result);
       }
-      
+
       if (result.success) {
+        console.log('[LoginScreen] Success! Navigating to Projects');
         if (mode === 'signup') {
           Alert.alert(
             'Account Created!',
@@ -84,10 +106,15 @@ export default function LoginScreen() {
         }
         navigation.navigate('Projects' as never);
       } else {
+        console.log('[LoginScreen] Authentication failed:', result.error);
+        console.log('[LoginScreen] Setting error state to:', result.error || 'An error occurred');
         setError(result.error || 'An error occurred');
+        console.log('[LoginScreen] Error state set - component should re-render');
       }
-    } catch {
+    } catch (err) {
+      console.log('[LoginScreen] Caught error:', err);
       setError('An unexpected error occurred. Please try again.');
+      console.log('[LoginScreen] Error state set from catch block');
     }
   };
   
@@ -181,7 +208,7 @@ export default function LoginScreen() {
             
             {/* Error Display */}
             {error && (
-              <View testID="error-container" style={styles.errorContainer}>
+              <View testID="login-error" {...({ 'data-cy': 'login-error' } as Record<string, string>)} style={styles.errorContainer}>
                 <Icon name="error-outline" size={16} color="#991b1b" />
                 <Text style={styles.errorText}>{error}</Text>
               </View>
