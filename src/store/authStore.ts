@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { authService, type AuthUser } from '../services/auth'
 import type { Profile } from '../types/supabase'
-import type { User } from '@supabase/supabase-js'
+import type { User, Session } from '@supabase/supabase-js'
 
 // * Sync status types for offline/online state management
 export type SyncStatus = 'synced' | 'syncing' | 'error' | 'offline'
@@ -10,6 +10,7 @@ export type SyncStatus = 'synced' | 'syncing' | 'error' | 'offline'
 interface AuthStore {
   // ! SECURITY: * Authentication state properties
   user: AuthUser | null
+  session: Session | null  // * Supabase session with access/refresh tokens
   profile: Profile | null
   isLoading: boolean
   isAuthenticated: boolean
@@ -56,6 +57,7 @@ export const useAuthStore = create<AuthStore>()(
     (set, get) => ({
       // ! SECURITY: * Initial authentication state
       user: null,
+      session: null,
       profile: null,
       isLoading: true,
       isAuthenticated: false,
@@ -101,8 +103,9 @@ export const useAuthStore = create<AuthStore>()(
             // * Check email verification status
             await get().checkEmailVerification()
           } else {
-            set({ 
+            set({
               user: null,
+              session: null,
               isAuthenticated: false,
               syncStatus: 'offline',
               isEmailVerified: false
@@ -121,7 +124,7 @@ export const useAuthStore = create<AuthStore>()(
         // ! SECURITY: * Set up auth state change listener
         authService.onAuthStateChange((user) => {
           if (user) {
-            set({ 
+            set({
               user,
               isAuthenticated: true,
               syncStatus: 'synced'
@@ -129,8 +132,9 @@ export const useAuthStore = create<AuthStore>()(
             get().loadProfile()
             get().checkEmailVerification()
           } else {
-            set({ 
+            set({
               user: null,
+              session: null,
               profile: null,
               isAuthenticated: false,
               syncStatus: 'offline',
@@ -147,10 +151,12 @@ export const useAuthStore = create<AuthStore>()(
         try {
           const data = await authService.signIn(email, password)
           const user = data.user
+          const session = data.session
 
-          if (user) {
+          if (user && session) {
             set({
               user,
+              session,
               isAuthenticated: true,
               syncStatus: 'synced',
               authError: null  // * Clear error on success
@@ -195,10 +201,12 @@ export const useAuthStore = create<AuthStore>()(
         try {
           const data = await authService.signUp(email, password)
           const user = data.user
+          const session = data.session
 
-          if (user) {
+          if (user && session) {
             set({
               user,
+              session,
               isAuthenticated: true,
               syncStatus: 'synced'
             })
@@ -226,19 +234,20 @@ export const useAuthStore = create<AuthStore>()(
       // * Sign out
       signOut: async () => {
         set({ isLoading: true })
-        
+
         try {
           const { error } = await authService.signOut()
-          
+
           if (error) {
-            return { 
-              success: false, 
-              error: error.message 
+            return {
+              success: false,
+              error: error.message
             }
           }
-          
-          set({ 
+
+          set({
             user: null,
+            session: null,
             profile: null,
             isAuthenticated: false,
             syncStatus: 'offline',
@@ -423,3 +432,61 @@ export const useAuthStore = create<AuthStore>()(
     }
   )
 )
+
+// * Listen for localStorage changes (supports cross-tab sync and test scenarios)
+// * This enables multi-tab authentication synchronization and session expiration detection
+if (typeof window !== 'undefined') {
+  window.addEventListener('storage', (event) => {
+    // Only respond to changes to our auth storage key
+    if (event.key === 'auth-storage') {
+      try {
+        const currentState = useAuthStore.getState()
+
+        // * Handle complete removal of auth-storage key
+        if (!event.newValue) {
+          console.log('[AuthStore] Storage event: auth-storage removed, clearing session')
+          useAuthStore.setState({
+            user: null,
+            session: null,
+            isAuthenticated: false,
+            profile: null,
+            syncStatus: 'offline',
+            isEmailVerified: false
+          })
+          return
+        }
+
+        // * Handle update to auth-storage key
+        const newState = JSON.parse(event.newValue)
+
+        // * Sync authentication state from localStorage changes
+        // * This handles: session expiration, logout in another tab, login in another tab
+        if (newState.state) {
+          const hasUser = !!newState.state.user
+          const hasSession = !!newState.state.session
+          const wasAuthenticated = currentState.isAuthenticated
+          const nowAuthenticated = hasUser && hasSession
+
+          // * Update Zustand store to match localStorage state
+          useAuthStore.setState({
+            user: newState.state.user || null,
+            session: newState.state.session || null,
+            isAuthenticated: nowAuthenticated,
+            isOfflineMode: newState.state.isOfflineMode ?? currentState.isOfflineMode,
+            lastSyncedAt: newState.state.lastSyncedAt || currentState.lastSyncedAt
+          })
+
+          console.log('[AuthStore] Storage event: synced authentication state', {
+            hasUser,
+            hasSession,
+            isAuthenticated: nowAuthenticated,
+            wasAuthenticated,
+            stateChanged: wasAuthenticated !== nowAuthenticated
+          })
+        }
+      } catch (error) {
+        console.error('[AuthStore] Error parsing storage event:', error)
+      }
+    }
+  })
+}
